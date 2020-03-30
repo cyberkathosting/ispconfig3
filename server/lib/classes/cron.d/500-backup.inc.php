@@ -33,6 +33,11 @@ class cronjob_backup extends cronjob {
 	// job schedule
 	protected $_schedule = '0 0 * * *';
 
+	/**
+	 * The maximum number of backups that ISPConfig can store.
+	 */
+	const max_backups = 30;
+
 	/* this function is optional if it contains no custom code */
 	public function onPrepare() {
 		global $app;
@@ -177,7 +182,7 @@ class cronjob_backup extends cronjob {
 
 							rsort($files);
 
-							for ($n = $backup_copies; $n <= 10; $n++) {
+							for ($n = $backup_copies; $n <= self::max_backups; $n++) {
 								if(isset($files[$n]) && is_file($web_backup_dir.'/'.$files[$n])) {
 									$sql = "DELETE FROM web_backup WHERE server_id = ? AND parent_domain_id = ? AND filename = ?";
 									$app->db->query($sql, $conf['server_id'], $web_id, $files[$n]);
@@ -306,7 +311,7 @@ class cronjob_backup extends cronjob {
 							reset($files);
 							foreach($files as $db_name => $filelist) {
 								rsort($filelist);
-								for ($n = $backup_copies; $n <= 10; $n++) {
+								for ($n = $backup_copies; $n <= self::max_backups; $n++) {
 									if(isset($filelist[$n]) && is_file($db_backup_dir.'/'.$filelist[$n])) {
 										$sql = "DELETE FROM web_backup WHERE server_id = ? AND parent_domain_id = ? AND filename = ?";
 										$app->db->query($sql, $conf['server_id'], $web_id, $filelist[$n]);
