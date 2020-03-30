@@ -33,6 +33,11 @@ class cronjob_backup_mail extends cronjob {
 	protected $_schedule = '0 0 * * *';
 	private $tmp_backup_dir = '';
 
+	/**
+	 * The maximum number of backups that ISPConfig can store.
+	 */
+	const max_backups = 30;
+
 	/* this function is optional if it contains no custom code */
 	public function onPrepare() {
 		global $app;
@@ -204,7 +209,7 @@ class cronjob_backup_mail extends cronjob {
 						}
 						$dir_handle->close();
 						rsort($files);
-						for ($n = $backup_copies; $n <= 10; $n++) {
+						for ($n = $backup_copies; $n <= self::max_backups; $n++) {
 							if(isset($files[$n]) && is_file($mail_backup_dir.'/'.$files[$n])) {
 								unlink($mail_backup_dir.'/'.$files[$n]);
 								$sql = "DELETE FROM mail_backup WHERE server_id = ? AND parent_domain_id = ? AND filename = ?";
