@@ -333,6 +333,22 @@ class app {
 		$this->tpl->setVar('globalsearch_noresults_limit_txt', $this->lng('globalsearch_noresults_limit_txt'));
 		$this->tpl->setVar('globalsearch_searchfield_watermark_txt', $this->lng('globalsearch_searchfield_watermark_txt'));
 	}
+
+	public function is_under_maintenance() {
+		$system_config_misc = $this->getconf->get_global_config('misc');
+		$maintenance_mode = 'n';
+		$maintenance_mode_exclude_ips = [];
+
+		if (!empty($system_config_misc['maintenance_mode'])) {
+			$maintenance_mode = $system_config_misc['maintenance_mode'];
+		}
+
+		if (!empty($system_config_misc['maintenance_mode_exclude_ips'])) {
+			$maintenance_mode_exclude_ips = array_map('trim', explode(',', $system_config_misc['maintenance_mode_exclude_ips']));
+		}
+
+		return 'y' === $maintenance_mode && !in_array($_SERVER['REMOTE_ADDR'], $maintenance_mode_exclude_ips);
+	}
 	
 	private function get_cookie_domain() {
 		$sec_config = $this->getconf->get_security_config('permissions');

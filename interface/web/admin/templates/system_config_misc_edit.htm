@@ -113,6 +113,12 @@
                     {tmpl_var name='maintenance_mode'}
                 </div>
             </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='maintenance_mode_exclude_ips_txt'}</label>
+                <div class="col-sm-9">
+                    <input type="text" name="maintenance_mode_exclude_ips" id="maintenance_mode_exclude_ips" value="{tmpl_var name='maintenance_mode_exclude_ips'}" class="form-control" />
+                </div>
+            </div>
 			
 			<tmpl_if name="msg">
                 <div id="OKMsg"><p><tmpl_var name="msg"></p></div>

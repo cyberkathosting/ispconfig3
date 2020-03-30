@@ -606,6 +606,20 @@ $form["tabs"]['misc'] = array (
 			'default' => 'n',
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
+		'maintenance_mode_exclude_ips' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'validators' => array(
+				 0 => array (
+					'type' => 'ISIP',
+					'allowempty' => true,
+					'separator' => ',',
+					'errmsg'=> 'maintenance_mode_exclude_ips_error_isip'
+				),
+			),
+			'default' => '',
+			'value'  => ''
+		),
 		'admin_dashlets_left' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',

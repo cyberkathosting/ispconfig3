@@ -123,4 +123,4 @@ $web_config = $app->getconf->get_server_config($server_id,'web');
 
 # Learn about the form validators
 There are form validators in interface/lib/classes/tform.inc.php to make validating forms easier.
-Read about: REGEX,UNIQUE,NOTEMPTY,ISEMAIL,ISINT,ISPOSITIVE,ISIPV4,CUSTOM
+Read about: REGEX,UNIQUE,NOTEMPTY,ISEMAIL,ISINT,ISPOSITIVE,ISIPV4,ISIPV6,ISIP,CUSTOM
