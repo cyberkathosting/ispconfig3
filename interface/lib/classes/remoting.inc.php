@@ -72,9 +72,7 @@ class remoting {
 		global $app, $conf;
 
 		// Maintenance mode
-		$app->uses('ini_parser,getconf');
-		$server_config_array = $app->getconf->get_global_config('misc');
-		if($server_config_array['maintenance_mode'] == 'y'){
+		if($app->is_under_maintenance()){
 			throw new SoapFault('maintenance_mode', 'This ISPConfig installation is currently under maintenance. We should be back shortly. Thank you for your patience.');
 			return false;
 		}

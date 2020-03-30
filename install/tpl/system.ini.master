@@ -55,6 +55,7 @@ tab_change_warning=n
 use_loadindicator=y
 use_combobox=y
 maintenance_mode=n
+maintenance_mode_exclude_ips=
 admin_dashlets_left=
 admin_dashlets_right=
 reseller_dashlets_left=
