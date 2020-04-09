@@ -289,6 +289,7 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 			
 			$line = rtrim($line);
 			if ($line != ''){
+				// this of course breaks TXT when it includes whitespace
 				$sPattern = '/\s+/m';
 				$sReplace = ' ';
 				$new_lines[] = preg_replace($sPattern, $sReplace, $line);
