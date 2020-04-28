@@ -220,6 +220,8 @@ class postfix_server_plugin {
 		exec("postconf -e 'smtpd_recipient_restrictions = ".implode(", ", $new_options)."'");
 
 		if($mail_config['content_filter'] != $old_ini_data['mail']['content_filter']) {
+			$rslm= ($mail_config['reject_sender_login_mismatch']) ? ", reject_sender_login_mismatch" : "";
+
 			if($mail_config['content_filter'] == 'rspamd'){
 				exec("postconf -X 'receive_override_options'");
 				exec("postconf -X 'content_filter'");
@@ -230,7 +232,7 @@ class postfix_server_plugin {
 				exec("postconf -e 'milter_mail_macros = i {mail_addr} {client_addr} {client_name} {auth_authen}'");
 				exec("postconf -e 'milter_default_action = accept'");
 				
-				exec("postconf -e 'smtpd_sender_restrictions = check_sender_access mysql:/etc/postfix/mysql-virtual_sender.cf, permit_mynetworks, permit_sasl_authenticated'");
+				exec("postconf -e 'smtpd_sender_restrictions = check_sender_access mysql:/etc/postfix/mysql-virtual_sender.cf ${rslm}, permit_mynetworks, permit_sasl_authenticated'");
 				
 				$new_options = array();
 				$options = preg_split("/,\s*/", exec("postconf -h smtpd_recipient_restrictions"));
