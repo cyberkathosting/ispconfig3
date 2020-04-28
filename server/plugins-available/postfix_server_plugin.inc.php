@@ -146,7 +146,7 @@ class postfix_server_plugin {
 			$options = preg_split("/,\s*/", exec("postconf -h smtpd_sender_restrictions"));
 			$new_options = array();
 			foreach ($options as $key => $value) {
-				if (!preg_match('/reject_authenticated_sender_login_mismatch/', $value)) {
+				if (!preg_match('/reject_(authenticated_)?sender_login_mismatch/', $value)) {
 					$new_options[] = $value;
 				}
 			}
@@ -155,7 +155,7 @@ class postfix_server_plugin {
 				reset($new_options); $i = 0;
 				// insert after check_sender_access but before permit_...
 				while (isset($new_options[$i]) && substr($new_options[$i], 0, 19) == 'check_sender_access') ++$i;
-				array_splice($new_options, $i, 0, array('reject_authenticated_sender_login_mismatch'));
+				array_splice($new_options, $i, 0, array('reject_sender_login_mismatch'));
 			}
 			$app->system->exec_safe("postconf -e ?", 'smtpd_sender_restrictions = '.implode(", ", $new_options));
 			exec('postfix reload');

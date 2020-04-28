@@ -154,7 +154,7 @@ class installer_dist extends installer_base {
 
 		$reject_sender_login_mismatch = '';
 		if(isset($server_ini_array['mail']['reject_sender_login_mismatch']) && ($server_ini_array['mail']['reject_sender_login_mismatch'] == 'y')) {
-			$reject_sender_login_mismatch = ', reject_authenticated_sender_login_mismatch';
+			$reject_sender_login_mismatch = ', reject_sender_login_mismatch';
 		}
 		unset($server_ini_array);
 
