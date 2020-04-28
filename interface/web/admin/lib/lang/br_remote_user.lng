@@ -50,6 +50,7 @@ $wb['DNS cname functions'] = 'Funções de CNAME dns';
 $wb['DNS hinfo functions'] = 'Funções de HINFO dns';
 $wb['DNS mx functions'] = 'Funções de MX dns';
 $wb['DNS ns functions'] = 'Funções de NS dns';
+$wb['DNS naptr functions'] = 'Funções de NAPTR dns';
 $wb['DNS ptr functions'] = 'Funções de PTR dns';
 $wb['DNS rp functions'] = 'Funções de RP dns';
 $wb['DNS srv functions'] = 'Funções de SVR dns';

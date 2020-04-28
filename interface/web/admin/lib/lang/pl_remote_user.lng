@@ -34,6 +34,7 @@ $wb['DNS alias functions'] = 'Funkcje aliasów DNS';
 $wb['DNS cname functions'] = 'Funkcje rekordu CNAME DNS';
 $wb['DNS hinfo functions'] = 'Funkcje rekordu HINFO DNS';
 $wb['DNS mx functions'] = 'Funkcje rekordu MX DNS';
+$wb['DNS naptr functions'] = 'Funkcje rekordu NAPTR DNS';
 $wb['DNS ns functions'] = 'Funkcje rekordu NS DNS';
 $wb['DNS ptr functions'] = 'Funkcje rekordu PTR DNS';
 $wb['DNS rp functions'] = 'Funkcje rekordu RP DNS';

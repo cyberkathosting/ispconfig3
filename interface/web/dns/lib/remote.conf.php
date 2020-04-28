@@ -9,11 +9,12 @@ $function_list['dns_ds_get,dns_ds_add,dns_ds_update,dns_ds_delete'] = 'DNS ds fu
 $function_list['dns_hinfo_get,dns_hinfo_add,dns_hinfo_update,dns_hinfo_delete'] = 'DNS hinfo functions';
 $function_list['dns_loc_get,dns_loc_add,dns_loc_update,dns_loc_delete'] = 'DNS loc functions';
 $function_list['dns_mx_get,dns_mx_add,dns_mx_update,dns_mx_delete'] = 'DNS mx functions';
-$function_list['dns_tlsa_get,dns_tlsa_add,dns_tlsa_update,dns_tlsa_delete'] = 'DNS tlsa functions';
+$function_list['dns_naptr_get,dns_naptr_add,dns_naptr_update,dns_naptr_delete'] = 'DNS naptr functions';
 $function_list['dns_ns_get,dns_ns_add,dns_ns_update,dns_ns_delete'] = 'DNS ns functions';
 $function_list['dns_ptr_get,dns_ptr_add,dns_ptr_update,dns_ptr_delete'] = 'DNS ptr functions';
 $function_list['dns_rp_get,dns_rp_add,dns_rp_update,dns_rp_delete'] = 'DNS rp functions';
 $function_list['dns_srv_get,dns_srv_add,dns_srv_update,dns_srv_delete'] = 'DNS srv functions';
+$function_list['dns_tlsa_get,dns_tlsa_add,dns_tlsa_update,dns_tlsa_delete'] = 'DNS tlsa functions';
 $function_list['dns_txt_get,dns_txt_add,dns_txt_update,dns_txt_delete'] = 'DNS txt functions';
 
 ?>
