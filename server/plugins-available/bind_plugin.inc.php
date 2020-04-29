@@ -86,11 +86,8 @@ class bind_plugin {
 		//* load the server configuration options
 		$dns_config = $app->getconf->get_server_config($conf["server_id"], 'dns');
 		
-		//TODO : change this when distribution information has been integrated into server record
-		$filespre = (file_exists('/etc/gentoo-release')) ? 'pri/' : 'pri.';
-		
 		$domain = substr($data['new']['origin'], 0, strlen($data['new']['origin'])-1);
-		if (!file_exists($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain)) return false;
+		if (!file_exists($dns_config['bind_zonefiles_dir'].'/'.$this->zone_file_prefix().$domain)) return false;
 		
 		//* Check Entropy
 		if (file_get_contents('/proc/sys/kernel/random/entropy_avail') < 400) {
@@ -129,9 +126,7 @@ class bind_plugin {
 		//* load the server configuration options
 		$dns_config = $app->getconf->get_server_config($conf["server_id"], 'dns');
 		
-		//TODO : change this when distribution information has been integrated into server record
-		$filespre = (file_exists('/etc/gentoo-release')) ? 'pri/' : 'pri.';
-		
+		$filespre = $this->zone_file_prefix();
 		$domain = substr($data['new']['origin'], 0, strlen($data['new']['origin'])-1);
 		if (!file_exists($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain)) return false;
 		
@@ -168,9 +163,7 @@ class bind_plugin {
 		//* load the server configuration options
 		$dns_config = $app->getconf->get_server_config($conf["server_id"], 'dns');
 		
-		//TODO : change this when distribution information has been integrated into server record
-		$filespre = (file_exists('/etc/gentoo-release')) ? 'pri/' : 'pri.';
-		
+		$filespre = $this->zone_file_prefix();
 		$domain = substr($data['new']['origin'], 0, strlen($data['new']['origin'])-1);
 		if (!file_exists($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain)) return false;
 		
@@ -203,13 +196,10 @@ class bind_plugin {
 		//* load the server configuration options
 		$dns_config = $app->getconf->get_server_config($conf["server_id"], 'dns');
 		
-		//TODO : change this when distribution information has been integrated into server record
-		$filespre = (file_exists('/etc/gentoo-release')) ? 'pri/' : 'pri.';
-		
 		$domain = substr($data['new']['origin'], 0, strlen($data['new']['origin'])-1);
 		
 		unlink($dns_config['bind_zonefiles_dir'].'/K'.$domain.'.+*');
-		unlink($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain.'.signed');
+		unlink($dns_config['bind_zonefiles_dir'].'/'.$this->zone_file_prefix().$domain.'.signed');
 		unlink($dns_config['bind_zonefiles_dir'].'/dsset-'.$domain.'.');
 		
 		if ($app->dbmaster !== $app->db) $app->dbmaster->query('UPDATE dns_soa SET dnssec_info=\'\', dnssec_initialized=\'N\' WHERE id=?', intval($data['new']['id']));
@@ -278,13 +268,7 @@ class bind_plugin {
 			}
 			$tpl->setLoop('zones', $records);
 
-			//TODO : change this when distribution information has been integrated into server record
-			if (file_exists('/etc/gentoo-release')) {
-				$filename = $dns_config['bind_zonefiles_dir'].'/pri/'.str_replace("/", "_", substr($zone['origin'], 0, -1));
-			}
-			else {
-				$filename = $dns_config['bind_zonefiles_dir'].'/pri.'.str_replace("/", "_", substr($zone['origin'], 0, -1));
-			}
+			$filename = $dns_config['bind_zonefiles_dir'].'/' . $this->zone_file_prefix() . str_replace("/", "_", substr($zone['origin'], 0, -1));
 
 			$old_zonefile = @file_get_contents($filename);
 			file_put_contents($filename, $tpl->grab());
@@ -327,13 +311,7 @@ class bind_plugin {
 		}
 		else if ($data['new']['dnssec_wanted'] == 'Y' && $data['old']['dnssec_initialized'] == 'N') $this->soa_dnssec_create($data);
 		else if ($data['new']['dnssec_wanted'] == 'N' && $data['old']['dnssec_initialized'] == 'Y') {	//delete old signed file if dnssec is no longer wanted
-			//TODO : change this when distribution information has been integrated into server record
-			if (file_exists('/etc/gentoo-release')) {
-				$filename = $dns_config['bind_zonefiles_dir'].'/pri/'.str_replace("/", "_", substr($data['old']['origin'], 0, -1));
-			}
-			else {
-				$filename = $dns_config['bind_zonefiles_dir'].'/pri.'.str_replace("/", "_", substr($data['old']['origin'], 0, -1));
-			}
+			$filename = $dns_config['bind_zonefiles_dir'].'/' . $this->zone_file_prefix() . str_replace("/", "_", substr($data['old']['origin'], 0, -1));
 			if(is_file($filename.'.signed')) unlink($filename.'.signed');
  		} else if ($data['new']['dnssec_wanted'] == 'Y') $this->soa_dnssec_update($data);
 		// END DNSSEC
@@ -345,13 +323,7 @@ class bind_plugin {
 
 		//* Delete old domain file, if domain name has been changed
 		if($data['old']['origin'] != $data['new']['origin']) {
-			//TODO : change this when distribution information has been integrated into server record
-			if (file_exists('/etc/gentoo-release')) {
-				$filename = $dns_config['bind_zonefiles_dir'].'/pri/'.str_replace("/", "_", substr($data['old']['origin'], 0, -1));
-			}
-			else {
-				$filename = $dns_config['bind_zonefiles_dir'].'/pri.'.str_replace("/", "_", substr($data['old']['origin'], 0, -1));
-			}
+			$filename = $dns_config['bind_zonefiles_dir'].'/' . $this->zone_file_prefix() . str_replace("/", "_", substr($data['old']['origin'], 0, -1));
 
 			if(is_file($filename)) unlink($filename);
 			if(is_file($filename.'.err')) unlink($filename.'.err');
@@ -378,14 +350,7 @@ class bind_plugin {
 		$this->write_named_conf($data, $dns_config);
 
 		//* Delete the domain file
-		//TODO : change this when distribution information has been integrated into server record
-		if (file_exists('/etc/gentoo-release')) {
-			$zone_file_name = $dns_config['bind_zonefiles_dir'].'/pri/'.str_replace("/", "_", substr($data['old']['origin'], 0, -1));
-		}
-		else {
-			$zone_file_name = $dns_config['bind_zonefiles_dir'].'/pri.'.str_replace("/", "_", substr($data['old']['origin'], 0, -1));
-		}
-
+		$zone_file_name = $dns_config['bind_zonefiles_dir'].'/' . $this->zone_file_prefix() . str_replace("/", "_", substr($data['old']['origin'], 0, -1));
 		if(is_file($zone_file_name)) unlink($zone_file_name);
 		if(is_file($zone_file_name.'.err')) unlink($zone_file_name.'.err');
 		$app->log("Deleting BIND domain file: ".$zone_file_name, LOGLEVEL_DEBUG);
@@ -425,23 +390,12 @@ class bind_plugin {
 
 		//* Delete old domain file, if domain name has been changed
 		if($data['old']['origin'] != $data['new']['origin']) {
-			//TODO : change this when distribution information has been integrated into server record
-			if (file_exists('/etc/gentoo-release')) {
-				$filename = $dns_config['bind_zonefiles_dir'].'/sec/'.str_replace("/", "_", substr($data['old']['origin'], 0, -1));
-			}
-			else {
-				$filename = $dns_config['bind_zonefiles_dir'].'/slave/sec.'.str_replace("/", "_", substr($data['old']['origin'], 0, -1));
-			}
-
+			$filename = $dns_config['bind_zonefiles_dir'].'/' . $this->zone_file_prefix() . str_replace("/", "_", substr($data['old']['origin'], 0, -1));
 			if(is_file($filename)) unset($filename);
 		}
 
 		//* Ensure that the named slave directory is writable by the named user
-		if (file_exists('/etc/gentoo-release')) {
-			$slave_record_dir = $dns_config['bind_zonefiles_dir'].'/sec';
-		} else {
-			$slave_record_dir = $dns_config['bind_zonefiles_dir'].'/slave';
-		}
+		$slave_record_dir = $dns_config['bind_zonefiles_dir'].'/'.$this->slave_zone_file_prefix();
 		if(!@is_dir($slave_record_dir)) mkdir($slave_record_dir, 0770);
 		chown($slave_record_dir, $dns_config['bind_user']);
 		chgrp($slave_record_dir, $dns_config['bind_group']);
@@ -463,14 +417,7 @@ class bind_plugin {
 		$this->write_named_conf($data, $dns_config);
 
 		//* Delete the domain file
-		//TODO : change this when distribution information has been integrated into server record
-		if (file_exists('/etc/gentoo-release')) {
-			$zone_file_name = $dns_config['bind_zonefiles_dir'].'/sec/'.str_replace("/", "_", substr($data['old']['origin'], 0, -1));
-		}
-		else {
-			$zone_file_name = $dns_config['bind_zonefiles_dir'].'/slave/sec.'.str_replace("/", "_", substr($data['old']['origin'], 0, -1));
-		}
-
+		$zone_file_name = $dns_config['bind_zonefiles_dir'].'/' . $this->slave_zone_file_prefix() . str_replace("/", "_", substr($data['old']['origin'], 0, -1));
 		if(is_file($zone_file_name)) unlink($zone_file_name);
 		$app->log("Deleting BIND domain file for secondary zone: ".$zone_file_name, LOGLEVEL_DEBUG);
 
@@ -527,16 +474,8 @@ class bind_plugin {
 
 		//* Check if the current zone that triggered this function has at least one NS record
 
-		//TODO : change this when distribution information has been integrated into server record
-		if (file_exists('/etc/gentoo-release')) {
-			$pri_zonefiles_path = $dns_config['bind_zonefiles_dir'].'/pri/';
-			$sec_zonefiles_path = $dns_config['bind_zonefiles_dir'].'/sec/';
-
-		}
-		else {
-			$pri_zonefiles_path = $dns_config['bind_zonefiles_dir'].'/pri.';
-			$sec_zonefiles_path = $dns_config['bind_zonefiles_dir'].'/slave/sec.';
-		}
+		$pri_zonefiles_path = $dns_config['bind_zonefiles_dir'].'/'.$this->zone_file_prefix();
+		$sec_zonefiles_path = $dns_config['bind_zonefiles_dir'].'/'.$this->slave_zone_file_prefix();
 
 		//* Loop trough zones
 		foreach($tmps as $tmp) {
@@ -600,6 +539,16 @@ class bind_plugin {
 		unset($zones);
 		unset($tmps);
 
+	}
+
+
+	function zone_file_prefix() {
+		//TODO : change this when distribution information has been integrated into server record
+		return	(file_exists('/etc/gentoo-release')) ? 'pri/' : 'pri.';
+	}
+	function slave_zone_file_prefix() {
+		//TODO : change this when distribution information has been integrated into server record
+		return	(file_exists('/etc/gentoo-release')) ? 'sec/' : 'slave/sec.';
 	}
 
 
