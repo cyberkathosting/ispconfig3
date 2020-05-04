@@ -42,7 +42,7 @@ class letsencrypt {
 	public function __construct(){
 
 	}
-	
+
 	public function get_acme_script() {
 		$acme = explode("\n", shell_exec('which /usr/local/ispconfig/server/scripts/acme.sh /root/.acme.sh/acme.sh'));
 		$acme = reset($acme);
@@ -52,18 +52,18 @@ class letsencrypt {
 			return false;
 		}
 	}
-	
+
 	public function get_acme_command($domains, $key_file, $bundle_file, $cert_file, $server_type = 'apache') {
 		global $app;
-		
+
 		$letsencrypt = $this->get_acme_script();
-		
+
 		$cmd = '';
 		// generate cli format
 		foreach($domains as $domain) {
 			$cmd .= (string) " -d " . $domain;
 		}
-		
+
 		if($cmd == '') {
 			return false;
 		}
@@ -73,12 +73,12 @@ class letsencrypt {
 		} else {
 			$cert_arg = '--fullchain-file ' . escapeshellarg($bundle_file) . ' --cert-file ' . escapeshellarg($cert_file);
 		}
-		
+
 		$cmd = 'R=0 ; C=0 ; ' . $letsencrypt . ' --issue ' . $cmd . ' -w /usr/local/ispconfig/interface/acme ; R=$? ; if [[ $R -eq 0 || $R -eq 2 ]] ; then ' . $letsencrypt . ' --install-cert ' . $cmd . ' --key-file ' . escapeshellarg($key_file) . ' ' . $cert_arg . ' --reloadcmd ' . escapeshellarg($this->get_reload_command()) . '; C=$? ; fi ; if [[ $C -eq 0 ]] ; then exit $R ; else exit $C  ; fi';
-		
+
 		return $cmd;
 	}
-	
+
 	public function get_certbot_script() {
 		$letsencrypt = explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt /opt/eff.org/certbot/venv/bin/certbot'));
 		$letsencrypt = reset($letsencrypt);
@@ -94,13 +94,13 @@ class letsencrypt {
 		$ret = null;
 		$val = 0;
 		exec($install_cmd . ' 2>&1', $ret, $val);
-		
+
 		return ($val == 0 ? true : false);
 	}
-	
+
 	private function get_reload_command() {
 		global $app, $conf;
-		
+
 		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
 
 		$daemon = '';
@@ -121,26 +121,26 @@ class letsencrypt {
 		$cmd = $app->system->getinitcommand($daemon, 'force-reload');
 		return $cmd;
 	}
-	
+
 	public function get_certbot_command($domains) {
 		global $app;
-		
+
 		$letsencrypt = $this->get_certbot_script();
-		
+
 		$cmd = '';
 		// generate cli format
 		foreach($domains as $domain) {
 			$cmd .= (string) " --domains " . $domain;
 		}
-		
+
 		if($cmd == '') {
 			return false;
 		}
-		
+
 		$matches = array();
 		$ret = null;
 		$val = 0;
-		
+
 		$letsencrypt_version = exec($letsencrypt . ' --version  2>&1', $ret, $val);
 		if(preg_match('/^(\S+|\w+)\s+(\d+(\.\d+)+)$/', $letsencrypt_version, $matches)) {
 			$letsencrypt_version = $matches[2];
@@ -161,39 +161,39 @@ class letsencrypt {
 		} else {
 			$webroot_args = "$cmd --webroot-path /usr/local/ispconfig/interface/acme";
 		}
-		
+
 		$cmd = $letsencrypt . " certonly -n --text --agree-tos --expand --authenticator webroot --server $acme_version --rsa-key-size 4096 --email postmaster@$domain $cmd --webroot-path /usr/local/ispconfig/interface/acme";
-		
+
 		return $cmd;
 	}
-	
+
 	public function get_letsencrypt_certificate_paths($domains = array()) {
 		global $app;
-		
+
 		if($this->get_acme_script()) {
 			return false;
 		}
-		
+
 		if(empty($domains)) return false;
 		if(!is_dir($this->renew_config_path)) return false;
-		
+
 		$dir = opendir($this->renew_config_path);
 		if(!$dir) return false;
-		
+
 		$path_scores = array();
-		
+
 		$main_domain = reset($domains);
 		sort($domains);
 		$min_diff = false;
-		
+
 		while($file = readdir($dir)) {
 			if($file === '.' || $file === '..' || substr($file, -5) !== '.conf')  continue;
 			$file_path = $this->renew_config_path . '/' . $file;
 			if(!is_file($file_path) || !is_readable($file_path)) continue;
-			
+
 			$fp = fopen($file_path, 'r');
 			if(!$fp) continue;
-			
+
 			$path_scores[$file_path] = array(
 				'domains' => array(),
 				'diff' => 0,
@@ -211,26 +211,26 @@ class letsencrypt {
 				if($line === '') continue;
 				elseif(!$in_list) {
 					if($line == '[[webroot_map]]') $in_list = true;
-					
+
 					$tmp = explode('=', $line, 2);
 					if(count($tmp) != 2) continue;
 					$key = trim($tmp[0]);
 					if($key == 'cert' || $key == 'privkey' || $key == 'chain' || $key == 'fullchain') {
 						$path_scores[$file_path]['cert_paths'][$key] = trim($tmp[1]);
 					}
-					
+
 					continue;
 				}
-				
+
 				$tmp = explode('=', $line, 2);
 				if(count($tmp) != 2) continue;
-				
+
 				$domain = trim($tmp[0]);
 				if($domain == $main_domain) $path_scores[$file_path]['has_main_domain'] = true;
 				$path_scores[$file_path]['domains'][] = $domain;
 			}
 			fclose($fp);
-			
+
 			sort($path_scores[$file_path]['domains']);
 			if(count(array_intersect($domains, $path_scores[$file_path]['domains'])) < 1) {
 				$path_scores[$file_path]['diff'] = false;
@@ -238,13 +238,13 @@ class letsencrypt {
 				// give higher diff value to missing domains than to those that are too much in there
 				$path_scores[$file_path]['diff'] = (count(array_diff($domains, $path_scores[$file_path]['domains'])) * 1.5) + count(array_diff($path_scores[$file_path]['domains'], $domains));
 			}
-			 
+
 			if($min_diff === false || $path_scores[$file_path]['diff'] < $min_diff) $min_diff = $path_scores[$file_path]['diff'];
 		}
 		closedir($dir);
 
 		if($min_diff === false) return false;
-		
+
 		$cert_paths = false;
 		$used_path = false;
 		foreach($path_scores as $path => $data) {
@@ -254,15 +254,15 @@ class letsencrypt {
 				if($data['has_main_domain'] == true) break;
 			}
 		}
-		
+
 		$app->log("Let's Encrypt Cert config path is: " . ($used_path ? $used_path : "not found") . ".", LOGLEVEL_DEBUG);
-		
+
 		return $cert_paths;
 	}
-	
+
 	private function get_ssl_domain($data) {
 		global $app;
-		
+
 		$domain = $data['new']['ssl_domain'];
 		if(!$domain) {
 			$domain = $data['new']['domain'];
@@ -276,14 +276,14 @@ class letsencrypt {
 				$domain = substr($domain, 2);
 			}
 		}
-		
+
 		return $domain;
 	}
-	
+
 	public function get_website_certificate_paths($data) {
 		$ssl_dir = $data['new']['document_root'].'/ssl';
 		$domain = $this->get_ssl_domain($data);
-		
+
 		$cert_paths = array(
 			'domain' => $domain,
 			'key' => $ssl_dir.'/'.$domain.'.key',
@@ -292,7 +292,7 @@ class letsencrypt {
 			'crt' => $ssl_dir.'/'.$domain.'.crt',
 			'bundle' => $ssl_dir.'/'.$domain.'.bundle'
 		);
-		
+
 		if($data['new']['ssl'] == 'y' && $data['new']['ssl_letsencrypt'] == 'y') {
 			$cert_paths = array(
 				'domain' => $domain,
@@ -302,17 +302,17 @@ class letsencrypt {
 				'bundle' => $ssl_dir.'/'.$domain.'-le.bundle'
 			);
 		}
-		
+
 		return $cert_paths;
 	}
-	
+
 	public function request_certificates($data, $server_type = 'apache') {
 		global $app, $conf;
-		
+
 		$app->uses('getconf');
 		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
 		$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
-		
+
 		$use_acme = false;
 		if($this->get_acme_script()) {
 			$use_acme = true;
@@ -320,13 +320,13 @@ class letsencrypt {
 			// acme and le missing
 			$this->install_acme();
 		}
-		
+
 		$tmp = $app->letsencrypt->get_website_certificate_paths($data);
 		$domain = $tmp['domain'];
 		$key_file = $tmp['key'];
 		$crt_file = $tmp['crt'];
 		$bundle_file = $tmp['bundle'];
-		
+
 		// default values
 		$temp_domains = array($domain);
 		$cli_domain_arg = '';
@@ -345,7 +345,7 @@ class letsencrypt {
 				$temp_domains[] = $subdomain['domain'];
 			}
 		}
-		
+
 		//* then, add alias domain if we have
 		$aliasdomains = $app->db->queryAllRecords('SELECT domain,subdomain FROM web_domain WHERE parent_domain_id = '.intval($data['new']['domain_id'])." AND active = 'y' AND type = 'alias' AND ssl_letsencrypt_exclude != 'y'");
 		if(is_array($aliasdomains)) {
@@ -395,7 +395,7 @@ class letsencrypt {
 		// unset useless data
 		unset($subdomains);
 		unset($aliasdomains);
-		
+
 		$this->certbot_use_certcommand = false;
 		$letsencrypt_cmd = '';
 		$allow_return_codes = null;
@@ -405,7 +405,7 @@ class letsencrypt {
 		} else {
 			$letsencrypt_cmd = $this->get_certbot_command($temp_domains);
 		}
-		
+
 		$success = false;
 		if($letsencrypt_cmd) {
 			if(!isset($server_config['migration_mode']) || $server_config['migration_mode'] != 'y') {
@@ -428,10 +428,17 @@ class letsencrypt {
 				return true;
 			}
 		}
-		
+
 		$le_files = array();
 		if($this->certbot_use_certcommand === true && $letsencrypt_cmd) {
-			$letsencrypt_cmd = $letsencrypt_cmd . " certificates " . $cli_domain_arg;
+			$cli_domain_arg = '';
+			// generate cli format
+			foreach($temp_domains as $temp_domain) {
+				$cli_domain_arg .= (string) " --domains " . $temp_domain;
+			}
+
+
+			$letsencrypt_cmd = $this->get_certbot_script() . " certificates " . $cli_domain_arg;
 			$output = explode("\n", shell_exec($letsencrypt_cmd . " 2>/dev/null | grep -v '^\$'"));
 			$le_path = '';
 			$skip_to_next = true;
@@ -439,18 +446,18 @@ class letsencrypt {
 			foreach($output as $outline) {
 				$outline = trim($outline);
 				$app->log("LE CERT OUTPUT: " . $outline, LOGLEVEL_DEBUG);
-				
+
 				if($skip_to_next === true && !preg_match('/^\s*Certificate Name/', $outline)) {
 					continue;
 				}
 				$skip_to_next = false;
-				
+
 				if(preg_match('/^\s*Expiry.*?VALID:\s+\D/', $outline)) {
 					$app->log("Found LE path is expired or invalid: " . $matches[1], LOGLEVEL_DEBUG);
 					$skip_to_next = true;
 					continue;
 				}
-				
+
 				if(preg_match('/^\s*Certificate Path:\s*(\/.*?)\s*$/', $outline, $matches)) {
 					$app->log("Found LE path: " . $matches[1], LOGLEVEL_DEBUG);
 					$le_path = dirname($matches[1]);
@@ -461,7 +468,7 @@ class letsencrypt {
 					}
 				}
 			}
-			
+
 			if($le_path) {
 				$le_files = array(
 					'privkey' => $le_path . '/privkey.pem',
@@ -475,32 +482,32 @@ class letsencrypt {
 			$le_files = $this->get_letsencrypt_certificate_paths($temp_domains);
 		}
 		unset($temp_domains);
-		
+
 		if($server_type != 'apache' || version_compare($app->system->getapacheversion(true), '2.4.8', '>=')) {
 			$crt_tmp_file = $le_files['fullchain'];
 		} else {
 			$crt_tmp_file = $le_files['cert'];
 		}
-		
+
 		$key_tmp_file = $le_files['privkey'];
 		$bundle_tmp_file = $le_files['chain'];
-		
+
 		if(!$success) {
 			// error issuing cert
 			$app->log('Let\'s Encrypt SSL Cert for: ' . $domain . ' could not be issued.', LOGLEVEL_WARN);
 			$app->log($letsencrypt_cmd, LOGLEVEL_WARN);
-			
+
 			// if cert already exists, dont remove it. Ex. expired/misstyped/noDnsYet alias domain, api down...
 			if(!file_exists($crt_tmp_file)) {
 				return false;
 			}
 		}
-			
+
 		//* check is been correctly created
 		if(file_exists($crt_tmp_file)) {
 			$app->log("Let's Encrypt Cert file: $crt_tmp_file exists.", LOGLEVEL_DEBUG);
 			$date = date("YmdHis");
-			
+
 			//* TODO: check if is a symlink, if target same keep it, either remove it
 			if(is_file($key_file)) {
 				$app->system->copy($key_file, $key_file.'.old.'.$date);
@@ -528,7 +535,7 @@ class letsencrypt {
 
 			if(@is_link($bundle_file)) $app->system->unlink($bundle_file);
 			if(@file_exists($bundle_tmp_file)) $app->system->exec_safe("ln -s ? ?", $bundle_tmp_file, $bundle_file);
-			
+
 			return true;
 		} else {
 			$app->log("Let's Encrypt Cert file: $crt_tmp_file does not exist.", LOGLEVEL_DEBUG);
