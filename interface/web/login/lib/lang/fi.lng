@@ -7,6 +7,7 @@ $wb['pass_reset_txt'] = 'Uusi salasana luodaan ja lähetetään asiakastiedoissa
 $wb['pw_reset'] = 'Salasana on vaihdettu ja lähetetty sähköpostiisi.';
 $wb['pw_error'] = 'Käyttäjätunnusta tai sähköpostiosoitetta ei löydy.';
 $wb['pw_error_noinput'] = 'Anna sähköpostiosoite ja käyttäjätunnus.';
+$wb['pw_reset_error_smtp_connection'] = 'There was a connection problem when trying to send an email pertaining to your password reset request.';
 $wb['pw_reset_mail_msg'] = 'Käyttäjätunnuksesi salasana ISPConfi3 Hallintapaneeliin on vaihdettu. Uusi salasanasi: ';
 $wb['pw_reset_mail_title'] = 'ISPConfi3 Hallintapaneelin salasana on vaihdettu.';
 $wb['user_regex_error'] = 'Käyttäjänimi sisältää kiellettyjä merkkejä tai on yli 64 merkkiä pitkä.';

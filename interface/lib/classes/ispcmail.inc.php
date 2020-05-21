@@ -169,7 +169,7 @@ class ispcmail {
 			$this->smtp_host = $value;
 			break;
 		case 'smtp_port':
-			$this->smtp_port = $value;
+			if(intval($value) > 0) $this->smtp_port = $value;
 			break;
 		case 'smtp_user':
 			$this->smtp_user = $value;
@@ -586,8 +586,8 @@ class ispcmail {
 	 */
 	private function _smtp_login() {
 		$this->_smtp_conn = fsockopen(($this->smtp_crypt == 'ssl' ? 'tls://' : '') . $this->smtp_host, $this->smtp_port, $errno, $errstr, 30);
-		$response = fgets($this->_smtp_conn, 515);
 		if(empty($this->_smtp_conn)) return false;
+		$response = fgets($this->_smtp_conn, 515);
 
 		//Say Hello to SMTP
 		if($this->smtp_helo == '') $this->detectHelo();
@@ -607,8 +607,11 @@ class ispcmail {
 			}
 			stream_context_set_option($this->_smtp_conn, 'ssl', 'verify_host', false);
 			stream_context_set_option($this->_smtp_conn, 'ssl', 'verify_peer', false);
+			stream_context_set_option($this->_smtp_conn, 'ssl', 'verify_peer_name', false);
 			stream_context_set_option($this->_smtp_conn, 'ssl', 'allow_self_signed', true);
-			stream_socket_enable_crypto($this->_smtp_conn, true, $crypto_method);
+			if (stream_socket_enable_crypto($this->_smtp_conn, true, $crypto_method) != true) {
+				return false;
+			}
 		}
 
 		//AUTH LOGIN
