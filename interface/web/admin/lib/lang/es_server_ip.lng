@@ -1,4 +1,6 @@
 <?php
+$wb['server_ip_edit_title'] = 'IP Adresses';
+$wb['server_ip_edit_desc'] = 'Form to edit system IP adresses';
 $wb['client_id_txt'] = 'Cliente';
 $wb['error_port_syntax'] = 'Caracteres inválidos en el campo puerto, por favor introduzca sólo números separados por comas. Por ejemplo: 80,443';
 $wb['ip_address_txt'] = 'Dirección IP';
