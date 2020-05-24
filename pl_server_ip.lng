@@ -1,0 +1,13 @@
+<?php
+$wb['server_ip_edit_title'] = 'IP Adresses';
+$wb['server_ip_edit_desc'] = 'Form to edit system IP adresses';
+$wb['server_id_txt'] = 'Serwer';
+$wb['ip_address_txt'] = 'Adres IP';
+$wb['virtualhost_txt'] = 'Nazwa wirtualnego hosta HTTP';
+$wb['ip_error_wrong'] = 'Adres IP jest niepoprawny';
+$wb['ip_error_unique'] = 'Adres IP musi być unikalny';
+$wb['client_id_txt'] = 'Klient';
+$wb['ip_type_txt'] = 'Typ';
+$wb['virtualhost_port_txt'] = 'Porty HTTP';
+$wb['error_port_syntax'] = 'Nieprawidłowe wartości w polu portów, proszę wpisać tylko liczby oddzielone przecinkiem. Przykładowo: 80,443';
+?>

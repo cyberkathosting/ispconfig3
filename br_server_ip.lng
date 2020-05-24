@@ -1,0 +1,13 @@
+<?php
+$wb['server_ip_edit_title'] = 'IP Adresses';
+$wb['server_ip_edit_desc'] = 'Form to edit system IP adresses';
+$wb['server_id_txt'] = 'Servidor';
+$wb['client_id_txt'] = 'Cliente';
+$wb['ip_type_txt'] = 'Tipo';
+$wb['ip_address_txt'] = 'Endereço IP';
+$wb['virtualhost_txt'] = 'Nome do vhost http';
+$wb['virtualhost_port_txt'] = 'Porta http';
+$wb['ip_error_wrong'] = 'O endereço IP é inválido.';
+$wb['ip_error_unique'] = 'O endereço IP deve ser exclusivo.';
+$wb['error_port_syntax'] = 'Caracteres inválidos para porta http, por favor, insira apenas uma porta ou separe portas por vírgula. Exemplo: 80,443.';
+?>

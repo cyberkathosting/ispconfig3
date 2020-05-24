@@ -1,0 +1,13 @@
+<?php
+$wb['server_ip_edit_title'] = 'IP Adresses';
+$wb['server_ip_edit_desc'] = 'Form to edit system IP adresses';
+$wb['server_id_txt'] = 'Palvelin';
+$wb['ip_address_txt'] = 'IP-osoite';
+$wb['virtualhost_txt'] = 'Virtuaalipalvelin';
+$wb['ip_error_wrong'] = 'IP-osoite vääränlainen';
+$wb['ip_error_unique'] = 'IP-osoitteen on oltava yksilöllinen';
+$wb['client_id_txt'] = 'Client';
+$wb['ip_type_txt'] = 'Type';
+$wb['virtualhost_port_txt'] = 'HTTP Ports';
+$wb['error_port_syntax'] = 'Invalid chars in port field, please enter only comma separated numbers. Example: 80,443';
+?>
