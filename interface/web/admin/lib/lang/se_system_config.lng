@@ -1,4 +1,5 @@
 <?php
+$wb['system_config_title'] = 'System Config';
 $wb['system_config_desc_txt'] = '';
 $wb['warning'] = 'Redigera dess värden försiktigt! Ta inte bort prefix på system med mer än en kund.';
 $wb['dbname_prefix_txt'] = 'Prefix för databasnamn';
