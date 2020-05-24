@@ -46,7 +46,7 @@ $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update,
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
 $form["tabs"]['server_ip_map'] = array (
-	'title'  => "IP Address Mapping",
+	'title'  => "server_ip_map_title",
 	'width'  => 80,
 	'template'  => "templates/server_ip_map_edit.htm",
 	'fields'  => array (
