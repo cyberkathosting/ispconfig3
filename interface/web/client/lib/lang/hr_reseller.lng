@@ -203,5 +203,7 @@ $wb['limit_database_quota_error_notint'] = 'The database quota limit must be a n
 $wb['limit_ssl_letsencrypt_txt'] = 'Let\'s Encrypt available';
 $wb['limit_directive_snippets_txt'] = 'Show web server config selection';
 $wb['password_click_to_set_txt'] = 'Click to set';
+$wb['Reseller'] = 'Reseller';
+$wb['Address'] = 'Address';
 $wb['Limits'] = 'Limits';
 ?>

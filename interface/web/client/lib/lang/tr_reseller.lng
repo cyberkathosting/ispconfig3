@@ -207,5 +207,7 @@ $wb['limit_database_user_txt'] = 'En Fazla Veritabanı Kullanıcısı Sayısı';
 $wb['limit_database_user_error_notint'] = 'Veritabanı kullanıcı sınırı bir sayı olmalıdır.';
 $wb['limit_database_quota_txt'] = 'Veritabanı Kotası';
 $wb['limit_database_quota_error_notint'] = 'Veritabanı kotası sınırı bir sayı olmalıdır.';
+$wb['Reseller'] = 'Reseller';
+$wb['Address'] = 'Address';
 $wb['Limits'] = 'Sınırlar';
 ?>

@@ -200,5 +200,6 @@ $wb['limit_ssl_letsencrypt_txt'] = 'Let\'s Encrypt доступен';
 $wb['limit_directive_snippets_txt'] = 'Показать выбор конфигурации веб-сервера';
 $wb['password_click_to_set_txt'] = 'Клик для установки';
 $wb['limit_dns_record_error_notint'] = 'Лимит вторичных DNS-зон должен быть числом.';
+$wb['Address'] = 'Address';
 $wb['Limits'] = 'Лимиты';
 ?>
