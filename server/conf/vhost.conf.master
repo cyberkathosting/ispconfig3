@@ -372,12 +372,16 @@
 			    </Directory>
 				<Directory {tmpl_var name='web_document_root_www'}>
 					<FilesMatch "\.php[345]?$">
-						SetHandler php-fcgi
+						<If "-f '%{REQUEST_FILENAME}'">
+							SetHandler php-fcgi
+						</If>
 					</FilesMatch>
 				</Directory>
 				<Directory {tmpl_var name='web_document_root'}>
 					<FilesMatch "\.php[345]?$">
-						SetHandler php-fcgi
+						<If "-f '%{REQUEST_FILENAME}'">
+							SetHandler php-fcgi
+						</If>
 					</FilesMatch>
 				</Directory>
                 Action php-fcgi /php-fcgi virtual
@@ -402,7 +406,9 @@
 			#ProxyPassMatch ^/(.*\.php[345]?(/.*)?)$ fcgi://127.0.0.1:<tmpl_var name='fpm_port'><tmpl_var name='web_document_root'>/$1
 			<Directory {tmpl_var name='web_document_root'}>
 				<FilesMatch "\.php[345]?$">
+					<If "-f '%{REQUEST_FILENAME}'">
 						SetHandler "proxy:fcgi://127.0.0.1:<tmpl_var name='fpm_port'>"
+					</If>
 				</FilesMatch>
 			</Directory>
 </tmpl_if>
@@ -410,7 +416,9 @@
 			#ProxyPassMatch ^/(.*\.php[345]?(/.*)?)$ unix://<tmpl_var name='fpm_socket'>|fcgi://localhost/<tmpl_var name='web_document_root'>/$1
 			<Directory {tmpl_var name='web_document_root'}>
 				<FilesMatch "\.php[345]?$">
+					<If "-f '%{REQUEST_FILENAME}'">
 						SetHandler "proxy:unix:<tmpl_var name='fpm_socket'>|fcgi://localhost"
+					</If>
 				</FilesMatch>
 			</Directory>
 </tmpl_if>
