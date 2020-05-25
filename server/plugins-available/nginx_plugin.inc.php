@@ -2728,7 +2728,7 @@ class nginx_plugin {
 		foreach($rh_releasefiles as $rh_file) {
 			if(file_exists($rh_file) && (filesize($rh_file) > 0)) {
 				$tmp = file_get_contents($rh_file);
-				if(preg_match('/[67]+\.[0-9]+/m', $tmp)) {
+				if(preg_match('/[678]+\.[0-9]+/m', $tmp)) {
 					$tpl->setVar('fpm_group', $data['new']['system_group']);
 					$tpl->setVar('fpm_listen_group', $data['new']['system_group']);
 				}
