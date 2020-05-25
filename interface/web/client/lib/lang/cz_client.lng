@@ -200,5 +200,6 @@ $wb['limit_database_user_txt'] = 'Max. počet databázových uživatelů';
 $wb['limit_database_user_error_notint'] = 'Limit databázové kvóty musí být číslo.';
 $wb['password_click_to_set_txt'] = 'Pro nastavení klikni zde';
 $wb['limit_dns_record_error_notint'] = 'Limit DNS záznamů musí být číslo.';
+$wb['Address'] = 'Address';
 $wb['Limits'] = 'Limity';
 ?>

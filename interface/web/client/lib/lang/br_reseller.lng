@@ -203,5 +203,7 @@ $wb['limit_directive_snippets_txt'] = 'Exibir seleção de configuração do ser
 $wb['limit_database_user_error_notint'] = 'O limite de usuários do banco de dados deve ser um número.';
 $wb['limit_database_quota_txt'] = 'Cota do banco de dados';
 $wb['limit_database_quota_error_notint'] = 'A cota do banco de dados deve ser um número.';
+$wb['Reseller'] = 'Reseller';
+$wb['Address'] = 'Address';
 $wb['Limits'] = 'Limites';
 ?>

@@ -203,5 +203,7 @@ $wb['limit_database_user_error_notint'] = 'Limit databázové kvóty musí být 
 $wb['limit_database_quota_txt'] = 'Databázové kvóty';
 $wb['limit_database_quota_error_notint'] = 'Limit databázové kvóty musí být číslo.';
 $wb['password_click_to_set_txt'] = 'Pro nastavení klikni zde';
+$wb['Reseller'] = 'Reseller';
+$wb['Address'] = 'Address';
 $wb['Limits'] = 'Limity';
 ?>

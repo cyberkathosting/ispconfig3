@@ -202,5 +202,6 @@ $wb['btn_cancel_txt'] = 'İptal';
 $wb['invalid_vat_id'] = 'Vergi numarası geçersiz.';
 $wb['email_error_empty'] = 'E-posta boş olamaz.';
 $wb['limit_directive_snippets_txt'] = 'Web Sunucu Yapılandırma Seçimi Görüntülensin';
+$wb['Address'] = 'Address';
 $wb['Limits'] = 'Sınırlar';
 ?>

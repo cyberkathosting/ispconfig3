@@ -203,5 +203,7 @@ $wb['limit_database_quota_error_notint'] = 'Лимит квоты базы да�
 $wb['limit_ssl_letsencrypt_txt'] = 'Let\'s Encrypt доступен';
 $wb['limit_directive_snippets_txt'] = 'Показать выбор конфигурации веб-сервера';
 $wb['password_click_to_set_txt'] = 'Клик для установки';
+$wb['Reseller'] = 'Reseller';
+$wb['Address'] = 'Address';
 $wb['Limits'] = 'Лимиты';
 ?>

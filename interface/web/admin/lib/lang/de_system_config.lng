@@ -1,4 +1,5 @@
 <?php
+$wb['system_config_title'] = 'System Config';
 $wb['system_config_desc_txt'] = 'Systemkonfiguration';
 $wb['smtp_missing_admin_mail_txt'] = 'Bitte geben Sie die Administrator E-Mail und den Namen ein, wenn Sie SMTP Versand nutzen wollen.';
 $wb['warning'] = 'Bearbeiten Sie diese Werte sorgfältig! Entfernen Sie die Präfixe nicht auf Systemen mit mehr als einem Kunden.';

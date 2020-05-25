@@ -33,7 +33,7 @@
 
 */
 
-$form["title"]   = "System Config";
+$form["title"]   = "system_config_title";
 $form["description"]  = "system_config_desc_txt";
 $form["name"]   = "system_config";
 $form["action"]  = "system_config_edit.php";
