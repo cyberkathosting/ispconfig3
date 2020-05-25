@@ -1274,6 +1274,12 @@ $form["tabs"]['web'] = array(
 			'value' => array('no' => 'disabled_txt', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP', 'php-fpm' => 'PHP-FPM', 'hhvm' => 'HHVM'),
 			'searchable' => 2
 		),
+		'php_fpm_default_chroot' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value' => array(0 => 'n', 1 => 'y')
+		),
 		'php_fpm_incron_reload' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
