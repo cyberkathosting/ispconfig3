@@ -7,6 +7,7 @@ $wb['pass_reset_txt'] = 'Новый пароль будет сгенериров
 $wb['pw_reset'] = 'Пароль был сброшен и и отправлен вам на почту.';
 $wb['pw_error'] = 'Логин или E-mail адрес не совпадают.';
 $wb['pw_error_noinput'] = 'Введите E-mail адрес и логин.';
+$wb['pw_reset_error_smtp_connection'] = 'There was a connection problem when trying to send an email pertaining to your password reset request.';
 $wb['pw_reset_mail_msg'] = 'Пароль в панель управления ISPConfig 3Был сброшен. Новый пароль: ';
 $wb['pw_reset_mail_title'] = 'Пароль для контрольной панели ISPConfig 3 был сброшен.';
 $wb['user_regex_error'] = 'Логин содержит неправильные символы, или длиннее 64 символов.';

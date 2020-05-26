@@ -71,8 +71,7 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 			$username = $client['username'];
 			$password_hash = sha1(uniqid('ispc_pw'));
 			$app->db->query("UPDATE sys_user SET lost_password_reqtime = NOW(), lost_password_hash = ? WHERE username = ?", $password_hash, $username);
-			$app->tpl->setVar("message", $wb['pw_reset_act']);
-			
+
 			$server_domain = (isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST']);
 			if($server_domain == '_') {
 				$tmp = explode(':',$_SERVER["HTTP_HOST"]);
@@ -81,9 +80,9 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 			}
 			if(!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on') $server_domain = 'http://' . $server_domain;
 			else $server_domain = 'https://' . $server_domain;
-			
+
 			if(isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] != '443') $server_domain .= ':' . $_SERVER['SERVER_PORT'];
-			
+
 			$app->uses('getconf,ispcmail');
 			$server_config_array = $app->getconf->get_global_config();
 			$mail_config = $server_config_array['mail'];
@@ -94,10 +93,14 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 			$app->ispcmail->setSender($mail_config['admin_mail'], $mail_config['admin_name']);
 			$app->ispcmail->setSubject($wb['pw_reset_act_mail_title']);
 			$app->ispcmail->setMailText($wb['pw_reset_act_mail_msg'].$server_domain . '/login/password_reset.php?username=' . urlencode($username) . '&hash=' . urlencode($password_hash));
-			$app->ispcmail->send(array($client['contact_name'] => $client['email']));
+			$send_result = $app->ispcmail->send(array($client['contact_name'] => $client['email']));
 			$app->ispcmail->finish();
 
-			$app->tpl->setVar("msg", $wb['pw_reset_act']);
+			if($send_result !== false) {
+				$app->tpl->setVar("msg", $wb['pw_reset_act']);
+			} else {
+				$app->tpl->setVar("error", $wb['pw_reset_error_smtp_connection']);
+			}
 		} else {
 			$app->tpl->setVar("error", $wb['pw_error']);
 		}
@@ -132,7 +135,6 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 			$username = $client['username'];
 			$app->db->query("UPDATE sys_user SET passwort = ?, lost_password_hash = '', lost_password_reqtime = NULL WHERE username = ?", $new_password_encrypted, $username);
 			$app->db->query("UPDATE client SET password = ? WHERE username = ?", $new_password_encrypted, $username);
-			$app->tpl->setVar("message", $wb['pw_reset']);
 
 			$app->uses('getconf,ispcmail');
 			$mail_config = $server_config_array['mail'];
@@ -143,11 +145,17 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 			$app->ispcmail->setSender($mail_config['admin_mail'], $mail_config['admin_name']);
 			$app->ispcmail->setSubject($wb['pw_reset_mail_title']);
 			$app->ispcmail->setMailText($wb['pw_reset_mail_msg'].$new_password);
-			$app->ispcmail->send(array($client['contact_name'] => $client['email']));
+			$send_result = $app->ispcmail->send(array($client['contact_name'] => $client['email']));
 			$app->ispcmail->finish();
 
 			$app->plugin->raiseEvent('password_reset', true);
-			$app->tpl->setVar("msg", $wb['pw_reset']);
+
+			if($send_result !== false) {
+				$app->tpl->setVar("msg", $wb['pw_reset']);
+			} else {
+				$app->tpl->setVar("error", $wb['pw_reset_error_smtp_connection']);
+			}
+
 		} else {
 			$app->tpl->setVar("error", $wb['pw_error']);
 		}

@@ -7,6 +7,7 @@ $wb['pass_reset_txt'] = 'Uma nova senha foi gerada e será enviada para você no
 $wb['pw_reset'] = 'Senha redefinida! Ela será enviada para você no e-mail cadastrado no sistema.';
 $wb['pw_error'] = 'Nome do usuário ou e-mail não coincidem.';
 $wb['pw_error_noinput'] = 'Favor informar nome do usuário e e-mail válidos.';
+$wb['pw_reset_error_smtp_connection'] = 'There was a connection problem when trying to send an email pertaining to your password reset request.';
 $wb['pw_reset_mail_msg'] = 'A senha para esta conta no ISPConfig foi redefinida. A nova senha é: ';
 $wb['pw_reset_mail_title'] = 'A senha para esta conta no ISPConfig foi redefinida.';
 $wb['user_regex_error'] = 'O nome do usuário contém menos de 1 ou mais de 64 caracteres ou contém caracteres inválidos.';

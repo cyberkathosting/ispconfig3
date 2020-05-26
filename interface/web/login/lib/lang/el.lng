@@ -7,6 +7,7 @@ $wb['pass_reset_txt'] = 'Ένα νέο συνθηματικό θα δημιου�
 $wb['pw_reset'] = 'Το νέο συνθηματικό δημιουργηθήκε και στάλθηκε στο e-mail που δηλώσατε';
 $wb['pw_error'] = 'Το όνομα χρήστη ή το email δεν ταιριάζουν';
 $wb['pw_error_noinput'] = 'Παρακαλούμε εισάγετε διεύθυνση email και όνομα χρήστη';
+$wb['pw_reset_error_smtp_connection'] = 'There was a connection problem when trying to send an email pertaining to your password reset request.';
 $wb['pw_reset_mail_msg'] = 'Ο κωδικός σας για το εργαλείο διαχείρισης ISPConfig 3 έχει αρχικοποιηθεί. Το νέο συνθηματικό είναι: ';
 $wb['pw_reset_mail_title'] = 'το συνθηματικό σας για το εργαλείο διαχείρισης ISPConfig 3 έχει αρχικοποιηθεί.';
 $wb['user_regex_error'] = 'Το όνομα χρήστη περιέχει μη επιτρεπόμενους χαρακτήρες ή το μέγεθος του ξεπερνά του 64 χαρακτήρες.';
