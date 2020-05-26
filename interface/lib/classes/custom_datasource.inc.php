@@ -162,9 +162,9 @@ class custom_datasource {
 			$client = $app->db->queryOneRecord($sql, $client_group_id);
 			if($client['server_id'] > 0) {
 				///* Select the available servers for the client
-				$clientservers = $client['server_id'];
-				$sql = "SELECT server_id,server_name FROM server WHERE server_id IN ($clientservers) ORDER BY server_name";
-				$records = $app->db->queryAllRecords($sql);
+				$clientservers = explode(',',$client['server_id']);
+				$sql = "SELECT server_id,server_name FROM server WHERE server_id IN ? ORDER BY server_name";
+				$records = $app->db->queryAllRecords($sql,$clientservers);
 			} else {
 				//* Not able to find the clients defaults, use this as fallback and add a warning message to the log
 				$app->log('Unable to find default server for client in custom_datasource.inc.php', 1);
