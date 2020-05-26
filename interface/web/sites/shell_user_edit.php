@@ -126,6 +126,17 @@ class page_action extends tform_actions {
 
 		if(isset($this->dataRecord['ssh_rsa'])) $this->dataRecord['ssh_rsa'] = trim($this->dataRecord['ssh_rsa']);
 
+		$system_config = $app->getconf->get_global_config();
+
+		if($system_config['misc']['ssh_authentication'] == 'password') {
+			$this->dataRecord['ssh_rsa'] = null;
+		}
+
+		if($system_config['misc']['ssh_authentication'] == 'key') {
+			$this->dataRecord['password'] = null;
+			$this->dataRecord['repeat_password'] = null;
+		}
+
 		parent::onSubmit();
 	}
 
