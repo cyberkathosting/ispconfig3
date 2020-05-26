@@ -28,6 +28,7 @@
 					</div>
 				</div>
             </div>
+			<tmpl_if name="ssh_authentication" op="!=" value="key">
 			<div class="form-group">
                 <label for="password" class="col-sm-3 control-label">{tmpl_var name='password_txt'}</label>
                 <div class="col-sm-9">
@@ -55,6 +56,7 @@
 					<div id="confirmpasswordOK" style="display:none;" class="confirmpasswordok">{tmpl_var name='password_match_txt'}</div>
 				</div>
 			</div>
+			</tmpl_if>
             <div class="form-group">
                 <label for="chroot" class="col-sm-3 control-label">{tmpl_var name='chroot_txt'}</label>
                 <div class="col-sm-9"><select name="chroot" id="chroot" class="form-control">
@@ -65,10 +67,12 @@
                 <label for="quota_size" class="col-sm-3 control-label">{tmpl_var name='quota_size_txt'}</label>
                 <div class="col-sm-9"><div class="input-group"><input type="text" name="quota_size" id="quota_size" value="{tmpl_var name='quota_size'}" class="form-control" aria-describedby="quota_size-desc" /><span class="input-group-addon" id="quota_size-desc">MB</span></div></div>
             </div>
+			<tmpl_if name="ssh_authentication" op="!=" value="password">
             <div class="form-group">
                 <label for="ssh_rsa" class="col-sm-3 control-label">{tmpl_var name='ssh_rsa_txt'}</label>
                 <div class="col-sm-9"><textarea class="form-control" name="ssh_rsa" id="ssh_rsa" rows="10" cols="30">{tmpl_var name='ssh_rsa'}</textarea></div>
             </div>
+			</tmpl_if>
             <div class="form-group">
                 <label class="col-sm-3 control-label">{tmpl_var name='active_txt'}</label>
                 <div class="col-sm-9">

@@ -75,6 +75,7 @@ class page_action extends tform_actions {
 
 		$app->uses('getconf,tools_sites');
 		$global_config = $app->getconf->get_global_config('sites');
+		$system_config = $app->getconf->get_global_config();
 		$shelluser_prefix = $app->tools_sites->replacePrefix($global_config['shelluser_prefix'], $this->dataRecord);
 
 		if ($this->dataRecord['username'] != ""){
@@ -95,6 +96,8 @@ class page_action extends tform_actions {
 		} else {
 			$app->tpl->setVar("edit_disabled", 0);
 		}
+
+		$app->tpl->setVar('ssh_authentication', $system_config['misc']['ssh_authentication']);
 
 		parent::onShowEnd();
 	}
