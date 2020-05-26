@@ -121,6 +121,7 @@ overquota_db_notify_client=y
 overquota_notify_onok=n
 logging=yes
 php_fpm_reload_mode=reload
+php_fpm_default_chroot=n
 
 [dns]
 bind_user=root

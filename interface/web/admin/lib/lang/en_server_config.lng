@@ -215,6 +215,7 @@ $wb["overquota_db_notify_admin_txt"] = 'Send DB quota warnings to admin';
 $wb["overquota_db_notify_client_txt"] = 'Send DB quota warnings to client';
 $wb['monitor_system_updates_txt'] = 'Check for Linux updates';
 $wb['php_handler_txt'] = "Default PHP Handler";
+$wb['php_fpm_default_chroot_txt'] = 'Default chrooted PHP-FPM';
 $wb['php_fpm_incron_reload_txt'] = 'Install incron trigger file to reload PHP-FPM';
 $wb['disabled_txt'] = 'Disabled';
 $wb['dkim_strength_txt'] = 'DKIM strength';

@@ -260,6 +260,7 @@ $wb['backup_delete_txt'] = 'Odstranit zálohy pokud byla smazána doména/webov�
 $wb['overquota_db_notify_admin_txt'] = 'Poslat varování o překročení nebo vyčerpání DB kvót adminovi';
 $wb['overquota_db_notify_client_txt'] = 'Poslat varování o překročení nebo vyčerpání DB kvót klientovi';
 $wb['php_handler_txt'] = 'Výchozí PHP obslužná rutina';
+$wb['php_fpm_default_chroot_txt'] = 'Default chrooted PHP-FPM';
 $wb['php_fpm_incron_reload_txt'] = 'Install incron trigger file to reload PHP-FPM';
 $wb['disabled_txt'] = 'Vypnuto';
 $wb['php_ini_check_minutes_txt'] = 'Provádět kontrolu změny obsahu souboru php.ini každých X minut';

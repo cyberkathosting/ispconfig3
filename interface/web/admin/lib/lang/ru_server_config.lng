@@ -264,6 +264,7 @@ $wb['backup_dir_mount_cmd_txt'] = 'Выполните команду монти�
 $wb['overquota_db_notify_admin_txt'] = 'Присылать предупреждения квоты DB администратору';
 $wb['overquota_db_notify_client_txt'] = 'Присылать предупреждения квоты DB клиенту';
 $wb['php_handler_txt'] = 'Обработчик PHP по умолчанию';
+$wb['php_fpm_default_chroot_txt'] = 'Default chrooted PHP-FPM';
 $wb['php_fpm_incron_reload_txt'] = 'Install incron trigger file to reload PHP-FPM';
 $wb['disabled_txt'] = 'Отключено';
 $wb['dkim_strength_txt'] = 'Стойкость DKIM';

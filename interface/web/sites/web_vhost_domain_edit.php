@@ -1430,6 +1430,12 @@ class page_action extends tform_actions {
 			$log_retention = 10;
 		}
 
+		// Get default value for chrooted PHP-FPM
+		$php_fpm_chroot = 'n';
+		if (!empty($web_config['php_fpm_default_chroot'])) {
+			$php_fpm_chroot = $web_config['php_fpm_default_chroot'];
+		}
+
 		if($this->_vhostdomain_type == 'domain') {
 			$document_root = str_replace("[website_id]", $this->id, $web_config["website_path"]);
 			$document_root = str_replace("[website_idhash_1]", $this->id_hash($page_form->id, 1), $document_root);
@@ -1462,8 +1468,8 @@ class page_action extends tform_actions {
 			$htaccess_allow_override = $web_config["htaccess_allow_override"];
 			$added_by = $_SESSION['s']['user']['username'];
 
-			$sql = "UPDATE web_domain SET system_user = ?, system_group = ?, document_root = ?, allow_override = ?, php_open_basedir = ?, added_date = CURDATE(), added_by = ?, log_retention = ? WHERE domain_id = ?";
-			$app->db->query($sql, $system_user, $system_group, $document_root, $htaccess_allow_override, $php_open_basedir, $added_by, $log_retention, $this->id);
+			$sql = "UPDATE web_domain SET system_user = ?, system_group = ?, document_root = ?, allow_override = ?, php_open_basedir = ?, added_date = CURDATE(), added_by = ?, log_retention = ?, php_fpm_chroot = ? WHERE domain_id = ?";
+			$app->db->query($sql, $system_user, $system_group, $document_root, $htaccess_allow_override, $php_open_basedir, $added_by, $log_retention, $php_fpm_chroot, $this->id);
 		} else  {
 			// Set the values for document_root, system_user and system_group
 			$system_user = $this->parent_domain_record['system_user'];
@@ -1475,12 +1481,12 @@ class page_action extends tform_actions {
 			$php_open_basedir = str_replace("[website_domain]", $web_rec['domain'], $php_open_basedir);
 			$htaccess_allow_override = $this->parent_domain_record['allow_override'];
 			$added_by = $_SESSION['s']['user']['username'];
-			
-			$sql = "UPDATE web_domain SET sys_groupid = ?, system_user = ?, system_group = ?, document_root = ?, allow_override = ?, php_open_basedir = ?, added_date = CURDATE(), added_by = ?, log_retention = ? WHERE domain_id = ?";
-			$app->db->query($sql, $this->parent_domain_record['sys_groupid'], $system_user, $system_group, $document_root, $htaccess_allow_override, $php_open_basedir, $added_by, $log_retention, $this->id);
+
+			$sql = "UPDATE web_domain SET sys_groupid = ?, system_user = ?, system_group = ?, document_root = ?, allow_override = ?, php_open_basedir = ?, added_date = CURDATE(), added_by = ?, log_retention = ?, php_fpm_chroot = ? WHERE domain_id = ?";
+			$app->db->query($sql, $this->parent_domain_record['sys_groupid'], $system_user, $system_group, $document_root, $htaccess_allow_override, $php_open_basedir, $added_by, $log_retention, $php_fpm_chroot, $this->id);
 		}
 		if(isset($this->dataRecord['folder_directive_snippets'])) $app->db->query("UPDATE web_domain SET folder_directive_snippets = ? WHERE domain_id = ?", $this->dataRecord['folder_directive_snippets'], $this->id);
-		
+
 		// Add a datalog insert without letsencrypt and then an update with letsencrypt enabled (see also onBeforeInsert)
 		if($this->_letsencrypt_on_insert == true) {
 			$new_data_record = $app->tform->getDataRecord($this->id);

@@ -270,6 +270,7 @@ $wb['php_ini_check_minutes_txt'] = 'Prüfe php.ini alle X Minuten auf Änderunge
 $wb['php_ini_check_minutes_error_empty'] = 'Bitte geben Sie einen Wert an, wie oft die php.ini auf Änderungen geprüft werden soll.';
 $wb['php_ini_check_minutes_info_txt'] = '0 = keine Prüfung';
 $wb['php_handler_txt'] = 'Standard-PHP-Handler';
+$wb['php_fpm_default_chroot_txt'] = 'Default chrooted PHP-FPM';
 $wb['php_fpm_incron_reload_txt'] = 'Install incron trigger file to reload PHP-FPM';
 $wb['enable_spdy_txt'] = 'Stellt SPDY/HTTP2 zur Verfügung';
 $wb['disable_bind_log_txt'] = 'Disable bind9 messages for Loglevel WARN';

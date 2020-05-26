@@ -215,6 +215,7 @@ $wb['overquota_db_notify_admin_txt'] = 'Veritabanı Kotası Bildirimleri Yöneti
 $wb['overquota_db_notify_client_txt'] = 'Veritabanı Kotası Bildirimleri Müşteriye Gönderilsin';
 $wb['monitor_system_updates_txt'] = 'Linux Güncellemeleri Denetlensin';
 $wb['php_handler_txt'] = 'Varsayılan PHP İşleyici';
+$wb['php_fpm_default_chroot_txt'] = 'Default chrooted PHP-FPM';
 $wb['disabled_txt'] = 'Devre Dışı';
 $wb['dkim_strength_txt'] = 'DKIM zorluğu';
 $wb['monitor_system_updates_txt'] = 'Linux Güncelleme Denetimi';
