@@ -192,7 +192,7 @@ class listform_actions {
 				$key = $field['field'];
 				if(isset($field['formtype']) && $field['formtype'] == 'SELECT') {
 					if(strtolower($rec[$key]) == 'y' or strtolower($rec[$key]) == 'n') {
-						// Set a additional image variable for bolean fields
+						// Set a additional image variable for boolean fields
 						$rec['_'.$key.'_'] = (strtolower($rec[$key]) == 'y')?'x16/tick_circle.png':'x16/cross_circle.png';
 					}
 					//* substitute value for select field

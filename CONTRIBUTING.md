@@ -12,7 +12,7 @@ The master branch is used for code (mostly new features) that shall go into the 
 * Magic quotes is gone, get used to it now. config = magic_quotes_gpc() Everything must be quoted
 * Don't use ereg, split and other old function -> gone in PHP 5.4
 * Don't use features that are not supported in PHP 5.3, for compatibility with LTS OS releases, ISPConfig must support PHP 5.3+
-* Don't use shorttags. A Shorttag is <? and that is confusing with <?xml -> always usw <?php
+* Don't use shorttags. A Shorttag is <? and that is confusing with <?xml -> always use <?php
 * Don't use namespaces
 * Column names in database tables and database table names are in lowercase
 * Classes for the interface are located in interface/lib/classes/ and loaded with $app->uses() or $app->load() functions.
