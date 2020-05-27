@@ -3,14 +3,14 @@
 require 'soap_config.php';
 
 
-$context = stream_context_create([
-	'ssl' => [
+$context = stream_context_create( array(
+	'ssl' => array(
 		// set some SSL/TLS specific options
 		'verify_peer' => false,
 		'verify_peer_name' => false,
 		'allow_self_signed' => true
-	]
-]);
+	),
+));
 
 
 $client = new SoapClient(null, array('location' => $soap_location,
