@@ -605,6 +605,28 @@ class remoting_dns extends remoting {
 	// ----------------------------------------------------------------------------------------------------------------
 
 	//* Get record details
+	public function dns_tlsa_get($session_id, $primary_id) {
+		return $this->dns_rr_get($session_id, $primary_id, 'TLSA');
+	}
+
+	//* Add a record
+	public function dns_tlsa_add($session_id, $client_id, $params, $update_serial=false) {
+		return $this->dns_rr_add($session_id, $client_id, $params, $update_serial, 'TLSA');
+	}
+
+	//* Update a record
+	public function dns_tlsa_update($session_id, $client_id, $primary_id, $params, $update_serial=false) {
+		return $this->dns_rr_update($session_id, $client_id, $primary_id, $params, $update_serial, 'TLSA');
+	}
+
+	//* Delete a record
+	public function dns_tlsa_delete($session_id, $primary_id, $update_serial=false) {
+		return $this->dns_rr_delete($session_id, $primary_id, $update_serial, 'TLSA');
+	}
+
+	// ----------------------------------------------------------------------------------------------------------------
+
+	//* Get record details
 	public function dns_txt_get($session_id, $primary_id) {
 		return $this->dns_rr_get($session_id, $primary_id, 'TXT');
 	}
