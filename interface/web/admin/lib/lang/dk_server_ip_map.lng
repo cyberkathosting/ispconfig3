@@ -1,4 +1,6 @@
 <?php
+$wb['server_ip_map_title'] = 'IPv4 Address mapping';
+$wb['server_ip_map_desc'] = 'Form to map IPv4-addresses for Web-Server';
 $wb['server_id_txt'] = 'Rewrite on Server';
 $wb['source_txt'] = 'Source IP';
 $wb['destination_txt'] = 'Destination IP';

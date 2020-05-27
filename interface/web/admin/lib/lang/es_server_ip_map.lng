@@ -1,4 +1,6 @@
 <?php
+$wb['server_ip_map_title'] = 'IPv4 Address mapping';
+$wb['server_ip_map_desc'] = 'Form to map IPv4-addresses for Web-Server';
 $wb['active_txt'] = 'Activo';
 $wb['destination_ip_empty'] = 'La IP de destino está vacía.';
 $wb['destination_txt'] = 'IP de destino';
