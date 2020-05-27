@@ -61,7 +61,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 $form['title']   = 'interface_head_txt';
-$form['description']  = 'interface_desc_txt';
+//*$form['description']  = 'interface_desc_txt';
 $form['name']   = 'interface';
 $form['action']  = 'interface_settings.php';
 $form['db_table'] = 'sys_user';
