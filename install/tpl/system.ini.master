@@ -69,3 +69,4 @@ session_timeout=0
 session_allow_endless=0
 min_password_length=8
 min_password_strength=3
+ssh_authentication=
