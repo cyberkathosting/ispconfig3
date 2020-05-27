@@ -430,6 +430,28 @@ class remoting_dns extends remoting {
 
 	//* Get record details
 	public function dns_cname_get($session_id, $primary_id) {
+		return $this->dns_rr_get($session_id, $primary_id, 'CAA');
+	}
+
+	//* Add a record
+	public function dns_cname_add($session_id, $client_id, $params, $update_serial=false) {
+		return $this->dns_rr_add($session_id, $client_id, $params, $update_serial, 'CAA');
+	}
+
+	//* Update a record
+	public function dns_cname_update($session_id, $client_id, $primary_id, $params, $update_serial=false) {
+		return $this->dns_rr_update($session_id, $client_id, $primary_id, $params, $update_serial, 'CAA');
+	}
+
+	//* Delete a record
+	public function dns_cname_delete($session_id, $primary_id, $update_serial=false) {
+		return $this->dns_rr_delete($session_id, $primary_id, $update_serial, 'CAA');
+	}
+
+	// ----------------------------------------------------------------------------------------------------------------
+
+	//* Get record details
+	public function dns_cname_get($session_id, $primary_id) {
 		return $this->dns_rr_get($session_id, $primary_id, 'CNAME');
 	}
 

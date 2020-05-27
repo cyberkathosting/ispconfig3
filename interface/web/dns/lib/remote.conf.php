@@ -4,6 +4,7 @@ $function_list['dns_zone_get,dns_zone_get_id,dns_zone_add,dns_zone_update,dns_zo
 $function_list['dns_a_get,dns_a_add,dns_a_update,dns_a_delete'] = 'DNS a functions';
 $function_list['dns_aaaa_get,dns_aaaa_add,dns_aaaa_update,dns_aaaa_delete'] = 'DNS aaaa functions';
 $function_list['dns_alias_get,dns_alias_add,dns_alias_update,dns_alias_delete'] = 'DNS alias functions';
+$function_list['dns_caa_get,dns_caa_add,dns_caa_update,dns_caa_delete'] = 'DNS caa functions';
 $function_list['dns_cname_get,dns_cname_add,dns_cname_update,dns_cname_delete'] = 'DNS cname functions';
 $function_list['dns_ds_get,dns_ds_add,dns_ds_update,dns_ds_delete'] = 'DNS ds functions';
 $function_list['dns_hinfo_get,dns_hinfo_add,dns_hinfo_update,dns_hinfo_delete'] = 'DNS hinfo functions';
