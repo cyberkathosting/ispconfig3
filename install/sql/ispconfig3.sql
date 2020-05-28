@@ -1922,9 +1922,11 @@ CREATE TABLE `web_backup` (
   `parent_domain_id` int(10) unsigned NOT NULL DEFAULT '0',
   `backup_type` enum('web','mysql','mongodb') NOT NULL DEFAULT 'web',
   `backup_mode` varchar(64) NOT NULL DEFAULT  '',
+  `backup_format` varchar(64) NOT NULL DEFAULT '',
   `tstamp` int(10) unsigned NOT NULL DEFAULT '0',
   `filename` varchar(255) NOT NULL DEFAULT '',
   `filesize` VARCHAR(20) NOT NULL DEFAULT '',
+  `backup_password` VARCHAR(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`backup_id`)
 ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -2055,6 +2057,10 @@ CREATE TABLE `web_domain` (
   `custom_php_ini` mediumtext,
   `backup_interval` VARCHAR( 255 ) NOT NULL DEFAULT 'none',
   `backup_copies` INT NOT NULL DEFAULT '1',
+  `backup_format_web` VARCHAR( 255 ) NOT NULL default 'default',
+  `backup_format_db` VARCHAR( 255 ) NOT NULL default 'gzip',
+  `backup_encrypt` enum('n','y') NOT NULL DEFAULT 'n',
+  `backup_password` VARCHAR( 255 ) NOT NULL DEFAULT '',
   `backup_excludes` mediumtext,
   `active` enum('n','y') NOT NULL default 'y',
   `traffic_quota_lock` enum('n','y') NOT NULL default 'n',
