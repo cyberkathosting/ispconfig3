@@ -58,6 +58,8 @@ try {
 		'custom_php_ini' => '',
 		'backup_interval' => '',
 		'backup_copies' => 1,
+		'backup_format_web' => 'default',
+		'backup_format_db' => 'gzip',
 		'active' => 'y',
 		'traffic_quota_lock' => 'n',
 		'http_port' => '80',
