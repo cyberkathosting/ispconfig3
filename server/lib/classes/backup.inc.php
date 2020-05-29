@@ -110,8 +110,8 @@ class backup
 
     /**
      * Returns default backup format used in previous versions of ISPConfig
-     * @param string $backup_mode
-     * @param string $backup_type
+     * @param string $backup_mode can be 'userzip' or 'rootgz'
+     * @param string $backup_type can be 'web' or 'mysql'
      * @return string
      * @author Ramil Valitov <ramilvalitov@gmail.com>
      */
@@ -1264,10 +1264,7 @@ class backup
             $backup_format_web = 'default';
         }
         if ($backup_format_web == 'default') {
-            if ($backup_mode == 'userzip')
-                $backup_format_web = 'zip';
-            else
-                $backup_format_web = 'gzip';
+            $backup_format_web = self::getDefaultBackupFormat($backup_mode, 'web');
         }
         $password = ($web_domain['backup_encrypt'] == 'y') ? trim($web_domain['backup_password']) : '';
         $backup_extension_web = self::getBackupWebExtension($backup_format_web);
