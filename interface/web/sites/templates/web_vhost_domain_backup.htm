@@ -1,8 +1,3 @@
-<div class='page-header'>
-	<h1><tmpl_var name="list_head_txt"></h1>
-</div>
-<p><tmpl_var name="list_desc_txt"></p>
-
 <tmpl_if name="config_error_msg">
 <div style="background: #ffdfdf; border: 1px solid #df7d7d; border-width: 1px 0; margin: 1.5em 0 1.5em 0; padding: 7px;">
                 <p style="font-face:bold">{tmpl_var name='configuration_error_txt'}</p>
@@ -12,7 +7,6 @@
 </div>
 </tmpl_if>
 
-        <legend>Backup</legend>
             <div class="form-group">
                 <label for="backup_interval" class="col-sm-3 control-label">{tmpl_var name='backup_interval_txt'}</label>
                 <div class="col-sm-9"><select name="backup_interval" id="backup_interval" class="form-control">
@@ -29,7 +23,53 @@
                 <label for="backup_excludes" class="col-sm-3 control-label">{tmpl_var name='backup_excludes_txt'}</label>
                 <div class="col-sm-6"><input type="text" name="backup_excludes" id="backup_excludes" value="{tmpl_var name='backup_excludes'}" class="form-control" /></div><div class="col-sm-3 input-sm">&nbsp;{tmpl_var name='backup_excludes_note_txt'}
             </div></div>
-        
+
+            <legend>{tmpl_var name='backup_compression_options_txt'}</legend>
+            <div class="tab-content">
+                {tmpl_var name='backup_format_web_note_txt'}
+            </div>
+            <tmpl_if name="missing_utils">
+                <div class="tab-content bg-warning text-warning">
+                    {tmpl_var name='backup_missing_utils_txt'} {tmpl_var name='missing_utils'}
+                </div>
+            </tmpl_if>
+            <div class="form-group">
+                <label for="backup_format_web" class="col-sm-3 control-label">{tmpl_var name='backup_format_web_txt'}</label>
+                <div class="col-sm-9">
+                    <select name="backup_format_web" id="backup_format_web" class="form-control">
+                        {tmpl_var name='backup_format_web'}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="backup_format_db" class="col-sm-3 control-label">{tmpl_var name='backup_format_db_txt'}</label>
+                <div class="col-sm-9">
+                    <select name="backup_format_db" id="backup_format_db" class="form-control">
+                        {tmpl_var name='backup_format_db'}
+                    </select>
+                </div>
+            </div>
+
+            <legend>{tmpl_var name='backup_encryption_options_txt'}</legend>
+            <div class="tab-content">
+                {tmpl_var name='backup_encryption_note_txt'}
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">
+                    {tmpl_var name='backup_enable_encryption_txt'}
+                </label>
+                <div class="col-sm-9">
+                    {tmpl_var name="backup_encrypt"}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="backup_password" class="col-sm-3 control-label">
+                    {tmpl_var name='backup_password_txt'}
+                </label>
+                <div class="col-sm-9">
+                    <input type="text" name="backup_password" id="backup_password" value="{tmpl_var name='backup_password'}" class="form-control" />
+                </div>
+            </div>
 
         {tmpl_var name='backup_records'}
 

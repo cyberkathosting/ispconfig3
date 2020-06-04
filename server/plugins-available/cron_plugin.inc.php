@@ -224,7 +224,7 @@ class cron_plugin {
 					$cron_line = str_replace(" ", "", $job['run_min']) . "\t" . str_replace(" ", "", $job['run_hour']) . "\t" . str_replace(" ", "", $job['run_mday']) . "\t" . str_replace(" ", "", $job['run_month']) . "\t" . str_replace(" ", "", $job['run_wday']);
 				}
 				
-				$log_target = ">/dev/null 2>&1";
+				$log_target = "";
 				$log_wget_target = '/dev/null';
 				$log_root = '';
 				if($job['log'] == 'y') {

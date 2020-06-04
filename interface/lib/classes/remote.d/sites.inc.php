@@ -132,10 +132,12 @@ class remoting_sites extends remoting {
 			$app->sites_database_plugin->processDatabaseInsert($this);
 			
 			// set correct values for backup_interval and backup_copies
-			if(isset($params['backup_interval']) || isset($params['backup_copies'])){
+			if(isset($params['backup_interval']) || isset($params['backup_copies']) || isset($params['backup_format_web']) || isset($params['backup_format_db'])){
 				$sql_set = array();
 				if(isset($params['backup_interval'])) $sql_set[] = "backup_interval = '".$app->db->quote($params['backup_interval'])."'";
 				if(isset($params['backup_copies'])) $sql_set[] = "backup_copies = ".$app->functions->intval($params['backup_copies']);
+				if(isset($params['backup_format_web'])) $sql_set[] = "backup_format_web = ".$app->functions->intval($params['backup_format_web']);
+				if(isset($params['backup_format_db'])) $sql_set[] = "backup_format_db = ".$app->functions->intval($params['backup_format_db']);
 				$this->updateQueryExecute("UPDATE web_database SET ".implode(', ', $sql_set)." WHERE database_id = ".$retval, $retval, $params);
 			}
 			
@@ -165,10 +167,12 @@ class remoting_sites extends remoting {
 			$retval = $this->updateQueryExecute($sql, $primary_id, $params);
 			
 			// set correct values for backup_interval and backup_copies
-			if(isset($params['backup_interval']) || isset($params['backup_copies'])){
+			if(isset($params['backup_interval']) || isset($params['backup_copies']) || isset($params['backup_format_web']) || isset($params['backup_format_db'])){
 				$sql_set = array();
 				if(isset($params['backup_interval'])) $sql_set[] = "backup_interval = '".$app->db->quote($params['backup_interval'])."'";
 				if(isset($params['backup_copies'])) $sql_set[] = "backup_copies = ".$app->functions->intval($params['backup_copies']);
+				if(isset($params['backup_format_web'])) $sql_set[] = "backup_format_web = ".$app->functions->intval($params['backup_format_web']);
+				if(isset($params['backup_format_db'])) $sql_set[] = "backup_format_db = ".$app->functions->intval($params['backup_format_db']);
 				$this->updateQueryExecute("UPDATE web_database SET ".implode(', ', $sql_set)." WHERE database_id = ".$primary_id, $primary_id, $params);
 			}
 			

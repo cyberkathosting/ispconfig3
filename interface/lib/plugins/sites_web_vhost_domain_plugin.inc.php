@@ -249,18 +249,22 @@ class sites_web_vhost_domain_plugin {
 				}
 
 				//* Change database backup options when web backup options have been changed
-				if(isset($page_form->dataRecord['backup_interval']) && ($page_form->dataRecord['backup_interval'] != $page_form->oldDataRecord['backup_interval'] || $page_form->dataRecord['backup_copies'] != $page_form->oldDataRecord['backup_copies'])) {
+				if(isset($page_form->dataRecord['backup_interval']) && ($page_form->dataRecord['backup_interval'] != $page_form->oldDataRecord['backup_interval'] || $page_form->dataRecord['backup_copies'] != $page_form->oldDataRecord['backup_copies'] || $page_form->dataRecord['backup_format_web'] != $page_form->oldDataRecord['backup_format_web'] || $page_form->dataRecord['backup_format_db'] != $page_form->oldDataRecord['backup_format_db'])) {
 					//* Update all databases
 					$backup_interval = $page_form->dataRecord['backup_interval'];
 					$backup_copies = $app->functions->intval($page_form->dataRecord['backup_copies']);
+					$backup_format_web = $page_form->dataRecord['backup_format_web'];
+					$backup_format_db = $page_form->dataRecord['backup_format_db'];
 					$records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE parent_domain_id = ".$page_form->id);
 					foreach($records as $rec) {
-						$app->db->datalogUpdate('web_database', array("backup_interval" => $backup_interval, "backup_copies" => $backup_copies), 'database_id', $rec['database_id']);
+						$app->db->datalogUpdate('web_database', array("backup_interval" => $backup_interval, "backup_copies" => $backup_copies, "backup_format_web" => $backup_format_web, "backup_format_db" => $backup_format_db), 'database_id', $rec['database_id']);
 					}
 					unset($records);
 					unset($rec);
 					unset($backup_copies);
 					unset($backup_interval);
+                    unset($backup_format_web);
+                    unset($backup_format_db);
 				}
 
 				//* Change vhost subdomain and alias ip/ipv6 if domain ip/ipv6 has changed

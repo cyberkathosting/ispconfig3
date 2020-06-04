@@ -61,7 +61,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 $form['title']   = 'Users';
-$form['description']  = 'Form to edit systemusers.';
+//$form['description']  = 'Form to edit systemusers.';
 $form['name']   = 'users';
 $form['action']  = 'users_edit.php';
 $form['db_table'] = 'sys_user';

@@ -1,11 +1,17 @@
+<h3><tmpl_var name="manual_backup_title_txt"></h3>
+<button class="btn btn-default formbutton-default" type="button" onclick="ISPConfig.confirm_action('sites/web_vhost_domain_edit.php?id={tmpl_var name='parent_id'}&next_tab=backup&make_backup=database&','{tmpl_var name='make_backup_confirm_txt'}');">{tmpl_var name="make_backup_database_txt"}</button>
+<button class="btn btn-default formbutton-default" type="button" onclick="ISPConfig.confirm_action('sites/web_vhost_domain_edit.php?id={tmpl_var name='parent_id'}&next_tab=backup&make_backup=web&','{tmpl_var name='make_backup_confirm_txt'}');">{tmpl_var name="make_backup_web_txt"}</button>
+
 <tmpl_if name="msg">
-    <div id="OKMsg"><p><tmpl_var name="msg"></p></div>
+    <div id="OKMsg" class="tab-content bg-success text-success text-center"><p><tmpl_var name="msg"></p></div>
 </tmpl_if>
 <tmpl_if name="error">
-    <div id="errorMsg"><h3><tmpl_var name="error_txt"></h3><ol><tmpl_var name="error"></ol></div>
+    <div id="errorMsg" class="tab-content bg-danger text-danger text-center">
+        <h4><tmpl_var name="error_txt"></h4>
+        <p><tmpl_var name="error"></p>
+    </div>
 </tmpl_if>
 <h3><tmpl_var name="list_head_txt"></h3>
-
 
         <p class="fieldset-legend"><tmpl_var name="list_head_txt"></p>
             <div class="table-wrapper marginTop15">
@@ -14,6 +20,9 @@
                     <tr>
                         <th data-column="date"><tmpl_var name="date_txt"></th>
                         <th data-column="backup_type"><tmpl_var name="backup_type_txt"></th>
+                        <th data-column="backup_format"><tmpl_var name="backup_format_txt"></th>
+                        <th data-column="backup_job"><tmpl_var name="backup_job_txt"></th>
+                        <th data-column="backup_encrypted"><tmpl_var name="backup_is_encrypted_txt"></th>
                         <th data-column="filename"><tmpl_var name="filename_txt"></th>
                         <th data-column="filesize"><tmpl_var name="filesize_txt"></th>
                         <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
@@ -24,6 +33,9 @@
                         <tr>
                             <td>{tmpl_var name="date"}</td>
                             <td>{tmpl_var name="backup_type"}</td>
+                            <td>{tmpl_var name="backup_format"}</td>
+                            <td>{tmpl_var name="backup_job"}</td>
+                            <td>{tmpl_var name="backup_encrypted"}</td>
                             <td>{tmpl_var name="filename"}</td>
                             <td>{tmpl_var name="filesize"}</td>
                             <td class="text-center">
