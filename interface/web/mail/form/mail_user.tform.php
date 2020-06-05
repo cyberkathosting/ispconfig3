@@ -292,6 +292,12 @@ $form["tabs"]['mailuser'] = array(
 			'default' => 'n',
 			'value'  => array(1 => 'y', 0 => 'n')
 		),
+		'disabledeliver' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value'  => array(1 => 'y', 0 => 'n')
+		),
 		'disableimap' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',

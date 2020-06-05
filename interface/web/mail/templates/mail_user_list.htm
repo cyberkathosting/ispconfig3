@@ -38,6 +38,7 @@
                         <th class="tiny-col" data-column="autoresponder"><tmpl_var name="autoresponder_txt"></th>
                         <th class="tiny-col" data-column="postfix"><tmpl_var name="postfix_txt"></th>
                         <th class="tiny-col" data-column="disablesmtp"><tmpl_var name="disablesmtp_txt"></th>
+                        <th class="tiny-col" data-column="disabledeliver"><tmpl_var name="disabledeliver_txt"></th>
                         <th class="tiny-col" data-column="disableimap"><tmpl_var name="disableimap_txt"></th>
                         <th class="tiny-col" data-column="disablepop3"><tmpl_var name="disablepop3_txt"></th>
                         <th class="small-col text-right">{tmpl_var name='search_limit'}</th>
@@ -49,6 +50,7 @@
                         <td><select class="form-control" name="search_autoresponder">{tmpl_var name='search_autoresponder'}</select></td>
                         <td><select class="form-control" name="search_postfix">{tmpl_var name='search_postfix'}</select></td>
                         <td><select class="form-control" name="search_disablesmtp">{tmpl_var name='search_disablesmtp'}</select></td>
+                        <td><select class="form-control" name="search_disabledeliver">{tmpl_var name='search_disabledeliver'}</select></td>
                         <td><select class="form-control" name="search_disableimap">{tmpl_var name='search_disableimap'}</select></td>
                         <td><select class="form-control" name="search_disablepop3">{tmpl_var name='search_disablepop3'}</select></td>
                         <td class="text-right">
@@ -69,6 +71,7 @@
                         <td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="autoresponder"}</a></td>
                         <td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="postfix"}</a></td>
                         <td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="disablesmtp"}</a></td>
+                        <td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="disabledeliver"}</a></td>
                         <td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="disableimap"}</a></td>
                         <td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="disablepop3"}</a></td>
                         <td class="text-right">
