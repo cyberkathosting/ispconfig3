@@ -2,4 +2,10 @@ user = {mysql_server_ispconfig_user}
 password = {mysql_server_ispconfig_password}
 dbname = {mysql_server_database}
 hosts = {mysql_server_ip}
-query = select sender_cc from mail_user where email = '%s' and postfix = 'y' and disabledeliver = 'n' and disablesmtp = 'n' and sender_cc != ''
+query = SELECT sender_cc FROM mail_user WHERE email = '%s' AND disablesmtp = 'n' AND sender_cc != '' AND server_id = {server_id}
+        UNION
+        SELECT u.sender_cc
+          FROM mail_user u, mail_forwarding f
+         WHERE f.destination REGEXP CONCAT( '(^|\\n)[[:blank:]]*,?[[:blank:]]*', u.email, '[[:blank:]]*,?[[:blank:]]*(\\r?\\n|$)' )
+           AND u.disablesmtp = 'n' AND u.sender_cc != '' AND u.server_id = {server_id}
+           AND f.source = '%s' AND f.active = 'y' AND f.allow_send_as = 'y' AND f.server_id = {server_id}
