@@ -7,5 +7,6 @@ $wb['ns_txt'] = 'NS';
 $wb['mbox_txt'] = 'Courriel';
 $wb['add_new_record_wizard_txt'] = 'Assistant de création de zone';
 $wb['add_new_record_txt'] = 'Création manuel de zone';
+$wb['import_zone_file_txt'] = 'Import Zone File';
 $wb['sys_groupid_txt'] = 'Client';
 ?>
