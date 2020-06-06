@@ -1,4 +1,5 @@
 <?php
+$wb['server_config'] = 'Server Config';
 $wb['jailkit_chroot_home_txt'] = 'Home chroot Jailkit';
 $wb['jailkit_chroot_app_sections_txt'] = 'Bagian app chroot';
 $wb['jailkit_chroot_app_programs_txt'] = 'Jailkit aplikasi yang ter-chroot';
