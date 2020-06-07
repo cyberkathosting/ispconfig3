@@ -96,6 +96,8 @@ directories = /etc/joe, /etc/terminfo, /usr/share/vim, /usr/share/terminfo, /lib
 comment = several internet utilities like wget, ftp, rsync, scp, ssh
 executables = /usr/bin/wget, /usr/bin/lynx, /usr/bin/ftp, /usr/bin/host, /usr/bin/rsync, /usr/bin/smbclient
 includesections = netbasics, ssh, sftp, scp
+directories = /etc/ssl/certs/
+regularfiles = /usr/lib/ssl/certs
 
 [apacheutils]
 comment = htpasswd utility

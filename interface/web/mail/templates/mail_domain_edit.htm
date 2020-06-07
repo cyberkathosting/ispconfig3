@@ -1,11 +1,4 @@
-<div class='page-header'>
-	<h1><tmpl_var name="list_head_txt"></h1>
-</div>
-<p><tmpl_var name="list_desc_txt"></p>
-
-
-        
-            <tmpl_if name="is_admin">
+                 <tmpl_if name="is_admin">
                 <div class="form-group">
                     <tmpl_if name="edit_disabled">
                         <label for="server_id_disabled" class="col-sm-3 control-label">{tmpl_var name='server_id_txt'}</label>

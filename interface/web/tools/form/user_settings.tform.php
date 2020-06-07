@@ -61,7 +61,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 $form['title']    = 'User Settings';
-$form['description']  = 'Form to edit the user password and language.';
+//*$form['description']  = 'Form to edit the user password and language.';
 $form['name']    = 'usersettings';
 $form['action']   = 'user_settings.php';
 $form['db_table']  = 'sys_user';

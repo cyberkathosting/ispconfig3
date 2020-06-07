@@ -8,6 +8,7 @@ $wb['pw_reset'] = 'Das Passwort wurde zurückgesetzt und wird per E-Mail an Sie 
 $wb['pw_reset_act'] = 'Ein Aktivierungslink wurde per E-Mail an Sie geschickt. Bitte bestätigen Sie die Anforderung eines neuen Passwortes.';
 $wb['pw_error'] = 'Benutzername oder E-Mail Adresse stimmen nicht überein.';
 $wb['pw_error_noinput'] = 'Bitte geben Sie Ihre E-Mail Adresse und Ihren Benutzernamen ein.';
+$wb['pw_reset_error_smtp_connection'] = 'There was a connection problem when trying to send an email pertaining to your password reset request.';
 $wb['pw_reset_mail_msg'] = 'Das Passwort wurde zurückgesetzt. Das neue Passwort lautet: ';
 $wb['pw_reset_mail_title'] = 'Ihr Passwort wurde zurückgesetzt';
 $wb['pw_reset_act_mail_msg'] = 'Bitte bestätigen Sie die Anforderung eines neuen Passworts, indem Sie folgenden Link besuchen: ';

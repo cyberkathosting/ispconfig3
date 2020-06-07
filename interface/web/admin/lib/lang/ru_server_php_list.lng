@@ -5,4 +5,5 @@ $wb['add_new_record_txt'] = 'Добавить новую версию PHP';
 $wb['client_id_txt'] = 'ID Клиента';
 $wb['name_txt'] = 'Имя PHP';
 $wb['active_txt'] = 'Active';
+$wb['usage_txt'] = 'Usage count';
 ?>

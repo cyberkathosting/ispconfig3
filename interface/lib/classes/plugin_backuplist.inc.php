@@ -37,6 +37,34 @@ class plugin_backuplist extends plugin_base {
 	var $formdef;
 	var $options;
 
+	/**
+	 * Process request to make a backup. This request is triggered manually by the user in the ISPConfig interface.
+	 * @param string $message
+	 * @param string $error
+	 * @param string[] $wb language text
+	 * @author Ramil Valitov <ramilvalitov@gmail.com>
+	 * @uses backup_plugin::make_backup_callback() this method is called later in the plugin to run the backup
+	 */
+	protected function makeBackup(&$message, &$error, $wb)
+	{
+		global $app;
+
+		$mode = $_GET['make_backup'];
+		$action_type = ($mode == 'web') ? 'backup_web_files' : 'backup_database';
+		$domain_id = intval($this->form->id);
+
+		$sql = "SELECT count(action_id) as number FROM sys_remoteaction WHERE action_state = 'pending' AND action_type = ? AND action_param = ?";
+		$tmp = $app->db->queryOneRecord($sql, $action_type, $domain_id);
+		if ($tmp['number'] == 0) {
+			$server_id = $this->form->dataRecord['server_id'];
+			$message .= $wb['backup_info_txt'];
+			$sql = "INSERT INTO sys_remoteaction (server_id, tstamp, action_type, action_param, action_state, response) VALUES (?, UNIX_TIMESTAMP(), ?, ?, 'pending', '')";
+			$app->db->query($sql, $server_id, $action_type, $domain_id);
+		} else {
+			$error .= $wb['backup_pending_txt'];
+		}
+	}
+
 	function onShow() {
 
 		global $app;
@@ -51,6 +79,10 @@ class plugin_backuplist extends plugin_base {
 
 		$message = '';
 		$error = '';
+
+		if (isset($_GET['make_backup'])) {
+			$this->makeBackup($message, $error, $wb);
+		}
 
 		if(isset($_GET['backup_action'])) {
 			$backup_id = $app->functions->intval($_GET['backup_id']);
@@ -137,7 +169,30 @@ class plugin_backuplist extends plugin_base {
 				$rec["bgcolor"] = $bgcolor;
 
 				$rec['date'] = date($app->lng('conf_format_datetime'), $rec['tstamp']);
-				$rec['backup_type'] = $wb[('backup_type_'.$rec['backup_type'])];
+				$backup_format = $rec['backup_format'];
+				if (empty($backup_format)) {
+					//We have a backup from old version of ISPConfig
+					switch ($rec['backup_type']) {
+						case 'mysql':
+							$backup_format = 'gzip';
+							break;
+						case 'web':
+							$backup_format = ($rec['backup_mode'] == 'userzip') ? 'zip' : 'tar_gzip';
+							break;
+						default:
+							$app->log('Unsupported backup type "' . $rec['backup_type'] . '" for backup id ' . $rec['backup_id'], LOGLEVEL_ERROR);
+							break;
+					}
+				}
+				$rec['backup_type'] = $wb[('backup_type_' . $rec['backup_type'])];
+				$backup_format = (!empty($backup_format)) ? $wb[('backup_format_' . $backup_format . '_txt')] : $wb["backup_format_unknown_txt"];
+				if (empty($backup_format))
+					$backup_format = $wb["backup_format_unknown_txt"];
+
+				$rec['backup_format'] = $backup_format;
+				$rec['backup_encrypted'] = empty($rec['backup_password']) ? $wb["no_txt"] : $wb["yes_txt"];
+				$backup_manual_prefix = 'manual-';
+				$rec['backup_job'] = (substr($rec['filename'], 0, strlen($backup_manual_prefix)) == $backup_manual_prefix) ? $wb["backup_job_manual_txt"] : $wb["backup_job_auto_txt"];
 				
 				$rec['download_available'] = true;
 				if($rec['server_id'] != $web['server_id']) $rec['download_available'] = false;

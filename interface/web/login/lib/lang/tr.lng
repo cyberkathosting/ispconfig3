@@ -8,6 +8,7 @@ $wb['pw_reset'] = 'Parolanız sıfırlandı ve e-posta adresinize gönderildi.';
 $wb['pw_reset_act'] = 'Size bir etkinleştirme bağlantısı gönderildi. Parola isteğinizi onaylamak için bağlantıya tıklayın.';
 $wb['pw_error'] = 'Kullanıcı adı ya da e-posta adresiniz doğru değil.';
 $wb['pw_error_noinput'] = 'Lütfen e-posta adresinizi ya da kullanıcı adınızı yazın.';
+$wb['pw_reset_error_smtp_connection'] = 'There was a connection problem when trying to send an email pertaining to your password reset request.';
 $wb['pw_reset_mail_msg'] = 'ISPConfig 3 Kontrol Paneli parolanız sıfırlandı. Yeni parolanız: ';
 $wb['pw_reset_mail_title'] = 'ISPConfig 3 Kontrol Paneli parolanız sıfırlandı';
 $wb['pw_reset_act_mail_title'] = 'ISPConfig 3 Control Panel parola sıfırlama isteğini onaylayın';

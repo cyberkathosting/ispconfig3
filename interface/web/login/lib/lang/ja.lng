@@ -7,6 +7,7 @@ $wb['pass_reset_txt'] = '新しいパスワードをメールで送りました�
 $wb['pw_reset'] = 'パスワードをリセットしました。新しいパスワードをメールで送信したのでメールボックスを確認してください。';
 $wb['pw_error'] = 'ユーザー名またはメールアドレスが一致しません。';
 $wb['pw_error_noinput'] = 'メールアドレスとユーザー名を入力してください。';
+$wb['pw_reset_error_smtp_connection'] = 'There was a connection problem when trying to send an email pertaining to your password reset request.';
 $wb['pw_reset_mail_msg'] = 'ISPConfig 3 のコントロールパネルのパスワードをリセットしました。新しいパスワードは次の通りです：';
 $wb['pw_reset_mail_title'] = 'ISPConfig3 のコントロールパネルのパスワードをリセットしました。';
 $wb['user_regex_error'] = 'ユーザー名に不正な文字が含まれているか、または64文字を超えています。';

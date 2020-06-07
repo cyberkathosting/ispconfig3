@@ -340,6 +340,8 @@ class ApsGUIController extends ApsBase
 								 "remote_access" => $mysql_db_remote_access,
 								 "remote_ips" => $mysql_db_remote_ips,
 								 "backup_copies" => $websrv['backup_copies'],
+								 "backup_format_web" => $websrv['backup_format_web'],
+								 "backup_format_db" => $websrv['backup_format_db'],
 								 "active" => 'y', 
 								 "backup_interval" => $websrv['backup_interval']
 								 );

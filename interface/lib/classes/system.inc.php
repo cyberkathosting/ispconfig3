@@ -97,5 +97,17 @@ class system {
 		call_user_func_array(array($this, 'exec_safe'), func_get_args());
 		return implode("\n", $this->_last_exec_out);
 	}	
+
+    //* Check if a application is installed
+    public function is_installed($appname) {
+        $this->exec_safe('which ? 2> /dev/null', $appname);
+        $out = $this->last_exec_out();
+        $returncode = $this->last_exec_retcode();
+        if(isset($out[0]) && stristr($out[0], $appname) && $returncode == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 	
 } //* End Class

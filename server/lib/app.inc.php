@@ -36,6 +36,10 @@ class app {
 	var $loaded_modules = array();
 	var $loaded_plugins = array();
 	var $_calling_script = '';
+	/**
+	 * @var db
+	 */
+	public $db;
 
 	function __construct() {
 
