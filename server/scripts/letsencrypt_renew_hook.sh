@@ -17,14 +17,15 @@ lelive=/etc/letsencrypt/live/$(hostname -f); if [ -d "$lelive" ]; then
     pureftpdpem=/etc/ssl/private/pure-ftpd.pem; if [ -e "$pureftpdpem" ]; then chmod 600 $pureftpdpem; fi
     # For Red Hat, Centos or derivatives
     if which yum &> /dev/null 2>&1 ; then
-        if [ rpm -q pure-ftpd-mysql ]; then service pure-ftpd-mysql restart; fi
+        if [ rpm -q pure-ftpd ]; then service pure-ftpd restart; fi
         if [ rpm -q monit ]; then service monit restart; fi
         if [ rpm -q postfix ]; then service postfix restart; fi
-        if [ rpm -q dovecot-imapd ]; then service dovecot restart; fi
-        if [ rpm -q mysql ]; then service mysql restart; fi
-        if [ rpm -q mariadb ]; then service mysql restart; fi
+        if [ rpm -q dovecot ]; then service dovecot restart; fi
+        if [ rpm -q mysql-server ]; then service mysqld restart; fi
+        if [ rpm -q mariadb-server ]; then service mariadb restart; fi
+        if [ rpm -q MariaDB-server ]; then service mysql restart; fi
         if [ rpm -q nginx ]; then service nginx restart; fi
-        if [ rpm -q apache2 ]; then service apache2 restart; fi
+        if [ rpm -q httpd ]; then service httpd restart; fi
     # For Debian, Ubuntu or derivatives
     elif apt-get -v >/dev/null 2>&1 ; then
         if [ $(dpkg-query -W -f='${Status}' pure-ftpd-mysql 2>/dev/null | grep -c "ok installed") -eq 1 ]; then service pure-ftpd-mysql restart; fi
