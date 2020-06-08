@@ -2083,12 +2083,12 @@ class installer_base {
 			
 			// This script is needed earlier to check and open http port 80 or standalone might fail
 			// Make executable and temporary symlink latest letsencrypt pre, post and renew hook script before install
-			if (file_exists('/tmp/ispconfig3_install/server/scripts/letsencrypt_pre_hook.sh'))
-				symlink('/tmp/ispconfig3_install/server/scripts/letsencrypt_pre_hook.sh', '/usr/local/bin/letsencrypt_pre_hook.sh');
-			if (file_exists('/tmp/ispconfig3_install/server/scripts/letsencrypt_post_hook.sh'))
-				symlink('/tmp/ispconfig3_install/server/scripts/letsencrypt_post_hook.sh', '/usr/local/bin/letsencrypt_post_hook.sh');
-			if (file_exists('/tmp/ispconfig3_install/server/scripts/letsencrypt_renew_hook.sh'))
-				symlink('/tmp/ispconfig3_install/server/scripts/letsencrypt_renew_hook.sh', '/usr/local/bin/letsencrypt_renew_hook.sh');
+			if (file_exists(dirname(getcwd()) . '/server/scripts/letsencrypt_pre_hook.sh'))
+				symlink(dirname(getcwd()) . '/server/scripts/letsencrypt_pre_hook.sh', '/usr/local/bin/letsencrypt_pre_hook.sh');
+			if (file_exists(dirname(getcwd()) . '/server/scripts/letsencrypt_post_hook.sh'))
+				symlink(dirname(getcwd()) . '/server/scripts/letsencrypt_post_hook.sh', '/usr/local/bin/letsencrypt_post_hook.sh');
+			if (file_exists(dirname(getcwd()) . '/server/scripts/letsencrypt_renew_hook.sh'))
+				symlink(dirname(getcwd()) . '/server/scripts/letsencrypt_renew_hook.sh', '/usr/local/bin/letsencrypt_renew_hook.sh');
 			chown('/usr/local/bin/letsencrypt_pre_hook.sh', 'root');
 			chown('/usr/local/bin/letsencrypt_post_hook.sh', 'root');
 			chown('/usr/local/bin/letsencrypt_renew_hook.sh', 'root');
