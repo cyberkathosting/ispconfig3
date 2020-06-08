@@ -45,7 +45,7 @@ if(is_array($modules)) {
 	}
 }
 
-$form["title"]    = "Remote user";
+$form["title"]    = "remote_user_txt";
 $form["description"]  = "";
 $form["name"]    = "remote_user";
 $form["action"]   = "remote_user_edit.php";
@@ -63,7 +63,7 @@ $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update,
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
 $form["tabs"]['remote_user'] = array (
-	'title'  => "Remote User",
+	'title'  => "remote_user_txt",
 	'width'  => 100,
 	'template'  => "templates/remote_user_edit.htm",
 	'fields'  => array (

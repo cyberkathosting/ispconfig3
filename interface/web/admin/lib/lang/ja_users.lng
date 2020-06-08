@@ -1,4 +1,5 @@
 <?php
+$wb['users_txt'] = 'Users';
 $wb['username_txt'] = 'ユーザー名';
 $wb['username_err'] = 'ユーザー名が長すぎるか、または不正な文字を含んでいます。';
 $wb['username_empty'] = 'ユーザー名を入力してください。';

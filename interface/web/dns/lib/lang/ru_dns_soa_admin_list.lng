@@ -7,5 +7,6 @@ $wb['ns_txt'] = 'NS';
 $wb['mbox_txt'] = 'Адрес эл. почты';
 $wb['add_new_record_wizard_txt'] = 'Добавить новую DNS-зону с помощью мастера';
 $wb['add_new_record_txt'] = 'Добавить новую DNS-зону вручную';
+$wb['import_zone_file_txt'] = 'Импорт файла зоны';
 $wb['sys_groupid_txt'] = 'Клиент';
 ?>

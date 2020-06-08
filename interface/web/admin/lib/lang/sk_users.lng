@@ -1,4 +1,5 @@
 <?php
+$wb['users_txt'] = 'Users';
 $wb['username_txt'] = 'Užívateľské meno';
 $wb['username_err'] = 'Užívateľské meno je príliš dlhá alebo obsahuje neplatné znaky.';
 $wb['username_empty'] = 'Užívateľské meno je prázdne.';
