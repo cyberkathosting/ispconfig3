@@ -60,7 +60,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-$form['title']   = 'Users';
+$form['title']   = 'users_txt';
 //$form['description']  = 'Form to edit systemusers.';
 $form['name']   = 'users';
 $form['action']  = 'users_edit.php';
@@ -129,7 +129,7 @@ if(is_array($tmp_records)) {
 }
 
 $form['tabs']['users'] = array (
-	'title'  => 'Users',
+	'title'  => 'users_txt',
 	'width'  => 80,
 	'template'  => 'templates/users_user_edit.htm',
 	'fields'  => array (

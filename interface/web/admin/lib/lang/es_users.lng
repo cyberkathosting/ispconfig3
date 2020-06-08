@@ -1,4 +1,5 @@
 <?php
+$wb['users_txt'] = 'Users';
 $wb['active_txt'] = 'Habilitado';
 $wb['app_theme_txt'] = 'Diseño';
 $wb['client_not_admin_err'] = 'Un usuario que pertenece a un cliente no puede ser del tipo: admin';

@@ -1,4 +1,5 @@
 <?php
+$wb['users_txt'] = 'Users';
 $wb['username_txt'] = 'Nome utente';
 $wb['username_err'] = 'Nome utente troppo lungo o avente caratteri non validi.';
 $wb['username_empty'] = 'Nome utente mancante.';

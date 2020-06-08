@@ -7,5 +7,6 @@ $wb['ns_txt'] = 'Ad Sunucusu';
 $wb['mbox_txt'] = 'E-posta';
 $wb['add_new_record_wizard_txt'] = 'Yardımcı ile DNS Bölgesi Ekle';
 $wb['add_new_record_txt'] = 'El ile DNS Bölgesi Ekle';
+$wb['import_zone_file_txt'] = 'Bölge Dosyasını İçe Aktar';
 $wb['sys_groupid_txt'] = 'Müşteri';
 ?>
