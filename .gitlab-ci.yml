@@ -1,6 +1,7 @@
 # Defines stages which are to be executed
 stages:
   - syntax
+  - syntax_diff
 
 #
 ### Stage syntax
@@ -13,10 +14,38 @@ syntax:lint:
   only:
     - schedules
     - web
+    - merge_requests
 
   script:
-    - composer require overtrue/phplint
     - echo "Syntax checking PHP files"
-    - echo "For more information http://www.icosaedro.it/phplint/"
-    - vendor/bin/phplint
+    - bash ./.git-scripts/syntax.sh
+
+
+syntax_diff:lint:
+  stage: syntax
+  image: edbizarro/gitlab-ci-pipeline-php:7.2
+  allow_failure: false
+  only:
+    - web
+    - pushes
+    - branches
+
+  script:
+    - echo "Syntax checking PHP files"
+    - bash ./.git-scripts/syntax.sh commit
+
+#syntax:lint:
+#  stage: syntax
+#  image: edbizarro/gitlab-ci-pipeline-php:7.2
+#  allow_failure: false
+#  only:
+#    - schedules
+#    - web
+#    - merge_requests
+#
+#  script:
+#    - composer require overtrue/phplint
+#    - echo "Syntax checking PHP files"
+#    - echo "For more information http://www.icosaedro.it/phplint/"
+#    - vendor/bin/phplint
 

@@ -1,4 +1,5 @@
 <?php
+$wb['users_txt'] = 'Users';
 $wb['username_txt'] = 'Nazwa użytkownika';
 $wb['username_err'] = 'Nazwa użytkownika jest za długa lub zawiera niedozwolone znaki.';
 $wb['username_empty'] = 'Nazwa użytkownika jest pusta.';

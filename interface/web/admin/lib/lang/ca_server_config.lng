@@ -1,4 +1,5 @@
 <?php
+$wb['server_config'] = 'Server Config';
 $wb['ufw_enable_txt'] = 'Enable';
 $wb['ufw_manage_builtins_txt'] = 'Manage Builtin Rules';
 $wb['ufw_ipv6_txt'] = 'Enable IPv6';

@@ -7,5 +7,6 @@ $wb["ns_txt"] = 'NS';
 $wb["mbox_txt"] = 'Email';
 $wb["add_new_record_wizard_txt"] = 'Add new DNS Zone with Wizard';
 $wb["add_new_record_txt"] = 'Add new DNS Zone manually';
+$wb['import_zone_file_txt'] = 'Import Zone File';
 $wb["sys_groupid_txt"] = 'Client';
 ?>
