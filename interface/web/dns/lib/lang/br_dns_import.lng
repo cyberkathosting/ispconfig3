@@ -13,4 +13,13 @@ $wb['title'] = 'Importar arquivo de zona';
 $wb['no_file_uploaded_error'] = 'Nenhum arquivo de zona dns foi carregado.';
 $wb['error_no_server_id'] = 'Nenhum servidor foi informado.';
 $wb['error_not_allowed_server_id'] = 'O servidor selecionado não é permitido nesta conta.';
+$wb['zone_already_exists'] = 'This zone already exists, you must delete or rename it first.';
+$wb['zone_not_allowed'] = 'This zone is not allowed for this account.';
+$wb['zone_file_missing_soa'] = 'The zone file must contain a SOA record.';
+$wb['zone_file_multiple_soa'] = 'The zone file cannot contain multiple SOA records.';
+$wb['zone_file_soa_parser'] = 'The SOA record in this zone file could not be processed.  Ensure SERIAL, REFRESH, RETRY, EXPIRE and MINIMUM are each on a separate line from other data.';
+$wb['ignore_record_not_class_in'] = 'Ignoring DNS record, not class IN.';
+$wb['ignore_record_unknown_type'] = 'Ignoring DNS record, unknown type.';
+$wb['ignore_record_invalid_owner'] = 'Ignoring DNS record, not able to validate owner name.';
+$wb['zone_file_import_fail'] = 'The zone file did not import.';
 ?>

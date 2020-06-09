@@ -1,0 +1,46 @@
+<div class='page-header'>
+	<h1><tmpl_var name="list_head_txt"></h1>
+</div>
+<p><tmpl_var name="list_desc_txt"></p>
+
+
+            <div class="form-group">
+                <label for="name" class="col-sm-3 control-label">{tmpl_var name='name_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="name" id="name" value="{tmpl_var name='name'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="order" class="col-sm-3 control-label">{tmpl_var name='order_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="order" id="order" value="{tmpl_var name='aux'}" class="form-control" placeholder="100" /></div></div>
+            <div class="form-group">
+                <label for="pref" class="col-sm-3 control-label">{tmpl_var name='pref_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="pref" id="pref" value="{tmpl_var name='pref'}" class="form-control" placeholder="100" /></div></div>
+            <div class="form-group">
+                <label for="flags" class="col-sm-3 control-label">{tmpl_var name='flags_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="flags" id="flags" value="{tmpl_var name='flags'}" class="form-control" placeholder="s" /></div></div>
+            <div class="form-group">
+                <label for="service" class="col-sm-3 control-label">{tmpl_var name='service_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="service" id="service" value="{tmpl_var name='service'}" class="form-control" placeholder="http+I2R" /></div></div>
+            <div class="form-group">
+                <label for="regexp" class="col-sm-3 control-label">{tmpl_var name='regexp_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="regexp" id="regexp" value="{tmpl_var name='regexp'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="replacement" class="col-sm-3 control-label">{tmpl_var name='replacement_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="replacement" id="replacement" value="{tmpl_var name='replacement'}" class="form-control" placeholder="_http._tcp.foo.com." /></div></div>
+            <div class="form-group">
+                <label for="ttl" class="col-sm-3 control-label">{tmpl_var name='ttl_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="ttl" id="ttl" value="{tmpl_var name='ttl'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{tmpl_var name='active_txt'}</label>
+                <div class="col-sm-9">
+                    {tmpl_var name='active'}
+                </div>
+            </div>
+
+
+	<input type="hidden" name="id" value="{tmpl_var name='id'}">
+	<input type="hidden" name="zone" value="{tmpl_var name='zone'}">
+	<input type="hidden" name="type" value="{tmpl_var name='type'}">
+
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="dns/dns_naptr_edit.php">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="dns/dns_soa_edit.php?id={tmpl_var name='zone'}">{tmpl_var name='btn_cancel_txt'}</button>
+        </div></div>

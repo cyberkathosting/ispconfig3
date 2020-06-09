@@ -34,8 +34,9 @@ require_once '../../lib/app.inc.php';
 //* Check permissions for module
 $app->auth->check_module_permissions('dns');
 
-$msg = '';
-$error = '';
+$msg = [];
+$warn = [];
+$error = [];
 
 // Loading the template
 $app->uses('tform,tpl,validate_dns');
@@ -208,6 +209,40 @@ $lng_file = 'lib/lang/'.$app->functions->check_language($_SESSION['s']['language
 include $lng_file;
 $app->tpl->setVar($wb);
 
+/** Returns shortest name for an owner with giving $origin in effect */
+function origin_name( $owner, $origin ) {
+	if ($owner == "@") { return ''; }
+	if ($owner == "*") { return $owner; }
+	if ($owner == "") { return $origin; }
+	if ($origin == "") { return $owner; }
+	if (substr($owner, -1) == ".") {
+		if (substr($origin, -1) == ".") {
+			return substr_replace( $owner, '', 0 - (strlen($origin) + 1) );
+		} else {
+			return $owner;
+		}
+	}
+	if ($origin == ".") {
+		return "${owner}.";
+	}
+	if (substr($origin, -1) != ".") {
+		// should be an erorr,
+		// only "." terminated $origin can be handled determinately
+		return "${owner}.${origin}";
+	}
+	return $owner;
+
+}
+
+/** Returns full name for an owner with given $origin in effect */
+function fqdn_name( $owner, $origin ) {
+	if (substr($owner, -1) == ".") {
+		return $owner;
+	}
+	$name = origin_name( $owner, $origin );
+	return $name . (strlen($name) > 0 ? "." : "") . $origin;
+}
+
 // Import the zone-file
 //if(1=="1")
 if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'])){
@@ -227,26 +262,34 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 	// Remove empty lines, comments, whitespace, tabs, etc.
 	$new_lines = array();
 	foreach($lines as $line){
-		$line = trim($line);
+		$line = rtrim($line);
+		$line = preg_replace('/^\s+/', ' ', $line);
 		if ($line != '' && substr($line, 0, 1) != ';'){
-			if(strpos($line, ";") !== FALSE) {
-				if(!preg_match("/\"[^\"]+;[^\"]*\"/", $line)) {
-					$line = substr($line, 0, strpos($line, ";"));
+			if(preg_match("/\sNAPTR\s/i", $line)) {
+				// NAPTR contains regex strings, there's not much we can safely clean up.
+				// remove a comment if found after the ending period (and comment doesn't contain period)
+				$line = preg_replace( '/^(.+\.)(\s*;[^\.]*)$/', '\1', $line );
+			} else {
+				if(strpos($line, ";") !== FALSE) {
+					if(!preg_match("/\"[^\"]+;[^\"]*\"/", $line)) {
+						$line = substr($line, 0, strpos($line, ";"));
+					}
 				}
-			}
-			if(strpos($line, "(") !== FALSE ) {
-				if (!preg_match("/v=DKIM/",$line)) {
-					$line = substr($line, 0, strpos($line, "("));
+				if(strpos($line, "(") !== FALSE ) {
+					if (!preg_match("/v=DKIM/",$line)) {
+						$line = substr($line, 0, strpos($line, "("));
+					}
 				}
-			}
-			if(strpos($line, ")") !== FALSE ) {
-				if (!preg_match("/v=DKIM/",$line)) {
-					$line = substr($line, 0, strpos($line, ")"));
+				if(strpos($line, ")") !== FALSE ) {
+					if (!preg_match("/v=DKIM/",$line)) {
+						$line = substr($line, 0, strpos($line, ")"));
+					}
 				}
 			}
 			
-			$line = trim($line);
+			$line = rtrim($line);
 			if ($line != ''){
+				// this of course breaks TXT when it includes whitespace
 				$sPattern = '/\s+/m';
 				$sReplace = ' ';
 				$new_lines[] = preg_replace($sPattern, $sReplace, $line);
@@ -257,28 +300,41 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 	$lines = $new_lines;
 	unset($new_lines);
 
-	//$lines = file("apriqot.se.txt");
-	$name = str_replace("txt", "", $_FILES['file']['name']);
-	$name = str_replace("zone", "", $name);
-
 	if ($domain !== NULL){
-		$name = $domain;
-	}
-
-	if (substr($name, -1) != "."){
-		$name .= ".";
+		// SOA name will be the specified domain
+		$name = origin_name( $domain, '.' );
+	} else {
+		// SOA name will be read from SOA record
+		$name = '.';
 	}
 
 	$i = 0;
-	$origin_exists = FALSE;
+	$ttl = 3600;
+	$soa_ttl = '86400';
 	$soa_array_key = -1;
 	$soa = array();
 	$soa['name'] = $name;
+	$origin = $name;
+	$owner = $name;
 	$r = 0;
 	$dns_rr = array();
+	$add_default_ns = TRUE;
+	$found_soa = FALSE;
 	foreach($lines as $line){
 
 		$parts = explode(' ', $line);
+
+		// leading whitespace means same owner as previous record
+		if ($parts[0] == '') {
+			// SOA is (only) read from multiple lines
+			if($i > ($soa_array_key) && $i <= ($soa_array_key + 5)) {
+				array_shift($parts);
+			} else {
+				$parts[0] = $owner;
+			}
+		} elseif (strpos( $parts[0], '$' ) !== 0) {
+			$owner = fqdn_name( $parts[0], $origin );
+		}
 
 		// make elements lowercase
 		$new_parts = array();
@@ -297,46 +353,75 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 		$parts = $new_parts;
 		unset($new_parts);
 
-		// if ORIGIN exists, overwrite $soa['name']
+		// Set current $ORIGIN (note: value in file can be a name relative to current origin)
 		if($parts[0] == '$origin'){
-			$soa['name'] = $parts[1];
-			$origin_exists = TRUE;
+			$origin = fqdn_name( $parts[1], $origin );
 		}
 		// TTL
 		if($parts[0] == '$ttl'){
 			$time_format = strtolower(substr($parts[1], -1));
 			switch ($time_format) {
 			case 's':
-				$soa['ttl'] = $app->functions->intval(substr($parts[1], 0, -1));
+				$ttl = $app->functions->intval(substr($parts[1], 0, -1));
 				break;
 			case 'm':
-				$soa['ttl'] = $app->functions->intval(substr($parts[1], 0, -1)) * 60;
+				$ttl = $app->functions->intval(substr($parts[1], 0, -1)) * 60;
 				break;
 			case 'h':
-				$soa['ttl'] = $app->functions->intval(substr($parts[1], 0, -1)) * 3600;
+				$ttl = $app->functions->intval(substr($parts[1], 0, -1)) * 3600;
 				break;
 			case 'd':
-				$soa['ttl'] = $app->functions->intval(substr($parts[1], 0, -1)) * 86400;
+				$ttl = $app->functions->intval(substr($parts[1], 0, -1)) * 86400;
 				break;
 			case 'w':
-				$soa['ttl'] = $app->functions->intval(substr($parts[1], 0, -1)) * 604800;
+				$ttl = $app->functions->intval(substr($parts[1], 0, -1)) * 604800;
 				break;
 			default:
-				$soa['ttl'] = $app->functions->intval($parts[1]);
+				$ttl = $app->functions->intval($parts[1]);
 			}
+			$soa_ttl = $ttl;
 			unset($time_format);
 		}
 		// SOA
 		if(in_array("soa", $parts)){
-			$soa['mbox'] = array_pop($parts);
-			//$soa['ns'] = array_pop($parts);
-			$soa['ns'] = $servers[0]['server_name'];
-			// if domain is part of SOA, overwrite $soa['name']
-			if($parts[0] != '@' && $parts[0] != 'in' && $parts[0] != 'soa' && $origin_exists === FALSE){
-				$soa['name'] = $parts[0];
+			// Check for multiple SOA records in file
+			if($found_soa && $soa_array_key != -1){
+				// we could just skip any SOA which doesn't match the domain name,
+				// which would allow concating zone files (sub1.d.tld, sub2.d.tld, d.tld) together for import
+				$error[] = $wb['zone_file_multiple_soa'];
+				$valid_zone_file = FALSE;
+			} else {
+				$soa['mbox'] = array_pop($parts);
+
+				//$soa['ns'] = array_pop($parts);
+				$soa['ns'] = $servers[0]['server_name'];
+
+				// $parts[0] will always be owner name
+				$soa_domain = fqdn_name( $parts[0], $origin );
+
+				if ($domain !== NULL){
+					// domain was given, check that domain and SOA domain share some root
+					if (    ( strpos( $soa_domain, origin_name( $domain, '.' ) ) !== FALSE )
+					     || ( strpos( origin_name( $domain, '.' ), $soa_domain ) !== FALSE ) ) {
+						$valid_zone_file = TRUE;
+					}
+				} else {
+					// domain not given, use domain from SOA
+					if($soa_domain != ".") {
+						$soa['name'] = $soa_domain;
+						$valid_zone_file = TRUE;
+					}
+				}
+
+				if(is_numeric($parts[1])){
+					$soa['ttl'] = $app->functions->intval($parts[1]);
+				} else {
+					$soa['ttl'] = $soa_ttl;
+				}
+
+				$found_soa = TRUE;
+				$soa_array_key = $i;
 			}
-			$soa_array_key = $i;
-			$valid_zone_file = TRUE;
 		}
 		// SERIAL
 		if($i == ($soa_array_key + 1)) $soa['serial'] = $app->functions->intval($parts[0]);
@@ -438,197 +523,120 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 		}
 		// RESOURCE RECORDS
 		if($i > ($soa_array_key + 5)){
-			if(substr($parts[0], -1) == '.' || $parts[0] == '@' || ($parts[0] != 'a' && $parts[0] != 'aaaa' && $parts[0] != 'ns' && $parts[0] != 'cname' && $parts[0] != 'hinfo' && $parts[0] != 'mx' && $parts[0] != 'naptr' && $parts[0] != 'ptr' && $parts[0] != 'rp' && $parts[0] != 'srv' && $parts[0] != 'txt')){
-				if(is_numeric($parts[1])){
-					if($parts[2] == 'in'){
-						$resource_type = $parts[3];
-						$pkey = 3;
-					} else {
-						$resource_type = $parts[2];
-						$pkey = 2;
-					}
-				} else {
-					if($parts[1] == 'in'){
-						$resource_type = $parts[2];
-						$pkey = 2;
-					} else {
-						$resource_type = $parts[1];
-						$pkey = 1;
-					}
-				}
-				$dns_rr[$r]['type'] = $resource_type;
-				if($parts[0] == '@' || $parts[0] == '.'){
-					$dns_rr[$r]['name'] = $soa['name'];
-				} else {
-					$dns_rr[$r]['name'] = $parts[0];
-				}
-				if(is_numeric($parts[1])){
-					$dns_rr[$r]['ttl'] = $app->functions->intval($parts[1]);
-				} else {
-					$dns_rr[$r]['ttl'] = $soa['ttl'];
-				}
-				switch ($resource_type) {
-				case 'mx':
-				case 'srv':
-					$dns_rr[$r]['aux'] = $app->functions->intval($parts[$pkey+1]);
-					$dns_rr[$r]['data'] = implode(' ', array_slice($parts, $pkey+2));
-					break;
-				case 'txt':
-					$dns_rr[$r]['aux'] = 0;
-					$dns_rr[$r]['data'] = implode(' ', array_slice($parts, $pkey+1));
-					if(substr($dns_rr[$r]['data'], 0, 1) == '"') $dns_rr[$r]['data'] = substr($dns_rr[$r]['data'], 1);
-					if(substr($dns_rr[$r]['data'], -1) == '"') $dns_rr[$r]['data'] = substr($dns_rr[$r]['data'], 0, -1);
-					break;
-				default:
-					$dns_rr[$r]['aux'] = 0;
-					$dns_rr[$r]['data'] = implode(' ', array_slice($parts, $pkey+1));
-				}
+
+			$dns_rr[$r]['name'] = fqdn_name( $owner, $soa['name'] );
+			array_shift($parts);  // shift record owner from $parts[0]
+
+			if(is_numeric($parts[0])) {
+				$dns_rr[$r]['ttl'] = $app->functions->intval($parts[0]);
+				array_shift($parts);  // shift ttl from $parts[0]
 			} else {
-				// a 3600 IN A 1.2.3.4
-				if(is_numeric($parts[1]) && $parts[2] == 'in' && ($parts[3] == 'a' || $parts[3] == 'aaaa' || $parts[3] == 'ns'|| $parts[3] == 'cname' || $parts[3] == 'hinfo' || $parts[3] == 'mx' || $parts[3] == 'naptr' || $parts[3] == 'ptr' || $parts[3] == 'rp' || $parts[3] == 'srv' || $parts[3] == 'txt')){
-					$resource_type = $parts[3];
-					$pkey = 3;
-					$dns_rr[$r]['type'] = $resource_type;
-					$dns_rr[$r]['name'] = $parts[0];
-					$dns_rr[$r]['ttl'] = $app->functions->intval($parts[1]);
-					switch ($resource_type) {
-					case 'mx':
-					case 'srv':
-						$dns_rr[$r]['aux'] = $app->functions->intval($parts[$pkey+1]);
-						$dns_rr[$r]['data'] = implode(' ', array_slice($parts, $pkey+2));
-						break;
-					case 'txt':
-						$dns_rr[$r]['aux'] = 0;
-						$dns_rr[$r]['data'] = implode(' ', array_slice($parts, $pkey+1));
-						if(substr($dns_rr[$r]['data'], 0, 1) == '"') $dns_rr[$r]['data'] = substr($dns_rr[$r]['data'], 1);
-						if(substr($dns_rr[$r]['data'], -1) == '"') $dns_rr[$r]['data'] = substr($dns_rr[$r]['data'], 0, -1);
-						break;
-					default:
-						$dns_rr[$r]['aux'] = 0;
-						$dns_rr[$r]['data'] = implode(' ', array_slice($parts, $pkey+1));
-					}
-				}
-				// a IN A 1.2.3.4
-				elseif($parts[1] == 'in' && ($parts[2] == 'a' || $parts[2] == 'aaaa' || $parts[2] == 'ns'|| $parts[2] == 'cname' || $parts[2] == 'hinfo' || $parts[2] == 'mx' || $parts[2] == 'naptr' || $parts[2] == 'ptr' || $parts[2] == 'rp' || $parts[2] == 'srv' || $parts[2] == 'txt')){
-					$resource_type = $parts[2];
-					$pkey = 2;
-					$dns_rr[$r]['type'] = $resource_type;
-					$dns_rr[$r]['name'] = $parts[0];
-					$dns_rr[$r]['ttl'] = $soa['ttl'];
-					switch ($resource_type) {
-					case 'mx':
-					case 'srv':
-						$dns_rr[$r]['aux'] = $app->functions->intval($parts[$pkey+1]);
-						$dns_rr[$r]['data'] = implode(' ', array_slice($parts, $pkey+2));
-						break;
-					case 'txt':
-						$dns_rr[$r]['aux'] = 0;
-						$dns_rr[$r]['data'] = implode(' ', array_slice($parts, $pkey+1));
-						if(substr($dns_rr[$r]['data'], 0, 1) == '"') $dns_rr[$r]['data'] = substr($dns_rr[$r]['data'], 1);
-						if(substr($dns_rr[$r]['data'], -1) == '"') $dns_rr[$r]['data'] = substr($dns_rr[$r]['data'], 0, -1);
-						break;
-					default:
-						$dns_rr[$r]['aux'] = 0;
-						$dns_rr[$r]['data'] = implode(' ', array_slice($parts, $pkey+1));
-					}
-				}
-				// a 3600 A 1.2.3.4
-				elseif(is_numeric($parts[1]) && ($parts[2] == 'a' || $parts[2] == 'aaaa' || $parts[2] == 'ns'|| $parts[2] == 'cname' || $parts[2] == 'hinfo' || $parts[2] == 'mx' || $parts[2] == 'naptr' || $parts[2] == 'ptr' || $parts[2] == 'rp' || $parts[2] == 'srv' || $parts[2] == 'txt')){
-					$resource_type = $parts[2];
-					$pkey = 2;
-					$dns_rr[$r]['type'] = $resource_type;
-					$dns_rr[$r]['name'] = $parts[0];
-					$dns_rr[$r]['ttl'] = $app->functions->intval($parts[1]);
-					switch ($resource_type) {
-					case 'mx':
-					case 'srv':
-						$dns_rr[$r]['aux'] = $app->functions->intval($parts[$pkey+1]);
-						$dns_rr[$r]['data'] = implode(' ', array_slice($parts, $pkey+2));
-						break;
-					case 'txt':
-						$dns_rr[$r]['aux'] = 0;
-						$dns_rr[$r]['data'] = implode(' ', array_slice($parts, $pkey+1));
-						if(substr($dns_rr[$r]['data'], 0, 1) == '"') $dns_rr[$r]['data'] = substr($dns_rr[$r]['data'], 1);
-						if(substr($dns_rr[$r]['data'], -1) == '"') $dns_rr[$r]['data'] = substr($dns_rr[$r]['data'], 0, -1);
-						break;
-					default:
-						$dns_rr[$r]['aux'] = 0;
-						$dns_rr[$r]['data'] = implode(' ', array_slice($parts, $pkey+1));
-					}
-				}
-				// A 1.2.3.4
-				// MX 10 mail
-				// TXT "v=spf1 a mx ptr -all"
-				else {
-					$resource_type = $parts[0];
-					$pkey = 0;
-					$dns_rr[$r]['type'] = $resource_type;
-					$dns_rr[$r]['name'] = $soa['name'];
-					$dns_rr[$r]['ttl'] = $soa['ttl'];
-					switch ($resource_type) {
-					case 'mx':
-					case 'srv':
-						$dns_rr[$r]['aux'] = $app->functions->intval($parts[$pkey+1]);
-						$dns_rr[$r]['data'] = implode(' ', array_slice($parts, $pkey+2));
-						break;
-					case 'txt':
-						$dns_rr[$r]['aux'] = 0;
-						$dns_rr[$r]['data'] = implode(' ', array_slice($parts, $pkey+1));
-						if(substr($dns_rr[$r]['data'], 0, 1) == '"') $dns_rr[$r]['data'] = substr($dns_rr[$r]['data'], 1);
-						if(substr($dns_rr[$r]['data'], -1) == '"') $dns_rr[$r]['data'] = substr($dns_rr[$r]['data'], 0, -1);
-						break;
-					default:
-						$dns_rr[$r]['aux'] = 0;
-						$dns_rr[$r]['data'] = implode(' ', array_slice($parts, $pkey+1));
-					}
-				}
+				$dns_rr[$r]['ttl'] = $ttl;
 			}
-			$dns_rr[$r]['type'] = strtoupper($dns_rr[$r]['type']);
-			if($dns_rr[$r]['type'] == 'NS' && $dns_rr[$r]['name'] == $soa['name']){
+
+			if($parts[0] == 'in'){
+				array_shift($parts);  // shift class from $parts[0]
+			} elseif (in_array( $parts[0], [ 'ch', 'hs', ] )) {
+				$warn[] = $wb['ignore_record_not_class_in'] . "  ($owner " . strtoupper($parts[0]) . ")";
 				unset($dns_rr[$r]);
+				continue;
 			}
-			
-			$valid = true;
+
+			// A 1.2.3.4
+			// MX 10 mail
+			// TXT "v=spf1 a mx ptr -all"
+			$resource_type = array_shift($parts);
+			switch ($resource_type) {
+			case 'mx':
+			case 'srv':
+			case 'naptr':
+				$dns_rr[$r]['aux'] = $app->functions->intval(array_shift($parts));
+				$dns_rr[$r]['data'] = implode(' ', $parts);
+				break;
+			case 'txt':
+				$dns_rr[$r]['aux'] = 0;
+				$dns_rr[$r]['data'] = implode(' ', $parts);
+				$dns_rr[$r]['data'] = preg_replace( [ '/^\"/', '/\"$/' ], '', $dns_rr[$r]['data']);
+				break;
+			default:
+				$dns_rr[$r]['aux'] = 0;
+				$dns_rr[$r]['data'] = implode(' ', $parts);
+			}
+
+			$dns_rr[$r]['type'] = strtoupper($resource_type);
+
+			if($dns_rr[$r]['type'] == 'NS' && fqdn_name( $dns_rr[$r]['name'], $soa['name'] ) == $soa['name']){
+				$add_default_ns = FALSE;
+			}
+
 			$dns_rr[$r]['ttl'] = $app->functions->intval($dns_rr[$r]['ttl']);
 			$dns_rr[$r]['aux'] = $app->functions->intval($dns_rr[$r]['aux']);
-			$dns_rr[$r]['data'] = strip_tags($dns_rr[$r]['data']);
-			if(!preg_match('/^[a-zA-Z0-9\.\-\*]{0,64}$/',$dns_rr[$r]['name'])) $valid == false;
-			if(!in_array(strtoupper($dns_rr[$r]['type']),array('A','AAAA','ALIAS','CNAME','DS','HINFO','LOC','MX','NAPTR','NS','PTR','RP','SRV','TXT','TLSA','DNSKEY'))) $valid == false;
-			if($valid == false) unset($dns_rr[$r]);
+
+			// this really breaks NAPTR .. conceivably TXT, too.
+			// just make sure data is encoded when saved and escaped when displayed/used
+			if(!in_array($dns_rr[$r]['type'],array('NAPTR','TXT',))) {
+				$dns_rr[$r]['data'] = strip_tags($dns_rr[$r]['data']);
+			}
+
+			// regex based on https://stackoverflow.com/questions/3026957/how-to-validate-a-domain-name-using-regex-php
+			// probably should find something better that covers valid syntax, moreso than just valid hostnames
+			if(!preg_match('/^(|@|\*|(?!\-)(?:(\*|(?:[a-zA-Z\d_][a-zA-Z\d\-_]{0,61})?[a-zA-Z\d_])\.){1,126}(?!\d+)[a-zA-Z\d_]{1,63}\.?)$/',$dns_rr[$r]['name'])) {
+				$error[] = $wb['ignore_record_invalid_owner'] . " (" . htmlspecialchars($dns_rr[$r]['name']) . ")";
+				unset( $dns_rr[$r] );
+				continue;
+			}
+
+			if(!in_array($dns_rr[$r]['type'],array('A','AAAA','ALIAS','CNAME','DS','HINFO','LOC','MX','NAPTR','NS','PTR','RP','SRV','TXT','TLSA','DNSKEY'))) {
+				$error[] = $wb['ignore_record_unknown_type'] . " (" . htmlspecialchars($dns_rr[$r]['type']) . ")";
+				unset( $dns_rr[$r] );
+				continue;
+			}
 			
 			$r++;
 		}
 		$i++;
 	}
 
-	foreach ($servers as $server){
-		$dns_rr[$r]['name'] = $soa['name'];
-		$dns_rr[$r]['type'] = 'NS';
-		$dns_rr[$r]['data'] = $server['server_name'];
-		$dns_rr[$r]['aux'] = 0;
-		$dns_rr[$r]['ttl'] = $soa['ttl'];
-		$r++;
+	if ( $add_default_ns ) {
+		foreach ($servers as $server){
+			$dns_rr[$r]['name'] = $soa['name'];
+			$dns_rr[$r]['type'] = 'NS';
+			$dns_rr[$r]['data'] = $server['server_name'];
+			$dns_rr[$r]['aux'] = 0;
+			$dns_rr[$r]['ttl'] = $soa['ttl'];
+			$r++;
+		}
 	}
 	//print('<pre>');
 	//print_r($dns_rr);
 	//print('</pre>');
 
+	if (!$found_soa) {
+		$valid_zone_file = false;
+		$error[] = $wb['zone_file_missing_soa'];
+	}
+	if (intval($soa['serial']) == 0
+		|| (intval($soa['refresh']) == 0 && intval($soa['retry']) == 0 && intval($soa['expire']) == 0 && intval($soa['minimum']) == 0 )
+	) {
+		$valid_zone_file = false;
+		$error[] = $wb['zone_file_soa_parser'];
+$error[] = print_r( $soa, true );
+	}
+	if ($settings['use_domain_module'] == 'y' && ! $app->tools_sites->checkDomainModuleDomain($soa['name']) ) {
+		$valid_zone_file = false;
+		$error[] = $wb['zone_not_allowed'];
+	}
 
 	// Insert the soa record
 	$sys_userid = $_SESSION['s']['user']['userid'];
-	$origin = $soa['name'];
-	$ns = $soa['ns'];
-	$mbox = $soa['mbox'];
-	$refresh = $soa['refresh'];
-	$retry = $soa['retry'];
-	$expire = $soa['expire'];
-	$minimum = $soa['minimum'];
-	$ttl = isset($soa['ttl']) ? $soa['ttl'] : '86400';
 	$xfer = '';
 	$serial = $app->functions->intval($soa['serial']+1);
 	//print_r($soa);
 	//die();
-	if($valid_zone_file){
+	$records = $app->db->queryAllRecords("SELECT id FROM dns_soa WHERE origin = ?", $soa['name']);
+	if (count($records) > 0) {
+		$error[] = $wb['zone_already_exists'];
+	} elseif ($valid_zone_file) {
 		$insert_data = array(
 			"sys_userid" => $sys_userid,
 			"sys_groupid" => $sys_groupid,
@@ -636,15 +644,15 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 			"sys_perm_group" => 'riud',
 			"sys_perm_other" => '',
 			"server_id" => $server_id,
-			"origin" => $origin,
-			"ns" => $ns,
-			"mbox" => $mbox,
+			"origin" => $soa['name'],
+			"ns" => $soa['ns'],
+			"mbox" => $soa['mbox'],
 			"serial" => $serial,
-			"refresh" => $refresh,
-			"retry" => $retry,
-			"expire" => $expire,
-			"minimum" => $minimum,
-			"ttl" => $ttl,
+			"refresh" => $soa['refresh'],
+			"retry" => $soa['retry'],
+			"expire" => $soa['expire'],
+			"minimum" => $soa['minimum'],
+			"ttl" => $soa['ttl'],
 			"active" => 'Y',
 			"xfer" => $xfer
 		);
@@ -655,6 +663,11 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 		{
 			foreach($dns_rr as $rr)
 			{
+				// ensure record name is within $soa['name'] zone
+				if(fqdn_name( $rr['name'], $soa['name'] ) != $soa['name']
+				   && (strpos( fqdn_name( $rr['name'], $soa['name'] ), ".".$soa['name'] ) === FALSE ) ){
+					continue;
+				}
 				$insert_data = array(
 					"sys_userid" => $sys_userid,
 					"sys_groupid" => $sys_groupid,
@@ -663,7 +676,7 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 					"sys_perm_other" => '',
 					"server_id" => $server_id,
 					"zone" => $dns_soa_id,
-					"name" => $rr['name'],
+					"name" => origin_name( $rr['name'], $soa['name'] ),
 					"type" => $rr['type'],
 					"data" => $rr['data'],
 					"aux" => $rr['aux'],
@@ -672,21 +685,39 @@ if(isset($_FILES['file']['name']) && is_uploaded_file($_FILES['file']['tmp_name'
 				);
 				$dns_rr_id = $app->db->datalogInsert('dns_rr', $insert_data, 'id');
 			}
+
+			$msg[] = $wb['zone_file_successfully_imported_txt'];
+		} elseif (is_array($dns_rr)) {
+			$error[] = $wb['zone_file_import_fail'];
+		} else {
+			$msg[] = $wb['zone_file_successfully_imported_txt'];
 		}
-		$msg .= $wb['zone_file_successfully_imported_txt'];
 	} else {
-		$error .= $wb['error_no_valid_zone_file_txt'];
+		$error[] = $wb['error_no_valid_zone_file_txt'];
 	}
 	//header('Location: /dns/dns_soa_edit.php?id='.$dns_soa_id);
 } else {
 	if(isset($_FILES['file']['name'])) {
-		$error = $wb['no_file_uploaded_error'];
+		$error[] = $wb['no_file_uploaded_error'];
 	}
 }
 
+$_error='';
+if (count($error) > 0) {
+	// this markup should really be moved to ispconfig.js
+	$_error = '<div class="alert alert-danger clear">' . implode( '<br />', $error) . '</div>';
+}
+if (count($warn) > 0) {
+	// and add a 'warn' variable to templates and ispconfig.js
+	$_error = '<div class="alert alert-warning clear">' . implode( '<br />', $warn) . '</div>';
+}
+$app->tpl->setVar('error', $_error);
 
-$app->tpl->setVar('msg', $msg);
-$app->tpl->setVar('error', $error);
+$_msg='';
+if (count($msg) > 0) {
+	$_msg = '<div class="alert alert-success clear">' . implode( '<br />', $msg) . '</div>';
+}
+$app->tpl->setVar('msg', $_msg);
 
 $app->tpl_defaults();
 $app->tpl->pparse();

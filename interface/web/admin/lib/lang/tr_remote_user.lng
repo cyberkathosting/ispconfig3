@@ -36,6 +36,7 @@ $wb['DNS alias functions'] = 'DNS alias işlevleri';
 $wb['DNS cname functions'] = 'DNS cname işlevleri';
 $wb['DNS hinfo functions'] = 'DNS hinfo işlevleri';
 $wb['DNS mx functions'] = 'DNS mx işlevleri';
+$wb['DNS naptr functions'] = 'DNS naptr işlevleri';
 $wb['DNS ns functions'] = 'DNS ns işlevleri';
 $wb['DNS ptr functions'] = 'DNS ptr işlevleri';
 $wb['DNS rp functions'] = 'DNS rp işlevleri';
