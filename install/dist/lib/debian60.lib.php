@@ -136,6 +136,12 @@ class installer extends installer_base {
 						caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 					}
 				}
+				//remove #2.3+ comment
+				$content = file_get_contents($config_dir.'/'.$configfile);
+				$content = str_replace('#2.3+','',$content);
+				file_put_contents($config_dir.'/'.$configfile,$content);
+				unset($content);
+				
 			} else {
 				// remove settings which are not supported in Dovecot < 2.3
 				removeLine($config_dir.'/'.$configfile, 'ssl_min_protocol =');

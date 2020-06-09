@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Backup Stats';
-$wb['active_txt'] = 'Active';
-$wb['domain_txt'] = 'Email';
-$wb['backup_count_txt'] = 'Backup count';
-$wb['backup_server_txt'] = 'Server';
-$wb['backup_interval_txt'] = 'Interval / cnt.';
-$wb['backup_size_txt'] = 'Backupsize';
+$wb['list_head_txt'] = 'Yedekleme İstatistikleri';
+$wb['active_txt'] = 'Etkin';
+$wb['domain_txt'] = 'E-posta';
+$wb['backup_count_txt'] = 'Yedek Sayısı';
+$wb['backup_server_txt'] = 'Sunucu';
+$wb['backup_interval_txt'] = 'Sıklık / Sayı';
+$wb['backup_size_txt'] = 'Yedek Boyutu';
 ?>

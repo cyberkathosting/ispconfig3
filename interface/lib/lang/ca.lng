@@ -145,7 +145,7 @@ $wb['strength_2'] = 'Moyen';
 $wb['strength_3'] = 'Bon';
 $wb['strength_4'] = 'Fort';
 $wb['strength_5'] = 'Très fort';
-$wb['weak_password_txt'] = 'Le mot de passe choisi ne rencontre pas les minimas requis : {chars} caractères minimums et une force de \"{strength}\".';
+$wb['weak_password_txt'] = 'Le mot de passe choisi ne rencontre pas les minimas requis : {chars} caractères minimums et une force de \\"{strength}\\".';
 $wb['weak_password_length_txt'] = 'Le mot de passe choisi ne rencontre pas les minimas requis : {chars} caractères minimums.';
 $wb['security_check1_txt'] = 'Vérifier les permissions de sécurité:';
 $wb['security_check2_txt'] = 'Echec';
@@ -158,4 +158,5 @@ $wb['datalog_status_d_xmpp_domain'] = 'Delete XMPP domain';
 $wb['datalog_status_i_xmpp_user'] = 'Create XMPP user';
 $wb['datalog_status_u_xmpp_user'] = 'Update XMPP user';
 $wb['datalog_status_d_xmpp_user'] = 'Delete XMPP user';
+$wb['unlimited_txt'] = 'Illimité';
 ?>

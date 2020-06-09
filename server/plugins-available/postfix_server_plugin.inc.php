@@ -215,8 +215,7 @@ class postfix_server_plugin {
 				fclose($fpp);
 				fclose($fps);
 				unset($dkim_domains);
-			}	
-			if($mail_config['content_filter'] == 'amavisd'){
+			} else {
 				exec("postconf -X 'smtpd_milters'");
 				exec("postconf -X 'milter_protocol'");
 				exec("postconf -X 'milter_mail_macros'");
@@ -242,6 +241,7 @@ class postfix_server_plugin {
 			$tpl->newTemplate('rspamd_worker-controller.inc.master');
 			$tpl->setVar('rspamd_password', $rspamd_password);
 			$app->system->file_put_contents('/etc/rspamd/local.d/worker-controller.inc', $tpl->grab());
+			chmod('/etc/rspamd/local.d/worker-controller.inc', 0644);
 			$app->services->restartServiceDelayed('rspamd', 'reload');
 		}
 

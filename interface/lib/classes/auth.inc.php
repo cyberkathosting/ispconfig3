@@ -141,12 +141,18 @@ class auth {
 		}
 	}
 
-	public function check_module_permissions($module) {
+
+       /**
+        * Check that the user has access to the given module.
+        *
+        * @return boolean
+        */
+       public function verify_module_permissions($module)  {
 		// Check if the current user has the permissions to access this module
 		$module = trim(preg_replace('@\s+@', '', $module));
 		$user_modules = explode(',',$_SESSION["s"]["user"]["modules"]);
+               $can_use_module = false;
 		if(strpos($module, ',') !== false){
-			$can_use_module = false;
 			$tmp_modules = explode(',', $module);
 			if(is_array($tmp_modules) && !empty($tmp_modules)){
 				foreach($tmp_modules as $tmp_module){
@@ -158,17 +164,21 @@ class auth {
 					}
 				}
 			}
-			if(!$can_use_module){
-				// echo "LOGIN_REDIRECT:/index.php";
-				header("Location: /index.php");
-				exit;
-			}
-		} else {
-			if(!in_array($module,$user_modules)) {
-				// echo "LOGIN_REDIRECT:/index.php";
-				header("Location: /index.php");
-				exit;
-			}
+               }
+               elseif(in_array($module,$user_modules)) {
+                       $can_use_module = true;
+               }
+               return $can_use_module;
+       }
+
+       /**
+        * Check that the user has access to the given module, redirect and exit on failure.
+        */
+       public function check_module_permissions($module)  {
+               if(!$this->verify_module_permissions($module)) {
+                       // echo "LOGIN_REDIRECT:/index.php";
+                       header("Location: /index.php");
+                       exit;
 		}
 	}
 	
@@ -268,16 +278,27 @@ class auth {
 		return array('csrf_id' => $_csrf_id,'csrf_key' => $_csrf_key);
 	}
 	
-	public function csrf_token_check() {
+	public function csrf_token_check($method = 'POST') {
 		global $app;
 		
-		if(isset($_POST) && is_array($_POST)) {
+		if($method == 'POST') {
+			$input_vars = $_POST;
+		} elseif ($method == 'GET') {
+			$input_vars = $_GET;
+		} else {
+			$app->error('Unknown CSRF verification method.');
+		}
+		
+		//print_r($input_vars);
+		//die(print_r($_SESSION['_csrf']));
+		
+		if(isset($input_vars) && is_array($input_vars)) {
 			$_csrf_valid = false;
-			if(isset($_POST['_csrf_id']) && isset($_POST['_csrf_key'])) {
-				$_csrf_id = trim($_POST['_csrf_id']);
-				$_csrf_key = trim($_POST['_csrf_key']);
+			if(isset($input_vars['_csrf_id']) && isset($input_vars['_csrf_key'])) {
+				$_csrf_id = trim($input_vars['_csrf_id']);
+				$_csrf_key = trim($input_vars['_csrf_key']);
 				if(isset($_SESSION['_csrf']) && isset($_SESSION['_csrf'][$_csrf_id]) && isset($_SESSION['_csrf_timeout']) && isset($_SESSION['_csrf_timeout'][$_csrf_id])) {
-					if($_SESSION['_csrf'][$_csrf_id] === $_csrf_key && $_SESSION['_csrf_timeout'] >= time()) $_csrf_valid = true;
+					if($_SESSION['_csrf'][$_csrf_id] === $_csrf_key && $_SESSION['_csrf_timeout'][$_csrf_id] >= time()) $_csrf_valid = true;
 				}
 			}
 			if($_csrf_valid !== true) {

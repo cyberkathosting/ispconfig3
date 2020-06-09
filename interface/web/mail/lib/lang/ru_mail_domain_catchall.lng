@@ -8,4 +8,5 @@ $wb['domain_error_regex'] = 'Некорректное имя домена.';
 $wb['limit_mailcatchall_txt'] = 'Максимальное число Макс. количество учётных записей сводных почтовых ящиков достигнуто.';
 $wb['source_txt'] = 'Источник';
 $wb['destination_error_isemail'] = 'Не выбран получатель или запись некорректна.';
+$wb['greylisting_txt'] = 'Enable greylisting';
 ?>

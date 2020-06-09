@@ -2,8 +2,8 @@
 $wb['list_head_txt'] = 'Destinatários de retransmissão';
 $wb['active_txt'] = 'Ativo';
 $wb['server_id_txt'] = 'Servidor';
-$wb['source_txt'] = 'Remetente';
+$wb['source_txt'] = 'Endereço do destinatário';
 $wb['recipient_txt'] = 'Destinatário';
-$wb['add_new_record_txt'] = 'Adicionar novo destinatário';
+$wb['add_new_record_txt'] = 'Adicionar novo destinatário de retransmissão';
 $wb['access_txt'] = 'acesso';
 ?>

@@ -31,5 +31,5 @@ $wb['Available packages'] = 'Packages disponibles';
 $wb['Installed packages'] = 'Packages installés';
 $wb['Update Packagelist'] = 'Mise à jour de la liste des packages';
 $wb['Subdomain (Vhost)'] = 'Sous-domaine (Vhost)';
-$wb['error_proxy_requires_url'] = 'Type de redirection \"proxy\" nécessite une URL comme chemin de redirection.';
+$wb['error_proxy_requires_url'] = 'Type de redirection \\"proxy\\" nécessite une URL comme chemin de redirection.';
 ?>

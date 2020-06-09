@@ -39,20 +39,25 @@ ini_set('error_reporting', E_ALL & ~E_NOTICE);
 $conf['server_id'] = intval($conf['server_id']);
 
 // Load required base-classes
-$app->uses('modules,ini_parser,file,services,getconf,system,cron,functions');
+$app->uses('ini_parser,file,services,getconf,system,cron,functions');
 $app->load('libdatetime,cronjob');
 
 // Path settings
 $path = SCRIPT_PATH . '/lib/classes/cron.d';
 
 //** Get commandline options
-$cmd_opt = getopt('', array('cronjob::'));
+$cmd_opt = getopt('', array('cronjob::', 'force', 'firstrun'));
 
 if(isset($cmd_opt['cronjob']) && is_file($path.'/'.$cmd_opt['cronjob'])) {
 	// Cronjob that shell be run
 	$cronjob_file = $cmd_opt['cronjob'];
 } else {
-	die('Usage example: php cron_debug.php --cronjob=100-mailbox_stats.inc.php');
+	echo "Usage example: php cron_debug.php --cronjob=100-mailbox_stats.inc.php [--force] [--firstrun]\n" ;
+	echo "Available cronjobs:\n";
+	foreach(glob($path.'/*-*.inc.php') as $cronjob) {
+		echo basename($cronjob)."\n";
+	}
+	die();
 }
 
 // Load and run the cronjob
@@ -62,10 +67,18 @@ include $path . '/' . $cronjob_file;
 $class_name = 'cronjob_' . $name;
 $cronjob = new $class_name();
 
+if(isset($cmd_opt['force'])) {
+	$app->db->query("UPDATE `sys_cron` SET `running` = 0 WHERE `name` = ?", $class_name);
+}
+
 $cronjob->onPrepare();
-$cronjob->onBeforeRun();
-$cronjob->onRunJob();
-$cronjob->onAfterRun();
+$cronjob->onBeforeRun(isset($cmd_opt['firstrun']));
+if(!$cronjob->isRunning()) {
+	$app->db->query("UPDATE `sys_cron` SET `running` = ? WHERE `name` = ?", ($cronjob->canBeRunInParallel() !== true ? "1" : "0"), $class_name);
+	$cronjob->onRunJob();
+	$cronjob->onAfterRun();
+	$cronjob->onCompleted();
+}
 
 die("finished.\n");
 

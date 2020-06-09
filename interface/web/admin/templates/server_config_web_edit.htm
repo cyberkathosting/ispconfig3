@@ -54,12 +54,29 @@
 				{tmpl_var name='vhost_rewrite_v6'}
 			</div>
 		</div>
+        <div class="form-group">
+            <label for="vhost_proxy_protocol_enabled" class="col-sm-3 control-label">{tmpl_var name='vhost_proxy_protocol_enabled_txt'}</label>
+            <div class="col-sm-9">
+                {tmpl_var name='vhost_proxy_protocol_enabled'}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="vhost_proxy_protocol_http_port" class="col-sm-3 control-label">{tmpl_var name='vhost_proxy_protocol_http_port_txt'}</label>
+            <div class="col-sm-9"><input type="text" name="vhost_proxy_protocol_http_port" id="vhost_proxy_protocol_http_port" value="{tmpl_var name='vhost_proxy_protocol_http_port'}" class="form-control"/></div>
+        </div>
+        <div class="form-group">
+            <label for="vhost_proxy_protocol_https_port" class="col-sm-3 control-label">{tmpl_var name='vhost_proxy_protocol_https_port_txt'}</label>
+            <div class="col-sm-9"><input type="text" name="vhost_proxy_protocol_https_port" id="vhost_proxy_protocol_https_port" value="{tmpl_var name='vhost_proxy_protocol_https_port'}" class="form-control"/></div>
+        </div>
             <div class="form-group apache">
                 <label for="vhost_conf_dir" class="col-sm-3 control-label">{tmpl_var name='vhost_conf_dir_txt'}</label>
                 <div class="col-sm-9"><input type="text" name="vhost_conf_dir" id="vhost_conf_dir" value="{tmpl_var name='vhost_conf_dir'}" class="form-control" /></div></div>
             <div class="form-group apache">
                 <label for="vhost_conf_enabled_dir" class="col-sm-3 control-label">{tmpl_var name='vhost_conf_enabled_dir_txt'}</label>
                 <div class="col-sm-9"><input type="text" name="vhost_conf_enabled_dir" id="vhost_conf_enabled_dir" value="{tmpl_var name='vhost_conf_enabled_dir'}" class="form-control" /></div></div>
+            <div class="form-group apache">
+                <label for="apache_init_script" class="col-sm-3 control-label">{tmpl_var name='apache_init_script_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="apache_init_script" id="apache_init_script" value="{tmpl_var name='apache_init_script'}" class="form-control" />{tmpl_var name='apache_init_script_note_txt'}</div></div>
             <div class="form-group nginx">
                 <label for="nginx_enable_pagespeed" class="col-sm-3 control-label">{tmpl_var name='nginx_enable_pagespeed_txt'}</label>
                 <div class="col-sm-9">{tmpl_var name='nginx_enable_pagespeed'}</div></div>
@@ -75,7 +92,7 @@
                         {tmpl_var name='security_level'}
                     </select></div>
             </div>
-            <div class="form-group apache">
+            <div class="form-group">
                 <label class="col-sm-3 control-label">{tmpl_var name='check_apache_config_txt'}</label>
                 <div class="col-sm-9">
                     {tmpl_var name='check_apache_config'}
@@ -255,7 +272,13 @@
     </div>
     <div id="collapsePHP" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingPHP">
       <div class="panel-body">
-	  <!-- Begin content -->
+      <!-- Begin content -->
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">{tmpl_var name='php_default_hide_txt'}</label>
+                    <div class="col-sm-9">
+                        {tmpl_var name='php_default_hide'}
+                    </div>
+                </div>
 				<div class="form-group">
                     <label for="php_default_name" class="col-sm-3 control-label">{tmpl_var name='php_default_name_txt'}</label>
                     <div class="col-sm-9"><input type="text" name="php_default_name" id="php_default_name" value="{tmpl_var name='php_default_name'}" class="form-control" /></div></div>
@@ -292,6 +315,12 @@
                     <div class="col-sm-9"><select name="php_handler" id="php_handler" class="form-control">
                             {tmpl_var name='php_handler'}
                         </select></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">{tmpl_var name='php_fpm_default_chroot_txt'}</label>
+                    <div class="col-sm-9">
+                        {tmpl_var name='php_fpm_default_chroot'}
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">{tmpl_var name='php_fpm_incron_reload_txt'}</label>

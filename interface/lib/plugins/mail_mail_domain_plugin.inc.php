@@ -116,6 +116,16 @@ class mail_mail_domain_plugin {
 			$app->db->query("UPDATE spamfilter_users SET email=REPLACE(email, ?, ?), sys_userid = ?, sys_groupid = ? WHERE email LIKE ?", $page_form->oldDataRecord['domain'], $domain, $client_user_id, $sys_groupid, "%@" . $page_form->oldDataRecord['domain']);
 
 		} // end if domain name changed
+		
+		//* Force-update the aliases (required for spamfilter changes)
+		$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE source LIKE ? OR destination LIKE ?", "%@" . $domain, "%@" . $domain);
+		
+		if(is_array($forwardings)) {
+			foreach($forwardings as $rec) {
+				$app->db->datalogUpdate('mail_forwarding', array("source" => $rec['source']), 'forwarding_id', $rec['forwarding_id'],true);
+			}
+		}
+		
 	}
 
 }

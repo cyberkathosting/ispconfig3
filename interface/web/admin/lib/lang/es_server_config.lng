@@ -1,7 +1,11 @@
 <?php
+$wb['server_config'] = 'Server Config';
 $wb['add_web_users_to_sshusers_group_txt'] = 'Añadir usuarios web al grupo -sshusers-';
 $wb['admin_notify_events_txt'] = 'Enviar correo al administrador a partir de siguiente nivel';
 $wb['apache_group_error_empty'] = 'El grupo de Apache está vacío.';
+$wb['apache_init_script_note_txt'] = 'Dejar esto vacío detectará automáticamente el script de inicio de Apache';
+$wb['apache_init_script_txt'] = 'Apache init script';
+$wb['apache_init_script_error_regex'] = 'Guión de inicio Apache no válido.';
 $wb['apache_user_error_empty'] = 'El usuario de Apache está vacío.';
 $wb['apps_vhost_enabled_txt'] = 'Host virtual de aplicaciones habilitado';
 $wb['apps_vhost_ip_error_empty'] = 'La IP para el host virtual de las aplicaciones está vacía.';
@@ -206,6 +210,7 @@ $wb['php_fpm_socket_dir_txt'] = 'Directorio para el socket de PHP-FPM';
 $wb['php_fpm_start_port_error_empty'] = 'El puerto de inicio de PHP-FPM está vacío.';
 $wb['php_fpm_start_port_txt'] = 'Puerto de inicio de PHP-FPM';
 $wb['php_handler_txt'] = 'Controlador PHP por defecto';
+$wb['php_fpm_default_chroot_txt'] = 'Default chrooted PHP-FPM';
 $wb['php_fpm_incron_reload_txt'] = 'Install incron trigger file to reload PHP-FPM';
 $wb['php_ini_check_minutes_error_empty'] = 'Por favor especifique un valor para definir con qué frecuencia se deberían buscar cambios en el archivo php.ini.';
 $wb['php_ini_check_minutes_info_txt'] = '0 = no comprobar';
@@ -228,7 +233,7 @@ $wb['reject_sender_login_mismatch_txt'] = 'Rechazar remitente e inicio de sesió
 $wb['relayhost_password_txt'] = 'Contraseña del servidor de retransmisión';
 $wb['relayhost_txt'] = 'Servidor de retransmisión';
 $wb['relayhost_user_txt'] = 'Usuario del servidor de retransmisión';
-$wb['rescue_description_txt'] = '<b>Información:</b> Si desea detener el servicio de MySQL debe seleccionar la casilla \"Deshabilitar monitorización de MySQL\" y luego esperar 2-3 minutos.<br>Si no espera 2-3 minutos, el rescatador intentará reiniciar el servicio';
+$wb['rescue_description_txt'] = '<b>Información:</b> Si desea detener el servicio de MySQL debe seleccionar la casilla \\"Deshabilitar monitorización de MySQL\\" y luego esperar 2-3 minutos.<br>Si no espera 2-3 minutos, el rescatador intentará reiniciar el servicio';
 $wb['security_level_txt'] = 'Nivel de seguridad';
 $wb['server_type_txt'] = 'Tipo de servidor';
 $wb['set_folder_permissions_on_update_txt'] = 'Establecer permisos de carpetas al actualizar';
@@ -292,8 +297,16 @@ $wb['logging_txt'] = 'Store website access and error logs';
 $wb['logging_desc_txt'] = 'Use Tools > Resync to apply changes to existing sites. For Apache, access and error log can be anonymized. For nginx, only the access log is anonymized, the error log will contain IP addresses.';
 $wb['log_retention_txt'] = 'Log retention (days)';
 $wb['log_retention_error_ispositive'] = 'Log retention must be a number > 0';
+$wb['php_default_hide_txt'] = 'Hide Default PHP-Version in selectbox';
 $wb['php_default_name_txt'] = 'Description Default PHP-Version';
 $wb['php_default_name_error_empty'] = 'Description Default PHP-Version must not be empty';
 $wb['error_mailbox_message_size_txt'] = 'Mailbox size must be larger or equal to message size';
 $wb['php_fpm_reload_mode_txt'] = 'PHP-FPM reload mode';
+$wb['content_filter_txt'] = 'Content Filter';
+$wb['rspamd_url_txt'] = 'Rspamd URL';
+$wb['rspamd_user_txt'] = 'Rspamd User';
+$wb['rspamd_password_txt'] = 'Rspamd Password';
+$wb['vhost_proxy_protocol_enabled_txt'] = 'Enable PROXY Protocol';
+$wb['vhost_proxy_protocol_http_port_txt'] = 'PROXY Protocol HTTP Port';
+$wb['vhost_proxy_protocol_https_port_txt'] = 'PROXY Protocol HTTPS Port';
 ?>

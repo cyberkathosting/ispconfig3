@@ -1,6 +1,6 @@
 <?php
-$wb['domain_error_empty'] = 'Nome do domínio está em branco.';
-$wb['domain_error_unique'] = 'Nome do domínio já existe.';
-$wb['domain_error_regex'] = 'Nome do domínio não é permitido.';
+$wb['domain_error_empty'] = 'O domínio está em branco.';
+$wb['domain_error_unique'] = 'O domínio já existe.';
+$wb['domain_error_regex'] = 'O nome do domínio não é permitido.';
 $wb['Domain'] = 'Domínio';
 ?>

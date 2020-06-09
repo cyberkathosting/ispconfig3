@@ -7,5 +7,6 @@ $wb['ns_txt'] = 'NS';
 $wb['mbox_txt'] = 'E-mail';
 $wb['add_new_record_wizard_txt'] = 'Vytvořit DNS zónu pomocí průvodce';
 $wb['add_new_record_txt'] = 'Vytvořit DNS zónu manuálně';
+$wb['import_zone_file_txt'] = 'Importovat DNS zonový soubor';
 $wb['sys_groupid_txt'] = 'Klient';
 ?>

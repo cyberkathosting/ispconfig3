@@ -1,7 +1,6 @@
 <?php
 $wb['limits_txt'] = 'Account limieten';
 $wb['of_txt'] = 'van';
-$wb['unlimited_txt'] = 'Ongelimiteerd';
 $wb['limit_maildomain_txt'] = 'Aantal email domeinen';
 $wb['limit_mailbox_txt'] = 'Aantal mailboxes';
 $wb['limit_mailalias_txt'] = 'Aantal e-mail aliassen';

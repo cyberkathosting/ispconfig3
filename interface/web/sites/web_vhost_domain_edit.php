@@ -206,7 +206,7 @@ class page_action extends tform_actions {
 			}
 			
 			//* Fill the IPv4 select field with the IP addresses that are allowed for this client on the current server
-			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ? AND ip_type = 'IPv4' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
+			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ? AND ip_type = 'IPv4' AND virtualhost = 'y' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
 			$ips = $app->db->queryAllRecords($sql, $server_id);
 			$ip_select = ($web_config[$server_id]['enable_ip_wildcard'] == 'y')?"<option value='*'>*</option>":"";
 			//if(!in_array($this->dataRecord["ip_address"], $ips)) $ip_select .= "<option value='".$this->dataRecord["ip_address"]."' SELECTED>".$this->dataRecord["ip_address"]."</option>\r\n";
@@ -222,7 +222,7 @@ class page_action extends tform_actions {
 			unset($ips);
 
 			//* Fill the IPv6 select field with the IP addresses that are allowed for this client
-			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ? AND ip_type = 'IPv6' AND (client_id = 0 OR client_id=?)";
+			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ? AND ip_type = 'IPv6' AND virtualhost = 'y' AND (client_id = 0 OR client_id=?)";
 			$ips = $app->db->queryAllRecords($sql, $server_id, $_SESSION['s']['user']['client_id']);
 			//$ip_select = ($web_config[$server_id]['enable_ip_wildcard'] == 'y')?"<option value='*'>*</option>":"";
 			//$ip_select = "";
@@ -257,7 +257,9 @@ class page_action extends tform_actions {
 					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ? AND (client_id = 0 OR client_id=?) AND active = 'y'", $parent_domain['server_id'], $_SESSION['s']['user']['client_id']);
 				}
 			}
-			$php_select = "<option value=''>".$app->functions->htmlentities($web_config['php_default_name'])."</option>";
+			if (empty($web_config['php_default_hide']) || 'n' === $web_config['php_default_hide']) {
+				$php_select = "<option value=''>".$app->functions->htmlentities($web_config['php_default_name'])."</option>";
+			}
 			if(is_array($php_records) && !empty($php_records)) {
 				foreach( $php_records as $php_record) {
 					if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
@@ -352,7 +354,7 @@ class page_action extends tform_actions {
 			}
 			
 			//* Fill the IPv4 select field with the IP addresses that are allowed for this client
-			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ? AND ip_type = 'IPv4' AND (client_id = 0 OR client_id=?)";
+			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ? AND ip_type = 'IPv4' AND virtualhost = 'y' AND (client_id = 0 OR client_id=?)";
 			$ips = $app->db->queryAllRecords($sql, $server_id, $_SESSION['s']['user']['client_id']);
 			$ip_select = ($web_config[$server_id]['enable_ip_wildcard'] == 'y')?"<option value='*'>*</option>":"";
 			//if(!in_array($this->dataRecord["ip_address"], $ips)) $ip_select .= "<option value='".$this->dataRecord["ip_address"]."' SELECTED>".$this->dataRecord["ip_address"]."</option>\r\n";
@@ -368,7 +370,7 @@ class page_action extends tform_actions {
 			unset($ips);
 
 			//* Fill the IPv6 select field with the IP addresses that are allowed for this client
-			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ? AND ip_type = 'IPv6' AND (client_id = 0 OR client_id=?)";
+			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ? AND ip_type = 'IPv6' AND virtualhost = 'y' AND (client_id = 0 OR client_id=?)";
 			$ips = $app->db->queryAllRecords($sql, $server_id, $_SESSION['s']['user']['client_id']);
 			$ip_select = "<option value=''></option>";
 			//$ip_select = "";
@@ -403,7 +405,9 @@ class page_action extends tform_actions {
 					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ? AND (client_id = 0 OR client_id=?) AND active = 'y'", $parent_domain['server_id'], $_SESSION['s']['user']['client_id']);
 				}
 			}
-			$php_select = "<option value=''>".$app->functions->htmlentities($web_config['php_default_name'])."</option>";
+			if (empty($web_config['php_default_hide']) || 'n' === $web_config['php_default_hide']) {
+				$php_select = "<option value=''>".$app->functions->htmlentities($web_config['php_default_name'])."</option>";
+			}
 			if(is_array($php_records) && !empty($php_records)) {
 				foreach( $php_records as $php_record) {
 					if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
@@ -549,7 +553,7 @@ class page_action extends tform_actions {
 			}
 
 			//* Fill the IPv4 select field
-			$sql = "SELECT ip_address FROM server_ip WHERE ip_type = 'IPv4' AND server_id = ?";
+			$sql = "SELECT ip_address FROM server_ip WHERE ip_type = 'IPv4' AND virtualhost = 'y' AND server_id = ?";
 			$ips = $app->db->queryAllRecords($sql, $server_id);
 			$ip_select = ($web_config['enable_ip_wildcard'] == 'y')?"<option value='*'>*</option>":"";
 			//$ip_select = "";
@@ -564,7 +568,7 @@ class page_action extends tform_actions {
 			unset($ips);
 
 			//* Fill the IPv6 select field
-			$sql = "SELECT ip_address FROM server_ip WHERE ip_type = 'IPv6' AND server_id = ?";
+			$sql = "SELECT ip_address FROM server_ip WHERE ip_type = 'IPv6' AND virtualhost = 'y' AND server_id = ?";
 			$ips = $app->db->queryAllRecords($sql, $server_id);
 			$ip_select = "<option value=''></option>";
 			//$ip_select = "";
@@ -623,7 +627,9 @@ class page_action extends tform_actions {
 					$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ? AND active = 'y'", $parent_domain['server_id']);
 				}
 			}
-			$php_select = "<option value=''>".$app->functions->htmlentities($web_config['php_default_name'])."</option>";
+			if (empty($web_config['php_default_hide']) || 'n' === $web_config['php_default_hide']) {
+				$php_select = "<option value=''>".$app->functions->htmlentities($web_config['php_default_name'])."</option>";
+			}
 			if(is_array($php_records) && !empty($php_records)) {
 				foreach( $php_records as $php_record) {
 					if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
@@ -863,8 +869,12 @@ class page_action extends tform_actions {
 			}
 			$directive_snippets_id_select .= '</optgroup>';
 		}
-		
-		$directive_snippets = $app->db->queryAllRecords("SELECT directive_snippets_id, name FROM directive_snippets WHERE customer_viewable = 'y' AND active = 'y' AND master_directive_snippets_id = 0 AND type = ? ORDER BY name ASC", $server_type);
+
+		if($is_admin) {
+			$directive_snippets = $app->db->queryAllRecords("SELECT directive_snippets_id, name FROM directive_snippets WHERE active = 'y' AND master_directive_snippets_id = 0 AND type = ? ORDER BY name ASC", $server_type);
+		} else {
+			$directive_snippets = $app->db->queryAllRecords("SELECT directive_snippets_id, name FROM directive_snippets WHERE customer_viewable = 'y' AND active = 'y' AND master_directive_snippets_id = 0 AND type = ? ORDER BY name ASC", $server_type);
+		}
 		if(is_array($directive_snippets) && !empty($directive_snippets)){
 			$directive_snippets_id_select .= '<optgroup label="'.$app->tform->wordbook["select_directive_snippet_txt"].'">';
 			foreach($directive_snippets as $directive_snippet){
@@ -1306,7 +1316,7 @@ class page_action extends tform_actions {
 					// value inside ''
 					if(preg_match('@^\s*;*\s*[a-zA-Z0-9._]*\s*=\s*\'.*\'\s*;*\s*$@', $custom_php_ini_settings_line)) continue;
 					// everything else
-					if(preg_match('@^\s*;*\s*[a-zA-Z0-9._]*\s*=\s*[-a-zA-Z0-9~&=_\@/,.#\s\|]*\s*;*\s*$@', $custom_php_ini_settings_line)) continue;
+					if(preg_match('@^\s*;*\s*[a-zA-Z0-9._]*\s*=\s*[-a-zA-Z0-9~&=_\@/,.#\{\}\s\|]*\s*;*\s*$@', $custom_php_ini_settings_line)) continue;
 					$custom_php_ini_settings_are_valid = false;
 					break;
 				}
@@ -1371,6 +1381,8 @@ class page_action extends tform_actions {
 			}
 		}
 		
+		$this->validateDefaultFastcgiPhpVersion();
+		
 		parent::onSubmit();
 	}
 	
@@ -1418,6 +1430,12 @@ class page_action extends tform_actions {
 			$log_retention = 10;
 		}
 
+		// Get default value for chrooted PHP-FPM
+		$php_fpm_chroot = 'n';
+		if (!empty($web_config['php_fpm_default_chroot'])) {
+			$php_fpm_chroot = $web_config['php_fpm_default_chroot'];
+		}
+
 		if($this->_vhostdomain_type == 'domain') {
 			$document_root = str_replace("[website_id]", $this->id, $web_config["website_path"]);
 			$document_root = str_replace("[website_idhash_1]", $this->id_hash($page_form->id, 1), $document_root);
@@ -1450,8 +1468,8 @@ class page_action extends tform_actions {
 			$htaccess_allow_override = $web_config["htaccess_allow_override"];
 			$added_by = $_SESSION['s']['user']['username'];
 
-			$sql = "UPDATE web_domain SET system_user = ?, system_group = ?, document_root = ?, allow_override = ?, php_open_basedir = ?, added_date = CURDATE(), added_by = ?, log_retention = ? WHERE domain_id = ?";
-			$app->db->query($sql, $system_user, $system_group, $document_root, $htaccess_allow_override, $php_open_basedir, $added_by, $log_retention, $this->id);
+			$sql = "UPDATE web_domain SET system_user = ?, system_group = ?, document_root = ?, allow_override = ?, php_open_basedir = ?, added_date = CURDATE(), added_by = ?, log_retention = ?, php_fpm_chroot = ? WHERE domain_id = ?";
+			$app->db->query($sql, $system_user, $system_group, $document_root, $htaccess_allow_override, $php_open_basedir, $added_by, $log_retention, $php_fpm_chroot, $this->id);
 		} else  {
 			// Set the values for document_root, system_user and system_group
 			$system_user = $this->parent_domain_record['system_user'];
@@ -1463,12 +1481,12 @@ class page_action extends tform_actions {
 			$php_open_basedir = str_replace("[website_domain]", $web_rec['domain'], $php_open_basedir);
 			$htaccess_allow_override = $this->parent_domain_record['allow_override'];
 			$added_by = $_SESSION['s']['user']['username'];
-			
-			$sql = "UPDATE web_domain SET sys_groupid = ?, system_user = ?, system_group = ?, document_root = ?, allow_override = ?, php_open_basedir = ?, added_date = CURDATE(), added_by = ?, log_retention = ? WHERE domain_id = ?";
-			$app->db->query($sql, $this->parent_domain_record['sys_groupid'], $system_user, $system_group, $document_root, $htaccess_allow_override, $php_open_basedir, $added_by, $log_retention, $this->id);
+
+			$sql = "UPDATE web_domain SET sys_groupid = ?, system_user = ?, system_group = ?, document_root = ?, allow_override = ?, php_open_basedir = ?, added_date = CURDATE(), added_by = ?, log_retention = ?, php_fpm_chroot = ? WHERE domain_id = ?";
+			$app->db->query($sql, $this->parent_domain_record['sys_groupid'], $system_user, $system_group, $document_root, $htaccess_allow_override, $php_open_basedir, $added_by, $log_retention, $php_fpm_chroot, $this->id);
 		}
 		if(isset($this->dataRecord['folder_directive_snippets'])) $app->db->query("UPDATE web_domain SET folder_directive_snippets = ? WHERE domain_id = ?", $this->dataRecord['folder_directive_snippets'], $this->id);
-		
+
 		// Add a datalog insert without letsencrypt and then an update with letsencrypt enabled (see also onBeforeInsert)
 		if($this->_letsencrypt_on_insert == true) {
 			$new_data_record = $app->tform->getDataRecord($this->id);
@@ -1534,6 +1552,47 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		if(isset($this->dataRecord['folder_directive_snippets'])) $app->db->query("UPDATE web_domain SET folder_directive_snippets = ? WHERE domain_id = ?", $this->dataRecord['folder_directive_snippets'], $this->id);
+	}
+	
+	function validateDefaultFastcgiPhpVersion() {
+		global $app;
+
+		// If PHP is not enabled, we don't need to validate the default PHP version
+		if (empty($this->dataRecord['php']) || 'no' === $this->dataRecord['php']) {
+			return;
+		}
+
+		// If the default PHP version is not hidden, we don't need to do any additional validation
+		$app->uses('getconf');
+		$web_config = $app->getconf->get_server_config($this->dataRecord['server_id'], 'web');
+		if (empty($web_config['php_default_hide']) || 'n' === $web_config['php_default_hide']) {
+			return;
+		}
+
+		// The default PHP version is indicated by an empty string, so if the default PHP version is hidden
+		// then an empty string is not a valid PHP version.
+		if (empty($this->dataRecord['fastcgi_php_version'])) {
+			$app->tform->errorMessage .= sprintf('%s<br>', $app->tform->lng('fastcgi_php_version_invalid_txt'));
+			return;
+		}
+		
+		// If the default PHP version is now hidden but this vhost was using it, we don't want to implicitly
+		// switch the user to some random Additional PHP version. So we show a warning instead.
+		$old_fastcgi_php_version = null;
+		if ($this->id > 0) {
+			$existing = $app->db->queryOneRecord('SELECT fastcgi_php_version FROM web_domain WHERE domain_id = ?', $this->id);
+			$old_fastcgi_php_version = $existing['fastcgi_php_version'];
+		}
+
+		if ('' === $old_fastcgi_php_version) {
+			// Warning was already shown, user confirmed the new PHP version
+			if (!empty($_POST['fastcgi_php_version_default_hidden_warning_confirmed'])) {
+				return;
+			}
+
+			$app->tform->errorMessage .= sprintf('%s<br>', $app->tform->lng('fastcgi_php_version_default_hidden_warning_txt'));
+			$app->tpl->setVar('fastcgi_php_version_default_hidden_warning_confirmed', 1);
+		}
 	}
 }
 

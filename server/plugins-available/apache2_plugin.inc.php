@@ -73,7 +73,7 @@ class apache2_plugin {
 		$app->plugins->registerEvent('server_ip_insert', $this->plugin_name, 'server_ip');
 		$app->plugins->registerEvent('server_ip_update', $this->plugin_name, 'server_ip');
 		$app->plugins->registerEvent('server_ip_delete', $this->plugin_name, 'server_ip');
-		
+
 		$app->plugins->registerEvent('server_insert', $this->plugin_name, 'server_ip');
 		$app->plugins->registerEvent('server_update', $this->plugin_name, 'server_ip');
 
@@ -97,14 +97,14 @@ class apache2_plugin {
 
 	private function get_master_php_ini_content($web_data) {
 		global $app, $conf;
-		
+
 		$app->uses('getconf');
 		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
 		$fastcgi_config = $app->getconf->get_server_config($conf['server_id'], 'fastcgi');
-		
+
 		$php_ini_content = '';
 		$master_php_ini_path = '';
-		
+
 		if($web_data['php'] == 'mod') {
 			$master_php_ini_path = $web_config['php_ini_path_apache'];
 		} else {
@@ -135,7 +135,7 @@ class apache2_plugin {
 				}
 			}
 		}
-		
+
 		// Resolve inconsistant path settings
 		if($master_php_ini_path != '' && is_dir($master_php_ini_path) && is_file($master_php_ini_path.'/php.ini')) {
 			$master_php_ini_path .= '/php.ini';
@@ -145,7 +145,7 @@ class apache2_plugin {
 		if($master_php_ini_path != '' && substr($master_php_ini_path, -7) == 'php.ini' && is_file($master_php_ini_path)) {
 			$php_ini_content .= $app->system->file_get_contents($master_php_ini_path)."\n";
 		}
-		
+
 		return $php_ini_content;
 	}
 
@@ -200,11 +200,11 @@ class apache2_plugin {
 				$custom_php_ini_dir .= '_' . $web_folder;
 			}
 			if(!is_dir($web_config['website_basedir'].'/conf')) $app->system->mkdir($web_config['website_basedir'].'/conf');
-			
+
 			if(!is_dir($custom_php_ini_dir)) $app->system->mkdir($custom_php_ini_dir);
-			
+
 			$php_ini_content = $this->get_master_php_ini_content($web_data);
-			
+
 			if(intval($web_data['directive_snippets_id']) > 0){
 				$snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'apache' AND active = 'y' AND customer_viewable = 'y'", intval($web_data['directive_snippets_id']));
 				if(isset($snippet['required_php_snippets']) && trim($snippet['required_php_snippets']) != ''){
@@ -223,7 +223,7 @@ class apache2_plugin {
 					}
 				}
 			}
-		
+
 			$php_ini_content .= str_replace("\r", '', trim($web_data['custom_php_ini']));
 			$app->system->file_put_contents($custom_php_ini_dir.'/php.ini', $php_ini_content);
 			$app->log('Info: rewrote custom php.ini for web ' . $web_data['domain_id'] . ' (' . $web_data['domain'] . ').', LOGLEVEL_DEBUG);
@@ -329,8 +329,16 @@ class apache2_plugin {
         [ req_attributes ]
         ";//challengePassword              = A challenge password";
 
+			$ext_cnf = "
+        subjectAltName         = @alt_names
+
+        [alt_names]
+        DNS.1                  = .$domain";
+
 			$ssl_cnf_file = $ssl_dir.'/openssl.conf';
 			$app->system->file_put_contents($ssl_cnf_file, $ssl_cnf);
+			$ssl_ext_file = $ssl_dir.'/v3.ext';
+			$app->system->file_put_contents($ssl_ext_file, $ext_cnf);
 
 			$rand_file = $rand_file;
 			$key_file2 = $key_file2;
@@ -356,10 +364,10 @@ class apache2_plugin {
 
 				if(file_exists($web_config['CA_path'].'/openssl.cnf'))
 				{
-					$app->system->exec_safe("openssl ca -batch -out ? -config ? -passin pass:? -in ?", $openssl_cmd_crt_file, $web_config['CA_path']."/openssl.cnf", $web_config['CA_pass'], $openssl_cmd_csr_file);
+					$app->system->exec_safe("openssl ca -batch -out ? -config ? -passin pass:? -in ? -extfile ?", $openssl_cmd_crt_file, $web_config['CA_path']."/openssl.cnf", $web_config['CA_pass'], $openssl_cmd_csr_file, $ssl_ext_file);
 					$app->log("Creating CA-signed SSL Cert for: $domain", LOGLEVEL_DEBUG);
 					if(filesize($crt_file) == 0 || !file_exists($crt_file)) {
-						$app->log("CA-Certificate signing failed.  openssl ca -out $openssl_cmd_crt_file -config " . $web_config['CA_path'] . "/openssl.cnf -passin pass:" . $web_config['CA_pass'] . " -in $openssl_cmd_csr_file", LOGLEVEL_ERROR);
+						$app->log("CA-Certificate signing failed.  openssl ca -out $openssl_cmd_crt_file -config " . $web_config['CA_path'] . "/openssl.cnf -passin pass:" . $web_config['CA_pass'] . " -in $openssl_cmd_csr_file -extfile $ssl_ext_file", LOGLEVEL_ERROR);
 					}
 				};
 				if (@filesize($crt_file)==0 || !file_exists($crt_file)){
@@ -373,6 +381,7 @@ class apache2_plugin {
 			$app->system->chmod($key_file, 0400);
 			@$app->system->unlink($config_file);
 			@$app->system->unlink($rand_file);
+			@$app->system->unlink($ssl_ext_file);
 			$ssl_request = $app->system->file_get_contents($csr_file);
 			$ssl_cert = $app->system->file_get_contents($crt_file);
 			$ssl_key = $app->system->file_get_contents($key_file);
@@ -383,15 +392,15 @@ class apache2_plugin {
 			$app->dbmaster->query("UPDATE web_domain SET ssl_request = ?, ssl_cert = ?, ssl_key = ? WHERE domain = ?", $ssl_request, $ssl_cert, $ssl_key, $data['new']['domain']);
 			$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
 		}
-		
+
 		//* Check that the SSL key is not password protected
 		if($data["new"]["ssl_action"] == 'save') {
 			if(stristr($data["new"]["ssl_key"],'Proc-Type: 4,ENCRYPTED')) {
 				$data["new"]["ssl_action"] = '';
-			
+
 				$app->log('SSL Certificate not saved. The SSL key is encrypted.', LOGLEVEL_WARN);
 				$app->dbmaster->datalogError('SSL Certificate not saved. The SSL key is encrypted.');
-			
+
 				/* Update the DB of the (local) Server */
 				$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
 
@@ -399,7 +408,7 @@ class apache2_plugin {
 				$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
 			}
 		}
-		
+
 		//* and check that SSL cert does not contain subdomain of domain acme.invalid
 		if($data["new"]["ssl_action"] == 'save') {
 			$tmp = array();
@@ -409,10 +418,10 @@ class apache2_plugin {
 			$crt_data = implode("\n",$tmp);
 			if(stristr($crt_data,'.acme.invalid')) {
 				$data["new"]["ssl_action"] = '';
-			
+
 				$app->log('SSL Certificate not saved. The SSL cert contains domain acme.invalid.', LOGLEVEL_WARN);
 				$app->dbmaster->datalogError('SSL Certificate not saved. The SSL cert contains domain acme.invalid.');
-			
+
 				/* Update the DB of the (local) Server */
 				$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
 
@@ -570,7 +579,7 @@ class apache2_plugin {
 			$web_folder = $data['new']['web_folder'];
 			$log_folder .= '/' . $subdomain_host;
 			unset($tmp);
-			
+
 			if(isset($data['old']['parent_domain_id'])) {
 				// old one
 				$tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = ?', $data['old']['parent_domain_id']);
@@ -666,7 +675,7 @@ class apache2_plugin {
 					$app->system->rename($data['new']['document_root'], $data['new']['document_root'].'_bak_'.date('Y_m_d_H_i_s'));
 					$app->log('Renaming existing directory in new docroot location. mv '.$data['new']['document_root'].' '.$data['new']['document_root'].'_bak_'.date('Y_m_d_H_i_s'), LOGLEVEL_DEBUG);
 				}
-				
+
 				//* Unmount the old log directory bfore we move the log dir
 				$app->system->exec_safe('umount ?', $data['old']['document_root'].'/log');
 
@@ -702,9 +711,9 @@ class apache2_plugin {
 			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$old_log_folder.'    none    bind,nobootwait';
 			$app->system->removeLine('/etc/fstab', $fstab_line);
 			*/
-			
+
 			$fstab_line_old = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$old_log_folder.'    none    bind';
-			
+
 			if($web_config['network_filesystem'] == 'y') {
 				$fstab_line = '/var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/'.$log_folder.'    none    bind,nofail,_netdev    0 0';
 				$app->system->replaceLine('/etc/fstab', $fstab_line_old, $fstab_line, 0, 1);
@@ -712,9 +721,9 @@ class apache2_plugin {
 				$fstab_line = '/var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/'.$log_folder.'    none    bind,nofail    0 0';
 				$app->system->replaceLine('/etc/fstab', $fstab_line_old, $fstab_line, 0, 1);
 			}
-			
+
 			$app->system->exec_safe('mount --bind ? ?', '/var/log/ispconfig/httpd/'.$data['new']['domain'], $data['new']['document_root'].'/'.$log_folder);
-			
+
 		}
 
 		//print_r($data);
@@ -729,7 +738,7 @@ class apache2_plugin {
 		if(!is_dir($data['new']['document_root'].'/cgi-bin')) $app->system->mkdirpath($data['new']['document_root'].'/cgi-bin');
 		if(!is_dir($data['new']['document_root'].'/tmp')) $app->system->mkdirpath($data['new']['document_root'].'/tmp');
 		if(!is_dir($data['new']['document_root'].'/webdav')) $app->system->mkdirpath($data['new']['document_root'].'/webdav');
-		
+
 		if(!is_dir($data['new']['document_root'].'/.ssh')) {
 			$app->system->mkdirpath($data['new']['document_root'].'/.ssh');
 			$app->system->chmod($data['new']['document_root'].'/.ssh', 0700);
@@ -1115,10 +1124,10 @@ class apache2_plugin {
 		if(trim($data['new']['custom_php_ini']) != '') {
 			$has_custom_php_ini = true;
 			if(!is_dir($custom_php_ini_dir)) $app->system->mkdirpath($custom_php_ini_dir);
-			
+
 			$php_ini_content = $this->get_master_php_ini_content($data['new']);
 			$php_ini_content .= str_replace("\r", '', trim($data['new']['custom_php_ini']));
-			
+
 			if(intval($data['new']['directive_snippets_id']) > 0){
 				$snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'apache' AND active = 'y' AND customer_viewable = 'y'", intval($data['new']['directive_snippets_id']));
 				if(isset($snippet['required_php_snippets']) && trim($snippet['required_php_snippets']) != ''){
@@ -1137,7 +1146,7 @@ class apache2_plugin {
 					}
 				}
 			}
-		
+
 			$app->system->file_put_contents($custom_php_ini_dir.'/php.ini', $php_ini_content);
 		} else {
 			$has_custom_php_ini = false;
@@ -1179,7 +1188,7 @@ class apache2_plugin {
 			'{DOCROOT_CLIENT}' => $vhost_data['web_document_root']
 		);
 		$vhost_data['apache_directives'] = strtr($vhost_data['apache_directives'], $trans);
-		
+
 		$app->uses('letsencrypt');
 		// Check if a SSL cert exists
 		$tmp = $app->letsencrypt->get_website_certificate_paths($data);
@@ -1190,7 +1199,7 @@ class apache2_plugin {
 		$crt_file = $tmp['crt'];
 		$bundle_file = $tmp['bundle'];
 		unset($tmp);
-		
+
 		$data['new']['ssl_domain'] = $domain;
 		$vhost_data['ssl_domain'] = $domain;
 		$vhost_data['ssl_crt_file'] = $crt_file;
@@ -1222,7 +1231,7 @@ class apache2_plugin {
 				$app->dbmaster->query("UPDATE web_domain SET `ssl` = ?, `ssl_letsencrypt` = ? WHERE `domain` = ? AND `server_id` = ?", $data['new']['ssl'], 'n', $data['new']['domain'], $conf['server_id']);
  			}
 		}
-		
+
 		// Use separate bundle file only for apache versions < 2.4.8
 		if(@is_file($bundle_file) && version_compare($app->system->getapacheversion(true), '2.4.8', '<')) $vhost_data['has_bundle_cert'] = 1;
 
@@ -1425,7 +1434,7 @@ class apache2_plugin {
 		} else {
 			$tpl->setVar('alias', '');
 		}
-		
+
 		if (count($rewrite_wildcard_rules) > 0) $rewrite_rules = array_merge($rewrite_rules, $rewrite_wildcard_rules); // Append wildcard rules to the end of rules
 
 		if(count($rewrite_rules) > 0 || $vhost_data['seo_redirect_enabled'] > 0 || count($alias_seo_redirects) > 0 || $data['new']['rewrite_to_https'] == 'y') {
@@ -1568,7 +1577,7 @@ class apache2_plugin {
 		$pool_name = 'web'.$data['new']['domain_id'];
 		$socket_dir = $web_config['php_fpm_socket_dir'];
 		if(substr($socket_dir, -1) != '/') $socket_dir .= '/';
-		
+
 		if($data['new']['php_fpm_use_socket'] == 'y'){
 			$use_tcp = 0;
 			$use_socket = 1;
@@ -1675,6 +1684,16 @@ class apache2_plugin {
 		if(count($rewrite_rules) > 0)  $tmp_vhost_arr = $tmp_vhost_arr + array('redirects' => $rewrite_rules);
 		if(count($alias_seo_redirects) > 0) $tmp_vhost_arr = $tmp_vhost_arr + array('alias_seo_redirects' => $alias_seo_redirects);
 		$vhosts[] = $tmp_vhost_arr;
+
+		//if proxy protocol is enabled we need to add a new port to lsiten to
+		if($web_config['vhost_proxy_protocol_enabled'] == 'y' && $data['new']['proxy_protocol'] == 'y'){
+			if((int)$web_config['vhost_proxy_protocol_http_port'] > 0) {
+				$tmp_vhost_arr['port']           = (int)$web_config['vhost_proxy_protocol_http_port'];
+				$tmp_vhost_arr['use_proxy_protocol'] = $data['new']['proxy_protocol'];
+				$vhosts[]                        = $tmp_vhost_arr;
+			}
+		}
+
 		unset($tmp_vhost_arr);
 
 		//* Add vhost for ipv4 IP with SSL
@@ -1689,6 +1708,16 @@ class apache2_plugin {
 			}
 			if(count($ipv4_ssl_alias_seo_redirects) > 0) $tmp_vhost_arr = $tmp_vhost_arr + array('alias_seo_redirects' => $ipv4_ssl_alias_seo_redirects);
 			$vhosts[] = $tmp_vhost_arr;
+
+			//if proxy protocol is enabled we need to add a new port to lsiten to
+			if($web_config['vhost_proxy_protocol_enabled'] == 'y' && $data['new']['proxy_protocol'] == 'y'){
+				if((int)$web_config['vhost_proxy_protocol_https_port'] > 0) {
+					$tmp_vhost_arr['port']           = (int)$web_config['vhost_proxy_protocol_https_port'];
+					$tmp_vhost_arr['use_proxy_protocol'] = $data['new']['proxy_protocol'];
+					$vhosts[]                        = $tmp_vhost_arr;
+				}
+			}
+
 			unset($tmp_vhost_arr, $ipv4_ssl_alias_seo_redirects);
 			$app->log('Enable SSL for: '.$domain, LOGLEVEL_DEBUG);
 		}
@@ -2031,9 +2060,9 @@ class apache2_plugin {
 			} else {
 				$app->system->exec_safe('umount ? 2>/dev/null', $data['old']['document_root'].'/'.$log_folder);
 			}
-			
+
 			// remove letsencrypt if it exists (renew will always fail otherwise)
-			
+
 			$old_domain = $data['old']['domain'];
 			if(substr($old_domain, 0, 2) === '*.') {
 				// wildcard domain not yet supported by letsencrypt!
@@ -2568,7 +2597,7 @@ class apache2_plugin {
 			$app->system->chown($new_folder_path.'.htaccess', $website['system_user']);
 			$app->system->chgrp($new_folder_path.'.htaccess', $website['system_group']);
 			$app->log('Created/modified file '.$new_folder_path.'.htaccess', LOGLEVEL_DEBUG);
-			
+
 			//* Create empty .htpasswd file, if it does not exist
 			if(!is_file($folder_path.'.htpasswd')) {
 				$app->system->touch($new_folder_path.'.htpasswd');
@@ -2944,7 +2973,7 @@ class apache2_plugin {
 
 	private function hhvm_update($data, $web_config) {
 		global $app, $conf;
-		
+
 		if(file_exists($conf['rootpath'] . '/conf-custom/hhvm_starter.master')) {
 			$content = file_get_contents($conf['rootpath'] . '/conf-custom/hhvm_starter.master');
 		} else {
@@ -2955,7 +2984,7 @@ class apache2_plugin {
 		} else {
 			$monit_content = file_get_contents($conf['rootpath'] . '/conf/hhvm_monit.master');
 		}
-		
+
 		if($data['new']['php'] == 'hhvm' && $data['old']['php'] != 'hhvm' || ($data['new']['php'] == 'hhvm' && isset($data['old']['custom_php_ini']) && $data['new']['custom_php_ini'] != $data['old']['custom_php_ini'])) {
 
 			// Custom php.ini settings
@@ -2992,14 +3021,14 @@ class apache2_plugin {
 			$app->system->exec_safe('chmod +x ? >/dev/null 2>&1', '/etc/init.d/hhvm_' . $data['new']['system_user']);
 			$app->system->exec_safe('/usr/sbin/update-rc.d ? defaults >/dev/null 2>&1', 'hhvm_' . $data['new']['system_user']);
 			$app->system->exec_safe('? restart >/dev/null 2>&1', '/etc/init.d/hhvm_' . $data['new']['system_user']);
-			
+
 			if(is_dir('/etc/monit/conf.d')){
 				$monit_content = str_replace('{SYSTEM_USER}', $data['new']['system_user'], $monit_content);
 				file_put_contents('/etc/monit/conf.d/00-hhvm_' . $data['new']['system_user'], $monit_content);
 				if(is_file('/etc/monit/conf.d/hhvm_' . $data['new']['system_user'])) unlink('/etc/monit/conf.d/hhvm_' . $data['new']['system_user']);
 				exec('/etc/init.d/monit restart >/dev/null 2>&1');
 			}
-			
+
  		} elseif($data['new']['php'] != 'hhvm' && $data['old']['php'] == 'hhvm') {
 			if($data['old']['system_user'] != ''){
 				$app->system->exec_safe('? stop >/dev/null 2>&1', '/etc/init.d/hhvm_' . $data['old']['system_user']);
@@ -3007,7 +3036,7 @@ class apache2_plugin {
 				unlink('/etc/init.d/hhvm_' . $data['old']['system_user']);
 				if(is_file('/etc/hhvm/'.$data['old']['system_user'].'.ini')) unlink('/etc/hhvm/'.$data['old']['system_user'].'.ini');
 			}
-			
+
 			if(is_file('/etc/monit/conf.d/hhvm_' . $data['old']['system_user']) || is_file('/etc/monit/conf.d/00-hhvm_' . $data['old']['system_user'])){
 				if(is_file('/etc/monit/conf.d/hhvm_' . $data['old']['system_user'])){
 					unlink('/etc/monit/conf.d/hhvm_' . $data['old']['system_user']);
@@ -3046,7 +3075,7 @@ class apache2_plugin {
 
 		$app->uses("getconf");
 		$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
-		
+
 		$php_fpm_reload_mode = ($web_config['php_fpm_reload_mode'] == 'reload')?'reload':'restart';
 
 		if($data['new']['php'] != 'php-fpm'){
@@ -3069,7 +3098,7 @@ class apache2_plugin {
 		$tpl = new tpl();
 		$tpl->newTemplate('php_fpm_pool.conf.master');
 		$tpl->setVar('apache_version', $app->system->getapacheversion());
-		
+
 		if($data['new']['php_fpm_use_socket'] == 'y'){
 			$use_tcp = 0;
 			$use_socket = 1;
@@ -3122,7 +3151,7 @@ class apache2_plugin {
 		// Custom php.ini settings
 		$final_php_ini_settings = array();
 		$custom_php_ini_settings = trim($data['new']['custom_php_ini']);
-		
+
 		if(intval($data['new']['directive_snippets_id']) > 0){
 			$snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'apache' AND active = 'y' AND customer_viewable = 'y'", intval($data['new']['directive_snippets_id']));
 			if(isset($snippet['required_php_snippets']) && trim($snippet['required_php_snippets']) != ''){
@@ -3141,7 +3170,7 @@ class apache2_plugin {
 				}
 			}
 		}
-		
+
 		$custom_session_save_path = false;
 		if($custom_php_ini_settings != ''){
 			// Make sure we only have Unix linebreaks
@@ -3149,6 +3178,7 @@ class apache2_plugin {
 			$custom_php_ini_settings = str_replace("\r", "\n", $custom_php_ini_settings);
 			$ini_settings = explode("\n", $custom_php_ini_settings);
 			if(is_array($ini_settings) && !empty($ini_settings)){
+				$ini_settings = str_replace('{WEBROOT}', $data['new']['document_root'].'/web', $ini_settings);
 				foreach($ini_settings as $ini_setting){
 					$ini_setting = trim($ini_setting);
 					if(substr($ini_setting, 0, 1) == ';') continue;
@@ -3228,10 +3258,10 @@ class apache2_plugin {
 	//* Delete the PHP-FPM pool configuration file
 	private function php_fpm_pool_delete ($data, $web_config) {
 		global $app, $conf;
-		
+
 		$app->uses("getconf");
 		$web_config = $app->getconf->get_server_config($conf["server_id"], 'web');
-		
+
 		$php_fpm_reload_mode = ($web_config['php_fpm_reload_mode'] == 'reload')?'reload':'restart';
 
 		if(trim($data['old']['fastcgi_php_version']) != '' && $data['old']['php'] == 'php-fpm'){

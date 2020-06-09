@@ -1,15 +1,15 @@
 <?php
-$wb['list_head_txt'] = 'XMPP User Accounts';
-$wb['jid_txt'] = 'Jabber ID';
-$wb['active_txt'] = 'Active';
-$wb['cryptpwd_txt'] = 'Password';
-$wb['password_strength_txt'] = 'Password strength';
-$wb['error_no_pwd'] = 'Password is empty.';
-$wb['password_txt'] = 'Password';
-$wb['generate_password_txt'] = 'Generate Password';
-$wb['repeat_password_txt'] = 'Repeat Password';
-$wb['password_mismatch_txt'] = 'The passwords do not match.';
-$wb['password_match_txt'] = 'The passwords do match.';
-$wb['no_domain_perm'] = 'You have no permission for this domain.';
-$wb['limit_xmpp_user_txt'] = 'The max. number of xmpp accounts for your account is reached.';
+$wb['list_head_txt'] = 'XMPP Kullanıcı Adı';
+$wb['jid_txt'] = 'Jabber Kodu';
+$wb['active_txt'] = 'Etkin';
+$wb['cryptpwd_txt'] = 'Parola';
+$wb['password_strength_txt'] = 'Parola Zorluğu';
+$wb['error_no_pwd'] = 'Paroal boş olamaz.';
+$wb['password_txt'] = 'Paroal';
+$wb['generate_password_txt'] = 'Parola Üret';
+$wb['repeat_password_txt'] = 'Parola Onayı';
+$wb['password_mismatch_txt'] = 'Parola ile onayı aynı değil.';
+$wb['password_match_txt'] = 'Parolalar aynı.';
+$wb['no_domain_perm'] = 'Bu etki alanı için izniniz yok.';
+$wb['limit_xmpp_user_txt'] = 'Hesabınıza ekleyebileceğiniz en fazla XMPP hesabı sayısına ulaştınız.';
 ?>

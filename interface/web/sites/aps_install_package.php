@@ -49,8 +49,8 @@ $app->load_language_file('web/sites/'.$lngfile);
 
 // we will check only users, not admins
 if($_SESSION["s"]["user"]["typ"] == 'user') {
-	$app->tform->formDef['db_table_idx'] = 'client_id';
-	$app->tform->formDef['db_table'] = 'client';
+	$app->tform->formDef['db_table_idx'] = 'id';
+	$app->tform->formDef['db_table'] = 'aps_instances';
 	if(!$app->tform->checkClientLimit('limit_aps')) {
 		$app->error($app->lng("limit_aps_txt"));
 	}
@@ -93,6 +93,9 @@ if(!empty($domains_assoc)) foreach($domains_assoc as $domain) $domains[] = $doma
 	$result['input'] = array();
 if(count($_POST) > 1)
 {
+	// Check CSRF Token
+	$app->auth->csrf_token_check();
+	
 	$result = $gui->validateInstallerInput($_POST, $details, $domains, $settings);
 	if(empty($result['error']))
 	{
@@ -117,12 +120,15 @@ foreach($details as $key => $value)
 	else if($key == 'Requirements PHP settings') $app->tpl->setLoop('pkg_requirements_php_settings', $details['Requirements PHP settings']);
 }
 
+// get new csrf token
+$csrf_token = $app->auth->csrf_token_get('aps_install_package');
+$app->tpl->setVar('_csrf_id', $csrf_token['csrf_id']);
+$app->tpl->setVar('_csrf_key', $csrf_token['csrf_key']);
+
 // Parse the template as far as possible, then do the rest manually
 $app->tpl_defaults();
 $parsed_tpl = $app->tpl->grab();
 
-
-// ISPConfig has a very old and functionally limited template engine. We have to style parts on our own...
 
 // Print the domain list
 $domains_tpl = '';

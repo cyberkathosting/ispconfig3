@@ -1,7 +1,6 @@
 <?php
 $wb['limits_txt'] = 'Konto begrænsninger';
 $wb['of_txt'] = 'af';
-$wb['unlimited_txt'] = 'Ubegrænset';
 $wb['limit_maildomain_txt'] = 'Antal af e-mail domæner';
 $wb['limit_mailmailinglist_txt'] = 'Antal af mail-lister';
 $wb['limit_mailbox_txt'] = 'Antal af mail-bokse';

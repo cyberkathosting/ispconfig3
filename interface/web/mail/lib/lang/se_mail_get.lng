@@ -14,6 +14,6 @@ $wb['source_password_error_isempty'] = 'Lösenord är tomt.';
 $wb['destination_error_isemail'] = 'Ingen destination vald.';
 $wb['source_server_error_regex'] = 'POP3-/Imapserver är inte ett giltigt domännamn.';
 $wb['source_read_all_txt'] = 'Hämta all epost (även läst epost)';
-$wb['error_delete_read_all_combination'] = 'Illegal combination of options. You can not use \"Delete emails after retrieval\" = no together with \"Retrieve all emails\" = yes';
+$wb['error_delete_read_all_combination'] = 'Illegal combination of options. You can not use \\"Delete emails after retrieval\\" = no together with \\"Retrieve all emails\\" = yes';
 $wb['source_delete_note_txt'] = 'Vänligen kontrollera först om eposthämtning fungerar innan du aktiverar detta val..';
 ?>

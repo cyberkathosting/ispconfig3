@@ -107,7 +107,7 @@ $form["tabs"]['blacklist'] = array (
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );

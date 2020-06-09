@@ -1,13 +1,13 @@
 <?php
-$wb['template_type_txt'] = 'E-posta tipi';
-$wb['template_name_txt'] = 'Kalıp adı';
+$wb['template_type_txt'] = 'E-posta Türü';
+$wb['template_name_txt'] = 'Kalıp Adı';
 $wb['subject_txt'] = 'Konu';
 $wb['message_txt'] = 'İleti';
-$wb['Email template'] = 'E-posta kalıbı';
+$wb['Email template'] = 'E-posta Kalıbı';
 $wb['Settings'] = 'Ayarlar';
 $wb['variables_txt'] = 'Değişkenler';
 $wb['variables_description_txt'] = '(Kullanıcı adı ve parola değişkenleri yalnız hoşgeldiniz e-postalarında kullanılabilir.)';
-$wb['duplicate_welcome_error'] = 'Yalnız bir varsayılan hoşgeldiniz e-postası kalıbı bulunabilir. Lütfen yeni bir tema eklemek yerine varolan temayı düzenlemeyi deneyin.';
-$wb['subject_error_empty'] = 'Subject is empty';
-$wb['message_error_empty'] = 'Message is empty';
+$wb['duplicate_welcome_error'] = 'Yalnız bir varsayılan hoşgeldiniz e-postası kalıbı bulunabilir. Lütfen yeni bir tema eklemek yerine var olan temayı düzenlemeyi deneyin.';
+$wb['subject_error_empty'] = 'Konu boş olamaz';
+$wb['message_error_empty'] = 'İleti boş olamaz';
 ?>

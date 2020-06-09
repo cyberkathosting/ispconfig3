@@ -326,6 +326,8 @@ class installer_base {
 		$tpl_ini_array['web']['php_ini_path_cgi'] = $conf['apache']['php_ini_path_cgi'];
 		$tpl_ini_array['mail']['pop3_imap_daemon'] = ($conf['dovecot']['installed'] == true)?'dovecot':'courier';
 		$tpl_ini_array['mail']['mail_filter_syntax'] = ($conf['dovecot']['installed'] == true)?'sieve':'maildrop';
+		$tpl_ini_array['mail']['content_filter'] = @($conf['rspamd']['installed']) ? 'rspamd' : 'amavisd';
+		$tpl_ini_array['mail']['rspamd_available'] = @($conf['rspamd']['installed']) ? 'y' : 'n';
 		$tpl_ini_array['dns']['bind_user'] = $conf['bind']['bind_user'];
 		$tpl_ini_array['dns']['bind_group'] = $conf['bind']['bind_group'];
 		$tpl_ini_array['dns']['bind_zonefiles_dir'] = $conf['bind']['bind_zonefiles_dir'];
@@ -407,80 +409,92 @@ class installer_base {
 
 
 	}
-	
+
+	public function get_host_ips() {
+		$out = array();
+		exec('hostname --all-ip-addresses', $ret, $val);
+		if($val == 0) {
+			if(is_array($ret) && !empty($ret)){
+				$temp = (explode(' ', $ret[0]));
+				foreach($temp as $ip) {
+					$out[] = $ip;
+				}
+			}
+		}
+
+		return $out;
+	}
+
 	public function detect_ips(){
 		global $conf;
+			
+		$output = $this->get_host_ips();
 
-		exec("ip addr show | awk '/global/ { print $2 }' | cut -d '/' -f 1", $output, $retval);
-		
-		if($retval == 0){
-			if(is_array($output) && !empty($output)){
-				foreach($output as $line){
-					$line = trim($line);
-					$ip_type = '';
-					if (filter_var($line, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
-						$ip_type = 'IPv4';
-					}
-					if (filter_var($line, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
-						$ip_type = 'IPv6';
-					}
-					if($ip_type == '') continue;
-					if($this->db->dbHost != $this->dbmaster->dbHost){
-						$this->dbmaster->query('INSERT INTO server_ip (
-							sys_userid, sys_groupid, sys_perm_user, sys_perm_group,
-							sys_perm_other, server_id, client_id, ip_type, ip_address,
-							virtualhost, virtualhost_port
-						) VALUES (
-							1,
-							1,
-							"riud",
-							"riud",
-							"",
-							?,
-							0,
-							?,
-							?,
-							"y",
-							"80,443"
-						)', $conf['server_id'], $ip_type, $line);
-						$server_ip_id = $this->dbmaster->insertID();
-						$this->db->query('INSERT INTO server_ip (
-							server_php_id, sys_userid, sys_groupid, sys_perm_user, sys_perm_group,
-							sys_perm_other, server_id, client_id, ip_type, ip_address,
-							virtualhost, virtualhost_port
-						) VALUES (
-							?,
-							1,
-							1,
-							"riud",
-							"riud",
-							"",
-							?,
-							0,
-							?,
-							?,
-							"y",
-							"80,443"
-						)', $server_ip_id, $conf['server_id'], $ip_type, $line);
-					} else {
-						$this->db->query('INSERT INTO server_ip (
-							sys_userid, sys_groupid, sys_perm_user, sys_perm_group,
-							sys_perm_other, server_id, client_id, ip_type, ip_address,
-							virtualhost, virtualhost_port
-						) VALUES (
-							1,
-							1,
-							"riud",
-							"riud",
-							"",
-							?,
-							0,
-							?,
-							?,
-							"y",
-							"80,443"
-						)', $conf['server_id'], $ip_type, $line);
-					}
+		if(is_array($output) && !empty($output)){
+			foreach($output as $line){
+				$ip_type = '';
+				if (filter_var($line, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+					$ip_type = 'IPv4';
+				}
+				if (filter_var($line, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+					$ip_type = 'IPv6';
+				}
+				if($ip_type == '') continue;
+				if($this->db->dbHost != $this->dbmaster->dbHost){
+					$this->dbmaster->query('INSERT INTO server_ip (
+						sys_userid, sys_groupid, sys_perm_user, sys_perm_group,
+						sys_perm_other, server_id, client_id, ip_type, ip_address,
+						virtualhost, virtualhost_port
+					) VALUES (
+						1,
+						1,
+						"riud",
+						"riud",
+						"",
+						?,
+						0,
+						?,
+						?,
+						"y",
+						"80,443"
+					)', $conf['server_id'], $ip_type, $line);
+					$server_ip_id = $this->dbmaster->insertID();
+					$this->db->query('INSERT INTO server_ip (
+						server_php_id, sys_userid, sys_groupid, sys_perm_user, sys_perm_group,
+						sys_perm_other, server_id, client_id, ip_type, ip_address,
+						virtualhost, virtualhost_port
+					) VALUES (
+						?,
+						1,
+						1,
+						"riud",
+						"riud",
+						"",
+						?,
+						0,
+						?,
+						?,
+						"y",
+						"80,443"
+					)', $server_ip_id, $conf['server_id'], $ip_type, $line);
+				} else {
+					$this->db->query('INSERT INTO server_ip (
+						sys_userid, sys_groupid, sys_perm_user, sys_perm_group,
+						sys_perm_other, server_id, client_id, ip_type, ip_address,
+						virtualhost, virtualhost_port
+					) VALUES (
+						1,
+						1,
+						"riud",
+						"riud",
+						"",
+						?,
+						0,
+						?,
+						?,
+						"y",
+						"80,443"
+					)', $conf['server_id'], $ip_type, $line);
 				}
 			}
 		}
@@ -507,15 +521,23 @@ class installer_base {
 
 			//* insert the ispconfig user in the remote server
 			$from_host = $conf['hostname'];
-			$from_ip = gethostbyname($conf['hostname']);
-
 			$hosts[$from_host]['user'] = $conf['mysql']['master_ispconfig_user'];
 			$hosts[$from_host]['db'] = $conf['mysql']['master_database'];
 			$hosts[$from_host]['pwd'] = $conf['mysql']['master_ispconfig_password'];
 
-			$hosts[$from_ip]['user'] = $conf['mysql']['master_ispconfig_user'];
-			$hosts[$from_ip]['db'] = $conf['mysql']['master_database'];
-			$hosts[$from_ip]['pwd'] = $conf['mysql']['master_ispconfig_password'];
+			$host_ips = $this->get_host_ips();
+			if(is_array($host_ips) && !empty($host_ips)) {
+				foreach($host_ips as $ip) {
+					$hosts[$ip]['user'] = $conf['mysql']['master_ispconfig_user'];
+					$hosts[$ip]['db'] = $conf['mysql']['master_database'];
+					$hosts[$ip]['pwd'] = $conf['mysql']['master_ispconfig_password'];
+				}
+			} else {
+				$from_ip = gethostbyname($conf['hostname']);
+				$hosts[$from_ip]['user'] = $conf['mysql']['master_ispconfig_user'];
+				$hosts[$from_ip]['db'] = $conf['mysql']['master_database'];
+				$hosts[$from_ip]['pwd'] = $conf['mysql']['master_ispconfig_password'];
+			}
 		} else{
 			/*
 			 * it is NOT a master-slave - Setup so we have to find out all clients and their
@@ -1302,6 +1324,38 @@ class installer_base {
 				file_put_contents($config_dir.'/'.$configfile,$content);
 				unset($content);
 			}
+			if(version_compare($dovecot_version,2.3) >= 0) {
+				// Remove deprecated setting(s)
+				removeLine($config_dir.'/'.$configfile, 'ssl_protocols =');
+				
+				// Check if we have a dhparams file and if not, create it
+				if(!file_exists('/etc/dovecot/dh.pem')) {
+					swriteln('Creating new DHParams file, this takes several minutes. Do not interrupt the script.');
+					if(file_exists('/var/lib/dovecot/ssl-parameters.dat')) {
+						// convert existing ssl parameters file
+						$command = 'dd if=/var/lib/dovecot/ssl-parameters.dat bs=1 skip=88 | openssl dhparam -inform der > /etc/dovecot/dh.pem';
+						caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+					} else {
+						/*
+						   Create a new dhparams file. We use 2048 bit only as it simply takes too long
+						   on smaller systems to generate a 4096 bit dh file (> 30 minutes). If you need
+						   a 4096 bit file, create it manually before you install ISPConfig
+						*/
+						$command = 'openssl dhparam -out /etc/dovecot/dh.pem 2048';
+						caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+					}
+				}
+				//remove #2.3+ comment
+				$content = file_get_contents($config_dir.'/'.$configfile);
+				$content = str_replace('#2.3+','',$content);
+				file_put_contents($config_dir.'/'.$configfile,$content);
+				unset($content);
+				
+			} else {
+				// remove settings which are not supported in Dovecot < 2.3
+				removeLine($config_dir.'/'.$configfile, 'ssl_min_protocol =');
+				removeLine($config_dir.'/'.$configfile, 'ssl_dh =');
+			}
 		}
 
 		//* dovecot-lmtpd
@@ -1610,7 +1664,8 @@ class installer_base {
 		$tpl = new tpl();
 		$tpl->newTemplate('rspamd_worker-controller.inc.master');
 		$tpl->setVar('rspamd_password', $mail_config['rspamd_password']);
-		wf('/etc/rspamd/local.d/worker-controller.inc', $tpl->grab());		
+		wf('/etc/rspamd/local.d/worker-controller.inc', $tpl->grab());
+		chmod('/etc/rspamd/local.d/worker-controller.inc', 0644);
 	}
 
 	public function configure_spamassassin() {
@@ -2224,7 +2279,10 @@ class installer_base {
 				$tpl->setVar('logging','yes');
 			}
 
-
+			if($conf['rspamd']['installed'] == true) {
+				$tpl->setVar('use_rspamd', 'yes');
+			}
+			
 			// comment out the listen directive if port is 80 or 443
 			if($conf['web']['apps_vhost_ip'] == 80 or $conf['web']['apps_vhost_ip'] == 443) {
 				$tpl->setVar('vhost_port_listen','#');
@@ -2292,6 +2350,12 @@ class installer_base {
 				$apps_vhost_ip = $conf['web']['apps_vhost_ip'].':';
 			}
 
+			if($conf['rspamd']['installed'] == true) {
+				$content = str_replace('{use_rspamd}', '', $content);
+			} else {
+				$content = str_replace('{use_rspamd}', '# ', $content);
+			}
+			
 			$socket_dir = escapeshellcmd($conf['nginx']['php_fpm_socket_dir']);
 			if(substr($socket_dir, -1) != '/') $socket_dir .= '/';
 			if(!is_dir($socket_dir)) exec('mkdir -p '.$socket_dir);
@@ -2311,6 +2375,7 @@ class installer_base {
 				|| file_exists('/var/run/php/php7.1-fpm.sock')
 				|| file_exists('/var/run/php/php7.2-fpm.sock')
 				|| file_exists('/var/run/php/php7.3-fpm.sock')
+				|| file_exists('/var/run/php/php7.4-fpm.sock')
 			){
 				$use_tcp = '#';
 				$use_socket = '';
@@ -2329,6 +2394,8 @@ class installer_base {
 			if(file_exists('/var/run/php/php7.0-fpm.sock'))	$content = str_replace('/var/run/php5-fpm.sock', '/var/run/php/php7.0-fpm.sock', $content);
 			if(file_exists('/var/run/php/php7.1-fpm.sock'))	$content = str_replace('/var/run/php5-fpm.sock', '/var/run/php/php7.1-fpm.sock', $content);
 			if(file_exists('/var/run/php/php7.2-fpm.sock'))	$content = str_replace('/var/run/php5-fpm.sock', '/var/run/php/php7.2-fpm.sock', $content);
+			if(file_exists('/var/run/php/php7.3-fpm.sock'))	$content = str_replace('/var/run/php5-fpm.sock', '/var/run/php/php7.3-fpm.sock', $content);
+			if(file_exists('/var/run/php/php7.4-fpm.sock'))	$content = str_replace('/var/run/php5-fpm.sock', '/var/run/php/php7.4-fpm.sock', $content);
 
 			wf($vhost_conf_dir.'/apps.vhost', $content);
 
@@ -2411,24 +2478,13 @@ class installer_base {
 		//* copy the ISPConfig security part
 		$command = 'cp -rf ../security '.$install_dir;
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-		
-		//* Apply changed security_settings.ini values to new security_settings.ini file
-		if(is_file('/usr/local/ispconfig/security/security_settings.ini~')) {
-			$security_settings_old = ini_to_array(file_get_contents('/usr/local/ispconfig/security/security_settings.ini~'));
-			$security_settings_new = ini_to_array(file_get_contents('/usr/local/ispconfig/security/security_settings.ini'));
-			if(is_array($security_settings_new) && is_array($security_settings_old)) {
-				foreach($security_settings_new as $section => $sval) {
-					if(is_array($sval)) {
-						foreach($sval as $key => $val) {
-							if(isset($security_settings_old[$section]) && isset($security_settings_old[$section][$key])) {
-								$security_settings_new[$section][$key] = $security_settings_old[$section][$key];
-							}
-						}
-					}
-				}
-				file_put_contents('/usr/local/ispconfig/security/security_settings.ini',array_to_ini($security_settings_new));
-			}
+	
+		$configfile = 'security_settings.ini';
+		if(is_file($install_dir.'/security/'.$configfile)) {
+			copy($install_dir.'/security/'.$configfile, $install_dir.'/security/'.$configfile.'~');
 		}
+		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', 'tpl/'.$configfile.'.master');
+		wf($install_dir.'/security/'.$configfile, $content);	
 
 		//* Create a symlink, so ISPConfig is accessible via web
 		// Replaced by a separate vhost definition for port 8080

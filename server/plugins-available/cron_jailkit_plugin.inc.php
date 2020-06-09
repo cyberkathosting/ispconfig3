@@ -216,12 +216,9 @@ class cron_jailkit_plugin {
 		//check if the chroot environment is created yet if not create it with a list of program sections from the config
 		if (!is_dir($this->parent_domain['document_root'].'/etc/jailkit'))
 		{
-			$command = '/usr/local/ispconfig/server/scripts/create_jailkit_chroot.sh';
-			$command .= ' ?';
-			$command .= ' ?';
-			$app->system->exec_safe($command.' 2>/dev/null', $this->parent_domain['document_root'], $this->jailkit_config['jailkit_chroot_app_sections']);
+			$app->system->create_jailkit_chroot($this->parent_domain['document_root'], $this->jailkit_config['jailkit_chroot_app_sections']);
 
-			$this->app->log("Added jailkit chroot with command: ".$command, LOGLEVEL_DEBUG);
+			$this->app->log("Added jailkit chroot", LOGLEVEL_DEBUG);
 
 			$this->app->load('tpl');
 
@@ -259,19 +256,11 @@ class cron_jailkit_plugin {
 		global $app;
 
 		//copy over further programs and its libraries
-		$command = '/usr/local/ispconfig/server/scripts/create_jailkit_programs.sh';
-		$command .= ' ?';
-		$command .= ' ?';
-		$app->system->exec_safe($command.' 2>/dev/null', $this->parent_domain['document_root'], $this->jailkit_config['jailkit_chroot_app_programs']);
-
-		$this->app->log("Added programs to jailkit chroot with command: ".$command, LOGLEVEL_DEBUG);
-
-		$command = '/usr/local/ispconfig/server/scripts/create_jailkit_programs.sh';
-		$command .= ' ?';
-		$command .= ' ?';
-		$app->system->exec_safe($command.' 2>/dev/null', $this->parent_domain['document_root'], $this->jailkit_config['jailkit_chroot_cron_programs']);
-
-		$this->app->log("Added cron programs to jailkit chroot with command: ".$command, LOGLEVEL_DEBUG);
+		$app->system->create_jailkit_programs($this->parent_domain['document_root'], $this->jailkit_config['jailkit_chroot_app_programs']);
+		$this->app->log("Added app programs to jailkit chroot", LOGLEVEL_DEBUG);
+		
+		$app->system->create_jailkit_programs($this->parent_domain['document_root'], $this->jailkit_config['jailkit_chroot_cron_programs']);
+		$this->app->log("Added cron programs to jailkit chroot", LOGLEVEL_DEBUG);
 	}
 
 	function _add_jailkit_user()
@@ -288,14 +277,7 @@ class cron_jailkit_plugin {
 		// ALWAYS create the user. Even if the user was created before
 		// if we check if the user exists, then a update (no shell -> jailkit) will not work
 		// and the user has FULL ACCESS to the root of the server!
-		$command = '/usr/local/ispconfig/server/scripts/create_jailkit_user.sh';
-		$command .= ' ?';
-		$command .= ' ?';
-		$command .= ' ?';
-		$command .= ' /bin/bash';
-		$app->system->exec_safe($command.' 2>/dev/null', $this->parent_domain['system_user'], $this->parent_domain['document_root'], $jailkit_chroot_userhome);
-
-		$this->app->log("Added jailkit user to chroot with command: ".$command, LOGLEVEL_DEBUG);
+		$app->system->create_jailkit_user($this->parent_domain['system_user'], $this->parent_domain['document_root'], $jailkit_chroot_userhome);
 
 		$app->system->mkdir($this->parent_domain['document_root'].$jailkit_chroot_userhome, 0755, true);
 		$app->system->chown($this->parent_domain['document_root'].$jailkit_chroot_userhome, $this->parent_domain['system_user']);

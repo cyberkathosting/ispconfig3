@@ -19,7 +19,7 @@ try {
 	$params = array(
 		'server_id' => 1,
 		'wb' => 'B',
-		'rid' => '',
+		'rid' => '', // Fill in an ID from the spamfilter_users table.
 		'email' => 'hmmnoe@test.int',
 		'priority' => 1,
 		'active' => 'y'

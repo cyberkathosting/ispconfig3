@@ -1,7 +1,6 @@
 <?php
 $wb['limits_txt'] = 'Kontobeschränkungen';
 $wb['of_txt'] = 'von';
-$wb['unlimited_txt'] = 'unlimitiert';
 $wb['limit_maildomain_txt'] = 'Anzahl der E-Mail Domains';
 $wb['limit_mailbox_txt'] = 'Anzahl der E-Mail Konten';
 $wb['limit_mailalias_txt'] = 'Anzahl der E-Mail Aliase';

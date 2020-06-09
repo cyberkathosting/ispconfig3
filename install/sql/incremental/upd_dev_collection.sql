@@ -1,37 +1,18 @@
--- rspamd
-ALTER TABLE `spamfilter_policy` ADD `rspamd_greylisting` ENUM('n','y') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'n' AFTER `policyd_greylist`;
-ALTER TABLE `spamfilter_policy` ADD `rspamd_spam_greylisting_level` DECIMAL(5,2) NULL DEFAULT NULL AFTER `rspamd_greylisting`;
-ALTER TABLE `spamfilter_policy` ADD `rspamd_spam_tag_level` DECIMAL(5,2) NULL DEFAULT NULL AFTER `rspamd_spam_greylisting_level`;
-ALTER TABLE `spamfilter_policy` ADD `rspamd_spam_tag_method` ENUM('add_header','rewrite_subject') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'rewrite_subject' AFTER `rspamd_spam_tag_level`;
-ALTER TABLE `spamfilter_policy` ADD `rspamd_spam_kill_level` DECIMAL(5,2) NULL DEFAULT NULL AFTER `rspamd_spam_tag_method`;
+-- add new proxy_protocol column
+ALTER TABLE `web_domain`
+    ADD COLUMN `proxy_protocol` ENUM('n','y') NOT NULL DEFAULT 'n' AFTER `log_retention`;
 
-UPDATE `spamfilter_policy` SET `rspamd_greylisting` = 'y' WHERE id = 4;
-UPDATE `spamfilter_policy` SET `rspamd_greylisting` = 'y' WHERE id = 5;
-UPDATE `spamfilter_policy` SET `rspamd_greylisting` = 'y' WHERE id = 6;
+-- backup format
+ALTER TABLE `web_domain` ADD  `backup_format_web` VARCHAR( 255 ) NOT NULL default 'default' AFTER `backup_copies`;
+ALTER TABLE `web_domain` ADD  `backup_format_db` VARCHAR( 255 ) NOT NULL default 'gzip' AFTER `backup_format_web`;
+-- end of backup format
 
-UPDATE `spamfilter_policy` SET `rspamd_spam_greylisting_level` = '4.00';
-UPDATE `spamfilter_policy` SET `rspamd_spam_greylisting_level` = '6.00' WHERE id = 1;
-UPDATE `spamfilter_policy` SET `rspamd_spam_greylisting_level` = '999.00' WHERE id = 2;
-UPDATE `spamfilter_policy` SET `rspamd_spam_greylisting_level` = '999.00' WHERE id = 3;
-UPDATE `spamfilter_policy` SET `rspamd_spam_greylisting_level` = '2.00' WHERE id = 6;
-UPDATE `spamfilter_policy` SET `rspamd_spam_greylisting_level` = '7.00' WHERE id = 7;
+-- backup encryption
+ALTER TABLE `web_domain` ADD  `backup_encrypt` enum('n','y') NOT NULL DEFAULT 'n' AFTER `backup_format_db`;
+ALTER TABLE `web_domain` ADD  `backup_password` VARCHAR( 255 ) NOT NULL DEFAULT '' AFTER `backup_encrypt`;
+ALTER TABLE `web_backup` ADD  `backup_format` VARCHAR( 64 ) NOT NULL DEFAULT '' AFTER `backup_mode`;
+ALTER TABLE `web_backup` ADD  `backup_password` VARCHAR( 255 ) NOT NULL DEFAULT '' AFTER `filesize`;
+-- end of backup encryption
 
-UPDATE `spamfilter_policy` SET `rspamd_spam_tag_level` = '6.00';
-UPDATE `spamfilter_policy` SET `rspamd_spam_tag_level` = '8.00' WHERE id = 1;
-UPDATE `spamfilter_policy` SET `rspamd_spam_tag_level` = '999.00' WHERE id = 2;
-UPDATE `spamfilter_policy` SET `rspamd_spam_tag_level` = '999.00' WHERE id = 3;
-UPDATE `spamfilter_policy` SET `rspamd_spam_tag_level` = '4.00' WHERE id = 6;
-UPDATE `spamfilter_policy` SET `rspamd_spam_tag_level` = '10.00' WHERE id = 7;
-
-UPDATE `spamfilter_policy` SET `rspamd_spam_kill_level` = '10.00';
-UPDATE `spamfilter_policy` SET `rspamd_spam_kill_level` = '12.00' WHERE id = 1;
-UPDATE `spamfilter_policy` SET `rspamd_spam_kill_level` = '999.00' WHERE id = 2;
-UPDATE `spamfilter_policy` SET `rspamd_spam_kill_level` = '999.00' WHERE id = 3;
-UPDATE `spamfilter_policy` SET `rspamd_spam_kill_level` = '8.00' WHERE id = 6;
-UPDATE `spamfilter_policy` SET `rspamd_spam_kill_level` = '20.00' WHERE id = 7;
--- end of rspamd
-ALTER TABLE `client` CHANGE COLUMN `password` `password` VARCHAR(200) DEFAULT NULL;
-ALTER TABLE `ftp_user` CHANGE COLUMN `password` `password` VARCHAR(200) DEFAULT NULL;
-ALTER TABLE `shell_user` CHANGE COLUMN `password` `password` VARCHAR(200) DEFAULT NULL;
-ALTER TABLE `sys_user` CHANGE COLUMN `passwort` `passwort` VARCHAR(200) DEFAULT NULL;
-ALTER TABLE `webdav_user` CHANGE COLUMN `password` `password` VARCHAR(200) DEFAULT NULL;
+-- rename Comodo to "Sectigo / Comodo CA"
+UPDATE `dns_ssl_ca` SET `ca_name` = 'Sectigo / Comodo CA' WHERE `ca_issue` = 'comodoca.com';

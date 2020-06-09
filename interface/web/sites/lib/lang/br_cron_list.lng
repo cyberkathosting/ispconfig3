@@ -1,10 +1,10 @@
 <?php
-$wb['list_head_txt'] = 'Tarefas no Cron';
-$wb['active_txt'] = 'Ativas';
+$wb['list_head_txt'] = 'Tarefas no cron';
+$wb['active_txt'] = 'Ativo';
 $wb['server_id_txt'] = 'Servidor';
-$wb['run_min_txt'] = 'Minutos';
-$wb['run_hour_txt'] = 'Horas';
-$wb['run_mday_txt'] = 'Dias do mês';
+$wb['run_min_txt'] = 'Minuto';
+$wb['run_hour_txt'] = 'Hora';
+$wb['run_mday_txt'] = 'Dia do mês';
 $wb['run_month_txt'] = 'Mês';
 $wb['run_wday_txt'] = 'Dia da semana';
 $wb['command_txt'] = 'Comando';

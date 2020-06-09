@@ -1,4 +1,5 @@
 <?php
+$wb['users_txt'] = 'Users';
 $wb['username_txt'] = 'Användarnamn';
 $wb['username_err'] = 'användarnamn_fel';
 $wb['passwort_txt'] = 'Lösenord';

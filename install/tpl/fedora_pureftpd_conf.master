@@ -241,13 +241,6 @@ MinUID                      500
 
 
 
-# Do not use the /etc/ftpusers file to disable accounts. We're already
-# using MinUID to block users with uid < 500
-
-UseFtpUsers no
-
-
-
 # Allow FXP transfers for authenticated users.
 
 AllowUserFXP                no

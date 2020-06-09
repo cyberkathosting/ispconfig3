@@ -135,7 +135,7 @@ $form["tabs"]['services'] = array (
 			'value'  => array(0 => 'No', 1 => 'Yes')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -160,7 +160,7 @@ $form["tabs"]['config'] = array (
 			'maxlength'	=> ''
 		),
 	##################################
-	# ENDE Datatable fields
+	# END Datatable fields
 	##################################
 	)
 );

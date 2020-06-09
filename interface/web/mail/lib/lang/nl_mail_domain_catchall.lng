@@ -8,4 +8,5 @@ $wb['domain_error_regex'] = 'Ongeldige domeinnaam of domein bevat ongeldige kara
 $wb['limit_mailcatchall_txt'] = 'Het max. aantal e-mail catchall accounts voor uw account is bereikt.';
 $wb['source_txt'] = 'Source';
 $wb['destination_error_isemail'] = 'Destination is no valid email address.';
+$wb['greylisting_txt'] = 'Enable greylisting';
 ?>

@@ -1,9 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Estatísticas de backup';
+$wb['list_head_txt'] = 'Backup de Estatísticas';
 $wb['active_txt'] = 'Ativo';
-$wb['domain_txt'] = 'e-mail';
-$wb['backup_count_txt'] = 'Contador de backup';
+$wb['domain_txt'] = 'Domínio';
+$wb['backup_count_txt'] = 'Contador de backups';
 $wb['backup_server_txt'] = 'Servidor';
-$wb['backup_interval_txt'] = 'Intervalo/contador';
-$wb['backup_size_txt'] = 'Tamanho';
+$wb['backup_interval_txt'] = 'Intervalo entre backups';
+$wb['backup_size_txt'] = 'Tamanho do backup';
 ?>

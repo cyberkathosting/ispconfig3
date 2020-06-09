@@ -31,5 +31,5 @@ $wb['Available packages'] = 'Pacchetti disponibili';
 $wb['Installed packages'] = 'Pacchetti  Installati';
 $wb['Update Packagelist'] = 'Aggiorna Elenco Pacchetti';
 $wb['Subdomain (Vhost)'] = 'Sottodominio (Vhost)';
-$wb['error_proxy_requires_url'] = 'Tipo reinderizzamento \"proxy\" richiede una URL come percorso del reinderizzamento.';
+$wb['error_proxy_requires_url'] = 'Tipo reinderizzamento \\"proxy\\" richiede una URL come percorso del reinderizzamento.';
 ?>

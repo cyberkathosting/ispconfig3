@@ -1,14 +1,14 @@
 <?php
-$wb['sys_groupid_txt'] = 'Client';
-$wb['list_head_txt'] = 'Websites';
-$wb['domain_id_txt'] = 'ID';
-$wb['active_txt'] = 'Active';
-$wb['server_id_txt'] = 'Server';
-$wb['domain_txt'] = 'Domain';
-$wb['add_new_record_txt'] = 'Add new website';
-$wb['add_new_subdomain_txt'] = 'Add new subdomain';
-$wb['add_new_aliasdomain_txt'] = 'Add new aliasdomain';
-$wb['domain_list_head_txt'] = 'Websites';
-$wb['aliasdomain_list_head_txt'] = 'Aliasdomains (Vhost)';
-$wb['subdomain_list_head_txt'] = 'Subdomains (Vhost)';
+$wb['sys_groupid_txt'] = 'Müşteri';
+$wb['list_head_txt'] = 'Web Siteleri';
+$wb['domain_id_txt'] = 'Kod';
+$wb['active_txt'] = 'Etkin';
+$wb['server_id_txt'] = 'Sunucu';
+$wb['domain_txt'] = 'Etki Alanı';
+$wb['add_new_record_txt'] = 'Web Sitesi Ekle';
+$wb['add_new_subdomain_txt'] = 'Alt Etki Alanı Ekle';
+$wb['add_new_aliasdomain_txt'] = 'Takma Etki Alanı Ekle';
+$wb['domain_list_head_txt'] = 'Web Siteleri';
+$wb['aliasdomain_list_head_txt'] = 'Takma Etki Alanları (Sanal Sunucu)';
+$wb['subdomain_list_head_txt'] = 'Alt Etki Alanları (Sanal Sunucu)';
 ?>

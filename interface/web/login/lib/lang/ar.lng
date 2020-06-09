@@ -7,6 +7,7 @@ $wb['pass_reset_txt'] = 'A new password will be generated and send to your email
 $wb['pw_reset'] = 'The password has been reset and send to your email address.';
 $wb['pw_error'] = 'Username or email address does not match.';
 $wb['pw_error_noinput'] = 'Please enter email address and username.';
+$wb['pw_reset_error_smtp_connection'] = 'There was a connection problem when trying to send an email pertaining to your password reset request.';
 $wb['pw_reset_mail_msg'] = 'The password to your ISPConfig 3 control panel account has been reset. The new password is: ';
 $wb['pw_reset_mail_title'] = 'ISPConfig 3 Control panel password has been reset.';
 $wb['user_regex_error'] = 'Username contains unallowed characters or is longer then 64 characters.';

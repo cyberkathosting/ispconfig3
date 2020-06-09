@@ -55,9 +55,9 @@ class mail_user_filter_plugin {
 
 
 	/*
-		function to create the mail filter rule and insert it into the custom rules
-		field when a new mail filter is added or modified.
-	*/
+	 *	Render the mail filter rule in the desired format and insert it into the custom rules
+	 *	field when a new mail filter is added or modified.
+	 */
 	function mail_user_filter_edit($event_name, $page_form) {
 		global $app, $conf;
 
@@ -80,7 +80,7 @@ class mail_user_filter_plugin {
 			}
 		}
 
-		// We did not found our rule, so we add it now as first rule.
+		// We did not find our rule, so we add it now as first rule.
 		if($found == false && $page_form->dataRecord["active"] == 'y') {
 			$new_rule = $this->mail_user_filter_get_rule($page_form);
 			$out = $new_rule . $out;
@@ -91,6 +91,9 @@ class mail_user_filter_plugin {
 
 	}
 
+	/*
+	 *	Remove the rendered filter from custom_mailfilter when a mail_user_filter is deleted.
+	 */
 	function mail_user_filter_del($event_name, $page_form) {
 		global $app, $conf;
 

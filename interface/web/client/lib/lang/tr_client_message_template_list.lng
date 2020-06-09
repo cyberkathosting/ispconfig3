@@ -1,5 +1,5 @@
 <?php
 $wb['list_head_txt'] = 'E-posta Kalıpları';
-$wb['template_type_txt'] = 'İleti grubu';
-$wb['template_name_txt'] = 'Kalıp adı';
+$wb['template_type_txt'] = 'İleti Grubu';
+$wb['template_name_txt'] = 'Kalıp Adı';
 ?>

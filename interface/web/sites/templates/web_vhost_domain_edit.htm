@@ -92,7 +92,9 @@
 			<tmpl_if name="edit_disabled">
 				<div class="form-group">
 					<label for="document_root" class="col-sm-3 control-label" readonly >{tmpl_var name='document_root_txt'}</label>
-					<div class="col-sm-9">{tmpl_var name='document_root'}</div>
+					<div class="col-sm-9">
+                        <div class="checkbox">{tmpl_var name='document_root'}</div>
+                    </div> 
 				</div>
 			</tmpl_if>
             <div class="form-group">
@@ -230,6 +232,9 @@
                 <div class="col-sm-9"><select name="fastcgi_php_version" id="fastcgi_php_version" class="form-control">
                     {tmpl_var name='fastcgi_php_version'}
                 </select></div>
+                <tmpl_if name="fastcgi_php_version_default_hidden_warning_confirmed">
+                    <input type="hidden" id="fastcgi_php_version_default_hidden_warning_confirmed" name="fastcgi_php_version_default_hidden_warning_confirmed" value="{tmpl_var name='fastcgi_php_version_default_hidden_warning_confirmed'}" />
+                </tmpl_if>
             </div>
             <tmpl_if name="limit_directive_snippets" op="==" value="y"><div class="form-group">
 				<label for="directive_snippets_id" class="col-sm-3 control-label">{tmpl_var name='directive_snippets_id_txt'}</label>
@@ -391,10 +396,6 @@
             }
             if(noFormChange) {
                 ISPConfig.resetFormChanged();
-                jQuery('#php').addClass('no-page-form-change').change();
-                jQuery('#php').removeClass('no-page-form-change');
-            } else {
-                jQuery('#php').change();
             }
         });
     }

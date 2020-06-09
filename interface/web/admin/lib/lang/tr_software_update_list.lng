@@ -1,6 +1,6 @@
 <?php
 $wb['list_head_txt'] = 'Yazılım Güncellemeleri';
-$wb['server_select_txt'] = 'Sunucu seçin';
+$wb['server_select_txt'] = 'Sunucu Seçin';
 $wb['installed_txt'] = 'İşlem';
 $wb['update_title_txt'] = 'Güncelleme';
 $wb['version_txt'] = 'Sürüm';

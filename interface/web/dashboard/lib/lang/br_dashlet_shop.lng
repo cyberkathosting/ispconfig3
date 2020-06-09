@@ -1,8 +1,8 @@
 <?php
-$wb['shop_txt'] = 'Pedido';
+$wb['shop_txt'] = 'Ordem';
 $wb['name_txt'] = 'Nome';
 $wb['price_txt'] = 'Preço';
-$wb['setup_fee_txt'] = 'Taxa Inicial';
+$wb['setup_fee_txt'] = 'Taxa criada';
 $wb['no_products_txt'] = 'Nenhum produto encontrado.';
-$wb['order_txt'] = 'Pedir';
+$wb['order_txt'] = 'Ordem';
 ?>

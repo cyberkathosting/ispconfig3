@@ -1,16 +1,16 @@
 <?php
-$wb['zone_file_import_txt'] = 'Bölge Dosyası Alma';
+$wb['zone_file_import_txt'] = 'Bölge Dosyası İçe Aktarma';
 $wb['server_id_txt'] = 'Sunucu';
 $wb['client_txt'] = 'Müşteri';
-$wb['btn_save_txt'] = 'Bölge Dosyasını Al';
+$wb['btn_save_txt'] = 'Bölge Dosyasını İçe Aktar';
 $wb['btn_cancel_txt'] = 'Geri';
-$wb['domain_txt'] = 'Alan Adı';
-$wb['zone_file_successfully_imported_txt'] = 'Bölge dosyası alındı!';
+$wb['domain_txt'] = 'Etki Alanı';
+$wb['zone_file_successfully_imported_txt'] = 'Bölge dosyası içe aktarıldı!';
 $wb['error_no_valid_zone_file_txt'] = 'Bu bölge dosyası geçersiz görünüyor!';
 $wb['zonefile_to_import_txt'] = 'Bölge Dosyası';
-$wb['domain_field_desc_txt'] = 'Alan adı dosya adında ya da bölge dosyasının içeriğinde bulunuyor ise boş bırakılabilir.';
-$wb['title'] = 'Bölge Dosyalarını Al';
+$wb['domain_field_desc_txt'] = 'Etki alanı dosya adında ya da bölge dosyasının içeriğinde bulunuyor ise boş bırakılabilir.';
+$wb['title'] = 'Bölge Dosyalarını İçe Aktar';
 $wb['no_file_uploaded_error'] = 'Hiçbir bölge dosyası yüklenmedi';
-$wb['error_no_server_id'] = 'No server provided.';
-$wb['error_not_allowed_server_id'] = 'The selected server is not allowed for this account.';
+$wb['error_no_server_id'] = 'Sunucu belirtilmemiş.';
+$wb['error_not_allowed_server_id'] = 'Seçilmiş sunucuda bu hesap kullanılamaz.';
 ?>

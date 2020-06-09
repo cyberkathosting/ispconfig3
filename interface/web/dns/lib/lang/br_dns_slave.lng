@@ -1,17 +1,17 @@
 <?php
 $wb['server_id_txt'] = 'Servidor';
-$wb['origin_txt'] = 'Zona dns';
-$wb['ns_txt'] = 'NS';
+$wb['origin_txt'] = 'Zona DNS';
+$wb['secondary_zone_txt'] = 'Zona DNS secundária';
+$wb['ns_txt'] = 'NS (Endereço IP)';
 $wb['active_txt'] = 'Ativo';
 $wb['limit_dns_slave_zone_txt'] = 'O limite de zonas dns secundárias para esta conta foi alcançado.';
 $wb['client_txt'] = 'Cliente';
-$wb['xfer_txt'] = 'Permitir transferência da zona para estes IPs (IPs separados por vírgulas)';
+$wb['xfer_txt'] = 'Permitir transferência de zonas para <br />Endereço(s) IP(s) (lista de endereços, separados por vírgula)';
 $wb['server_id_error_empty'] = 'Nenhum servidor selecionado.';
 $wb['origin_error_empty'] = 'Zona está em branco.';
-$wb['origin_error_unique'] = 'Já existe um registro igual para esta zona.';
-$wb['origin_error_regex'] = 'Zona inválida.';
-$wb['ns_error_regex'] = 'Registro NS é inválido.';
+$wb['origin_error_unique'] = 'Já existe este registro dns nesta zona.';
+$wb['origin_error_regex'] = 'Zona possui um formato inválido.';
+$wb['ns_error_regex'] = 'O NS possui formato inválido.';
 $wb['eg_domain_tld'] = 'ex.: dominio.com.br.';
-$wb['ipv4_form_txt'] = 'Separar múltiplos endereços IP por vírgulas';
-$wb['secondary_zone_txt'] = 'Zona dns secundária';
+$wb['ipv4_form_txt'] = 'Separar múltiplos IPs com vírgulas.';
 ?>

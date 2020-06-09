@@ -12,6 +12,18 @@
 
 <tmpl_loop name='vhosts'>
 <VirtualHost {tmpl_var name='ip_address'}:{tmpl_var name='port'}>
+<tmpl_if name='use_proxy_protocol' op='==' value='y'>
+<tmpl_if name='apache_version' op='>=' value='2.4.30' format='version'>
+	<IfModule mod_remoteip.c>
+		RemoteIPProxyProtocol On
+	</IfModule>
+	</tmpl_else>
+	<IfModule mod_proxy_protocol.c>
+		ProxyProtocol On
+	</IfModule>
+</tmpl_if>
+</tmpl_if>
+
 <tmpl_hook name='apache2_vhost:vhost_header'>
 <tmpl_if name='php' op='==' value='suphp'>
 		DocumentRoot <tmpl_var name='web_document_root'>
@@ -40,7 +52,7 @@
 <tmpl_if name='ssl_enabled'>
 <tmpl_if name='enable_http2' op='==' value='y'>
 		Protocols h2 http/1.1
-		SSLProtocol All -SSLv2 -SSLv3
+		SSLProtocol All -SSLv2 -SSLv3 -TLSv1 -TLSv1.1
 		SSLCipherSuite 'EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS'
 </tmpl_if>
 </tmpl_if>
@@ -67,7 +79,7 @@
 		<IfModule mod_ssl.c>
 <tmpl_if name='ssl_enabled'>
 		SSLEngine on
-		SSLProtocol All -SSLv2 -SSLv3
+		SSLProtocol All -SSLv2 -SSLv3 -TLSv1 -TLSv1.1
 		# SSLCipherSuite          ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES256-SHA:ECDHE-ECDSA-DES-CBC3-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA:!DSS
 		SSLHonorCipherOrder     on
 		# <IfModule mod_headers.c>
@@ -93,7 +105,7 @@
 				<FilesMatch ".+\.ph(p[345]?|t|tml)$">
 						SetHandler None
 				</FilesMatch>
-				Options +FollowSymLinks
+				Options +SymlinksIfOwnerMatch
 				AllowOverride <tmpl_var name='allow_override'>
 				<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
 				Require all granted
@@ -125,7 +137,7 @@
 				<FilesMatch ".+\.ph(p[345]?|t|tml)$">
 						SetHandler None
 				</FilesMatch>
-				Options +FollowSymLinks
+				Options +SymlinksIfOwnerMatch
 				AllowOverride <tmpl_var name='allow_override'>
 				<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
 				Require all granted
@@ -360,12 +372,16 @@
 			    </Directory>
 				<Directory {tmpl_var name='web_document_root_www'}>
 					<FilesMatch "\.php[345]?$">
-						SetHandler php-fcgi
+						<If "-f '%{REQUEST_FILENAME}'">
+							SetHandler php-fcgi
+						</If>
 					</FilesMatch>
 				</Directory>
 				<Directory {tmpl_var name='web_document_root'}>
 					<FilesMatch "\.php[345]?$">
-						SetHandler php-fcgi
+						<If "-f '%{REQUEST_FILENAME}'">
+							SetHandler php-fcgi
+						</If>
 					</FilesMatch>
 				</Directory>
                 Action php-fcgi /php-fcgi virtual
@@ -379,16 +395,20 @@
 		</IfModule>
 		<IfModule mod_proxy_fcgi.c>
 <tmpl_if name='php_fpm_chroot' op='==' value='y'>
-			ProxyFCGISetEnvIf "true" DOCUMENT_ROOT "<tmpl_var name='php_fpm_chroot_web_folder'>"
-			ProxyFCGISetEnvIf "true" CONTEXT_DOCUMENT_ROOT "%{reqenv:DOCUMENT_ROOT}"
-			ProxyFCGISetEnvIf "true" HOME "%{reqenv:DOCUMENT_ROOT}"
-			ProxyFCGISetEnvIf "true" SCRIPT_FILENAME "%{reqenv:DOCUMENT_ROOT}%{reqenv:SCRIPT_NAME}"
+			<IfVersion >= 2.4.26>
+				ProxyFCGISetEnvIf "true" DOCUMENT_ROOT "<tmpl_var name='php_fpm_chroot_web_folder'>"
+				ProxyFCGISetEnvIf "true" CONTEXT_DOCUMENT_ROOT "%{reqenv:DOCUMENT_ROOT}"
+				ProxyFCGISetEnvIf "true" HOME "%{reqenv:DOCUMENT_ROOT}"
+				ProxyFCGISetEnvIf "true" SCRIPT_FILENAME "%{reqenv:DOCUMENT_ROOT}%{reqenv:SCRIPT_NAME}"
+			</IfVersion>
 </tmpl_if>
 <tmpl_if name='use_tcp'>
 			#ProxyPassMatch ^/(.*\.php[345]?(/.*)?)$ fcgi://127.0.0.1:<tmpl_var name='fpm_port'><tmpl_var name='web_document_root'>/$1
 			<Directory {tmpl_var name='web_document_root'}>
 				<FilesMatch "\.php[345]?$">
+					<If "-f '%{REQUEST_FILENAME}'">
 						SetHandler "proxy:fcgi://127.0.0.1:<tmpl_var name='fpm_port'>"
+					</If>
 				</FilesMatch>
 			</Directory>
 </tmpl_if>
@@ -396,7 +416,9 @@
 			#ProxyPassMatch ^/(.*\.php[345]?(/.*)?)$ unix://<tmpl_var name='fpm_socket'>|fcgi://localhost/<tmpl_var name='web_document_root'>/$1
 			<Directory {tmpl_var name='web_document_root'}>
 				<FilesMatch "\.php[345]?$">
+					<If "-f '%{REQUEST_FILENAME}'">
 						SetHandler "proxy:unix:<tmpl_var name='fpm_socket'>|fcgi://localhost"
+					</If>
 				</FilesMatch>
 			</Directory>
 </tmpl_if>
@@ -529,7 +551,16 @@
 			# WEBDAV END
 		</IfModule>
 
-<tmpl_var name='apache_directives'>
+<tmpl_if name='ssl_enabled'>
+	<tmpl_var name='apache_directives'>
+<tmpl_else>
+	<tmpl_if name='rewrite_to_https' op='==' value='y'>
+		# skipping apache_directives, as that will be handled by the ssl vhost
+	<tmpl_else>
+		<tmpl_var name='apache_directives'>
+	</tmpl_if>
+</tmpl_if>
+
 <tmpl_hook name='apache2_vhost:vhost_footer'>
 </VirtualHost>
 

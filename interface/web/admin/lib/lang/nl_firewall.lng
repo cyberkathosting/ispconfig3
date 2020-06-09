@@ -6,6 +6,6 @@ $wb['tcp_port_help_txt'] = 'Gescheiden door komma';
 $wb['udp_port_help_txt'] = 'Gescheiden door komma';
 $wb['active_txt'] = 'Actief';
 $wb['firewall_error_unique'] = 'Er is al een firewall record voor deze server.';
-$wb['tcp_ports_error_regex'] = 'Karakter niet toegestaan in tcp port definitie. Toegestane karakters zijn nummers, : en ,.';
-$wb['udp_ports_error_regex'] = 'Karakter niet toegestaan in udp port definitie. Toegestane karakters zijn nummers, : en ,.';
+$wb['tcp_ports_error_regex'] = 'Karakter niet toegestaan in TCP port definitie. Toegestane karakters zijn nummers, : en ,.';
+$wb['udp_ports_error_regex'] = 'Karakter niet toegestaan in UDP port definitie. Toegestane karakters zijn nummers, : en ,.';
 ?>

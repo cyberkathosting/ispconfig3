@@ -48,6 +48,16 @@ $app->uses('listform_actions');
 
 $app->listform_actions->SQLOrderBy = "ORDER BY server_php.server_id, server_php.name";
 
+$app->listform_actions->SQLExtSelect = "(SELECT
+    COUNT(w.server_id)
+    FROM
+    server_php s LEFT JOIN web_domain w ON (w.fastcgi_php_version LIKE CONCAT(s.name, '%') AND s.server_id=w.server_id)
+    WHERE
+    server_php.server_php_id=s.server_php_id
+    GROUP BY
+    server_php.server_php_id
+) AS 'usage'";
+
 $app->listform_actions->onLoad();
 
 

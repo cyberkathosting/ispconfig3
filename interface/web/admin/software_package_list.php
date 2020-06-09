@@ -145,6 +145,9 @@ $app->uses('tpl');
 $app->tpl->newTemplate("form.tpl.htm");
 $app->tpl->setInclude('content_tpl', 'templates/software_package_list.htm');
 
+$csrf_token = $app->auth->csrf_token_get('software_package_list');
+$_csrf_id = $csrf_token['csrf_id'];
+$_csrf_key = $csrf_token['csrf_key'];
 
 $servers = $app->db->queryAllRecords('SELECT server_id, server_name FROM server ORDER BY server_name');
 $packages = $app->db->queryAllRecords('SELECT * FROM software_package');
@@ -167,12 +170,14 @@ if(is_array($packages) && count($packages) > 0) {
 				if($p['package_installable'] == 'no') {
 					$installed_txt .= $s['server_name'].": ".$app->lng("Package can not be installed.")."<br />";
 				} else {
-					$installed_txt .= $s['server_name'].": <a href=\"#\" data-load-content=\"admin/software_package_install.php?package=".$p["package_name"]."&server_id=".$s["server_id"]."\">Install now</a><br />";
+					$installed_txt .= $s['server_name'].": <a href=\"#\" data-load-content=\"admin/software_package_install.php?package=".$p["package_name"]."&server_id=".$s["server_id"]."&_csrf_key=".$_csrf_key."&_csrf_id=".$_csrf_id."\">Install now</a><br />";
 				}
 			}
 		}
 		$packages[$key]['software_update_inst_id'] = intval($inst['software_update_inst_id']);
 		$packages[$key]['installed'] = $installed_txt;
+		$packages[$key]['csrf_id'] = $_csrf_id;
+		$packages[$key]['csrf_key'] = $_csrf_key;
 	}
 	$app->tpl->setVar('has_packages', 1);
 } else {

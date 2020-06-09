@@ -202,5 +202,6 @@ $wb['btn_cancel_txt'] = "Cancel";
 $wb['invalid_vat_id'] = 'The VAT ID is invalid.';
 $wb["email_error_empty"] = "Email is empty";
 $wb['limit_directive_snippets_txt'] = 'Show web server config selection';
+$wb['Address'] = 'Address';
 $wb['Limits'] = 'Limits';
 ?>

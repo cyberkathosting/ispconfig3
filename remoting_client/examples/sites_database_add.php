@@ -28,6 +28,8 @@ try {
 		'remote_ips' => '',
 		'backup_interval' => 'none',
 		'backup_copies' => 1,
+		'backup_format_web' => 'default',
+		'backup_format_db' => 'gzip',
 		'active' => 'y'
 	);
 

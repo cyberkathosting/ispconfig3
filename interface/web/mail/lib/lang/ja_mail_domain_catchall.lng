@@ -8,4 +8,5 @@ $wb['domain_error_regex'] = 'ドメイン名が不正です。無効な文字を
 $wb['limit_mailcatchall_txt'] = 'キャッチオールアカウントが最大数に達したため、これ以上追加できません。';
 $wb['source_txt'] = 'Source';
 $wb['destination_error_isemail'] = 'Destination is no valid email address.';
+$wb['greylisting_txt'] = 'Enable greylisting';
 ?>

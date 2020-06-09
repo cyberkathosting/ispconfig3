@@ -7,7 +7,7 @@ $wb['rulename_error_empty'] = 'Ad boş olamaz.';
 $wb['searchterm_is_empty'] = 'Aranacak ifade boş olamaz.';
 $wb['source_txt'] = 'Kaynak';
 $wb['target_error_regex'] = 'Hedef için yalnız şu karakterler kullanılabilir: a-z, 0-9, -, ., _, ve {boşluk}';
-$wb['limit_mailfilter_txt'] = 'Hesabınıza ekleyebileceğiniz en fazla posta süzgeci sayısına ulaştınız.';
+$wb['limit_mailfilter_txt'] = 'Hesabınıza ekleyebileceğiniz en fazla e-posta süzgeci sayısına ulaştınız.';
 $wb['subject_txt'] = 'Konu';
 $wb['from_txt'] = 'Kimden';
 $wb['to_txt'] = 'Kime';
@@ -25,5 +25,5 @@ $wb['domain_txt'] = 'Etki alanı';
 $wb['keep_txt'] = 'Tut';
 $wb['reject_txt'] = 'Reddet';
 $wb['stop_txt'] = 'Durdur';
-$wb['move_to_txt'] = 'Move to';
+$wb['move_to_txt'] = 'Şuraya Taşı';
 ?>

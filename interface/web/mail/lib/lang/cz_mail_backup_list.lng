@@ -1,16 +1,16 @@
 <?php
-$wb['list_head_txt'] = 'Stávající zálohy';
+$wb['list_head_txt'] = 'Dostupné zálohy';
 $wb['date_txt'] = 'Datum';
 $wb['backup_type_txt'] = 'Typ';
 $wb['filename_txt'] = 'Záloha souborů';
 $wb['restore_backup_txt'] = 'Obnovit';
-$wb['restore_info_txt'] = 'Restore of the backup has been started. This action takes several minutes to be completed.';
-$wb['restore_confirm_txt'] = 'Restoring may overwrite existing files in your mailbox. Do you really want to restore this backup?';
-$wb['download_pending_txt'] = 'There is already a pending backup download job.';
-$wb['restore_pending_txt'] = 'There is already a pending backup restore job.';
+$wb['restore_info_txt'] = 'Obnovení zálohy bylo zahájeno. Dokončení této akce může trvat několik minut.';
+$wb['restore_confirm_txt'] = 'Obnovení může přepsat existující soubory ve vaší poštovní schránce. Opravdu chcete tuto zálohu obnovit ?';
+$wb['download_pending_txt'] = 'Již existuje čekající úloha pro stažení zálohy.';
+$wb['restore_pending_txt'] = 'Již existuje čekající úloha pro obnovu zálohy.';
 $wb['delete_backup_txt'] = 'Smazat zálohu';
 $wb['delete_info_txt'] = 'Bylo zahájeno odstranění zálohy. Tato akce může trvat několik minut než bude dokončena.';
 $wb['delete_confirm_txt'] = 'Opravdu chcete smazat tuto zálohu ?';
-$wb['delete_pending_txt'] = 'There is already a pending backup delete job.';
+$wb['delete_pending_txt'] = 'Již existuje čekající úloha pro odstranění zálohy.';
 $wb['filesize_txt'] = 'Velikost souboru';
 ?>

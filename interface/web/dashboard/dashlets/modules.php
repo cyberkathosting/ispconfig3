@@ -40,6 +40,11 @@ class dashlet_modules {
 							$web_servers = $app->db->queryOneRecord("SELECT COUNT(*) as cnt FROM server WHERE web_server = 1 AND active = 1");
 							if($web_servers['cnt'] == 0) continue;
 						}
+						
+						if($mt == 'vm'){
+							$vserver_servers = $app->db->queryOneRecord("SELECT COUNT(*) as cnt FROM server WHERE vserver_server = 1 AND active = 1");
+							if($vserver_servers['cnt'] == 0) continue;
+						}
 					
 						$module_title = $app->lng($module['title']);
 						if(function_exists('mb_strlen')) {

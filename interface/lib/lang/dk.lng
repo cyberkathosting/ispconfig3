@@ -146,7 +146,7 @@ $wb['strength_2'] = 'Nogenlunde';
 $wb['strength_3'] = 'God';
 $wb['strength_4'] = 'Stærk';
 $wb['strength_5'] = 'Meget Stærk';
-$wb['weak_password_txt'] = 'Den valgte adgangskode matcher ikke retningslinjerne for sikkerhedsindstillingerne. Det skal være mindst {chars} tegn i længden og have en styrke på \"{strength}\".';
+$wb['weak_password_txt'] = 'Den valgte adgangskode matcher ikke retningslinjerne for sikkerhedsindstillingerne. Det skal være mindst {chars} tegn i længden og have en styrke på \\"{strength}\\".';
 $wb['weak_password_length_txt'] = 'Den valgte adgangskode matcher ikke retningslinjerne for sikkerhedsindstillingerne. Det skal være mindst {chars} tegn i længden.';
 $wb['security_check1_txt'] = 'Check for sikkerheds tilladelse:';
 $wb['security_check2_txt'] = 'mislykkedes.';
@@ -158,4 +158,5 @@ $wb['datalog_status_d_xmpp_domain'] = 'Delete XMPP domain';
 $wb['datalog_status_i_xmpp_user'] = 'Create XMPP user';
 $wb['datalog_status_u_xmpp_user'] = 'Update XMPP user';
 $wb['datalog_status_d_xmpp_user'] = 'Delete XMPP user';
+$wb['unlimited_txt'] = 'Ubegrænset';
 ?>

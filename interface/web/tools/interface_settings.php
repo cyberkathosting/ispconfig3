@@ -81,7 +81,6 @@ class page_action extends tform_actions {
 		if(!in_array($this->dataRecord['startmodule'], $this->dataRecord['modules'])) {
 			$app->tform->errorMessage .= $app->tform->wordbook['startmodule_err'];
 		}
-		$this->updateSessionTheme();
 	}
 
 	function onInsert() {
@@ -96,7 +95,6 @@ class page_action extends tform_actions {
 		if(@is_array($this->dataRecord['modules']) && !in_array($this->dataRecord['startmodule'], $this->dataRecord['modules'])) {
 			$app->tform->errorMessage .= $app->tform->wordbook['startmodule_err'];
 		}
-		$this->updateSessionTheme();
 	}
 
 	function updateSessionTheme() {
@@ -120,6 +118,9 @@ class page_action extends tform_actions {
 	}
 
 	function onAfterUpdate() {
+		
+		$this->updateSessionTheme();
+		
 		if($this->_theme_changed == true) {
 			// not the best way, but it works
 			header('Content-Type: text/html');

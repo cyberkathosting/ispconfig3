@@ -1,4 +1,5 @@
 <?php
+$wb['system_config_title'] = 'System Config';
 $wb['system_config_desc_txt'] = '';
 $wb['warning'] = 'Redigera dess värden försiktigt! Ta inte bort prefix på system med mer än en kund.';
 $wb['dbname_prefix_txt'] = 'Prefix för databasnamn';
@@ -29,6 +30,8 @@ $wb['admin_mail_txt'] = 'Administratörens epostadress';
 $wb['monitor_key_txt'] = 'Bevakning nyckelord';
 $wb['admin_name_txt'] = 'Administratörens namn';
 $wb['maintenance_mode_txt'] = 'Underhållsläge';
+$wb['maintenance_mode_exclude_ips_txt'] = 'Exclude IP\'s from maintenance';
+$wb['maintenance_mode_exclude_ips_error_isip'] = 'One or more invalid IP addresses in maintenance mode exclude list. Must be a list of comma-separated IPv4 and/or IPv6 addresses.';
 $wb['smtp_enabled_txt'] = 'Använd SMTP för att skicka systemmail';
 $wb['smtp_host_txt'] = 'SMTP-värd';
 $wb['smtp_port_txt'] = 'SMTP-port';
@@ -67,7 +70,7 @@ $wb['customer_no_template_error_regex_txt'] = 'Kundnummermallen innehåller otil
 $wb['customer_no_start_txt'] = 'Kundnummer startvärde';
 $wb['customer_no_counter_txt'] = 'Kundnummer räknare';
 $wb['session_timeout_txt'] = 'Session timeout (minuter)';
-$wb['session_allow_endless_txt'] = 'Aktivera \"håll mig inloggad\"';
+$wb['session_allow_endless_txt'] = 'Aktivera \\"håll mig inloggad\\"';
 $wb['No'] = 'Nej';
 $wb['min_password_length_txt'] = 'Minsta lösenordslängd';
 $wb['min_password_strength_txt'] = 'Minsta lösenordsstyrka';

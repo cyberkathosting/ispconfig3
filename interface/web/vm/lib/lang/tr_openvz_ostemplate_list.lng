@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'OpenVZ OS Kalıbı';
+$wb['list_head_txt'] = 'OpenVZ İşletim Sistemi Kalıbı';
 $wb['active_txt'] = 'Etkin';
 $wb['template_name_txt'] = 'Kalıp Adı';
 $wb['server_id_txt'] = 'Sunucu';

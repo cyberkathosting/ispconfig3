@@ -13,7 +13,7 @@ $wb['Spamfilter'] = 'Spamfilter';
 $wb['Email Routing'] = 'Email routing';
 $wb['Email transport'] = 'Email transport';
 $wb['Mailbox'] = 'Mailbox';
-$wb['Autoresponder'] = 'Autoresponder';
+$wb['Autoresponder'] = 'Autobeantwoorden';
 $wb['Mail Filter'] = 'Mail filter';
 $wb['Custom Rules'] = 'Custom rules';
 $wb['Email filter'] = 'E-mail filter';
@@ -45,4 +45,6 @@ $wb['Global Filters'] = 'Globale filters';
 $wb['Domain Alias'] = 'Domein alias';
 $wb['Relay Recipients'] = 'Relay ontvangers';
 $wb['Mailbox quota'] = 'Mailbox quota';
+$wb['add_header_txt'] = 'Header (adds \"X-Spam: Yes\")';
+$wb['rewrite_subject_txt'] = 'Subject (adds \"***SPAM***\" at the beginning)';
 ?>

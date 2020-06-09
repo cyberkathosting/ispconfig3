@@ -166,8 +166,16 @@ class nginx_plugin {
         [ req_attributes ]
         ";//challengePassword              = A challenge password";
 
+			$ext_cnf = "
+        subjectAltName         = @alt_names
+
+        [alt_names]
+        DNS.1                  = .$domain";
+
 			$ssl_cnf_file = $ssl_dir.'/openssl.conf';
 			$app->system->file_put_contents($ssl_cnf_file, $ssl_cnf);
+			$ssl_ext_file = $ssl_dir.'/v3.ext';
+			$app->system->file_put_contents($ssl_ext_file, $ext_cnf);
 
 			$rand_file = $rand_file;
 			$key_file2 = $key_file2;
@@ -193,9 +201,9 @@ class nginx_plugin {
 
 				if(file_exists($web_config['CA_path'].'/openssl.cnf'))
 				{
-					$app->system->exec_safe("openssl ca -batch -out ? -config ? -passin pass:? -in ?", $openssl_cmd_crt_file, $web_config['CA_path']."/openssl.cnf", $web_config['CA_pass'], $openssl_cmd_csr_file);
+					$app->system->exec_safe("openssl ca -batch -out ? -config ? -passin pass:? -in ? -extfile ?", $openssl_cmd_crt_file, $web_config['CA_path']."/openssl.cnf", $web_config['CA_pass'], $openssl_cmd_csr_file, $ssl_ext_file);
 					$app->log("Creating CA-signed SSL Cert for: $domain", LOGLEVEL_DEBUG);
-					if (filesize($crt_file)==0 || !file_exists($crt_file)) $app->log("CA-Certificate signing failed.  openssl ca -out $openssl_cmd_crt_file -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -in $openssl_cmd_csr_file", LOGLEVEL_ERROR);
+					if (filesize($crt_file)==0 || !file_exists($crt_file)) $app->log("CA-Certificate signing failed.  openssl ca -out $openssl_cmd_crt_file -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -in $openssl_cmd_csr_file -extfile $ssl_ext_file", LOGLEVEL_ERROR);
 				};
 				if (@filesize($crt_file)==0 || !file_exists($crt_file)){
 					$app->system->exec_safe("openssl req -x509 -passin pass:? -passout pass:? -key ? -in ? -out ? -days ? -config ?", $ssl_password, $ssl_password, $openssl_cmd_key_file2, $openssl_cmd_csr_file, $openssl_cmd_crt_file, $ssl_days, $config_file);
@@ -208,6 +216,7 @@ class nginx_plugin {
 			$app->system->chmod($key_file, 0400);
 			@$app->system->unlink($config_file);
 			@$app->system->unlink($rand_file);
+			@$app->system->unlink($ssl_ext_file);
 			$ssl_request = $app->system->file_get_contents($csr_file);
 			$ssl_cert = $app->system->file_get_contents($crt_file);
 			$ssl_key = $app->system->file_get_contents($key_file);
@@ -218,15 +227,15 @@ class nginx_plugin {
 			$app->dbmaster->query("UPDATE web_domain SET ssl_request = ?, ssl_cert = ?, ssl_key = ? WHERE domain = ?", $ssl_request, $ssl_cert, $ssl_key, $data['new']['domain']);
 			$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
 		}
-		
+
 		//* Check that the SSL key is not password protected
 		if($data["new"]["ssl_action"] == 'save') {
 			if(stristr($data["new"]["ssl_key"],'Proc-Type: 4,ENCRYPTED')) {
 				$data["new"]["ssl_action"] = '';
-			
+
 				$app->log('SSL Certificate not saved. The SSL key is encrypted.', LOGLEVEL_WARN);
 				$app->dbmaster->datalogError('SSL Certificate not saved. The SSL key is encrypted.');
-			
+
 				/* Update the DB of the (local) Server */
 				$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
 
@@ -234,7 +243,7 @@ class nginx_plugin {
 				$app->dbmaster->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
 			}
 		}
-		
+
 		//* and check that SSL cert does not contain subdomain of domain acme.invalid
 		if($data["new"]["ssl_action"] == 'save') {
 			$tmp = array();
@@ -244,10 +253,10 @@ class nginx_plugin {
 			$crt_data = implode("\n",$tmp);
 			if(stristr($crt_data,'.acme.invalid')) {
 				$data["new"]["ssl_action"] = '';
-			
+
 				$app->log('SSL Certificate not saved. The SSL cert contains domain acme.invalid.', LOGLEVEL_WARN);
 				$app->dbmaster->datalogError('SSL Certificate not saved. The SSL cert contains domain acme.invalid.');
-			
+
 				/* Update the DB of the (local) Server */
 				$app->db->query("UPDATE web_domain SET ssl_action = '' WHERE domain = ?", $data['new']['domain']);
 
@@ -400,7 +409,7 @@ class nginx_plugin {
 				if(substr($data['new']['web_folder'],-1) == '/') $data['new']['web_folder'] = substr($data['new']['web_folder'],0,-1);
 			}
 			$web_folder .= '/'.$data['new']['web_folder'];
-			
+
 			if($data['old']['web_folder'] != ''){
 				if(substr($data['old']['web_folder'],0,1) == '/') $data['old']['web_folder'] = substr($data['old']['web_folder'],1);
 				if(substr($data['old']['web_folder'],-1) == '/') $data['old']['web_folder'] = substr($data['old']['web_folder'],0,-1);
@@ -415,7 +424,7 @@ class nginx_plugin {
 			$web_folder = $data['new']['web_folder'];
 			$log_folder .= '/' . $subdomain_host;
 			unset($tmp);
-			
+
 			if(isset($data['old']['parent_domain_id'])) {
 				// old one
 				$tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = ?', $data['old']['parent_domain_id']);
@@ -508,7 +517,7 @@ class nginx_plugin {
 					$app->system->rename($data['new']['document_root'], $data['new']['document_root'].'_bak_'.date('Y_m_d_H_i_s'));
 					$app->log('Renaming existing directory in new docroot location. mv '.$data['new']['document_root'].' '.$data['new']['document_root'].'_bak_'.date('Y_m_d_H_i_s'), LOGLEVEL_DEBUG);
 				}
-				
+
 				//* Unmount the old log directory bfore we move the log dir
 				$app->system->exec_safe('umount ?', $old_dir.'/log');
 
@@ -544,9 +553,9 @@ class nginx_plugin {
 			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$old_log_folder.'    none    bind,nobootwait';
 			$app->system->removeLine('/etc/fstab', $fstab_line);
 			*/
-			
+
 			$fstab_line_old = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$old_log_folder.'    none    bind';
-			
+
 			if($web_config['network_filesystem'] == 'y') {
 				$fstab_line = '/var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/'.$log_folder.'    none    bind,nofail,_netdev    0 0';
 				$app->system->replaceLine('/etc/fstab', $fstab_line_old, $fstab_line, 0, 1);
@@ -554,7 +563,7 @@ class nginx_plugin {
 				$fstab_line = '/var/log/ispconfig/httpd/'.$data['new']['domain'].' '.$data['new']['document_root'].'/'.$log_folder.'    none    bind,nofail    0 0';
 				$app->system->replaceLine('/etc/fstab', $fstab_line_old, $fstab_line, 0, 1);
 			}
-			
+
 			$app->system->exec_safe('mount --bind ? ?', '/var/log/ispconfig/httpd/'.$data['new']['domain'], $data['new']['document_root'].'/'.$log_folder);
 
 		}
@@ -570,14 +579,14 @@ class nginx_plugin {
 		if(!is_dir($data['new']['document_root'].'/ssl')) $app->system->mkdirpath($data['new']['document_root'].'/ssl');
 		if(!is_dir($data['new']['document_root'].'/cgi-bin')) $app->system->mkdirpath($data['new']['document_root'].'/cgi-bin');
 		if(!is_dir($data['new']['document_root'].'/tmp')) $app->system->mkdirpath($data['new']['document_root'].'/tmp');
-		
+
 		if(!is_dir($data['new']['document_root'].'/.ssh')) {
 			$app->system->mkdirpath($data['new']['document_root'].'/.ssh');
 			$app->system->chmod($data['new']['document_root'].'/.ssh', 0700);
 			$app->system->chown($data['new']['document_root'].'/.ssh', $username);
 			$app->system->chgrp($data['new']['document_root'].'/.ssh', $groupname);
 		}
-		
+
 		//* Create the new private directory
 		if(!is_dir($data['new']['document_root'].'/private')) {
 			$app->system->mkdirpath($data['new']['document_root'].'/private');
@@ -691,10 +700,10 @@ class nginx_plugin {
 				}
 				$app->system->exec_safe('chmod -R a+r ?', $error_page_path);
 			}
-			
+
 			//* Copy the web skeleton files only when there is no index.ph or index.html file yet
 			if(!file_exists($data['new']['document_root'].'/'.$web_folder.'/index.html') && !file_exists($data['new']['document_root'].'/'.$web_folder.'/index.php')) {
-				if (file_exists($conf['rootpath'] . '/conf-custom/index/standard_index.html_'.substr($conf['language']), 0, 2)) {
+				if (file_exists($conf['rootpath'] . '/conf-custom/index/standard_index.html_'.substr($conf['language'], 0, 2))) {
 					if(!file_exists($data['new']['document_root'].'/' . $web_folder . '/index.html')) $app->system->exec_safe('cp ? ?', $conf['rootpath'] . '/conf-custom/index/standard_index.html_'.substr($conf['language'], 0, 2), $data['new']['document_root'].'/' . $web_folder . '/index.html');
 
 					if(is_file($conf['rootpath'] . '/conf-custom/index/favicon.ico')) {
@@ -853,7 +862,7 @@ class nginx_plugin {
 				//$app->system->chgrp($data['new']['document_root'].'/webdav',$groupname);
 				$app->system->chown($data['new']['document_root'].'/private', $username);
 				$app->system->chgrp($data['new']['document_root'].'/private', $groupname);
-				
+
 				if($web_folder != 'web'){
 					$app->system->chown($data['new']['document_root'].'/'.$web_folder, $username);
 					$app->system->chgrp($data['new']['document_root'].'/'.$web_folder, $groupname);
@@ -900,7 +909,7 @@ class nginx_plugin {
 				}
 				//$app->system->chown($data['new']['document_root'].'/webdav',$username);
 				//$app->system->chgrp($data['new']['document_root'].'/webdav',$groupname);
-				
+
 				if($web_folder != 'web'){
 					$app->system->chown($data['new']['document_root'].'/'.$web_folder, $username);
 					$app->system->chgrp($data['new']['document_root'].'/'.$web_folder, $groupname);
@@ -941,7 +950,7 @@ class nginx_plugin {
 			$app->system->chown('/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log', 'root');
 			$app->system->chgrp('/var/log/ispconfig/httpd/'.$data['new']['domain'].'/error.log', 'root');
 		}
-		
+
 
 		//* Create the vhost config file
 		$app->load('tpl');
@@ -1185,31 +1194,31 @@ class nginx_plugin {
 			$nginx_directives = $data['new']['nginx_directives'];
 //			$vhost_data['enable_pagespeed'] = false;
 		}
-		
+
 		// folder_directive_snippets
 		if(trim($data['new']['folder_directive_snippets']) != ''){
 			$data['new']['folder_directive_snippets'] = trim($data['new']['folder_directive_snippets']);
 			$data['new']['folder_directive_snippets'] = str_replace("\r\n", "\n", $data['new']['folder_directive_snippets']);
 			$data['new']['folder_directive_snippets'] = str_replace("\r", "\n", $data['new']['folder_directive_snippets']);
 			$folder_directive_snippets_lines = explode("\n", $data['new']['folder_directive_snippets']);
-			
+
 			if(is_array($folder_directive_snippets_lines) && !empty($folder_directive_snippets_lines)){
 				foreach($folder_directive_snippets_lines as $folder_directive_snippets_line){
 					list($folder_directive_snippets_folder, $folder_directive_snippets_snippets_id) = explode(':', $folder_directive_snippets_line);
-					
+
 					$folder_directive_snippets_folder = trim($folder_directive_snippets_folder);
 					$folder_directive_snippets_snippets_id = trim($folder_directive_snippets_snippets_id);
-					
+
 					if($folder_directive_snippets_folder  != '' && intval($folder_directive_snippets_snippets_id) > 0 && preg_match('@^((?!(.*\.\.)|(.*\./)|(.*//))[^/][\w/_\.\-]{1,100})?$@', $folder_directive_snippets_folder)){
 						if(substr($folder_directive_snippets_folder, -1) != '/') $folder_directive_snippets_folder .= '/';
 						if(substr($folder_directive_snippets_folder, 0, 1) == '/') $folder_directive_snippets_folder = substr($folder_directive_snippets_folder, 1);
-						
+
 						$master_snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'nginx' AND active = 'y' AND customer_viewable = 'y'", intval($folder_directive_snippets_snippets_id));
 						if(isset($master_snippet['snippet'])){
 							$folder_directive_snippets_trans = array('{FOLDER}' => $folder_directive_snippets_folder, '{FOLDERMD5}' => md5($folder_directive_snippets_folder));
 							$master_snippet['snippet'] = strtr($master_snippet['snippet'], $folder_directive_snippets_trans);
 							$nginx_directives .= "\n\n".$master_snippet['snippet'];
-							
+
 							// create folder it it does not exist
 							if(!is_dir($data['new']['document_root'].'/' . $web_folder.$folder_directive_snippets_folder)){
 								$app->system->mkdirpath($data['new']['document_root'].'/' . $web_folder.$folder_directive_snippets_folder);
@@ -1221,7 +1230,7 @@ class nginx_plugin {
 				}
 			}
 		}
-		
+
 		// use vLib for template logic
 		if(trim($nginx_directives) != '') {
 			$nginx_directives_new = '';
@@ -1238,7 +1247,7 @@ class nginx_plugin {
 			if($nginx_directives_new != '') $nginx_directives = $nginx_directives_new;
 			unset($nginx_directives_new);
 		}
-		
+
 		// Make sure we only have Unix linebreaks
 		$nginx_directives = str_replace("\r\n", "\n", $nginx_directives);
 		$nginx_directives = str_replace("\r", "\n", $nginx_directives);
@@ -1507,7 +1516,7 @@ class nginx_plugin {
 					'use_proxy' => ($data['new']['redirect_type'] == 'proxy' ? true:false));
 			}
 		}
-		
+
 		// http2 or spdy?
 		$vhost_data['enable_http2']  = 'n';
 		if($vhost_data['enable_spdy'] == 'y'){
@@ -1519,7 +1528,20 @@ class nginx_plugin {
 			}
 			unset($tmp_output, $tmp_retval);
 		}
-		
+
+		//proxy protocol settings
+		if($web_config['vhost_proxy_protocol_enabled'] == "y"){
+		    if((int)$web_config['vhost_proxy_protocol_https_port'] > 0) {
+			    $vhost_data['use_proxy_protocol'] = $data['new']['proxy_protocol'];
+			    $vhost_data['proxy_protocol_http'] = (int)$web_config['vhost_proxy_protocol_http_port'];
+			    $vhost_data['proxy_protocol_https'] = (int)$web_config['vhost_proxy_protocol_https_port'];
+		    } else {
+		        $vhost_data['use_proxy_protocol'] = "n";
+		    }
+		}else{
+			$vhost_data['use_proxy_protocol'] = "n";
+		}
+
 		// set logging variable
 		$vhost_data['logging'] = $web_config['logging'];
 
@@ -1798,7 +1820,7 @@ class nginx_plugin {
 		} elseif($data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias') {
 			$stats_web_folder = $data['new']['web_folder'];
 		}
-		
+
 		//* Create basic http auth for website statistics
 		$tpl->setVar('stats_auth_passwd_file', $data['new']['document_root']."/" . $stats_web_folder . "/stats/.htpasswd_stats");
 
@@ -2059,9 +2081,9 @@ class nginx_plugin {
 			} else {
 				$app->system->exec_safe('umount ? 2>/dev/null', $data['old']['document_root'].'/'.$log_folder);
 			}
-			
+
 			// remove letsencrypt if it exists (renew will always fail otherwise)
-			
+
 			$old_domain = $data['old']['domain'];
 			if(substr($old_domain, 0, 2) === '*.') {
 				// wildcard domain not yet supported by letsencrypt!
@@ -2559,7 +2581,7 @@ class nginx_plugin {
 
 	private function hhvm_update($data, $web_config) {
 		global $app, $conf;
-		
+
 		if(file_exists($conf['rootpath'] . '/conf-custom/hhvm_starter.master')) {
 			$content = file_get_contents($conf['rootpath'] . '/conf-custom/hhvm_starter.master');
 		} else {
@@ -2570,7 +2592,7 @@ class nginx_plugin {
 		} else {
 			$monit_content = file_get_contents($conf['rootpath'] . '/conf/hhvm_monit.master');
 		}
-		
+
 		if($data['new']['php'] == 'hhvm' && $data['old']['php'] != 'hhvm' || ($data['new']['php'] == 'hhvm' && isset($data['old']['custom_php_ini']) && isset($data['new']['custom_php_ini']) && $data['new']['custom_php_ini'] != $data['old']['custom_php_ini'])) {
 
 			// Custom php.ini settings
@@ -2607,14 +2629,14 @@ class nginx_plugin {
 			$app->system->exec_safe('chmod +x ? >/dev/null 2>&1', '/etc/init.d/hhvm_' . $data['new']['system_user']);
 			$app->system->exec_safe('/usr/sbin/update-rc.d ? defaults >/dev/null 2>&1', 'hhvm_' . $data['new']['system_user']);
 			$app->system->exec_safe('/etc/init.d/hhvm_' . $data['new']['system_user'] . ' restart >/dev/null 2>&1');
-			
+
 			if(is_dir('/etc/monit/conf.d')){
 				$monit_content = str_replace('{SYSTEM_USER}', $data['new']['system_user'], $monit_content);
 				file_put_contents('/etc/monit/conf.d/00-hhvm_' . $data['new']['system_user'], $monit_content);
 				if(is_file('/etc/monit/conf.d/hhvm_' . $data['new']['system_user'])) unlink('/etc/monit/conf.d/hhvm_' . $data['new']['system_user']);
 				exec('/etc/init.d/monit restart >/dev/null 2>&1');
 			}
-			
+
  		} elseif($data['new']['php'] != 'hhvm' && $data['old']['php'] == 'hhvm') {
 			if($data['old']['system_user'] != ''){
 				exec('/etc/init.d/hhvm_' . $data['old']['system_user'] . ' stop >/dev/null 2>&1');
@@ -2622,7 +2644,7 @@ class nginx_plugin {
 				unlink('/etc/init.d/hhvm_' . $data['old']['system_user']);
 				if(is_file('/etc/hhvm/'.$data['old']['system_user'].'.ini')) unlink('/etc/hhvm/'.$data['old']['system_user'].'.ini');
 			}
-			
+
 			if(is_file('/etc/monit/conf.d/hhvm_' . $data['old']['system_user']) || is_file('/etc/monit/conf.d/00-hhvm_' . $data['old']['system_user'])){
 				if(is_file('/etc/monit/conf.d/hhvm_' . $data['old']['system_user'])){
 					unlink('/etc/monit/conf.d/hhvm_' . $data['old']['system_user']);
@@ -2640,7 +2662,7 @@ class nginx_plugin {
 		global $app, $conf;
 		$pool_dir = trim($pool_dir);
 		$rh_releasefiles = array('/etc/centos-release', '/etc/redhat-release');
-		
+
 		// HHVM => PHP-FPM-Fallback
 		if($data['new']['php'] == 'php-fpm' || $data['new']['php'] == 'hhvm'){
 			if(trim($data['new']['fastcgi_php_version']) != ''){
@@ -2701,12 +2723,12 @@ class nginx_plugin {
 		$tpl->setVar('fpm_pool', $pool_name);
 		$tpl->setVar('fpm_port', $web_config['php_fpm_start_port'] + $data['new']['domain_id'] - 1);
 		$tpl->setVar('fpm_user', $data['new']['system_user']);
-		
+
 		//Red Hat workaround for group ownership of socket files
 		foreach($rh_releasefiles as $rh_file) {
 			if(file_exists($rh_file) && (filesize($rh_file) > 0)) {
 				$tmp = file_get_contents($rh_file);
-				if(preg_match('/[67]+\.[0-9]+/m', $tmp)) {
+				if(preg_match('/[678]+\.[0-9]+/m', $tmp)) {
 					$tpl->setVar('fpm_group', $data['new']['system_group']);
 					$tpl->setVar('fpm_listen_group', $data['new']['system_group']);
 				}
@@ -2718,7 +2740,7 @@ class nginx_plugin {
 			}
 			break;
 		}
-		
+
 		$tpl->setVar('fpm_listen_user', $data['new']['system_user']);
 		$tpl->setVar('fpm_domain', $data['new']['domain']);
 		$tpl->setVar('pm', $data['new']['pm']);
@@ -2751,7 +2773,7 @@ class nginx_plugin {
 		// Custom php.ini settings
 		$final_php_ini_settings = array();
 		$custom_php_ini_settings = trim($data['new']['custom_php_ini']);
-		
+
 		if(intval($data['new']['directive_snippets_id']) > 0){
 			$snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'nginx' AND active = 'y' AND customer_viewable = 'y'", intval($data['new']['directive_snippets_id']));
 			if(isset($snippet['required_php_snippets']) && trim($snippet['required_php_snippets']) != ''){
@@ -2770,7 +2792,7 @@ class nginx_plugin {
 				}
 			}
 		}
-		
+
 		$custom_session_save_path = false;
 		if($custom_php_ini_settings != ''){
 			// Make sure we only have Unix linebreaks
@@ -2778,6 +2800,7 @@ class nginx_plugin {
 			$custom_php_ini_settings = str_replace("\r", "\n", $custom_php_ini_settings);
 			$ini_settings = explode("\n", $custom_php_ini_settings);
 			if(is_array($ini_settings) && !empty($ini_settings)){
+				$ini_settings = str_replace('{WEBROOT}', $data['new']['document_root'].'/web', $ini_settings);
 				foreach($ini_settings as $ini_setting){
 					$ini_setting = trim($ini_setting);
 					if(substr($ini_setting, 0, 1) == ';') continue;

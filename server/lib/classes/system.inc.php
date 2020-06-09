@@ -834,23 +834,55 @@ class system{
 		}
 	}
 
-	function file_put_contents($filename, $data, $allow_symlink = false) {
+	function file_put_contents($filename, $data, $allow_symlink = false, $run_as_user = null) {
 		global $app;
 		if($allow_symlink == false && $this->checkpath($filename) == false) {
 			$app->log("Action aborted, file is a symlink: $filename", LOGLEVEL_WARN);
 			return false;
 		}
-		if(file_exists($filename)) unlink($filename);
-		return file_put_contents($filename, $data);
+		if($run_as_user !== null && $run_as_user !== 'root') {
+			if(!$this->check_run_as_user($run_as_user)) {
+				$app->log("Action aborted, invalid run-as-user: $run_as_user", LOGLEVEL_WARN);
+				return false;
+			}
+			if(file_exists($filename)) {
+				$cmd = $this->get_sudo_command('rm ' . escapeshellarg($filename), $run_as_user);
+				$this->exec_safe($cmd);
+			}
+			$cmd = $this->get_sudo_command('cat - > ' . escapeshellarg($filename), $run_as_user);
+			$retval = null;
+			$stderr = '';
+			$this->pipe_exec($cmd, $data, $retval, $stderr);
+			if($retval > 0) {
+				$app->log("Safe file_put_contents failed: $stderr", LOGLEVEL_WARN);
+				return false;
+			} else {
+				$size = filesize($filename);
+				return $size;
+			}
+		} else {
+			if(file_exists($filename)) unlink($filename);
+			return file_put_contents($filename, $data);
+		}
 	}
 
-	function file_get_contents($filename, $allow_symlink = false) {
+	function file_get_contents($filename, $allow_symlink = false, $run_as_user = null) {
 		global $app;
 		if($allow_symlink == false && $this->checkpath($filename) == false) {
 			$app->log("Action aborted, file is a symlink: $filename", LOGLEVEL_WARN);
 			return false;
 		}
-		return file_get_contents($filename, $data);
+		
+		if($run_as_user !== null && $run_as_user !== 'root') {
+			if(!$this->check_run_as_user($run_as_user)) {
+				$app->log("Action aborted, invalid run-as-user: $run_as_user", LOGLEVEL_WARN);
+				return false;
+			}
+			$cmd = $this->get_sudo_command('cat ' . escapeshellarg($filename), $run_as_user) . ' 2>/dev/null';
+			return $this->system_safe($cmd);
+		} else {
+			return file_get_contents($filename);
+		}
 	}
 
 	function rename($filename, $new_filename, $allow_symlink = false) {
@@ -862,13 +894,29 @@ class system{
 		return rename($filename, $new_filename);
 	}
 
-	function mkdir($dirname, $allow_symlink = false, $mode = 0777, $recursive = false) {
+	function mkdir($dirname, $allow_symlink = false, $mode = 0777, $recursive = false, $run_as_user = null) {
 		global $app;
 		if($allow_symlink == false && $this->checkpath($dirname) == false) {
 			$app->log("Action aborted, file is a symlink: $dirname", LOGLEVEL_WARN);
 			return false;
 		}
-		if(@mkdir($dirname, $mode, $recursive)) {
+		if($run_as_user !== null && !$this->check_run_as_user($run_as_user)) {
+			$app->log("Action aborted, invalid run-as-user: $run_as_user", LOGLEVEL_WARN);
+			return false;
+		}
+		$success = false;
+		if($run_as_user !== null && $run_as_user !== 'root') {
+			$cmd = $this->get_sudo_command('mkdir ' . ($recursive ? '-p ' : '') . escapeshellarg($dirname), $run_as_user) . ' >/dev/null 2>&1';
+			$this->exec_safe($cmd);
+			if($this->last_exec_retcode() != 0) {
+				$success = false;
+			} else {
+				$success = true;
+			}
+		} else {
+			$success = @mkdir($dirname, $mode, $recursive);
+		}
+		if($success) {
 			return true;
 		} else {
 			$app->log("mkdir failed: $dirname", LOGLEVEL_DEBUG);
@@ -1677,14 +1725,14 @@ class system{
 	}
 
 	//* Function to create directory paths and chown them to a user and group
-	function mkdirpath($path, $mode = 0755, $user = '', $group = '') {
+	function mkdirpath($path, $mode = 0755, $user = '', $group = '', $run_as_user = null) {
 		$path_parts = explode('/', $path);
 		$new_path = '';
 		if(is_array($path_parts)) {
 			foreach($path_parts as $part) {
 				$new_path .= '/'.$part;
 				if(!@is_dir($new_path)) {
-					$this->mkdir($new_path);
+					$this->mkdir($new_path, false, 0777, false, $run_as_user);
 					$this->chmod($new_path, $mode);
 					if($user != '') $this->chown($new_path, $user);
 					if($group != '') $this->chgrp($new_path, $group);
@@ -1694,13 +1742,14 @@ class system{
 
 	}
 	
-	function _exec($command) {
+	function _exec($command, $allow_return_codes = null) {
 		global $app;
 		$out = array();
 		$ret = 0;
 		$app->log('exec: '.$command, LOGLEVEL_DEBUG);
 		exec($command, $out, $ret);
-		if($ret != 0) return false;
+		if(is_array($allow_return_codes) && in_array($ret, $allow_return_codes)) return true;
+		elseif($ret != 0) return false;
 		else return true;
 	}
 
@@ -2070,6 +2119,8 @@ class system{
 	}
 	
 	public function exec_safe($cmd) {
+		global $app;
+		
 		$arg_count = func_num_args();
 		if($arg_count != substr_count($cmd, '?') + 1) {
 			trigger_error('Placeholder count not matching argument list.', E_USER_WARNING);
@@ -2096,7 +2147,11 @@ class system{
 		
 		$this->_last_exec_out = null;
 		$this->_last_exec_retcode = null;
-		return exec($cmd, $this->_last_exec_out, $this->_last_exec_retcode);
+		$ret = exec($cmd, $this->_last_exec_out, $this->_last_exec_retcode);
+		
+		$app->log("safe_exec cmd: " . $cmd . " - return code: " . $this->_last_exec_retcode, LOGLEVEL_DEBUG);
+		
+		return $ret;
 	}
 	
 	public function system_safe($cmd) {
@@ -2104,4 +2159,124 @@ class system{
 		return implode("\n", $this->_last_exec_out);
 	}
 	
+	public function create_jailkit_user($username, $home_dir, $user_home_dir, $shell = '/bin/bash', $p_user = null, $p_user_home_dir = null) {
+		// Check if USERHOMEDIR already exists
+		if(!is_dir($home_dir . '/.' . $user_home_dir)) {
+			$this->mkdirpath($home_dir . '/.' . $user_home_dir, 0755, $username);
+		}
+
+		// Reconfigure the chroot home directory for the user
+		$cmd = 'usermod --home=? ? 2>/dev/null';
+		$this->exec_safe($cmd, $home_dir . '/.' . $user_home_dir, $username);
+
+		// Add the chroot user
+		$cmd = 'jk_jailuser -n -s ? -j ? ?';
+		$this->exec_safe($cmd, $shell, $home_dir, $username);
+
+		//  We have to reconfigure the chroot home directory for the parent user
+		if($p_user !== null) {
+			$cmd = 'usermod --home=? ? 2>/dev/null';
+			$this->exec_safe($cmd, $home_dir . '/.' . $p_user_home_dir, $p_user);
+		}
+		
+		return true;
+	}
+	
+	public function create_jailkit_programs($home_dir, $programs = array()) {
+		if(empty($programs)) {
+			return true;
+		} elseif(is_string($programs)) {
+			$programs = preg_split('/[\s,]+/', $programs);
+		}
+		$program_args = '';
+		foreach($programs as $prog) {
+			$program_args .= ' ' . escapeshellarg($prog);
+		}
+		
+		$cmd = 'jk_cp -k ?' . $program_args;
+		$this->exec_safe($cmd, $home_dir);
+		
+		return true;
+	}
+	
+	public function create_jailkit_chroot($home_dir, $app_sections = array()) {
+		if(empty($app_sections)) {
+			return true;
+		} elseif(is_string($app_sections)) {
+			$app_sections = preg_split('/[\s,]+/', $app_sections);
+		}
+		
+		// Change ownership of the chroot directory to root
+		$this->chown($home_dir, 'root');
+		$this->chgrp($home_dir, 'root');
+
+		$app_args = '';
+		foreach($app_sections as $app_section) {
+			$app_args .= ' ' . escapeshellarg($app_section);
+		}
+		
+		// Initialize the chroot into the specified directory with the specified applications
+		$cmd = 'jk_init -f -k -c /etc/jailkit/jk_init.ini -j ?' . $app_args;
+		$this->exec_safe($cmd, $home_dir);
+
+		// Create the temp directory
+		if(!is_dir($home_dir . '/tmp')) {
+			$this->mkdirpath($home_dir . '/tmp', 0777);
+		} else {
+			$this->chmod($home_dir . '/tmp', 0777, true);
+		}
+
+		// Fix permissions of the root firectory
+		$this->chmod($home_dir . '/bin', 0755, true);  // was chmod g-w $CHROOT_HOMEDIR/bin
+
+		// mysql needs the socket in the chrooted environment
+		$this->mkdirpath($home_dir . '/var/run/mysqld');
+		
+		// ln /var/run/mysqld/mysqld.sock $CHROOT_HOMEDIR/var/run/mysqld/mysqld.sock
+		if(!file_exists("/var/run/mysqld/mysqld.sock")) {
+			$this->exec_safe('ln ? ?', '/var/run/mysqld/mysqld.sock', $home_dir . '/var/run/mysqld/mysqld.sock');
+		}
+		
+		return true;
+	}
+	
+	
+	public function pipe_exec($cmd, $stdin, &$retval = null, &$stderr = null) {
+		$descriptors = array(
+			0 => array('pipe', 'r'),
+			1 => array('pipe', 'w'),
+			2 => array('pipe', 'w')
+		);
+		
+		$result = '';
+		$pipes = null;
+		$proc = proc_open($cmd, $descriptors, $pipes);
+		if(is_resource($proc)) {
+			fwrite($pipes[0], $stdin);
+			fclose($pipes[0]);
+			
+			$result = stream_get_contents($pipes[1]);
+			$stderr = stream_get_contents($pipes[2]);
+			fclose($pipes[1]);
+			fclose($pipes[2]);
+			
+			$retval = proc_close($proc);
+			
+			return $result;
+		} else {
+			return false;
+		}
+	}
+	
+	private function get_sudo_command($cmd, $run_as_user) {
+		return 'sudo -u ' . escapeshellarg($run_as_user) . ' sh -c ' . escapeshellarg($cmd);
+	}
+	
+	private function check_run_as_user($username) {
+		if(preg_match('/^[a-zA-Z0-9_\-]+$/', $username)) {
+			return true;
+		} else{
+			return false;
+		}
+	}
 }

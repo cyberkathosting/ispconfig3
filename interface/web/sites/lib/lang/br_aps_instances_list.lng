@@ -5,7 +5,7 @@ $wb['version_txt'] = 'Versão';
 $wb['customer_txt'] = 'Cliente';
 $wb['status_txt'] = 'Estado';
 $wb['install_location_txt'] = 'Local da instalação';
-$wb['pkg_delete_confirmation'] = 'Você realmente deseja remover esta instalação?';
+$wb['pkg_delete_confirmation'] = 'Deseja realmente remover esta instalação?';
 $wb['filter_txt'] = 'Pesquisar';
 $wb['delete_txt'] = 'Remover';
 ?>

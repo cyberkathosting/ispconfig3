@@ -20,5 +20,6 @@ $wb['import_alias_txt'] = 'Import email alias';
 $wb['import_forward_txt'] = 'Import forward';
 $wb['import_user_filter_txt'] = 'Import user filter';
 $wb['import_spamfilter_txt'] = 'Import spamfilter';
+$wb['local_server_txt'] = 'Local Mail Server';
 
 ?>

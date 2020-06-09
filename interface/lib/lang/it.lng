@@ -138,7 +138,7 @@ $wb['strength_2'] = 'Mediocre';
 $wb['strength_3'] = 'Buono';
 $wb['strength_4'] = 'Forte';
 $wb['strength_5'] = 'Molto forte';
-$wb['weak_password_txt'] = 'La password indicata non segue le impostazioni di sicurezza. Deve essere lunga almeno  {chars} caratteri ed avere un livello di sicurezza pari a \"{strength}\".';
+$wb['weak_password_txt'] = 'La password indicata non segue le impostazioni di sicurezza. Deve essere lunga almeno  {chars} caratteri ed avere un livello di sicurezza pari a \\"{strength}\\".';
 $wb['weak_password_length_txt'] = 'La password indicata non segue le impostazioni di sicurezza. Deve essere lunga almeno  {chars} caratteri.';
 $wb['security_check1_txt'] = 'Verifica permessi di sicurezza:';
 $wb['security_check2_txt'] = 'fallito.';
@@ -158,4 +158,5 @@ $wb['datalog_status_d_xmpp_domain'] = 'Delete XMPP domain';
 $wb['datalog_status_i_xmpp_user'] = 'Create XMPP user';
 $wb['datalog_status_u_xmpp_user'] = 'Update XMPP user';
 $wb['datalog_status_d_xmpp_user'] = 'Delete XMPP user';
+$wb['unlimited_txt'] = 'illimitati';
 ?>

@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Diretivas de trechos de código';
+$wb['list_head_txt'] = 'Diretiva de trechos de código';
 $wb['active_txt'] = 'Ativo';
 $wb['name_txt'] = 'Nome da diretiva';
 $wb['type_txt'] = 'Tipo';
-$wb['add_new_record_txt'] = 'Adicionar nova diretiva';
+$wb['add_new_record_txt'] = 'Adicionar diretiva';
 $wb['customer_viewable_txt'] = 'Visível para o cliente';
 ?>

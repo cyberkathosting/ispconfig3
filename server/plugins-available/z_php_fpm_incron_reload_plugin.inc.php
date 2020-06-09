@@ -45,8 +45,8 @@ class z_php_fpm_incron_reload_plugin {
 	function incronUpdate($eventName, $data) {
 		global $app;
 
-		if ($data['new']['document_root'] === $data['old']['document_root']) {
-			$app->log('Document root unchanged. Not updating incron configuration.', LOGLEVEL_DEBUG);
+		if ($this->documentRootUnchanged($data) && $this->phpVersionUnchanged($data)) {
+			$app->log('Document root and PHP version unchanged. Not updating incron configuration.', LOGLEVEL_DEBUG);
 
 			return;
 		}
@@ -57,6 +57,16 @@ class z_php_fpm_incron_reload_plugin {
 
 	function incronDelete($eventName, $data) {
 		$this->teardown($data['old']);
+	}
+
+	private function documentRootUnchanged($data)
+	{
+		return $data['new']['document_root'] === $data['old']['document_root'];
+	}
+
+	private function phpVersionUnchanged($data)
+	{
+		return $data['new']['fastcgi_php_version'] === $data['old']['fastcgi_php_version'];
 	}
 
 	private function setup($data)

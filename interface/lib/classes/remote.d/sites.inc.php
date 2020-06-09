@@ -132,10 +132,12 @@ class remoting_sites extends remoting {
 			$app->sites_database_plugin->processDatabaseInsert($this);
 			
 			// set correct values for backup_interval and backup_copies
-			if(isset($params['backup_interval']) || isset($params['backup_copies'])){
+			if(isset($params['backup_interval']) || isset($params['backup_copies']) || isset($params['backup_format_web']) || isset($params['backup_format_db'])){
 				$sql_set = array();
 				if(isset($params['backup_interval'])) $sql_set[] = "backup_interval = '".$app->db->quote($params['backup_interval'])."'";
 				if(isset($params['backup_copies'])) $sql_set[] = "backup_copies = ".$app->functions->intval($params['backup_copies']);
+				if(isset($params['backup_format_web'])) $sql_set[] = "backup_format_web = ".$app->functions->intval($params['backup_format_web']);
+				if(isset($params['backup_format_db'])) $sql_set[] = "backup_format_db = ".$app->functions->intval($params['backup_format_db']);
 				$this->updateQueryExecute("UPDATE web_database SET ".implode(', ', $sql_set)." WHERE database_id = ".$retval, $retval, $params);
 			}
 			
@@ -165,10 +167,12 @@ class remoting_sites extends remoting {
 			$retval = $this->updateQueryExecute($sql, $primary_id, $params);
 			
 			// set correct values for backup_interval and backup_copies
-			if(isset($params['backup_interval']) || isset($params['backup_copies'])){
+			if(isset($params['backup_interval']) || isset($params['backup_copies']) || isset($params['backup_format_web']) || isset($params['backup_format_db'])){
 				$sql_set = array();
 				if(isset($params['backup_interval'])) $sql_set[] = "backup_interval = '".$app->db->quote($params['backup_interval'])."'";
 				if(isset($params['backup_copies'])) $sql_set[] = "backup_copies = ".$app->functions->intval($params['backup_copies']);
+				if(isset($params['backup_format_web'])) $sql_set[] = "backup_format_web = ".$app->functions->intval($params['backup_format_web']);
+				if(isset($params['backup_format_db'])) $sql_set[] = "backup_format_db = ".$app->functions->intval($params['backup_format_db']);
 				$this->updateQueryExecute("UPDATE web_database SET ".implode(', ', $sql_set)." WHERE database_id = ".$primary_id, $primary_id, $params);
 			}
 			
@@ -423,7 +427,7 @@ class remoting_sites extends remoting {
 			$params['client_group_id'] = $rec['groupid'];
 		}
 
-		//* Set a few params to "not empty" values which get overwritten by the sites_web_domain_plugin
+		//* Set a few params to "not empty" values which get overwritten by the sites_web_vhost_domain_plugin
 		if($params['document_root'] == '') $params['document_root'] = '-';
 		if($params['system_user'] == '') $params['system_user'] = '-';
 		if($params['system_group'] == '') $params['system_group'] = '-';
@@ -1015,6 +1019,56 @@ class remoting_sites extends remoting {
 		}
 	
 		return $app->quota_lib->get_databasequota_data($client_id, false);
+	}
+	
+	// ----------------------------------------------------------------------------------------------------------
+
+	//* Get record details
+	public function sites_webdav_user_get($session_id, $primary_id)
+	{
+		global $app;
+
+		if(!$this->checkPerm($session_id, 'sites_webdav_user_get')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadFormDef('../sites/form/webdav_user.tform.php');
+		return $app->remoting_lib->getDataRecord($primary_id);
+	}
+
+	//* Add a record
+	public function sites_webdav_user_add($session_id, $client_id, $params)
+	{
+		if(!$this->checkPerm($session_id, 'sites_webdav_user_add')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		return $this->insertQuery('../sites/form/webdav_user.tform.php', $client_id, $params);
+	}
+
+	//* Update a record
+	public function sites_webdav_user_update($session_id, $client_id, $primary_id, $params)
+	{
+		if(!$this->checkPerm($session_id, 'sites_webdav_user_update')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+		$affected_rows = $this->updateQuery('../sites/form/webdav_user.tform.php', $client_id, $primary_id, $params);
+		return $affected_rows;
+	}
+
+	//* Delete a record
+	public function sites_webdav_user_delete($session_id, $primary_id)
+	{
+		global $app;
+		if(!$this->checkPerm($session_id, 'sites_webdav_user_delete')) {
+			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
+			return false;
+		}
+
+		$affected_rows = $this->deleteQuery('../sites/form/webdav_user.tform.php', $primary_id);
+		return $affected_rows;
 	}
 	
 	

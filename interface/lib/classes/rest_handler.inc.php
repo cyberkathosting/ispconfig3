@@ -30,46 +30,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 
-class ISPConfigRESTHandler {
-	private $methods = array();
-	private $classes = array();
-	
+class ISPConfigRESTHandler extends ISPConfigRemotingHandlerBase {
 	private $api_version = 1;
-	
-	public function __construct() {
-		global $app;
-
-		// load main remoting file
-		$app->load('remoting');
-
-		// load all remote classes and get their methods
-		$dir = dirname(realpath(__FILE__)) . '/remote.d';
-		$d = opendir($dir);
-		while($f = readdir($d)) {
-			if($f == '.' || $f == '..') continue;
-			if(!is_file($dir . '/' . $f) || substr($f, strrpos($f, '.')) != '.php') continue;
-
-			$name = substr($f, 0, strpos($f, '.'));
-
-			include $dir . '/' . $f;
-			$class_name = 'remoting_' . $name;
-			if(class_exists($class_name, false)) {
-				$this->classes[$class_name] = new $class_name();
-				foreach(get_class_methods($this->classes[$class_name]) as $method) {
-					$this->methods[$method] = $class_name;
-				}
-			}
-		}
-		closedir($d);
-
-		// add main methods
-		$this->methods['login'] = 'remoting';
-		$this->methods['logout'] = 'remoting';
-		$this->methods['get_function_list'] = 'remoting';
-
-		// create main class
-		$this->classes['remoting'] = new remoting(array_keys($this->methods));
-	}
 
 	private function _return_error($code, $codename, $message) {
 		header('HTTP/1.1 ' . $code . ' ' . $codename);

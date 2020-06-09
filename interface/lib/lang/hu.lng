@@ -145,7 +145,7 @@ $wb['strength_2'] = 'Fair';
 $wb['strength_3'] = 'Good';
 $wb['strength_4'] = 'Strong';
 $wb['strength_5'] = 'Very Strong';
-$wb['weak_password_txt'] = 'The chosen password does not match the security guidelines. It has to be at least {chars} chars in length and have a strength of \"{strength}\".';
+$wb['weak_password_txt'] = 'The chosen password does not match the security guidelines. It has to be at least {chars} chars in length and have a strength of \\"{strength}\\".';
 $wb['weak_password_length_txt'] = 'The chosen password does not match the security guidelines. It has to be at least {chars} chars in length.';
 $wb['security_check1_txt'] = 'Check for security permission:';
 $wb['security_check2_txt'] = 'failed.';
@@ -158,4 +158,5 @@ $wb['datalog_status_d_xmpp_domain'] = 'Delete XMPP domain';
 $wb['datalog_status_i_xmpp_user'] = 'Create XMPP user';
 $wb['datalog_status_u_xmpp_user'] = 'Update XMPP user';
 $wb['datalog_status_d_xmpp_user'] = 'Delete XMPP user';
+$wb['unlimited_txt'] = 'Korlátlan';
 ?>

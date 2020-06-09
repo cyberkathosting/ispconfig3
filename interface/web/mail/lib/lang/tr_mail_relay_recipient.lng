@@ -4,6 +4,6 @@ $wb['source_txt'] = 'Aktarılan Alıcı';
 $wb['recipient_txt'] = 'Alıcı';
 $wb['active_txt'] = 'Etkin';
 $wb['source_error_notempty'] = 'Adres boş olamaz.';
-$wb['type_txt'] = 'Tip';
+$wb['type_txt'] = 'Tür';
 $wb['limit_mailfilter_txt'] = 'Hesabınıza ekleyebileceğiniz en fazla e-posta süzgeci sayısına ulaştınız.';
 ?>

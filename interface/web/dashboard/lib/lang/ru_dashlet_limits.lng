@@ -1,7 +1,6 @@
 <?php
 $wb['limits_txt'] = 'Лимиты учётной записи';
 $wb['of_txt'] = 'из';
-$wb['unlimited_txt'] = 'Безлимитный';
 $wb['limit_maildomain_txt'] = 'Количество почтовых аккаунтов';
 $wb['limit_mailbox_txt'] = 'Количество почтовых ящиков';
 $wb['limit_mailalias_txt'] = 'Количество алиасов почты';

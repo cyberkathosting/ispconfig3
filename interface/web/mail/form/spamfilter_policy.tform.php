@@ -87,6 +87,21 @@ $form["tabs"]['policy'] = array (
 			'default' => 'N',
 			'value'  => array('N' => 'No', 'Y' => 'Yes')
 		),
+		//#################################
+		// END Datatable fields
+		//#################################
+	)
+);
+
+
+$form["tabs"]['amavis'] = array (
+	'title'  => "Amavis",
+	'width'  => 100,
+	'template'  => "templates/spamfilter_amavis_edit.htm",
+	'fields'  => array (
+		//#################################
+		// Begin Datatable fields
+		//#################################
 		'banned_files_lover' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
@@ -117,21 +132,6 @@ $form["tabs"]['policy'] = array (
 			'default' => 'N',
 			'value'  => array('N' => 'No', 'Y' => 'Yes')
 		),
-		//#################################
-		// ENDE Datatable fields
-		//#################################
-	)
-);
-
-
-$form["tabs"]['quarantine'] = array (
-	'title'  => "Quarantine",
-	'width'  => 100,
-	'template'  => "templates/spamfilter_quarantine_edit.htm",
-	'fields'  => array (
-		//#################################
-		// Begin Datatable fields
-		//#################################
 		'virus_quarantine_to' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -216,20 +216,6 @@ $form["tabs"]['quarantine'] = array (
 			'width'  => '30',
 			'maxlength' => '255'
 		),
-		//#################################
-		// ENDE Datatable fields
-		//#################################
-	)
-);
-
-$form["tabs"]['taglevel'] = array (
-	'title'  => "Tag-Level",
-	'width'  => 100,
-	'template'  => "templates/spamfilter_taglevel_edit.htm",
-	'fields'  => array (
-		//#################################
-		// Begin Datatable fields
-		//#################################
 		'spam_tag_level' => array (
 			'datatype' => 'DOUBLE',
 			'formtype' => 'TEXT',
@@ -304,57 +290,6 @@ $form["tabs"]['taglevel'] = array (
 			'width'  => '30',
 			'maxlength' => '255'
 		),
-		'rspamd_greylisting' => array (
-			'datatype' => 'VARCHAR',
-			'formtype' => 'CHECKBOX',
-			'default' => 'y',
-			'value'  => array(0 => 'n', 1 => 'y')
-		),
-		'rspamd_spam_greylisting_level' => array (
-			'datatype' => 'DOUBLE',
-			'formtype' => 'TEXT',
-			'default' => '0',
-			'value'  => '',
-			'width'  => '10',
-			'maxlength' => '255'
-		),
-		'rspamd_spam_tag_level' => array (
-			'datatype' => 'DOUBLE',
-			'formtype' => 'TEXT',
-			'default' => '0',
-			'value'  => '',
-			'width'  => '10',
-			'maxlength' => '255'
-		),
-		'rspamd_spam_tag_method' => array (
-			'datatype' => 'VARCHAR',
-			'formtype' => 'SELECT',
-			'default' => 'rewrite_subject',
-			'value'  => array('add_header' => $app->lng('add_header_txt'), 'rewrite_subject' => $app->lng('rewrite_subject_txt'))
-		),
-		'rspamd_spam_kill_level' => array (
-			'datatype' => 'DOUBLE',
-			'formtype' => 'TEXT',
-			'default' => '0',
-			'value'  => '',
-			'width'  => '10',
-			'maxlength' => '255'
-		),
-		//#################################
-		// ENDE Datatable fields
-		//#################################
-	)
-);
-
-
-$form["tabs"]['other'] = array (
-	'title'  => "Other",
-	'width'  => 100,
-	'template'  => "templates/spamfilter_other_edit.htm",
-	'fields'  => array (
-		//#################################
-		// Begin Datatable fields
-		//#################################
 		'addr_extension_virus' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -522,11 +457,52 @@ $form["tabs"]['other'] = array (
 			'width'  => '30',
 			'maxlength' => '255'
 		),
-
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
 
-?>
+$form["tabs"]['rspamd'] = array (
+	'title'  => "Rspamd",
+	'width'  => 100,
+	'template'  => "templates/spamfilter_rspamd_edit.htm",
+	'fields'  => array (
+		//#################################
+		// Begin Datatable fields
+		//#################################
+		'rspamd_spam_greylisting_level' => array (
+			'datatype' => 'DOUBLE',
+			'formtype' => 'TEXT',
+			'default' => '0',
+			'value'  => '',
+			'width'  => '10',
+			'maxlength' => '255'
+		),
+		'rspamd_spam_tag_level' => array (
+			'datatype' => 'DOUBLE',
+			'formtype' => 'TEXT',
+			'default' => '0',
+			'value'  => '',
+			'width'  => '10',
+			'maxlength' => '255'
+		),
+		'rspamd_spam_tag_method' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'SELECT',
+			'default' => 'rewrite_subject',
+			'value'  => array('add_header' => $app->lng('add_header_txt'), 'rewrite_subject' => $app->lng('rewrite_subject_txt'))
+		),
+		'rspamd_spam_kill_level' => array (
+			'datatype' => 'DOUBLE',
+			'formtype' => 'TEXT',
+			'default' => '0',
+			'value'  => '',
+			'width'  => '10',
+			'maxlength' => '255'
+		),
+		//#################################
+		// END Datatable fields
+		//#################################
+	)
+);

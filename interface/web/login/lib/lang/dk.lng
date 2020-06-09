@@ -7,6 +7,7 @@ $wb['pass_reset_txt'] = 'En ny adgangskode vil blive genereret og sendt til din 
 $wb['pw_reset'] = 'Adgangskoden er blevet nulstillet og sendt til din e-mail adresse.';
 $wb['pw_error'] = 'Brugernavn eller e-mail adresse matcher ikke.';
 $wb['pw_error_noinput'] = 'Indtast e-mail adresse og brugernavn.';
+$wb['pw_reset_error_smtp_connection'] = 'There was a connection problem when trying to send an email pertaining to your password reset request.';
 $wb['pw_reset_mail_msg'] = 'Adgangskoden til din ISPConfig 3 kontrol panel konto er blevet nulstillet. Den nye adgangskode er: ';
 $wb['pw_reset_mail_title'] = 'ISPConfig 3 Kontrol panel adgangskode er blevet nulstillet.';
 $wb['user_regex_error'] = 'Brugernavn indeholder Ikke-tilladte karakterer eller er længer end 64 karaktere.';

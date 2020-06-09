@@ -340,6 +340,8 @@ class ApsGUIController extends ApsBase
 								 "remote_access" => $mysql_db_remote_access,
 								 "remote_ips" => $mysql_db_remote_ips,
 								 "backup_copies" => $websrv['backup_copies'],
+								 "backup_format_web" => $websrv['backup_format_web'],
+								 "backup_format_db" => $websrv['backup_format_db'],
 								 "active" => 'y', 
 								 "backup_interval" => $websrv['backup_interval']
 								 );
@@ -637,8 +639,24 @@ class ApsGUIController extends ApsBase
 						// The location might be empty but the DB return must not be false!
 						if($location_for_domain) $used_path .= $location_for_domain['value'];
 
+						// If user is trying to install into exactly the same path, give an error
 						if($new_path == $used_path)
 						{
+							$temp_errstr = $app->lng('error_used_location');
+							break;
+						}
+
+						// If the new path is _below_ an existing path, give an error because the
+						// installation will delete the files of the existing APS installation
+						if (mb_substr($used_path, 0, mb_strlen($new_path)) === $new_path) {
+							$temp_errstr = $app->lng('error_used_location');
+							break;
+						}
+
+						// If the new path is _within_ an existing path, give an error. Even if
+						// installation would proceed fine in theory, deleting the "lower" package
+						// in the future would also inadvertedly delete the "nested" package
+						if (mb_substr($new_path, 0, mb_strlen($used_path)) === $used_path) {
 							$temp_errstr = $app->lng('error_used_location');
 							break;
 						}

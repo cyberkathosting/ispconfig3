@@ -61,7 +61,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 $form['title']   = 'interface_head_txt';
-$form['description']  = 'interface_desc_txt';
+//*$form['description']  = 'interface_desc_txt';
 $form['name']   = 'interface';
 $form['action']  = 'interface_settings.php';
 $form['db_table'] = 'sys_user';
@@ -144,6 +144,12 @@ $form['tabs']['main'] = array (
 		'startmodule' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
+			'validators' => array (  0 => array (    'type' => 'NOTEMPTY',
+					'errmsg'=> 'startmodule_empty'),
+				1 => array (    'type' => 'REGEX',
+					'regex' => '/^[a-z0-9\_]{0,64}$/',
+					'errmsg'=> 'startmodule_regex'),
+			),
 			'regex'  => '',
 			'errmsg' => '',
 			'default' => '',
@@ -157,6 +163,12 @@ $form['tabs']['main'] = array (
 		'app_theme' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
+			'validators' => array (  0 => array (    'type' => 'NOTEMPTY',
+					'errmsg'=> 'app_theme_empty'),
+				1 => array (    'type' => 'REGEX',
+					'regex' => '/^[a-z0-9\_]{0,64}$/',
+					'errmsg'=> 'app_theme_regex'),
+			),
 			'regex' => '',
 			'errmsg' => '',
 			'default' => 'default',

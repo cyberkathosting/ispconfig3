@@ -1,7 +1,6 @@
 <?php
 $wb['limits_txt'] = 'Kontogränser';
 $wb['of_txt'] = 'av';
-$wb['unlimited_txt'] = 'Obegränsat';
 $wb['limit_maildomain_txt'] = 'Antal epostdomäner';
 $wb['limit_mailbox_txt'] = 'Antal epostkonton';
 $wb['limit_mailalias_txt'] = 'Antal epostalias';

@@ -1,13 +1,13 @@
 <?php
-$wb['User Settings'] = 'Configurações do usuário';
+$wb['User Settings'] = 'Configurações de usuários';
 $wb['Settings'] = 'Configurações';
 $wb['ISPConfig Tools'] = 'Ferramentas';
-$wb['Password and Language'] = 'Senha e Idioma';
-$wb['ispconfig_tools_note'] = 'Este módulo permite você alterar a senha e o idioma e sincronizar os registros dns.';
-$wb['Resync'] = 'Sincronizar';
-$wb['Sync Tools'] = 'Sincronismo';
-$wb['Import'] = 'Importar';
-$wb['ISPConfig 3 mail'] = 'ISPConfig 3';
-$wb['PDNS Tupa'] = 'Tupa PowerDNS';
 $wb['Interface'] = 'Interface';
+$wb['Password and Language'] = 'Senha e Idioma';
+$wb['ispconfig_tools_note'] = 'Este módulo permite alterar a senha e idioma e iniciar a sincronização de registros dns.';
+$wb['Sync Tools'] = 'Sincronização';
+$wb['Resync'] = 'Sincronizar';
+$wb['Import'] = 'Importar';
+$wb['ISPConfig 3 mail'] = 'e-Mails do ISPConfig';
+$wb['PDNS Tupa'] = 'PowerDNS';
 ?>

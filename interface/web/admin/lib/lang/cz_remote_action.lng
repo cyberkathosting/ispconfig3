@@ -2,9 +2,9 @@
 $wb['select_server_txt'] = 'Zvolit server';
 $wb['btn_do_txt'] = 'Provést akci';
 $wb['do_osupdate_caption'] = 'Aktualizace operačního systému na vzdáleném serveru.';
-$wb['do_osupdate_desc'] = 'Tato akce provede \"aptitude -y\" aktualizaci na vybraném serveru.<br><br><strong>POUŽITÍ TÉTO AKCE NA VLASTNÍ NEBEZPEČÍ !</strong>';
+$wb['do_osupdate_desc'] = 'Tato akce provede \\"aptitude -y\\" aktualizaci na vybraném serveru.<br><br><strong>POUŽITÍ TÉTO AKCE NA VLASTNÍ NEBEZPEČÍ !</strong>';
 $wb['do_ispcupdate_caption'] = 'Provedení ISPConfig 3 - aktualizace na vzdáleném serveru';
-$wb['do_ispcupdate_desc'] = 'Tato akce provede \"ISPConfig 3\" aktualizaci na vašem vybraném serveru.<br><br><strong>POUŽITÍ TÉTO AKCE NA VLASTNÍ NEBEZPEČÍ !</strong>';
+$wb['do_ispcupdate_desc'] = 'Tato akce provede \\"ISPConfig 3\\" aktualizaci na vašem vybraném serveru.<br><br><strong>POUŽITÍ TÉTO AKCE NA VLASTNÍ NEBEZPEČÍ !</strong>';
 $wb['action_scheduled'] = 'Akce je naplánována na provedení';
 $wb['select_all_server'] = 'Všechny servery';
 $wb['ispconfig_update_title'] = 'ISPConfig pokyny k aktualizaci';

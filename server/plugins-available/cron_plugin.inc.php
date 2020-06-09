@@ -219,12 +219,12 @@ class cron_plugin {
 		if($cron_jobs && count($cron_jobs) > 0) {
 			foreach($cron_jobs as $job) {
 				if($job['run_month'] == '@reboot') {
-					$command = "@reboot";
+					$cron_line = "@reboot";
 				} else {
-					$command = str_replace(" ", "", $job['run_min']) . "\t" . str_replace(" ", "", $job['run_hour']) . "\t" . str_replace(" ", "", $job['run_mday']) . "\t" . str_replace(" ", "", $job['run_month']) . "\t" . str_replace(" ", "", $job['run_wday']);
+					$cron_line = str_replace(" ", "", $job['run_min']) . "\t" . str_replace(" ", "", $job['run_hour']) . "\t" . str_replace(" ", "", $job['run_mday']) . "\t" . str_replace(" ", "", $job['run_month']) . "\t" . str_replace(" ", "", $job['run_wday']);
 				}
 				
-				$log_target = ">/dev/null 2>&1";
+				$log_target = "";
 				$log_wget_target = '/dev/null';
 				$log_root = '';
 				if($job['log'] == 'y') {
@@ -235,9 +235,9 @@ class cron_plugin {
 					$log_wget_target = $log_root . '/cron_wget.log';
 				}
 				
-				$command .= "\t{$this->parent_domain['system_user']}"; //* running as user
+				$cron_line .= "\t{$this->parent_domain['system_user']}"; //* running as user
 				if($job['type'] == 'url') {
-					$command .= "\t{$cron_config['wget']} --no-check-certificate --user-agent='Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0' -q -t 1 -T 7200 -O " . $log_wget_target . " " . escapeshellarg($job['command']) . " " . $log_target;
+					$cron_line .= "\t{$cron_config['wget']} --no-check-certificate --user-agent='Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0' -q -t 1 -T 7200 -O " . $log_wget_target . " " . escapeshellarg($job['command']) . " " . $log_target;
 				} else {
 					if(strpos($job['command'], "\n") !== false || strpos($job['command'], "\r") !== false || strpos($job['command'], chr(0)) !== false) {
 						$app->log("Insecure Cron job SKIPPED: " . $job['command'], LOGLEVEL_WARN);
@@ -257,16 +257,16 @@ class cron_plugin {
 					$web_root .= '/web';
 					$job['command'] = str_replace('[web_root]', $web_root, $job['command']);
 
-					$command .= "\t";
-					//if($job['type'] != 'chrooted' && substr($job['command'], 0, 1) != "/") $command .= $this->parent_domain['document_root'].'/';
-					$command .= $job['command'] . " " . $log_target;
+					$cron_line .= "\t";
+					//if($job['type'] != 'chrooted' && substr($job['command'], 0, 1) != "/") $cron_line .= $this->parent_domain['document_root'].'/';
+					$cron_line .= $job['command'] . " " . $log_target;
 				}
 
 				if($job['type'] == 'chrooted') {
-					$chr_cron_content .= $command . " #{$job['domain']}\n";
+					$chr_cron_content .= $cron_line . " #{$job['domain']}\n";
 					$chr_cmd_count++;
 				} else {
-					$cron_content .= $command . " #{$job['domain']}\n";
+					$cron_content .= $cron_line . " #{$job['domain']}\n";
 					$cmd_count++;
 				}
 			}

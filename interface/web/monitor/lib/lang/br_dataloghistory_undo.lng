@@ -1,7 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Data Log History Entry';
-$wb['success_txt'] = 'Undo successful';
-$wb['error_txt'] = 'Error during undo: Record does not exist anymore';
-$wb['error_undelete_txt'] = 'Error during undelete: Record with primary id already existing.';
-$wb['btn_cancel_txt'] = 'Back';
+$wb['list_head_txt'] = 'Histórico do log';
+$wb['success_txt'] = 'O comando "Desfazer ação" foi realizado com sucesso';
+$wb['error_txt'] = 'Erro durante desfazer ação: O registro não existe mais';
+$wb['error_undelete_txt'] = 'Erro durante a remoção: Registro com ID primário ainda existe.';
+$wb['btn_cancel_txt'] = 'Voltar';
 ?>

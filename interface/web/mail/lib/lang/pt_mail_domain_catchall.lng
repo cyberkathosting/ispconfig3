@@ -8,4 +8,5 @@ $wb['domain_error_regex'] = 'O nome do domínio contém caracteres inválidos';
 $wb['limit_mailcatchall_txt'] = 'O número máximo de catchall para este domínio foi atingido.';
 $wb['source_txt'] = 'Source';
 $wb['destination_error_isemail'] = 'Destination is no valid email address.';
+$wb['greylisting_txt'] = 'Enable greylisting';
 ?>

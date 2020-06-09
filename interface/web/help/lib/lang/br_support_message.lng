@@ -1,16 +1,16 @@
 <?php
-$wb['recipient_id_txt'] = 'Para';
-$wb['sender_id_txt'] = 'De';
+$wb['recipient_id_txt'] = 'ID do destinatário';
+$wb['sender_id_txt'] = 'ID do remetente';
 $wb['subject_txt'] = 'Assunto';
 $wb['message_txt'] = 'Mensagem';
-$wb['tstamp_txt'] = 'Dados';
+$wb['tstamp_txt'] = 'Data/Hora';
 $wb['reply_txt'] = 'Responder';
 $wb['date_txt'] = 'Data';
-$wb['support_request_subject_txt'] = 'Requisição para Suporte';
-$wb['support_request_txt'] = 'Você tem uma nova requisição para suporte. Por favor, não responda esse e-mail, mas processe a requisição de suporte dentro do ISPConfig.';
-$wb['answer_to_support_request_txt'] = 'Você tem uma nova resposta para requisição de suporte. Por favor, não responda esse e-mail, mas processe a requisição de suporte dentro do ISPConfig.';
-$wb['answer_to_support_request_sent_txt'] = 'Sua resposta para requisição de suporte foi enviada. Por favor, não responda esse e-mail.';
-$wb['support_request_sent_txt'] = 'Sua requisição de suporte foi enviada. Por favor não responda este e-mail.';
-$wb['recipient_or_sender_email_address_not_valid_txt'] = 'A mensagem não foi enviada porque o e-mail do destinatário e/ou remetente não é válido.';
-$wb['subject_is_empty'] = 'Não é permitido o campo \"Assunto\" em branco.';
+$wb['support_request_subject_txt'] = 'Requisição de Suporte';
+$wb['support_request_txt'] = 'Você recebeu uma requisição de suporte. Por favor, não responda este e-mail, mas processe a requisição dentro do ISPConfig.';
+$wb['answer_to_support_request_txt'] = 'Você recebeu uma resposta à sua requisição de suporte. Por favor, não responda este e-mail, mas processe a mensagem dentro do ISPConfig.';
+$wb['answer_to_support_request_sent_txt'] = 'Sua resposta à requisição de suporte foi enviada. Por favor, não responda este e-mail.';
+$wb['support_request_sent_txt'] = 'Sua requisição de suporte foi enviada. Por favor, não responda este e-mail.';
+$wb['recipient_or_sender_email_address_not_valid_txt'] = 'A mensagem não pôde ser enviada porque o remetente e/ou destinatário são e-mails inválidos.';
+$wb['subject_is_empty'] = 'O assunto está em branco.';
 ?>

@@ -159,7 +159,42 @@ class cronjob_monitor_system_update extends cronjob {
 			 * Fetch the output
 			 */
 			$data['output'] = shell_exec('zypper lu');
-		} else {
+
+		} elseif(file_exists('/etc/redhat-release')) {
+                        /*
+                         * update and find the upgrade.
+                         * if there is any output, then there is a needed update
+                         */
+
+			/* try to figure out the default package manager first */
+                        if(file_exists('/usr/bin/dnf') && (is_link('/usr/bin/yum'))) {
+                                $rhPkgMgr = 'dnf';
+                        } elseif(file_exists('/usr/bin/dnf') && (!file_exists('/usr/bin/yum'))) {
+                                $rhPkgMgr = 'dnf';
+                        } else {
+                                $rhPkgMgr = 'yum';
+                        }
+
+			$aptData = shell_exec($rhPkgMgr. ' -q list updates');
+
+                        if ($aptData == '') {
+                                /* There is nothing to update! */
+                                $state = 'ok';
+                        } else {
+                                /*
+                                 * There is something to update! this is in most cases not critical, so we can
+                                 * do a system-update once a month or so...
+                                 */
+                                $state = 'info';
+                        }
+
+                        /*
+                         * Fetch the output
+			 */
+
+                        $data['output'] = shell_exec($rhPkgMgr. ' -q list updates');
+            
+	        } else {
 			/*
 			 * It is not Debian/Ubuntu, so there is no data and no state
 			 *

@@ -248,7 +248,7 @@ class app {
 			}
 			$this->_language_inc = 1;
 		}
-		if(isset($this->_wb[$text]) && $this->wb[$text] !== '') {
+		if(isset($this->_wb[$text]) && $this->_wb[$text] !== '') {
 			$text = $this->_wb[$text];
 		} else {
 			if($this->_conf['debug_language']) {
@@ -333,6 +333,22 @@ class app {
 		$this->tpl->setVar('globalsearch_noresults_limit_txt', $this->lng('globalsearch_noresults_limit_txt'));
 		$this->tpl->setVar('globalsearch_searchfield_watermark_txt', $this->lng('globalsearch_searchfield_watermark_txt'));
 	}
+
+	public function is_under_maintenance() {
+		$system_config_misc = $this->getconf->get_global_config('misc');
+		$maintenance_mode = 'n';
+		$maintenance_mode_exclude_ips = [];
+
+		if (!empty($system_config_misc['maintenance_mode'])) {
+			$maintenance_mode = $system_config_misc['maintenance_mode'];
+		}
+
+		if (!empty($system_config_misc['maintenance_mode_exclude_ips'])) {
+			$maintenance_mode_exclude_ips = array_map('trim', explode(',', $system_config_misc['maintenance_mode_exclude_ips']));
+		}
+
+		return 'y' === $maintenance_mode && !in_array($_SERVER['REMOTE_ADDR'], $maintenance_mode_exclude_ips);
+	}
 	
 	private function get_cookie_domain() {
 		$sec_config = $this->getconf->get_security_config('permissions');
@@ -356,8 +372,8 @@ class app {
 			$forwarded_host = (isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : null );
 			if($forwarded_host !== null && $forwarded_host !== $cookie_domain) {
 				// Just check for complete domain name and not auto subdomains
-				$sql = "SELECT domain_id from web_domain where domain = '$forwarded_host'";
-				$recs = $this->db->queryOneRecord($sql);
+				$sql = "SELECT domain_id from web_domain where domain = ?";
+				$recs = $this->db->queryOneRecord($sql, $forwarded_host);
 				if($recs !== null) {
 					$cookie_domain = $forwarded_host;
 				}

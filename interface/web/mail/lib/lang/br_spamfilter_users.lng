@@ -2,7 +2,7 @@
 $wb['server_id_txt'] = 'Servidor';
 $wb['priority_txt'] = 'Prioridade';
 $wb['policy_id_txt'] = 'Política';
-$wb['email_txt'] = 'e-mail (padrão)';
+$wb['email_txt'] = 'e-Mail (padrão)';
 $wb['fullname_txt'] = 'Nome';
 $wb['local_txt'] = 'Local';
 $wb['email_error_notempty'] = 'Endereço de e-mail está em branco.';
