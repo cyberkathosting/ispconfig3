@@ -16,3 +16,7 @@ ALTER TABLE `web_backup` ADD  `backup_password` VARCHAR( 255 ) NOT NULL DEFAULT 
 
 -- rename Comodo to "Sectigo / Comodo CA"
 UPDATE `dns_ssl_ca` SET `ca_name` = 'Sectigo / Comodo CA' WHERE `ca_issue` = 'comodoca.com';
+
+-- default php-fpm to ondemand mode
+ALTER TABLE `web_domain` ALTER pm SET DEFAULT 'ondemand';
+
