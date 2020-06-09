@@ -1078,7 +1078,7 @@ class installer_base {
 
 		$reject_sender_login_mismatch = '';
 		if(isset($server_ini_array['mail']['reject_sender_login_mismatch']) && ($server_ini_array['mail']['reject_sender_login_mismatch'] == 'y')) {
-			$reject_sender_login_mismatch = ', reject_sender_login_mismatch';
+			$reject_sender_login_mismatch = ',reject_sender_login_mismatch,';
 		}
 
 		# placeholder includes comment char
@@ -1678,7 +1678,27 @@ class installer_base {
 			exec("postconf -e 'milter_mail_macros = i {mail_addr} {client_addr} {client_name} {auth_authen}'");
 			exec("postconf -e 'milter_default_action = accept'");
 
-			exec("postconf -e 'smtpd_sender_restrictions = check_sender_access mysql:/etc/postfix/mysql-virtual_sender.cf, permit_mynetworks, permit_sasl_authenticated'");
+			if(! isset($mail_config['reject_sender_login_mismatch'])) {
+				$mail_config['reject_sender_login_mismatch'] = 'n';
+			}
+			$options = explode(", ", exec("postconf -h smtpd_sender_restrictions"));
+			$new_options = array();
+			foreach ($options as $key => $value) {
+				if ($value == '') {
+					continue;
+				}
+				if (preg_match('/tag_as_(originating|foreign)\.re/', $value)) {
+					continue;
+				}
+				if (!preg_match('/reject_(authenticated_)?sender_login_mismatch/', $value)) {
+					$new_options[] = $value;
+				}
+			}
+			if ($mail_config['reject_sender_login_mismatch'] == 'y') {
+				reset($new_options);
+				array_splice($new_options, 0, 0, array('reject_sender_login_mismatch'));
+			}
+			exec("postconf -e 'smtpd_sender_restrictions = ".implode(", ", $new_options)."'");
 
 
 			$options = preg_split("/,\s*/", exec("postconf -h smtpd_recipient_restrictions"));
