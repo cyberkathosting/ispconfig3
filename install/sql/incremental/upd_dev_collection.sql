@@ -20,3 +20,6 @@ UPDATE `dns_ssl_ca` SET `ca_name` = 'Sectigo / Comodo CA' WHERE `ca_issue` = 'co
 -- default php-fpm to ondemand mode
 ALTER TABLE `web_domain` ALTER pm SET DEFAULT 'ondemand';
 
+ALTER TABLE `mail_user` 
+  ADD `purge_trash_days` INT NOT NULL DEFAULT '0' AFTER `move_junk`,
+  ADD `purge_junk_days` INT NOT NULL DEFAULT '0' AFTER `purge_trash_days`;

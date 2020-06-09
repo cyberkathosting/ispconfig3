@@ -62,4 +62,8 @@ $wb['sender_cc_txt'] = 'Enviar copia saliente a';
 $wb['server_id_txt'] = 'id_del_servidor';
 $wb['weekly_backup_txt'] = 'Semanalmente';
 $wb['password_click_to_set_txt'] = 'Click to set';
+$wb['purge_trash_days_txt'] = 'Purge Trash automatically after X days';
+$wb['tooltip_purge_trash_days_txt'] = '0 = disabled';
+$wb['purge_junk_days_txt'] = 'Purge Junk automatically after X days';
+$wb['tooltip_purge_junk_days_txt'] = '0 = disabled';
 ?>
