@@ -19,3 +19,4 @@ UPDATE `dns_ssl_ca` SET `ca_name` = 'Sectigo / Comodo CA' WHERE `ca_issue` = 'co
 
 -- default php-fpm to ondemand mode
 ALTER TABLE `web_domain` ALTER pm SET DEFAULT 'ondemand';
+
