@@ -795,3 +795,7 @@ span.notification_text {
 	background: #fdd;
 	text-decoration: none;
 }
+#apache_directives, #nginx_directives, #proxy_directives {
+	font-family: Consolas, "Courier New", Courier, monospace;
+}
+
