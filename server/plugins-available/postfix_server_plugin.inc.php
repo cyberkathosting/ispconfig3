@@ -70,6 +70,7 @@ class postfix_server_plugin {
 	// The purpose of this plugin is to rewrite the main.cf file
 	function update($event_name, $data) {
 		global $app, $conf;
+		$postfix_restart = false;
 
 		// get the config
 		$app->uses("getconf,system");
@@ -105,7 +106,7 @@ class postfix_server_plugin {
 			exec("postconf -e 'smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd'");
 			exec("postconf -e 'smtp_sasl_security_options ='");
 			exec('postmap /etc/postfix/sasl_passwd');
-			exec($conf['init_scripts'] . '/' . 'postfix restart');
+			$postfix_restart=true;
 		}
 
 		if($mail_config['realtime_blackhole_list'] != $old_ini_data['mail']['realtime_blackhole_list']) {
@@ -139,9 +140,8 @@ class postfix_server_plugin {
 				}
 			}
 			$app->system->exec_safe("postconf -e ?", 'smtpd_recipient_restrictions = '.implode(", ", $new_options));
-			exec('postfix reload');
 		}
-		
+
 		if($mail_config['reject_sender_login_mismatch'] != $old_ini_data['mail']['reject_sender_login_mismatch']) {
 			$options = preg_split("/,\s*/", exec("postconf -h smtpd_sender_restrictions"));
 			$new_options = array();
@@ -150,7 +150,7 @@ class postfix_server_plugin {
 					$new_options[] = $value;
 				}
 			}
-				
+
 			if ($mail_config['reject_sender_login_mismatch'] == 'y') {
 				reset($new_options); $i = 0;
 				// insert after check_sender_access but before permit_...
@@ -158,8 +158,44 @@ class postfix_server_plugin {
 				array_splice($new_options, $i, 0, array('reject_sender_login_mismatch'));
 			}
 			$app->system->exec_safe("postconf -e ?", 'smtpd_sender_restrictions = '.implode(", ", $new_options));
-			exec('postfix reload');
-		}		
+		}
+
+		if($mail_config['stress_adaptive']) {
+			if ($mail_config['stress_adaptive'] == 'y') {
+
+				if(version_compare($postfix_version , '3.0', '>=')) {
+					$app->system->exec_safe("postconf -e ?", 'in_flow_delay = ${stress?{3}:{1}}s');
+					$app->system->exec_safe("postconf -e ?", 'smtp_connect_timeout = ${stress?{10}:{30}}s');
+					$app->system->exec_safe("postconf -e ?", 'smtp_helo_timeout = ${stress?{10}:{60}}s');
+					$app->system->exec_safe("postconf -e ?", 'smtp_mail_timeout = ${stress?{10}:{60}}s');
+					$app->system->exec_safe("postconf -e ?", 'smtpd_error_sleep_time = ${stress?{1}:{2}}s');
+					$app->system->exec_safe("postconf -e ?", 'smtpd_hard_error_limit = ${stress?{1}:{10}}');
+					$app->system->exec_safe("postconf -e ?", 'smtpd_recipient_overshoot_limit = ${stress?{60}:{600}}');
+					$app->system->exec_safe("postconf -e ?", 'smtpd_soft_error_limit = ${stress?{2}:{5}}');
+					$app->system->exec_safe("postconf -e ?", 'smtpd_timeout = ${stress?{10}:{60}}s');
+				} elseif (version_compare($postfix_version , '2.5', '>=')) {
+					$app->system->exec_safe("postconf -e ?", 'in_flow_delay = ${stress?3}${stress:1}s');
+					$app->system->exec_safe("postconf -e ?", 'smtp_connect_timeout = ${stress?10}${stress:30}s');
+					$app->system->exec_safe("postconf -e ?", 'smtp_helo_timeout = ${stress?10}${stress:60}s');
+					$app->system->exec_safe("postconf -e ?", 'smtp_mail_timeout = ${stress?10}${stress:60}s');
+					$app->system->exec_safe("postconf -e ?", 'smtpd_error_sleep_time = ${stress?1}${stress:2}s');
+					$app->system->exec_safe("postconf -e ?", 'smtpd_hard_error_limit = ${stress?1}${stress:10}');
+					$app->system->exec_safe("postconf -e ?", 'smtpd_recipient_overshoot_limit = ${stress?60}${stress:600}');
+					$app->system->exec_safe("postconf -e ?", 'smtpd_soft_error_limit = ${stress?2}${stress:5}');
+					$app->system->exec_safe("postconf -e ?", 'smtpd_timeout = ${stress?10}${stress:60}s');
+				}
+			} else { // mail_config['reject_sender_login_mismatch'] == 'n'
+				exec("postconf -X 'in_flow_delay'");
+				exec("postconf -X 'smtp_connect_timeout'");
+				exec("postconf -X 'smtp_helo_timeout'");
+				exec("postconf -X 'smtp_mail_timeout'");
+				exec("postconf -X 'smtpd_error_sleep_time'");
+				exec("postconf -X 'smtpd_hard_error_limit'");
+				exec("postconf -X 'smtpd_recipient_overshoot_limit'");
+				exec("postconf -X 'smtpd_soft_error_limit'");
+				exec("postconf -X 'smtpd_timeout'");
+			}
+		}
 		
 		if($app->system->is_installed('dovecot')) {
 			$virtual_transport = 'dovecot';
@@ -292,6 +328,6 @@ class postfix_server_plugin {
 
 		exec("postconf -e 'mailbox_size_limit = ".intval($mail_config['mailbox_size_limit']*1024*1024)."'");
 		exec("postconf -e 'message_size_limit = ".intval($mail_config['message_size_limit']*1024*1024)."'");
-		$app->services->restartServiceDelayed('postfix', 'reload');
+		$app->services->restartServiceDelayed('postfix', ($postfix_restart ? 'restart' : 'reload'));
 	}
 } // end class
