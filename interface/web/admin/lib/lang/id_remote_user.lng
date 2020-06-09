@@ -1,5 +1,5 @@
 <?php
-$wb['remote_user_txt'] = 'Remote User'
+$wb['remote_user_txt'] = 'Remote User';
 $wb['username_txt'] = 'Nama pengguna';
 $wb['password_txt'] = 'Kata Sandi';
 $wb['function_txt'] = 'Fungsi';
