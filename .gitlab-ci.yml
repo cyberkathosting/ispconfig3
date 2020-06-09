@@ -13,6 +13,7 @@ syntax:lint:
   only:
     - schedules
     - web
+    - merge_requests
 
   script:
     - composer require overtrue/phplint
