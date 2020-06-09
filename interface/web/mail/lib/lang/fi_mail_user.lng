@@ -62,4 +62,8 @@ $wb['sender_cc_txt'] = 'Send outgoing BCC to';
 $wb['sender_cc_error_isemail'] = 'The -Send outgoing copy to- field does not contain a valid email address';
 $wb['sender_cc_note_txt'] = '(Separate multiple email addresses with commas)';
 $wb['password_click_to_set_txt'] = 'Click to set';
+$wb['purge_trash_days_txt'] = 'Purge Trash automatically after X days';
+$wb['tooltip_purge_trash_days_txt'] = '0 = disabled';
+$wb['purge_junk_days_txt'] = 'Purge Junk automatically after X days';
+$wb['tooltip_purge_junk_days_txt'] = '0 = disabled';
 ?>

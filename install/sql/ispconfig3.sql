@@ -1047,6 +1047,8 @@ CREATE TABLE `mail_user` (
   `autoresponder_subject` varchar(255) NOT NULL default 'Out of office reply',
   `autoresponder_text` mediumtext NULL,
   `move_junk` enum('n','y') NOT NULL default 'n',
+  `purge_trash_days` INT NOT NULL DEFAULT '0',
+  `purge_junk_days` INT NOT NULL DEFAULT '0',
   `custom_mailfilter` mediumtext,
   `postfix` enum('n','y') NOT NULL default 'y',
   `greylisting` enum('n','y' ) NOT NULL DEFAULT 'n',

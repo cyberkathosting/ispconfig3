@@ -406,6 +406,20 @@ if ($global_config['mail']['mailbox_show_mail_filter_tab'] === 'y') {
 				'default' => 'n',
 				'value'  => array(0 => 'n', 1 => 'y')
 			),
+			'purge_trash_days' => array (
+				'datatype' => 'VARCHAR',
+				'formtype' => 'TEXT',
+				'validators' => array (
+				),
+				'default' => '0',
+			),
+			'purge_junk_days' => array (
+				'datatype' => 'VARCHAR',
+				'formtype' => 'TEXT',
+				'validators' => array (
+				),
+				'default' => '0',
+			),
 			//#################################
 			// END Datatable fields
 			//#################################

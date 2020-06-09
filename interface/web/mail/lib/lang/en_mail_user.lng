@@ -62,4 +62,8 @@ $wb['monthly_backup_txt'] = 'Monthly';
 $wb['email_error_isascii'] = 'Please do not use special unicode characters for your password. This could lead to problems with your mail client.';
 $wb['cc_note_txt'] = '(Separate multiple email addresses with commas)';
 $wb['sender_cc_note_txt'] = '(Separate multiple email addresses with commas)';
+$wb['purge_trash_days_txt'] = 'Purge Trash automatically after X days';
+$wb['tooltip_purge_trash_days_txt'] = '0 = disabled';
+$wb['purge_junk_days_txt'] = 'Purge Junk automatically after X days';
+$wb['tooltip_purge_junk_days_txt'] = '0 = disabled';
 ?>

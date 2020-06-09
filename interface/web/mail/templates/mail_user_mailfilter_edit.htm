@@ -1,16 +1,39 @@
-            <div class="form-group">
-                <label class="col-sm-3 control-label">{tmpl_var name='move_junk_txt'}</label>
-                <div class="col-sm-9">
-                    {tmpl_var name='move_junk'}
-                </div>
-            </div>
-        
+<div class="form-group">
+	<label class="col-sm-3 control-label">{tmpl_var name='move_junk_txt'}</label>
+	<div class="col-sm-9">{tmpl_var name='move_junk'}</div>
+</div>
 
-        {tmpl_var name='filter_records'}
+<div class="form-group">
+	<label for="purge_trash_days" class="col-sm-3 control-label">{tmpl_var name='purge_trash_days_txt'}</label>
+	<div class="col-sm-9">
+		<div class="input-group">
+        <tmpl_if name="show_config_info">
+			<input type="text" name="purge_trash_days" id="purge_trash_days" value="{tmpl_var name='purge_trash_days'}" class="form-control" data-toggle="tooltip" title="{tmpl_var name='tooltip_purge_trash_days_txt'}">
+        <tmpl_else>
+			<input type="text" name="purge_trash_days" id="purge_trash_days" value="{tmpl_var name='purge_trash_days'}" class="form-control">
+        </tmpl_if>
+		</div>
+	</div>
+</div>
 
-        <input type="hidden" name="id" value="{tmpl_var name='id'}">
+<div class="form-group">
+	<label for="purge_junk_days" class="col-sm-3 control-label">{tmpl_var name='purge_junk_days_txt'}</label>
+	<div class="col-sm-9">
+		<div class="input-group">
+        <tmpl_if name="show_config_info">
+			<input type="text" name="purge_junk_days" id="purge_junk_days" value="{tmpl_var name='purge_junk_days'}" class="form-control" data-toggle="tooltip" title="{tmpl_var name='tooltip_purge_junk_days_txt'}">
+        <tmpl_else>
+			<input type="text" name="purge_junk_days" id="purge_junk_days" value="{tmpl_var name='purge_junk_days'}" class="form-control">
+        </tmpl_if>
+		</div>
+	</div>
+</div>
+ 
+{tmpl_var name='filter_records'}
 
-        <div class="clear"><div class="right">
-            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="mail/mail_user_edit.php">{tmpl_var name='btn_save_txt'}</button>
-            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="mail/mail_user_list.php">{tmpl_var name='btn_cancel_txt'}</button>
-        </div></div>
+<input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+<div class="clear"><div class="right">
+	<button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="mail/mail_user_edit.php">{tmpl_var name='btn_save_txt'}</button>
+	<button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="mail/mail_user_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+</div></div>

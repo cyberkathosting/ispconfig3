@@ -62,4 +62,8 @@ $wb['monthly_backup_txt'] = 'Aylık';
 $wb['email_error_isascii'] = 'E-posta istemcinizde sorun yaşamamak için lütfen parolanızda dile özel unikod karakterler kullanmayın.';
 $wb['cc_note_txt'] = '(Birden çok e-posta adresini virgül ile ayırarak yazın)';
 $wb['sender_cc_note_txt'] = '(Birden çok e-posta adresini virgül ile ayırarak yazın)';
+$wb['purge_trash_days_txt'] = 'Purge Trash automatically after X days';
+$wb['tooltip_purge_trash_days_txt'] = '0 = disabled';
+$wb['purge_junk_days_txt'] = 'Purge Junk automatically after X days';
+$wb['tooltip_purge_junk_days_txt'] = '0 = disabled';
 ?>
