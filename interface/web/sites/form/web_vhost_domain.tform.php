@@ -861,7 +861,7 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'
 			'pm' => array (
 				'datatype' => 'VARCHAR',
 				'formtype' => 'SELECT',
-				'default' => 'dynamic',
+				'default' => 'ondemand',
 				'value'  => array('static' => 'static', 'dynamic' => 'dynamic', 'ondemand' => 'ondemand (PHP Version >= 5.3.9)')
 			),
 			'pm_max_children' => array (
