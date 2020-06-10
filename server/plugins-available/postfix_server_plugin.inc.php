@@ -121,7 +121,7 @@ class postfix_server_plugin {
 				$value = trim($value);
 				if ($value == '') continue;
 				if (!preg_match('/reject_rbl_client/', $value)) {
-					$new_options[] = $value;
+					$new_options[] = trim($value);
 				} else {
 					if(is_array($rbl_hosts) && !empty($rbl_hosts) && !$rbl_updated){
 						$rbl_updated = true;
@@ -142,12 +142,13 @@ class postfix_server_plugin {
 			$app->system->exec_safe("postconf -e ?", 'smtpd_recipient_restrictions = '.implode(", ", $new_options));
 		}
 
-		if($mail_config['reject_sender_login_mismatch'] != $old_ini_data['mail']['reject_sender_login_mismatch']) {
+		if ($mail_config['reject_sender_login_mismatch'] != $old_ini_data['mail']['reject_sender_login_mismatch']) {
 			$options = preg_split("/,\s*/", exec("postconf -h smtpd_sender_restrictions"));
 			$new_options = array();
 			foreach ($options as $key => $value) {
+				if (trim($value) == '') continue;
 				if (!preg_match('/reject_(authenticated_)?sender_login_mismatch/', $value)) {
-					$new_options[] = $value;
+					$new_options[] = trim($value);
 				}
 			}
 
@@ -158,10 +159,81 @@ class postfix_server_plugin {
 			$app->system->exec_safe("postconf -e ?", 'smtpd_sender_restrictions = '.implode(", ", $new_options));
 		}
 
-		if($mail_config['stress_adaptive']) {
-			if ($mail_config['stress_adaptive'] == 'y') {
+		if ($mail_config['reject_unknown']) {
+			if (($mail_config['reject_unknown'] === 'client') || ($mail_config['reject_unknown'] === 'client_helo')) {
+				$options = explode(", ", exec("postconf -h smtpd_client_restrictions"));
+				$new_options = array();
+				foreach ($options as $key => $value) {
+					if (trim($value) == '') continue;
+					if (!preg_match('/reject_unknown(_client)?_hostname/', $value)) {
+						$new_options[] = trim($value);
+					}
+				}
 
-				if(version_compare($postfix_version , '3.0', '>=')) {
+				reset($new_options); $i = 0;
+				// insert before explicit permit, or append
+				for ($i = 0; isset($new_options[$i]); $i++) {
+					if ($new_options[$i] == 'permit') {
+						array_splice($new_options, $i, 0, array('reject_unknown_client_hostname'));
+						break;
+					}
+				}
+				if ($i == count($new_options)) {
+					$new_options[] = array('reject_unknown_client_hostname');
+				}
+
+				$app->system->exec_safe("postconf -e ?", 'smtpd_client_restrictions = '.implode(", ", $new_options));
+			} else {
+				$options = explode(", ", exec("postconf -h smtpd_client_restrictions"));
+				$new_options = array();
+				foreach ($options as $key => $value) {
+					if (trim($value) == '') continue;
+					if (!preg_match('/reject_unknown(_client)?_hostname/', $value)) {
+						$new_options[] = trim($value);
+					}
+				}
+				$app->system->exec_safe("postconf -e ?", 'smtpd_client_restrictions = '.implode(", ", $new_options));
+			}
+
+			if (($mail_config['reject_unknown'] === 'helo') || ($mail_config['reject_unknown'] === 'client_helo')) {
+				$options = explode(", ", exec("postconf -h smtpd_helo_restrictions"));
+				$new_options = array();
+				foreach ($options as $key => $value) {
+					if (trim($value) == '') continue;
+					if (!preg_match('/reject_unknown(_helo)?_hostname/', $value)) {
+						$new_options[] = trim($value);
+					}
+				}
+
+				reset($new_options); $i = 0;
+				// insert before explicit permit, or append
+				for ($i = 0; isset($new_options[$i]); $i++) {
+					if ($new_options[$i] == 'permit') {
+						array_splice($new_options, $i, 0, array('reject_unknown_helo_hostname'));
+						break;
+					}
+				}
+				if ($i == count($new_options)) {
+					$new_options[] = array('reject_unknown_helo_hostname');
+				}
+
+				$app->system->exec_safe("postconf -e ?", 'smtpd_helo_restrictions = '.implode(", ", $new_options));
+			} else {
+				$options = explode(", ", exec("postconf -h smtpd_helo_restrictions"));
+				$new_options = array();
+				foreach ($options as $key => $value) {
+					if (trim($value) == '') continue;
+					if (!preg_match('/reject_unknown(_helo)?_hostname/', $value)) {
+						$new_options[] = trim($value);
+					}
+				}
+				$app->system->exec_safe("postconf -e ?", 'smtpd_helo_restrictions = '.implode(", ", $new_options));
+			}
+		}
+
+		if ($mail_config['stress_adaptive']) {
+			if ($mail_config['stress_adaptive'] == 'y') {
+				if (version_compare($postfix_version , '3.0', '>=')) {
 					$app->system->exec_safe("postconf -e ?", 'in_flow_delay = ${stress?{3}:{1}}s');
 					$app->system->exec_safe("postconf -e ?", 'smtp_connect_timeout = ${stress?{10}:{30}}s');
 					$app->system->exec_safe("postconf -e ?", 'smtp_helo_timeout = ${stress?{10}:{60}}s');

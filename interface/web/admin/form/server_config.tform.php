@@ -456,11 +456,13 @@ $form["tabs"]['mail'] = array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
 			'default' => '/home/vmail/',
-			'validators' => array(	0 => array('type' => 'NOTEMPTY',
-										'errmsg' => 'homedir_path_error_empty'),
-									1 => array ( 	'type' => 'REGEX',
-										'regex' => '/^\/[a-zA-Z0-9\.\-\_\/]{5,128}$/',
-										'errmsg'=> 'homedir_path_error_regex'),
+			'validators' => array(	0 => array ( 'type' => 'NOTEMPTY',
+						           'errmsg' => 'homedir_path_error_empty'
+						    ),
+						1 => array ( 'type' => 'REGEX',
+						            'regex' => '/^\/[a-zA-Z0-9\.\-\_\/]{5,128}$/',
+							    'errmsg'=> 'homedir_path_error_regex'
+						    ),
 			),
 			'value' => '',
 			'width' => '40',
@@ -637,6 +639,17 @@ $form["tabs"]['mail'] = array(
 			'formtype' => 'CHECKBOX',
 			'default' => 'n',
 			'value' => array(0 => 'n', 1 => 'y')
+		),
+		'reject_unknown' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'SELECT',
+			'default' => 'helo',
+			'value' => array(
+				'helo' => 'reject_unknown_helo_txt',
+				'client' => 'reject_unknown_client_txt',
+				'client_helo' => 'reject_unknown_client_helo_txt',
+				'none' => 'disabled_txt',
+			)
 		),
 		'mailbox_size_limit' => array(
 			'datatype' => 'INTEGER',

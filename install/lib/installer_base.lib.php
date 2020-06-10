@@ -1077,13 +1077,22 @@ class installer_base {
 		}
 
 		$reject_sender_login_mismatch = '';
-		if(isset($server_ini_array['mail']['reject_sender_login_mismatch']) && ($server_ini_array['mail']['reject_sender_login_mismatch'] == 'y')) {
+		if (isset($server_ini_array['mail']['reject_sender_login_mismatch']) && ($server_ini_array['mail']['reject_sender_login_mismatch'] == 'y')) {
 			$reject_sender_login_mismatch = ',reject_sender_login_mismatch,';
 		}
 
 		# placeholder includes comment char
 		$stress_adaptive_placeholder = '#{stress_adaptive}';
 		$stress_adaptive = (isset($server_ini_array['mail']['stress_adaptive']) && ($server_ini_array['mail']['stress_adaptive'] == 'y')) ? '' : $stress_adaptive_placeholder;
+
+		$reject_unknown_client_hostname='';
+		if (isset($server_ini_array['mail']['reject_unknown']) && ($server_ini_array['mail']['reject_unknown'] == 'client' || $server_ini_array['mail']['reject_unknown'] == 'client_helo')) {
+			$reject_unknown_client_hostname=',reject_unknown_client_hostname';
+		}
+		$reject_unknown_helo_hostname='';
+		if ((!isset($server_ini_array['mail']['reject_unknown'])) || $server_ini_array['mail']['reject_unknown'] == 'helo' || $server_ini_array['mail']['reject_unknown'] == 'client_helo') {
+			$reject_unknown_helo_hostname=',reject_unknown_helo_hostname';
+		}
 
 		unset($server_ini_array);
 
@@ -1098,6 +1107,8 @@ class installer_base {
 			'{reject_slm}' => $reject_sender_login_mismatch,
 			'{myhostname}' => $tmp,
 			$stress_adaptive_placeholder => $stress_adaptive,
+			'{reject_unknown_client_hostname}' => $reject_unknown_client_hostname,
+			'{reject_unknown_helo_hostname}' => $reject_unknown_helo_hostname,
 		);
 
 		$postconf_tpl = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_postfix.conf.master', 'tpl/debian_postfix.conf.master');
@@ -1684,14 +1695,12 @@ class installer_base {
 			$options = explode(", ", exec("postconf -h smtpd_sender_restrictions"));
 			$new_options = array();
 			foreach ($options as $key => $value) {
-				if ($value == '') {
-					continue;
-				}
+				if (trim($value) == '') continue;
 				if (preg_match('/tag_as_(originating|foreign)\.re/', $value)) {
 					continue;
 				}
 				if (!preg_match('/reject_(authenticated_)?sender_login_mismatch/', $value)) {
-					$new_options[] = $value;
+					$new_options[] = trim($value);
 				}
 			}
 			if ($mail_config['reject_sender_login_mismatch'] == 'y') {
