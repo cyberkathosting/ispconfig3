@@ -42,7 +42,10 @@ class validate_server_directive_snippets {
 
 	function validate_snippet($field_name, $field_value, $validator) {
 		global $app;
-		$check = $app->db->queryAllRecords('SELECT * FROM directive_snippets WHERE name = ? AND type = ?', $field_value, trim($_POST['type']));
+        $type=(isset($app->remoting_lib->dataRecord['type']))?$app->remoting_lib->dataRecord['type']:$_POST['type'];
+        $types = array('apache','nginx','php','proxy');
+        if(!in_array($type,$types)) return $this->get_error('directive_snippets_invalid_type');
+		$check = $app->db->queryAllRecords('SELECT * FROM directive_snippets WHERE name = ? AND type = ?', $field_value, $type);
 		if(!empty($check)) return $this->get_error('directive_snippets_name_error_unique');
 	}
 
