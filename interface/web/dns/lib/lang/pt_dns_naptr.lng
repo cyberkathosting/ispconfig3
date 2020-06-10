@@ -1,0 +1,21 @@
+<?php
+$wb["server_id_txt"] = 'Server';
+$wb["zone_txt"] = 'Zone';
+$wb["name_txt"] = 'Hostname';
+$wb["order_txt"] = 'Order';
+$wb["pref_txt"] = 'Pref';
+$wb["flags_txt"] = 'Flags';
+$wb["service_txt"] = 'Service';
+$wb["regexp_txt"] = 'RegExp';
+$wb["replacement_txt"] = 'Replacement';
+$wb["ttl_txt"] = 'TTL';
+$wb["active_txt"] = 'Active';
+$wb["limit_dns_record_txt"] = 'The max. number of DNS records for your account is reached.';
+$wb["no_zone_perm"] = 'You do not have the permission to add a record to this DNS zone.';
+$wb["name_error_empty"] = 'The hostname is empty.';
+$wb["name_error_regex"] = 'The hostname has the wrong format.';
+$wb["data_error_empty"] = 'NAPTR record is empty.';
+$wb["naptr_error_regex"] = 'Invalid NAPTR record.  The NAPTR record must include Order, Pref and either Regex or Replacement.';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['record_parse_error'] = 'Could not parse the record found in database.';
+?>
