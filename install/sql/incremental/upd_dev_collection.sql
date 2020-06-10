@@ -23,3 +23,6 @@ ALTER TABLE `web_domain` ALTER pm SET DEFAULT 'ondemand';
 ALTER TABLE `mail_user` 
   ADD `purge_trash_days` INT NOT NULL DEFAULT '0' AFTER `move_junk`,
   ADD `purge_junk_days` INT NOT NULL DEFAULT '0' AFTER `purge_trash_days`;
+
+-- doveadm should be enabled for all mailboxes
+UPDATE `mail_user` set `disabledoveadm` = 'n';

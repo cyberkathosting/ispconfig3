@@ -313,8 +313,8 @@ class page_action extends tform_actions {
 			$disabledeliver = ($this->dataRecord["postfix"] == 'y')?'n':'y';
 			$disablesmtp = ($this->dataRecord["disablesmtp"])?'y':'n';
 
-			$sql = "UPDATE mail_user SET disableimap = ?, disablesieve = ?, disablepop3 = ?, disablesmtp = ?, disabledeliver = ?, disablelda = ?, disabledoveadm = ? WHERE mailuser_id = ?";
-			$app->db->query($sql, $disableimap, $disableimap, $disablepop3, $disablesmtp, $disabledeliver, $disabledeliver, $disableimap, $this->id);
+			$sql = "UPDATE mail_user SET disableimap = ?, disablesieve = ?, disablepop3 = ?, disablesmtp = ?, disabledeliver = ?, disablelda = ? WHERE mailuser_id = ?";
+			$app->db->query($sql, $disableimap, $disableimap, $disablepop3, $disablesmtp, $disabledeliver, $disabledeliver, $this->id);
 		}
 	}
 
@@ -365,8 +365,8 @@ class page_action extends tform_actions {
 			$disabledeliver = ($this->dataRecord["postfix"] == 'y')?'n':'y';
 			$disablesmtp = (isset($this->dataRecord["disablesmtp"]) && $this->dataRecord["disablesmtp"])?'y':'n';
 
-			$sql = "UPDATE mail_user SET disableimap = ?, disablesieve = ?, `disablesieve-filter` = ?, disablepop3 = ?, disablesmtp = ?, disabledeliver = ?, disablelda = ?, disabledoveadm = ? WHERE mailuser_id = ?";
-			$app->db->query($sql, $disableimap, $disableimap, $disableimap, $disablepop3, $disablesmtp, $disabledeliver, $disabledeliver, $disableimap, $this->id);
+			$sql = "UPDATE mail_user SET disableimap = ?, disablesieve = ?, `disablesieve-filter` = ?, disablepop3 = ?, disablesmtp = ?, disabledeliver = ?, disablelda = ? WHERE mailuser_id = ?";
+			$app->db->query($sql, $disableimap, $disableimap, $disableimap, $disablepop3, $disablesmtp, $disabledeliver, $disabledeliver, $this->id);
 		}
 
 		//** If the email address has been changed, change it in all aliases too
