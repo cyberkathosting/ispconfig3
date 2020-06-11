@@ -1063,6 +1063,7 @@ CREATE TABLE `mail_user` (
   `disablelmtp` enum('n','y') NOT NULL default 'n',
   `disabledoveadm` enum('n','y') NOT NULL default 'n',
   `disablequota-status` enum('n','y') NOT NULL default 'n',
+  `disableindexer-worker` enum('n','y') NOT NULL default 'n',
   `last_quota_notification` date NULL default NULL,
   `backup_interval` VARCHAR( 255 ) NOT NULL default 'none',
   `backup_copies` INT NOT NULL DEFAULT '1',
