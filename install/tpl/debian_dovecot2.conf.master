@@ -23,7 +23,13 @@ userdb {
 }
 plugin {
   quota = dict:user::file:/var/vmail/%d/%n/.quotausage
+
+  # no longer needed, as 'sieve' is in userdb extra fields:
   sieve=/var/vmail/%d/%n/.sieve
+
+  sieve_after=/var/vmail/%d/%n/.ispconfig.sieve
+  sieve_max_script_size = 2M
+  sieve_max_actions = 100
   sieve_max_redirects = 25
 }
 service auth {
@@ -46,6 +52,7 @@ service lmtp {
    user = postfix
   }
 }
+lmtp_rcpt_check_quota = yes
 service imap-login {
   client_limit = 1000
   process_limit = 512
@@ -80,3 +87,19 @@ protocol lmtp {
 #2.3+         mode = 0660
 #2.3+     }
 #2.3+ }
+
+service quota-status {
+  executable = quota-status -p postfix
+  unix_listener /var/spool/postfix/private/quota-status {
+    group = postfix
+    mode = 0660
+    user = postfix
+  }
+  client_limit = 1
+}
+plugin {
+  quota_status_success = DUNNO
+  quota_status_nouser = DUNNO
+  quota_status_overquota = "552 5.2.2 Mailbox is full"
+}
+

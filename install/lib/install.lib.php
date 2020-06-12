@@ -471,29 +471,38 @@ function rf($file){
 }
 
 function wf($file, $content){
-	mkdirs(dirname($file));
+	if(!$ret_val = mkdirs(dirname($file))) return false;
 	if(!$fp = fopen($file, 'wb')){
 		ilog('WARNING: could not open file '.$file);
+		// implicitly returned false because the following fwrite and fclose both fail,
+		// but to be explicit:
+		$ret_val = false;
 	}
-	fwrite($fp, $content);
-	fclose($fp);
+	fwrite($fp, $content) or $ret_val = false;
+	fclose($fp) or $ret_val = false;
+	return $ret_val;
 }
 
 function af($file, $content){
-	mkdirs(dirname($file));
+	if(!$ret_val = mkdirs(dirname($file))) return false;
 	if(!$fp = fopen($file, 'ab')){
 		ilog('WARNING: could not open file '.$file);
+		$ret_val = false;
 	}
-	fwrite($fp, $content);
-	fclose($fp);
+	fwrite($fp, $content) or $ret_val = false;
+	fclose($fp) or $ret_val = false;
+	return $ret_val;
 }
 
 function aftsl($file, $content){
+	$ret_val = true;
 	if(!$fp = fopen($file, 'ab')){
 		ilog('WARNING: could not open file '.$file);
+		$ret_val = false;
 	}
-	fwrite($fp, $content);
-	fclose($fp);
+	fwrite($fp, $content) or $ret_val = false;
+	fclose($fp) or $ret_val = false;
+	return $ret_val;
 }
 
 function unix_nl($input){
