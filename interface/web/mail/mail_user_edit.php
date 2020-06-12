@@ -99,7 +99,7 @@ class page_action extends tform_actions {
 		if (isset($_POST['policy'])) $tmp_user['policy_id'] = intval($_POST['policy']);
 		$sql = "SELECT id, policy_name FROM spamfilter_policy WHERE ".$app->tform->getAuthSQL('r') . " ORDER BY policy_name";
 		$policys = $app->db->queryAllRecords($sql);
-		$policy_select = "<option value='0'>".$app->tform->lng("no_policy")."</option>";
+		$policy_select = "<option value='0'>".$app->tform->lng("inherit_policy")."</option>";
 		if(is_array($policys)) {
 			foreach( $policys as $p) {
 				$selected = ($p["id"] == $tmp_user["policy_id"])?'SELECTED':'';
