@@ -17,6 +17,7 @@ $wb['Messaging'] = 'Benachrichtigungen';
 $wb['Send email'] = 'E-Mail versenden';
 $wb['Edit Client Circle'] = 'Kundenkreis bearbeiten';
 $wb['Domains'] = 'Domains';
+$wb['Add Domain'] = 'Add Domain';
 $wb['domain_txt'] = 'Domain';
 $wb['client_txt'] = 'Kunde';
 $wb['error_domain_in mailuse'] = 'Diese Domain kann nicht gelöscht werden, weil sie als E-Mail Domain verwendet wird';

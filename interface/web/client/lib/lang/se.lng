@@ -17,6 +17,7 @@ $wb['Messaging'] = 'Meddelanden';
 $wb['Send email'] = 'Skicka epost';
 $wb['Edit Client Circle'] = 'Redigera kundcirkel';
 $wb['Domains'] = 'Domäner';
+$wb['Add Domain'] = 'Add Domain';
 $wb['domain_txt'] = 'Domän';
 $wb['client_txt'] = 'Kund';
 $wb['error_domain_in mailuse'] = 'Den här domänen kan inte tas bort då den används som epostdomän';

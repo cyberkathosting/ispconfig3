@@ -16,6 +16,7 @@ $wb['Messaging'] = 'Slanje poruka';
 $wb['Send email'] = 'Pošalji email';
 $wb['Edit Client Circle'] = 'Promijeni krug klijenata';
 $wb['Domains'] = 'Domene';
+$wb['Add Domain'] = 'Add Domain';
 $wb['domain_txt'] = 'Domena';
 $wb['client_txt'] = 'Klijent';
 $wb['error_domain_in mailuse'] = 'Ova domena ne može biti obrisana jer se koristi kao mail domena';
