@@ -1,0 +1,16 @@
+<?php
+$wb['active_txt'] = 'Habilitado';
+$wb['data_error_empty'] = 'Datos vacíos';
+$wb['data_error_regex'] = 'El formato de los datos no es correcto';
+$wb['data_txt'] = 'Datos';
+$wb['limit_dns_record_txt'] = 'Ha alcanzado el número máx. de registros DNS permitidos para su cuenta.';
+$wb['name_error_empty'] = 'El nombre del host está vacío.';
+$wb['name_error_regex'] = 'El nombre del host tiene un formato incorrecto.';
+$wb['name_txt'] = 'Nombre del host';
+$wb['no_zone_perm'] = 'Usted no tiene permisos para agregar un registro a esta zona DNS.';
+$wb['server_id_txt'] = 'Servidor';
+$wb['ttl_range_error'] = 'El tiempo mín. de TTL es 60 segundos.';
+$wb['ttl_txt'] = 'TTL';
+$wb['type_txt'] = 'tipo';
+$wb['zone_txt'] = 'Zona';
+?>

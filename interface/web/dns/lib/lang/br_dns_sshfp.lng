@@ -1,0 +1,16 @@
+<?php
+$wb['server_id_txt'] = 'Servidor';
+$wb['zone_txt'] = 'Zona';
+$wb['name_txt'] = 'Nome do host';
+$wb['type_txt'] = 'Tipo';
+$wb['data_txt'] = 'Texto';
+$wb['ttl_txt'] = 'TTL';
+$wb['active_txt'] = 'Ativo';
+$wb['limit_dns_record_txt'] = 'O limite de registros dns para esta conta foi alcançado.';
+$wb['no_zone_perm'] = 'Você não tem permissão para adicionar registros dns nesta zona.';
+$wb['name_error_empty'] = 'O nome do host está em branco.';
+$wb['name_error_regex'] = 'O nome do host possui formato inválido (somente nomes canônicos são suportados).';
+$wb['data_error_empty'] = 'Texto está em branco.';
+$wb['data_error_regex'] = 'Texto possui formato inválido.';
+$wb['ttl_range_error'] = 'O TTL mínimo são 60 segundos.';
+?>

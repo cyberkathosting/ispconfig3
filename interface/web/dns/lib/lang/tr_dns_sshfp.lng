@@ -1,0 +1,16 @@
+<?php
+$wb['server_id_txt'] = 'Sunucu';
+$wb['zone_txt'] = 'Bölge';
+$wb['name_txt'] = 'Sunucu Adı';
+$wb['type_txt'] = 'Tür';
+$wb['data_txt'] = 'Veri';
+$wb['ttl_txt'] = 'TTL Süresi';
+$wb['active_txt'] = 'Etkin';
+$wb['limit_dns_record_txt'] = 'Hesabınıza ekleyebileceğiniz en fazla DNS kaydı sınırına ulaştınız.';
+$wb['no_zone_perm'] = 'Bu DNS bölgesine kayıt ekleme izniniz yok.';
+$wb['name_error_empty'] = 'Sunucu adı boş olamaz.';
+$wb['name_error_regex'] = 'Sunucu adı biçimi geçersiz.';
+$wb['data_error_empty'] = 'Metin boş';
+$wb['data_error_regex'] = 'Metin biçimi geçersiz';
+$wb['ttl_range_error'] = 'En düşük TTL süresi 60 saniyedir.';
+?>
