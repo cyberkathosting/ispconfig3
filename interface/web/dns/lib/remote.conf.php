@@ -15,6 +15,7 @@ $function_list['dns_ns_get,dns_ns_add,dns_ns_update,dns_ns_delete'] = 'DNS ns fu
 $function_list['dns_ptr_get,dns_ptr_add,dns_ptr_update,dns_ptr_delete'] = 'DNS ptr functions';
 $function_list['dns_rp_get,dns_rp_add,dns_rp_update,dns_rp_delete'] = 'DNS rp functions';
 $function_list['dns_srv_get,dns_srv_add,dns_srv_update,dns_srv_delete'] = 'DNS srv functions';
+$function_list['dns_sshfp_get,dns_sshfp_add,dns_sshfp_update,dns_sshfp_delete'] = 'DNS sshfp functions';
 $function_list['dns_tlsa_get,dns_tlsa_add,dns_tlsa_update,dns_tlsa_delete'] = 'DNS tlsa functions';
 $function_list['dns_txt_get,dns_txt_add,dns_txt_update,dns_txt_delete'] = 'DNS txt functions';
 

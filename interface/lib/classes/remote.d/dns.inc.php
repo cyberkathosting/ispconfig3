@@ -57,7 +57,7 @@ class remoting_dns extends remoting {
 		$app->uses('tform');
 		$app->tform->loadFormDef($tform_def_file);
 		$app->uses('tpl,validate_dns,remoting_lib');
-		
+
 		$app->remoting_lib->loadUserProfile($client_id);
 
 		//* replace template placeholders
@@ -197,7 +197,7 @@ class remoting_dns extends remoting {
 		$app->remoting_lib->loadFormDef('../dns/form/dns_soa.tform.php');
 		return $app->remoting_lib->getDataRecord($primary_id);
 	}
-	
+
 	//* Get slave zone details
 	public function dns_slave_get($session_id, $primary_id) {
 		global $app;
@@ -211,7 +211,7 @@ class remoting_dns extends remoting {
 		return $app->remoting_lib->getDataRecord($primary_id);
 	}
 
-	
+
 	//* Add a slave zone
 	public function dns_slave_add($session_id, $client_id, $params) {
 		if(!$this->checkPerm($session_id, 'dns_zone_add')) {
@@ -220,7 +220,7 @@ class remoting_dns extends remoting {
 		}
 		return $this->insertQuery('../dns/form/dns_slave.tform.php', $client_id, $params);
 	}
-	
+
 	//* Update a slave zone
 	public function dns_slave_update($session_id, $client_id, $primary_id, $params) {
 		if(!$this->checkPerm($session_id, 'dns_zone_update')) {
@@ -296,12 +296,12 @@ class remoting_dns extends remoting {
 
 	private function dns_rr_get($session_id, $primary_id, $rr_type = 'A') {
 		global $app;
-	
+
 		$rr_type = strtolower($rr_type);
 		if(!preg_match('/^[a-z]+$/', $rr_type)) {
 			throw new SoapFault('permission denied', 'Invalid rr type');
 		}
-		
+
 		if(!$this->checkPerm($session_id, 'dns_' . $rr_type . '_get')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 		}
@@ -309,14 +309,14 @@ class remoting_dns extends remoting {
 		$app->remoting_lib->loadFormDef('../dns/form/dns_' . $rr_type . '.tform.php');
 		return $app->remoting_lib->getDataRecord($primary_id);
 	}
-	
+
 	//* Add a record
 	private function dns_rr_add($session_id, $client_id, $params, $update_serial=false, $rr_type = 'A') {
 		$rr_type = strtolower($rr_type);
 		if(!preg_match('/^[a-z]+$/', $rr_type)) {
 			throw new SoapFault('permission denied', 'Invalid rr type');
 		}
-		
+
 		if(!$this->checkPerm($session_id, 'dns_' . $rr_type . '_add')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 		}
@@ -332,7 +332,7 @@ class remoting_dns extends remoting {
 		if(!preg_match('/^[a-z]+$/', $rr_type)) {
 			throw new SoapFault('permission denied', 'Invalid rr type');
 		}
-		
+
 		if(!$this->checkPerm($session_id, 'dns_' . $rr_type . '_update')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
@@ -343,7 +343,7 @@ class remoting_dns extends remoting {
 		}
 		return $affected_rows;
 	}
-	
+
 	//* Delete a record
 	private function dns_rr_delete($session_id, $primary_id, $update_serial=false, $rr_type = 'A') {
 		$rr_type = strtolower($rr_type);
@@ -359,9 +359,9 @@ class remoting_dns extends remoting {
 		$affected_rows = $this->deleteQuery('../dns/form/dns_' . $rr_type . '.tform.php', $primary_id);
 		return $affected_rows;
 	}
-	
+
 	// ----------------------------------------------------------------------------------------------------------------
-	
+
 	//* Get record details
 	public function dns_aaaa_get($session_id, $primary_id) {
 		return $this->dns_rr_get($session_id, $primary_id, 'AAAA');
@@ -622,6 +622,28 @@ class remoting_dns extends remoting {
 	//* Delete a record
 	public function dns_srv_delete($session_id, $primary_id, $update_serial=false) {
 		return $this->dns_rr_delete($session_id, $primary_id, $update_serial, 'SRV');
+	}
+
+	// ----------------------------------------------------------------------------------------------------------------
+
+	//* Get record details
+	public function dns_sshfp_get($session_id, $primary_id) {
+		return $this->dns_rr_get($session_id, $primary_id, 'SSHFP');
+	}
+
+	//* Add a record
+	public function dns_sshfp_add($session_id, $client_id, $params, $update_serial=false) {
+		return $this->dns_rr_add($session_id, $client_id, $params, $update_serial, 'SSHFP');
+	}
+
+	//* Update a record
+	public function dns_sshfp_update($session_id, $client_id, $primary_id, $params, $update_serial=false) {
+		return $this->dns_rr_update($session_id, $client_id, $primary_id, $params, $update_serial, 'SSHFP');
+	}
+
+	//* Delete a record
+	public function dns_sshfp_delete($session_id, $primary_id, $update_serial=false) {
+		return $this->dns_rr_delete($session_id, $primary_id, $update_serial, 'SSHFP');
 	}
 
 	// ----------------------------------------------------------------------------------------------------------------
