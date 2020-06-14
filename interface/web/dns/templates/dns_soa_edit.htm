@@ -119,29 +119,33 @@
                 <label for="update_acl" class="col-sm-3 control-label">{tmpl_var name='update_acl_txt'}</label>
                 <div class="col-sm-9"><input type="text" name="update_acl" id="update_acl" value="{tmpl_var name='update_acl'}" class="form-control" /></div></div>
             </tmpl_if>
+						<div class="form-group">
+              <label for="serial" class="col-sm-3 control-label">{tmpl_var name='serial_txt'}</label>
+              <div class="col-sm-9"><textarea readonly="true" rows="1" id="serial" name="serial" class="form-control">{tmpl_var name='serial'}</textarea></div>
+			      </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">{tmpl_var name='active_txt'}</label>
                 <div class="col-sm-9">
                     {tmpl_var name='active'}
                 </div>
             </div>
-        
+
 <tmpl_if name="show_dnssec">
 		    <div class="form-group">
                 <label class="col-sm-3 control-label">{tmpl_var name='dnssec_wanted_txt'}</label>
                 <div class="col-sm-9">
                     {tmpl_var name='dnssec_wanted'}<br /><small>({tmpl_var name='dnssec_wanted_info'})</small>
-                </div> 
+                </div>
             </div>
             <div class="form-group">
                 <label for="update_acl" class="col-sm-3 control-label">{tmpl_var name='dnssec_info_txt'}</label>
                 <div class="col-sm-9"><textarea readonly="true" rows="5" id="dnssec_info" name="dnssec_info" class="form-control">{tmpl_var name='dnssec_info'}</textarea></div>
 			</div>
-</tmpl_if>            
+</tmpl_if>
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
         <input name="serial" type="hidden" value="{tmpl_var name='serial'}">
-            
+
         <div class="clear"><div class="right">
             <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="dns/dns_soa_edit.php">{tmpl_var name='btn_save_txt'}</button>
             <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="dns/dns_soa_list.php">{tmpl_var name='btn_cancel_txt'}</button>
