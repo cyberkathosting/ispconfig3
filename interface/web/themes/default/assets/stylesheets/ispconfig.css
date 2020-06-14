@@ -1,5 +1,6 @@
 body {
-  overflow-y: scroll; }
+  overflow-y: scroll;
+  overflow-x: hidden; }
 
 .left {
   float: left; }
@@ -421,7 +422,7 @@ ul.gs-resultbox li.gs-cheader p.gs-cheader-limit {
 ul.df-resultbox li.df-cdata img,
 ul.gs-resultbox li.gs-cdata img {
   margin-right: 12px; }
-    
+
 ul.df-resultbox li.df-cdata p span.df-cdata-title,
 ul.gs-resultbox li.gs-cdata p span.gs-cdata-title {
   font-weight: bold; }
@@ -798,4 +799,3 @@ span.notification_text {
 #apache_directives, #nginx_directives, #proxy_directives {
 	font-family: Consolas, "Courier New", Courier, monospace;
 }
-
