@@ -26,6 +26,9 @@ $TTL        {tmpl_var name='ttl'}
 <tmpl_if name="type" op='==' value='CNAME'>
 {tmpl_var name='name'} {tmpl_var name='ttl'}      CNAME      {tmpl_var name='data'}
 </tmpl_if>
+<tmpl_if name="type" op='==' value='DNAME'>
+{tmpl_var name='name'} {tmpl_var name='ttl'}      DNAME      {tmpl_var name='data'}
+</tmpl_if>
 <tmpl_if name="type" op='==' value='DS'>
 {tmpl_var name='name'} {tmpl_var name='ttl'}      DS         {tmpl_var name='data'}
 </tmpl_if>

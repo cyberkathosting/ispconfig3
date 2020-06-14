@@ -488,7 +488,7 @@ CREATE TABLE `dns_rr` (
   `server_id` int(11) NOT NULL default '1',
   `zone` int(11) unsigned NOT NULL DEFAULT '0',
   `name` varchar(255) NOT NULL DEFAULT '',
-  `type` enum('A','AAAA','ALIAS','CNAME','CAA','DS','HINFO','LOC','MX','NAPTR','NS','PTR','RP','SRV','SSHFP','TXT','TLSA','DNSKEY') default NULL,
+  `type` enum('A','AAAA','ALIAS','CNAME','DNAME','CAA','DS','HINFO','LOC','MX','NAPTR','NS','PTR','RP','SRV','SSHFP','TXT','TLSA','DNSKEY') default NULL,
   `data` TEXT NOT NULL,
   `aux` int(11) unsigned NOT NULL default '0',
   `ttl` int(11) unsigned NOT NULL default '3600',

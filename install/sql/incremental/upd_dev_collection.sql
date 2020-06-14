@@ -33,5 +33,5 @@ ALTER TABLE `mail_user` ADD `disablequota-status` ENUM('n','y') CHARACTER SET ut
 -- add disableindexer-worker for solr search
 ALTER TABLE `mail_user` ADD `disableindexer-worker` ENUM('n','y') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'n' AFTER `disablequota-status`;
 
--- add SSHFP record
-ALTER TABLE `dns_rr` CHANGE `type` `type` ENUM('A','AAAA','ALIAS','CNAME', 'CAA','DS','HINFO','LOC','MX','NAPTR','NS','PTR','RP','SRV','SSHFP','TXT','TLSA','DNSKEY') NULL DEFAULT NULL AFTER `name`;
+-- add SSHFP and DNAME record
+ALTER TABLE `dns_rr` CHANGE `type` `type` ENUM('A','AAAA','ALIAS','CNAME','DNAME','CAA','DS','HINFO','LOC','MX','NAPTR','NS','PTR','RP','SRV','SSHFP','TXT','TLSA','DNSKEY') NULL DEFAULT NULL AFTER `name`;
