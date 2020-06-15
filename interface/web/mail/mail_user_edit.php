@@ -80,7 +80,7 @@ class page_action extends tform_actions {
 
 		// Getting Domains of the user
 		// $sql = "SELECT domain, server_id FROM mail_domain WHERE ".$app->tform->getAuthSQL('r').' ORDER BY domain';
-		$sql = "SELECT domain, server_id FROM mail_domain WHERE (".$app->tform->getAuthSQL('r').") AND domain NOT IN (SELECT SUBSTR(source,2) FROM mail_forwarding WHERE type = 'aliasdomain') ORDER BY domain";               
+		$sql = "SELECT domain, server_id FROM mail_domain WHERE (".$app->tform->getAuthSQL('r').") AND domain NOT IN (SELECT SUBSTR(source,2) FROM mail_forwarding WHERE type = 'aliasdomain') ORDER BY domain";
 		$domains = $app->db->queryAllRecords($sql);
 		$domain_select = '';
 		if(is_array($domains)) {
@@ -99,7 +99,7 @@ class page_action extends tform_actions {
 		if (isset($_POST['policy'])) $tmp_user['policy_id'] = intval($_POST['policy']);
 		$sql = "SELECT id, policy_name FROM spamfilter_policy WHERE ".$app->tform->getAuthSQL('r') . " ORDER BY policy_name";
 		$policys = $app->db->queryAllRecords($sql);
-		$policy_select = "<option value='0'>".$app->tform->lng("no_policy")."</option>";
+		$policy_select = "<option value='0'>".$app->tform->lng("inherit_policy")."</option>";
 		if(is_array($policys)) {
 			foreach( $policys as $p) {
 				$selected = ($p["id"] == $tmp_user["policy_id"])?'SELECTED':'';
@@ -220,7 +220,7 @@ class page_action extends tform_actions {
 			$tmp = $app->db->queryOneRecord("SELECT maildir_format FROM mail_user WHERE mailuser_id = ".$app->functions->intval($this->id));
 			$this->dataRecord['maildir_format'] = $tmp['maildir_format'];
 		}
-		
+
 		//* compose the email field
 		if(isset($_POST["email_local_part"]) && isset($_POST["email_domain"])) {
 			$this->dataRecord["email"] = strtolower($_POST["email_local_part"]."@".$app->functions->idn_encode($_POST["email_domain"]));
@@ -239,7 +239,7 @@ class page_action extends tform_actions {
 			$maildir = str_replace("[localpart]", strtolower($_POST["email_local_part"]), $maildir);
 			$this->dataRecord["maildir"] = $maildir;
 			$this->dataRecord["homedir"] = $mail_config["homedir_path"];
-			
+
 			// Will be overwritten by mail_plugin
 			if ($mail_config["mailbox_virtual_uidgid_maps"] == 'y') {
 				$this->dataRecord['uid'] = -1;
@@ -248,7 +248,7 @@ class page_action extends tform_actions {
 				$this->dataRecord['uid'] = intval($mail_config["mailuser_uid"]);
 				$this->dataRecord['gid'] = intval($mail_config["mailuser_gid"]);
 			}
-				
+
 			//* Check if there is no alias or forward with this address
 			$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE active = 'y' AND source = ?", $this->dataRecord["email"]);
 			if($tmp['number'] > 0) $app->tform->errorMessage .= $app->tform->lng("duplicate_alias_or_forward_txt")."<br>";
