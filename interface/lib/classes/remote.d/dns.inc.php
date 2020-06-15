@@ -736,7 +736,7 @@ class remoting_dns extends remoting {
 
 
 
-  //* Get All DNS Zones Templates by etruel
+  //* Get All DNS Zones Templates by etruel and thom
 	public function dns_templatezone_get_all($session_id) {
 		global $app, $conf;
 	  if(!$this->checkPerm($session_id, 'dns_templatezone_add')) {
@@ -749,7 +749,7 @@ class remoting_dns extends remoting {
 			return $result;
 		}
 		else {
-			this->server->fault('template_id_error', 'There is no DNS templates.');
+			throw new SoapFault('template_id_error', 'There is no DNS templates.');
 			return false;
 		}
 	}
