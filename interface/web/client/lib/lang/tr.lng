@@ -17,6 +17,7 @@ $wb['Messaging'] = 'İletişim';
 $wb['Send email'] = 'E-posta Gönderimi';
 $wb['Edit Client Circle'] = 'Müşteri Grubu Düzenleme';
 $wb['Domains'] = 'Etki Alanları';
+$wb['Add Domain'] = 'Add Domain';
 $wb['domain_txt'] = 'Etki Alanı';
 $wb['client_txt'] = 'Müşteri';
 $wb['error_domain_in dnsuse'] = 'Bu etki alanı birincil DNS bölgesi olarak kullanıldığından silinemez';

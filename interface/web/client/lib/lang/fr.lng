@@ -14,6 +14,7 @@ $wb['delete_additional_template_txt'] = 'Supprimer un modèle';
 $wb['Messaging'] = 'Messagerie';
 $wb['Edit Client Circle'] = 'Modifier les groupes clients';
 $wb['Domains'] = 'Domaines';
+$wb['Add Domain'] = 'Add Domain';
 $wb['domain_txt'] = 'Domaine';
 $wb['client_txt'] = 'Client';
 $wb['error_domain_in mailuse'] = 'Ce domaine ne peut pas être supprimé, il est utilisé par un compte e-mail';

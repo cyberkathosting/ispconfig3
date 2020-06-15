@@ -17,6 +17,7 @@ $wb['Messaging'] = 'Обмен сообщениями';
 $wb['Send email'] = 'Отправить почту';
 $wb['Edit Client Circle'] = 'Изменить клиента Группы';
 $wb['Domains'] = 'Домены';
+$wb['Add Domain'] = 'Add Domain';
 $wb['domain_txt'] = 'Домен';
 $wb['client_txt'] = 'Клиент';
 $wb['error_domain_in mailuse'] = 'Этот домен не может быть удален, так как он используется в качестве почтового домена.';

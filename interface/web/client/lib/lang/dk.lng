@@ -17,6 +17,7 @@ $wb['Messaging'] = 'Meddelelser';
 $wb['Send email'] = 'Send E-mail';
 $wb['Edit Client Circle'] = 'Rediger Kunde Cirkel';
 $wb['Domains'] = 'Domæner';
+$wb['Add Domain'] = 'Add Domain';
 $wb['domain_txt'] = 'Domæne';
 $wb['client_txt'] = 'Kunde';
 $wb['error_domain_in mailuse'] = 'Dette domæne kan ikke slettes, da det er i brug som mail-domæne';

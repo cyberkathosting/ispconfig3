@@ -25,5 +25,6 @@ $wb['Messaging'] = 'Mensajería';
 $wb['Resellers'] = 'Revendedores';
 $wb['Send email'] = 'Enviar correo';
 $wb['Templates'] = 'Plantillas';
-$wb['Email-Templates'] = 'Email-Templates';
+$wb['Add Domain'] = 'Add Domain';
+$wb['domain_txt'] = 'Email-Templates';
 ?>

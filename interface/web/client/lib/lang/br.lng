@@ -17,6 +17,7 @@ $wb['Messaging'] = 'Mensagens';
 $wb['Send email'] = 'Enviar e-mail';
 $wb['Edit Client Circle'] = 'Editar círculo de clientes';
 $wb['Domains'] = 'Domínios';
+$wb['Add Domain'] = 'Add Domain';
 $wb['domain_txt'] = 'Domínio';
 $wb['client_txt'] = 'Cliente';
 $wb['error_domain_in dnsuse'] = 'Este domínio não pode ser removido pois é utilizado em uma zona dns.';

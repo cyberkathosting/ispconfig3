@@ -15,6 +15,7 @@ $wb['Messaging'] = 'Messaging';
 $wb['Send email'] = 'Send Email';
 $wb['Edit Client Circle'] = 'Edit Client Circle';
 $wb['Domains'] = 'Domains';
+$wb['Add Domain'] = 'Add Domain';
 $wb['domain_txt'] = 'Domain';
 $wb['client_txt'] = 'Client';
 $wb['error_domain_in mailuse'] = 'This domain cannot be deleted, because it is in use as mail-domain';
