@@ -192,7 +192,7 @@ class page_action extends tform_actions {
 		 * The domain-module is in use.
 		*/
 		$domains = $app->tools_sites->getDomainModuleDomains("dns_soa", $this->dataRecord["origin"]);
-		$domain_select = '';
+		$domain_select = "<option value=''></option>";
 		if(is_array($domains) && sizeof($domains) > 0) {
 			/* We have domains in the list, so create the drop-down-list */
 			foreach( $domains as $domain) {
