@@ -473,7 +473,7 @@ class remoting_dns extends remoting {
 	// ----------------------------------------------------------------------------------------------------------------
 
 	//* Get record details
-	public function dns_cname_get($session_id, $primary_id) {
+	public function dns_dname_get($session_id, $primary_id) {
 		return $this->dns_rr_get($session_id, $primary_id, 'DNAME');
 	}
 
