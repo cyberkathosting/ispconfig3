@@ -79,7 +79,7 @@ class page_action extends tform_actions {
 
 		$_SESSION['s']['var']['vhostdomain_type'] = $show_type;
 		$this->_vhostdomain_type = $show_type;
-		
+
 		parent::onLoad();
 	}
 
@@ -143,7 +143,7 @@ class page_action extends tform_actions {
 		$read_limits = array('limit_cgi', 'limit_ssi', 'limit_perl', 'limit_ruby', 'limit_python', 'force_suexec', 'limit_hterror', 'limit_wildcard', 'limit_ssl', 'limit_ssl_letsencrypt', 'limit_directive_snippets');
 
 		if($this->_vhostdomain_type != 'domain') $parent_domain = $app->db->queryOneRecord("select * FROM web_domain WHERE domain_id = ?", @$this->dataRecord["parent_domain_id"]);
-		
+
 		$is_admin = false;
 
 		//* Client: If the logged in user is not admin and has no sub clients (no reseller)
@@ -164,7 +164,7 @@ class page_action extends tform_actions {
 				$client['web_servers_ids'][] = $this->dataRecord['server_id'];
 				$client['web_servers_ids'] = array_unique($client['web_servers_ids']);
 			}
-			
+
 			$only_one_server = count($client['web_servers_ids']) === 1;
 			$app->tpl->setVar('only_one_server', $only_one_server);
 
@@ -195,7 +195,7 @@ class page_action extends tform_actions {
 			} else {
 				$server_id = (isset($web_servers[0])) ? intval($web_servers[0]['server_id']) : 0;
 			}
-			
+
 			if($app->functions->intval($this->dataRecord["server_id"]) > 0) {
 				// check if server is in client's servers or add it.
 				$chk_sid = explode(',', $client['web_servers']);
@@ -204,7 +204,7 @@ class page_action extends tform_actions {
 					$client['web_servers'] .= $app->functions->intval($this->dataRecord["server_id"]);
 				}
 			}
-			
+
 			//* Fill the IPv4 select field with the IP addresses that are allowed for this client on the current server
 			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ? AND ip_type = 'IPv4' AND virtualhost = 'y' AND (client_id = 0 OR client_id=".$_SESSION['s']['user']['client_id'].")";
 			$ips = $app->db->queryAllRecords($sql, $server_id);
@@ -312,7 +312,7 @@ class page_action extends tform_actions {
 
 			$app->tpl->setVar("server_id", $options_web_servers);
 			unset($options_web_servers);
-			
+
 			if($this->id > 0) {
 				if(!isset($this->dataRecord["server_id"])){
 					$tmp = $app->db->queryOneRecord("SELECT server_id FROM web_domain WHERE domain_id = ?", $this->id);
@@ -352,7 +352,7 @@ class page_action extends tform_actions {
 					$client['web_servers'] .= $app->functions->intval($this->dataRecord["server_id"]);
 				}
 			}
-			
+
 			//* Fill the IPv4 select field with the IP addresses that are allowed for this client
 			$sql = "SELECT ip_address FROM server_ip WHERE server_id = ? AND ip_type = 'IPv4' AND virtualhost = 'y' AND (client_id = 0 OR client_id=?)";
 			$ips = $app->db->queryAllRecords($sql, $server_id, $_SESSION['s']['user']['client_id']);
@@ -438,7 +438,7 @@ class page_action extends tform_actions {
 					}
 					$php_directive_snippets_txt .= '<br><br>';
 				}
-				
+
 				$php_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'php' AND active = 'y' AND master_directive_snippets_id = 0 ORDER BY name");
 				if(is_array($php_directive_snippets) && !empty($php_directive_snippets)){
 					$php_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
@@ -461,7 +461,7 @@ class page_action extends tform_actions {
 						}
 						$apache_directive_snippets_txt .= '<br><br>';
 					}
-					
+
 					$apache_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'apache' AND active = 'y' AND master_directive_snippets_id = 0 ORDER BY name");
 					if(is_array($apache_directive_snippets) && !empty($apache_directive_snippets)){
 						$apache_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
@@ -485,7 +485,7 @@ class page_action extends tform_actions {
 						}
 						$nginx_directive_snippets_txt .= '<br><br>';
 					}
-					
+
 					$nginx_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'nginx' AND active = 'y' AND master_directive_snippets_id = 0 ORDER BY name");
 					if(is_array($nginx_directive_snippets) && !empty($nginx_directive_snippets)){
 						$nginx_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
@@ -508,7 +508,7 @@ class page_action extends tform_actions {
 					}
 					$proxy_directive_snippets_txt .= '<br><br>';
 				}
-				
+
 				$proxy_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'proxy' AND active = 'y' AND master_directive_snippets_id = 0 ORDER BY name");
 				if(is_array($proxy_directive_snippets) && !empty($proxy_directive_snippets)){
 					$proxy_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
@@ -523,7 +523,7 @@ class page_action extends tform_actions {
 
 			//* Admin: If the logged in user is admin
 		} else {
-		
+
 			$is_admin = true;
 
 			if($this->_vhostdomain_type == 'domain') {
@@ -657,7 +657,7 @@ class page_action extends tform_actions {
 				}
 				$php_directive_snippets_txt .= '<br><br>';
 			}
-			
+
 			$php_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'php' AND active = 'y' AND master_directive_snippets_id = 0 ORDER BY name");
 			if(is_array($php_directive_snippets) && !empty($php_directive_snippets)){
 				$php_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
@@ -680,7 +680,7 @@ class page_action extends tform_actions {
 					}
 					$apache_directive_snippets_txt .= '<br><br>';
 				}
-				
+
 				$apache_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'apache' AND active = 'y' AND master_directive_snippets_id = 0 ORDER BY name");
 				if(is_array($apache_directive_snippets) && !empty($apache_directive_snippets)){
 					$apache_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
@@ -704,7 +704,7 @@ class page_action extends tform_actions {
 					}
 					$nginx_directive_snippets_txt .= '<br><br>';
 				}
-				
+
 				$nginx_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'nginx' AND active = 'y' AND master_directive_snippets_id = 0 ORDER BY name");
 				if(is_array($nginx_directive_snippets) && !empty($nginx_directive_snippets)){
 					$nginx_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
@@ -727,7 +727,7 @@ class page_action extends tform_actions {
 				}
 				$proxy_directive_snippets_txt .= '<br><br>';
 			}
-			
+
 			$proxy_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'proxy' AND active = 'y' AND master_directive_snippets_id = 0 ORDER BY name");
 			if(is_array($proxy_directive_snippets) && !empty($proxy_directive_snippets)){
 				$proxy_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
@@ -789,7 +789,7 @@ class page_action extends tform_actions {
 			 * The domain-module is in use.
 			*/
 			$domains = $app->tools_sites->getDomainModuleDomains($this->_vhostdomain_type == 'subdomain' ? null : "web_domain");
-			$domain_select = '';
+			$domain_select = "<option value=''></option>";
 			$selected_domain = '';
 			if(is_array($domains) && sizeof($domains) > 0) {
 				/* We have domains in the list, so create the drop-down-list */
@@ -815,16 +815,16 @@ class page_action extends tform_actions {
 				$domain_select .= "<option value=''></option>\r\n";
 			}
 			$app->tpl->setVar("domain_option", $domain_select);
-			
+
 			// remove the parent domain part of the domain name before we show it in the text field.
 			if($this->dataRecord["type"] == 'vhostsubdomain') $this->dataRecord["domain"] = str_replace('.'.$selected_domain, '', $this->dataRecord["domain"]);
 
-		
+
 		} else {
 			// remove the parent domain part of the domain name before we show it in the text field.
 			if($this->dataRecord["type"] == 'vhostsubdomain') $this->dataRecord["domain"] = str_replace('.'.$parent_domain["domain"], '', $this->dataRecord["domain"]);
 		}
-		
+
 		if($this->_vhostdomain_type != 'domain') $app->tpl->setVar("domain", $this->dataRecord["domain"], true);
 
 		// check for configuration errors in sys_datalog
@@ -837,13 +837,13 @@ class page_action extends tform_actions {
 				}
 			}
 		}
-		
+
 		$app->tpl->setVar('vhostdomain_type', $this->_vhostdomain_type, true);
 
 		$app->tpl->setVar('is_spdy_enabled', ($web_config['enable_spdy'] === 'y'));
 		$app->tpl->setVar('is_pagespeed_enabled', ($web_config['nginx_enable_pagespeed'] === 'y'));
 		$app->tpl->setVar("is_admin", $is_admin);
-		
+
 		if($this->id > 0) {
 			$tmp_web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", intval($this->id));
 			$tmp_sys_group = $app->db->queryOneRecord("SELECT * FROM sys_group WHERE groupid = ?", intval($tmp_web['sys_groupid']));
@@ -856,11 +856,11 @@ class page_action extends tform_actions {
 		if($sys_config['use_combobox'] == 'y') {
 			$app->tpl->setVar('use_combobox', 'y');
 		}
-		
+
 		$directive_snippets_id_select = '<option value="0"'.($this->dataRecord['directive_snippets_id'] == 0? ' selected="selected"' : '').'>-</option>';
 		$server_type = $app->getconf->get_server_config($server_id, 'web');
 		$server_type = $server_type['server_type'];
-		
+
 		$m_directive_snippets = $app->db->queryAllRecords("SELECT directive_snippets_id, name FROM directive_snippets WHERE customer_viewable = 'y' AND active = 'y' AND master_directive_snippets_id > 0 AND type = ? ORDER BY name ASC", $server_type);
 		if(is_array($m_directive_snippets) && !empty($m_directive_snippets)){
 			$directive_snippets_id_select .= '<optgroup label="'.$app->tform->wordbook["select_master_directive_snippet_txt"].'">';
@@ -883,7 +883,7 @@ class page_action extends tform_actions {
 			$directive_snippets_id_select .= '</optgroup>';
 		}
 		$app->tpl->setVar("directive_snippets_id", $directive_snippets_id_select);
-		
+
 		// folder_directive_snippets
 		if(isset($_POST['folder_directive_snippets']) && !isset($this->dataRecord['folder_directive_snippets'])){
 			$this->dataRecord['folder_directive_snippets'] = '';
@@ -894,10 +894,10 @@ class page_action extends tform_actions {
 			}
 			$this->dataRecord['folder_directive_snippets'] = trim($this->dataRecord['folder_directive_snippets']);
 		}
-		
+
 		$master_directive_snippets = $app->db->queryAllRecords("SELECT directive_snippets_id, name FROM directive_snippets WHERE customer_viewable = 'y' AND active = 'y' AND snippet LIKE '%{FOLDER}%' AND master_directive_snippets_id > 0 AND type = ? ORDER BY name ASC", $server_type);
 		$c_directive_snippets = $app->db->queryAllRecords("SELECT directive_snippets_id, name FROM directive_snippets WHERE customer_viewable = 'y' AND active = 'y' AND snippet LIKE '%{FOLDER}%' AND master_directive_snippets_id = 0 AND type = ? ORDER BY name ASC", $server_type);
-		
+
 		$folder_directive_snippets = array();
 		$this->dataRecord['folder_directive_snippets'] = str_replace("\r\n", "\n", $this->dataRecord['folder_directive_snippets']);
 		$this->dataRecord['folder_directive_snippets'] = str_replace("\r", "\n", $this->dataRecord['folder_directive_snippets']);
@@ -920,7 +920,7 @@ class page_action extends tform_actions {
 					}
 					$folder_directive_snippets[$i]['folder_directive_snippets_id'] .= '</optgroup>';
 				}
-				
+
 				if(is_array($c_directive_snippets) && !empty($c_directive_snippets)){
 					$folder_directive_snippets[$i]['folder_directive_snippets_id'] .= '<optgroup label="'.$app->tform->wordbook["select_directive_snippet_txt"].'">';
 					foreach($c_directive_snippets as $c_directive_snippet){
@@ -938,7 +938,7 @@ class page_action extends tform_actions {
 					}
 					$folder_directive_snippets[$i]['folder_directive_snippets_id'] .= '</optgroup>';
 				}
-				
+
 				if(is_array($c_directive_snippets) && !empty($c_directive_snippets)){
 					$folder_directive_snippets[$i]['folder_directive_snippets_id'] .= '<optgroup label="'.$app->tform->wordbook["select_directive_snippet_txt"].'">';
 					foreach($c_directive_snippets as $c_directive_snippet){
@@ -1007,7 +1007,7 @@ class page_action extends tform_actions {
 					$app->tform->errorMessage .= $app->tform->lng("subdomain_error_empty")."<br />";
 				}
 			}
-			
+
 			/* check if the domain module is used - and check if the selected domain can be used! */
 			$app->uses('ini_parser,getconf');
 			$settings = $app->getconf->get_global_config('domains');
@@ -1073,13 +1073,13 @@ class page_action extends tform_actions {
 			} else {
 				$old_web_values = array();
 			}
-			
+
 			if($this->_vhostdomain_type == 'domain') {
 				//* ensure that quota value is not 0 when vhost type = domain
 				if(isset($_POST["hd_quota"]) && $_POST["hd_quota"] == 0) {
 					$app->tform->errorMessage .= $app->tform->lng("limit_web_quota_not_0_txt")."<br>";
 				}
-				
+
 				//* Check the website quota of the client
 				if(isset($_POST["hd_quota"]) && $client["limit_web_quota"] >= 0 && $_POST["hd_quota"] != $old_web_values["hd_quota"]) {
 					$tmp = $app->db->queryOneRecord("SELECT sum(hd_quota) as webquota FROM web_domain WHERE domain_id != ? AND type = 'vhost' AND ".$app->tform->getAuthSQL('u'), $this->id);
@@ -1174,7 +1174,7 @@ class page_action extends tform_actions {
 				if($this->dataRecord['ssl'] == 'n') $this->dataRecord['ssl'] = $tmp['ssl'];
 				if($this->dataRecord['ssl_letsencrypt'] == 'n') $this->dataRecord['ssl_letsencrypt'] = $tmp['ssl_letsencrypt'];
 				if($this->dataRecord['directive_snippets_id'] == 0) $this->dataRecord['directive_snippets_id'] = $tmp['directive_snippets_id'];
-				
+
 				unset($tmp);
 				// When the record is inserted
 			} else {
@@ -1296,7 +1296,7 @@ class page_action extends tform_actions {
 				$app->tform->errorMessage .= $app->tform->lng("invalid_rewrite_rules_txt").'<br>';
 			}
 		}
-		
+
 		// check custom php.ini settings
 		if(isset($this->dataRecord['custom_php_ini']) && trim($this->dataRecord['custom_php_ini']) != '') {
 			$custom_php_ini_settings = trim($this->dataRecord['custom_php_ini']);
@@ -1330,7 +1330,7 @@ class page_action extends tform_actions {
 			unset($app->tform->formDef["tabs"]['ssl']['fields']['enable_spdy']);
 		}
 	//	if($this->dataRecord["directive_snippets_id"] < 1) $this->dataRecord["enable_pagespeed"] = 'n';
-		
+
 		//print_r($_POST['folder_directive_snippets']);
 		//print_r($_POST['folder_directive_snippets_id']);
 		if(isset($_POST['folder_directive_snippets'])){
@@ -1354,7 +1354,7 @@ class page_action extends tform_actions {
 			}
 			$this->dataRecord['folder_directive_snippets'] = trim($this->dataRecord['folder_directive_snippets']);
 		}
-		
+
 		// Check custom PHP version
 		if(isset($this->dataRecord['fastcgi_php_version']) && $this->dataRecord['fastcgi_php_version'] != '') {
 			// Check php-fpm mode
@@ -1380,15 +1380,15 @@ class page_action extends tform_actions {
 				$this->dataRecord['fastcgi_php_version'] = '';
 			}
 		}
-		
+
 		$this->validateDefaultFastcgiPhpVersion();
-		
+
 		parent::onSubmit();
 	}
-	
+
 	function onBeforeInsert() {
 		global $app, $conf;
-		
+
 		// Letsencrypt can not be activated before the website has been created
 		// So we deactivate it here and add a datalog update in onAfterInsert
 		if(isset($this->dataRecord['ssl_letsencrypt']) && $this->dataRecord['ssl_letsencrypt'] == 'y' && isset($this->dataRecord['ssl']) && $this->dataRecord['ssl'] == 'y') {
@@ -1401,7 +1401,7 @@ class page_action extends tform_actions {
 			$this->_letsencrypt_on_insert = true;
 		}
 	}
-	
+
 
 	function onAfterInsert() {
 		global $app, $conf;
@@ -1421,7 +1421,7 @@ class page_action extends tform_actions {
 		$app->uses("getconf");
 		$web_rec = $app->tform->getDataRecord($this->id);
 		$web_config = $app->getconf->get_server_config($app->functions->intval($web_rec["server_id"]), 'web');
-		
+
 		// get global log retention value as default for web log retention
 		$server_config = $app->getconf->get_server_config($app->functions->intval($web_rec["server_id"]), 'server');
 		if($server_config['log_retention'] > 0) {
@@ -1495,7 +1495,7 @@ class page_action extends tform_actions {
 			$new_data_record['ssl'] = 'y';
 			$app->db->datalogUpdate('web_domain', $new_data_record, 'domain_id', $this->id);
 		}
-	
+
 	}
 
 	function onBeforeUpdate () {
@@ -1547,13 +1547,13 @@ class page_action extends tform_actions {
 		}
 
 	}
-	
+
 	function onAfterUpdate() {
 		global $app, $conf;
 
 		if(isset($this->dataRecord['folder_directive_snippets'])) $app->db->query("UPDATE web_domain SET folder_directive_snippets = ? WHERE domain_id = ?", $this->dataRecord['folder_directive_snippets'], $this->id);
 	}
-	
+
 	function validateDefaultFastcgiPhpVersion() {
 		global $app;
 
@@ -1575,7 +1575,7 @@ class page_action extends tform_actions {
 			$app->tform->errorMessage .= sprintf('%s<br>', $app->tform->lng('fastcgi_php_version_invalid_txt'));
 			return;
 		}
-		
+
 		// If the default PHP version is now hidden but this vhost was using it, we don't want to implicitly
 		// switch the user to some random Additional PHP version. So we show a warning instead.
 		$old_fastcgi_php_version = null;

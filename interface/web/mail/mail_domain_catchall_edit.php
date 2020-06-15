@@ -77,7 +77,7 @@ class page_action extends tform_actions {
 		// Getting Domains of the user
 		$sql = "SELECT domain FROM mail_domain WHERE ".$app->tform->getAuthSQL('r');
 		$domains = $app->db->queryAllRecords($sql);
-		$domain_select = '';
+		$domain_select = "<option value=''></option>";
 		if(is_array($domains)) {
 			foreach( $domains as $domain) {
 				$domain['domain'] = $app->functions->idn_decode($domain['domain']);

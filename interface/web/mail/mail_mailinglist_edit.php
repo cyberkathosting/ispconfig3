@@ -112,7 +112,7 @@ class page_action extends tform_actions {
 		// Getting Domains of the user
 		$sql = "SELECT domain FROM mail_domain WHERE ".$app->tform->getAuthSQL('r').' ORDER BY domain';
 		$domains = $app->db->queryAllRecords($sql);
-		$domain_select = '';
+		$domain_select = "<option value=''></option>";
 		if(is_array($domains)) {
 			foreach( $domains as $domain) {
 				$selected = ($domain["domain"] == $this->dataRecord["domain"])?'SELECTED':'';
