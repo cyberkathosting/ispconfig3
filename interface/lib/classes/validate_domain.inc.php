@@ -51,7 +51,7 @@ class validate_domain {
 
 		$result = $this->_check_unique($field_value);
 		if(!$result) return $this->get_error('domain_error_unique');
-		
+
 		$pattern = '/\.acme\.invalid$/';
 		if(preg_match($pattern, $field_value)) return $this->get_error('domain_error_acme_invalid');
 	}
@@ -68,7 +68,7 @@ class validate_domain {
 
 		$result = $this->_check_unique($field_value);
 		if(!$result) return $this->get_error('domain_error_unique');
-		
+
 		$pattern = '/\.acme\.invalid$/';
 		if(preg_match($pattern, $field_value)) return $this->get_error('domain_error_acme_invalid');
 	}
@@ -83,7 +83,7 @@ class validate_domain {
 
 		$result = $this->_check_unique($field_value);
 		if(!$result) return $this->get_error('domain_error_unique');
-		
+
 		$pattern = '/\.acme\.invalid$/';
 		if(preg_match($pattern, $field_value)) return $this->get_error('domain_error_acme_invalid');
 	}
@@ -98,7 +98,7 @@ class validate_domain {
 		} else {
 			$check_domain = $_POST['domain'];
 		}
-		
+
 		$app->uses('ini_parser,getconf');
 		$settings = $app->getconf->get_global_config('domains');
 		if ($settings['use_domain_module'] == 'y') {
@@ -111,26 +111,26 @@ class validate_domain {
 		$result = $this->_check_unique($field_value . '.' . $check_domain, true);
 		if(!$result) return $this->get_error('domain_error_autosub');
 	}
-	
+
 	/* Check apache directives */
 	function web_apache_directives($field_name, $field_value, $validator) {
 		global $app;
-		
+
 		if(trim($field_value) != '') {
 			$security_config = $app->getconf->get_security_config('ids');
-		
+
 			if($security_config['apache_directives_scan_enabled'] == 'yes') {
-				
+
 				// Get blacklist
 				$blacklist_path = '/usr/local/ispconfig/security/apache_directives.blacklist';
 				if(is_file('/usr/local/ispconfig/security/apache_directives.blacklist.custom')) $blacklist_path = '/usr/local/ispconfig/security/apache_directives.blacklist.custom';
 				if(!is_file($blacklist_path)) $blacklist_path = realpath(ISPC_ROOT_PATH.'/../security/apache_directives.blacklist');
-				
+
 				$directives = explode("\n",$field_value);
 				$regex = explode("\n",file_get_contents($blacklist_path));
 				$blocked = false;
 				$blocked_line = '';
-				
+
 				if(is_array($directives) && is_array($regex)) {
 					foreach($directives as $directive) {
 						$directive = trim($directive);
@@ -144,31 +144,31 @@ class validate_domain {
 				}
 			}
 		}
-		
+
 		if($blocked === true) {
 			return $this->get_error('apache_directive_blocked_error').' '.$blocked_line;
 		}
 	}
-	
+
 	/* Check nginx directives */
 	function web_nginx_directives($field_name, $field_value, $validator) {
 		global $app;
-		
+
 		if(trim($field_value) != '') {
 			$security_config = $app->getconf->get_security_config('ids');
-		
+
 			if($security_config['nginx_directives_scan_enabled'] == 'yes') {
-				
+
 				// Get blacklist
 				$blacklist_path = '/usr/local/ispconfig/security/nginx_directives.blacklist';
 				if(is_file('/usr/local/ispconfig/security/nginx_directives.blacklist.custom')) $blacklist_path = '/usr/local/ispconfig/security/nginx_directives.blacklist.custom';
 				if(!is_file($blacklist_path)) $blacklist_path = realpath(ISPC_ROOT_PATH.'/../security/nginx_directives.blacklist');
-				
+
 				$directives = explode("\n",$field_value);
 				$regex = explode("\n",file_get_contents($blacklist_path));
 				$blocked = false;
 				$blocked_line = '';
-				
+
 				if(is_array($directives) && is_array($regex)) {
 					foreach($directives as $directive) {
 						$directive = trim($directive);
@@ -182,16 +182,16 @@ class validate_domain {
 				}
 			}
 		}
-		
+
 		if($blocked === true) {
 			return $this->get_error('nginx_directive_blocked_error').' '.$blocked_line;
 		}
 	}
-	
+
 
 	/* internal validator function to match regexp */
 	function _regex_validate($domain_name, $allow_wildcard = false) {
-		$pattern = '/^' . ($allow_wildcard == true ? '(\*\.)?' : '') . '[\w\.\-]{1,255}\.[a-zA-Z0-9\-]{2,30}$/';
+		$pattern = '/^' . ($allow_wildcard == true ? '(\*\.)?' : '') . '[\w\.\-]{1,255}\.[a-zA-Z0-9\-]{2,63}$/';
 		return preg_match($pattern, $domain_name);
 	}
 
@@ -229,8 +229,8 @@ class validate_domain {
 				$domain_params[] = $aliassubdomain['domain'];
 			}
 		}
-		
-		
+
+
 		$qrystr = "SELECT d.domain_id, IF(d.parent_domain_id != 0 AND p.domain_id IS NOT NULL, p.ip_address, d.ip_address) as `ip_address`, IF(d.parent_domain_id != 0 AND p.domain_id IS NOT NULL, p.ipv6_address, d.ipv6_address) as `ipv6_address` FROM `web_domain` as d LEFT JOIN `web_domain` as p ON (p.domain_id = d.parent_domain_id) WHERE (d.domain = ?" . $additional_sql1 . ") AND d.server_id = ? AND d.domain_id != ?" . ($primary_id ? " AND d.parent_domain_id != ?" : "");
 		$params = array_merge(array($domain_name), $domain_params, array($domain['server_id'], $primary_id, $primary_id));
 		$checks = $app->db->queryAllRecords($qrystr, true, $params);
@@ -242,7 +242,7 @@ class validate_domain {
 				if($domain['ipv6_address'] != '' && $check['ipv6_address'] == $domain['ipv6_address']) return false;
 			}
 		}
-		
+
 		if($only_domain == false) {
 			$qrystr = "SELECT d.domain_id, IF(d.parent_domain_id != 0 AND p.domain_id IS NOT NULL, p.ip_address, d.ip_address) as `ip_address`, IF(d.parent_domain_id != 0 AND p.domain_id IS NOT NULL, p.ipv6_address, d.ipv6_address) as `ipv6_address` FROM `web_domain` as d LEFT JOIN `web_domain` as p ON (p.domain_id = d.parent_domain_id) WHERE (CONCAT(d.subdomain, '.', d.domain) = ?" . $additional_sql2 . ") AND d.server_id = ? AND d.domain_id != ?" . ($primary_id ? " AND d.parent_domain_id != ?" : "");
 			$params = array_merge(array($domain_name), $domain_params, array($domain['server_id'], $primary_id, $primary_id));
@@ -256,7 +256,7 @@ class validate_domain {
 				}
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -274,6 +274,6 @@ class validate_domain {
 		}
 		return true; // admin may always add wildcard domain
 	}
-	
+
 
 }
