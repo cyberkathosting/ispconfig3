@@ -33,6 +33,7 @@ require_once '../lib/app.inc.php';
 
 //* Import module variable
 $mod = $_REQUEST["mod"];
+
 //* If we click on a search result, load that one instead of the module's start page
 $redirect = (isset($_REQUEST["redirect"]) ? $_REQUEST["redirect"] : '');
 
