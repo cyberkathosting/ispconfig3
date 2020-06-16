@@ -9,6 +9,7 @@ ssl_key = </etc/postfix/smtpd.key
 ssl_dh = </etc/dovecot/dh.pem
 ssl_protocols = !SSLv2 !SSLv3
 ssl_min_protocol = TLSv1
+auth_verbose = yes
 mail_max_userip_connections = 100
 mail_plugins = quota
 passdb {
@@ -51,7 +52,7 @@ service lmtp {
    group = postfix
    mode = 0600
    user = postfix
-   # For higher volume sites, it may be desirable to increase the number of active listener processes. 
+   # For higher volume sites, it may be desirable to increase the number of active listener processes.
    # A range of 5 to 20 is probably good for most sites
 #   process_min_avail = 5
   }
@@ -83,7 +84,7 @@ protocol lmtp {
 #2.3+         group = vmail
 #2.3+         mode = 0660
 #2.3+     }
-#2.3+ 
+#2.3+
 #2.3+     unix_listener stats-writer {
 #2.3+         user = vmail
 #2.3+         group = vmail
@@ -126,4 +127,3 @@ namespace inbox {
     special_use = \Trash
   }
 }
-

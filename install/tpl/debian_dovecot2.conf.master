@@ -8,6 +8,7 @@ postmaster_address = postmaster@example.com
 ssl_cert = </etc/postfix/smtpd.cert
 ssl_key = </etc/postfix/smtpd.key
 ssl_protocols = !SSLv2 !SSLv3
+auth_verbose = yes
 mail_max_userip_connections = 100
 mail_plugins = $mail_plugins quota
 passdb {
@@ -80,7 +81,7 @@ protocol lmtp {
 #2.3+         group = vmail
 #2.3+         mode = 0660
 #2.3+     }
-#2.3+ 
+#2.3+
 #2.3+     unix_listener stats-writer {
 #2.3+         user = vmail
 #2.3+         group = vmail
@@ -102,4 +103,3 @@ plugin {
   quota_status_nouser = DUNNO
   quota_status_overquota = "552 5.2.2 Mailbox is full"
 }
-
