@@ -7,6 +7,7 @@ mail_privileged_group = vmail
 ssl_cert = </etc/postfix/smtpd.cert
 ssl_key = </etc/postfix/smtpd.key
 ssl_protocols = !SSLv2 !SSLv3
+auth_verbose = yes
 mail_plugins = quota
 passdb {
   args = /etc/dovecot-sql.conf
@@ -79,7 +80,7 @@ mail_plugins = $mail_plugins quota
 #2.3+         group = vmail
 #2.3+         mode = 0660
 #2.3+     }
-#2.3+ 
+#2.3+
 #2.3+     unix_listener stats-writer {
 #2.3+         user = vmail
 #2.3+         group = vmail
@@ -122,4 +123,3 @@ namespace inbox {
     special_use = \Trash
   }
 }
-
