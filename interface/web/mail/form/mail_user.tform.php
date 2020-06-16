@@ -181,7 +181,7 @@ $form["tabs"]['mailuser'] = array(
 					'type' => 'TOLOWER')
 			),
 			'validators' => array (  0 => array ( 'type' => 'REGEX',
-					'regex' => '/^(\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\.[a-z\-]{2,10}){0,1}(,\s*\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\.[a-z\-]{2,10}){0,}$/i',
+					'regex' => '/^(\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\.[a-z\-]{2,63}){0,1}(,\s*\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\.[a-z\-]{2,63}){0,}$/i',
 					'errmsg'=> 'cc_error_isemail'),
 			),
 			'default' => '',
@@ -200,7 +200,7 @@ $form["tabs"]['mailuser'] = array(
 					'type' => 'TOLOWER')
 			),
 			'validators' => array (  0 => array ( 'type' => 'REGEX',
-					'regex'=>'/^(\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\.[a-z\-]{2,10}){0,1}(,\s*\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\.[a-z\-]{2,10}){0,}$/i',
+					'regex'=>'/^(\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\.[a-z\-]{2,63}){0,1}(,\s*\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\.[a-z\-]{2,63}){0,}$/i',
 					'errmsg'=> 'sender_cc_error_isemail'),
 			),
 			'default' => '',
@@ -360,7 +360,7 @@ if ($global_config['mail']['mailbox_show_autoresponder_tab'] === 'y') {
 			'autoresponder_start_date' => array (
 				'datatype' => 'DATETIME',
 				'formtype' => 'DATETIME',
-				'validators'=> array ( 
+				'validators'=> array (
 					0 => array ( 'type' => 'ISDATETIME',
 						'allowempty' => 'y',
 						'errmsg'=> 'autoresponder_start_date_is_no_date'),
@@ -373,7 +373,7 @@ if ($global_config['mail']['mailbox_show_autoresponder_tab'] === 'y') {
 			'autoresponder_end_date' => array (
 				'datatype' => 'DATETIME',
 				'formtype' => 'DATETIME',
-				'validators'=> array (  
+				'validators'=> array (
 					0 => array ( 'type' => 'ISDATETIME',
 						'allowempty' => 'y',
 						'errmsg'=> 'autoresponder_end_date_is_no_date'),

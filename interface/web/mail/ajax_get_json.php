@@ -52,7 +52,7 @@ if($type == 'create_dkim' && $domain_id != ''){
 	$mail_config = $app->getconf->get_server_config($server_id, 'mail');
 	$dkim_strength = $app->functions->intval($mail_config['dkim_strength']);
 	if ($dkim_strength=='') $dkim_strength = 2048;
-	
+
 	$rnd_val = $dkim_strength * 10;
 	$app->system->exec_safe('openssl rand -out ../../temp/random-data.bin '.$rnd_val.' 2> /dev/null');
 	$app->system->exec_safe('openssl genrsa -rand ../../temp/random-data.bin '.$dkim_strength.' 2> /dev/null');
@@ -113,7 +113,7 @@ header('Content-type: application/json');
 echo $json;
 
 function validate_domain($domain) {
-	$regex = '/^[\w\.\-]{2,255}\.[a-zA-Z0-9\-]{2,30}$/';
+	$regex = '/^[\w\.\-]{2,255}\.[a-zA-Z0-9\-]{2,63}$/';
 	if ( preg_match($regex, $domain) === 1 ) return true; else return false;
 }
 
