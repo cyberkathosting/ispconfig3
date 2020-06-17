@@ -1,0 +1,17 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['zone_txt'] = 'Zóna';
+$wb['name_txt'] = 'Hostname';
+$wb['type_txt'] = 'typ';
+$wb['data_txt'] = 'Cieľový Hostname';
+$wb['ttl_txt'] = 'TTL';
+$wb['active_txt'] = 'Aktivovať';
+$wb['limit_dns_record_txt'] = 'Max. počet záznamov DNS pre váš účet je dosiahnutý.';
+$wb['no_zone_perm'] = 'Nemáte oprávnenie Pridať záznam do tejto zóny DNS.';
+$wb['name_error_empty'] = 'Hostname je prázdny.';
+$wb['name_error_regex'] = 'Hostname má zlý formát.';
+$wb['data_error_empty'] = 'Cieľový hostname je prázdny';
+$wb['data_error_regex'] = 'Target hostname má zlý format';
+$wb['data_error_duplicate'] = 'Duplicate CNAME or DNAME record';
+$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+?>

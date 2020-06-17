@@ -1,0 +1,16 @@
+<?php
+$wb['server_id_txt'] = 'Server';
+$wb['zone_txt'] = 'Zone';
+$wb['name_txt'] = 'Název hostitele';
+$wb['type_txt'] = 'Typ';
+$wb['data_txt'] = 'Data';
+$wb['ttl_txt'] = 'TTL';
+$wb['active_txt'] = 'Aktivní';
+$wb['limit_dns_record_txt'] = 'Byl dosažen max. počet DNS záznamů pro váš účet.';
+$wb['no_zone_perm'] = 'Nemáte oprávnění přidat záznam do této zóny DNS.';
+$wb['name_error_empty'] = 'Název hostitele je prázdný.';
+$wb['name_error_regex'] = 'Název hostitele má chybný formát.';
+$wb['data_error_empty'] = 'Text empty';
+$wb['data_error_regex'] = 'Text format invalid';
+$wb['ttl_range_error'] = 'Min. TTL doba je 60 sekund.';
+?>

@@ -1,0 +1,16 @@
+<?php
+$wb['server_id_txt'] = 'Сервер';
+$wb['zone_txt'] = 'Зона';
+$wb['name_txt'] = 'Имя хоста';
+$wb['type_txt'] = 'Тип';
+$wb['data_txt'] = 'Данные';
+$wb['ttl_txt'] = 'TTL';
+$wb['active_txt'] = 'Активно';
+$wb['limit_dns_record_txt'] = 'Максимальное число DNS-записей для вашей учетной записи достигнуто.';
+$wb['no_zone_perm'] = 'У Вас нет прав добавлять эту запись.';
+$wb['name_error_empty'] = 'Имя пустое.';
+$wb['name_error_regex'] = 'Имя узла имеет неправильный формат.';
+$wb['data_error_empty'] = 'Text empty';
+$wb['data_error_regex'] = 'Text format invalid';
+$wb['ttl_range_error'] = 'Мин. время <b>TTL</b> 60 секунд.';
+?>
