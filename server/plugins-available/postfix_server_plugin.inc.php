@@ -121,7 +121,7 @@ class postfix_server_plugin {
 				$value = trim($value);
 				if ($value == '') continue;
 				if (!preg_match('/reject_rbl_client/', $value)) {
-					$new_options[] = trim($value);
+					$new_options[] = $value;
 				} else {
 					if(is_array($rbl_hosts) && !empty($rbl_hosts) && !$rbl_updated){
 						$rbl_updated = true;
@@ -146,31 +146,39 @@ class postfix_server_plugin {
 			$options = preg_split("/,\s*/", exec("postconf -h smtpd_sender_restrictions"));
 			$new_options = array();
 			foreach ($options as $key => $value) {
-				if (trim($value) == '') continue;
-				if (!preg_match('/reject_(authenticated_)?sender_login_mismatch/', $value)) {
-					$new_options[] = trim($value);
+				if (($value = trim($value)) == '') continue;
+				if (preg_match('/reject_(authenticated_)?sender_login_mismatch/', $value)) {
+					continue;
 				}
+				$new_options[] = $value;
 			}
 
 			if ($mail_config['reject_sender_login_mismatch'] == 'y') {
-				reset($new_options);
-				array_splice($new_options, 0, 0, array('reject_sender_login_mismatch'));
+				array_splice($new_options, 0, 0, array('reject_authenticated_sender_login_mismatch'));
+
+				for ($i = 0; isset($new_options[$i]); $i++) {
+					if ($new_options[$i] == 'permit_mynetworks') {
+						array_splice($new_options, $i+1, 0, array('reject_sender_login_mismatch'));
+						break;
+					}
+				}
 			}
+
 			$app->system->exec_safe("postconf -e ?", 'smtpd_sender_restrictions = '.implode(", ", $new_options));
 		}
 
 		if ($mail_config['reject_unknown']) {
 			if (($mail_config['reject_unknown'] === 'client') || ($mail_config['reject_unknown'] === 'client_helo')) {
-				$options = explode(", ", exec("postconf -h smtpd_client_restrictions"));
+				$options = explode(",", exec("postconf -h smtpd_client_restrictions"));
 				$new_options = array();
 				foreach ($options as $key => $value) {
-					if (trim($value) == '') continue;
-					if (!preg_match('/reject_unknown(_client)?_hostname/', $value)) {
-						$new_options[] = trim($value);
+					if (($value = trim($value)) == '') continue;
+					if (preg_match('/reject_unknown(_client)?_hostname/', $value)) {
+						continue;
 					}
+					$new_options[] = $value;
 				}
 
-				reset($new_options); $i = 0;
 				// insert before explicit permit, or append
 				for ($i = 0; isset($new_options[$i]); $i++) {
 					if ($new_options[$i] == 'permit') {
@@ -184,28 +192,29 @@ class postfix_server_plugin {
 
 				$app->system->exec_safe("postconf -e ?", 'smtpd_client_restrictions = '.implode(", ", $new_options));
 			} else {
-				$options = explode(", ", exec("postconf -h smtpd_client_restrictions"));
+				$options = explode(",", exec("postconf -h smtpd_client_restrictions"));
 				$new_options = array();
 				foreach ($options as $key => $value) {
-					if (trim($value) == '') continue;
-					if (!preg_match('/reject_unknown(_client)?_hostname/', $value)) {
-						$new_options[] = trim($value);
+					if (($value = trim($value)) == '') continue;
+					if (preg_match('/reject_unknown(_client)?_hostname/', $value)) {
+						continue;
 					}
+					$new_options[] = $value;
 				}
 				$app->system->exec_safe("postconf -e ?", 'smtpd_client_restrictions = '.implode(", ", $new_options));
 			}
 
 			if (($mail_config['reject_unknown'] === 'helo') || ($mail_config['reject_unknown'] === 'client_helo')) {
-				$options = explode(", ", exec("postconf -h smtpd_helo_restrictions"));
+				$options = explode(",", exec("postconf -h smtpd_helo_restrictions"));
 				$new_options = array();
 				foreach ($options as $key => $value) {
-					if (trim($value) == '') continue;
-					if (!preg_match('/reject_unknown(_helo)?_hostname/', $value)) {
-						$new_options[] = trim($value);
+					if (($value = trim($value)) == '') continue;
+					if (preg_match('/reject_unknown(_helo)?_hostname/', $value)) {
+						continue;
 					}
+					$new_options[] = $value;
 				}
 
-				reset($new_options); $i = 0;
 				// insert before explicit permit, or append
 				for ($i = 0; isset($new_options[$i]); $i++) {
 					if ($new_options[$i] == 'permit') {
@@ -219,13 +228,14 @@ class postfix_server_plugin {
 
 				$app->system->exec_safe("postconf -e ?", 'smtpd_helo_restrictions = '.implode(", ", $new_options));
 			} else {
-				$options = explode(", ", exec("postconf -h smtpd_helo_restrictions"));
+				$options = explode(",", exec("postconf -h smtpd_helo_restrictions"));
 				$new_options = array();
 				foreach ($options as $key => $value) {
-					if (trim($value) == '') continue;
-					if (!preg_match('/reject_unknown(_helo)?_hostname/', $value)) {
-						$new_options[] = trim($value);
+					if (($value = trim($value)) == '') continue;
+					if (preg_match('/reject_unknown(_helo)?_hostname/', $value)) {
+						continue;
 					}
+					$new_options[] = $value;
 				}
 				$app->system->exec_safe("postconf -e ?", 'smtpd_helo_restrictions = '.implode(", ", $new_options));
 			}
@@ -254,7 +264,7 @@ class postfix_server_plugin {
 					$app->system->exec_safe("postconf -e ?", 'smtpd_soft_error_limit = ${stress?2}${stress:5}');
 					$app->system->exec_safe("postconf -e ?", 'smtpd_timeout = ${stress?10}${stress:60}s');
 				}
-			} else { // mail_config['reject_sender_login_mismatch'] == 'n'
+			} else { // mail_config['stress_adaptive'] == 'n'
 				exec("postconf -X 'in_flow_delay'");
 				exec("postconf -X 'smtp_connect_timeout'");
 				exec("postconf -X 'smtp_helo_timeout'");
@@ -327,6 +337,7 @@ class postfix_server_plugin {
 
 		if($mail_config['content_filter'] != $old_ini_data['mail']['content_filter']) {
 			$rslm = ($mail_config['reject_sender_login_mismatch'] == 'y') ? "reject_sender_login_mismatch," : "";
+			$raslm = ($mail_config['reject_sender_login_mismatch'] == 'y') ? "reject_authenticated_sender_login_mismatch," : "";
 
 			if($mail_config['content_filter'] == 'rspamd'){
 				exec("postconf -X 'receive_override_options'");
@@ -338,7 +349,7 @@ class postfix_server_plugin {
 				exec("postconf -e 'milter_mail_macros = i {mail_addr} {client_addr} {client_name} {auth_authen}'");
 				exec("postconf -e 'milter_default_action = accept'");
 
-				exec("postconf -e 'smtpd_sender_restrictions = ${rslm} permit_mynetworks, permit_sasl_authenticated, reject_non_fqdn_sender, check_sender_access proxy:mysql:/etc/postfix/mysql-virtual_sender.cf'");
+				exec("postconf -e 'smtpd_sender_restrictions = ${raslm} permit_mynetworks, ${rslm} permit_sasl_authenticated, reject_non_fqdn_sender, check_sender_access proxy:mysql:/etc/postfix/mysql-virtual_sender.cf'");
 				
 				$new_options = array();
 				$options = preg_split("/,\s*/", exec("postconf -h smtpd_recipient_restrictions"));
@@ -376,7 +387,7 @@ class postfix_server_plugin {
 				exec("postconf -e 'content_filter = " . ($configure_lmtp ? "lmtp" : "amavis" ) . ":[127.0.0.1]:10024'");
 
 				// fixme: should read this from conf templates
-				exec("postconf -e 'smtpd_sender_restrictions = ${rslm} check_sender_access regexp:/etc/postfix/tag_as_originating.re, permit_mynetworks, permit_sasl_authenticated, reject_non_fqdn_sender, check_sender_access regexp:/etc/postfix/tag_as_foreign.re, check_sender_access proxy:mysql:/etc/postfix/mysql-virtual_sender.cf'");
+				exec("postconf -e 'smtpd_sender_restrictions = ${raslm} check_sender_access regexp:/etc/postfix/tag_as_originating.re, permit_mynetworks, ${rslm} permit_sasl_authenticated, reject_non_fqdn_sender, check_sender_access regexp:/etc/postfix/tag_as_foreign.re, check_sender_access proxy:mysql:/etc/postfix/mysql-virtual_sender.cf'");
 			}
 		}
 		

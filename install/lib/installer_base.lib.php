@@ -1077,8 +1077,10 @@ class installer_base {
 		}
 
 		$reject_sender_login_mismatch = '';
+		$reject_authenticated_sender_login_mismatch = '';
 		if (isset($server_ini_array['mail']['reject_sender_login_mismatch']) && ($server_ini_array['mail']['reject_sender_login_mismatch'] == 'y')) {
 			$reject_sender_login_mismatch = ',reject_sender_login_mismatch,';
+			$reject_authenticated_sender_login_mismatch = 'reject_authenticated_sender_login_mismatch, ';
 		}
 
 		# placeholder includes comment char
@@ -1095,8 +1097,8 @@ class installer_base {
 		}
 
 		unset($server_ini_array);
-
-		$tmp = str_replace('.','\.',$conf['hostname']);
+		
+		$myhostname = str_replace('.','\.',$conf['hostname']);
 
 		$postconf_placeholders = array('{config_dir}' => $config_dir,
 			'{vmail_mailbox_base}' => $cf['vmail_mailbox_base'],
@@ -1105,7 +1107,8 @@ class installer_base {
 			'{rbl_list}' => $rbl_list,
 			'{greylisting}' => $greylisting,
 			'{reject_slm}' => $reject_sender_login_mismatch,
-			'{myhostname}' => $tmp,
+			'{reject_aslm}' => $reject_authenticated_sender_login_mismatch,
+			'{myhostname}' => $myhostname,
 			$stress_adaptive_placeholder => $stress_adaptive,
 			'{reject_unknown_client_hostname}' => $reject_unknown_client_hostname,
 			'{reject_unknown_helo_hostname}' => $reject_unknown_helo_hostname,
@@ -1692,23 +1695,29 @@ class installer_base {
 			if(! isset($mail_config['reject_sender_login_mismatch'])) {
 				$mail_config['reject_sender_login_mismatch'] = 'n';
 			}
-			$options = explode(", ", exec("postconf -h smtpd_sender_restrictions"));
+			$options = explode(",", exec("postconf -h smtpd_sender_restrictions"));
 			$new_options = array();
 			foreach ($options as $key => $value) {
-				if (trim($value) == '') continue;
+				if (($value = trim($value)) == '') continue;
 				if (preg_match('/tag_as_(originating|foreign)\.re/', $value)) {
 					continue;
 				}
-				if (!preg_match('/reject_(authenticated_)?sender_login_mismatch/', $value)) {
-					$new_options[] = trim($value);
+				if (preg_match('/reject_(authenticated_)?sender_login_mismatch/', $value)) {
+					continue;
 				}
+				$new_options[] = $value;
 			}
 			if ($mail_config['reject_sender_login_mismatch'] == 'y') {
-				reset($new_options);
-				array_splice($new_options, 0, 0, array('reject_sender_login_mismatch'));
+				array_splice($new_options, 0, 0, array('reject_authenticated_sender_login_mismatch'));
+
+				for ($i = 0; isset($new_options[$i]); $i++) {
+					if ($new_options[$i] == 'permit_mynetworks') {
+						array_splice($new_options, $i+1, 0, array('reject_sender_login_mismatch'));
+						break;
+					}
+				}
 			}
 			exec("postconf -e 'smtpd_sender_restrictions = ".implode(", ", $new_options)."'");
-
 
 			$options = preg_split("/,\s*/", exec("postconf -h smtpd_recipient_restrictions"));
 			$new_options = array();
