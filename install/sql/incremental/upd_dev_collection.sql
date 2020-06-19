@@ -35,3 +35,6 @@ ALTER TABLE `mail_user` ADD `disableindexer-worker` ENUM('n','y') CHARACTER SET 
 
 -- add SSHFP and DNAME record
 ALTER TABLE `dns_rr` CHANGE `type` `type` ENUM('A','AAAA','ALIAS','CNAME','DNAME','CAA','DS','HINFO','LOC','MX','NAPTR','NS','PTR','RP','SRV','SSHFP','TXT','TLSA','DNSKEY') NULL DEFAULT NULL AFTER `name`;
+
+-- remove SPDY option
+ALTER TABLE `web_domain` DROP COLUMN `enable_spdy`;
