@@ -275,7 +275,6 @@ $wb['network_filesystem_txt'] = 'Sistema de arquivos de rede';
 $wb['php_ini_check_minutes_txt'] = 'Verificar alterações no php.ini a cada X minutos';
 $wb['php_ini_check_minutes_error_empty'] = 'Por favor, insira um valor para verificação de alterações no php.ini.';
 $wb['php_ini_check_minutes_info_txt'] = '0 = sem verificações';
-$wb['enable_spdy_txt'] = 'Tornar SPDY/HTTP2 disponível';
 $wb['web_settings_txt'] = 'Servidor web';
 $wb['xmpp_server_txt'] = 'Servidor xmpp';
 $wb['xmpp_use_ipv6_txt'] = 'Usar IPv6';

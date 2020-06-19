@@ -272,7 +272,6 @@ $wb['dkim_strength_txt'] = 'Стойкость DKIM';
 $wb['php_ini_check_minutes_txt'] = 'Проверять изменения в PHP.ini файле каждые Х минут';
 $wb['php_ini_check_minutes_error_empty'] = 'Пожалуйста, укажите значение, как часто php.ini должен быть проверен на изменения.';
 $wb['php_ini_check_minutes_info_txt'] = '0 = не проверять';
-$wb['enable_spdy_txt'] = 'Сделать SPDY/HTTP2 доступным';
 $wb['web_settings_txt'] = 'Web-сервер';
 $wb['xmpp_server_txt'] = 'XMPP Server';
 $wb['xmpp_use_ipv6_txt'] = 'Использовать IPv6';
