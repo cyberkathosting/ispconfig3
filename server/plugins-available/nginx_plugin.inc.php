@@ -1517,18 +1517,6 @@ class nginx_plugin {
 			}
 		}
 
-		// http2 or spdy?
-		$vhost_data['enable_http2']  = 'n';
-		if($vhost_data['enable_spdy'] == 'y'){
-			// check if nginx support http_v2; if so, use that instead of spdy
-			exec("2>&1 nginx -V | tr -- - '\n' | grep http_v2_module", $tmp_output, $tmp_retval);
-			if($tmp_retval == 0){
-				$vhost_data['enable_http2']  = 'y';
-				$vhost_data['enable_spdy'] = 'n';
-			}
-			unset($tmp_output, $tmp_retval);
-		}
-
 		//proxy protocol settings
 		if($web_config['vhost_proxy_protocol_enabled'] == "y"){
 		    if((int)$web_config['vhost_proxy_protocol_https_port'] > 0) {
