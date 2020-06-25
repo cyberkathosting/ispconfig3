@@ -95,6 +95,10 @@ function get_distname() {
 				$mainver = current($mainver).'.'.next($mainver);
 			}
 			switch ($mainver){
+			case "20.04":
+				$relname = "(Focal Fossa)";
+				$distconfid = 'ubuntu2004';
+				break;
 			case "18.04":
 				$relname = "(Bionic Beaver)";
 				$distconfid = 'ubuntu1804';
@@ -186,7 +190,7 @@ function get_distname() {
 				break;
 			default:
 				$relname = "UNKNOWN";
-				$distconfid = 'ubuntu1804';
+				$distconfid = 'ubuntu2004';
 			}
 			$distver = $ver.$lts." ".$relname;
 			swriteln("Operating System: ".$distname.' '.$distver."\n");
