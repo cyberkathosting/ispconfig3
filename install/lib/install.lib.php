@@ -691,8 +691,7 @@ function ini_to_array($ini) {
 
 
 //* Converts a config array to a string
-function array_to_ini($config_array = '') {
-	if($config_array == '') $config_array = $this->config;
+function array_to_ini($config_array) {
 	$content = '';
 	foreach($config_array as $section => $data) {
 		$content .= "[$section]\n";

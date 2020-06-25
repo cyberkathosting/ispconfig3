@@ -3228,6 +3228,9 @@ class installer_base {
 	 * @return bool
 	 */
 	protected function write_config_file($tConf, $tContents) {
+
+		$args = func_get_args();
+
 		// Backup config file before writing new contents and stat file
 		if ( is_file($tConf) ) {
 			$stat = exec('stat -c \'%a %U %G\' '.escapeshellarg($tConf), $output, $res);
@@ -3241,10 +3244,9 @@ class installer_base {
 		}
 
 		wf($tConf, $tContents); // write file
-
 		if (func_num_args() >= 4) // override rights and/or ownership
 			{
-			$args = func_get_args();
+			
 			$output = array_slice($args, 2);
 
 			switch (sizeof($output)) {
