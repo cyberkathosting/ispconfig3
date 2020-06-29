@@ -5,23 +5,17 @@
 # https://git.ispconfig.org/ispconfig/ispconfig3/-/issues
 
 [uidbasics]
-# this section probably needs adjustment non-Linux systems
 comment = common files for all jails that need user/group information
 paths = /lib/libnsl.so.1, /lib64/libnsl.so.1, /lib/libnss*.so.2, /lib64/libnss*.so.2, /lib/i386-linux-gnu/libnsl.so.1, /lib/i386-linux-gnu/libnss*.so.2, /lib/x86_64-linux-gnu/libnsl.so.1, /lib/x86_64-linux-gnu/libnss*.so.2, /lib/arm-linux-gnueabihf/libnss*.so.2, /lib/arm-linux-gnueabihf/libnsl*.so.1, /etc/nsswitch.conf, /etc/ld.so.conf
-# Solaris allegedly needs
-# paths = /etc/default/nss, /lib/libnsl.so.1, /usr/lib/nss_*.so.1, /etc/nsswitch.conf
 
 [netbasics]
 comment = common files for all jails that need any internet connectivity
-paths = /lib/libnss_dns.so.2, /lib64/libnss_dns.so.2, /lib/libnss_mdns*.so.2, /lib/x86_64-linux-gnu/libnss_dns.so.2, /etc/resolv.conf, /etc/host.conf, /etc/hosts, /etc/protocols, /etc/services, /etc/ssl/certs/, /usr/lib/ssl/certs
-# on Solaris devices /dev/udp and /dev/tcp might be needed too, not sure
+paths = /lib/libnss_dns.so.2, /lib64/libnss_dns.so.2, /lib/libnss_mdns*.so.2, /lib/i386-linux-gnu/libnss_dns.so.2, /lib/x86_64-linux-gnu/libnss_dns.so.2, /etc/resolv.conf, /etc/host.conf, /etc/hosts, /etc/protocols, /etc/services, /etc/ssl/certs/, /usr/lib/ssl/certs
 
 [logbasics]
 comment = timezone information and log sockets
 paths = /etc/localtime
 need_logsocket = 1
-# Solaris allegedly does not need logsocket, but needs
-# devices = /dev/log, /dev/conslog
 
 [jk_lsh]
 comment = Jailkit limited shell
@@ -161,6 +155,25 @@ paths_w_setuid = /bin/ping
 [coreutils]
 comment = non-sbin progs from coreutils
 paths = cat, chgrp, chmod, chown, cp, date, dd, df, dir, echo, false, ln, ls, mkdir, mknod, mktemp, mv, pwd, readlink, rm, rmdir, sleep, stty, sync, touch, true, uname, vdir, [, arch, b2sum, base32, base64, basename, chcon, cksum, comm, csplit, cut, dircolors, dirname, du, env, expand, expr, factor, fmt, fold, groups, head, hostid, id, install, join, link, logname, md5sum, mkfifo, nice, nl, nohup, nproc, numfmt, od, paste, pathchk, pinky, pr, printenv, printf, ptx, realpath, runcon, seq, sha1sum, sha224sum, sha256sum, sha384sum, sha512sum, shred, shuf, sort, split, stat, stdbuf, sum, tac, tail, tee, test, timeout, tr, truncate, tsort, tty, unexpand, uniq, unlink, users, wc, who, whoami, yes, md5sum.textutils
+
+[wp]
+comment = WordPress Command Line
+paths = wp, /usr/local/bin/php
+includesections = php, mysql-client
+
+[mysql-client]
+comment = mysql client
+paths = mysql, mysqldump, mysqlshow, /usr/lib/libmysqlclient.so, /usr/lib/i386-linux-gnu/libmariadb.so.3, /usr/lib/i386-linux-gnu/mariadb19, /usr/lib/x86_64-linux-gnu/libmariadb.so.3, /usr/lib/x86_64-linux-gnu/mariadb19
+includesections = netbasics
+
+[composer]
+comment = composer
+paths = composer, /usr/local/bin/composer, /usr/share/doc/composer
+includesections = php, uidbasics, netbasics
+
+[node]
+comment = NodeJS
+paths = npm, node, nodejs, /usr/lib/nodejs, /usr/share/node-mime, /usr/lib/node_modules, /usr/local/lib/nodejs, /usr/local/lib/node_modules, elmi-to-json, /usr/local/bin/elmi-to-json
 
 [env]
 comment = /usr/bin/env for environment variables
