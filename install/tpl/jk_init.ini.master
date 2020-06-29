@@ -112,7 +112,6 @@ comment = jail for the openvpn daemon
 executables = /usr/sbin/openvpn
 users = root,nobody
 groups = root,nogroup
-includesections = netbasics
 devices = /dev/urandom, /dev/random, /dev/net/tun
 includesections = netbasics, uidbasics
 need_logsocket = 1
