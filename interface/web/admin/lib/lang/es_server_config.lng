@@ -1,5 +1,7 @@
 <?php
 $wb['server_config'] = 'Server Config';
+$wb['server_config_error_not_updated'] = 'Error in Server Config: not updated';
+$wb['server_config_error_section_not_updated'] = 'Error in Server Config: %s section not updated';
 $wb['add_web_users_to_sshusers_group_txt'] = 'Añadir usuarios web al grupo -sshusers-';
 $wb['admin_notify_events_txt'] = 'Enviar correo al administrador a partir de siguiente nivel';
 $wb['apache_group_error_empty'] = 'El grupo de Apache está vacío.';
