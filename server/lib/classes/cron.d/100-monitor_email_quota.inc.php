@@ -85,7 +85,11 @@ class cronjob_monitor_email_quota extends cronjob {
 				if ($retval = 64) {
 					foreach ($res as $v) {
 						$s = preg_split('/\s+/', $v);
-						if ($s[2] == 'STORAGE') $dovecotQuotaUsage[$s[0]] = $s[3] * 1024; // doveadm output is in kB
+						if ($s[2] == 'STORAGE') {
+							$dovecotQuotaUsage[$s[0]] = $s[3] * 1024; // doveadm output is in kB
+						} elseif ($s[3] == 'STORAGE') {
+							$dovecotQuotaUsage[$s[0]] = $s[4] * 1024; // doveadm output is in kB
+						}
 					}
 				}
 			}
