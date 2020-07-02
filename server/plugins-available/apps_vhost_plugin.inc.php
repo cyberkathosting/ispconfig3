@@ -184,6 +184,7 @@ class apps_vhost_plugin {
 				|| file_exists('/var/run/php/php7.1-fpm.sock')
 				|| file_exists('/var/run/php/php7.2-fpm.sock')
 				|| file_exists('/var/run/php/php7.3-fpm.sock')
+				|| file_exists('/var/run/php/php7.4-fpm.sock')
 			){
 				$use_tcp = '#';
 				$use_socket = '';
@@ -206,6 +207,8 @@ class apps_vhost_plugin {
 			if(file_exists('/var/run/php/php7.0-fpm.sock'))	$content = str_replace('/var/run/php5-fpm.sock', '/var/run/php/php7.0-fpm.sock', $content);
 			if(file_exists('/var/run/php/php7.1-fpm.sock'))	$content = str_replace('/var/run/php5-fpm.sock', '/var/run/php/php7.1-fpm.sock', $content);
 			if(file_exists('/var/run/php/php7.2-fpm.sock'))	$content = str_replace('/var/run/php5-fpm.sock', '/var/run/php/php7.2-fpm.sock', $content);
+			if(file_exists('/var/run/php/php7.3-fpm.sock')) $content = str_replace('/var/run/php5-fpm.sock', '/var/run/php/php7.3-fpm.sock', $content);
+			if(file_exists('/var/run/php/php7.4-fpm.sock')) $content = str_replace('/var/run/php5-fpm.sock', '/var/run/php/php7.4-fpm.sock', $content);
 
 			// PHP-FPM
 			// Dont just copy over the php-fpm pool template but add some custom settings
