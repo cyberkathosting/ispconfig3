@@ -10,4 +10,4 @@
 #relax_home_group=1
 skip_injail_passwd_check=1
 injail_shell=/bin/bash
-env = TERM, PATH
+env = TERM, PATH, LANG
