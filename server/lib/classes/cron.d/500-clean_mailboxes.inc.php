@@ -57,6 +57,7 @@ class cronjob_clean_mailboxes extends cronjob {
 		$junk_names=array('Junk', 'Junk Email', 'SPAM', 'INBOX.SPAM');
 
 		$purge_cmd = 'doveadm expunge -u ? mailbox ? sentbefore ';
+		$recalc_cmd = 'doveadm quota recalc -u ?';
 
 		$server_id = intval($conf['server_id']);
 		$records = $app->db->queryAllRecords("SELECT email, maildir, purge_trash_days, purge_junk_days FROM mail_user WHERE maildir_format = 'maildir' AND disableimap = 'n' AND server_id = ? AND (purge_trash_days > 0 OR purge_junk_days > 0)", $server_id);
@@ -77,6 +78,7 @@ class cronjob_clean_mailboxes extends cronjob {
 						}
 					}
 				}
+				$app->system->exec_safe($recalc_cmd, $email['email']);
 			}
 		}
 
