@@ -67,7 +67,7 @@ class cronjob_monitor_iptables extends cronjob {
 		$type = 'iptables_rules';
 
 		/* This monitoring is only available if fail2ban is installed */
-		system('which iptables', $retval); // Debian, Ubuntu, Fedora
+		system('which iptables > /dev/null', $retval); // Debian, Ubuntu, Fedora
 		if ($retval === 0) {
 			/*  Get the data of the log */
 			$data['output'] = '<h2>iptables -S (ipv4)</h2>'.shell_exec('iptables -S 2>/dev/null');
@@ -83,7 +83,7 @@ class cronjob_monitor_iptables extends cronjob {
 
 
 		/* This monitoring is only available if fail2ban is installed */
-		system('which ip6tables', $retval); // Debian, Ubuntu, Fedora
+		system('which ip6tables > /dev/null', $retval); // Debian, Ubuntu, Fedora
 		if ($retval === 0) {
 			/*  Get the data of the log */
 			$data['output'] .= '<br><h2>ip6tables -S (ipv6)</h2>'.shell_exec('ip6tables -S 2>/dev/null');
