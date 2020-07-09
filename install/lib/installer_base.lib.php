@@ -960,6 +960,9 @@ class installer_base {
 		//* mysql-virtual_forwardings.cf
 		$this->process_postfix_config('mysql-virtual_forwardings.cf');
 
+		//* mysql-virtual_alias_domains.cf
+		$this->process_postfix_config('mysql-virtual_alias_domains.cf');
+
 		//* mysql-virtual_mailboxes.cf
 		$this->process_postfix_config('mysql-virtual_mailboxes.cf');
 
