@@ -65,7 +65,7 @@ $wb['tooltip_disabledeliver_txt'] = 'Disables delivery to INBOX, and processing 
 $wb['autoresponder_start_date_is_required'] = 'Дата начала должна быть установлена когда автоответчик включен.';
 $wb['sender_cc_txt'] = 'Отправка исходящей копии на';
 $wb['sender_cc_error_isemail'] = 'Поле -Отправка исходящей копии на- не содержит действительный адрес электронной почты';
-$wb['sender_cc_note_txt'] = '(Разделите несколько адресов электронной почты запятыми)';
+$wb['sender_cc_note_txt'] = '(One email address only)';
 $wb['purge_trash_days_txt'] = 'Purge Trash automatically after X days';
 $wb['tooltip_purge_trash_days_txt'] = '0 = disabled';
 $wb['purge_junk_days_txt'] = 'Purge Junk automatically after X days';

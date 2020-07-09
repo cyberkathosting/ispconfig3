@@ -64,7 +64,7 @@ $wb['cc_note_txt'] = '(Mehrere E-Mail-Adressen mit Kommas trennen)';
 $wb['autoresponder_start_date_is_required'] = 'Startdatum muss angegeben werden.';
 $wb['sender_cc_txt'] = 'Kopie ausgehender Emails senden an (BCC)';
 $wb['sender_cc_error_isemail'] = '-Kopie ausgehender Emails senden an- Feld enthält keine gültige Emailadresse';
-$wb['sender_cc_note_txt'] = '(Mehrere E-Mail-Adressen mit Kommas trennen)';
+$wb['sender_cc_note_txt'] = '(One email address only)';
 $wb['password_click_to_set_txt'] = 'Click to set';
 $wb['purge_trash_days_txt'] = 'Purge Trash automatically after X days';
 $wb['tooltip_purge_trash_days_txt'] = '0 = disabled';
