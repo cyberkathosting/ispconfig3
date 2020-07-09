@@ -108,7 +108,7 @@ class remoting_client extends remoting {
 		if(isset($rec['client_id'])) {
 			return $app->functions->intval($rec['client_id']);
 		} else {
-			throw new SoapFault('no_client_found', 'There is no sysuser account for this client ID.');
+			throw new SoapFault('no_client_found', 'There is no sys_user account with this userid.');
 			return false;
 		}
 
