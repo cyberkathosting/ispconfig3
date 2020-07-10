@@ -275,10 +275,14 @@ class cronjob_monitor_raid extends cronjob {
 		/*
 		* LSI MegaRaid
 		*/
-		system('which megacli', $retval);
-		system('which megacli64', $retval64);
-		if($retval === 0 || $retval64 === 0) {
-			$binary=@($retval === 0)?'megacli':'megacli64';
+		$binary = FALSE;
+		if ($app->system->is_installed('megacli')) {
+			$binary = 'megacli';
+		}
+		if ($app->system->is_installed('megacli64')) {
+			$binary = 'megacli64';
+		}
+		if($binary) {
 			$state = 'ok';
 			$data['output'] = shell_exec($binary.' -LDInfo -Lall -aAll -NoLog');
 			if (strpos($data['output'], 'Optimal') !== false) {
