@@ -78,8 +78,7 @@ class cronjob_backup_mail extends cronjob {
 				} else {
 					chmod($backup_dir, $backup_dir_permissions);
 				}
-				system('which pigz > /dev/null', $ret);
-				if($ret === 0) {
+				if($app->system->is_installed('pigz')) {
 					$use_pigz = true;
 				} else {
 					$use_pigz = false;

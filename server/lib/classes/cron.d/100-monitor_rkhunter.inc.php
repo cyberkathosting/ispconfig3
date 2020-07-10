@@ -67,8 +67,7 @@ class cronjob_monitor_rkhunter extends cronjob {
 		$type = 'rkhunter';
 
 		/* This monitoring is only available if rkhunter is installed */
-		system('which rkhunter', $retval);
-		if ($retval === 0) {
+		if ($app->system->is_installed('rkhunter')) {
 			/*
 			 * Fetch the output
 			 */
