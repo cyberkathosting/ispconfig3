@@ -856,6 +856,10 @@ class backup
         if (is_null($endings_list))
             $endings_list = $default_endings_list;
 
+       if (!is_dir($directory)) {
+               return array();
+       }
+
         $dir_handle = dir($directory);
         $files = array();
         while (false !== ($entry = $dir_handle->read())) {
