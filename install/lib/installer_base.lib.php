@@ -1137,6 +1137,12 @@ class installer_base {
 		    $content = strtr($content, $postconf_placeholders);
 		    $postconf_commands = array_merge($postconf_commands, array_filter(explode("\n", $content)));
 		}
+		if(version_compare($postfix_version , '3.3', '>=')) {
+		    $configfile = 'postfix_3-3.conf';
+		    $content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', 'tpl/'.$configfile.'.master');
+		    $content = strtr($content, $postconf_placeholders);
+		    $postconf_commands = array_merge($postconf_commands, array_filter(explode("\n", $content)));
+		}
 
 		//* These postconf commands will be executed on installation only
 		if($this->is_update == false) {
@@ -1453,7 +1459,6 @@ class installer_base {
 				$postconf_commands[] = "enable_original_recipient = yes";
 			}
 		}
-		#exec("postconf -e 'smtpd_recipient_restrictions = ".implode(", ", $new_options)."'");
 		$postconf_commands[] = "smtpd_recipient_restrictions = ".implode(", ", $new_options);
 
 		// Executing the postconf commands
@@ -1675,7 +1680,7 @@ class installer_base {
 
 	public function configure_rspamd() {
 		global $conf;
-
+		
 		//* These postconf commands will be executed on installation and update
 		$server_ini_rec = $this->db->queryOneRecord("SELECT config FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . '.server', $conf['server_id']);
 		$server_ini_array = ini_to_array(stripslashes($server_ini_rec['config']));
