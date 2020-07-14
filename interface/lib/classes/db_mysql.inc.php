@@ -356,10 +356,15 @@ class db
 	public function queryOneRecord($sQuery = '') {
 		
 		$aArgs = func_get_args();
-		
-		if(!preg_match('/limit \d+\s*(,\s*\d+)?$/i', $sQuery)) $sQuery .= ' LIMIT 0,1';
-
-		$oResult = call_user_func_array(array(&$this, 'query'), $aArgs);
+		if(!empty($aArgs)) {
+			$sQuery = array_shift($aArgs);
+			if($sQuery && !preg_match('/limit \d+(\s*,\s*\d+)?$/i', $sQuery)) {
+				$sQuery .= ' LIMIT 0,1';
+		}
+		array_unshift($aArgs, $sQuery);
+		}
+  
+		$oResult = call_user_func_array([&$this, 'query'], $aArgs);
 		if(!$oResult) return null;
 
 		$aReturn = $oResult->get();
