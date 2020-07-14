@@ -1,0 +1,5 @@
+user = {mysql_server_ispconfig_user}
+password = {mysql_server_ispconfig_password}
+dbname = {mysql_server_database}
+hosts = {mysql_server_ip}
+query = SELECT 'reject_unverified_recipient' FROM mail_domain WHERE domain = '%s' AND active = 'y' AND server_id = {server_id}

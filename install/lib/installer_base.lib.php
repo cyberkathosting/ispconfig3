@@ -1002,6 +1002,9 @@ class installer_base {
 		//* mysql-virtual_uids.cf
 		$this->process_postfix_config('mysql-virtual_uids.cf');
 
+		//* mysql-virtual_alias_domains.cf
+		$this->process_postfix_config('mysql-verify_recipients.cf');
+
 		// test if lmtp if available
 		$configure_lmtp = $this->get_postfix_service('lmtp','unix');
 
@@ -1340,6 +1343,8 @@ class installer_base {
 		}
 
 		$config_dir = $conf['postfix']['config_dir'];
+		$postfix_version = `postconf -d mail_version 2>/dev/null`;
+		$postfix_version = preg_replace( '/mail_version\s*=\s*(.*)\s*/', '$1', $postfix_version );
 
 		//* Configure master.cf and add a line for deliver
 		if(!$this->get_postfix_service('dovecot', 'unix')) {
@@ -1351,7 +1356,7 @@ class installer_base {
 				chmod($config_dir.'/master.cf~2', 0400);
 			}
 			//* Configure master.cf and add a line for deliver
-			$content = rf($conf["postfix"]["config_dir"].'/master.cf');
+			$content = rf($config_dir.'/master.cf');
 			$deliver_content = 'dovecot   unix  -       n       n       -       -       pipe'."\n".'  flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -f ${sender} -d ${user}@${nexthop}'."\n";
 			af($config_dir.'/master.cf', $deliver_content);
 			unset($content);
@@ -1368,7 +1373,31 @@ class installer_base {
 		);
 
 		// Make a backup copy of the main.cf file
-		copy($conf['postfix']['config_dir'].'/main.cf', $conf['postfix']['config_dir'].'/main.cf~3');
+		copy($config_dir.'/main.cf', $config_dir.'/main.cf~3');
+
+		$options = explode(",", exec("postconf -h smtpd_recipient_restrictions"));
+		$new_options = array();
+		foreach ($options as $value) {
+			if (($value = trim($value)) == '') continue;
+			if (preg_match("|check_recipient_access\s+proxy:mysql:${config_dir}/mysql-verify_recipients.cf|", $value)) {
+				continue;
+			}
+			$new_options[] = $value;
+		}
+		if ($configure_lmtp) {
+			for ($i = 0; isset($new_options[$i]); $i++) {
+				if ($new_options[$i] == 'reject_unlisted_recipient') {
+					array_splice($new_options, $i+1, 0, array("check_recipient_access proxy:mysql:${config_dir}/mysql-verify_recipients.cf"));
+					break;
+				}
+			}
+			# postfix < 3.3 needs this when using reject_unverified_recipient:
+			if(version_compare($postfix_version, 3.3, '<')) {
+				$postconf_commands[] = "enable_original_recipient = yes";
+			}
+		}
+		#exec("postconf -e 'smtpd_recipient_restrictions = ".implode(", ", $new_options)."'");
+		$postconf_commands[] = "smtpd_recipient_restrictions = ".implode(", ", $new_options);
 
 		// Executing the postconf commands
 		foreach($postconf_commands as $cmd) {
@@ -1608,12 +1637,15 @@ class installer_base {
 
 			exec("postconf -e 'smtpd_sender_restrictions = check_sender_access mysql:/etc/postfix/mysql-virtual_sender.cf, permit_mynetworks, permit_sasl_authenticated'");
 
+
+			$options = explode(",", exec("postconf -h smtpd_recipient_restrictions"));
 			$new_options = array();
-			$options = preg_split("/,\s*/", exec("postconf -h smtpd_recipient_restrictions"));
 			foreach ($options as $value) {
-				if (!preg_match('/check_policy_service\s+inet:127.0.0.1:10023/', $value)) {
-					$new_options[] = $value;
+				if (($value = trim($value)) == '') continue;
+				if (preg_match('/check_policy_service\s+inet:127.0.0.1:10023/', $value)) {
+					continue;
 				}
+				$new_options[] = $value;
 			}
 			exec("postconf -e 'smtpd_recipient_restrictions = ".implode(", ", $new_options)."'");
 

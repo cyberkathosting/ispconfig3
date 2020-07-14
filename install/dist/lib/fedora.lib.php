@@ -105,6 +105,9 @@ class installer_dist extends installer_base {
 		//* mysql-virtual_uids.cf
 		$this->process_postfix_config('mysql-virtual_uids.cf');
 
+		//* mysql-virtual_alias_domains.cf
+		$this->process_postfix_config('mysql-verify_recipients.cf');
+
 		//* postfix-dkim
 		$filename='tag_as_originating.re';
 		$full_file_name=$config_dir.'/'.$filename;
