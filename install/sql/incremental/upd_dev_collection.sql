@@ -35,3 +35,7 @@ ALTER TABLE `mail_user` ADD `disableindexer-worker` ENUM('n','y') CHARACTER SET 
 
 -- add SSHFP and DNAME record
 ALTER TABLE `dns_rr` CHANGE `type` `type` ENUM('A','AAAA','ALIAS','CNAME','DNAME','CAA','DS','HINFO','LOC','MX','NAPTR','NS','PTR','RP','SRV','SSHFP','TXT','TLSA','DNSKEY') NULL DEFAULT NULL AFTER `name`;
+
+-- change cc and sender_cc column type
+ALTER TABLE `mail_user` CHANGE `cc` `cc` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '';
+ALTER TABLE `mail_user` CHANGE `sender_cc` `sender_cc` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '';
