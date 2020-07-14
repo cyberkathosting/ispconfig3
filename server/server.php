@@ -217,5 +217,5 @@ if ($needStartCore) {
 $app->log('Remove Lock: ' . $conf['temppath'] . $conf['fs_div'] . '.ispconfig_lock', LOGLEVEL_DEBUG);
 
 
-die("finished.\n");
+die("finished server.php.\n");
 ?>

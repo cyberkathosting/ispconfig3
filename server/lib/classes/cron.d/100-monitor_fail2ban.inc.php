@@ -67,10 +67,8 @@ class cronjob_monitor_fail2ban extends cronjob {
 		$type = 'log_fail2ban';
 
 		/* This monitoring is only available if fail2ban is installed */
-		system('which fail2ban-client', $retval); // Debian, Ubuntu, Fedora
-		if ($retval !== 0)
-			system('which fail2ban', $retval); // CentOS
-		if ($retval === 0) {
+		if ($app->system->is_installed('fail2ban-client')	// Debian, Ubuntu, Fedora
+			|| $app->system->is_installed('fail2ban')) {	// CentOS
 			/*  Get the data of the log */
 			$data = $this->_tools->_getLogData($type);
 

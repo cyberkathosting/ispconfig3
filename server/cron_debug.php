@@ -63,6 +63,6 @@ $class_name = 'cronjob_' . $name;
 $cronjob = new $class_name();
 $cronjob->run(true);
 
-die("finished.\n");
+die("finished cron debug.\n");
 
 ?>
