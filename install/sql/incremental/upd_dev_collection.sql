@@ -35,3 +35,6 @@ ALTER TABLE `mail_user` ADD `disableindexer-worker` ENUM('n','y') CHARACTER SET 
 
 -- add SSHFP and DNAME record
 ALTER TABLE `dns_rr` CHANGE `type` `type` ENUM('A','AAAA','ALIAS','CNAME','DNAME','CAA','DS','HINFO','LOC','MX','NAPTR','NS','PTR','RP','SRV','SSHFP','TXT','TLSA','DNSKEY') NULL DEFAULT NULL AFTER `name`;
+
+-- was missing in incremental, inserted for fixing older installations
+ALTER TABLE `web_domain` ADD `folder_directive_snippets` TEXT NULL AFTER `https_port`;
