@@ -146,7 +146,8 @@ class postfix_server_plugin {
 			$options = preg_split("/,\s*/", exec("postconf -h smtpd_sender_restrictions"));
 			$new_options = array();
 			foreach ($options as $key => $value) {
-				if (($value = trim($value)) == '') continue;
+				$value = trim($value);
+				if ($value == '') continue;
 				if (preg_match('/reject_(authenticated_)?sender_login_mismatch/', $value)) {
 					continue;
 				}
@@ -169,10 +170,11 @@ class postfix_server_plugin {
 
 		if ($mail_config['reject_unknown']) {
 			if (($mail_config['reject_unknown'] === 'client') || ($mail_config['reject_unknown'] === 'client_helo')) {
-				$options = explode(",", exec("postconf -h smtpd_client_restrictions"));
+				$options = preg_split("/,\s*/", exec("postconf -h smtpd_client_restrictions"));
 				$new_options = array();
 				foreach ($options as $key => $value) {
-					if (($value = trim($value)) == '') continue;
+					$value = trim($value);
+					if ($value == '') continue;
 					if (preg_match('/reject_unknown(_client)?_hostname/', $value)) {
 						continue;
 					}
@@ -192,10 +194,11 @@ class postfix_server_plugin {
 
 				$app->system->exec_safe("postconf -e ?", 'smtpd_client_restrictions = '.implode(", ", $new_options));
 			} else {
-				$options = explode(",", exec("postconf -h smtpd_client_restrictions"));
+				$options = preg_split("/,\s*/", exec("postconf -h smtpd_client_restrictions"));
 				$new_options = array();
 				foreach ($options as $key => $value) {
-					if (($value = trim($value)) == '') continue;
+					$value = trim($value);
+					if ($value == '') continue;
 					if (preg_match('/reject_unknown(_client)?_hostname/', $value)) {
 						continue;
 					}
@@ -205,10 +208,11 @@ class postfix_server_plugin {
 			}
 
 			if (($mail_config['reject_unknown'] === 'helo') || ($mail_config['reject_unknown'] === 'client_helo')) {
-				$options = explode(",", exec("postconf -h smtpd_helo_restrictions"));
+				$options = preg_split("/,\s*/", exec("postconf -h smtpd_helo_restrictions"));
 				$new_options = array();
 				foreach ($options as $key => $value) {
-					if (($value = trim($value)) == '') continue;
+					$value = trim($value);
+					if ($value == '') continue;
 					if (preg_match('/reject_unknown(_helo)?_hostname/', $value)) {
 						continue;
 					}
@@ -228,10 +232,11 @@ class postfix_server_plugin {
 
 				$app->system->exec_safe("postconf -e ?", 'smtpd_helo_restrictions = '.implode(", ", $new_options));
 			} else {
-				$options = explode(",", exec("postconf -h smtpd_helo_restrictions"));
+				$options = preg_split("/,\s*/", exec("postconf -h smtpd_helo_restrictions"));
 				$new_options = array();
 				foreach ($options as $key => $value) {
-					if (($value = trim($value)) == '') continue;
+					$value = trim($value);
+					if ($value == '') continue;
 					if (preg_match('/reject_unknown(_helo)?_hostname/', $value)) {
 						continue;
 					}
@@ -324,7 +329,7 @@ class postfix_server_plugin {
 		if (defined($configure_lmtp) && $configure_lmtp) {
 			for ($i = 0; isset($new_options[$i]); $i++) {
 				if ($new_options[$i] == 'reject_unlisted_recipient') {
-					array_splice($new_options, $i+1, 0, array("check_recipient_access proxy:mysql:${postfix_config_dir}/mysql-verify_recipients.cf"));
+					array_splice($new_options, $i+1, 0, array("check_recipient_access proxy:mysql:${quoted_postfix_config_dir}/mysql-verify_recipients.cf"));
 					break;
 				}
 			}

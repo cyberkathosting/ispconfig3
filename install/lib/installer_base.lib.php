@@ -1450,7 +1450,7 @@ class installer_base {
 		if ($configure_lmtp) {
 			for ($i = 0; isset($new_options[$i]); $i++) {
 				if ($new_options[$i] == 'reject_unlisted_recipient') {
-					array_splice($new_options, $i+1, 0, array("check_recipient_access proxy:mysql:${config_dir}/mysql-verify_recipients.cf"));
+					array_splice($new_options, $i+1, 0, array("check_recipient_access proxy:mysql:${quoted_config_dir}/mysql-verify_recipients.cf"));
 					break;
 				}
 			}
@@ -1700,10 +1700,11 @@ class installer_base {
 			if(! isset($mail_config['reject_sender_login_mismatch'])) {
 				$mail_config['reject_sender_login_mismatch'] = 'n';
 			}
-			$options = explode(",", exec("postconf -h smtpd_sender_restrictions"));
+			$options = preg_split("/,\s*/", exec("postconf -h smtpd_sender_restrictions"));
 			$new_options = array();
 			foreach ($options as $key => $value) {
-				if (($value = trim($value)) == '') continue;
+				$value = trim($value);
+				if ($value == '') continue;
 				if (preg_match('/tag_as_(originating|foreign)\.re/', $value)) {
 					continue;
 				}
