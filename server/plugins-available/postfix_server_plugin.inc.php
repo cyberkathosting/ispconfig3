@@ -85,7 +85,7 @@ class postfix_server_plugin {
 
 		if ($mail_config['relayhost'].$mail_config['relayhost_user'].$mail_config['relayhost_password'] != $old_ini_data['mail']['relayhost'].$old_ini_data['mail']['relayhost_user'].$old_ini_data['mail']['relayhost_password']) {
 			$content = file_exists('/etc/postfix/sasl_passwd') ? file_get_contents('/etc/postfix/sasl_passwd') : '';
-			$content = preg_replace('/^'.preg_quote($old_ini_data['email']['relayhost']).'\s+[^\n]*(:?\n|)/m','',$content);
+			$content = preg_replace('/^'.preg_quote($old_ini_data['email']['relayhost'], '/').'\s+[^\n]*(:?\n|)/m','',$content);
 
 			if (!empty($mail_config['relayhost_user']) || !empty($mail_config['relayhost_password'])) {
 				$content .= "\n".$mail_config['relayhost'].'   '.$mail_config['relayhost_user'].':'.$mail_config['relayhost_password'];
@@ -114,10 +114,11 @@ class postfix_server_plugin {
 			if($rbl_hosts != ''){
 				$rbl_hosts = explode(",", $rbl_hosts);
 			}
-			$options = explode(",", exec("postconf -h smtpd_recipient_restrictions"));
+			$options = preg_split("/,\s*/", exec("postconf -h smtpd_recipient_restrictions"));
 			$new_options = array();
 			foreach ($options as $key => $value) {
-				if (($value = trim($value)) == '') continue;
+				$value = trim($value);
+				if ($value == '') continue;
 				if (!preg_match('/reject_rbl_client/', $value)) {
 					$new_options[] = $value;
 				} else {
@@ -142,7 +143,7 @@ class postfix_server_plugin {
 		}
 		
 		if($mail_config['reject_sender_login_mismatch'] != $old_ini_data['mail']['reject_sender_login_mismatch']) {
-			$options = explode(", ", exec("postconf -h smtpd_sender_restrictions"));
+			$options = preg_split("/,\s*/", exec("postconf -h smtpd_sender_restrictions"));
 			$new_options = array();
 			foreach ($options as $key => $value) {
 				if (!preg_match('/reject_authenticated_sender_login_mismatch/', $value)) {
@@ -193,12 +194,13 @@ class postfix_server_plugin {
 			}
 		}
 
-		$postfix_config_dir = $conf['postfix']['config_dir'];
+		$quoted_postfix_config_dir = preg_quote($conf['postfix']['config_dir'], '|');
 		$new_options = array();
-		$options = explode(",", exec("postconf -h smtpd_recipient_restrictions"));
+		$options = preg_split("/,\s*/", exec("postconf -h smtpd_recipient_restrictions"));
 		foreach ($options as $key => $value) {
-			if (($value = trim($value)) == '') continue;
-			if (preg_match("|check_recipient_access\s+proxy:mysql:${postfix_config_dir}/mysql-verify_recipients.cf|", $value)) {
+			$value = trim($value);
+			if ($value == '') continue;
+			if (preg_match("|check_recipient_access\s+proxy:mysql:${quoted_postfix_config_dir}/mysql-verify_recipients.cf|", $value)) {
 				continue;
 			}
 			$new_options[] = $value;
@@ -231,9 +233,10 @@ class postfix_server_plugin {
 				exec("postconf -e 'smtpd_sender_restrictions = check_sender_access mysql:/etc/postfix/mysql-virtual_sender.cf, permit_mynetworks, permit_sasl_authenticated'");
 				
 				$new_options = array();
-				$options = explode(",", exec("postconf -h smtpd_recipient_restrictions"));
+				$options = preg_split("/,\s*/", exec("postconf -h smtpd_recipient_restrictions"));
 				foreach ($options as $key => $value) {
-					if (($value = trim($value)) == '') continue;
+					$value = trim($value);
+					if ($value == '') continue;
 					if (preg_match('/check_policy_service\s+inet:127.0.0.1:10023/', $value)) {
 						continue;
 					}
