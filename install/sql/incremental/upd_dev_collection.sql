@@ -38,3 +38,6 @@ ALTER TABLE `dns_rr` CHANGE `type` `type` ENUM('A','AAAA','ALIAS','CNAME','DNAME
 
 -- remove SPDY option
 ALTER TABLE `web_domain` DROP COLUMN `enable_spdy`;
+
+-- was missing in incremental, inserted for fixing older installations
+ALTER TABLE `web_domain` ADD `folder_directive_snippets` TEXT NULL AFTER `https_port`;
