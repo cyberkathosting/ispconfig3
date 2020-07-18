@@ -1065,7 +1065,7 @@ class tform_base {
 				}
 				unset($error);
 				break;
-			case 'ISEMAILADRESS':
+			case 'ISEMAILADDRESS':
 				$error = false;
 				if($validator['allowempty'] != 'y') $validator['allowempty'] = 'n';
 				if($validator['allowempty'] == 'y' && $field_value == '') {
