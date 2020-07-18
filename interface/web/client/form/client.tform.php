@@ -390,8 +390,8 @@ $form["tabs"]['address'] = array (
 				2 => array( 'event' => 'SAVE',
 					'type' => 'TOLOWER')
 			),
-			'validators' => array (  
-				0 => array ( 'type' => 'ISEMAIL', 'errmsg'=> 'email_error_isemail'),
+			'validators' => array (
+				0 => array ( 'type' => 'ISEMAILADDRESS', 'errmsg'=> 'email_error_isemail'),
 				1 => array ( 'type' => 'NOTEMPTY',
 					'errmsg'=> 'email_error_empty'),
 			),
@@ -621,7 +621,7 @@ $form["tabs"]['address'] = array (
 					'type' => 'TOLOWER')
 			),
 			'validators' => array (
-				0 => array ( 'type' => 'ISEMAIL', 'allowempty' => 'y', 'errmsg'=> 'email_error_isemail'),
+				0 => array ( 'type' => 'ISEMAILADDRESS', 'allowempty' => 'y', 'errmsg'=> 'email_error_isemail'),
 			),
 			'default' => '',
 			'value'  => '',
