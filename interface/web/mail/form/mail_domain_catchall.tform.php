@@ -113,7 +113,7 @@ $form["tabs"]['catchall'] = array (
 										'valuefield'	=> 'email'
 									 ),
 			*/
-			'validators' => array (  0 => array ( 'type' => 'ISEMAIL',
+			'validators' => array (  0 => array ( 'type' => 'ISEMAILADRESS',
 					'errmsg'=> 'destination_error_isemail'),
 			),
 			'value'  => '',
