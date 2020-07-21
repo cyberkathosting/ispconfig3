@@ -23,6 +23,15 @@ if anyof (header :contains "X-Spam-Flag" "YES", header :contains "X-Spam" "Yes",
 
 keep;
 
+<tmpl_if name="move_junk" op="==" value="a">
+# Move spam to spam folder
+if anyof (header :contains "X-Spam-Flag" "YES", header :contains "X-Spam" "Yes", header :contains "subject" "*** SPAM ***", header :contains "subject" "***SPAM***") {
+  fileinto "Junk";
+  # Stop here so that we do not reply on spams
+  stop;
+}
+</tmpl_if>
+
 <tmpl_if name="autoresponder" op="==" value="y">
 #################################################################
 # Autoreply

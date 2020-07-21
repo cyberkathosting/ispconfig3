@@ -100,14 +100,18 @@ class maildeliver_plugin {
 			$sieve_file = $data["new"]["maildir"].'/.sieve';
 			$sieve_file_svbin = $data["new"]["maildir"].'/.sieve.svbin';
 			$old_sieve_file_isp = $data["new"]["maildir"].'/sieve/ispconfig.sieve';
-			$sieve_file_isp = $data["new"]["maildir"].'/.ispconfig.sieve';
-			$sieve_file_isp_svbin = $data["new"]["maildir"].'/.ispconfig.svbin';
+			$sieve_file_isp_before = $data["new"]["maildir"].'/.ispconfig-before.sieve';
+			$sieve_file_isp_before_svbin = $data["new"]["maildir"].'/.ispconfig-before.svbin';
+			$sieve_file_isp_after = $data["new"]["maildir"].'/.ispconfig-after.sieve';
+			$sieve_file_isp_after_svbin = $data["new"]["maildir"].'/.ispconfig-after.svbin';
 			if(is_file($old_sieve_file_isp)) unlink($old_sieve_file_isp)  or $app->log("Unable to delete file: $old_sieve_file_isp", LOGLEVEL_WARN);
 			// cleanup .sieve file if it is now a broken link
 			if(is_link($sieve_file) && !file_exists($sieve_file)) unlink($sieve_file)  or $app->log("Unable to delete file: $sieve_file", LOGLEVEL_WARN);
 			if(is_file($sieve_file_svbin)) unlink($sieve_file_svbin)  or $app->log("Unable to delete file: $sieve_file_svbin", LOGLEVEL_WARN);
-			if(is_file($sieve_file_isp)) unlink($sieve_file_isp)  or $app->log("Unable to delete file: $sieve_file_isp", LOGLEVEL_WARN);
-			if(is_file($sieve_file_isp_svbin)) unlink($sieve_file_isp_svbin)  or $app->log("Unable to delete file: $sieve_file_isp_svbin", LOGLEVEL_WARN);
+			if(is_file($sieve_file_isp_before)) unlink($sieve_file_isp_before)  or $app->log("Unable to delete file: $sieve_file_isp_before", LOGLEVEL_WARN);
+			if(is_file($sieve_file_isp_before_svbin)) unlink($sieve_file_isp_before_svbin)  or $app->log("Unable to delete file: $sieve_file_isp_before_svbin", LOGLEVEL_WARN);
+			if(is_file($sieve_file_isp_after)) unlink($sieve_file_isp_after)  or $app->log("Unable to delete file: $sieve_file_isp_after", LOGLEVEL_WARN);
+			if(is_file($sieve_file_isp_after_svbin)) unlink($sieve_file_isp_after_svbin)  or $app->log("Unable to delete file: $sieve_file_isp_after_svbin", LOGLEVEL_WARN);
 			$app->load('tpl');
 
 			//* Select sieve filter file for dovecot version
@@ -224,15 +228,24 @@ class maildeliver_plugin {
 				$app->system->mkdirpath($data["new"]["maildir"].'/sieve/', 0700, $mail_config['mailuser_name'], $mail_config['mailuser_group']);
 			}
 
-			file_put_contents($sieve_file_isp, $tpl->grab()) or $app->log("Unable to write sieve filter file", LOGLEVEL_WARN);
-			if ( is_file($sieve_file_isp) ) {
-				$app->system->chown($sieve_file_isp,$mail_config['mailuser_name'],false);
-				$app->system->chgrp($sieve_file_isp,$mail_config['mailuser_group'],false);
+			if ($data["new"]["move_junk"] == "y") {
+				$sieve_file_isp = $sieve_file_isp_before;
+				$sieve_file_isp_svbin = $sieve_file_isp_before_svbin;
+			} elseif ($data["new"]["move_junk"] == "a") {
+				$sieve_file_isp = $sieve_file_isp_after;
+				$sieve_file_isp_svbin = $sieve_file_isp_after_svbin;
+			}
+			if (isset($sieve_file_isp)) {
+				file_put_contents($sieve_file_isp, $tpl->grab()) or $app->log("Unable to write sieve filter file", LOGLEVEL_WARN);
+				if ( is_file($sieve_file_isp) ) {
+					$app->system->chown($sieve_file_isp,$mail_config['mailuser_name'],false);
+					$app->system->chgrp($sieve_file_isp,$mail_config['mailuser_group'],false);
 
-				$app->system->exec_safe("sievec ?", "$sieve_file_isp");
-				if ( is_file($sieve_file_isp_svbin) ) {
-					$app->system->chown($sieve_file_isp_svbin,$mail_config['mailuser_name'],false);
-					$app->system->chgrp($sieve_file_isp_svbin,$mail_config['mailuser_group'],false);
+					$app->system->exec_safe("sievec ?", "$sieve_file_isp");
+					if ( is_file($sieve_file_isp_svbin) ) {
+						$app->system->chown($sieve_file_isp_svbin,$mail_config['mailuser_name'],false);
+						$app->system->chgrp($sieve_file_isp_svbin,$mail_config['mailuser_group'],false);
+					}
 				}
 			}
 
@@ -247,14 +260,18 @@ class maildeliver_plugin {
 		$sieve_file = $data["old"]["maildir"].'/.sieve';
 		$sieve_file_svbin = $data["old"]["maildir"].'/.sieve.svbin';
 		$old_sieve_file_isp = $data["old"]["maildir"].'/sieve/ispconfig.sieve';
-		$sieve_file_isp = $data["old"]["maildir"].'/.ispconfig.sieve';
-		$sieve_file_isp_svbin = $data["old"]["maildir"].'/.ispconfig.svbin';
+		$sieve_file_isp_before = $data["old"]["maildir"].'/.ispconfig-before.sieve';
+		$sieve_file_isp_before_svbin = $data["old"]["maildir"].'/.ispconfig-before.svbin';
+		$sieve_file_isp_after = $data["old"]["maildir"].'/.ispconfig-after.sieve';
+		$sieve_file_isp_after_svbin = $data["old"]["maildir"].'/.ispconfig-after.svbin';
 		if(is_file($old_sieve_file_isp)) unlink($old_sieve_file_isp)  or $app->log("Unable to delete file: $old_sieve_file_isp", LOGLEVEL_WARN);
 		// cleanup .sieve file if it is now a broken link
 		if(is_link($sieve_file) && !file_exists($sieve_file)) unlink($sieve_file)  or $app->log("Unable to delete file: $sieve_file", LOGLEVEL_WARN);
 		if(is_file($sieve_file_svbin)) unlink($sieve_file_svbin)  or $app->log("Unable to delete file: $sieve_file_svbin", LOGLEVEL_WARN);
-		if(is_file($sieve_file_isp)) unlink($sieve_file_isp)  or $app->log("Unable to delete file: $sieve_file_isp", LOGLEVEL_WARN);
-		if(is_file($sieve_file_isp_svbin)) unlink($sieve_file_isp_svbin)  or $app->log("Unable to delete file: $sieve_file_isp_svbin", LOGLEVEL_WARN);
+		if(is_file($sieve_file_isp_before)) unlink($sieve_file_isp_before)  or $app->log("Unable to delete file: $sieve_file_isp_before", LOGLEVEL_WARN);
+		if(is_file($sieve_file_isp_before_svbin)) unlink($sieve_file_isp_before_svbin)  or $app->log("Unable to delete file: $sieve_file_isp_before_svbin", LOGLEVEL_WARN);
+		if(is_file($sieve_file_isp_after)) unlink($sieve_file_isp_after)  or $app->log("Unable to delete file: $sieve_file_isp_after", LOGLEVEL_WARN);
+		if(is_file($sieve_file_isp_after_svbin)) unlink($sieve_file_isp_after_svbin)  or $app->log("Unable to delete file: $sieve_file_isp_after_svbin", LOGLEVEL_WARN);
 	}
 
 

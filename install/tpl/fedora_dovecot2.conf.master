@@ -26,7 +26,8 @@ plugin {
   # no longer needed, as 'sieve' is in userdb extra fields:
   sieve=/var/vmail/%d/%n/.sieve
 
-  sieve_after=/var/vmail/%d/%n/.ispconfig.sieve
+  sieve_before=/var/vmail/%d/%n/.ispconfig-before.sieve
+  sieve_after=/var/vmail/%d/%n/.ispconfig-after.sieve
   sieve_max_script_size = 2M
   sieve_max_actions = 100
   sieve_max_redirects = 25

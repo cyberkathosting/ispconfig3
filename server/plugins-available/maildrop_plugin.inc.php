@@ -204,7 +204,7 @@ class maildrop_plugin {
 					$app->log("Added CC address ".$data["new"]["cc"].' to mailfilter file.', LOGLEVEL_DEBUG);
 				}
 
-				if($data["new"]["move_junk"] == 'y') {
+				if($data["new"]["move_junk"] != 'n') {
 					if(file_exists($conf["rootpath"].'/conf-custom/mailfilter_move_junk.master')) {
 						$mailfilter_content .= file_get_contents($conf["rootpath"].'/conf-custom/mailfilter_move_junk.master')."\n";
 					} else {

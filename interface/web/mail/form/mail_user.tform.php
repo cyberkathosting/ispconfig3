@@ -402,9 +402,9 @@ if ($global_config['mail']['mailbox_show_mail_filter_tab'] === 'y') {
 			//#################################
 			'move_junk' => array (
 				'datatype' => 'VARCHAR',
-				'formtype' => 'CHECKBOX',
-				'default' => 'n',
-				'value'  => array(0 => 'n', 1 => 'y')
+				'formtype' => 'SELECT',
+				'default' => 'a',
+				'value' => array('y' => 'move_junk_y_txt', 'a' => 'move_junk_a_txt', 'n' => 'move_junk_n_txt'),
 			),
 			'purge_trash_days' => array (
 				'datatype' => 'VARCHAR',
