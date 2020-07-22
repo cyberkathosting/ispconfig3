@@ -4,4 +4,7 @@ $wb['delete_explanation'] = 'Deze actie verwijderd het volgende aantal aan recor
 $wb['btn_save_txt'] = 'Verwijder de klant';
 $wb['btn_cancel_txt'] = 'Annuleren zonder de klant te verwijderen';
 $wb['confirm_client_delete_txt'] = 'Weet je zeker dat je deze klant wil verwijderen ?';
+$wb['list_head_txt'] = 'Delete Client';
+$wb['table_txt'] = 'Table';
+$wb['data_txt'] = 'Data';
 ?>

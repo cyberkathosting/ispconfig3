@@ -51,6 +51,32 @@ $app->load('tform_actions');
 
 class page_action extends tform_actions {
 
+	// db_table => info_field for onDelete - empty = show only the amount 
+	private $tables = array(
+		'cron' => '',
+		'client' => 'contact_name',
+		'dns_rr' => '', 
+		'dns_soa' => 'origin', 
+		'dns_slave' => 'origin',
+		'domain' => 'domain',
+		'ftp_user' => 'username', 
+		'mail_access' => 'source', 
+		'mail_content_filter' => '', 
+		'mail_domain' => 'domain', 
+		'mail_forwarding' => '', 
+		'mail_get' => '', 
+		'mail_mailinglist' => 'listname',
+		'mail_user' => 'email', 
+		'mail_user_filter' => '', 
+		'shell_user' => 'username', 
+		'spamfilter_users' => '', 'spamfilter_wblist' => '',
+		'support_message' => '',
+		'web_domain' => 'domain', 
+		'web_folder' => 'path', 
+		'web_folder_user' => 'username', 
+		'web_database_user' => 'database_user', 
+	);
+
 	function onDelete() {
 		global $app, $conf, $list_def_file, $tform_def_file;
 
@@ -80,19 +106,22 @@ class page_action extends tform_actions {
 			$this->dataRecord = $app->tform->getDataRecord($this->id);
 			$client_id = $app->functions->intval($this->dataRecord['client_id']);
 			$client_group = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ?", $client_id);
-
-			// Get all records (sub-clients, mail, web, etc....)  of this client.
-			$tables = 'cron,client,dns_rr,dns_soa,dns_slave,ftp_user,mail_access,mail_content_filter,mail_domain,mail_forwarding,mail_get,mail_user,mail_user_filter,shell_user,spamfilter_users,support_message,web_database,web_database_user,web_domain,web_traffic,domain';
-			$tables_array = explode(',', $tables);
-			$client_group_id = $app->functions->intval($client_group['groupid']);
-
 			$table_list = array();
+			$client_group_id = $app->functions->intval($client_group['groupid']);
 			if($client_group_id > 1) {
-				foreach($tables_array as $table) {
+				foreach($this->tables as $table => $field) {
 					if($table != '') {
 						$records = $app->db->queryAllRecords("SELECT * FROM ?? WHERE sys_groupid = ?", $table, $client_group_id);
-						$number = count($records);
-						if($number > 0) $table_list[] = array('table' => $table."(".$number.")");
+						if(is_array($records) && !empty($records) && $field !== false) {
+							$data = array();
+							$number = count($records);
+							foreach($records as $rec) {
+								if($field != '' && $field !== false) $data['data'] .= '<li>'.$rec[$field].'</li>';
+							}
+							$data['count'] = $number;
+							$data['table'] =  $table;
+							$table_list[] = $data;
+						}	 
 					}
 				}
 			}
@@ -100,7 +129,6 @@ class page_action extends tform_actions {
 			$app->tpl->setVar('id', $this->id);
 			$app->tpl->setVar('number_records', $number);
 			$app->tpl->setLoop('records', $table_list);
-
 			//* load language file
 			$lng_file = 'lib/lang/'.$app->functions->check_language($_SESSION['s']['language']).'_client_del.lng';
 			include $lng_file;
@@ -138,11 +166,9 @@ class page_action extends tform_actions {
 			$app->db->query("DELETE FROM sys_user WHERE client_id = ?", $client_id);
 
 			// Delete all records (sub-clients, mail, web, etc....)  of this client.
-			$tables = 'cron,client,dns_rr,dns_soa,dns_slave,ftp_user,mail_access,mail_content_filter,mail_domain,mail_forwarding,mail_get,mail_user,mail_user_filter,shell_user,spamfilter_users,support_message,web_database,web_database_user,web_domain,web_folder,web_folder_user,domain,mail_mailinglist,spamfilter_wblist';
-			$tables_array = explode(',', $tables);
 			$client_group_id = $app->functions->intval($client_group['groupid']);
 			if($client_group_id > 1) {
-				foreach($tables_array as $table) {
+				foreach($this->tables as $table => $field) {
 					if($table != '') {
 						//* find the primary ID of the table
 						$table_info = $app->db->tableInfo($table);
@@ -150,6 +176,7 @@ class page_action extends tform_actions {
 						foreach($table_info as $tmp) {
 							if($tmp['option'] == 'primary') $index_field = $tmp['name'];
 						}
+						
 						//* Delete the records
 						if($index_field != '') {
 							$records = $app->db->queryAllRecords("SELECT * FROM ?? WHERE sys_groupid = ? ORDER BY ?? DESC", $table, $client_group_id, $index_field);
