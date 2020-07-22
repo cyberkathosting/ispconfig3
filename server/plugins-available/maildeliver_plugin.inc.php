@@ -114,23 +114,10 @@ class maildeliver_plugin {
 			if(is_file($sieve_file_isp_after_svbin)) unlink($sieve_file_isp_after_svbin)  or $app->log("Unable to delete file: $sieve_file_isp_after_svbin", LOGLEVEL_WARN);
 			$app->load('tpl');
 
-			//* Select sieve filter file for dovecot version
-			exec('dovecot --version', $tmp);
-			if(substr($tmp[0], 0, 3) == '1.0') {
-				$filter_file_template = "sieve_filter.master";
-			} elseif(substr($tmp[0], 0, 3) == '1.2') {
-				$filter_file_template = "sieve_filter_1.2.master";
-			} elseif(substr($tmp[0], 0, 1) == '2') {
-				$filter_file_template = "sieve_filter_1.2.master";
-			} else {
-				$filter_file_template = "sieve_filter.master";
-			}
-			unset($tmp);
-
 			foreach ( array('before', 'after') as $sieve_script ) {
 				//* Create new filter file based on template
 				$tpl = new tpl();
-				$tpl->newTemplate($filter_file_template);
+				$tpl->newTemplate("sieve_filter.master");
 
 				// cc Field
 				$tmp_mails_arr = explode(',',$data["new"]["cc"]);
