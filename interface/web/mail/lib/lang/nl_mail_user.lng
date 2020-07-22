@@ -60,7 +60,6 @@ $wb['monthly_backup_txt'] = 'Monthly';
 $wb['email_error_isascii'] = 'Please do not use special unicode characters for your password. This could lead to problems with your mail client.';
 $wb['cc_note_txt'] = '(Meerdere e-mail adressen scheiden met een komma)';
 $wb['disablesmtp_txt'] = 'Uitschakelen SMTP (versturen)';
-$wb['autoresponder_start_date_is_required'] = 'Een startdatun is vereist voor het inschakelen van Autobeantwoorden.';
 $wb['sender_cc_txt'] = 'Stuur uitgaande kopie aan';
 $wb['sender_cc_error_isemail'] = 'Het \\"Stuur uitgaande kopie aan\\" veld bevat geen geldig e-mail adres';
 $wb['sender_cc_note_txt'] = '(Meerdere e-mail adressen scheiden met een komma)';

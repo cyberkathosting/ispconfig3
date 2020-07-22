@@ -53,7 +53,6 @@ $wb['password_mismatch_txt'] = 'Adgangskoderne stemmer ikke overens.';
 $wb['password_match_txt'] = 'Adgangskoderne stemmer overens.';
 $wb['email_error_isascii'] = 'Undlad venligst at bruge specielle Unicode-tegn for din adgangskode Dette kan føre til problemer med din mail-klient.';
 $wb['cc_note_txt'] = '(Adskil flere e-mail adresser med kommaer)';
-$wb['autoresponder_start_date_is_required'] = 'Start date must be set when Autoresponder is enabled.';
 $wb['password_click_to_set_txt'] = 'Click to set';
 $wb['greylisting_txt'] = 'Enable greylisting';
 $wb['sender_cc_txt'] = 'Send outgoing BCC to';

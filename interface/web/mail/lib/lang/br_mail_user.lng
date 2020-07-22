@@ -14,7 +14,6 @@ $wb['autoresponder_start_date_txt'] = 'Iniciar em';
 $wb['autoresponder_start_date_ispast'] = 'O campo "Iniciar em" não pode ser menor que a data atual.';
 $wb['autoresponder_end_date_txt'] = 'Terminar em';
 $wb['autoresponder_end_date_isgreater'] = 'O campo "Terminar em" deve ser configurado e não pode ser menor ou igual a data atual.';
-$wb['autoresponder_start_date_is_required'] = 'Data iniciar deve ser configurado quando a opção de auto-resposta estiver habilitada.';
 $wb['no_domain_perm'] = 'Você não tem permissão para este domínio.';
 $wb['error_no_pwd'] = 'A senha está em branco.';
 $wb['quota_error_isint'] = 'O tamanho da conta de e-mail deve ser um número.';

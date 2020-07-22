@@ -53,7 +53,6 @@ $wb['password_match_txt'] = 'Les mots de passe correspondent.';
 $wb['disablesmtp_txt'] = 'Désactiver SMTP (envoi)';
 $wb['email_error_isascii'] = 'Merci de ne pas utiliser de caractères spéciaux Unicode dans votre mot de passe. Ceci pourrait engendrer des problèmes avec votre client mail.';
 $wb['cc_note_txt'] = '(Séparer les adresses e-mail multiples par des virgules)';
-$wb['autoresponder_start_date_is_required'] = 'Une date de démarrage doit être renseignée quand le répondeur automatique est activé.';
 $wb['greylisting_txt'] = 'Activer le greylisting';
 $wb['sender_cc_txt'] = 'Envoyer une copie des mails sortants à';
 $wb['sender_cc_error_isemail'] = 'Le champ -Envoyer une copie des mails sortants à- no contiens pas une adresse e-mail valide';

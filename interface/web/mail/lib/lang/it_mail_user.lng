@@ -54,7 +54,6 @@ $wb['password_match_txt'] = 'Le passwords coincidono.';
 $wb['email_error_isascii'] = 'Non utilizzare caratteri speciali unicode per la password. Potresti avere problemi con il tuo client di psota.';
 $wb['cc_note_txt'] = '(Separa indirizzi email multipli con la virgola)';
 $wb['disablesmtp_txt'] = 'Disabilita SMTP (trasmissione)';
-$wb['autoresponder_start_date_is_required'] = 'Start date must be set when Autoresponder is enabled.';
 $wb['greylisting_txt'] = 'Enable greylisting';
 $wb['sender_cc_txt'] = 'Send outgoing BCC to';
 $wb['sender_cc_error_isemail'] = 'The -Send outgoing copy to- field does not contain a valid email address';

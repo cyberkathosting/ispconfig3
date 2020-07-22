@@ -14,7 +14,6 @@ $wb['autoresponder_start_date_txt'] = 'Başlangıç';
 $wb['autoresponder_start_date_ispast'] = 'Başlangıç zamanı geçmişte olamaz.';
 $wb['autoresponder_end_date_txt'] = 'Bitiş';
 $wb['autoresponder_end_date_isgreater'] = 'Bitiş zamanı başlangıç zamanından sonra olmalıdır.';
-$wb['autoresponder_start_date_is_required'] = 'Otoyanıtlayıcı kullanıldığında başlangıç tarihi belirtilmelidir.';
 $wb['no_domain_perm'] = 'Bu etki alanı için izniniz yok.';
 $wb['error_no_pwd'] = 'Parola boş olamaz.';
 $wb['quota_error_isint'] = 'E-posta kutusunun boyutu bir sayı olmalıdır.';
