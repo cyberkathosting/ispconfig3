@@ -153,28 +153,28 @@ if($app->auth->get_client_limit($userid, 'fetchmail') != 0)
 if ($app->system->has_service($userid, 'xmpp')) {
        $items = array();
 
-       if($app->auth->get_client_limit($userid, 'xmpp_domain') != 0)
-       {
-           $items[] = array( 'title'  => 'XMPP Domain',
-               'target'  => 'content',
-               'link' => 'mail/xmpp_domain_list.php',
-               'html_id' => 'xmpp_domain_list');
-       }
+	if($app->auth->get_client_limit($userid, 'xmpp_domain') != 0)
+	{
+		$items[] = array( 'title'  => 'XMPP Domain',
+			'target'  => 'content',
+			'link' => 'mail/xmpp_domain_list.php',
+			'html_id' => 'xmpp_domain_list');
+	}
 
-       if($app->auth->get_client_limit($userid, 'xmpp_user') != 0)
-       {
-           $items[] = array( 'title'  => 'XMPP Account',
-               'target'  => 'content',
-               'link' => 'mail/xmpp_user_list.php',
-               'html_id' => 'xmpp_user_list');
-       }
+	if($app->auth->get_client_limit($userid, 'xmpp_user') != 0)
+	{
+		$items[] = array( 'title'  => 'XMPP Account',
+			'target'  => 'content',
+			'link' => 'mail/xmpp_user_list.php',
+			'html_id' => 'xmpp_user_list');
+	}
 
-       if(count($items))
-       {
-           $module['nav'][] = array( 'title' => 'Jabber / XMPP',
-               'open'  => 1,
-               'items' => $items);
-       }
+	if(count($items))
+	{
+		$module['nav'][] = array( 'title' => 'Jabber / XMPP',
+			'open'  => 1,
+			'items' => $items);
+	}
 }
 
 //**** Statistics menu
