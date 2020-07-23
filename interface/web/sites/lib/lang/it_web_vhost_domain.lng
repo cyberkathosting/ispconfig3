@@ -140,7 +140,6 @@ $wb['server_chosen_not_ok'] = 'The selected server is not allowed for this accou
 $wb['subdomain_error_empty'] = 'The subdommain field is empty or contains invalid characters.';
 $wb['btn_save_txt'] = 'Save';
 $wb['btn_cancel_txt'] = 'Cancel';
-$wb['enable_spdy_txt'] = 'Enable SPDY/HTTP2';
 $wb['load_client_data_txt'] = 'Load client details';
 $wb['load_my_data_txt'] = 'Load my contact details';
 $wb['reset_client_data_txt'] = 'Reset data';

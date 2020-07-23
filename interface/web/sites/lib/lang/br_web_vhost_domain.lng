@@ -143,7 +143,6 @@ $wb['backup_excludes_error_regex'] = 'Os diretórios excluídos possuem caracter
 $wb['subdomain_error_empty'] = 'O subdomínio está em branco ou possui caracteres inválidos.';
 $wb['btn_save_txt'] = 'Salvar';
 $wb['btn_cancel_txt'] = 'Cancelar';
-$wb['enable_spdy_txt'] = 'Habilitar SPDY/HTTP2';
 $wb['load_client_data_txt'] = 'Carregar detalhes do cliente';
 $wb['load_my_data_txt'] = 'Carregar detalhes do contato';
 $wb['reset_client_data_txt'] = 'Limpar dados';

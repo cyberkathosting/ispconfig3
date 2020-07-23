@@ -1,24 +1,32 @@
-<div class='page-header'>
-	<h1><tmpl_var name="list_head_txt"></h1>
-</div>
-<p><tmpl_var name="list_desc_txt"></p>
-
-        <div id="OKMsg">
-			<tmpl_if name='number_records'>
-            <tmpl_var name="delete_explanation">:<br /><br />
-                <tmpl_loop name="records">
-                    <tmpl_var name="table">, 
-                </tmpl_loop>
-			</tmpl_else>
-				<h3><tmpl_var name="confirm_client_delete_txt"></h3>
-			</tmpl_if>
-        </div>
-		&nbsp;
-		<div> <input type="checkbox" name="confirm" value="yes" /> <b><tmpl_var name="confirm_action_txt"></b></div>
-		&nbsp;
-        <input type="hidden" name="id" value="{tmpl_var name='id'}">
-
-        <div class="clear"><div class="left">
-            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="client/client_del.php">{tmpl_var name='btn_save_txt'}</button>
-            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="client/client_list.php">{tmpl_var name='btn_cancel_txt'}</button>
-        </div></div>
+<div class='page-header'><h1><tmpl_var name="list_head_txt"></h1></div>
+<tmpl_if name='number_records'>
+	<tmpl_var name="delete_explanation">:<br /><br />
+	<div class="table-wrapper marginTop15">
+		<table class="table">
+		<thead class="dark form-group-sm">
+			<tr>
+				<th class="tiny-col"><tmpl_var name="table_txt"></th>
+				<th class="tiny-col"><tmpl_var name="data_txt"></th>
+			</tr>
+		</thead>
+		<tbody>
+		<tmpl_loop name="records">
+			<tr>
+				<td>{tmpl_var name="table"} ({tmpl_var name="count"})</td>
+				<td>{tmpl_var name="data"}</td>
+			</tr>
+		</tmpl_loop>
+		</tbody>
+		</table>
+	</div>
+</tmpl_else>
+	<h3><tmpl_var name="confirm_client_delete_txt"></h3>
+</tmpl_if>
+&nbsp;
+<div> <input type="checkbox" name="confirm" value="yes" /> <b><tmpl_var name="confirm_action_txt"></b></div>
+&nbsp;
+<input type="hidden" name="id" value="{tmpl_var name='id'}">
+<div class="clear"><div class="left">
+	<button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="client/client_del.php">{tmpl_var name='btn_save_txt'}</button>
+	<button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="client/client_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+</div></div>

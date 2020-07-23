@@ -4,4 +4,7 @@ $wb['delete_explanation'] = 'Denne handling vil slette følgende antal poster fo
 $wb['btn_save_txt'] = 'Slet kunden';
 $wb['btn_cancel_txt'] = 'Annullere uden at slette kunden';
 $wb['confirm_client_delete_txt'] = 'Er du sikker på at du vil slette denne kunde?';
+$wb['list_head_txt'] = 'Delete Client';
+$wb['table_txt'] = 'Table';
+$wb['data_txt'] = 'Data';
 ?>

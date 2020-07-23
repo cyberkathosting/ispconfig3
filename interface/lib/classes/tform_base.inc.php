@@ -152,9 +152,9 @@ class tform_base {
 			$wb = $app->functions->array_merge($wb_global, $wb);
 		}
 		if(isset($wb_global)) unset($wb_global);
-		
+
 		$this->wordbook = $wb;
-		
+
 		$app->plugin->raiseEvent($_SESSION['s']['module']['name'].':'.$app->tform->formDef['name'] . ':on_after_formdef', $this);
 
 		$this->dateformat = $app->lng('conf_format_dateshort');
@@ -323,7 +323,7 @@ class tform_base {
 		return $this->getAuthSQL('r', $matches[1]);
 	}
 	*/
-	
+
 	/**
 	 * Get the key => value array of a form filled from a datasource definitiom
 	 *
@@ -339,12 +339,12 @@ class tform_base {
 	function applyValueLimit($limit, $values, $current_value = '') {
 
 		global $app;
-		
+
 		// we mas have multiple limits, therefore we explode by ; first
 		// Example: "system:sites:web_php_options;client:web_php_options"
 		$limits = explode(';',$limit);
-		
-		
+
+
 		foreach($limits as $limit) {
 
 			$limit_parts = explode(':', $limit);
@@ -399,7 +399,7 @@ class tform_base {
 				$tmp_key = $limit_parts[2];
 				$allowed = $allowed = explode(',',$tmp_conf[$tmp_key]);
 			}
-			
+
 			// add the current value to the allowed array
 			$allowed[] = $current_value;
 
@@ -438,7 +438,7 @@ class tform_base {
 		$csrf_token = $app->auth->csrf_token_get($this->formDef['name']);
 		$_csrf_id = $csrf_token['csrf_id'];
 		$_csrf_value = $csrf_token['csrf_key'];
-		
+
 		$this->formDef['tabs'][$tab]['fields']['_csrf_id'] = array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -454,7 +454,7 @@ class tform_base {
 		$record['_csrf_id'] = $_csrf_id;
 		$record['_csrf_key'] = $_csrf_value;
 		/* CSRF PROTECTION */
-		
+
 		$new_record = array();
 		if($action == 'EDIT') {
 			$record = $this->decode($record, $tab);
@@ -589,7 +589,7 @@ class tform_base {
 
 						$new_record[$key] = $this->_getDateHTML($key, $dt_value);
 						break;
-					
+
 					default:
 						if(isset($record[$key])) {
 							$new_record[$key] = $app->functions->htmlentities($record[$key]);
@@ -701,7 +701,7 @@ class tform_base {
 
 					$new_record[$key] = $this->_getDateTimeHTML($key, $dt_value, $display_seconds);
 					break;
-				
+
 				case 'DATE':
 					$dt_value = (isset($field['default'])) ? $field['default'] : 0;
 
@@ -750,7 +750,7 @@ class tform_base {
 					unset($_POST);
 					unset($record);
 				}
-				
+
 				if(isset($_SESSION['_csrf_timeout']) && is_array($_SESSION['_csrf_timeout'])) {
 					$to_unset = array();
 					foreach($_SESSION['_csrf_timeout'] as $_csrf_id => $timeout) {
@@ -767,7 +767,7 @@ class tform_base {
 			}
 			/* CSRF PROTECTION */
 		}
-		
+
 		$new_record = array();
 		if(is_array($record)) {
 			foreach($fields as $key => $field) {
@@ -1065,6 +1065,29 @@ class tform_base {
 				}
 				unset($error);
 				break;
+			case 'ISEMAILADDRESS':
+				$error = false;
+				if($validator['allowempty'] != 'y') $validator['allowempty'] = 'n';
+				if($validator['allowempty'] == 'y' && $field_value == '') {
+					//* Do nothing
+				} else {
+					if(function_exists('filter_var')) {
+						if(filter_var($field_value, FILTER_VALIDATE_EMAIL) === false) {
+							$error = true;
+						}
+						if ($error) {
+							$errmsg = $validator['errmsg'];
+							if(isset($this->wordbook[$errmsg])) {
+								$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
+							} else {
+								$this->errorMessage .= $errmsg."<br />\r\n";
+							}
+						}
+
+					} else $this->errorMessage .= "function filter_var missing <br />\r\n";
+				}
+				unset($error);
+				break;
 			case 'ISINT':
 				if(function_exists('filter_var') && $field_value < PHP_INT_MAX) {
 					//if($field_value != '' && filter_var($field_value, FILTER_VALIDATE_INT, array("options" => array('min_range'=>0))) === false) {
@@ -1198,7 +1221,7 @@ class tform_base {
 					}
 				}
 				break;
-			
+
 			case 'ISDATETIME':
 				/* Checks a datetime value against the date format of the current language */
 				if($validator['allowempty'] != 'y') $validator['allowempty'] = 'n';
@@ -1216,7 +1239,7 @@ class tform_base {
 					}
 				}
 				break;
-			
+
 			case 'RANGE':
 				//* Checks if the value is within the given range or above / below a value
 				//* Range examples: < 10 = ":10", between 2 and 10 = "2:10", above 5 = "5:".
@@ -1281,7 +1304,7 @@ class tform_base {
 		$sql_update = '';
 
 		$record = $this->encode($record, $tab, true);
-		
+
 		if(($this->primary_id_override > 0)) {
 			$sql_insert_key .= '`'.$this->formDef["db_table_idx"].'`, ';
 			$sql_insert_val .= $this->primary_id_override.", ";

@@ -12,7 +12,7 @@ server {
         listen [::]:<tmpl_var name='http_port'>;
 </tmpl_if>
 <tmpl_if name='ssl_enabled'>
-        listen <tmpl_var name='ip_address'>:<tmpl_var name='https_port'> ssl{tmpl_if name='enable_http2' op='==' value='y'} http2{/tmpl_if}{tmpl_if name='enable_spdy' op='==' value='y'} spdy{/tmpl_if};
+        listen <tmpl_var name='ip_address'>:<tmpl_var name='https_port'> ssl http2;
 <tmpl_if name='use_proxy_protocol' op='==' value='y'>
 <tmpl_if name='proxy_protocol_https' op='>' value='0'>
         listen <tmpl_var name='ip_address'>:<tmpl_var name='proxy_protocol_https'> ssl proxy_protocol;
@@ -22,19 +22,19 @@ server {
 		# ssl_ciphers 'ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES256-SHA:ECDHE-ECDSA-DES-CBC3-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA:!DSS';
 		# ssl_prefer_server_ciphers on;
 <tmpl_if name='ipv6_enabled'>
-        listen [<tmpl_var name='ipv6_address'>]:<tmpl_var name='https_port'> ssl{tmpl_if name='enable_http2' op='==' value='y'} http2{/tmpl_if}{tmpl_if name='enable_spdy' op='==' value='y'} spdy{/tmpl_if};
+        listen [<tmpl_var name='ipv6_address'>]:<tmpl_var name='https_port'> ssl http2;
 </tmpl_if>
 <tmpl_if name='ipv6_wildcard'>
-        listen [::]:<tmpl_var name='https_port'> ssl{tmpl_if name='enable_http2' op='==' value='y'} http2{/tmpl_if}{tmpl_if name='enable_spdy' op='==' value='y'} spdy{/tmpl_if};
+        listen [::]:<tmpl_var name='https_port'> ssl http2;
 </tmpl_if>
         ssl_certificate <tmpl_var name='ssl_crt_file'>;
         ssl_certificate_key <tmpl_var name='ssl_key_file'>;
 </tmpl_if>
-        
+
         server_name <tmpl_var name='domain'> <tmpl_var name='alias'>;
 
         root   <tmpl_var name='web_document_root_www'>;
-		
+
 <tmpl_if name='ssl_enabled'>
 <tmpl_if name='rewrite_to_https' op='==' value='y'>
         if ($scheme != "https") {
@@ -72,16 +72,16 @@ server {
         }
 </tmpl_if>
 </tmpl_loop>
-<tmpl_if name='use_proxy' op='!=' value='y'>		
+<tmpl_if name='use_proxy' op='!=' value='y'>
         index index.html index.htm index.php index.cgi index.pl index.xhtml;
-		
-<tmpl_if name='ssi' op='==' value='y'>		
+
+<tmpl_if name='ssi' op='==' value='y'>
         location ~ \.shtml$ {
             ssi on;
         }
 </tmpl_if>
 
-<tmpl_if name='errordocs'>		
+<tmpl_if name='errordocs'>
         error_page 400 /error/400.html;
         error_page 401 /error/401.html;
         error_page 403 /error/403.html;
@@ -124,7 +124,7 @@ server {
             internal;
         }
 </tmpl_if>
-		
+
 <tmpl_if name='logging' op='==' value='yes'>
         error_log /var/log/ispconfig/httpd/<tmpl_var name='domain'>/error.log;
         access_log /var/log/ispconfig/httpd/<tmpl_var name='domain'>/access.log combined;
@@ -149,7 +149,7 @@ server {
 			index index.html;
 			try_files $uri $uri/ =404;
         }
-		
+
         location = /favicon.ico {
             log_not_found off;
             access_log off;
@@ -162,7 +162,7 @@ server {
             log_not_found off;
             access_log off;
         }
-		
+
         location /stats/ {
             <tmpl_var name='web_document_root_www_proxy'>
             index index.html index.php;
@@ -325,13 +325,13 @@ server {
         location <tmpl_var name='htpasswd_location'> { ##merge##
                 auth_basic "Members Only";
                 auth_basic_user_file <tmpl_var name='htpasswd_path'>.htpasswd;
-				
+
                 location ~ \.php$ {
                     try_files <tmpl_var name='rnd_php_dummy_file'> @php;
                 }
         }
 </tmpl_loop>
-</tmpl_if>	
+</tmpl_if>
 }
 
 <tmpl_loop name="redirects">
@@ -340,7 +340,7 @@ server {
 <tmpl_if name='ipv6_enabled'>
         listen [<tmpl_var name='ipv6_address'>]:80;
 </tmpl_if>
-		
+
 <tmpl_if name='ssl_enabled'>
         listen <tmpl_var name='ip_address'>:443 ssl;
 <tmpl_if name='ipv6_enabled'>
@@ -349,7 +349,7 @@ server {
         ssl_certificate <tmpl_var name='ssl_crt_file'>;
         ssl_certificate_key <tmpl_var name='ssl_key_file'>;
 </tmpl_if>
-        
+
         server_name <tmpl_var name='rewrite_domain'>;
 
 <tmpl_if name='alias_seo_redirects2'>

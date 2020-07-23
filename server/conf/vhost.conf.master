@@ -50,11 +50,11 @@
 		ServerAdmin webmaster@<tmpl_var name='domain'>
 
 <tmpl_if name='ssl_enabled'>
-<tmpl_if name='enable_http2' op='==' value='y'>
-		Protocols h2 http/1.1
+		<IfModule mod_http2.c>
+			Protocols h2 http/1.1
+		</IfModule>
 		SSLProtocol All -SSLv2 -SSLv3 -TLSv1 -TLSv1.1
 		SSLCipherSuite 'EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS'
-</tmpl_if>
 </tmpl_if>
 
 <tmpl_if name='logging' op='==' value='anon'>
@@ -387,7 +387,7 @@
                 Action php-fcgi /php-fcgi virtual
 				Alias /php-fcgi {tmpl_var name='document_root'}/cgi-bin/php-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'}
 <tmpl_if name='use_tcp'>
-                FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -host 127.0.0.1:<tmpl_var name='fpm_port'> -pass-header Authorization  -pass-header Content-Type    
+                FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -host 127.0.0.1:<tmpl_var name='fpm_port'> -pass-header Authorization  -pass-header Content-Type
 </tmpl_if>
 <tmpl_if name='use_socket'>
                 FastCgiExternalServer {tmpl_var name='document_root'}/cgi-bin/php-fcgi-{tmpl_var name='ip_address'}-{tmpl_var name='port'}-{tmpl_var name='domain'} -idle-timeout 300 -socket <tmpl_var name='fpm_socket'> -pass-header Authorization  -pass-header Content-Type
@@ -513,9 +513,9 @@
 		RewriteCond %{REQUEST_URI} !^/php-fcgi/
 		RewriteCond %{REQUEST_URI} !^<tmpl_var name='rewrite_target'>
 </tmpl_if>
-		
+
 		RewriteRule   ^/(.*)$ <tmpl_var name='rewrite_target'><tmpl_if name="rewrite_add_path" op="==" value="y">$1</tmpl_if>  <tmpl_var name='rewrite_type'>
-	
+
 </tmpl_loop>
 <tmpl_if name='ssl_enabled'>
 <tmpl_else>

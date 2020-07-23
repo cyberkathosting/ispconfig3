@@ -138,7 +138,6 @@ $wb['host_txt'] = 'Host';
 $wb['domain_error_wildcard'] = 'Wildcard-Subdomains sind nicht erlaubt.';
 $wb['btn_save_txt'] = 'Speichern';
 $wb['btn_cancel_txt'] = 'Abbrechen';
-$wb['enable_spdy_txt'] = 'Aktiviere SPDY/HTTP2';
 $wb['load_client_data_txt'] = 'Kundendaten übernehmen';
 $wb['load_my_data_txt'] = 'Meine Kontaktdaten laden';
 $wb['reset_client_data_txt'] = 'Daten verwerfen';

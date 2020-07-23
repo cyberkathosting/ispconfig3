@@ -4,4 +4,7 @@ $wb['delete_explanation'] = 'Cette action va supprimer le nombre d\'enregistreme
 $wb['btn_save_txt'] = 'Effacer le client';
 $wb['btn_cancel_txt'] = 'Annuler sans effacer le client';
 $wb['confirm_client_delete_txt'] = 'Confirmez-vous la suppression de ce client ?';
+$wb['list_head_txt'] = 'Delete Client';
+$wb['table_txt'] = 'Table';
+$wb['data_txt'] = 'Data';
 ?>
