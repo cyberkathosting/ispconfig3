@@ -14,7 +14,9 @@ query = SELECT u.email as target FROM mail_forwarding as s
             WHERE s.source = '@%d' AND s.type = 'aliasdomain' AND s.active = 'y' AND f.active = 'y' AND s.server_id = {server_id}
         UNION
         SELECT s.destination as target FROM mail_forwarding as s
-            WHERE s.source = '@%d' AND s.type IN ('catchall') and s.active = 'y' AND s.server_id = {server_id}
+            LEFT JOIN mail_user as uu ON (uu.email = '%s' AND uu.disabledeliver = 'n')
+            LEFT JOIN mail_forwarding as uf ON (uf.source = '%s' AND uf.type IN ('alias', 'forward') AND uf.active = 'y')
+            WHERE s.source = '@%d' AND s.type IN ('catchall') and s.active = 'y' AND uu.mailuser_id IS NULL AND uf.forwarding_id IS NULL AND s.server_id = {server_id}
         UNION
         SELECT s.destination as target FROM mail_forwarding as s
             INNER JOIN mail_forwarding as t ON (t.source = s.destination AND t.type = 'catchall')
