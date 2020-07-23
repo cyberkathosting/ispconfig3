@@ -2196,11 +2196,13 @@ class nginx_plugin {
 					$fastcgi_starter_path = str_replace('[system_user]', $data['old']['system_user'], $web_config['fastcgi_starter_path']);
 					if($data['old']['type'] == 'vhost') {
 						if (is_dir($fastcgi_starter_path)) {
+							$app->system->set_immutable($fastcgi_starter_path, false, true);
 							$app->system->exec_safe('rm -rf ?', $fastcgi_starter_path);
 						}
 					} else {
 						$fcgi_starter_script = $fastcgi_starter_path.$web_config['fastcgi_starter_script'].'_web'.$data['old']['domain_id'];
 						if (file_exists($fcgi_starter_script)) {
+							$app->system->set_immutable($fcgi_starter_script, false);
 							$app->system->exec_safe('rm -f ?', $fcgi_starter_script);
 						}
 					}
@@ -2222,11 +2224,13 @@ class nginx_plugin {
 					$cgi_starter_path = str_replace('[system_user]', $data['old']['system_user'], $web_config['cgi_starter_path']);
 					if($data['old']['type'] == 'vhost') {
 						if (is_dir($cgi_starter_path)) {
+							$app->system->set_immutable($cgi_starter_path, false, true);
 							$app->system->exec_safe('rm -rf ?', $cgi_starter_path);
 						}
 					} else {
 						$cgi_starter_script = $cgi_starter_path.'php-cgi-starter_web'.$data['old']['domain_id'];
 						if (file_exists($cgi_starter_script)) {
+							$app->system->set_immutable($cgi_starter_script, false);
 							$app->system->exec_safe('rm -f ?', $cgi_starter_script);
 						}
 					}

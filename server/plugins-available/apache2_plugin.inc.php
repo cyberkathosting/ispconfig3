@@ -1497,6 +1497,7 @@ class apache2_plugin {
 			$fcgi_tpl->setVar('open_basedir', $php_open_basedir);
 
 			$fcgi_starter_script = $fastcgi_starter_path.$fastcgi_config['fastcgi_starter_script'].(($data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias') ? '_web' . $data['new']['domain_id'] : '');
+			$app->system->set_immutable($fcgi_starter_script, false);
 			$app->system->file_put_contents($fcgi_starter_script, $fcgi_tpl->grab());
 			unset($fcgi_tpl);
 
@@ -1509,6 +1510,7 @@ class apache2_plugin {
 			}
 			$app->system->chown($fcgi_starter_script, $data['new']['system_user']);
 			$app->system->chgrp($fcgi_starter_script, $data['new']['system_group']);
+			$app->system->set_immutable($fcgi_starter_script, true);
 
 			$tpl->setVar('fastcgi_alias', $fastcgi_config['fastcgi_alias']);
 			$tpl->setVar('fastcgi_starter_path', $fastcgi_starter_path);
@@ -1522,6 +1524,7 @@ class apache2_plugin {
 			if ($data['old']['php'] == 'fast-cgi') {
 				$fastcgi_starter_path = str_replace('[system_user]', $data['old']['system_user'], $fastcgi_config['fastcgi_starter_path']);
 				$fastcgi_starter_path = str_replace('[client_id]', $client_id, $fastcgi_starter_path);
+				$app->system->set_immutable($fastcgi_starter_path, false, true);
 				if($data['old']['type'] == 'vhost') {
 					if(is_file($fastcgi_starter_script)) @unlink($fastcgi_starter_script);
 					if (is_dir($fastcgi_starter_path)) @rmdir($fastcgi_starter_path);
@@ -1633,6 +1636,7 @@ class apache2_plugin {
 			}
 
 			$cgi_starter_script = $cgi_starter_path.$cgi_config['cgi_starter_script'].(($data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias') ? '_web' . $data['new']['domain_id'] : '');
+			$app->system->set_immutable($cgi_starter_script, false);
 			$app->system->file_put_contents($cgi_starter_script, $cgi_tpl->grab());
 			unset($cgi_tpl);
 
@@ -1646,6 +1650,7 @@ class apache2_plugin {
 			}
 			$app->system->chown($cgi_starter_script, $data['new']['system_user']);
 			$app->system->chgrp($cgi_starter_script, $data['new']['system_group']);
+			$app->system->set_immutable($cgi_starter_script, true);
 
 			$tpl->setVar('cgi_starter_path', $cgi_starter_path);
 			$tpl->setVar('cgi_starter_script', $cgi_config['cgi_starter_script'].(($data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias') ? '_web' . $data['new']['domain_id'] : ''));
@@ -2175,11 +2180,13 @@ class apache2_plugin {
 					$fastcgi_starter_path = str_replace('[system_user]', $data['old']['system_user'], $fastcgi_config['fastcgi_starter_path']);
 					if($data['old']['type'] == 'vhost') {
 						if (is_dir($fastcgi_starter_path)) {
+							$app->system->set_immutable($fastcgi_starter_path, false, true);
 							$app->system->exec_safe('rm -rf ?', $fastcgi_starter_path);
 						}
 					} else {
 						$fcgi_starter_script = $fastcgi_starter_path.$fastcgi_config['fastcgi_starter_script'].'_web'.$data['old']['domain_id'];
 						if (file_exists($fcgi_starter_script)) {
+							$app->system->set_immutable($fcgi_starter_script, false);
 							$app->system->exec_safe('rm -f ?', $fcgi_starter_script);
 						}
 					}
@@ -2200,11 +2207,13 @@ class apache2_plugin {
 					$cgi_starter_path = str_replace('[system_user]', $data['old']['system_user'], $web_config['cgi_starter_path']);
 					if($data['old']['type'] == 'vhost') {
 						if (is_dir($cgi_starter_path)) {
+							$app->system->set_immutable($cgi_starter_path, false, true);
 							$app->system->exec_safe('rm -rf ?', $cgi_starter_path);
 						}
 					} else {
 						$cgi_starter_script = $cgi_starter_path.'php-cgi-starter_web'.$data['old']['domain_id'];
 						if (file_exists($cgi_starter_script)) {
+							$app->system->set_immutable($cgi_starter_script, false);
 							$app->system->exec_safe('rm -f ?', $cgi_starter_script);
 						}
 					}

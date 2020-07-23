@@ -70,31 +70,32 @@ if($do_uninstall == 'yes') {
 	        if (!$result) echo "Unable to remove the ispconfig-database-user ".$conf['db_user']." ".mysqli_error($link)."\n";
 	}
 	mysqli_close($link);
-	
+
 	// Deleting the symlink in /var/www
 	// Apache
 	@unlink("/etc/apache2/sites-enabled/000-ispconfig.vhost");
 	@unlink("/etc/apache2/sites-available/ispconfig.vhost");
 	@unlink("/etc/apache2/sites-enabled/000-apps.vhost");
 	@unlink("/etc/apache2/sites-available/apps.vhost");
-	
+
 	// nginx
 	@unlink("/etc/nginx/sites-enabled/000-ispconfig.vhost");
 	@unlink("/etc/nginx/sites-available/ispconfig.vhost");
 	@unlink("/etc/nginx/sites-enabled/000-apps.vhost");
 	@unlink("/etc/nginx/sites-available/apps.vhost");
-	
+
 	// Delete the ispconfig files
 	exec('rm -rf /usr/local/ispconfig');
-	
+
 	// Delete various other files
 	@unlink("/usr/local/bin/ispconfig_update.sh");
 	@unlink("/usr/local/bin/ispconfig_update_from_svn.sh");
 	@unlink("/var/spool/mail/ispconfig");
 	@unlink("/var/www/ispconfig");
-	@unlink("/var/www/php-fcgi-scripts/ispconfig");
+	@exec('chattr -i /var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
 	@unlink("/var/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter");
-	
+	@unlink("/var/www/php-fcgi-scripts/ispconfig");
+
 	echo "Backups in /var/backup/ and log files in /var/log/ispconfig are not deleted.";
 	echo "Finished uninstalling.\n";
 

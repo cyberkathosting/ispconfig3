@@ -30,7 +30,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 class installer_dist extends installer_base {
 	protected $mailman_group = 'mailman';
-	
+
 	public function __construct() {
 		//** check apache modules */
 		$mods = getapachemodules();
@@ -42,7 +42,7 @@ class installer_dist extends installer_base {
 			swriteln($inst->lng('    AllowOverride None'));
 			swriteln($inst->lng('    Require all denied'));
 			swriteln($inst->lng('    </Directory>'."\n"));
-			
+
 			swriteln($inst->lng('    If it uses the old syntax (deny from all) ISPConfig would fail to work.'));
 		}
 	}
@@ -80,7 +80,7 @@ class installer_dist extends installer_base {
 
 		//* mysql-virtual_sender_login_maps.cf
 		$this->process_postfix_config('mysql-virtual_sender_login_maps.cf');
-		
+
 		//* mysql-virtual_client.cf
 		$this->process_postfix_config('mysql-virtual_client.cf');
 
@@ -159,13 +159,13 @@ class installer_dist extends installer_base {
 		if($conf['postgrey']['installed'] == true) {
 			$greylisting = ', check_recipient_access mysql:/etc/postfix/mysql-virtual_policy_greylist.cf';
 		}
-		
+
 		$reject_sender_login_mismatch = '';
 		if(isset($server_ini_array['mail']['reject_sender_login_mismatch']) && ($server_ini_array['mail']['reject_sender_login_mismatch'] == 'y')) {
 			$reject_sender_login_mismatch = ', reject_authenticated_sender_login_mismatch';
 		}
 		unset($server_ini_array);
-		
+
 		$postconf_placeholders = array('{config_dir}' => $config_dir,
 			'{vmail_mailbox_base}' => $cf['vmail_mailbox_base'],
 			'{vmail_userid}' => $cf['vmail_userid'],
@@ -174,7 +174,7 @@ class installer_dist extends installer_base {
 			'{greylisting}' => $greylisting,
 			'{reject_slm}' => $reject_sender_login_mismatch,
 		);
-		
+
 		$postconf_tpl = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/opensuse_postfix.conf.master', 'tpl/opensuse_postfix.conf.master');
 		$postconf_tpl = strtr($postconf_tpl, $postconf_placeholders);
 		$postconf_commands = array_filter(explode("\n", $postconf_tpl)); // read and remove empty lines
@@ -378,13 +378,13 @@ class installer_dist extends installer_base {
 		$virtual_transport = 'dovecot';
 
 		$configure_lmtp = false;
-		
+
 		// check if virtual_transport must be changed
 		if ($this->is_update) {
 			$tmp = $this->db->queryOneRecord("SELECT * FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . ".server", $conf['server_id']);
 			$ini_array = ini_to_array(stripslashes($tmp['config']));
 			// ini_array needs not to be checked, because already done in update.php -> updateDbAndIni()
-			
+
 			if(isset($ini_array['mail']['mailbox_virtual_uidgid_maps']) && $ini_array['mail']['mailbox_virtual_uidgid_maps'] == 'y') {
 				$virtual_transport = 'lmtp:unix:private/dovecot-lmtp';
 				$configure_lmtp = true;
@@ -487,7 +487,7 @@ class installer_dist extends installer_base {
 
 		exec("chmod 600 $config_dir/$configfile");
 		exec("chown root:root $config_dir/$configfile");
-		
+
 		// Dovecot shall ignore mounts in website directory
 		if(is_installed('doveadm')) exec("doveadm mount add '/srv/www/*' ignore > /dev/null 2> /dev/null");
 
@@ -659,7 +659,7 @@ class installer_dist extends installer_base {
 		if($conf['apache']['installed'] == false) return;
 		//* Create the logging directory for the vhost logfiles
 		exec('mkdir -p /var/log/ispconfig/httpd');
-		
+
 		//* enable apache logio module
 		exec('a2enmod logio');
 
@@ -690,16 +690,16 @@ class installer_dist extends installer_base {
 
 		$tpl = new tpl('apache_ispconfig.conf.master');
 		$tpl->setVar('apache_version',getapacheversion());
-		
+
 		if($this->is_update == true) {
 			$tpl->setVar('logging',get_logging_state());
 		} else {
 			$tpl->setVar('logging','yes');
 		}
-		
+
 		$records = $this->db->queryAllRecords("SELECT * FROM ?? WHERE server_id = ? AND virtualhost = 'y'", $conf['mysql']['master_database'] . '.server_ip', $conf['server_id']);
 		$ip_addresses = array();
-		
+
 		if(is_array($records) && count($records) > 0) {
 			foreach($records as $rec) {
 				if($rec['ip_type'] == 'IPv6') {
@@ -718,7 +718,7 @@ class installer_dist extends installer_base {
 				}
 			}
 		}
-		
+
 		if(count($ip_addresses) > 0) $tpl->setLoop('ip_adresses',$ip_addresses);
 
 		wf($vhost_conf_dir.'/ispconfig.conf', $tpl->grab());
@@ -823,7 +823,7 @@ class installer_dist extends installer_base {
 		//* add a sshusers group
 		$command = 'groupadd sshusers';
 		if(!is_group('sshusers')) caselog($command.' &> /dev/null 2> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-	
+
 		// add anonymized log option to nginxx.conf file
 		$nginx_conf_file = $conf['nginx']['config_dir'].'/nginx.conf';
 		if(is_file($nginx_conf_file)) {
@@ -925,14 +925,14 @@ class installer_dist extends installer_base {
 		//* copy the ISPConfig server part
 		$command = "cp -rf ../server $install_dir";
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-		
+
 		//* Make a backup of the security settings
 		if(is_file('/usr/local/ispconfig/security/security_settings.ini')) copy('/usr/local/ispconfig/security/security_settings.ini','/usr/local/ispconfig/security/security_settings.ini~');
-		
+
 		//* copy the ISPConfig security part
 		$command = 'cp -rf ../security '.$install_dir;
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-		
+
 		//* Apply changed security_settings.ini values to new security_settings.ini file
 		if(is_file('/usr/local/ispconfig/security/security_settings.ini~')) {
 			$security_settings_old = ini_to_array(file_get_contents('/usr/local/ispconfig/security/security_settings.ini~'));
@@ -1090,15 +1090,15 @@ class installer_dist extends installer_base {
 		//* chown the interface files to the ispconfig user and group
 		$command = 'chown -R ispconfig:ispconfig '.$install_dir.'/interface';
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-		
+
 		//* chown the server files to the root user and group
 		$command = 'chown -R root:root '.$install_dir.'/server';
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-		
+
 		//* chown the security files to the root user and group
 		$command = 'chown -R root:root '.$install_dir.'/security';
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-		
+
 		//* chown the security directory and security_settings.ini to root:ispconfig
 		$command = 'chown root:ispconfig '.$install_dir.'/security/security_settings.ini';
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
@@ -1112,7 +1112,7 @@ class installer_dist extends installer_base {
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		$command = 'chown root:ispconfig '.$install_dir.'/security/nginx_directives.blacklist';
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-		
+
 		//* Make the global language file directory group writable
 		exec("chmod -R 770 $install_dir/interface/lib/lang");
 
@@ -1153,12 +1153,12 @@ class installer_dist extends installer_base {
 			exec("chmod 600 $install_dir/server/lib/mysql_clientdb.conf");
 			exec("chown root:root $install_dir/server/lib/mysql_clientdb.conf");
 		}
-		
+
 		if(is_dir($install_dir.'/interface/invoices')) {
 			exec('chmod -R 770 '.escapeshellarg($install_dir.'/interface/invoices'));
 			exec('chown -R ispconfig:ispconfig '.escapeshellarg($install_dir.'/interface/invoices'));
 		}
-		
+
 		exec('chown -R root:root /usr/local/ispconfig/interface/ssl');
 
 		// TODO: FIXME: add the www-data user to the ispconfig group. This is just for testing
@@ -1192,7 +1192,7 @@ class installer_dist extends installer_base {
 			$sql = "UPDATE sys_user SET passwort = md5(?) WHERE username = 'admin';";
 			$this->db->query($sql, $conf['interface_password']);
 		}
-		
+
 		if($conf['apache']['installed'] == true && $this->install_ispconfig_interface == true){
 			//* Copy the ISPConfig vhost for the controlpanel
 			// TODO: These are missing! should they be "vhost_dist_*_dir" ?
@@ -1221,7 +1221,7 @@ class installer_dist extends installer_base {
 			} else {
 				$tpl->setVar('ssl_bundle_comment','#');
 			}
-			
+
 			$tpl->setVar('apache_version',getapacheversion());
 
 			$content = $tpl->grab();
@@ -1233,10 +1233,12 @@ class installer_dist extends installer_base {
 			$content = str_replace('{fastcgi_bin}', $conf['fastcgi']['fastcgi_bin'], $content);
 			$content = str_replace('{fastcgi_phpini_path}', $conf['fastcgi']['fastcgi_phpini_path'], $content);
 			exec('mkdir -p /srv/www/php-fcgi-scripts/ispconfig');
+			$this->set_immutable('/srv/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter', false);
 			wf('/srv/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter', $content);
 			exec('chmod +x /srv/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter');
 			exec('ln -s /usr/local/ispconfig/interface/web /srv/www/ispconfig');
 			exec('chown -R ispconfig:ispconfig /srv/www/php-fcgi-scripts/ispconfig');
+			$this->set_immutable('/srv/www/php-fcgi-scripts/ispconfig/.php-fcgi-starter', true);
 
 			//}
 
@@ -1362,10 +1364,10 @@ class installer_dist extends installer_base {
 
 		//* Remove Domain module as its functions are available in the client module now
 		if(@is_dir('/usr/local/ispconfig/interface/web/domain')) exec('rm -rf /usr/local/ispconfig/interface/web/domain');
-		
+
 		// Add symlink for patch tool
 		if(!is_link('/usr/local/bin/ispconfig_patch')) exec('ln -s /usr/local/ispconfig/server/scripts/ispconfig_patch /usr/local/bin/ispconfig_patch');
-		
+
 		// Change mode of a few files from amavisd
 		if(is_file($conf['amavis']['config_dir'].'/conf.d/50-user')) chmod($conf['amavis']['config_dir'].'/conf.d/50-user', 0640);
 		if(is_file($conf['amavis']['config_dir'].'/50-user~')) chmod($conf['amavis']['config_dir'].'/50-user~', 0400);
