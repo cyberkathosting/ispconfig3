@@ -87,6 +87,10 @@ class monitor_tools {
 				$mainver = $ver;
 			}
 			switch ($mainver){
+			case "20.04":
+				$relname = "(Focal Fossa)";
+				$distconfid = 'ubuntu2004';
+				break;
 			case "18.04":
 				$relname = "(Bionic Beaver)";
 				$distconfid = 'ubuntu1804';
@@ -319,14 +323,14 @@ class monitor_tools {
 			} else {
 				$distid = 'centos72';
 			}
-                } elseif(stristr($content, 'CentOS Linux release 8')) {
-                        preg_match_all('/([0-9]{1,2})\.?([0-9]{0,2})\.?([0-9]*)/', $content, $version);
-                        $distname = 'CentOS';
-                        $distver = is_array($version)? implode('.', array_filter(array($version[1][0],$version[2][0],$version[3][0]),'strlen')) :'Unknown';
-                        $distbaseid = 'fedora';
-                        $var=explode(" ", $content);
-                        $var=explode(".", $var[3]);
-                        $var=$var[0].".".$var[1];
+		} elseif(stristr($content, 'CentOS Linux release 8')) {
+			preg_match_all('/([0-9]{1,2})\.?([0-9]{0,2})\.?([0-9]*)/', $content, $version);
+			$distname = 'CentOS';
+			$distver = is_array($version)? implode('.', array_filter(array($version[1][0],$version[2][0],$version[3][0]),'strlen')) :'Unknown';
+			$distbaseid = 'fedora';
+			$var=explode(" ", $content);
+			$var=explode(".", $var[3]);
+			$var=$var[0].".".$var[1];
 		} else {
 			$distname = 'Redhat';
 			$distver = 'Unknown';

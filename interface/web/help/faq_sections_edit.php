@@ -10,6 +10,9 @@ require_once '../../lib/app.inc.php';
 // Check the  module permissions and redirect if not allowed.
 $app->auth->check_module_permissions('admin');
 
+// Do not allow FAQ editor in DEMO mode
+if($conf['demo_mode'] == true) $app->error('This function is disabled in demo mode.');
+
 // Load the templating and form classes
 $app->uses('tpl,tform,tform_actions');
 $app->load('tform_actions');

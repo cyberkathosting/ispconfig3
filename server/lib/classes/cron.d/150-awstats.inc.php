@@ -60,7 +60,6 @@ class cronjob_awstats extends cronjob {
 		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
 
 		foreach($records as $rec) {
-			//$yesterday = date('Ymd',time() - 86400);
 			$yesterday = date('Ymd', strtotime("-1 day", time()));
 
 			$log_folder = 'log';
@@ -134,9 +133,6 @@ class cronjob_awstats extends cronjob {
 					$awmonth = "12";
 				}
 			}
-
-			// awstats_buildstaticpages.pl -update -config=mydomain.com -lang=en -dir=/var/www/domain.com/'.$web_folder.'/stats -awstatsprog=/path/to/awstats.pl
-			// $command = "$awstats_buildstaticpages_pl -update -config='$domain' -lang=".$conf['language']." -dir='$statsdir' -awstatsprog='$awstats_pl'";
 
 			$command = escapeshellcmd($awstats_buildstaticpages_pl) . ' -month=' . escapeshellarg($awmonth) . ' -year=' . escapeshellarg($awyear) . ' -update -config=' . escapeshellarg($domain) . ' -lang=' . escapeshellarg($conf['language']) . ' -dir=' . escapeshellarg($statsdir) . ' -awstatsprog=' . escapeshellarg($awstats_pl);
 

@@ -225,7 +225,7 @@ class bind_plugin {
 
 		//* Get the bind version
 		$bind_caa = false;
-        $bind = explode("\n", shell_exec('which named bind'));
+        $bind = explode("\n", shell_exec('which named bind 2> /dev/null'));
         $bind = reset($bind);
         if(is_executable($bind)) {
 			exec($bind . ' -v 2>&1', $tmp);

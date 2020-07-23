@@ -65,7 +65,7 @@ class getconf {
 		} else {
 			$app->uses('ini_parser');
 			$security_config_path = '/usr/local/ispconfig/security/security_settings.ini';
-			if(!is_file($security_config_path)) $security_config_path = realpath(ISPC_ROOT_PATH.'/../security/security_settings.ini');
+			if(!is_readable($security_config_path)) $security_config_path = realpath(ISPC_ROOT_PATH.'/../security/security_settings.ini');
 			$this->security_config = $app->ini_parser->parse_ini_string(file_get_contents($security_config_path));
 
 			return ($section == '') ? $this->security_config : $this->security_config[$section];

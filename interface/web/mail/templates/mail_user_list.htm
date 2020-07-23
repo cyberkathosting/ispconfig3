@@ -21,12 +21,12 @@
         </div>
         </tmpl_if>
         <p class="fieldset-legend">{tmpl_var name="toolsarea_head_txt"}</p>
-            
-                <button class="btn btn-default formbutton-success" type="button" data-load-content="mail/mail_user_edit.php">{tmpl_var name="add_new_record_txt"}</button>
-            
-        
 
-    
+                <button class="btn btn-default formbutton-success" type="button" data-load-content="mail/mail_user_edit.php">{tmpl_var name="add_new_record_txt"}</button>
+
+
+
+
         <p class="fieldset-legend"><tmpl_var name="list_head_txt"></p>
             <div class="table-wrapper marginTop15">
 <table class="table">
@@ -60,11 +60,7 @@
                 <tmpl_loop name="records">
                     <tr>
                         <td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}" data-toggle="tooltip" data-placement="bottom" title="{tmpl_var name='email'}">{tmpl_var name="email"}</a></td>
-                        <tmpl_if name="enable_custom_login">
-                            <td>
-                                <a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="login"}</a>
-                            </td>
-                        </tmpl_if>
+                        <tmpl_if name="enable_custom_login"><td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="login"}</a></td></tmpl_if>
                         <td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="name"}</a></td>
                         <td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="autoresponder"}</a></td>
                         <td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var name="postfix"}</a></td>

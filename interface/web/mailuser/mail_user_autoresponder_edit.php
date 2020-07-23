@@ -66,6 +66,12 @@ class page_action extends tform_actions {
 		if (!isset($_POST['autoresponder']) && array_key_exists('autoresponder_start_date', $_POST)) {
 			$this->dataRecord['autoresponder_start_date'] = array_map(create_function('$item', 'return 0;'), $this->dataRecord['autoresponder_start_date']);
 			$this->dataRecord['autoresponder_end_date'] = array_map(create_function('$item', 'return 0;'), $this->dataRecord['autoresponder_end_date']);
+			
+			/* To be used when we go to PHP 7.x as min PHP version
+			$this->dataRecord['autoresponder_start_date'] = array_map( function ('$item') { 'return 0;' }, $this->dataRecord['autoresponder_start_date']);
+			$this->dataRecord['autoresponder_end_date'] = array_map( function ('$item') { 'return 0;' }, $this->dataRecord['autoresponder_end_date']);
+			*/
+			
 		}
 
 		parent::onSubmit();

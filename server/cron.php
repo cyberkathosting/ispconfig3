@@ -128,6 +128,6 @@ $app->services->processDelayedActions();
 @unlink($conf['temppath'] . $conf['fs_div'] . '.ispconfig_cron_lock');
 $app->log('Remove Lock: ' . $conf['temppath'] . $conf['fs_div'] . '.ispconfig_cron_lock', LOGLEVEL_DEBUG);
 
-if($conf['log_priority'] <= LOGLEVEL_DEBUG) die("finished.\n");
+if($conf['log_priority'] <= LOGLEVEL_DEBUG) die("finished cron run.\n");
 
 ?>

@@ -1,28 +1,28 @@
+# jk_init.ini:  jailkit initialization config
+
+# Includes paths to handle Debian 10/9,
+# if other paths are needed please create an issue with the details:
+# https://git.ispconfig.org/ispconfig/ispconfig3/-/issues
+
 [uidbasics]
-# this section probably needs adjustment on 64bit systems
-# or non-Linux systems
 comment = common files for all jails that need user/group information
-libraries = /lib/libnsl.so.1, /lib64/libnsl.so.1, /lib/libnss*.so.2, /lib64/libnss*.so.2, /lib/x86_64-linux-gnu/libnss*.so.2
-regularfiles = /etc/nsswitch.conf, /etc/ld.so.conf
+paths = /lib/libnsl.so.1, /lib64/libnsl.so.1, /lib/libnss*.so.2, /lib64/libnss*.so.2, /lib/i386-linux-gnu/libnsl.so.1, /lib/i386-linux-gnu/libnss*.so.2, /lib/x86_64-linux-gnu/libnsl.so.1, /lib/x86_64-linux-gnu/libnss*.so.2, /lib/arm-linux-gnueabihf/libnss*.so.2, /lib/arm-linux-gnueabihf/libnsl*.so.1, /etc/nsswitch.conf, /etc/ld.so.conf
 
 [netbasics]
 comment = common files for all jails that need any internet connectivity
-libraries = /lib/libnss_dns.so.2, /lib64/libnss_dns.so.2, /lib/x86_64-linux-gnu/libnss_dns.so.2
-regularfiles = /etc/resolv.conf, /etc/host.conf, /etc/hosts, /etc/protocols
+paths = /lib/libnss_dns.so.2, /lib64/libnss_dns.so.2, /lib/libnss_mdns*.so.2, /lib/i386-linux-gnu/libnss_dns.so.2, /lib/x86_64-linux-gnu/libnss_dns.so.2, /etc/resolv.conf, /etc/host.conf, /etc/hosts, /etc/protocols, /etc/services, /etc/ssl/certs/, /usr/lib/ssl/certs
 
 [logbasics]
-comment = timezone information
-regularfiles = /etc/localtime
+comment = timezone information and log sockets
+paths = /etc/localtime
 need_logsocket = 1
 
 [jk_lsh]
 comment = Jailkit limited shell
-executables = /usr/sbin/jk_lsh
-regularfiles = /etc/jailkit/jk_lsh.ini
+paths = /usr/sbin/jk_lsh, /etc/jailkit/jk_lsh.ini
 users = root
 groups = root
-need_logsocket = 1
-includesections = uidbasics
+includesections = uidbasics, logbasics
 
 [limitedshell]
 comment = alias for jk_lsh
@@ -30,78 +30,77 @@ includesections = jk_lsh
 
 [cvs]
 comment = Concurrent Versions System
-executables = /usr/bin/cvs
+paths = cvs
 devices = /dev/null
 
 [git]
 comment = Fast Version Control System
-executables = /usr/bin/git*
-directories = /usr/share/git-core
-includesections = editors
+paths = /usr/bin/git*, /usr/lib/git-core, /usr/share/git-core, /usr/bin/pager
+includesections = editors, perl, netbasics, basicshell, coreutils
 
 [scp]
 comment = ssh secure copy
-executables = /usr/bin/scp
+paths = scp
 includesections = netbasics, uidbasics
 devices = /dev/urandom
 
 [sftp]
 comment = ssh secure ftp
-executables = /usr/lib/sftp-server, /usr/libexec/openssh/sftp-server, /usr/lib/misc/sftp-server, /usr/libexec/sftp-server
+paths = /usr/lib/sftp-server, /usr/libexec/openssh/sftp-server, /usr/lib/misc/sftp-server, /usr/libexec/sftp-server, /usr/lib/openssh/sftp-server
 includesections = netbasics, uidbasics
 devices = /dev/urandom, /dev/null
+# on solaris 
+#paths = /usr/lib/ssh/sftp-server
 
 [ssh]
 comment = ssh secure shell
-executables = /usr/bin/ssh
+paths = ssh
 includesections = netbasics, uidbasics
-devices = /dev/urandom, /dev/tty
+devices = /dev/urandom, /dev/tty, /dev/null
 
 [rsync]
-executables = /usr/bin/rsync
+paths = rsync
 includesections = netbasics, uidbasics
 
 [procmail]
 comment = procmail mail delivery
-executables = /usr/bin/procmail, /bin/sh
+paths = procmail, /bin/sh
 devices = /dev/null
 
 [basicshell]
 comment = bash based shell with several basic utilities
-executables = /bin/sh, /bin/bash, /bin/ls, /bin/cat, /bin/chmod, /bin/mkdir, /bin/cp, /bin/cpio, /bin/date, /bin/dd, /bin/echo, /bin/egrep, /bin/false, /bin/fgrep, /bin/grep, /bin/gunzip, /bin/gzip, /bin/ln, /bin/ls, /bin/mkdir, /bin/mktemp, /bin/more, /bin/mv, /bin/pwd, /bin/rm, /bin/rmdir, /bin/sed, /bin/sh, /bin/sleep, /bin/sync, /bin/tar, /bin/touch, /bin/true, /bin/uncompress, /bin/zcat
-regularfiles = /etc/motd, /etc/issue, /etc/bash.bashrc, /etc/bashrc, /etc/profile
-directories = /usr/lib/locale/en_US.utf8
+paths = /bin/sh, bash, ls, cat, chmod, mkdir, cp, cpio, date, dd, echo, egrep, false, fgrep, grep, gunzip, gzip, ln, ls, mkdir, mktemp, more, mv, pwd, rm, rmdir, sed, sh, sleep, sync, tar, touch, true, uncompress, zcat, /etc/motd, /etc/issue, /etc/bash.bashrc, /etc/bashrc, /etc/profile, /usr/lib/locale/en_US.utf8, uname, expr, xargs
 users = root
 groups = root
 includesections = uidbasics
 
 [midnightcommander]
 comment = Midnight Commander
-executables = /usr/bin/mc, /usr/bin/mcedit, /usr/bin/mcview
-directories = /etc/terminfo, /usr/share/terminfo, /usr/share/mc
-includesections = basicshell
+paths = mc, mcedit, mcview, /usr/share/mc
+includesections = basicshell, terminfo
 
 [extendedshell]
 comment = bash shell including things like awk, bzip, tail, less
-executables = /usr/bin/awk, /usr/bin/bzip2, /usr/bin/bunzip2, /usr/bin/ldd, /usr/bin/less, /usr/bin/clear, /usr/bin/cut, /usr/bin/du, /usr/bin/find, /usr/bin/head, /usr/bin/less, /usr/bin/md5sum, /usr/bin/nice, /usr/bin/sort, /usr/bin/tac, /usr/bin/tail, /usr/bin/tr, /usr/bin/sort, /usr/bin/wc, /usr/bin/watch, /usr/bin/whoami
+paths = awk, bzip2, bunzip2, ldd, less, clear, cut, du, find, head, less, md5sum, nice, sort, tac, tail, tr, sort, wc, watch, whoami
 includesections = basicshell, midnightcommander, editors
+
+[terminfo]
+comment = terminfo databases, required for example for ncurses or vim 
+paths = /etc/terminfo, /usr/share/terminfo, /lib/terminfo
 
 [editors]
 comment = vim, joe and nano
-executables = /usr/bin/joe, /usr/bin/nano, /usr/bin/vi, /usr/bin/vim, /usr/bin/pico
-regularfiles = /etc/vimrc
-directories = /etc/joe, /etc/terminfo, /usr/share/vim, /usr/share/terminfo, /lib/terminfo
+includesections = terminfo
+paths = joe, nano, vi, vim, /etc/vimrc, /etc/joe, /usr/share/vim
 
 [netutils]
 comment = several internet utilities like wget, ftp, rsync, scp, ssh
-executables = /usr/bin/wget, /usr/bin/lynx, /usr/bin/ftp, /usr/bin/host, /usr/bin/rsync, /usr/bin/smbclient
+paths = wget, lynx, ftp, host, rsync, smbclient
 includesections = netbasics, ssh, sftp, scp
-directories = /etc/ssl/certs/
-regularfiles = /usr/lib/ssl/certs
 
 [apacheutils]
 comment = htpasswd utility
-executables = /usr/bin/htpasswd
+paths = htpasswd
 
 [extshellplusnet]
 comment = alias for extendedshell + netutils + apacheutils
@@ -109,45 +108,120 @@ includesections = extendedshell, netutils, apacheutils
 
 [openvpn]
 comment = jail for the openvpn daemon
-executables = /usr/sbin/openvpn
+paths = /usr/sbin/openvpn
 users = root,nobody
 groups = root,nogroup
-includesections = netbasics
 devices = /dev/urandom, /dev/random, /dev/net/tun
 includesections = netbasics, uidbasics
 need_logsocket = 1
 
 [apache]
 comment = the apache webserver, very basic setup, probably too limited for you
-executables = /usr/sbin/apache
+paths = /usr/sbin/apache
 users = root, www-data
 groups = root, www-data
 includesections = netbasics, uidbasics
 
 [perl]
 comment = the perl interpreter and libraries
-executables = /usr/bin/perl
-directories = /usr/lib/perl, /usr/lib/perl5, /usr/share/perl, /usr/share/perl5
+paths = perl, /usr/lib/perl, /usr/lib/perl5, /usr/share/perl, /usr/share/perl5
 
 [xauth]
 comment = getting X authentication to work
-executables = /usr/bin/X11/xauth
-regularfiles = /usr/X11R6/lib/X11/rgb.txt, /etc/ld.so.conf
+paths = /usr/bin/X11/xauth, /usr/X11R6/lib/X11/rgb.txt, /etc/ld.so.conf
 
 [xclients]
 comment = minimal files for X clients
-regularfiles = /usr/X11R6/lib/X11/rgb.txt
+paths = /usr/X11R6/lib/X11/rgb.txt
 includesections = xauth
 
 [vncserver]
 comment = the VNC server program
-executables = /usr/bin/Xvnc, /usr/bin/Xrealvnc
-directories = /usr/X11R6/lib/X11/fonts/
+paths = Xvnc, Xrealvnc, /usr/X11R6/lib/X11/fonts/
 includesections = xclients
 
+[ping]
+comment = Ping program
+paths_w_setuid = /bin/ping
 
 #[xterm]
 #comment = xterm
-#executables = /usr/bin/X11/xterm
-#directories = /usr/share/terminfo, /etc/terminfo
+#paths = /usr/bin/X11/xterm, /usr/share/terminfo, /etc/terminfo
 #devices = /dev/pts/0, /dev/pts/1, /dev/pts/2, /dev/pts/3, /dev/pts/4, /dev/ptyb4, /dev/ptya4, /dev/tty, /dev/tty0, /dev/tty4
+
++# coreutils from:
++# (echo -ne '\n[coreutils]\ncomment = non-sbin progs from coreutils\npaths = '; dpkg --listfiles coreutils | grep -E '^/bin/|/usr/bin/' | xargs -n1 -i@ echo -n "@, " | sed -e 's/, *$/\n/g' -e 's|/usr/bin/||g' -e 's|/bin/||g') >> /etc/jailkit/jk_init.ini
+
+[coreutils]
+comment = non-sbin progs from coreutils
+paths = cat, chgrp, chmod, chown, cp, date, dd, df, dir, echo, false, ln, ls, mkdir, mknod, mktemp, mv, pwd, readlink, rm, rmdir, sleep, stty, sync, touch, true, uname, vdir, [, arch, b2sum, base32, base64, basename, chcon, cksum, comm, csplit, cut, dircolors, dirname, du, env, expand, expr, factor, fmt, fold, groups, head, hostid, id, install, join, link, logname, md5sum, mkfifo, nice, nl, nohup, nproc, numfmt, od, paste, pathchk, pinky, pr, printenv, printf, ptx, realpath, runcon, seq, sha1sum, sha224sum, sha256sum, sha384sum, sha512sum, shred, shuf, sort, split, stat, stdbuf, sum, tac, tail, tee, test, timeout, tr, truncate, tsort, tty, unexpand, uniq, unlink, users, wc, who, whoami, yes, md5sum.textutils
+
+[wp]
+comment = WordPress Command Line
+paths = wp, /usr/local/bin/php
+includesections = php, mysql-client
+
+[mysql-client]
+comment = mysql client
+paths = mysql, mysqldump, mysqlshow, /usr/lib/libmysqlclient.so, /usr/lib/i386-linux-gnu/libmariadb.so.3, /usr/lib/i386-linux-gnu/mariadb19, /usr/lib/x86_64-linux-gnu/libmariadb.so.3, /usr/lib/x86_64-linux-gnu/mariadb19
+includesections = netbasics
+
+[composer]
+comment = composer
+paths = composer, /usr/local/bin/composer, /usr/share/doc/composer
+includesections = php, uidbasics, netbasics
+
+[node]
+comment = NodeJS
+paths = npm, node, nodejs, /usr/lib/nodejs, /usr/share/node-mime, /usr/lib/node_modules, /usr/local/lib/nodejs, /usr/local/lib/node_modules, elmi-to-json, /usr/local/bin/elmi-to-json
+
+[env]
+comment = /usr/bin/env for environment variables
+paths = env
+
+# Debian 10 default php version is 7.3 (Debian 9 is 7.0)
+# Todo: set default version in ISPConfig installer,
+# but install the php cli version matching the website
+[php]
+comment = default php version and libraries
+paths = /usr/bin/php
+includesections = php_common, php7_3
+
+[php_common]
+comment = common php directories and libraries
+# notice:  potential information leak
+#  do not add all of /etc/php/ or any of the fpm directories
+#  or the php config (which includes custom php snippets) from *all*
+#  sites which use fpm will be copied to *every* jailkit
+paths = /usr/bin/php, /usr/lib/php/, /usr/share/php/, /usr/share/zoneinfo/
+includesections = env
+
+[php5_6]
+comment = php version 5.6
+paths = /usr/bin/php5.6, /usr/lib/php/5.6/, /usr/lib/php/20131226/, /usr/share/php/5.6/, /etc/php/5.6/cli/, /etc/php/5.6/mods-available/
+includesections = php_common
+
+[php7_0]
+comment = php version 7.0
+paths = /usr/bin/php7.0, /usr/lib/php/7.0/, /usr/lib/php/20151012/, /usr/share/php/7.0/, /etc/php/7.0/cli/, /etc/php/7.0/mods-available/
+includesections = php_common
+
+[php7_1]
+comment = php version 7.1
+paths = /usr/bin/php7.1, /usr/lib/php/7.1/, /usr/lib/php/20160303/, /usr/share/php/7.1/, /etc/php/7.1/cli/, /etc/php/7.1/mods-available/
+includesections = php_common
+
+[php7_2]
+comment = php version 7.2
+paths = /usr/bin/php7.2, /usr/lib/php/7.2/, /usr/lib/php/20170718/, /usr/share/php/7.2/, /etc/php/7.2/cli/, /etc/php/7.2/mods-available/
+includesections = php_common
+
+[php7_3]
+comment = php version 7.3
+paths = /usr/bin/php7.3, /usr/lib/php/7.3/, /usr/lib/php/20180731/, /usr/share/php/7.3/, /etc/php/7.3/cli/, /etc/php/7.3/mods-available/
+includesections = php_common
+
+[php7_4]
+comment = php version 7.4
+paths = /usr/bin/php7.4, /usr/lib/php/7.4/, /usr/lib/php/20190902/, /usr/share/php/7.4/, /etc/php/7.4/cli/, /etc/php/7.4/mods-available/
+includesections = php_common

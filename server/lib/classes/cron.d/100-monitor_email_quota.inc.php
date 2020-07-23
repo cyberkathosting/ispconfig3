@@ -79,30 +79,40 @@ class cronjob_monitor_email_quota extends cronjob {
 		if(is_array($mailboxes)) {
 
 			//* with dovecot we can use doveadm instead of 'du -s'
-			$dovecot = false;
-			if (isset($mail_config['pop3_imap_daemon']) && $mail_config ['pop3_imap_daemon'] = 'dovecot' && is_executable('doveadm')) {
-				exec('doveadm quota 2>&1', $tmp_output, $tmp_retval); // with dovecot 2.2.x 'doveadm quota' is unuseable
-				if ($retval = 64) $dovecot = true;
+			$dovecotQuotaUsage = array();
+			if (isset($mail_config['pop3_imap_daemon']) && $mail_config ['pop3_imap_daemon'] = 'dovecot') {
+				exec("doveadm quota get -A 2>&1", $res, $retval);
+				if ($retval = 64) {
+					foreach ($res as $v) {
+						$s = preg_split('/\s+/', $v);
+						if ($s[2] == 'STORAGE') {
+							$dovecotQuotaUsage[$s[0]] = $s[3] * 1024; // doveadm output is in kB
+						} elseif ($s[3] == 'STORAGE') {
+							$dovecotQuotaUsage[$s[0]] = $s[4] * 1024; // doveadm output is in kB
+						}
+					}
+				}
 			}
 
 			foreach($mailboxes as $mb) {
 				$email = $mb['email'];
 				$email_parts = explode('@', $mb['email']);
 				$filename = $mb['maildir'].'/.quotausage';
-				if(!file_exists($filename) && $dovecot) {
-					$app->system->exec_safe('doveadm quota recalc -u ?', $email);
-				}
-				if(file_exists($filename) && !is_link($filename)) {
+				if(count($dovecotQuotaUsage) > 0 && isset($dovecotQuotaUsage[$email])) {
+					$data[$email]['used'] = $dovecotQuotaUsage[$email];
+					$app->log("Mail storage $email: " . $data[$email]['used'], LOGLEVEL_DEBUG);
+				} elseif(file_exists($filename) && !is_link($filename)) {
 					$quotafile = file($filename);
 					preg_match('/storage.*?([0-9]+)/s', implode('',$quotafile), $storage_value);
 					$data[$email]['used'] = $storage_value[1];
-					$app->log("Mail storage $email: " . $storage_value[1], LOGLEVEL_DEBUG);
+					$app->log("Mail storage $email: " . $data[$email]['used'], LOGLEVEL_DEBUG);
 					unset($quotafile);
 				} else {
 					$app->system->exec_safe('du -s ?', $mb['maildir']);
 					$out = $app->system->last_exec_out();
 					$parts = explode(' ', $out[0]);
 					$data[$email]['used'] = intval($parts[0])*1024;
+					$app->log("Mail storage $email: " . $data[$email]['used'], LOGLEVEL_DEBUG);
 					unset($out);
 					unset($parts);
 				}
@@ -110,6 +120,7 @@ class cronjob_monitor_email_quota extends cronjob {
 		}
 
 		unset($mailboxes);
+		unset($dovecotQuotaUsage);
 
 		//* Dovecot quota check Courier in progress lathama@gmail.com
 		/*
@@ -132,8 +143,8 @@ class cronjob_monitor_email_quota extends cronjob {
 		$res['state'] = $state;
 
 		/*
-         * Insert the data into the database
-         */
+		 * Insert the data into the database
+		 */
 		$sql = 'REPLACE INTO monitor_data (server_id, type, created, data, state) ' .
 			'VALUES (?, ?, UNIX_TIMESTAMP(), ?, ?)';
 		$app->dbmaster->query($sql, $res['server_id'], $res['type'], serialize($res['data']), $res['state']);

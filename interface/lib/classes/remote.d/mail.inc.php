@@ -205,6 +205,9 @@ class remoting_mail extends remoting {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		
+		// Email addresses must always be lower case
+		$params['email'] = strtolower($params['email']);
 
 		//* Check if mail domain exists
 		$email_parts = explode('@', $params['email']);

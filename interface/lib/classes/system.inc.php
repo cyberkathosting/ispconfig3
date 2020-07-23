@@ -65,12 +65,13 @@ class system {
 	
 	public function exec_safe($cmd) {
 		$arg_count = func_num_args();
+		$args = func_get_args();
+		
 		if($arg_count != substr_count($cmd, '?') + 1) {
 			trigger_error('Placeholder count not matching argument list.', E_USER_WARNING);
 			return false;
 		}
 		if($arg_count > 1) {
-			$args = func_get_args();
 			array_shift($args);
 			
 			$pos = 0;

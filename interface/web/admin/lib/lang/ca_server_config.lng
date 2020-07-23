@@ -1,5 +1,7 @@
 <?php
 $wb['server_config'] = 'Server Config';
+$wb['server_config_error_not_updated'] = 'Error in Server Config: not updated';
+$wb['server_config_error_section_not_updated'] = 'Error in Server Config: %s section not updated';
 $wb['ufw_enable_txt'] = 'Enable';
 $wb['ufw_manage_builtins_txt'] = 'Manage Builtin Rules';
 $wb['ufw_ipv6_txt'] = 'Enable IPv6';

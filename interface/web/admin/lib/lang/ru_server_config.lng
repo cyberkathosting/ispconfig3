@@ -1,5 +1,7 @@
 <?php
 $wb['server_config'] = 'Server Config';
+$wb['server_config_error_not_updated'] = 'Error in Server Config: not updated';
+$wb['server_config_error_section_not_updated'] = 'Error in Server Config: %s section not updated';
 $wb['jailkit_chroot_home_txt'] = 'Путь к домашней папке Jailkit chroot';
 $wb['jailkit_chroot_app_sections_txt'] = 'Пакеты программ Jailkit chroot';
 $wb['jailkit_chroot_app_programs_txt'] = 'Программы Jailkit chrooted';

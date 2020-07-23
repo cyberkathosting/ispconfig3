@@ -95,6 +95,10 @@ function get_distname() {
 				$mainver = current($mainver).'.'.next($mainver);
 			}
 			switch ($mainver){
+			case "20.04":
+				$relname = "(Focal Fossa)";
+				$distconfid = 'ubuntu2004';
+				break;
 			case "18.04":
 				$relname = "(Bionic Beaver)";
 				$distconfid = 'ubuntu1804';
@@ -186,7 +190,7 @@ function get_distname() {
 				break;
 			default:
 				$relname = "UNKNOWN";
-				$distconfid = 'ubuntu1804';
+				$distconfid = 'ubuntu2004';
 			}
 			$distver = $ver.$lts." ".$relname;
 			swriteln("Operating System: ".$distname.' '.$distver."\n");
@@ -341,15 +345,15 @@ function get_distname() {
 				$distid = 'centos72';
 			}
 			swriteln("Operating System: CentOS $var\n");
-                } elseif(stristr($content, 'CentOS Linux release 8')) {
-                        $distname = 'CentOS';
-                        $distver = 'Unknown';
-                        $distbaseid = 'fedora';
+        } elseif(stristr($content, 'CentOS Linux release 8')) {
+			$distname = 'CentOS';
+			$distver = 'Unknown';
+			$distbaseid = 'fedora';
 			$distid = 'centos80';
-                        $var=explode(" ", $content);
-                        $var=explode(".", $var[3]);
-                        $var=$var[0].".".$var[1];
-                        swriteln("Operating System: CentOS $var\n");
+			$var=explode(" ", $content);
+			$var=explode(".", $var[3]);
+			$var=$var[0].".".$var[1];
+			swriteln("Operating System: CentOS $var\n");
 		} else {
 			$distname = 'Redhat';
 			$distver = 'Unknown';
@@ -687,8 +691,7 @@ function ini_to_array($ini) {
 
 
 //* Converts a config array to a string
-function array_to_ini($config_array = '') {
-	if($config_array == '') $config_array = $this->config;
+function array_to_ini($config_array) {
 	$content = '';
 	foreach($config_array as $section => $data) {
 		$content .= "[$section]\n";

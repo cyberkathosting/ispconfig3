@@ -45,7 +45,6 @@ if( !empty($_SERVER['DOCUMENT_ROOT']) ) {
 }
 
 //** Set a few php.ini values
-if(get_magic_quotes_runtime()) set_magic_quotes_runtime(false);
 if(isset($app)) unset($app);
 if(isset($conf)) unset($conf);
 

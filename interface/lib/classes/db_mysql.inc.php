@@ -258,6 +258,8 @@ class db
 
 	private function _query($sQuery = '') {
 		global $app;
+		
+		$aArgs = func_get_args();
 
 		if ($sQuery == '') {
 			$this->_sqlerror('Keine Anfrage angegeben / No query given');
@@ -297,7 +299,6 @@ class db
 			}
 		} while($ok == false);
 
-		$aArgs = func_get_args();
 		$sQuery = call_user_func_array(array(&$this, '_build_query_string'), $aArgs);
 		$this->securityScan($sQuery);
 		$this->_iQueryId = mysqli_query($this->_iConnId, $sQuery);
@@ -353,10 +354,17 @@ class db
 	 * @return array result row or NULL if none found
 	 */
 	public function queryOneRecord($sQuery = '') {
-		if(!preg_match('/limit \d+\s*(,\s*\d+)?$/i', $sQuery)) $sQuery .= ' LIMIT 0,1';
-
+		
 		$aArgs = func_get_args();
-		$oResult = call_user_func_array(array(&$this, 'query'), $aArgs);
+		if(!empty($aArgs)) {
+			$sQuery = array_shift($aArgs);
+			if($sQuery && !preg_match('/limit \d+(\s*,\s*\d+)?$/i', $sQuery)) {
+				$sQuery .= ' LIMIT 0,1';
+		}
+		array_unshift($aArgs, $sQuery);
+		}
+  
+		$oResult = call_user_func_array([&$this, 'query'], $aArgs);
 		if(!$oResult) return null;
 
 		$aReturn = $oResult->get();
@@ -1300,7 +1308,7 @@ class fakedb_result {
 
 		if(!is_array($this->aLimitedData)) return $aItem;
 
-		if(list($vKey, $aItem) = each($this->aLimitedData)) {
+		foreach($this->aLimitedData as $vKey => $aItem) {
 			if(!$aItem) $aItem = null;
 		}
 		return $aItem;

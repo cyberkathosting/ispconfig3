@@ -126,8 +126,7 @@ class cronjob_monitor_raid extends cronjob {
 		 * Check, if we have mpt-status installed (LSIsoftware-raid)
 		 */
 		if (file_exists('/proc/mpt/summary')) {
-			system('which mpt-status', $retval);
-			if ($retval === 0) {
+			if ($app->system->is_installed('mpt-status')) {
 				/*
 				 * Fetch the output
 				 */
@@ -174,8 +173,7 @@ class cronjob_monitor_raid extends cronjob {
 		/*
 		* 3ware Controller
 		*/
-		system('which tw_cli', $retval);
-		if($retval === 0) {
+		if($app->system->is_installed('tw_cli')) {
 
 			// TYPOWORX FIX | Determine Controler-ID
 			$availableControlers = shell_exec('tw_cli info | grep -Eo "c[0-9]+"');
@@ -232,8 +230,7 @@ class cronjob_monitor_raid extends cronjob {
 		/*
 		* HP Proliant
 		*/
-		system('which hpacucli', $retval);
-		if($retval === 0) {
+		if($app->system->is_installed('hpacucli')) {
 			$state = 'ok';
 			$data['output'] = shell_exec('/usr/sbin/hpacucli ctrl all show config');
 			$tmp = explode("\n", $data['output']);
@@ -278,10 +275,14 @@ class cronjob_monitor_raid extends cronjob {
 		/*
 		* LSI MegaRaid
 		*/
-		system('which megacli', $retval);
-		system('which megacli64', $retval64);
-		if($retval === 0 || $retval64 === 0) {
-			$binary=@($retval === 0)?'megacli':'megacli64';
+		$binary = FALSE;
+		if ($app->system->is_installed('megacli')) {
+			$binary = 'megacli';
+		}
+		if ($app->system->is_installed('megacli64')) {
+			$binary = 'megacli64';
+		}
+		if($binary) {
 			$state = 'ok';
 			$data['output'] = shell_exec($binary.' -LDInfo -Lall -aAll -NoLog');
 			if (strpos($data['output'], 'Optimal') !== false) {
@@ -298,8 +299,7 @@ class cronjob_monitor_raid extends cronjob {
 		/*
 		* Adaptec-RAID
 		*/
-		system('which arcconf', $retval);
-		if($retval === 0) {
+		if($app->system->is_installed('arcconf')) {
 			$state = 'ok';
 			$data['output'] = shell_exec('arcconf GETCONFIG 1 LD');
 			if(is_array($data['output'])) {
