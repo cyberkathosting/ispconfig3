@@ -776,4 +776,3 @@ $form['tabs']['dns_ca'] = array (
 	)
 );
 
-?>
