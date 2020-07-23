@@ -36,10 +36,10 @@ class system{
 	var $data;
 	var $min_uid = 500;
 	var $min_gid = 500;
-	
+
 	private $_last_exec_out = null;
 	private $_last_exec_retcode = null;
-	
+
 	/**
 	 * Construct for this class
 	 *
@@ -872,7 +872,7 @@ class system{
 			$app->log("Action aborted, file is a symlink: $filename", LOGLEVEL_WARN);
 			return false;
 		}
-		
+
 		if($run_as_user !== null && $run_as_user !== 'root') {
 			if(!$this->check_run_as_user($run_as_user)) {
 				$app->log("Action aborted, invalid run-as-user: $run_as_user", LOGLEVEL_WARN);
@@ -1657,7 +1657,7 @@ class system{
 	function maildirmake($maildir_path, $user = '', $subfolder = '', $group = '') {
 
 		global $app, $conf;
-		
+
 		// load the server configuration options
 		$app->uses("getconf");
 		$mail_config = $app->getconf->get_server_config($conf["server_id"], 'mail');
@@ -1678,7 +1678,7 @@ class system{
 
 		if($group != '' && $group != 'root' && $this->is_group($group)) {
 			if(is_dir($dir)) $this->chgrp($dir, $group);
-		
+
 			$chgrp_mdsub = true;
 		}
 
@@ -1694,7 +1694,7 @@ class system{
 
 		//* Add the subfolder to the subscriptions and courierimapsubscribed files
 		if($subfolder != '') {
-			
+
 			// Courier
 			if($mail_config['pop3_imap_daemon'] == 'courier') {
 				if(!is_file($maildir_path.'/courierimapsubscribed')) {
@@ -1741,7 +1741,7 @@ class system{
 		}
 
 	}
-	
+
 	function _exec($command, $allow_return_codes = null) {
 		global $app;
 		$out = array();
@@ -1762,6 +1762,28 @@ class system{
 			return true;
 		} else {
 			return false;
+		}
+	}
+
+	function set_immutable($path, $enable = true, $recursive = false) {
+		global $app;
+
+		if($this->checkpath($path) == false) {
+			$app->log("Action aborted, target is a symlink: $path", LOGLEVEL_DEBUG);
+			return false;
+		}
+
+		if($path != '' && $path != '/' && strlen($path) > 6 && strpos($path, '..') === false && (is_file($path) || is_dir($path))) {
+			if($enable) {
+				$this->exec_safe('chattr +i ?', $path);
+			} else {
+				$this->exec_safe('chattr -i ?', $path);
+			}
+
+			if($enable === false && $recursive === true && is_dir($path)) {
+				// only allow when removing immutable
+				$this->exec_safe('chattr -R -i ?', $path);
+			}
 		}
 	}
 
@@ -1902,9 +1924,9 @@ class system{
 
 	function mount_backup_dir($backup_dir, $mount_cmd = '/usr/local/ispconfig/server/scripts/backup_dir_mount.sh'){
 		global $app, $conf;
-		
+
 		if($this->is_mounted($backup_dir)) return true;
-		
+
 		$mounted = true;
 		if ( 	is_file($mount_cmd) &&
 				is_executable($mount_cmd) &&
@@ -2000,7 +2022,7 @@ class system{
 
 	function getapacheversion($get_minor = false) {
 		global $app;
-		
+
 		$cmd = '';
 		if($this->is_installed('apache2ctl')) $cmd = 'apache2ctl -v';
 		elseif($this->is_installed('apachectl')) $cmd = 'apachectl -v';
@@ -2008,13 +2030,13 @@ class system{
 			$app->log("Could not check apache version, apachectl not found.", LOGLEVEL_DEBUG);
 			return '2.2';
 		}
-		
+
 		exec($cmd, $output, $return_var);
 		if($return_var != 0 || !$output[0]) {
 			$app->log("Could not check apache version, apachectl did not return any data.", LOGLEVEL_WARN);
 			return '2.2';
 		}
-		
+
 		if(preg_match('/version:\s*Apache\/(\d+)(\.(\d+)(\.(\d+))*)?(\D|$)/i', $output[0], $matches)) {
 			return $matches[1] . (isset($matches[3]) ? '.' . $matches[3] : '') . (isset($matches[5]) && $get_minor == true ? '.' . $matches[5] : '');
 		} else {
@@ -2025,7 +2047,7 @@ class system{
 
 	function getapachemodules() {
 		global $app;
-		
+
 		$cmd = '';
 		if($this->is_installed('apache2ctl')) $cmd = 'apache2ctl -t -D DUMP_MODULES';
 		elseif($this->is_installed('apachectl')) $cmd = 'apachectl -t -D DUMP_MODULES';
@@ -2033,23 +2055,23 @@ class system{
 			$app->log("Could not check apache modules, apachectl not found.", LOGLEVEL_WARN);
 			return array();
 		}
-		
+
 		exec($cmd . ' 2>/dev/null', $output, $return_var);
 		if($return_var != 0 || !$output[0]) {
 			$app->log("Could not check apache modules, apachectl did not return any data.", LOGLEVEL_WARN);
 			return array();
 		}
-		
+
 		$modules = array();
 		for($i = 0; $i < count($output); $i++) {
 			if(preg_match('/^\s*(\w+)\s+\((shared|static)\)\s*$/', $output[$i], $matches)) {
 				$modules[] = $matches[1];
 			}
 		}
-		
+
 		return $modules;
 	}
-	
+
 	//* ISPConfig mail function
 	public function mail($to, $subject, $text, $from, $filepath = '', $filetype = 'application/pdf', $filename = '', $cc = '', $bcc = '', $from_name = '') {
 		global $app, $conf;
@@ -2076,51 +2098,51 @@ class system{
 
 		$app->ispcmail->send($to);
 		$app->ispcmail->finish();
-		
+
 		return true;
 	}
-	
+
 	public function is_allowed_user($username, $check_id = true, $restrict_names = false) {
 		global $app;
-		
+
 		$name_blacklist = array('root','ispconfig','vmail','getmail');
 		if(in_array($username,$name_blacklist)) return false;
-		
+
 		if(preg_match('/^[a-zA-Z0-9\.\-_]{1,32}$/', $username) == false) return false;
-		
+
 		if($check_id && intval($this->getuid($username)) < $this->min_uid) return false;
-		
+
 		if($restrict_names == true && preg_match('/^web\d+$/', $username) == false) return false;
-		
+
 		return true;
 	}
-	
+
 	public function is_allowed_group($groupname, $check_id = true, $restrict_names = false) {
 		global $app;
-		
+
 		$name_blacklist = array('root','ispconfig','vmail','getmail');
 		if(in_array($groupname,$name_blacklist)) return false;
-		
+
 		if(preg_match('/^[a-zA-Z0-9\.\-_]{1,32}$/', $groupname) == false) return false;
-		
+
 		if($check_id && intval($this->getgid($groupname)) < $this->min_gid) return false;
-		
+
 		if($restrict_names == true && preg_match('/^client\d+$/', $groupname) == false) return false;
-		
+
 		return true;
 	}
-	
+
 	public function last_exec_out() {
 		return $this->_last_exec_out;
 	}
-	
+
 	public function last_exec_retcode() {
 		return $this->_last_exec_retcode;
 	}
-	
+
 	public function exec_safe($cmd) {
 		global $app;
-		
+
 		$args = func_get_args();
 		$arg_count = func_num_args();
 		if($arg_count != substr_count($cmd, '?') + 1) {
@@ -2134,7 +2156,7 @@ class system{
 			$a = 0;
 			foreach($args as $value) {
 				$a++;
-				
+
 				$pos = strpos($cmd, '?', $pos);
 				if($pos === false) {
 					break;
@@ -2144,21 +2166,21 @@ class system{
 				$pos += strlen($value);
 			}
 		}
-		
+
 		$this->_last_exec_out = null;
 		$this->_last_exec_retcode = null;
 		$ret = exec($cmd, $this->_last_exec_out, $this->_last_exec_retcode);
-		
+
 		$app->log("safe_exec cmd: " . $cmd . " - return code: " . $this->_last_exec_retcode, LOGLEVEL_DEBUG);
-		
+
 		return $ret;
 	}
-	
+
 	public function system_safe($cmd) {
 		call_user_func_array(array($this, 'exec_safe'), func_get_args());
 		return implode("\n", $this->_last_exec_out);
 	}
-	
+
 	public function create_jailkit_user($username, $home_dir, $user_home_dir, $shell = '/bin/bash', $p_user = null, $p_user_home_dir = null) {
 		// Check if USERHOMEDIR already exists
 		if(!is_dir($home_dir . '/.' . $user_home_dir)) {
@@ -2178,10 +2200,10 @@ class system{
 			$cmd = 'usermod --home=? ? 2>/dev/null';
 			$this->exec_safe($cmd, $home_dir . '/.' . $p_user_home_dir, $p_user);
 		}
-		
+
 		return true;
 	}
-	
+
 	public function create_jailkit_programs($home_dir, $programs = array()) {
 		if(empty($programs)) {
 			return true;
@@ -2192,20 +2214,20 @@ class system{
 		foreach($programs as $prog) {
 			$program_args .= ' ' . escapeshellarg($prog);
 		}
-		
+
 		$cmd = 'jk_cp -k ?' . $program_args;
 		$this->exec_safe($cmd, $home_dir);
-		
+
 		return true;
 	}
-	
+
 	public function create_jailkit_chroot($home_dir, $app_sections = array()) {
 		if(empty($app_sections)) {
 			return true;
 		} elseif(is_string($app_sections)) {
 			$app_sections = preg_split('/[\s,]+/', $app_sections);
 		}
-		
+
 		// Change ownership of the chroot directory to root
 		$this->chown($home_dir, 'root');
 		$this->chgrp($home_dir, 'root');
@@ -2214,7 +2236,7 @@ class system{
 		foreach($app_sections as $app_section) {
 			$app_args .= ' ' . escapeshellarg($app_section);
 		}
-		
+
 		// Initialize the chroot into the specified directory with the specified applications
 		$cmd = 'jk_init -f -k -c /etc/jailkit/jk_init.ini -j ?' . $app_args;
 		$this->exec_safe($cmd, $home_dir);
@@ -2231,47 +2253,47 @@ class system{
 
 		// mysql needs the socket in the chrooted environment
 		$this->mkdirpath($home_dir . '/var/run/mysqld');
-		
+
 		// ln /var/run/mysqld/mysqld.sock $CHROOT_HOMEDIR/var/run/mysqld/mysqld.sock
 		if(!file_exists("/var/run/mysqld/mysqld.sock")) {
 			$this->exec_safe('ln ? ?', '/var/run/mysqld/mysqld.sock', $home_dir . '/var/run/mysqld/mysqld.sock');
 		}
-		
+
 		return true;
 	}
-	
-	
+
+
 	public function pipe_exec($cmd, $stdin, &$retval = null, &$stderr = null) {
 		$descriptors = array(
 			0 => array('pipe', 'r'),
 			1 => array('pipe', 'w'),
 			2 => array('pipe', 'w')
 		);
-		
+
 		$result = '';
 		$pipes = null;
 		$proc = proc_open($cmd, $descriptors, $pipes);
 		if(is_resource($proc)) {
 			fwrite($pipes[0], $stdin);
 			fclose($pipes[0]);
-			
+
 			$result = stream_get_contents($pipes[1]);
 			$stderr = stream_get_contents($pipes[2]);
 			fclose($pipes[1]);
 			fclose($pipes[2]);
-			
+
 			$retval = proc_close($proc);
-			
+
 			return $result;
 		} else {
 			return false;
 		}
 	}
-	
+
 	private function get_sudo_command($cmd, $run_as_user) {
 		return 'sudo -u ' . escapeshellarg($run_as_user) . ' sh -c ' . escapeshellarg($cmd);
 	}
-	
+
 	private function check_run_as_user($username) {
 		if(preg_match('/^[a-zA-Z0-9_\-]+$/', $username)) {
 			return true;
