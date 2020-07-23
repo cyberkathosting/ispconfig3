@@ -4,4 +4,7 @@ $wb['delete_explanation'] = 'Это действие удалит следующ
 $wb['btn_save_txt'] = 'Удалить клиента';
 $wb['btn_cancel_txt'] = 'Отменить без удаления';
 $wb['confirm_client_delete_txt'] = 'Вы уверены, что хотите удалить этот клиента?';
+$wb['list_head_txt'] = 'Delete Client';
+$wb['table_txt'] = 'Table';
+$wb['data_txt'] = 'Data';
 ?>
