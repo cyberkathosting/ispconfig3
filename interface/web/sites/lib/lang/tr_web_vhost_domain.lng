@@ -142,6 +142,7 @@ $wb['backup_excludes_error_regex'] = 'Katılmayacak klasörlerde geçersiz karak
 $wb['subdomain_error_empty'] = 'Alt etki alanı boş ya da geçersiz karakterler içeriyor.';
 $wb['btn_save_txt'] = 'Kaydet';
 $wb['btn_cancel_txt'] = 'İptal';
+$wb['enable_spdy_txt'] = 'SPDY kullanılsın';
 $wb['load_client_data_txt'] = 'Müşteri Bilgilerini Yükle';
 $wb['load_my_data_txt'] = 'Profil Bilgilerimi Yükle';
 $wb['reset_client_data_txt'] = 'Verileri Sıfırla';
