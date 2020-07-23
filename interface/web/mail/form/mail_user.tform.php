@@ -187,7 +187,7 @@ $form["tabs"]['mailuser'] = array(
 			'default' => '',
 			'value'  => '',
 			'width'  => '30',
-			'maxlength' => '255'
+			'maxlength' => '65535'
 		),
 		'sender_cc' => array (
 			'datatype' => 'VARCHAR',
