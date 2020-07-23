@@ -14,16 +14,10 @@
   <FilesMatch "\.ph(p3?|tml)$">
     SetHandler None
   </FilesMatch>
-  
+
   <IfModule mod_headers.c>
 	RequestHeader unset Proxy early
   </IfModule>
-
-  {tmpl_if name="enable_spdy" op="==" value="y"}
-  <IfModule spdy_module>
-	SpdyEnabled on
-  </IfModule>
-  {/tmpl_if}
 
   <IfModule mod_php5.c>
     DocumentRoot {tmpl_var name='apps_vhost_dir'}
@@ -39,7 +33,7 @@
 		</tmpl_if>
     </Directory>
   </IfModule>
-  
+
   <IfModule mod_php7.c>
     DocumentRoot {tmpl_var name='apps_vhost_dir'}
     AddType application/x-httpd-php .php
@@ -54,7 +48,7 @@
 		</tmpl_if>
     </Directory>
   </IfModule>
-  
+
   <IfModule mod_fcgid.c>
     DocumentRoot {tmpl_var name='apps_vhost_dir'}
     SuexecUserGroup ispapps ispapps
@@ -85,5 +79,3 @@
 {/tmpl_if}
 
 </VirtualHost>
-
-
