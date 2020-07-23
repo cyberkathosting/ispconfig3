@@ -20,7 +20,7 @@ fi
 FILECNT=$(eval "${CMD} | wc -l") ;
 
 for F in $(eval "$CMD") ; do
-	if [[ ! -e "${F}" && -f "${F}" ]] ; then
+	if [[ ! -e "${F}" || ! -f "${F}" ]] ; then
 		continue ;
 	fi
 	R=$(php -d error_reporting=E_ALL -d display_errors=On -l "$F" 2>/dev/null) ;
