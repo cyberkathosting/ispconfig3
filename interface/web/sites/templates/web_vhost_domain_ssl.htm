@@ -62,15 +62,7 @@
                     {tmpl_var name='ssl_action'}
                 </select></div>
             </div>
-			{tmpl_if name="is_spdy_enabled"}
-			<div class="form-group">
-				<label class="col-sm-3 control-label">{tmpl_var name='enable_spdy_txt'}</label>
-				<div class="col-sm-9">
-					{tmpl_var name="enable_spdy"}
-				</div>
-			</div>
-			{/tmpl_if}
-        
+
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
 
@@ -91,11 +83,11 @@
 	$('#load_data').click(function(){
 		loadClientData();
 	});
-	
-	
+
+
 	function loadClientData() {
         var web_id = $("input[name=id]").val();
-        
+
         jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {'web_id': web_id, 'type': "getclientssldata"}, function(data) {
 			$('#ssl_organisation').val(data['company_name']);
 			$('#ssl_locality').val(data['city']);
