@@ -206,6 +206,17 @@ class rspamd_plugin {
 			return;
 		}
 
+		$old_settings_name = $settings_name;
+		$settings_name = $app->functions->idn_encode($settings_name);
+
+		if($old_settings_name !== $settings_name) {
+			// we changed naming to idn-encoded form due to path check issues. Delete old file if existing.
+			$old_settings_file = $this->users_config_dir . str_replace('@', '_', $old_settings_name) . '.conf';
+			if(is_file($old_settings_file)) {
+				unlink($old_settings_file);
+			}
+		}
+
 		$settings_file = $this->users_config_dir . str_replace('@', '_', $settings_name) . '.conf';
 		//$app->log('Settings file for rspamd is ' . $settings_file, LOGLEVEL_WARN);
 		if($mode === 'delete') {

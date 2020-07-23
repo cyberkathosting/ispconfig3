@@ -102,7 +102,7 @@ class remoting_sites extends remoting {
 		$app->remoting_lib->loadFormDef('../sites/form/database.tform.php');
 		return $app->remoting_lib->getDataRecord($primary_id);
 	}
-	
+
 	/* TODO: secure queries! */
 	//* Add a record
 	public function sites_database_add($session_id, $client_id, $params)
@@ -130,7 +130,7 @@ class remoting_sites extends remoting {
 
 			$retval = $this->insertQueryExecute($sql, $params);
 			$app->sites_database_plugin->processDatabaseInsert($this);
-			
+
 			// set correct values for backup_interval and backup_copies
 			if(isset($params['backup_interval']) || isset($params['backup_copies']) || isset($params['backup_format_web']) || isset($params['backup_format_db'])){
 				$sql_set = array();
@@ -140,7 +140,7 @@ class remoting_sites extends remoting {
 				if(isset($params['backup_format_db'])) $sql_set[] = "backup_format_db = ".$app->functions->intval($params['backup_format_db']);
 				$this->updateQueryExecute("UPDATE web_database SET ".implode(', ', $sql_set)." WHERE database_id = ".$retval, $retval, $params);
 			}
-			
+
 			return $retval;
 		}
 
@@ -165,7 +165,7 @@ class remoting_sites extends remoting {
 			$this->dataRecord = $params;
 			$app->sites_database_plugin->processDatabaseUpdate($this);
 			$retval = $this->updateQueryExecute($sql, $primary_id, $params);
-			
+
 			// set correct values for backup_interval and backup_copies
 			if(isset($params['backup_interval']) || isset($params['backup_copies']) || isset($params['backup_format_web']) || isset($params['backup_format_db'])){
 				$sql_set = array();
@@ -175,7 +175,7 @@ class remoting_sites extends remoting {
 				if(isset($params['backup_format_db'])) $sql_set[] = "backup_format_db = ".$app->functions->intval($params['backup_format_db']);
 				$this->updateQueryExecute("UPDATE web_database SET ".implode(', ', $sql_set)." WHERE database_id = ".$primary_id, $primary_id, $params);
 			}
-			
+
 			return $retval;
 		}
 
@@ -452,7 +452,7 @@ class remoting_sites extends remoting {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		
+
 		if($params['log_retention'] == '') $params['log_retention'] = 30;
 
 		//* Set a few defaults for nginx servers
@@ -524,7 +524,7 @@ class remoting_sites extends remoting {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		
+
 		if($params['log_retention'] == '') $params['log_retention'] = 30;
 
 		//* Set a few defaults for nginx servers
@@ -596,7 +596,7 @@ class remoting_sites extends remoting {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		
+
 		if($params['log_retention'] == '') $params['log_retention'] = 30;
 
 		//* Set a few defaults for nginx servers
@@ -880,7 +880,7 @@ class remoting_sites extends remoting {
 			$app->remoting_lib->loadFormDef('../sites/form/web_vhost_domain.tform.php');
 			$params = $app->remoting_lib->getDataRecord($primary_id);
 			$params['active'] = $status;
-			
+
 			$affected_rows = $this->updateQuery('../sites/form/web_vhost_domain.tform.php', 0, $primary_id, $params);
 			return $affected_rows;
 		} else {
@@ -905,57 +905,57 @@ class remoting_sites extends remoting {
 		$all = $app->db->queryAllRecords($sql, $client_id);
 		return $all;
 	}
-	
+
 	//** backup functions -----------------------------------------------------------------------------------
 	public function sites_web_domain_backup_list($session_id, $site_id = null)
 	{
 		global $app;
-	
+
 		if(!$this->checkPerm($session_id, 'sites_web_domain_backup')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		
+
 		$result = $app->db->queryAllRecords("SELECT * FROM web_backup".(($site_id != null)?' WHERE parent_domain_id = ?':''), $site_id);
 		return $result;
 	}
-	
+
 	//* Backup download and restoration by Abdi Joseph
 	public function sites_web_domain_backup($session_id, $primary_id, $action_type)
 	{
 		global $app;
-	
+
 		if(!$this->checkPerm($session_id, 'sites_web_domain_backup')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-	
+
 		//*Set variables
 		$backup_record = $app->db->queryOneRecord("SELECT * FROM `web_backup` WHERE `backup_id`= ?", $primary_id);
 		$server_id = $backup_record['server_id'];
-	
+
 		//*Set default action state
 		$action_state = "pending";
 		$tstamp = time();
-	
+
 		//* Basic validation of variables
 		if ($server_id <= 0) {
 			throw new SoapFault('invalid_backup_id', "Invalid or non existant backup_id $primary_id");
 			return false;
 		}
-	
+
 		if ($action_type != 'backup_download' and $action_type != 'backup_restore' and $action_type != 'backup_delete') {
 			throw new SoapFault('invalid_action', "Invalid action_type $action_type");
 			return false;
 		}
-	
+
 		//* Validate instance
 		$instance_record = $app->db->queryOneRecord("SELECT * FROM `sys_remoteaction` WHERE `action_param`= ? and `action_type`= ? and `action_state`= ?", $primary_id, $action_type, 'pending');
 		if ($instance_record['action_id'] >= 1) {
 			throw new SoapFault('duplicate_action', "There is already a pending $action_type action");
 			return false;
 		}
-	
+
 		//* Save the record
 		if ($app->db->query("INSERT INTO `sys_remoteaction` SET `server_id` = ?, `tstamp` = ?, `action_type` = ?, `action_param` = ?, `action_state` = ?", $server_id, $tstamp, $action_type, $primary_id, $action_state)) {
 			return true;
@@ -963,64 +963,64 @@ class remoting_sites extends remoting {
 			return false;
 		}
 	}
-	
+
 	//** quota functions -----------------------------------------------------------------------------------
 	public function quota_get_by_user($session_id, $client_id)
 	{
 		global $app;
 		$app->uses('quota_lib');
-	
+
 		if(!$this->checkPerm($session_id, 'quota_get_by_user')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-	
+
 		return $app->quota_lib->get_quota_data($client_id, false);
 	}
-	
+
 	public function trafficquota_get_by_user($session_id, $client_id, $lastdays = 0)
 	{
 		global $app;
 		$app->uses('quota_lib');
-		
+
 		if(!$this->checkPerm($session_id, 'trafficquota_get_by_user')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if ($client_id != null)
 			$client_id = $app->functions->intval($client_id);
-		
+
 		return $app->quota_lib->get_trafficquota_data($client_id, $lastdays);
 	}
-	
+
 	public function ftptrafficquota_data($session_id, $client_id, $lastdays = 0)
 	{
 		global $app;
 		$app->uses('quota_lib');
-		
+
 		if(!$this->checkPerm($session_id, 'trafficquota_get_by_user')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
 		if ($client_id != null)
 			$client_id = $app->functions->intval($client_id);
-		
+
 		return $app->quota_lib->get_ftptrafficquota_data($client_id, $lastdays);
 	}
-	
+
 	public function databasequota_get_by_user($session_id, $client_id)
 	{
 		global $app;
 		$app->uses('quota_lib');
-	
+
 		if(!$this->checkPerm($session_id, 'databasequota_get_by_user')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-	
+
 		return $app->quota_lib->get_databasequota_data($client_id, false);
 	}
-	
+
 	// ----------------------------------------------------------------------------------------------------------
 
 	//* Get record details
@@ -1070,8 +1070,8 @@ class remoting_sites extends remoting {
 		$affected_rows = $this->deleteQuery('../sites/form/webdav_user.tform.php', $primary_id);
 		return $affected_rows;
 	}
-	
-	
+
+
 }
 
 ?>
