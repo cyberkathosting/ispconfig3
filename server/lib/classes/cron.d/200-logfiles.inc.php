@@ -49,10 +49,10 @@ class cronjob_logfiles extends cronjob {
 
 	public function onRunJob() {
 		global $app, $conf;
-		
+
 		$app->uses('getconf');
 		$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
-		
+
 		if($server_config['log_retention'] > 0) {
 			$max_syslog = $app->functions->intval($server_config['log_retention']);
 		} else {
@@ -121,18 +121,18 @@ class cronjob_logfiles extends cronjob {
 				$app->system->exec_safe("gzip -c ? > ?", $logfile, $logfile . '.gz');
 				unlink($logfile);
 			}
-			
+
 			$cron_logfiles = array('cron.log', 'cron_error.log', 'cron_wget.log');
 			foreach($cron_logfiles as $cron_logfile) {
 				$cron_logfile = $rec['document_root'].'/' . $log_folder . '/' . $cron_logfile;
-				
+
 				// rename older files (move up by one)
 				$num = $log_retention;
 				while($num >= 1) {
 					if(is_file($cron_logfile . '.' . $num . '.gz')) rename($cron_logfile . '.' . $num . '.gz', $cron_logfile . '.' . ($num + 1) . '.gz');
 					$num--;
 				}
-				
+
 				// compress current logfile
 				if(is_file($cron_logfile)) {
 					$app->system->exec_safe("gzip -c ? > ?", $cron_logfile, $cron_logfile . '.1.gz');
@@ -146,7 +146,7 @@ class cronjob_logfiles extends cronjob {
 				}
 			}
 
-			// rotate and compress the error.log 
+			// rotate and compress the error.log
 			$error_logfile = $rec['document_root'].'/' . $log_folder . '/error.log';
 			// rename older files (move up by one)
 			$num = $log_retention;
@@ -184,7 +184,7 @@ class cronjob_logfiles extends cronjob {
 		//######################################################################################################
 
 
-		$ispconfig_logfiles = array('ispconfig.log', 'cron.log', 'auth.log');
+		$ispconfig_logfiles = array('ispconfig.log', 'cron.log', 'auth.log', 'acme.log');
 		foreach($ispconfig_logfiles as $ispconfig_logfile) {
 			$num = $max_syslog;
 			$ispconfig_logfile = $conf['ispconfig_log_dir'].'/'.$ispconfig_logfile;
@@ -240,7 +240,7 @@ class cronjob_logfiles extends cronjob {
              */
 			$sql = "DELETE FROM sys_log WHERE tstamp < ? AND server_id != 0";
 			$app->dbmaster->query($sql, $tstamp);
-			
+
 			/*
 			 * now delete those entries without a linked datalog entry (datalog_id = 0)
 			 */
