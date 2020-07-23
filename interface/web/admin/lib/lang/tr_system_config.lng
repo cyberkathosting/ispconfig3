@@ -87,4 +87,6 @@ $wb['reseller_can_use_options_txt'] = 'Bayi web siteleri için seçenek sekmesin
 $wb['custom_login_text_txt'] = 'Oturum Açma Sayfası Metni';
 $wb['custom_login_link_txt'] = 'Oturum Açma Sayfası Bağlantısı';
 $wb['login_link_error_regex'] = 'Oturum Açma Bağlantısı Geçersiz';
+$wb["default_remote_dbserver_txt"] = "Default DB Remote servers";
+$wb["disable_client_remote_dbserver_txt"] = "Disable DB Remote sections for Clients";
 ?>

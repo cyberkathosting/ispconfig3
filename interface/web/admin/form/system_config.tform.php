@@ -200,6 +200,25 @@ $form["tabs"]['sites'] = array (
 			'value'  => '',
 			'name'  => 'default_dbserver'
 		),
+		'disable_client_remote_dbserver' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value'  => array(0 => 'n', 1 => 'y')
+		),
+        'default_remote_dbserver' => array (
+			'datatype'  => 'TEXT',
+			'formtype'  => 'TEXT',
+			'validators'  => array (  0 => array (  'type' => 'CUSTOM',
+				'class' => 'validate_database',
+				'function' => 'valid_ip_list',
+				'errmsg' => 'database_remote_error_ips'),
+			),
+			'default' => '',
+			'value'   => '',
+			'width'   => '60',
+			'searchable' => 2
+        ),
 		'web_php_options' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOXARRAY',
@@ -777,4 +796,3 @@ $form['tabs']['dns_ca'] = array (
 	)
 );
 
-?>

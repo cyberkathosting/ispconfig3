@@ -90,6 +90,7 @@
                         </select></div>
                 </tmpl_if>
             </div>
+	 <tmpl_unless name="disable_remote_db">
             <div class="form-group">
                 <label class="col-sm-3 control-label">{tmpl_var name='remote_access_txt'}</label>
                 <div class="col-sm-9">
@@ -99,6 +100,7 @@
             <div class="form-group">
                 <label for="remote_ips" class="col-sm-3 control-label">{tmpl_var name='remote_ips_txt'}</label>
                 <div class="col-sm-9"><input type="text" name="remote_ips" id="remote_ips" value="{tmpl_var name='remote_ips'}" class="form-control" /></div></div>
+	 </tmpl_if>
             <div class="form-group">
                 <label class="col-sm-3 control-label">{tmpl_var name='active_txt'}</label>
                 <div class="col-sm-9">
