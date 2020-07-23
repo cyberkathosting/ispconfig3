@@ -50,7 +50,9 @@
 		ServerAdmin webmaster@<tmpl_var name='domain'>
 
 <tmpl_if name='ssl_enabled'>
-		Protocols h2 http/1.1
+		<IfModule mod_http2.c>
+			Protocols h2 http/1.1
+		</IfModule>
 		SSLProtocol All -SSLv2 -SSLv3 -TLSv1 -TLSv1.1
 		SSLCipherSuite 'EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS'
 </tmpl_if>
