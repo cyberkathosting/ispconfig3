@@ -44,3 +44,6 @@ ALTER TABLE `web_domain` DROP COLUMN `enable_spdy`;
 
 -- was missing in incremental, inserted for fixing older installations
 ALTER TABLE `web_domain` ADD `folder_directive_snippets` TEXT NULL AFTER `https_port`;
+
+ALTER TABLE `web_domain` CHANGE `apache_directives` `apache_directives` mediumtext NULL DEFAULT NULL;
+ALTER TABLE `web_domain` CHANGE `nginx_directives` `nginx_directives` mediumtext NULL DEFAULT NULL;
