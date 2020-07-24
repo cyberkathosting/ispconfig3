@@ -191,7 +191,7 @@ server {
                fastcgi_pass unix:{cgi_socket};
         }
 
-        location /images/mailman {
+        location ^~ /images/mailman {
                alias /usr/share/images/mailman;
         }
 
