@@ -1186,6 +1186,11 @@ class apache2_plugin {
 				$vhost_data['apache_directives'] = $snippet['snippet'];
 			}
 		}
+
+		if(!$vhost_data['apache_directives']) {
+			$vhost_data['apache_directives'] = ''; // ensure it is not null
+		}
+
 		// Make sure we only have Unix linebreaks
 		$vhost_data['apache_directives'] = str_replace("\r\n", "\n", $vhost_data['apache_directives']);
 		$vhost_data['apache_directives'] = str_replace("\r", "\n", $vhost_data['apache_directives']);

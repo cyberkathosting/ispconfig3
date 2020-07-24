@@ -1200,6 +1200,9 @@ class nginx_plugin {
 			$nginx_directives = $data['new']['nginx_directives'];
 //			$vhost_data['enable_pagespeed'] = false;
 		}
+		if(!$nginx_directives) {
+			$nginx_directives = ''; // ensure it is not null
+		}
 
 		// folder_directive_snippets
 		if(trim($data['new']['folder_directive_snippets']) != ''){
