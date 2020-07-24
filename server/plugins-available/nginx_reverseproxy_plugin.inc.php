@@ -111,7 +111,9 @@ class nginx_reverseproxy_plugin {
 		$crt_file = $ssl_dir.'/'.$domain.'.crt';
 		$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
 
-		$vhost_data['nginx_directives'] = preg_replace("/\[IP\]/", $vhost_data['ip_address'], $vhost_data['nginx_directives']);
+		if($vhost_data['nginx_directives']) {
+			$vhost_data['nginx_directives'] = preg_replace("/\[IP\]/", $vhost_data['ip_address'], $vhost_data['nginx_directives']);
+		}
 
 
 		if($data['new']['ssl'] == 'y' && @is_file($crt_file) && @is_file($key_file)) {

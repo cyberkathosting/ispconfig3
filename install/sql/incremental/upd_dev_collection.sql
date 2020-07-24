@@ -53,3 +53,6 @@ UPDATE `web_domain` as w LEFT JOIN sys_group as g ON (g.groupid = w.sys_groupid)
 
 -- we have to decide whether to delete the column or leave it there for investigating not-converted entries
 -- ALTER TABLE `web_domain` DROP COLUMN `fastcgi_php_version`;
+
+ALTER TABLE `web_domain` CHANGE `apache_directives` `apache_directives` mediumtext NULL DEFAULT NULL;
+ALTER TABLE `web_domain` CHANGE `nginx_directives` `nginx_directives` mediumtext NULL DEFAULT NULL;

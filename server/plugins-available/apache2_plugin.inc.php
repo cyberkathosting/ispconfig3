@@ -735,7 +735,13 @@ class apache2_plugin {
 		// Check if the directories are there and create them if necessary.
 		$app->system->web_folder_protection($data['new']['document_root'], false);
 
-		if(!is_dir($data['new']['document_root'].'/' . $web_folder)) $app->system->mkdirpath($data['new']['document_root'].'/' . $web_folder);
+		if(!is_dir($data['new']['document_root'].'/' . $web_folder)) {
+			if($web_folder !== 'web') { //vhost sub/alias
+				$app->system->mkdirpath($data['new']['document_root'].'/' . $web_folder, 0755, $username, $groupname);
+			} else {
+				$app->system->mkdirpath($data['new']['document_root'].'/' . $web_folder);
+			}
+		}
 		if(!is_dir($data['new']['document_root'].'/' . $web_folder . '/error') and $data['new']['errordocs']) $app->system->mkdirpath($data['new']['document_root'].'/' . $web_folder . '/error');
 		if($data['new']['stats_type'] != '' && !is_dir($data['new']['document_root'].'/' . $web_folder . '/stats')) $app->system->mkdirpath($data['new']['document_root'].'/' . $web_folder . '/stats');
 		if(!is_dir($data['new']['document_root'].'/ssl')) $app->system->mkdirpath($data['new']['document_root'].'/ssl');
@@ -1194,6 +1200,11 @@ class apache2_plugin {
 				$vhost_data['apache_directives'] = $snippet['snippet'];
 			}
 		}
+
+		if(!$vhost_data['apache_directives']) {
+			$vhost_data['apache_directives'] = ''; // ensure it is not null
+		}
+
 		// Make sure we only have Unix linebreaks
 		$vhost_data['apache_directives'] = str_replace("\r\n", "\n", $vhost_data['apache_directives']);
 		$vhost_data['apache_directives'] = str_replace("\r", "\n", $vhost_data['apache_directives']);
