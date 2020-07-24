@@ -8,9 +8,9 @@ query = SELECT sender_cc FROM (
             UNION
             SELECT SUBSTRING_INDEX(u.sender_cc, ',', 1) AS sender_cc
               FROM mail_user u, mail_forwarding f
-             WHERE f.destination REGEXP CONCAT( '(^|\\n)[[:blank:]]*,?[[:blank:]]*',
+             WHERE f.destination REGEXP CONCAT( '((^|\\n)[[:blank:]]*,?|[[:alnum:]][[:blank:]]*,)[[:blank:]]*',
                                                 REPLACE( REPLACE(u.email, '+', '\\+'), '.', '\\.' ),
-                                                '[[:blank:]]*,?[[:blank:]]*(\\r?\\n|$)' )
+                                                '[[:blank:]]*(,[[:blank:]]*[[:alnum:]]|,?[[:blank:]]*(\\r?\\n|$))' )
                AND u.disablesmtp = 'n' AND u.sender_cc != '' AND u.server_id = {server_id}
                AND f.source = '%s' AND f.allow_send_as = 'y' AND f.active = 'y' AND f.server_id = {server_id}
         ) table1 WHERE sender_cc != '' LIMIT 1
