@@ -3,14 +3,14 @@ password = {mysql_server_ispconfig_password}
 dbname = {mysql_server_database}
 hosts = {mysql_server_ip}
 query = SELECT sender_cc FROM (
-            SELECT @num_sender_cc := 1 + LENGTH(sender_cc) - LENGTH(REPLACE(sender_cc, ',', '')) AS num_sender_cc,
-                   SUBSTRING_INDEX(sender_cc, ',', 1) AS sender_cc
+            SELECT SUBSTRING_INDEX(sender_cc, ',', 1) AS sender_cc
               FROM mail_user WHERE email = '%s' AND disablesmtp = 'n' AND sender_cc != '' AND server_id = {server_id}
             UNION
-            SELECT @num_sender_cc := 1 + LENGTH(u.sender_cc) - LENGTH(REPLACE(u.sender_cc, ',', '')) AS num_sender_cc,
-                   SUBSTRING_INDEX(u.sender_cc, ',', 1) AS sender_cc
+            SELECT SUBSTRING_INDEX(u.sender_cc, ',', 1) AS sender_cc
               FROM mail_user u, mail_forwarding f
-             WHERE f.destination REGEXP CONCAT( '(^|\\n)[[:blank:]]*,?[[:blank:]]*', u.email, '[[:blank:]]*,?[[:blank:]]*(\\r?\\n|$)' )
+             WHERE f.destination REGEXP CONCAT( '(^|\\n)[[:blank:]]*,?[[:blank:]]*',
+                                                REPLACE( REPLACE(u.email, '+', '\\+'), '.', '\\.' ),
+                                                '[[:blank:]]*,?[[:blank:]]*(\\r?\\n|$)' )
                AND u.disablesmtp = 'n' AND u.sender_cc != '' AND u.server_id = {server_id}
                AND f.source = '%s' AND f.allow_send_as = 'y' AND f.active = 'y' AND f.server_id = {server_id}
         ) table1 WHERE sender_cc != '' LIMIT 1
