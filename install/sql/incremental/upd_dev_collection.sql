@@ -44,3 +44,12 @@ ALTER TABLE `web_domain` DROP COLUMN `enable_spdy`;
 
 -- was missing in incremental, inserted for fixing older installations
 ALTER TABLE `web_domain` ADD `folder_directive_snippets` TEXT NULL AFTER `https_port`;
+
+ALTER TABLE `web_domain` ADD `server_php_id` INT(11) UNSIGNED NOT NULL DEFAULT 0;
+
+UPDATE `web_domain` as w LEFT JOIN sys_group as g ON (g.groupid = w.sys_groupid) INNER JOIN `server_php` as p ON (w.fastcgi_php_version = CONCAT(p.name, ':', p.php_fastcgi_binary, ':', p.php_fastcgi_ini_dir) AND p.server_id IN (0, w.server_id) AND p.client_id IN (0, g.client_id)) SET w.server_php_id = p.server_php_id, w.fastcgi_php_version = '' WHERE 1;
+
+UPDATE `web_domain` as w LEFT JOIN sys_group as g ON (g.groupid = w.sys_groupid) INNER JOIN `server_php` as p ON (w.fastcgi_php_version = CONCAT(p.name, ':', p.php_fpm_init_script, ':', p.php_fpm_ini_dir, ':', p.php_fpm_pool_dir) AND p.server_id IN (0, w.server_id) AND p.client_id IN (0, g.client_id)) SET w.server_php_id = p.server_php_id, w.fastcgi_php_version = '' WHERE 1;
+
+-- we have to decide whether to delete the column or leave it there for investigating not-converted entries
+-- ALTER TABLE `web_domain` DROP COLUMN `fastcgi_php_version`;

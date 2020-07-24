@@ -994,30 +994,29 @@ class nginx_plugin {
 		}
 		if($data['new']['ip_address'] == '*' && $data['new']['ipv6_address'] == '') $tpl->setVar('ipv6_wildcard', 1);
 
-		// PHP-FPM
-		// Support for multiple PHP versions
-		/*
-		if(trim($data['new']['fastcgi_php_version']) != ''){
-			$default_php_fpm = false;
-			list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['new']['fastcgi_php_version']));
-			if(substr($custom_php_fpm_ini_dir,-1) != '/') $custom_php_fpm_ini_dir .= '/';
-		} else {
-			$default_php_fpm = true;
-		}
-		*/
 		if($data['new']['php'] == 'php-fpm' || $data['new']['php'] == 'hhvm'){
-			if(trim($data['new']['fastcgi_php_version']) != ''){
+			if($data['new']['server_php_id'] != 0){
 				$default_php_fpm = false;
-				list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['new']['fastcgi_php_version']));
-				if(substr($custom_php_fpm_ini_dir, -1) != '/') $custom_php_fpm_ini_dir .= '/';
+				$tmp_php = $app->db->queryOneRecord('SELECT * FROM server_php WHERE server_php_id = ?', $data['new']['server_php_id']);
+				if($tmp_php) {
+					$custom_php_fpm_ini_dir = $tmp_php['php_fpm_ini_dir'];
+					$custom_php_fpm_init_script = $tmp_php['php_fpm_init_script'];
+					$custom_php_fpm_pool_dir = $tmp_php['php_fpm_pool_dir'];
+					if(substr($custom_php_fpm_ini_dir, -1) != '/') $custom_php_fpm_ini_dir .= '/';
+				}
 			} else {
 				$default_php_fpm = true;
 			}
 		} else {
-			if(trim($data['old']['fastcgi_php_version']) != '' && $data['old']['php'] != 'no'){
+			if($data['old']['server_php_id'] != 0 && $data['old']['php'] != 'no'){
 				$default_php_fpm = false;
-				list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['old']['fastcgi_php_version']));
-				if(substr($custom_php_fpm_ini_dir, -1) != '/') $custom_php_fpm_ini_dir .= '/';
+				$tmp_php = $app->db->queryOneRecord('SELECT * FROM server_php WHERE server_php_id = ?', $data['old']['server_php_id']);
+				if($tmp_php) {
+					$custom_php_fpm_ini_dir = $tmp_php['php_fpm_ini_dir'];
+					$custom_php_fpm_init_script = $tmp_php['php_fpm_init_script'];
+					$custom_php_fpm_pool_dir = $tmp_php['php_fpm_pool_dir'];
+					if(substr($custom_php_fpm_ini_dir, -1) != '/') $custom_php_fpm_ini_dir .= '/';
+				}
 			} else {
 				$default_php_fpm = true;
 			}
@@ -2657,18 +2656,28 @@ class nginx_plugin {
 
 		// HHVM => PHP-FPM-Fallback
 		if($data['new']['php'] == 'php-fpm' || $data['new']['php'] == 'hhvm'){
-			if(trim($data['new']['fastcgi_php_version']) != ''){
+			if($data['new']['server_php_id'] != 0){
 				$default_php_fpm = false;
-				list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['new']['fastcgi_php_version']));
-				if(substr($custom_php_fpm_ini_dir, -1) != '/') $custom_php_fpm_ini_dir .= '/';
+				$tmp_php = $app->db->queryOneRecord('SELECT * FROM server_php WHERE server_php_id = ?', $data['new']['server_php_id']);
+				if($tmp_php) {
+					$custom_php_fpm_ini_dir = $tmp_php['php_fpm_ini_dir'];
+					$custom_php_fpm_init_script = $tmp_php['php_fpm_init_script'];
+					$custom_php_fpm_pool_dir = $tmp_php['php_fpm_pool_dir'];
+					if(substr($custom_php_fpm_ini_dir, -1) != '/') $custom_php_fpm_ini_dir .= '/';
+				}
 			} else {
 				$default_php_fpm = true;
 			}
 		} else {
-			if(trim($data['old']['fastcgi_php_version']) != '' && $data['old']['php'] != 'no'){
+			if($data['old']['server_php_id'] != 0 && $data['old']['php'] != 'no'){
 				$default_php_fpm = false;
-				list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['old']['fastcgi_php_version']));
-				if(substr($custom_php_fpm_ini_dir, -1) != '/') $custom_php_fpm_ini_dir .= '/';
+				$tmp_php = $app->db->queryOneRecord('SELECT * FROM server_php WHERE server_php_id = ?', $data['old']['server_php_id']);
+				if($tmp_php) {
+					$custom_php_fpm_ini_dir = $tmp_php['php_fpm_ini_dir'];
+					$custom_php_fpm_init_script = $tmp_php['php_fpm_init_script'];
+					$custom_php_fpm_pool_dir = $tmp_php['php_fpm_pool_dir'];
+					if(substr($custom_php_fpm_ini_dir, -1) != '/') $custom_php_fpm_ini_dir .= '/';
+				}
 			} else {
 				$default_php_fpm = true;
 			}
@@ -2869,10 +2878,15 @@ class nginx_plugin {
 	private function php_fpm_pool_delete ($data, $web_config) {
 		global $app, $conf;
 
-		if(trim($data['old']['fastcgi_php_version']) != '' && $data['old']['php'] != 'no'){
+		if($data['old']['server_php_id'] != 0 && $data['old']['php'] != 'no'){
 			$default_php_fpm = false;
-			list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($data['old']['fastcgi_php_version']));
-			if(substr($custom_php_fpm_ini_dir, -1) != '/') $custom_php_fpm_ini_dir .= '/';
+			$tmp_php = $app->db->queryOneRecord('SELECT * FROM server_php WHERE server_php_id = ?', $data['old']['server_php_id']);
+			if($tmp_php) {
+				$custom_php_fpm_ini_dir = $tmp_php['php_fpm_ini_dir'];
+				$custom_php_fpm_init_script = $tmp_php['php_fpm_init_script'];
+				$custom_php_fpm_pool_dir = $tmp_php['php_fpm_pool_dir'];
+				if(substr($custom_php_fpm_ini_dir, -1) != '/') $custom_php_fpm_ini_dir .= '/';
+			}
 		} else {
 			$default_php_fpm = true;
 		}
