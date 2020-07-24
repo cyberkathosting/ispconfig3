@@ -425,6 +425,11 @@ class nginx_plugin {
 			$log_folder .= '/' . $subdomain_host;
 			unset($tmp);
 
+			if($app->system->is_blacklisted_web_path($web_folder)) {
+				$app->log('Vhost is using a blacklisted web folder: ' . $web_folder, LOGLEVEL_ERROR);
+				return 0;
+			}
+
 			if(isset($data['old']['parent_domain_id'])) {
 				// old one
 				$tmp = $app->db->queryOneRecord('SELECT `domain` FROM web_domain WHERE domain_id = ?', $data['old']['parent_domain_id']);

@@ -67,30 +67,42 @@ class system {
 		}
 	}
 
+	public function is_blacklisted_web_path($path) {
+		$blacklist = array('bin', 'cgi-bin', 'dev', 'etc', 'home', 'lib', 'lib64', 'log', 'ssl', 'usr', 'var');
+
+		$path = ltrim($path, '/');
+		$parts = explode('/', $path);
+		if(in_array(strtolower($parts[0]), $blacklist, true)) {
+			return true;
+		}
+
+		return false;
+	}
+
 	public function last_exec_out() {
 		return $this->_last_exec_out;
 	}
-	
+
 	public function last_exec_retcode() {
 		return $this->_last_exec_retcode;
 	}
-	
+
 	public function exec_safe($cmd) {
 		$arg_count = func_num_args();
 		$args = func_get_args();
-		
+
 		if($arg_count != substr_count($cmd, '?') + 1) {
 			trigger_error('Placeholder count not matching argument list.', E_USER_WARNING);
 			return false;
 		}
 		if($arg_count > 1) {
 			array_shift($args);
-			
+
 			$pos = 0;
 			$a = 0;
 			foreach($args as $value) {
 				$a++;
-				
+
 				$pos = strpos($cmd, '?', $pos);
 				if($pos === false) {
 					break;
@@ -100,16 +112,16 @@ class system {
 				$pos += strlen($value);
 			}
 		}
-		
+
 		$this->_last_exec_out = null;
 		$this->_last_exec_retcode = null;
 		return exec($cmd, $this->_last_exec_out, $this->_last_exec_retcode);
 	}
-	
+
 	public function system_safe($cmd) {
 		call_user_func_array(array($this, 'exec_safe'), func_get_args());
 		return implode("\n", $this->_last_exec_out);
-	}	
+	}
 
     //* Check if a application is installed
     public function is_installed($appname) {
@@ -122,5 +134,5 @@ class system {
             return false;
         }
     }
-	
+
 } //* End Class
