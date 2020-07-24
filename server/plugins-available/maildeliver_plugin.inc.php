@@ -102,8 +102,9 @@ class maildeliver_plugin {
 			$old_sieve_file_isp = $data["new"]["maildir"].'/sieve/ispconfig.sieve';
 			$sieve_file_isp_before = $data["new"]["maildir"].'/.ispconfig-before.sieve';
 			$sieve_file_isp_before_svbin = $data["new"]["maildir"].'/.ispconfig-before.svbin';
-			$sieve_file_isp_after = $data["new"]["maildir"].'/.ispconfig-after.sieve';
-			$sieve_file_isp_after_svbin = $data["new"]["maildir"].'/.ispconfig-after.svbin';
+			$sieve_file_isp_after = $data["new"]["maildir"].'/.ispconfig.sieve';
+			$sieve_file_isp_after_svbin = $data["new"]["maildir"].'/.ispconfig.svbin';
+
 			if(is_file($old_sieve_file_isp)) unlink($old_sieve_file_isp)  or $app->log("Unable to delete file: $old_sieve_file_isp", LOGLEVEL_WARN);
 			// cleanup .sieve file if it is now a broken link
 			if(is_link($sieve_file) && !file_exists($sieve_file)) unlink($sieve_file)  or $app->log("Unable to delete file: $sieve_file", LOGLEVEL_WARN);
@@ -241,11 +242,12 @@ class maildeliver_plugin {
 
 		$sieve_file = $data["old"]["maildir"].'/.sieve';
 		$sieve_file_svbin = $data["old"]["maildir"].'/.sieve.svbin';
-		$old_sieve_file_isp = $data["old"]["maildir"].'/sieve/ispconfig.sieve';
+		$old_sieve_file_isp = $data["new"]["maildir"].'/sieve/ispconfig.sieve';
 		$sieve_file_isp_before = $data["old"]["maildir"].'/.ispconfig-before.sieve';
 		$sieve_file_isp_before_svbin = $data["old"]["maildir"].'/.ispconfig-before.svbin';
-		$sieve_file_isp_after = $data["old"]["maildir"].'/.ispconfig-after.sieve';
-		$sieve_file_isp_after_svbin = $data["old"]["maildir"].'/.ispconfig-after.svbin';
+		$sieve_file_isp_after = $data["old"]["maildir"].'/.ispconfig.sieve';
+		$sieve_file_isp_after_svbin = $data["old"]["maildir"].'/.ispconfig.svbin';
+
 		if(is_file($old_sieve_file_isp)) unlink($old_sieve_file_isp)  or $app->log("Unable to delete file: $old_sieve_file_isp", LOGLEVEL_WARN);
 		// cleanup .sieve file if it is now a broken link
 		if(is_link($sieve_file) && !file_exists($sieve_file)) unlink($sieve_file)  or $app->log("Unable to delete file: $sieve_file", LOGLEVEL_WARN);
