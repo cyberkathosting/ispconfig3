@@ -1030,11 +1030,7 @@ class page_action extends tform_actions {
 				$this->dataRecord['web_folder'] = strtolower($this->dataRecord['web_folder']);
 				if(substr($this->dataRecord['web_folder'], 0, 1) === '/') $this->dataRecord['web_folder'] = substr($this->dataRecord['web_folder'], 1);
 				if(substr($this->dataRecord['web_folder'], -1) === '/') $this->dataRecord['web_folder'] = substr($this->dataRecord['web_folder'], 0, -1);
-				$forbidden_folders = array('', 'cgi-bin', 'log', 'private', 'ssl', 'tmp', 'webdav');
-				$check_folder = strtolower($this->dataRecord['web_folder']);
-				if(substr($check_folder, 0, 1) === '/') $check_folder = substr($check_folder, 1); // strip / at beginning to check against forbidden entries
-				if(strpos($check_folder, '/') !== false) $check_folder = substr($check_folder, 0, strpos($check_folder, '/')); // get the first part of the path to check it
-				if(in_array($check_folder, $forbidden_folders)) {
+				if($app->system->is_blacklisted_web_path($this->dataRecord['web_folder'])) {
 					$app->tform->errorMessage .= $app->tform->lng("web_folder_invalid_txt")."<br>";
 				}
 
