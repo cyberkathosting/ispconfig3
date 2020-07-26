@@ -9,11 +9,13 @@
 
 
         {tmpl_hook name="begin_form"}
-            <tmpl_if name="vhostdomain_type" value="domain">
+    <tmpl_if name="vhostdomain_type" value="domain">
             <tmpl_if name="web_aliasdomains_info">
             Children:
             <ul>
-              <tmpl_loop name="web_aliasdomains_info"><li>{tmpl_var name='type'}: {tmpl_var name='domain'}</li></tmpl_loop>
+              <tmpl_loop name="web_aliasdomains_info">
+                <li>{tmpl_var name='type'}: <a href="#" data-load-content="sites/web_vhost_domain_edit.php?id={tmpl_var name='domain_id'}" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="link">{tmpl_var name='domain'}</a></li>
+              </tmpl_loop>
             </ul>
             <br />
             </tmpl_if>
