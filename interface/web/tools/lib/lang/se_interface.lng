@@ -1,7 +1,0 @@
-<?php
-$wb['interface_head_txt'] = 'Gränssnittsinställnignar';
-$wb['interface_desc_txt'] = 'Ändra ditt gränssnitt';
-$wb['language_txt'] = 'Språk';
-$wb['startmodule_txt'] = 'Startmodul';
-$wb['app_theme_txt'] = 'Design';
-?>
