@@ -2,6 +2,7 @@
 
 /*
 Copyright (c) 2013, Marius Cramer, pixcept KG
+Copyright (c) 2020, Michael Seevogel
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -59,17 +60,25 @@ class cronjob_goaccess extends cronjob {
 
 		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
 
-		$goaccess_conf_dir = '/etc/';
-		$goaccess_conf_main = $goaccess_conf_dir . 'goaccess.conf';
+                $goaccess_conf_locs = array('/etc/goaccess.conf', '/etc/goaccess/goaccess.conf');
+                $count = 0;
 
-		if(!file_exists($goaccess_conf_main) || !isset($goaccess_conf_main))
-		{
-			$app->log("No GoAccess base config found. Make sure that GoAccess is installed and that the goaccess.conf does exist in ".$goaccess_conf_dir.".", LOGLEVEL_WARN);
-		}
+                foreach($goaccess_conf_locs as $goa_loc) {
+                        if(is_file($goa_loc) && (filesize($goa_loc) > 0)) {
+                                $goaccess_conf_main = $goa_loc;
+                                break;
+                        } else {
+                                $count++;
+                                if($count == 2) {
+                                        $app->log("No GoAccess base config found. Make sure that GoAccess is installed and that the goaccess.conf does exist in /etc or /etc/goaccess", LOGLEVEL_ERROR);
+                                }
+                        }
+                }
+
 
                 /* Check wether the goaccess binary is in path */
-		system('type goaccess', $retval);
-                if ($retval === 0) {
+                system("type goaccess 2>&1>/dev/null", $retval);
+		if ($retval === 0) {
 
 		foreach($records as $rec) {
 			$yesterday = date('Ymd', strtotime("-1 day", time()));
@@ -121,7 +130,6 @@ class cronjob_goaccess extends cronjob {
 			}
 
 
-
 			if(!@is_dir($statsdir)) mkdir($statsdir);
 			$username = escapeshellcmd($rec['system_user']);
 			$groupname = escapeshellcmd($rec['system_group']);
@@ -171,30 +179,38 @@ class cronjob_goaccess extends cronjob {
 					if (substr($file, 0, 1) != "." && !is_dir("$statsdir"."/"."$file") && substr($file, 0, 1) != "w" && substr($file, 0, 1) != "i") copy("$statsdir"."/"."$file", "$statsdirold"."$file");
 				}
 			}
-			
-                        $app->system->exec_safe("goaccess -f ? --config-file ? --load-from-disk --keep-db-files --db-path=? --output=?", $logfile, $goaccess_conf, $goa_db_dir, $output_html);
 
-			if(!is_file($rec['document_root']."/".$web_folder."/stats/index.php")) {
-				if(file_exists("/usr/local/ispconfig/server/conf-custom/goaccess_index.php.master")) {
-					copy("/usr/local/ispconfig/server/conf-custom/goaccess_index.php.master", $rec['document_root']."/".$web_folder."/stats/index.php");
-				} else {
-					copy("/usr/local/ispconfig/server/conf/goaccess_index.php.master", $rec['document_root']."/".$web_folder."/stats/index.php");
+
+			$output = shell_exec('goaccess --help');
+
+			if(preg_match('/keep-db-files/', $output)) {
+				$app->system->exec_safe("goaccess -f ? --config-file ? --load-from-disk --keep-db-files --db-path=? --output=?", $logfile, $goaccess_conf, $goa_db_dir, $output_html);
+
+				if(!is_file($rec['document_root']."/".$web_folder."/stats/index.php")) {
+					if(file_exists("/usr/local/ispconfig/server/conf-custom/goaccess_index.php.master")) {
+						copy("/usr/local/ispconfig/server/conf-custom/goaccess_index.php.master", $rec['document_root']."/".$web_folder."/stats/index.php");
+					} else {
+						copy("/usr/local/ispconfig/server/conf/goaccess_index.php.master", $rec['document_root']."/".$web_folder."/stats/index.php");
+					}
 				}
+
+	                        $app->log('Created GoAccess statistics for ' . $domain, LOGLEVEL_DEBUG);
+	                        if(is_file($rec['document_root']."/".$web_folder."/stats/index.php")) {
+	                                chown($rec['document_root']."/".$web_folder."/stats/index.php", $rec['system_user']);
+	                                chgrp($rec['document_root']."/".$web_folder."/stats/index.php", $rec['system_group']);
+	                        }
+
+	                        $app->system->exec_safe('chown -R ?:? ?', $username, $groupname, $statsdir);
+
+			} else {
+		                $app->log("Stats not generated. The GoAccess binary was not compiled with btree support. Please recompile/reinstall GoAccess with btree support!", LOGLEVEL_ERROR);
 			}
 
-			$app->log('Created GoAccess statistics for ' . $domain, LOGLEVEL_DEBUG);
-		
-
-			if(is_file($rec['document_root']."/".$web_folder."/stats/index.php")) {
-				chown($rec['document_root']."/".$web_folder."/stats/index.php", $rec['system_user']);
-				chgrp($rec['document_root']."/".$web_folder."/stats/index.php", $rec['system_group']);
-			}
-
-			$app->system->exec_safe('chown -R ?:? ?', $username, $groupname, $statsdir);
+			unset($output);
 
 		}
 	} else {
-		$app->log("Stats not generated. The GoAccess binary couldn't be found. Make sure that GoAccess is installed and that it is in \$PATH", LOGLEVEL_WARN);
+		$app->log("Stats not generated. The GoAccess binary couldn't be found. Make sure that GoAccess is installed and that it is in \$PATH", LOGLEVEL_ERROR);
 	}
 
 		parent::onRunJob();

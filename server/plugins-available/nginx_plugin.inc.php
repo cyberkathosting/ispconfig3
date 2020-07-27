@@ -2541,12 +2541,24 @@ class nginx_plugin {
                 $web_folder = $data['new']['web_folder'];
                 if($data['new']['type'] == 'vhost') $web_folder = 'web';
 
-		$goaccess_conf_dir = '/etc/';
-                $goaccess_conf_main = $goaccess_conf_dir.'goaccess.conf';
+                $goaccess_conf_locs = array('/etc/goaccess.conf', '/etc/goaccess/goaccess.conf');
+                $count = 0;
+
+                foreach($goaccess_conf_locs as $goa_loc) {
+                        if(is_file($goa_loc) && (filesize($goa_loc) > 0)) {
+                                $goaccess_conf_main = $goa_loc;
+                                break;
+                        } else {
+                                $count++;
+                                if($count == 2) {
+                                        $app->log("No GoAccess base config found. Make sure that GoAccess is installed and that the goaccess.conf does exist in /etc or /etc/goaccess", LOGLEVEL_ERROR);
+                                }
+                        }
+                }
+
 
                 if(!is_dir($data['new']['document_root']."/" . $web_folder . "/stats/")) mkdir($data['new']['document_root']."/" . $web_folder . "/stats/.db");
 		$goaccess_conf = escapeshellcmd($data['new']['document_root'].'/log/goaccess.conf');
-
 
 		/*
 		In case that you use a different log format, you should use a custom goaccess.conf which you'll have to put into /usr/local/ispconfig/server/conf-custom/.
