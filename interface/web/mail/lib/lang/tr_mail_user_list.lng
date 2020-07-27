@@ -7,6 +7,7 @@ $wb['name_txt'] = 'Gerçek Ad';
 $wb['login_txt'] = 'Oturum Aç';
 $wb['postfix_txt'] = 'Alınıyor';
 $wb['disablesmtp_txt'] = 'SMTP (sending)';
+$wb['disabledeliver_txt'] = 'INBOX';
 $wb['disableimap_txt'] = 'IMAP';
 $wb['disablepop3_txt'] = 'POP3';
 ?>

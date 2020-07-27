@@ -7,6 +7,7 @@ $wb['name_txt'] = 'Riktigt namn';
 $wb['login_txt'] = 'Logga in';
 $wb['postfix_txt'] = 'Receiving';
 $wb['disablesmtp_txt'] = 'SMTP (sending)';
+$wb['disabledeliver_txt'] = 'INBOX';
 $wb['disableimap_txt'] = 'IMAP';
 $wb['disablepop3_txt'] = 'POP3';
 ?>
