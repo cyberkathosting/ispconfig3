@@ -2532,6 +2532,71 @@ class nginx_plugin {
 		//$app->services->restartServiceDelayed('httpd','reload');
 	}
 
+
+
+        //* Update the GoAccess configuration file
+        private function goaccess_update ($data, $web_config) {
+                global $app;
+
+                $web_folder = $data['new']['web_folder'];
+                if($data['new']['type'] == 'vhost') $web_folder = 'web';
+
+		$goaccess_conf_dir = '/etc/';
+                $goaccess_conf_main = $goaccess_conf_dir.'goaccess.conf';
+
+                if(!is_dir($data['new']['document_root']."/" . $web_folder . "/stats/")) mkdir($data['new']['document_root']."/" . $web_folder . "/stats/.db");
+		$goaccess_conf = escapeshellcmd($data['new']['document_root'].'/log/goaccess.conf');
+
+
+		/*
+		In case that you use a different log format, you should use a custom goaccess.conf which you'll have to put into /usr/local/ispconfig/server/conf-custom/.
+		By default the originaly with GoAccess shipped goaccess.conf from /etc/ will be used along with the log-format value COMBINED. 
+		*/
+		if(file_exists("/usr/local/ispconfig/server/conf-custom/goaccess.conf.master") && (!file_exists($goaccess_conf))) {
+			copy("/usr/local/ispconfig/server/conf-custom/goaccess.conf.master", $goaccess_conf);
+		} elseif(!file_exists($goaccess_conf)) {
+			/*
+			 By default the goaccess.conf should get copied by the webserver plugin but in case it wasn't, or it got deleted by accident we gonna copy it again to the destination dir.
+			 Also there was no /usr/local/ispconfig/server/conf-custom/goaccess.conf.master, so we gonna use /etc/goaccess.conf as the base conf.
+			*/
+			copy($goaccess_conf_main, $goaccess_conf);
+			file_put_contents($goaccess_conf, preg_replace('/^(#)?log-format COMBINED/m', "log-format COMBINED", file_get_contents($goaccess_conf)));
+		}
+
+                if(file_exists($goaccess_conf)) {
+                        $domain = escapeshellcmd($data['new']['domain']);
+			file_put_contents($goaccess_conf, preg_replace('/^(#)?html-report-title(.*)/m', "html-report-title $domain", file_get_contents($goaccess_conf)));
+		}
+
+		if(is_file($goaccess_conf) && (filesize($goaccess_conf) > 0)) {
+			$app->log('Created GoAccess config file: '.$goaccess_conf, LOGLEVEL_DEBUG);
+		} else {
+			$app->log("No GoAccess base config found. Make sure that GoAccess is installed and that the goaccess.conf does exist in ".$goaccess_conf_dir.".", LOGLEVEL_WARN);
+		}
+
+                if(is_file($data['new']['document_root']."/" . $web_folder . "/stats/index.html")) $app->system->unlink($data['new']['document_root']."/" . $web_folder . "/stats/index.html");
+                if(file_exists("/usr/local/ispconfig/server/conf-custom/goaccess_index.php.master")) {
+                        $app->system->copy("/usr/local/ispconfig/server/conf-custom/goaccess_index.php.master", $data['new']['document_root']."/" . $web_folder . "/stats/index.php");
+                } else {
+                        $app->system->copy("/usr/local/ispconfig/server/conf/goaccess_index.php.master", $data['new']['document_root']."/" . $web_folder . "/stats/index.php");
+                }
+        }
+
+        //* Delete the GoAccess configuration file
+        private function goaccess_delete ($data, $web_config) {
+                global $app;
+
+                $goaccess_conf = escapeshellcmd($data['new']['document_root'].'/log/goaccess.conf');
+
+                if ( @is_file($goaccess_conf) ) {
+                        $app->system->unlink($goaccess_conf);
+                        $app->log('Removed GoAccess config file: '.$goaccess_conf, LOGLEVEL_DEBUG);
+                }
+        }
+
+
+
+
 	//* Update the awstats configuration file
 	private function awstats_update ($data, $web_config) {
 		global $app;
