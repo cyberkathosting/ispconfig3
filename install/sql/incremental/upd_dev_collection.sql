@@ -59,3 +59,6 @@ ALTER TABLE `web_domain` CHANGE `nginx_directives` `nginx_directives` mediumtext
 
 -- add move to junk before/after option, default to after
 ALTER TABLE `mail_user` MODIFY `move_junk` enum('y','a','n') NOT NULL DEFAULT 'y';
+
+-- Change id_rsa column to TEXT format
+ALTER TABLE `client` CHANGE `id_rsa` `id_rsa` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '';

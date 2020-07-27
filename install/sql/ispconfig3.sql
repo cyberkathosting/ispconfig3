@@ -253,7 +253,7 @@ CREATE TABLE `client` (
   `canceled` enum('n','y') NOT NULL DEFAULT 'n',
   `can_use_api` enum('n','y') NOT NULL DEFAULT 'n',
   `tmp_data` mediumblob,
-  `id_rsa` varchar(2000) NOT NULL DEFAULT '',
+  `id_rsa` text NOT NULL DEFAULT '',
   `ssh_rsa` varchar(600) NOT NULL DEFAULT '',
   `customer_no_template` varchar(255) DEFAULT 'R[CLIENTID]C[CUSTOMER_NO]',
   `customer_no_start` int(11) NOT NULL DEFAULT '1',
