@@ -199,14 +199,14 @@ $form["tabs"]['mailuser'] = array(
 				2 => array( 'event' => 'SAVE',
 					'type' => 'TOLOWER')
 			),
-			'validators' => array (  0 => array ( 'type' => 'REGEX',
-					'regex'=>'/^(\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\.[a-z\-]{2,63}){0,1}(,\s*\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\.[a-z\-]{2,63}){0,}$/i',
+			'validators' => array (  0 => array ( 'type' => 'ISEMAIL',
 					'errmsg'=> 'sender_cc_error_isemail'),
 			),
 			'default' => '',
 			'value'  => '',
 			'width'  => '30',
-			'maxlength' => '255'
+			'maxlength' => '255',
+			'searchable' => 2
 		),
 		'maildir' => array (
 			'datatype' => 'VARCHAR',
@@ -287,6 +287,12 @@ $form["tabs"]['mailuser'] = array(
 		),
 		*/
 		'disablesmtp' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value'  => array(1 => 'y', 0 => 'n')
+		),
+		'disabledeliver' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
 			'default' => 'n',

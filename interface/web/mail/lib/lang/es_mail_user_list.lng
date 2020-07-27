@@ -4,6 +4,7 @@ $wb['autoresponder_txt'] = 'Auto respuesta';
 $wb['disableimap_txt'] = 'IMAP';
 $wb['disablepop3_txt'] = 'POP3';
 $wb['disablesmtp_txt'] = 'SMTP (envío)';
+$wb['disabledeliver_txt'] = 'INBOX';
 $wb['email_txt'] = 'Correo';
 $wb['list_head_txt'] = 'Buzón';
 $wb['login_txt'] = 'Entrar';
