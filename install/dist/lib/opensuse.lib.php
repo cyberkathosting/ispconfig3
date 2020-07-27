@@ -63,6 +63,9 @@ class installer_dist extends installer_base {
 		//* mysql-virtual_forwardings.cf
 		$this->process_postfix_config('mysql-virtual_forwardings.cf');
 
+		//* mysql-virtual_alias_domains.cf
+		$this->process_postfix_config('mysql-virtual_alias_domains.cf');
+
 		//* mysql-virtual_mailboxes.cf
 		$this->process_postfix_config('mysql-virtual_mailboxes.cf');
 
@@ -98,6 +101,9 @@ class installer_dist extends installer_base {
 
 		//* mysql-virtual_uids.cf
 		$this->process_postfix_config('mysql-virtual_uids.cf');
+
+		//* mysql-virtual_alias_domains.cf
+		$this->process_postfix_config('mysql-verify_recipients.cf');
 
 		//* postfix-dkim
 		$filename='tag_as_originating.re';
