@@ -1787,6 +1787,18 @@ class system{
 		}
 	}
 
+	public function is_blacklisted_web_path($path) {
+		$blacklist = array('bin', 'cgi-bin', 'dev', 'etc', 'home', 'lib', 'lib64', 'log', 'ssl', 'usr', 'var', 'proc', 'net', 'sys', 'srv', 'sbin', 'run');
+
+		$path = ltrim($path, '/');
+		$parts = explode('/', $path);
+		if(in_array(strtolower($parts[0]), $blacklist, true)) {
+			return true;
+		}
+
+		return false;
+	}
+
 	function web_folder_protection($document_root, $protect) {
 		global $app, $conf;
 

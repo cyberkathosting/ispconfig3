@@ -1,8 +1,7 @@
 user = {mysql_server_ispconfig_user}
 password = {mysql_server_ispconfig_password}
 dbname = {mysql_server_database}
-table = mail_user
-select_field = email
-where_field = email
-additional_conditions = and postfix = 'y' and server_id = {server_id}
 hosts = {mysql_server_ip}
+query = SELECT email FROM mail_user WHERE email = '%s' AND postfix = 'y' AND disabledeliver = 'n' AND server_id = {server_id}
+        UNION
+        SELECT cc AS email FROM mail_user WHERE email = '%s' AND postfix = 'y' AND disabledeliver = 'y' AND server_id = {server_id}

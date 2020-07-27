@@ -56,3 +56,6 @@ UPDATE `web_domain` as w LEFT JOIN sys_group as g ON (g.groupid = w.sys_groupid)
 
 ALTER TABLE `web_domain` CHANGE `apache_directives` `apache_directives` mediumtext NULL DEFAULT NULL;
 ALTER TABLE `web_domain` CHANGE `nginx_directives` `nginx_directives` mediumtext NULL DEFAULT NULL;
+
+-- add move to junk before/after option, default to after
+ALTER TABLE `mail_user` MODIFY `move_junk` enum('y','a','n') NOT NULL DEFAULT 'y';
