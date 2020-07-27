@@ -96,7 +96,7 @@ class shelluser_base_plugin {
 			return false;
 		}
 
-		if($data['new']['active'] != 'y') $data['new']['shell'] = '/bin/false';
+		if($data['new']['active'] != 'y' || $data['new']['chroot'] == "jailkit") $data['new']['shell'] = '/bin/false';
 
 		if($app->system->is_user($data['new']['puser'])) {
 
