@@ -370,10 +370,6 @@ if ($global_config['mail']['mailbox_show_autoresponder_tab'] === 'y') {
 					0 => array ( 'type' => 'ISDATETIME',
 						'allowempty' => 'y',
 						'errmsg'=> 'autoresponder_start_date_is_no_date'),
-					1 => array ( 'type' => 'CUSTOM',
-						'class' => 'validate_autoresponder',
-						'function' => 'start_date',
-						'errmsg'=> 'autoresponder_start_date_is_required'),
 				)
 			),
 			'autoresponder_end_date' => array (
@@ -408,9 +404,9 @@ if ($global_config['mail']['mailbox_show_mail_filter_tab'] === 'y') {
 			//#################################
 			'move_junk' => array (
 				'datatype' => 'VARCHAR',
-				'formtype' => 'CHECKBOX',
-				'default' => 'n',
-				'value'  => array(0 => 'n', 1 => 'y')
+				'formtype' => 'SELECT',
+				'default' => 'y',
+				'value' => array('y' => 'move_junk_y_txt', 'a' => 'move_junk_a_txt', 'n' => 'move_junk_n_txt'),
 			),
 			'purge_trash_days' => array (
 				'datatype' => 'VARCHAR',
