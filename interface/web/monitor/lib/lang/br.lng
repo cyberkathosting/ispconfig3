@@ -163,4 +163,6 @@ $wb['no_permissions_to_view_monit_txt'] = 'Você não tem permissão para acessa
 $wb['Show Munin'] = 'Exibir Munin';
 $wb['no_munin_url_defined_txt'] = 'Nenhuma URL do Munin definida.';
 $wb['no_permissions_to_view_munin_txt'] = 'Você não tem permissão para acessar o Munin.';
+$wb['Database size'] = 'Database size';
+$wb['Show MySQL Database size'] = 'Show MySQL Database size';
 ?>
