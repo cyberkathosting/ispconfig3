@@ -9,4 +9,7 @@ $wb['generate_password_txt'] = 'Parola Üret';
 $wb['repeat_password_txt'] = 'Parola Onayı';
 $wb['password_mismatch_txt'] = 'Parola ile onayı aynı değil.';
 $wb['password_match_txt'] = 'Parola ile onayı aynı.';
+$wb['language_txt'] = 'Dil';
+$wb['startmodule_txt'] = 'Başlangıç modülü';
+$wb['app_theme_txt'] = 'Tasarım';
 ?>
