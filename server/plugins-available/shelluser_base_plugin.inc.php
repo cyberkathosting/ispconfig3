@@ -107,11 +107,7 @@ class shelluser_base_plugin {
 				$app->system->web_folder_protection($web['document_root'], false);
 
 				//* Home directory of the new shell user
-				if($data['new']['chroot'] == 'jailkit') {
-					$homedir = $data['new']['dir'];
-				} else {
-					$homedir = $data['new']['dir'].'/home/'.$data['new']['username'];
-				}
+				$homedir = $data['new']['dir'].'/home/'.$data['new']['username'];
 
 				// Create home base directory if it does not exist
 				if(!is_dir($data['new']['dir'].'/home')){
