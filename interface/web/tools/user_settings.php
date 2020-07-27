@@ -86,22 +86,50 @@ class page_action extends tform_actions {
 		if($_POST['passwort'] != $_POST['repeat_password']) {
 			$app->tform->errorMessage = $app->tform->lng('password_mismatch');
 		}
-		
+
 		$language = $app->functions->check_language($_POST['language']);
 		$_SESSION['s']['user']['language'] = $language;
 		$_SESSION['s']['language'] = $language;
 	}
-	
+
 	function onAfterUpdate() {
 		global $app;
-		
+
 		if($_POST['passwort'] != '') {
 			$tmp_user = $app->db->queryOneRecord("SELECT passwort FROM sys_user WHERE userid = ?", $_SESSION['s']['user']['userid']);
 			$_SESSION['s']['user']['passwort'] = $tmp_user['passwort'];
 			unset($tmp_user);
 		}
+		$this->updateSessionTheme();
+
+		if($this->_theme_changed == true) {
+			// not the best way, but it works
+			header('Content-Type: text/html');
+			print '<script type="text/javascript">document.location.reload();</script>';
+			exit;
+		}
+	}
+	var $_theme_changed = false;
+
+	function updateSessionTheme() {
+		global $app, $conf;
+
+		if($this->dataRecord['app_theme'] != 'default') {
+			$tmp_path = ISPC_THEMES_PATH."/".$this->dataRecord['app_theme'];
+			if(!@is_dir($tmp_path) || (@file_exists($tmp_path."/ispconfig_version") && trim(file_get_contents($tmp_path."/ispconfig_version")) != ISPC_APP_VERSION)) {
+				// fall back to default theme if this one is not compatible with current ispc version
+				$this->dataRecord['app_theme'] = 'default';
+			}
+		}
+		if($this->dataRecord['app_theme'] != $_SESSION['s']['user']['theme']) $this->_theme_changed = true;
+		$_SESSION['s']['theme'] = $this->dataRecord['app_theme'];
+		$_SESSION['s']['user']['theme'] = $_SESSION['s']['theme'];
+		$_SESSION['s']['user']['app_theme'] = $_SESSION['s']['theme'];
 	}
 
+	function onAfterInsert() {
+		$this->onAfterUpdate();
+	}
 
 }
 
