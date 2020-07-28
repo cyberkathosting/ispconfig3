@@ -194,67 +194,64 @@ class mail_plugin {
 				}
 			}
 		}
-		
+
 		$global_config = $app->getconf->get_global_config('mail');
-		if($global_config['enable_welcome_mail'] == 'n') {
-			return;
-		  }
+		if($global_config['enable_welcome_mail'] == 'y') {
+			//* Send the welcome email message
+			$tmp = explode('@', $data["new"]["email"]);
+			$domain = $tmp[1];
+			unset($tmp);
+			$html = false;
+			if(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.html')) {
+				$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.html');
+				$html = true;
+			} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.html')) {
+				$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.html');
+				$html = true;
+			} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.txt')) {
+				$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.txt');
+			} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.txt')) {
+				$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.txt');
+			} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_en.txt')) {
+				$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_en.txt');
+			} elseif(file_exists($conf['rootpath'].'/conf/mail/welcome_email_'.$conf['language'].'.txt')) {
+				$lines = file($conf['rootpath'].'/conf/mail/welcome_email_'.$conf['language'].'.txt');
+			} else {
+				$lines = file($conf['rootpath'].'/conf/mail/welcome_email_en.txt');
+			}
 
-		//* Send the welcome email message
-		$tmp = explode('@', $data["new"]["email"]);
-		$domain = $tmp[1];
-		unset($tmp);
-		$html = false;
-		if(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.html')) {
-			$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.html');
-			$html = true;
-		} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.html')) {
-			$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.html');
-			$html = true;
-		} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.txt')) {
-			$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.txt');
-		} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.txt')) {
-			$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.txt');
-		} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_en.txt')) {
-			$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_en.txt');
-		} elseif(file_exists($conf['rootpath'].'/conf/mail/welcome_email_'.$conf['language'].'.txt')) {
-			$lines = file($conf['rootpath'].'/conf/mail/welcome_email_'.$conf['language'].'.txt');
-		} else {
-			$lines = file($conf['rootpath'].'/conf/mail/welcome_email_en.txt');
+			//* Get from address
+			$parts = explode(':', trim($lines[0]));
+			unset($parts[0]);
+			$welcome_mail_from  = implode(':', $parts);
+			unset($lines[0]);
+
+			//* Get subject
+			$parts = explode(':', trim($lines[1]));
+			unset($parts[0]);
+			$welcome_mail_subject  = implode(':', $parts);
+			unset($lines[1]);
+
+			//* Get message
+			$welcome_mail_message = trim(implode($lines));
+			unset($tmp);
+
+			$mailHeaders      = "MIME-Version: 1.0" . "\n";
+			if($html) {
+				$mailHeaders     .= "Content-Type: text/html; charset=utf-8" . "\n";
+				$mailHeaders     .= "Content-Transfer-Encoding: quoted-printable" . "\n";
+			} else {
+				$mailHeaders     .= "Content-Type: text/plain; charset=utf-8" . "\n";
+				$mailHeaders     .= "Content-Transfer-Encoding: 8bit" . "\n";
+			}
+			$mailHeaders     .= "From: $welcome_mail_from" . "\n";
+			$mailHeaders     .= "Reply-To: $welcome_mail_from" . "\n";
+			$mailTarget       = $data["new"]["email"];
+			$mailSubject      = "=?utf-8?B?".base64_encode($welcome_mail_subject)."?=";
+
+			//* Send the welcome email only on the "master" mail server to avoid duplicate emails
+			if($conf['mirror_server_id'] == 0) mail($mailTarget, $mailSubject, $welcome_mail_message, $mailHeaders);
 		}
-
-		//* Get from address
-		$parts = explode(':', trim($lines[0]));
-		unset($parts[0]);
-		$welcome_mail_from  = implode(':', $parts);
-		unset($lines[0]);
-
-		//* Get subject
-		$parts = explode(':', trim($lines[1]));
-		unset($parts[0]);
-		$welcome_mail_subject  = implode(':', $parts);
-		unset($lines[1]);
-
-		//* Get message
-		$welcome_mail_message = trim(implode($lines));
-		unset($tmp);
-
-		$mailHeaders      = "MIME-Version: 1.0" . "\n";
-		if($html) {
-			$mailHeaders     .= "Content-Type: text/html; charset=utf-8" . "\n";
-			$mailHeaders     .= "Content-Transfer-Encoding: quoted-printable" . "\n";
-		} else {
-			$mailHeaders     .= "Content-Type: text/plain; charset=utf-8" . "\n";
-			$mailHeaders     .= "Content-Transfer-Encoding: 8bit" . "\n";
-		}
-		$mailHeaders     .= "From: $welcome_mail_from" . "\n";
-		$mailHeaders     .= "Reply-To: $welcome_mail_from" . "\n";
-		$mailTarget       = $data["new"]["email"];
-		$mailSubject      = "=?utf-8?B?".base64_encode($welcome_mail_subject)."?=";
-
-		//* Send the welcome email only on the "master" mail server to avoid duplicate emails
-		if($conf['mirror_server_id'] == 0) mail($mailTarget, $mailSubject, $welcome_mail_message, $mailHeaders);
-
 	}
 
 	function user_update($event_name, $data) {
