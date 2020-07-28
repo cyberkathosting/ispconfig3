@@ -9,4 +9,5 @@ $wb['directive_snippets_name_error_unique'] = 'Er is al een Directive Snippet me
 $wb['variables_txt'] = 'Variabelen';
 $wb['customer_viewable_txt'] = 'Zichtbaar voor klanten';
 $wb['required_php_snippets_txt'] = 'Vereiste PHP Snippet';
+$wb['update_sites_txt'] = 'Update sites using this snippet';
 ?>

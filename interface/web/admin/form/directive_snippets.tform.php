@@ -110,6 +110,12 @@ $form["tabs"]['directive_snippets'] = array (
 			'default' => 'y',
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
+		'update_sites' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value'  => array(0 => 'n', 1 => 'y')
+		),
 		'required_php_snippets' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOXARRAY',
