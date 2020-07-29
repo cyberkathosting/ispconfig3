@@ -63,7 +63,7 @@ if($type == 'getserverid'){
 	$json .= '"}';
 }
 
-if($type == 'getphpfastcgi'){
+if($type == 'getserverphp'){
 	$json = '{';
 
 	$server_type = 'apache';
@@ -105,14 +105,14 @@ if($type == 'getphpfastcgi'){
 	if(is_array($php_records) && !empty($php_records)) {
 		foreach( $php_records as $php_record) {
 			if($php_type == 'php-fpm' || ($php_type == 'hhvm' && $server_type == 'nginx')){
-				$php_version = $php_version = $php_record['server_php_id'];
+				$php_version = $php_record['server_php_id'];
 			} else {
-				$php_version = $php_version = $php_record['server_php_id'];
+				$php_version = $php_record['server_php_id'];
 			}
 			if($php_record['name'] != $web_config['php_default_name']) {
 				$json .= '"'.$php_version.'": "'.$php_record['name'].'",';
 			} else {
-				$json .= '"": "'.$php_record['name'].'",';
+				$json .= '"0": "'.$php_record['name'].'",';
 			}
 		}
 	}

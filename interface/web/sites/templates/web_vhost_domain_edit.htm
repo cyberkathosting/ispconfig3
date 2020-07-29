@@ -280,26 +280,31 @@
             serverId = $(this).val();
             adjustForm();
             reloadWebIP();
-            reloadFastcgiPHPVersions();
+            reloadServerPHPVersions();
 			reloadDirectiveSnippets();
         });
     }
     adjustForm(true);
-    reloadFastcgiPHPVersions(true);
+    reloadServerPHPVersions(true);
 
     jQuery('#client_group_id').change(function(){
         clientGroupId = $(this).val();
         reloadWebIP();
-		reloadFastcgiPHPVersions();
+		reloadServerPHPVersions();
     });
 
     if(jQuery('#php').val() == 'fast-cgi' || jQuery('#php').val() == 'php-fpm' || (jQuery('#php').val() == 'hhvm' && serverType == 'nginx')){
         jQuery('.server_php_id:hidden').show();
+		// This block can be removed?
 		if(jQuery('#php').val() == 'hhvm'){
+			// There is no element with id="server_php_id_txt"
 			jQuery('#server_php_id_txt').hide();
+			// There is no element with id="#fastcgi_php_fallback_version_txt"
 			jQuery('#fastcgi_php_fallback_version_txt').show();
 		} else {
+			// There is no element with id="server_php_id_txt"
 			jQuery('#server_php_id_txt').show();
+			// There is no element with id="#fastcgi_php_fallback_version_txt"
 			jQuery('#fastcgi_php_fallback_version_txt').hide();
 		}
     } else {
@@ -308,14 +313,19 @@
     //ISPConfig.resetFormChanged();
 
     jQuery('#php').change(function(){
-        reloadFastcgiPHPVersions();
+        reloadServerPHPVersions();
         if(jQuery(this).val() == 'fast-cgi' || jQuery(this).val() == 'php-fpm' || (jQuery(this).val() == 'hhvm' && serverType == 'nginx')){
             jQuery('.server_php_id:hidden').show();
+			// This block can be removed?
 			if(jQuery(this).val() == 'hhvm'){
+				// There is no element with id="server_php_id_txt"
 				jQuery('#server_php_id_txt').hide();
+				// There is no element with id="#fastcgi_php_fallback_version_txt"
 				jQuery('#fastcgi_php_fallback_version_txt').show();
 			} else {
+				// There is no element with id="server_php_id_txt"
 				jQuery('#server_php_id_txt').show();
+				// There is no element with id="#fastcgi_php_fallback_version_txt"
 				jQuery('#fastcgi_php_fallback_version_txt').hide();
 			}
         } else {
@@ -348,7 +358,7 @@
         jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {web_id : parentWebId, type : "getserverid"}, function(data) {
             if(data.serverid) serverId = data.serverid;
             adjustForm(noFormChange);
-            if(noFormChange) reloadFastcgiPHPVersions(noFormChange);
+            if(noFormChange) reloadServerPHPVersions(noFormChange);
         });
     }
 
@@ -438,33 +448,33 @@
 		$('#'+elem).select2();
 	}
 
-    function reloadFastcgiPHPVersions(noFormChange) {
-        jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {server_id : serverId, php_type : jQuery('#php').val(), type : "getphpfastcgi", client_group_id : clientGroupId}, function(data) {
+    function reloadServerPHPVersions(noFormChange) {
+        jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {server_id : serverId, php_type : jQuery('#php').val(), type : "getserverphp", client_group_id : clientGroupId}, function(data) {
             //var options = '<option value="">Default</option>';
 			var options = '';
-            var phpfastcgiselected = '';
+            var serverphpidselected = '';
             $.each(data, function(key, val) {
 				<tmpl_if name="id">
                 if($('#server_php_id').val() == key){
-                    phpfastcgiselected = ' selected="selected"';
+                    serverphpidselected = ' selected="selected"';
                 } else {
-                    phpfastcgiselected = '';
+                    serverphpidselected = '';
                 }
 				</tmpl_else>
-					phpfastcgiselected = '';
+					serverphpidselected = '';
 				</tmpl_if>
-                options += '<option value="'+key+'"'+phpfastcgiselected+'>'+val+'</option>';
+                options += '<option value="'+key+'"'+serverphpidselected+'>'+val+'</option>';
             });
 			<tmpl_if name="id">
-			if($('#server_php_id').val() == ''){
-                phpfastcgiselected = ' selected="selected"';
+			if($('#server_php_id').val() == '0'){
+                serverphpidselected = ' selected="selected"';
             } else {
-                phpfastcgiselected = '';
+                serverphpidselected = '';
             }
 			</tmpl_else>
-				phpfastcgiselected = '';
+				serverphpidselected = '';
 			</tmpl_if>
-			//options += '<option value=""'+phpfastcgiselected+'>{tmpl_var name="default_php_txt"}</option>';
+			//options += '<option value=""'+serverphpidselected+'>{tmpl_var name="default_php_txt"}</option>';
             $('#server_php_id').html(options).change();
             if(noFormChange) ISPConfig.resetFormChanged();
         });
