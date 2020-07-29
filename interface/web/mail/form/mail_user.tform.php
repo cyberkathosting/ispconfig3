@@ -199,7 +199,7 @@ $form["tabs"]['mailuser'] = array(
 				2 => array( 'event' => 'SAVE',
 					'type' => 'TOLOWER')
 			),
-			'validators' => array (  0 => array ( 'type' => 'ISEMAIL',
+			'validators' => array (  0 => array ( 'type' => 'ISEMAILADDRESS',
 					'allowempty' => 'y',
 					'errmsg'=> 'sender_cc_error_isemail'),
 			),
