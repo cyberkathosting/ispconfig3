@@ -200,6 +200,7 @@ $form["tabs"]['mailuser'] = array(
 					'type' => 'TOLOWER')
 			),
 			'validators' => array (  0 => array ( 'type' => 'ISEMAIL',
+					'allowempty' => 'y',
 					'errmsg'=> 'sender_cc_error_isemail'),
 			),
 			'default' => '',
