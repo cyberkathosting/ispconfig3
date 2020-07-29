@@ -77,9 +77,6 @@ class page_action extends tform_actions {
 		}
 
 		$app->tpl->setVar("is_master", $is_master);
-
-		if($this->dataRecord['managed_snippet_id'] > 0) {
-		}
 		
 		parent::onShowEnd();
 	}
