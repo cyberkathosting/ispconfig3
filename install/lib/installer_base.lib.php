@@ -1805,7 +1805,12 @@ class installer_base {
 
 		$tpl = new tpl();
 		$tpl->newTemplate('rspamd_worker-controller.inc.master');
-		$tpl->setVar('rspamd_password', $mail_config['rspamd_password']);
+		$rspamd_password = $mail_config['rspamd_password'];
+		$crypted_password = trim(exec('rspamadm pw -p ' . escapeshellarg($rspamd_password)));
+		if($crypted_password) {
+			$rspamd_password = $crypted_password;
+		}
+		$tpl->setVar('rspamd_password', $rspamd_password);
 		wf('/etc/rspamd/local.d/worker-controller.inc', $tpl->grab());
 		chmod('/etc/rspamd/local.d/worker-controller.inc', 0644);
 	}

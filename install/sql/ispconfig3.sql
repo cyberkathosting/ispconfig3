@@ -2082,6 +2082,7 @@ CREATE TABLE `web_domain` (
   `folder_directive_snippets` text,
   `log_retention` int(11) NOT NULL DEFAULT '10',
   `proxy_protocol` enum('n','y') NOT NULL default 'n',
+  `server_php_id` INT(11) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY  (`domain_id`),
   UNIQUE KEY `serverdomain` (  `server_id` , `ip_address`,  `domain` )
 ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
