@@ -737,6 +737,7 @@ class installer_base {
 		global $conf;
 
 		$config_dir = $conf['postfix']['config_dir'].'/';
+		$postfix_group = $conf['postfix']['group'];
 		$full_file_name = $config_dir.$configfile;
 		//* Backup exiting file
 		if(is_file($full_file_name)) {
@@ -754,9 +755,9 @@ class installer_base {
 		wf($full_file_name, $content);
 		
 		//* Changing mode and group of the new created config file
-		caselog('chmod u=rw,g=r,o= '.$config_dir.'/'.$full_file_name.' &> /dev/null',
+		caselog('chmod u=rw,g=r,o= '.$full_file_name.' &> /dev/null',
 			__FILE__, __LINE__, 'chmod on '.$full_file_name, 'chmod on '.$full_file_name.' failed');
-		caselog('chgrp '.$cf['group'].' '.$config_dir.'/'.$full_file_name.' &> /dev/null',
+		caselog('chgrp '.$postfix_group.' '.$full_file_name.' &> /dev/null',
 			__FILE__, __LINE__, 'chgrp on '.$full_file_name, 'chgrp on '.$full_file_name.' failed');
 		
 	}
