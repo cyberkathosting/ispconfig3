@@ -68,7 +68,7 @@ $form['db_table']  = 'sys_user';
 $form['db_table_idx'] = 'userid';
 $form["db_history"]  = "no";
 $form['tab_default'] = 'users';
-$form['list_default'] = 'index.php';
+$form['list_default'] = 'user_settings.php';
 $form['auth']   = 'no';
 
 //* 0 = id of the user, > 0 id must match with id of current user
