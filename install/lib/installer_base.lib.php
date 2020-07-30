@@ -739,11 +739,12 @@ class installer_base {
 		$config_dir = $conf['postfix']['config_dir'].'/';
 		$postfix_group = $conf['postfix']['group'];
 		$full_file_name = $config_dir.$configfile;
+
 		//* Backup exiting file
 		if(is_file($full_file_name)) {
 			copy($full_file_name, $config_dir.$configfile.'~');
+			chmod($config_dir.$configfile.'~',0600);
 		}
-		chmod($config_dir.$configfile.'~',0600);
 		
 		//* Replace variables in config file template
 		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', 'tpl/'.$configfile.'.master');
