@@ -121,12 +121,6 @@ class installer_dist extends installer_base {
 		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/postfix-'.$filename.'.master', 'tpl/postfix-'.$filename.'.master');
 		wf($full_file_name, $content);
 
-		//* Changing mode and group of the new created config files.
-		caselog('chmod o= '.$config_dir.'/mysql-virtual_*.cf* &> /dev/null',
-			__FILE__, __LINE__, 'chmod on mysql-virtual_*.cf*', 'chmod on mysql-virtual_*.cf* failed');
-		caselog('chgrp '.$cf['group'].' '.$config_dir.'/mysql-virtual_*.cf* &> /dev/null',
-			__FILE__, __LINE__, 'chgrp on mysql-virtual_*.cf*', 'chgrp on mysql-virtual_*.cf* failed');
-
 		//* Creating virtual mail user and group
 		$command = 'groupadd -g '.$cf['vmail_groupid'].' '.$cf['vmail_groupname'];
 		if(!is_group($cf['vmail_groupname'])) caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
