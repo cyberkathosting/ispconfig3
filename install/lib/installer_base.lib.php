@@ -742,6 +742,9 @@ class installer_base {
 		if(is_file($full_file_name)) {
 			copy($full_file_name, $config_dir.$configfile.'~');
 		}
+		chmod($config_dir.$configfile.'~',0600);
+		
+		//* Replace variables in config file template
 		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', 'tpl/'.$configfile.'.master');
 		$content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
 		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
@@ -749,6 +752,13 @@ class installer_base {
 		$content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
 		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		wf($full_file_name, $content);
+		
+		//* Changing mode and group of the new created config file
+		caselog('chmod u=rw,g=r,o= '.$config_dir.'/'.$full_file_name.' &> /dev/null',
+			__FILE__, __LINE__, 'chmod on '.$full_file_name, 'chmod on '.$full_file_name.' failed');
+		caselog('chgrp '.$cf['group'].' '.$config_dir.'/'.$full_file_name.' &> /dev/null',
+			__FILE__, __LINE__, 'chgrp on '.$full_file_name, 'chgrp on '.$full_file_name.' failed');
+		
 	}
 
 	public function configure_jailkit() {
@@ -1027,12 +1037,6 @@ class installer_base {
 			$content = preg_replace('/amavis:/', 'lmtp:', $content);
 		}
 		wf($full_file_name, $content);
-
-		//* Changing mode and group of the new created config files.
-		caselog('chmod u=rw,g=r,o= '.$config_dir.'/mysql-virtual_*.cf* &> /dev/null',
-			__FILE__, __LINE__, 'chmod on mysql-virtual_*.cf*', 'chmod on mysql-virtual_*.cf* failed');
-		caselog('chgrp '.$cf['group'].' '.$config_dir.'/mysql-virtual_*.cf* &> /dev/null',
-			__FILE__, __LINE__, 'chgrp on mysql-virtual_*.cf*', 'chgrp on mysql-virtual_*.cf* failed');
 
 		//* Creating virtual mail user and group
 		$command = 'groupadd -g '.$cf['vmail_groupid'].' '.$cf['vmail_groupname'];
