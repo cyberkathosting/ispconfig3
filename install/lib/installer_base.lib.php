@@ -755,9 +755,9 @@ class installer_base {
 		wf($full_file_name, $content);
 		
 		//* Changing mode and group of the new created config file
-		caselog('chmod u=rw,g=r,o= '.$full_file_name.' &> /dev/null',
+		caselog('chmod u=rw,g=r,o= '.escapeshellarg($full_file_name).' &> /dev/null',
 			__FILE__, __LINE__, 'chmod on '.$full_file_name, 'chmod on '.$full_file_name.' failed');
-		caselog('chgrp '.$postfix_group.' '.$full_file_name.' &> /dev/null',
+		caselog('chgrp '.escapeshellarg($postfix_group).' '.escapeshellarg($full_file_name).' &> /dev/null',
 			__FILE__, __LINE__, 'chgrp on '.$full_file_name, 'chgrp on '.$full_file_name.' failed');
 		
 	}
