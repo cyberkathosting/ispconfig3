@@ -127,8 +127,8 @@ class cronjob_webalizer extends cronjob {
 			chown($statsdir, $username);
 			chgrp($statsdir, $groupname);
 			$app->system->exec_safe("$webalizer -c ? -n ? -s ? -r ? -q -T -p -o ? ?", $webalizer_conf, $domain, $domain, $domain, $statsdir, $logfile);
-			
-			exec('chown -R ?:? ?', $username, $groupname, $statsdir);
+
+			$app->system->exec_safe('chown -R ?:? ?', $username, $groupname, $statsdir);
 		}
 
 
