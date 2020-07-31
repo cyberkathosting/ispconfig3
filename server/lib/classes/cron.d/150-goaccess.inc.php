@@ -51,6 +51,7 @@ class cronjob_goaccess extends cronjob {
 	public function onRunJob() {
 		global $app, $conf;
 
+
 		//######################################################################################################
 		// Create goaccess statistics
 		//######################################################################################################
@@ -76,7 +77,7 @@ class cronjob_goaccess extends cronjob {
                 }
 
 
-                /* Check wether the goaccess binary is in path */
+                /* Check if goaccess binary is in path */
                 system("type goaccess 2>&1>/dev/null", $retval);
 		if ($retval === 0) {
 
@@ -113,40 +114,43 @@ class cronjob_goaccess extends cronjob {
 				*/
 
 				if(file_exists("/usr/local/ispconfig/server/conf-custom/goaccess.conf.master") && (!file_exists($goaccess_conf))) {
-					copy("/usr/local/ispconfig/server/conf-custom/goaccess.conf.master", $goaccess_conf);
+					$app->system->copy("/usr/local/ispconfig/server/conf-custom/goaccess.conf.master", $goaccess_conf);
 				} elseif(!file_exists($goaccess_conf)) {
 					/*
 					 By default the goaccess.conf should get copied by the webserver plugin but in case it wasn't, or it got deleted by accident we gonna copy it again to the destination dir.
 					 Also there was no /usr/local/ispconfig/server/conf-custom/goaccess.conf.master, so we gonna use /etc/goaccess.conf as the base conf.
 					*/
-	                        	copy($goaccess_conf_main, $goaccess_conf);
-		                        file_put_contents($goaccess_conf, preg_replace('/^(#)?log-format COMBINED/m', "log-format COMBINED", file_get_contents($goaccess_conf)));
+
+					$app->system->copy($goaccess_conf_main, $goaccess_conf);
+					$content = $app->system->file_get_contents($goaccess_conf, true);
+					$content = preg_replace('/^(#)?log-format COMBINED/m', "log-format COMBINED", $content);
+					$app->system->file_put_contents($goaccess_conf, $content, true);
+					unset($content);
 				}
 
 				/* Update the primary domain name in the title, it could occasionally change */
 				if(is_file($goaccess_conf) && (filesize($goaccess_conf) > 0)) {
-					$goaccess_content = file_get_contents($goaccess_conf);
-					file_put_contents($goaccess_conf, preg_replace('/^(#)?html-report-title(.*)?/m', "html-report-title $domain", file_get_contents($goaccess_conf)));
-					unset($goaccess_content);
+					$content = $app->system->file_get_contents($goaccess_conf, true);
+					$content = preg_replace('/^(#)?html-report-title(.*)/m', "html-report-title $domain", $content);
+					$app->system->file_put_contents($goaccess_conf, $content, true);
+					unset($content);
 				}
 
+                                $username = $rec['system_user'];
+                                $groupname = $rec['system_group'];
+                                $docroot = $rec['document_root'];
 
-
-				if(!@is_dir($statsdir)) mkdir($statsdir);
-				$username = $rec['system_user'];
-				$groupname = $rec['system_group'];
-				$docroot = $rec['document_root'];
+				if(!@is_dir($statsdir)) $app->system->mkdirpath($statsdir, 0755, $username, $groupname);
 
 				$goa_db_dir = $docroot.'/'.$web_folder.'/stats/.db/';
 				$output_html = $docroot.'/'.$web_folder.'/stats/goaindex.html';
-	                        if(!@is_dir($goa_db_dir)) mkdir($goa_db_dir);
+	                        if(!@is_dir($goa_db_dir)) $app->system->mkdirpath($goa_db_dir, 0755, $username, $groupname);
 	
 	                        if(is_link('/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log')) unlink('/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log');
 	                        symlink($logfile, '/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log');
 
 
-				chown($statsdir, $username);
-				chgrp($statsdir, $groupname);
+				$app->system->exec_safe('chown -R ?:? ?', $username, $groupname, $statsdir);
 
 				$goamonth = date("n");
 				$goayear = date("Y");
@@ -159,7 +163,6 @@ class cronjob_goaccess extends cronjob {
 					}
 				}
 
-	
 				if (date("d") == 2) {
 					$goamonth = date("m")-1;
 					if (date("m") == 1) {
@@ -170,7 +173,7 @@ class cronjob_goaccess extends cronjob {
 					$statsdirold = $statsdir."/".$goayear."-".$goamonth."/";
 
 					if(!is_dir($statsdirold)) {
-						mkdir($statsdirold);
+						 $app->system->mkdirpath($statsdirold, 0755, $username, $groupname);
 					}
 
 					// don't rotate db files per month
@@ -180,39 +183,57 @@ class cronjob_goaccess extends cronjob {
 					$files = scandir($statsdir);
 
 					foreach ($files as $file) {
-						if (substr($file, 0, 1) != "." && !is_dir("$statsdir"."/"."$file") && substr($file, 0, 1) != "w" && substr($file, 0, 1) != "i") copy("$statsdir"."/"."$file", "$statsdirold"."$file");
+						if (substr($file, 0, 1) != "." && !is_dir("$statsdir"."/"."$file") && substr($file, 0, 1) != "w" && substr($file, 0, 1) != "i") $app->system->copy("$statsdir"."/"."$file", "$statsdirold"."$file");
 					}
 				}
 
+				// Get the GoAccess version
+				$match = array();
 
-				$output = shell_exec('goaccess --help');
+				$goaccess_version = $app->system->system_safe('goaccess --version 2>&1');
 
-				if(preg_match('/keep-db-files/', $output)) {
-					$app->system->exec_safe("goaccess -f ? --config-file ? --load-from-disk --keep-db-files --db-path=? --output=?", $logfile, $goaccess_conf, $goa_db_dir, $output_html);
+				if(preg_match('/[0-9]\.[0-9]{1,2}/', $goaccess_version, $match)) {
+					$goaccess_version = $match[0];
+				}
 
-					if(!is_file($rec['document_root']."/".$web_folder."/stats/index.php")) {
-						if(file_exists("/usr/local/ispconfig/server/conf-custom/goaccess_index.php.master")) {
-							copy("/usr/local/ispconfig/server/conf-custom/goaccess_index.php.master", $rec['document_root']."/".$web_folder."/stats/index.php");
-						} else {
-							copy("/usr/local/ispconfig/server/conf/goaccess_index.php.master", $rec['document_root']."/".$web_folder."/stats/index.php");
-						}
-					}
 
-		                        $app->log('Created GoAccess statistics for ' . $domain, LOGLEVEL_DEBUG);
-		                        if(is_file($rec['document_root']."/".$web_folder."/stats/index.php")) {
-		                                chown($rec['document_root']."/".$web_folder."/stats/index.php", $rec['system_user']);
-		                                chgrp($rec['document_root']."/".$web_folder."/stats/index.php", $rec['system_group']);
-		                        }
+				/*
+				 * GoAccess removed with 1.4 btree support and supports from this version on only "In-Memory with On-Disk Persitance Storage".
+				 * For versions prior 1.4 you need GoAccess with btree support compiled!
+				 */
+				
+				$cust_lang = $conf['language']."_".strtoupper($conf['language']);
 
-		                        $app->system->exec_safe('chown -R ?:? ?', $username, $groupname, $statsdir);
-
+				if(version_compare($goaccess_version,1.4) >= 0) {
+					$app->system->exec_safe("LANG=? goaccess -f ? --config-file ? --restore --persist --db-path=? --output=?", $cust_lang, $logfile, $goaccess_conf, $goa_db_dir, $output_html);
 				} else {
-			                $app->log("Stats not generated. The GoAccess binary was not compiled with btree support. Please recompile/reinstall GoAccess with btree support!", LOGLEVEL_ERROR);
+					$output = $app->system->system_safe('goaccess --help');
+	                                if(preg_match('/keep-db-files/', $output)) {
+						$app->system->exec_safe("LANG=? goaccess -f ? --config-file ? --load-from-disk --keep-db-files --db-path=? --output=?", $cust_lang, $logfile, $goaccess_conf, $goa_db_dir, $output_html);
+					} else {
+	                                        $app->log("Stats not generated. The GoAccess binary was not compiled with btree support. Please recompile/reinstall GoAccess with btree support, or install GoAccess version >= 1.4!", LOGLEVEL_ERROR);
+					}
+	                                unset($output);
+				}
+				unset($cust_lang);
+
+				if(!is_file($rec['document_root']."/".$web_folder."/stats/index.php")) {
+					if(file_exists("/usr/local/ispconfig/server/conf-custom/goaccess_index.php.master")) {
+						$app->system->copy("/usr/local/ispconfig/server/conf-custom/goaccess_index.php.master", $rec['document_root']."/".$web_folder."/stats/index.php");
+					} else {
+						$app->system->copy("/usr/local/ispconfig/server/conf/goaccess_index.php.master", $rec['document_root']."/".$web_folder."/stats/index.php");
+					}
 				}
 
-				unset($output);
+	                        $app->log('Created GoAccess statistics for ' . $domain, LOGLEVEL_DEBUG);
+	                        if(is_file($rec['document_root']."/".$web_folder."/stats/index.php")) {
+	                                chown($rec['document_root']."/".$web_folder."/stats/index.php", $rec['system_user']);
+	                                chgrp($rec['document_root']."/".$web_folder."/stats/index.php", $rec['system_group']);
+	                        }
 
-		}
+				$app->system->exec_safe('chown -R ?:? ?', $username, $groupname, $statsdir);
+			}
+
 	} else {
 		$app->log("Stats not generated. The GoAccess binary couldn't be found. Make sure that GoAccess is installed and that it is in \$PATH", LOGLEVEL_ERROR);
 	}
