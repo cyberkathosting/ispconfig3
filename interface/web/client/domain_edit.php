@@ -67,7 +67,7 @@ class page_action extends tform_actions {
 
 	function onShowEnd() {
 		global $app, $conf, $wb;
-		
+
 		if($_SESSION["s"]["user"]["typ"] != 'admin' && $this->id == 0) {
 			if(!$app->tform->checkClientLimit('limit_domainmodule')) {
 				$app->uses('ini_parser,getconf');
@@ -100,7 +100,7 @@ class page_action extends tform_actions {
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT client.client_id, client.contact_name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname, sys_group.name FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 			$client = $app->functions->htmlentities($client);
-			
+
 			// Fill the client select field
 			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND client.parent_client_id = ? ORDER BY client.company_name, client.contact_name, sys_group.name";
 			//die($sql);
@@ -197,7 +197,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		// make sure that the record belongs to the client group and not the admin group when admin inserts it
-		// also make sure that the user can not delete domain created by a admin if client protection is enabled
+		// also make sure that the user can not delete domain created by a admin
 		if(($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) || ($_SESSION["s"]["user"]["typ"] != 'admin' && $app->auth->has_clients($_SESSION['s']['user']['userid']))) {
 			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE domain SET sys_groupid = ?, sys_perm_group = 'ru' WHERE domain_id = ?", $client_group_id, $this->id);
@@ -215,7 +215,7 @@ class page_action extends tform_actions {
 		}
 
 		// make sure that the record belongs to the client group and not the admin group when admin inserts it
-		// also make sure that the user can not delete domain created by a admin if client protection is enabled
+		// also make sure that the user can not delete domain created by a admin
 		if(isset($this->dataRecord["client_group_id"])) {
 			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
 			$app->db->query("UPDATE domain SET sys_groupid = ?, sys_perm_group = 'ru' WHERE domain_id = ?", $client_group_id, $this->id);

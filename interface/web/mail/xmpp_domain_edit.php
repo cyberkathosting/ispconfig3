@@ -318,7 +318,7 @@ class page_action extends tform_actions {
         global $app, $conf;
 
         // make sure that the record belongs to the client group and not the admin group when admin inserts it
-        // also make sure that the user can not delete domain created by a admin if client protection is enabled
+        // also make sure that the user can not delete domain created by a admin
         if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
             $client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
             $app->db->query("UPDATE xmpp_domain SET sys_groupid = ?, sys_perm_group = 'ru' WHERE domain_id = ?", $client_group_id, $this->id);
