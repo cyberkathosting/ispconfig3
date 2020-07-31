@@ -7,9 +7,9 @@ class dashlet_quota {
 
 		//* Loading Template
 		$app->uses('tpl,quota_lib');
-               if (!$app->auth->verify_module_permissions('sites')) {
-                       return;
-               }
+		if (!$app->auth->verify_module_permissions('sites')) {
+				return;
+		}
 
 		$tpl = new tpl;
 		$tpl->newTemplate("dashlets/templates/quota.htm");
@@ -24,6 +24,11 @@ class dashlet_quota {
 
 		$has_quota = false;
 		if(is_array($sites) && !empty($sites)){
+			foreach($sites as &$site) {
+				$site['domain'] = $app->functions->idn_decode($site['domain']);
+			}
+			unset($site);
+
 			$sites = $app->functions->htmlentities($sites);
 			$tpl->setloop('quota', $sites);
 			$has_quota = isset($sites[0]['used']);
