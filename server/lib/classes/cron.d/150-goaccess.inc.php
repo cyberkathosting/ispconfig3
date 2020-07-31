@@ -144,9 +144,9 @@ class cronjob_goaccess extends cronjob {
 
 				$goa_db_dir = $docroot.'/'.$web_folder.'/stats/.db/';
 				$output_html = $docroot.'/'.$web_folder.'/stats/goaindex.html';
-	                        if(!@is_dir($goa_db_dir)) $app->system->mkdirpath($goa_db_dir, 0755, $username, $groupname);
+	                        if(!@is_dir($goa_db_dir)) $app->system->mkdirpath($goa_db_dir);
 	
-	                        if(is_link('/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log')) unlink('/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log');
+	                        if(is_link('/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log')) $app->system->unlink('/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log');
 	                        symlink($logfile, '/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log');
 
 
@@ -207,8 +207,9 @@ class cronjob_goaccess extends cronjob {
 				if(version_compare($goaccess_version,1.4) >= 0) {
 					$app->system->exec_safe("LANG=? goaccess -f ? --config-file ? --restore --persist --db-path=? --output=?", $cust_lang, $logfile, $goaccess_conf, $goa_db_dir, $output_html);
 				} else {
-					$output = $app->system->system_safe('goaccess --help');
-	                                if(preg_match('/keep-db-files/', $output)) {
+					$output = $app->system->system_safe('goaccess --help 2>&1');
+					preg_match('/keep-db-files/', $output, $match);
+					if($match[0] == "keep-db-files") {
 						$app->system->exec_safe("LANG=? goaccess -f ? --config-file ? --load-from-disk --keep-db-files --db-path=? --output=?", $cust_lang, $logfile, $goaccess_conf, $goa_db_dir, $output_html);
 					} else {
 	                                        $app->log("Stats not generated. The GoAccess binary was not compiled with btree support. Please recompile/reinstall GoAccess with btree support, or install GoAccess version >= 1.4!", LOGLEVEL_ERROR);

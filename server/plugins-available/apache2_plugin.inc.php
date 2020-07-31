@@ -3017,7 +3017,7 @@ class apache2_plugin {
                         }
                 }
 
-                if(!is_dir($data['new']['document_root']."/" . $web_folder . "/stats/")) $app->system->mkdirpath($data['new']['document_root']."/" . $web_folder . "/stats/.db");
+                if(!is_dir($data['new']['document_root']."/" . $web_folder . "/stats/.db")) $app->system->mkdirpath($data['new']['document_root'] . "/" . $web_folder . "/stats/.db");
                 $goaccess_conf = $data['new']['document_root'].'/log/goaccess.conf';
 
                 /*
