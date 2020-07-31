@@ -54,9 +54,9 @@ class sites_web_vhost_domain_plugin {
 			$app->uses('getconf');
 	  	$global_config = $app->getconf->get_global_config('sites');
 	  	if($global_config['client_protection'] == 'y') {
-		    $app->db->query("UPDATE web_domain SET sys_groupid = ?, sys_perm_group = 'ru' WHERE domain_id = ?", $client_group_id, $this->id);
+		    $app->db->query("UPDATE web_domain SET sys_clientid = ?, sys_groupid = ?, sys_perm_group = 'ru' WHERE domain_id = ?", $client_group_id, $this->id);
 			} else {
-				$app->db->query("UPDATE web_domain SET sys_groupid = ?, sys_perm_group = 'riud' WHERE domain_id = ?", $client_group_id, $this->id);
+				$app->db->query("UPDATE web_domain SET sys_clientid = ?, sys_groupid = ?, sys_perm_group = 'riud' WHERE domain_id = ?", $client_group_id, $this->id);
 			}
 		}
 		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($page_form->dataRecord["client_group_id"])) {

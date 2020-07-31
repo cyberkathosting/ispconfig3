@@ -95,4 +95,5 @@ $wb['active_txt'] = 'Aktive';
 $wb['btn_save_txt'] = 'Save';
 $wb['btn_cancel_txt'] = 'Cancel';
 $wb['web_php_options_txt'] = 'PHP Handler (Apache only)';
+$wb['client_protection_txt'] = 'Client protection';
 ?>
