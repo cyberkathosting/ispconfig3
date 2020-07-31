@@ -1,4 +1,5 @@
 [global]
+client_protection=y
 
 [admin]
 
