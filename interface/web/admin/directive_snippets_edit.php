@@ -75,6 +75,7 @@ class page_action extends tform_actions {
 				$app->tpl->setVar("snippet", $this->dataRecord['snippet'], true);
 			}
 		}
+
 		$app->tpl->setVar("is_master", $is_master);
 		
 		parent::onShowEnd();
@@ -82,15 +83,41 @@ class page_action extends tform_actions {
 	
 	function onSubmit() {
 		global $app, $conf;
-		
+
 		if($this->id > 0){
 			$record = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ?", $this->id);
 			if($record['master_directive_snippets_id'] > 0){
 				unset($app->tform->formDef["tabs"]['directive_snippets']['fields']['name'], $app->tform->formDef["tabs"]['directive_snippets']['fields']['type'], $app->tform->formDef["tabs"]['directive_snippets']['fields']['snippet'], $app->tform->formDef["tabs"]['directive_snippets']['fields']['required_php_snippets']);
 			}
+	
+			if(isset($this->dataRecord['update_sites'])) {
+				parent::onSubmit();
+			} else {
+				$app->db->query('UPDATE directive_snippets SET name = ?, type = ?, snippet = ?, customer_viewable = ?, required_php_snippets = ?, active = ? WHERE directive_snippets_id = ?', $this->dataRecord['name'], $this->dataRecord['type'], $this->dataRecord['snippet'], $this->dataRecord['customer_viewable'], implode(',', $this->dataRecord['required_php_snippets']), $this->dataRecord['active'], $this->id);
+
+	            if($_REQUEST["next_tab"] == '') {
+    	            $list_name = $_SESSION["s"]["form"]["return_to"];
+                	if($list_name != '' && $_SESSION["s"]["list"][$list_name]["parent_name"] != $app->tform->formDef["name"]) {
+                    	$redirect = "Location: ".$_SESSION["s"]["list"][$list_name]["parent_script"]."?id=".$_SESSION["s"]["list"][$list_name]["parent_id"]."&next_tab=".$_SESSION["s"]["list"][$list_name]["parent_tab"];
+	                    $_SESSION["s"]["form"]["return_to"] = '';
+    	                session_write_close();
+        	            header($redirect);
+                	} elseif (isset($_SESSION["s"]["form"]["return_to_url"]) && $_SESSION["s"]["form"]["return_to_url"] != '') {
+	                    $redirect = $_SESSION["s"]["form"]["return_to_url"];
+    	                $_SESSION["s"]["form"]["return_to_url"] = '';
+        	            session_write_close();
+            	        header("Location: ".$redirect);
+                	    exit;
+                	} else {
+                    	header("Location: ".$app->tform->formDef['list_default']);
+                	}
+                	exit;
+				}
+			}
+
 			unset($record);
 		}
-		
+
 		parent::onSubmit();
 	}
 	

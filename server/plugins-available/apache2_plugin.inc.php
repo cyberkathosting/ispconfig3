@@ -93,6 +93,34 @@ class apache2_plugin {
 		$app->plugins->registerEvent('ftp_user_delete', $this->plugin_name, 'ftp_user_delete');
 
 		$app->plugins->registerAction('php_ini_changed', $this->plugin_name, 'php_ini_changed');
+
+		$app->plugins->registerEvent('directive_snippets_update', $this->plugin_name, 'directive_snippets');
+	}
+
+	function directive_snippets($event_name, $data) {
+		global $app, $conf;
+
+		$snippet = $data['new'];
+		if($snippet['active'] == 'y' && $snippet['update_sites'] == 'y') {
+			if($snippet['type'] == 'php') {
+				$rlike = $snippet['directive_snippets_id'].'|,'.$snippet['directive_snippets_id'].'|'.$snippet['directive_snippets_id'].',';
+				$affected_snippets = $app->db->queryAllRecords('SELECT directive_snippets_id FROM directive_snippets WHERE required_php_snippets RLIKE(?) AND type = ?', $rlike, 'apache');
+				if(is_array($affected_snippets) && !empty($affected_snippets)) {
+					foreach($affected_snippets as $snippet) $sql_in[] = $snippet['directive_snippets_id'];
+					$affected_sites = $app->db->queryAllRecords('SELECT domain_id FROM web_domain WHERE server_id = ? AND directive_snippets_id IN ?', $conf['server_id'], $sql_in);
+				}
+			}
+			if($snippet['type'] == 'apache') $affected_sites = $app->db->queryAllRecords('SELECT domain_id FROM web_domain WHERE server_id = ? AND directive_snippets_id = ?', $conf['server_id'], $snippet['directive_snippets_id']);
+
+			if(is_array($affected_sites) && !empty($affected_sites)) {
+				foreach($affected_sites as $site) {
+					$website = $app->db->queryOneRecord('SELECT * FROM web_domain WHERE domain_id = ?', $site['domain_id']);
+					$new_data['old'] = $website;
+					$new_data['new'] = $website;
+					$this->update('web_domain_update', $new_data);
+				}
+			}
+		}
 	}
 
 	private function get_master_php_ini_content($web_data) {

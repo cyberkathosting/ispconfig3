@@ -470,6 +470,7 @@ CREATE TABLE IF NOT EXISTS `directive_snippets` (
   `required_php_snippets` varchar(255) NOT NULL DEFAULT '',
   `active` enum('n','y') NOT NULL DEFAULT 'y',
   `master_directive_snippets_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `update_sites` ENUM('y','n') NOT NULL DEFAULT 'n',
   PRIMARY KEY (`directive_snippets_id`)
 ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 

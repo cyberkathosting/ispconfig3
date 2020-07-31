@@ -9,4 +9,5 @@ $wb['directive_snippets_name_error_unique'] = 'Aynı adlı bir yönerge kod par�
 $wb['variables_txt'] = 'Değişkenler';
 $wb['customer_viewable_txt'] = 'Müşteri görebilir';
 $wb['required_php_snippets_txt'] = 'Gerekli PHP Parçası';
+$wb['update_sites_txt'] = 'Update sites using this snippet';
 ?>
