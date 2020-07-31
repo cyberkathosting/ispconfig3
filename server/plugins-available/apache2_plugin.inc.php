@@ -3054,9 +3054,7 @@ class apache2_plugin {
 
                 if(is_file($goaccess_conf) && (filesize($goaccess_conf) > 0)) {
                         $app->log('Created GoAccess config file: '.$goaccess_conf, LOGLEVEL_DEBUG);
-                } else {
-                        $app->log("No GoAccess base config found. Make sure that GoAccess is installed and that the goaccess.conf does exist in ".$goaccess_conf_dir.".", LOGLEVEL_WARN);
-                }
+                } 
 
                 if(is_file($data['new']['document_root']."/" . $web_folder . "/stats/index.html")) $app->system->unlink($data['new']['document_root']."/" . $web_folder . "/stats/index.html");
                 if(file_exists("/usr/local/ispconfig/server/conf-custom/goaccess_index.php.master")) {
