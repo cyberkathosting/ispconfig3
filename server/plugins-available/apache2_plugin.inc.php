@@ -107,7 +107,7 @@ class apache2_plugin {
 				$affected_snippets = $app->db->queryAllRecords('SELECT directive_snippets_id FROM directive_snippets WHERE required_php_snippets RLIKE(?) AND type = ?', $rlike, 'apache');
 				if(is_array($affected_snippets) && !empty($affected_snippets)) {
 					foreach($affected_snippets as $snippet) $sql_in[] = $snippet['directive_snippets_id'];
-					$affected_sites = $app->db->queryAllRecords('SELECT domain_id FROM web_domain WHERE server_id = ? AND directive_snippets_id IN('.implode(',', $sql_in).')', $conf['server_id']);
+					$affected_sites = $app->db->queryAllRecords('SELECT domain_id FROM web_domain WHERE server_id = ? AND directive_snippets_id IN ?', $conf['server_id'], $sql_in);
 				}
 			}
 			if($snippet['type'] == 'apache') $affected_sites = $app->db->queryAllRecords('SELECT domain_id FROM web_domain WHERE server_id = ? AND directive_snippets_id = ?', $conf['server_id'], $snippet['directive_snippets_id']);
@@ -1915,6 +1915,11 @@ class apache2_plugin {
 			$this->awstats_update($data, $web_config);
 		}
 
+                //* Create GoAccess configuration
+                if($data['new']['stats_type'] == 'goaccess' && ($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias')) {
+                        $this->goaccess_update($data, $web_config);
+                }
+
 		//* Remove Stats-Folder when Statistics set to none
 		if($data['new']['stats_type'] == '' && ($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias')) {
 			$app->file->removeDirectory($data['new']['document_root'].'/web/stats');
@@ -2326,6 +2331,11 @@ class apache2_plugin {
 			//* Remove the awstats configuration file
 			if($data['old']['stats_type'] == 'awstats') {
 				$this->awstats_delete($data, $web_config);
+			}
+
+			//* Remove the GoAccess configuration file
+			if($data['old']['stats_type'] == 'goaccess') {
+				$this->goaccess_delete($data, $web_config);
 			}
 
 			if($data['old']['type'] == 'vhostsubdomain' || $data['old']['type'] == 'vhostalias') {
@@ -3025,15 +3035,96 @@ class apache2_plugin {
 		}
 	}
 
-	//* Delete the awstats configuration file
-	private function awstats_delete ($data, $web_config) {
+        //* Delete the awstats configuration file
+        private function awstats_delete ($data, $web_config) {
+                global $app;
+
+                $awstats_conf_dir = $web_config['awstats_conf_dir'];
+
+                if ( @is_file($awstats_conf_dir.'/awstats.'.$data['old']['domain'].'.conf') ) {
+                        $app->system->unlink($awstats_conf_dir.'/awstats.'.$data['old']['domain'].'.conf');
+                        $app->log('Removed AWStats config file: '.$awstats_conf_dir.'/awstats.'.$data['old']['domain'].'.conf', LOGLEVEL_DEBUG);
+                }
+        }
+
+	//* Update the GoAccess configuration file
+        private function goaccess_update ($data, $web_config) {
+                global $app;
+
+                $web_folder = $data['new']['web_folder'];
+                if($data['new']['type'] == 'vhost') $web_folder = 'web';
+
+                $goaccess_conf_locs = array('/etc/goaccess.conf', '/etc/goaccess/goaccess.conf');
+                $count = 0;
+
+                foreach($goaccess_conf_locs as $goa_loc) {
+                        if(is_file($goa_loc) && (filesize($goa_loc) > 0)) {
+                                $goaccess_conf_main = $goa_loc;
+                                break;
+                        } else {
+                                $count++;
+                                if($count == 2) {
+                                        $app->log("No GoAccess base config found. Make sure that GoAccess is installed and that the goaccess.conf does exist in /etc or /etc/goaccess", LOGLEVEL_WARN);
+                                }
+                        }
+                }
+
+                if(!is_dir($data['new']['document_root']."/" . $web_folder . "/stats/.db")) $app->system->mkdirpath($data['new']['document_root'] . "/" . $web_folder . "/stats/.db");
+                $goaccess_conf = $data['new']['document_root'].'/log/goaccess.conf';
+
+                /*
+                In case that you use a different log format, you should use a custom goaccess.conf which you'll have to put into /usr/local/ispconfig/server/conf-custom/.
+                By default the originaly with GoAccess shipped goaccess.conf from /etc/ will be used along with the log-format value COMBINED. 
+		*/
+
+                if(file_exists("/usr/local/ispconfig/server/conf-custom/goaccess.conf.master")) {
+                        $app->system->copy("/usr/local/ispconfig/server/conf-custom/goaccess_index.php.master", $goaccess_conf);
+
+                } elseif(!file_exists($goaccess_conf)) {
+
+			/*
+                         By default the goaccess.conf should get copied by the webserver plugin but in case it wasn't, or it got deleted by accident we gonna copy it again to the destination dir.
+                         Also there was no /usr/local/ispconfig/server/conf-custom/goaccess.conf.master, so we gonna use /etc/goaccess.conf as the base conf.
+			 */
+
+			$app->system->copy($goaccess_conf_main, $goaccess_conf);
+			$content = $app->system->file_get_contents($goaccess_conf, true);
+			$content = preg_replace('/^(#)?log-format COMBINED/m', "log-format COMBINED", $content);
+			$app->system->file_put_contents($goaccess_conf, $content, true);
+			unset($content);
+
+                }
+
+                if(file_exists($goaccess_conf)) {
+                        $domain = $data['new']['domain'];
+                        $content = $app->system->file_get_contents($goaccess_conf, true);
+                        $content = preg_replace('/^(#)?html-report-title(.*)/m', "html-report-title $domain", $content);
+                        $app->system->file_put_contents($goaccess_conf, $content, true);
+                        unset($content);
+
+                }
+
+                if(is_file($goaccess_conf) && (filesize($goaccess_conf) > 0)) {
+                        $app->log('Created GoAccess config file: '.$goaccess_conf, LOGLEVEL_DEBUG);
+                } 
+
+                if(is_file($data['new']['document_root']."/" . $web_folder . "/stats/index.html")) $app->system->unlink($data['new']['document_root']."/" . $web_folder . "/stats/index.html");
+                if(file_exists("/usr/local/ispconfig/server/conf-custom/goaccess_index.php.master")) {
+                        $app->system->copy("/usr/local/ispconfig/server/conf-custom/goaccess_index.php.master", $data['new']['document_root']."/" . $web_folder . "/stats/index.php");
+                } else {
+                        $app->system->copy("/usr/local/ispconfig/server/conf/goaccess_index.php.master", $data['new']['document_root']."/" . $web_folder . "/stats/index.php");
+                }
+        }
+
+	//* Delete the GoAccess configuration file
+	private function goaccess_delete ($data, $web_config) {
 		global $app;
 
-		$awstats_conf_dir = $web_config['awstats_conf_dir'];
+		$goaccess_conf = $data['old']['document_root'] . "/log/goaccess.conf";
 
-		if ( @is_file($awstats_conf_dir.'/awstats.'.$data['old']['domain'].'.conf') ) {
-			$app->system->unlink($awstats_conf_dir.'/awstats.'.$data['old']['domain'].'.conf');
-			$app->log('Removed AWStats config file: '.$awstats_conf_dir.'/awstats.'.$data['old']['domain'].'.conf', LOGLEVEL_DEBUG);
+		if ( @is_file($goaccess_conf) ) {
+			$app->system->unlink($goaccess_conf);
+			$app->log('Removed GoAccess config file: '.$goaccess_conf, LOGLEVEL_DEBUG);
 		}
 	}
 
