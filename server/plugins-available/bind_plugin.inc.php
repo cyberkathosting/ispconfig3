@@ -111,7 +111,11 @@ class bind_plugin {
 		}
 		
 		//Do some magic...
-		$app->system->exec_safe('cd ?; dnssec-keygen -a NSEC3RSASHA1 -b 2048 -n ZONE ?; dnssec-keygen -f KSK -a NSEC3RSASHA1 -b 4096 -n ZONE ?', $dns_config['bind_zonefiles_dir'], $domain, $domain);
+		if($data['new']['dnssec_algo'] == 'sha256') {
+			$app->system->exec_safe('cd ?; dnssec-keygen -3 -a ECDSAP256SHA256 -n ZONE ?; dnssec-keygen -f KSK -3 -a ECDSAP256SHA256 -n ZONE ?', $dns_config['bind_zonefiles_dir'], $domain, $domain);
+		} else {
+			$app->system->exec_safe('cd ?; dnssec-keygen -a NSEC3RSASHA1 -b 2048 -n ZONE ?; dnssec-keygen -f KSK -a NSEC3RSASHA1 -b 4096 -n ZONE ?', $dns_config['bind_zonefiles_dir'], $domain, $domain);
+		}
 
 		$this->soa_dnssec_sign($data); //Now sign the zone for the first time
 		$data['new']['dnssec_initialized']='Y';
@@ -305,15 +309,17 @@ class bind_plugin {
 		}
 		
 		//* DNSSEC-Implementation
-		if($data['old']['origin'] != $data['new']['origin']) {			
+		if($data['old']['origin'] != $data['new']['origin'] || $data['old']['dnssec_algo'] != $data['new']['dnssec_algo']) {			
 			if (@$data['old']['dnssec_initialized'] == 'Y' && strlen(@$data['old']['origin']) > 3) $this->soa_dnssec_delete($data); //delete old keys
-			if ($data['new']['dnssec_wanted'] == 'Y') $this->soa_dnssec_create($data);
-		}
-		else if ($data['new']['dnssec_wanted'] == 'Y' && $data['old']['dnssec_initialized'] == 'N') $this->soa_dnssec_create($data);
-		else if ($data['new']['dnssec_wanted'] == 'N' && $data['old']['dnssec_initialized'] == 'Y') {	//delete old signed file if dnssec is no longer wanted
+			if ($data['new']['dnssec_wanted'] == 'Y') $this->soa_dnssec_create($data);	
+		} elseif ($data['new']['dnssec_wanted'] == 'Y' && $data['old']['dnssec_initialized'] == 'N') {
+			$this->soa_dnssec_create($data);
+		} elseif ($data['new']['dnssec_wanted'] == 'N' && $data['old']['dnssec_initialized'] == 'Y') {	//delete old signed file if dnssec is no longer wanted
 			$filename = $dns_config['bind_zonefiles_dir'].'/' . $this->zone_file_prefix() . str_replace("/", "_", substr($data['old']['origin'], 0, -1));
 			if(is_file($filename.'.signed')) unlink($filename.'.signed');
- 		} else if ($data['new']['dnssec_wanted'] == 'Y') $this->soa_dnssec_update($data);
+ 		} elseif ($data['new']['dnssec_wanted'] == 'Y') {
+			$this->soa_dnssec_update($data);
+		}
 		// END DNSSEC
 		
 		//* rebuild the named.conf file if the origin has changed or when the origin is inserted.

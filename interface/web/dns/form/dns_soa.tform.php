@@ -276,6 +276,14 @@ $form["tabs"]['dns_soa'] = array (
 			'default' => 'Y',
 			'value'  => array(0 => 'N', 1 => 'Y')
 		),
+		'dnssec_algo' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'SELECT',
+			'default' => 'sha256',
+			'value'  => array('sha1' => 'SHA1','sha256' => 'SHA256'),
+			'width'  => '30',
+			'maxlength' => '255'
+		),
  		'dnssec_info' => array (
  			'datatype' => 'TEXT',
  			'formtype' => 'TEXTAREA',

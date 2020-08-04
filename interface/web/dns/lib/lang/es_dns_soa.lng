@@ -41,4 +41,5 @@ $wb['update_acl_txt'] = 'Actualizar ACL';
 $wb['xfer_error_regex'] = 'Notificar también a: Por favor, usa una dirección IP.';
 $wb['xfer_txt'] = 'Permitir transferencia de zonas a<br />estas IP (lista separada por comas)';
 $wb['configuration_error_txt'] = 'CONFIGURATION ERROR';
+$wb['dnssec_algo_txt'] = 'DNSSEC Algorithm';
 ?>
