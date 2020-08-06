@@ -77,9 +77,8 @@ class cronjob_goaccess extends cronjob {
                 }
 
 
-                /* Check if goaccess binary is in path */
-                system("type goaccess 2>&1>/dev/null", $retval);
-		if ($retval === 0) {
+                /* Check if goaccess binary is in path/installed */
+		if($app->system->is_installed('goaccess')) {
 
 			foreach($records as $rec) {
 				$yesterday = date('Ymd', strtotime("-1 day", time()));
@@ -118,7 +117,7 @@ class cronjob_goaccess extends cronjob {
 				} elseif(!file_exists($goaccess_conf)) {
 					/*
 					 By default the goaccess.conf should get copied by the webserver plugin but in case it wasn't, or it got deleted by accident we gonna copy it again to the destination dir.
-					 Also there was no /usr/local/ispconfig/server/conf-custom/goaccess.conf.master, so we gonna use /etc/goaccess.conf as the base conf.
+					 Also there was no /usr/local/ispconfig/server/conf-custom/goaccess.conf.master, so we gonna use /etc/goaccess.conf or /etc/goaccess/goaccess.conf as the base conf.
 					*/
 
 					$app->system->copy($goaccess_conf_main, $goaccess_conf);
@@ -147,8 +146,7 @@ class cronjob_goaccess extends cronjob {
 	                        if(!@is_dir($goa_db_dir)) $app->system->mkdirpath($goa_db_dir);
 	
 	                        if(is_link('/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log')) $app->system->unlink('/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log');
-	                        symlink($logfile, '/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log');
-
+				$app->system->create_relative_link($logfile, '/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log');
 
 				$app->system->exec_safe('chown -R ?:? ?', $username, $groupname, $statsdir);
 
@@ -178,7 +176,11 @@ class cronjob_goaccess extends cronjob {
 
 					// don't rotate db files per month
 					//rename($goa_db_dir, $statsdirold.'db');
-	                                //mkdir($goa_db_dir);
+					//mkdir($goa_db_dir);
+
+					$app->system->copy($output_html, $statsdirold);
+					$app->system->unlink($output_html);
+
 
 					$files = scandir($statsdir);
 
@@ -228,8 +230,8 @@ class cronjob_goaccess extends cronjob {
 
 	                        $app->log('Created GoAccess statistics for ' . $domain, LOGLEVEL_DEBUG);
 	                        if(is_file($rec['document_root']."/".$web_folder."/stats/index.php")) {
-	                                chown($rec['document_root']."/".$web_folder."/stats/index.php", $rec['system_user']);
-	                                chgrp($rec['document_root']."/".$web_folder."/stats/index.php", $rec['system_group']);
+	                                $app->system->chown($rec['document_root']."/".$web_folder."/stats/index.php", $rec['system_user']);
+	                                $app->system->chgrp($rec['document_root']."/".$web_folder."/stats/index.php", $rec['system_group']);
 	                        }
 
 				$app->system->exec_safe('chown -R ?:? ?', $username, $groupname, $statsdir);
