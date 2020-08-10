@@ -66,6 +66,9 @@ class installer_dist extends installer_base {
 		//* mysql-virtual_alias_domains.cf
 		$this->process_postfix_config('mysql-virtual_alias_domains.cf');
 
+		//* mysql-virtual_alias_maps.cf
+		$this->process_postfix_config('mysql-virtual_alias_maps.cf');
+
 		//* mysql-virtual_mailboxes.cf
 		$this->process_postfix_config('mysql-virtual_mailboxes.cf');
 
