@@ -66,6 +66,6 @@ ALTER TABLE `client` CHANGE `id_rsa` `id_rsa` TEXT CHARACTER SET utf8 COLLATE ut
 ALTER TABLE `directive_snippets` ADD `update_sites` ENUM('y','n') NOT NULL DEFAULT 'n' ;
 
 -- Add DNSSEC Algorithm setting
-ALTER TABLE `dns_soa` ADD `dnssec_algo` ENUM('sha1','sha256') NULL DEFAULT NULL AFTER `dnssec_wanted`;
-UPDATE `dns_soa` SET `dnssec_algo` = 'sha1' WHERE `dnssec_algo` IS NULL;
-ALTER TABLE `dns_soa` CHANGE `dnssec_algo` `dnssec_algo` ENUM('sha1','sha256') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'sha256';
+ALTER TABLE `dns_soa` ADD `dnssec_algo` SET('NSEC3RSASHA1','ECDSAP256SHA256') NULL DEFAULT NULL AFTER `dnssec_wanted`;
+UPDATE `dns_soa` SET `dnssec_algo` = 'NSEC3RSASHA1' WHERE `dnssec_algo` IS NULL;
+ALTER TABLE `dns_soa` CHANGE `dnssec_algo` `dnssec_algo` SET('NSEC3RSASHA1','ECDSAP256SHA256') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'ECDSAP256SHA256';

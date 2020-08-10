@@ -110,10 +110,14 @@ class bind_plugin {
 			}
 		}
 		
+		// Get DNSSEC Algorithms
+		$dnssec_algo = explode(',',$data['new']['dnssec_algo']);
+		
 		//Do some magic...
-		if($data['new']['dnssec_algo'] == 'sha256') {
+		if(in_array('ECDSAP256SHA256',$dnssec_algo)) {
 			$app->system->exec_safe('cd ?; dnssec-keygen -3 -a ECDSAP256SHA256 -n ZONE ?; dnssec-keygen -f KSK -3 -a ECDSAP256SHA256 -n ZONE ?', $dns_config['bind_zonefiles_dir'], $domain, $domain);
-		} else {
+		}
+		if(in_array('NSEC3RSASHA1',$dnssec_algo)) {
 			$app->system->exec_safe('cd ?; dnssec-keygen -a NSEC3RSASHA1 -b 2048 -n ZONE ?; dnssec-keygen -f KSK -a NSEC3RSASHA1 -b 4096 -n ZONE ?', $dns_config['bind_zonefiles_dir'], $domain, $domain);
 		}
 
@@ -141,7 +145,10 @@ class bind_plugin {
 			if (!preg_match('@'.preg_quote($includeline).'@', $zonefile)) $zonefile .= "\n".$includeline."\n";
 			$keycount++;
 		}
-		if ($keycount != 2) $app->log('DNSSEC Warning: There are more or less than 2 keyfiles for zone '.$domain, LOGLEVEL_WARN);
+		
+		$keycount_wanted = count(explode(',',$data['new']['dnssec_algo']))*2;
+		
+		if ($keycount != $keycount_wanted) $app->log('DNSSEC Warning: There are more or less than 2 keyfiles for each algorithm for zone '.$domain, LOGLEVEL_WARN);
 		file_put_contents($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain, $zonefile);
 		
 		//Sign the zone and set it valid for max. 16 days
@@ -309,9 +316,11 @@ class bind_plugin {
 		}
 		
 		//* DNSSEC-Implementation
-		if($data['old']['origin'] != $data['new']['origin'] || $data['old']['dnssec_algo'] != $data['new']['dnssec_algo']) {			
+		if($data['old']['origin'] != $data['new']['origin']) {			
 			if (@$data['old']['dnssec_initialized'] == 'Y' && strlen(@$data['old']['origin']) > 3) $this->soa_dnssec_delete($data); //delete old keys
-			if ($data['new']['dnssec_wanted'] == 'Y') $this->soa_dnssec_create($data);	
+			if ($data['new']['dnssec_wanted'] == 'Y') $this->soa_dnssec_create($data);
+		} elseif($data['old']['dnssec_algo'] != $data['new']['dnssec_algo']) {
+			if ($data['new']['dnssec_wanted'] == 'Y') $this->soa_dnssec_create($data);
 		} elseif ($data['new']['dnssec_wanted'] == 'Y' && $data['old']['dnssec_initialized'] == 'N') {
 			$this->soa_dnssec_create($data);
 		} elseif ($data['new']['dnssec_wanted'] == 'N' && $data['old']['dnssec_initialized'] == 'Y') {	//delete old signed file if dnssec is no longer wanted

@@ -626,7 +626,7 @@ CREATE TABLE `dns_soa` (
   `update_acl` varchar(255) default NULL,
   `dnssec_initialized` ENUM('Y','N') NOT NULL DEFAULT 'N',
   `dnssec_wanted` ENUM('Y','N') NOT NULL DEFAULT 'N',
-  `dnssec_algo` ENUM('sha1','sha256') NOT NULL DEFAULT 'sha256',
+  `dnssec_algo` SET('NSEC3RSASHA1','ECDSAP256SHA256') NOT NULL DEFAULT 'ECDSAP256SHA256',
   `dnssec_last_signed` BIGINT NOT NULL DEFAULT '0',
   `dnssec_info` TEXT NULL,
   PRIMARY KEY  (`id`),
