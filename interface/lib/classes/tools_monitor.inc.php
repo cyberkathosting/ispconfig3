@@ -187,7 +187,7 @@ class tools_monitor {
 					$memory = number_format($value / 1048576);
 					$html .= '<tr>
                         <td>' . $key . ':</td>
-                        <td>' . $memory . 'MB (' . $value . ')</td>
+                        <td>' . $memory . ' MB</td>
                         </tr>';
 				}
 			}
