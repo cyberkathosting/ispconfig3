@@ -97,27 +97,29 @@ class bind_plugin {
 		}
 		
 		//* Verify that we do not already have keys (overwriting-protection)
-		if (file_exists($dns_config['bind_zonefiles_dir'].'/dsset-'.$domain.'.')) {
-			return $this->soa_dnssec_update($data);
-		} else if ($data['new']['dnssec_initialized'] == 'Y') { //In case that we generated keys but the dsset-file was not generated
-			$keycount=0;
-			foreach (glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'*.key') as $keyfile) {
-				$keycount++;
-			}
-			if ($keycount > 0) {
-				$this->soa_dnssec_sign($data);
-				return true;
+		if($data['old']['dnssec_algo'] == $data['new']['dnssec_algo']) {
+			if (file_exists($dns_config['bind_zonefiles_dir'].'/dsset-'.$domain.'.')) {
+				return $this->soa_dnssec_update($data);
+			} else if ($data['new']['dnssec_initialized'] == 'Y') { //In case that we generated keys but the dsset-file was not generated
+				$keycount=0;
+				foreach (glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'*.key') as $keyfile) {
+					$keycount++;
+				}
+				if ($keycount > 0) {
+					$this->soa_dnssec_sign($data);
+					return true;
+				}
 			}
 		}
 		
 		// Get DNSSEC Algorithms
 		$dnssec_algo = explode(',',$data['new']['dnssec_algo']);
 		
-		//Do some magic...
-		if(in_array('ECDSAP256SHA256',$dnssec_algo)) {
+		//* Create the Zone Signing and Key Signing Keys
+		if(in_array('ECDSAP256SHA256',$dnssec_algo) && count(glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'.+013*.key')) == 0) {
 			$app->system->exec_safe('cd ?; dnssec-keygen -3 -a ECDSAP256SHA256 -n ZONE ?; dnssec-keygen -f KSK -3 -a ECDSAP256SHA256 -n ZONE ?', $dns_config['bind_zonefiles_dir'], $domain, $domain);
 		}
-		if(in_array('NSEC3RSASHA1',$dnssec_algo)) {
+		if(in_array('NSEC3RSASHA1',$dnssec_algo) && count(glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'.+007*.key')) == 0) {
 			$app->system->exec_safe('cd ?; dnssec-keygen -a NSEC3RSASHA1 -b 2048 -n ZONE ?; dnssec-keygen -f KSK -a NSEC3RSASHA1 -b 4096 -n ZONE ?', $dns_config['bind_zonefiles_dir'], $domain, $domain);
 		}
 
@@ -138,23 +140,40 @@ class bind_plugin {
 		$domain = substr($data['new']['origin'], 0, strlen($data['new']['origin'])-1);
 		if (!file_exists($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain)) return false;
 		
+		//* Get DNSSEC Algorithms
+		$dnssec_algo = explode(',',$data['new']['dnssec_algo']);
+		
+		//* Get Zone file content
 		$zonefile = file_get_contents($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain);
 		$keycount=0;
-		foreach (glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'*.key') as $keyfile) {
-			$includeline = '$INCLUDE '.basename($keyfile);
-			if (!preg_match('@'.preg_quote($includeline).'@', $zonefile)) $zonefile .= "\n".$includeline."\n";
-			$keycount++;
+		
+		//* Include ECDSAP256SHA256 keys in zone
+		if(in_array('ECDSAP256SHA256',$dnssec_algo)) {
+			foreach (glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'.+013*.key') as $keyfile) {
+				$includeline = '$INCLUDE '.basename($keyfile);
+				if (!preg_match('@'.preg_quote($includeline).'@', $zonefile)) $zonefile .= "\n".$includeline."\n";
+				$keycount++;
+			}
+		}
+		
+		//* Include NSEC3RSASHA1 keys in zone
+		if(in_array('NSEC3RSASHA1',$dnssec_algo)) {
+			foreach (glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'.+007*.key') as $keyfile) {
+				$includeline = '$INCLUDE '.basename($keyfile);
+				if (!preg_match('@'.preg_quote($includeline).'@', $zonefile)) $zonefile .= "\n".$includeline."\n";
+				$keycount++;
+			}
 		}
 		
 		$keycount_wanted = count(explode(',',$data['new']['dnssec_algo']))*2;
 		
-		if ($keycount != $keycount_wanted) $app->log('DNSSEC Warning: There are more or less than 2 keyfiles for each algorithm for zone '.$domain, LOGLEVEL_WARN);
+		if ($keycount != $keycount_wanted) $app->log('DNSSEC Warning: There are more or less than 2 keyfiles for each algorithm for zone '.$domain.'. Found: '.$keycount. ' Expected: '.$keycount_wanted, LOGLEVEL_WARN);
 		file_put_contents($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain, $zonefile);
 		
-		//Sign the zone and set it valid for max. 16 days
+		//* Sign the zone and set it valid for max. 16 days
 		$app->system->exec_safe('cd ?; dnssec-signzone -A -e +1382400 -3 $(head -c 1000 /dev/random | sha1sum | cut -b 1-16) -N increment -o ? -t ?', $dns_config['bind_zonefiles_dir'], $domain, $filespre.$domain);
 			 
-		//Write Data back ino DB
+		//* Write Data back ino DB
 		$dnssecdata = "DS-Records:\n".file_get_contents($dns_config['bind_zonefiles_dir'].'/dsset-'.$domain.'.');
 		$dnssecdata .= "\n------------------------------------\n\nDNSKEY-Records:\n";
 		foreach (glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'*.key') as $keyfile) {
@@ -209,7 +228,10 @@ class bind_plugin {
 		
 		$domain = substr($data['new']['origin'], 0, strlen($data['new']['origin'])-1);
 		
-		unlink($dns_config['bind_zonefiles_dir'].'/K'.$domain.'.+*');
+		$key_files = glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'.+*');
+		foreach($key_files as $file) {
+			unlink($file);
+		}
 		unlink($dns_config['bind_zonefiles_dir'].'/'.$this->zone_file_prefix().$domain.'.signed');
 		unlink($dns_config['bind_zonefiles_dir'].'/dsset-'.$domain.'.');
 		
@@ -320,6 +342,7 @@ class bind_plugin {
 			if (@$data['old']['dnssec_initialized'] == 'Y' && strlen(@$data['old']['origin']) > 3) $this->soa_dnssec_delete($data); //delete old keys
 			if ($data['new']['dnssec_wanted'] == 'Y') $this->soa_dnssec_create($data);
 		} elseif($data['old']['dnssec_algo'] != $data['new']['dnssec_algo']) {
+			$app->log("DNSSEC Algorithm has changed: ".$data['new']['dnssec_algo'], LOGLEVEL_DEBUG);
 			if ($data['new']['dnssec_wanted'] == 'Y') $this->soa_dnssec_create($data);
 		} elseif ($data['new']['dnssec_wanted'] == 'Y' && $data['old']['dnssec_initialized'] == 'N') {
 			$this->soa_dnssec_create($data);
