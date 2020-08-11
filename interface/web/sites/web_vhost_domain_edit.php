@@ -1385,7 +1385,8 @@ class page_action extends tform_actions {
 	  	if($global_config['client_protection'] == 'y') {
 		    $app->db->query("UPDATE web_domain SET sys_groupid = ?, sys_perm_group = 'ru' WHERE domain_id = ?", $client_group_id, $this->id);
 			} else {
-				$app->db->query("UPDATE web_domain SET sys_groupid = ?, sys_perm_group = 'riud' WHERE domain_id = ?", $client_group_id, $this->id);
+				$sysuser = $app->db->queryOneRecord('SELECT userid FROM sys_user WHERE default_group = ?',$client_group_id);
+				$app->db->query("UPDATE web_domain SET sys_userid = ?, sys_groupid = ?, sys_perm_group = 'riud' WHERE domain_id = ?", $sysuser['userid'],$client_group_id, $this->id);
 			}
 		}
 		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {

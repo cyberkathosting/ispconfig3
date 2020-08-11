@@ -156,11 +156,13 @@ class page_action extends tform_actions {
 		*/
 
 		$new_config = $app->tform->encode($this->dataRecord, $section);
+		
 		if($section == 'sites' && $new_config['client_protection'] != 'y' && $server_config_array['sites']['client_protection'] == 'y') {
-		  $app->db->query("UPDATE `web_domain` SET `sys_userid` = (select `userid` FROM `sys_user` WHERE `default_group` = `web_domain`.`sys_groupid`), `sys_perm_group` = 'riud' WHERE `added_by` = 'admin'");
+		  $app->db->query("UPDATE `web_domain` SET `sys_userid` = (select `userid` FROM `sys_user` WHERE `default_group` = `web_domain`.`sys_groupid`), `sys_perm_group` = 'riud' WHERE `added_by` = 'admin' and sys_groupid > 0");
 		} elseif($section == 'sites' && $new_config['client_protection'] != 'n' && $server_config_array['sites']['client_protection'] == 'n') {
 			$app->db->query("UPDATE `web_domain` SET `sys_userid` = 1, `sys_perm_group` = 'ru' WHERE `added_by` = 'admin'");
 		}
+		
 		if($section == 'sites' && $new_config['vhost_subdomains'] != 'y' && $server_config_array['sites']['vhost_subdomains'] == 'y') {
 			// check for existing vhost subdomains, if found the mode cannot be disabled
 			$check = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_domain` WHERE `type` = 'vhostsubdomain'");
