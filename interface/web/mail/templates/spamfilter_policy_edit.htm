@@ -1,10 +1,3 @@
-<div class='page-header'>
-	<h1><tmpl_var name="list_head_txt"></h1>
-</div>
-<p><tmpl_var name="list_desc_txt"></p>
-
-
-        
             <div class="form-group">
                 <label for="policy_name" class="col-sm-3 control-label">{tmpl_var name='policy_name_txt'}</label>
                 <div class="col-sm-9"><input type="text" name="policy_name" id="policy_name" value="{tmpl_var name='policy_name'}" class="form-control" /></div></div>
@@ -20,37 +13,7 @@
                     {tmpl_var name='spam_lover'}
                 </select></div>
             </div>
-            <div class="form-group">
-                <label for="banned_files_lover" class="col-sm-3 control-label">{tmpl_var name='banned_files_lover_txt'}</label>
-                <div class="col-sm-9"><select name="banned_files_lover" id="banned_files_lover" class="form-control">
-                    {tmpl_var name='banned_files_lover'}
-                </select></div>
-            </div>
-            <div class="form-group">
-                <label for="bad_header_lover" class="col-sm-3 control-label">{tmpl_var name='bad_header_lover_txt'}</label>
-                <div class="col-sm-9"><select name="bad_header_lover" id="bad_header_lover" class="form-control">
-                    {tmpl_var name='bad_header_lover'}
-                </select></div>
-            </div>
-            <div class="form-group">
-                <label for="bypass_virus_checks" class="col-sm-3 control-label">{tmpl_var name='bypass_virus_checks_txt'}</label>
-                <div class="col-sm-9"><select name="bypass_virus_checks" id="bypass_virus_checks" class="form-control">
-                    {tmpl_var name='bypass_virus_checks'}
-                </select></div>
-            </div>
-            <div class="form-group">
-                <label for="bypass_banned_checks" class="col-sm-3 control-label">{tmpl_var name='bypass_banned_checks_txt'}</label>
-                <div class="col-sm-9"><select name="bypass_banned_checks" id="bypass_banned_checks" class="form-control">
-                    {tmpl_var name='bypass_banned_checks'}
-                </select></div>
-            </div>
-            <div class="form-group">
-                <label for="bypass_header_checks" class="col-sm-3 control-label">{tmpl_var name='bypass_header_checks_txt'}</label>
-                <div class="col-sm-9"><select name="bypass_header_checks" id="bypass_header_checks" class="form-control">
-                    {tmpl_var name='bypass_header_checks'}
-                </select></div>
-            </div>
-        
+
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
 

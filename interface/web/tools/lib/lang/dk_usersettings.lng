@@ -9,4 +9,7 @@ $wb['repeat_password_txt'] = 'Gentage Adgangskode';
 $wb['password_mismatch_txt'] = 'Adgangskoderne stemmer ikke overens.';
 $wb['password_match_txt'] = 'Adgangskoderne stemmer overens.';
 $wb['password_txt'] = 'Password';
+$wb['language_txt'] = 'Sprog';
+$wb['startmodule_txt'] = 'Startmodule';
+$wb['app_theme_txt'] = 'Design';
 ?>

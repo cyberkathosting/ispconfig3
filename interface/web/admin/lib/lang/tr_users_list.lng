@@ -1,6 +1,6 @@
 <?php
 $wb['list_head_txt'] = 'Kullanıcılar';
-$wb['username_txt'] = 'Kullanıcı adı';
+$wb['username_txt'] = 'Kullanıcı Adı';
 $wb['client_id_txt'] = 'Müşteri Kodu';
 $wb['active_txt'] = 'Etkin';
 $wb['groups_txt'] = 'Gruplar';

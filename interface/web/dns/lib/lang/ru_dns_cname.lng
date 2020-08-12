@@ -12,6 +12,6 @@ $wb['name_error_empty'] = 'Имя пустое.';
 $wb['name_error_regex'] = 'Имя узла имеет неправильный формат.';
 $wb['data_error_empty'] = 'Целевое имя узла пустое';
 $wb['data_error_regex'] = 'Целевое имя узла имеет неправильный формат';
-$wb['data_error_duplicate'] = 'Дубликат записи';
+$wb['data_error_duplicate'] = 'Duplicate A, AAAA, CNAME, or DNAME record';
 $wb['ttl_range_error'] = 'Мин. время <b>TTL</b> 60 секунд.';
 ?>

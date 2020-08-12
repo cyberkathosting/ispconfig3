@@ -152,9 +152,9 @@ class tform_base {
 			$wb = $app->functions->array_merge($wb_global, $wb);
 		}
 		if(isset($wb_global)) unset($wb_global);
-		
+
 		$this->wordbook = $wb;
-		
+
 		$app->plugin->raiseEvent($_SESSION['s']['module']['name'].':'.$app->tform->formDef['name'] . ':on_after_formdef', $this);
 
 		$this->dateformat = $app->lng('conf_format_dateshort');
@@ -323,7 +323,7 @@ class tform_base {
 		return $this->getAuthSQL('r', $matches[1]);
 	}
 	*/
-	
+
 	/**
 	 * Get the key => value array of a form filled from a datasource definitiom
 	 *
@@ -336,69 +336,84 @@ class tform_base {
 	}
 
 	//* If the parameter 'valuelimit' is set
-	function applyValueLimit($limit, $values) {
+	function applyValueLimit($limit, $values, $current_value = '') {
 
 		global $app;
 
-		$limit_parts = explode(':', $limit);
+		// we mas have multiple limits, therefore we explode by ; first
+		// Example: "system:sites:web_php_options;client:web_php_options"
+		$limits = explode(';',$limit);
 
-		//* values are limited to a comma separated list
-		if($limit_parts[0] == 'list') {
-			$allowed = explode(',', $limit_parts[1]);
-		}
 
-		//* values are limited to a field in the client settings
-		if($limit_parts[0] == 'client') {
-			if($_SESSION["s"]["user"]["typ"] == 'admin') {
-				return $values;
-			} else {
-				$client_group_id = $_SESSION["s"]["user"]["default_group"];
-				$client = $app->db->queryOneRecord("SELECT ".$limit_parts[1]." as lm FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
-				$allowed = explode(',', $client['lm']);
+		foreach($limits as $limit) {
+
+			$limit_parts = explode(':', $limit);
+
+			//* values are limited to a comma separated list
+			if($limit_parts[0] == 'list') {
+				$allowed = explode(',', $limit_parts[1]);
 			}
-		}
 
-		//* values are limited to a field in the reseller settings
-		if($limit_parts[0] == 'reseller') {
-			if($_SESSION["s"]["user"]["typ"] == 'admin') {
-				return $values;
-			} else {
-				//* Get the limits of the client that is currently logged in
-				$client_group_id = $_SESSION["s"]["user"]["default_group"];
-				$client = $app->db->queryOneRecord("SELECT parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
-				//echo "SELECT parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id";
-				//* If the client belongs to a reseller, we will check against the reseller Limit too
-				if($client['parent_client_id'] != 0) {
-
-					//* first we need to know the groups of this reseller
-					$tmp = $app->db->queryOneRecord("SELECT userid, groups FROM sys_user WHERE client_id = ?", $client['parent_client_id']);
-					$reseller_groups = $tmp["groups"];
-					$reseller_userid = $tmp["userid"];
-
-					// Get the limits of the reseller of the logged in client
-					$client_group_id = $_SESSION["s"]["user"]["default_group"];
-					$reseller = $app->db->queryOneRecord("SELECT ".$limit_parts[1]." as lm FROM client WHERE client_id = ?", $client['parent_client_id']);
-					$allowed = explode(',', $reseller['lm']);
-				} else {
+			//* values are limited to a field in the client settings
+			if($limit_parts[0] == 'client') {
+				if($_SESSION["s"]["user"]["typ"] == 'admin') {
 					return $values;
+				} else {
+					$client_group_id = $_SESSION["s"]["user"]["default_group"];
+					$client = $app->db->queryOneRecord("SELECT ".$limit_parts[1]." as lm FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
+					$allowed = explode(',', $client['lm']);
 				}
-			} // end if admin
-		} // end if reseller
+			}
 
-		//* values are limited to a field in the system settings
-		if($limit_parts[0] == 'system') {
-			$app->uses('getconf');
-			$tmp_conf = $app->getconf->get_global_config($limit_parts[1]);
-			$tmp_key = $limit_parts[2];
-			$allowed = $tmp_conf[$tmp_key];
+			//* values are limited to a field in the reseller settings
+			if($limit_parts[0] == 'reseller') {
+				if($_SESSION["s"]["user"]["typ"] == 'admin') {
+					return $values;
+				} else {
+					//* Get the limits of the client that is currently logged in
+					$client_group_id = $_SESSION["s"]["user"]["default_group"];
+					$client = $app->db->queryOneRecord("SELECT parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
+					//echo "SELECT parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = $client_group_id";
+					//* If the client belongs to a reseller, we will check against the reseller Limit too
+					if($client['parent_client_id'] != 0) {
+
+						//* first we need to know the groups of this reseller
+						$tmp = $app->db->queryOneRecord("SELECT userid, groups FROM sys_user WHERE client_id = ?", $client['parent_client_id']);
+						$reseller_groups = $tmp["groups"];
+						$reseller_userid = $tmp["userid"];
+
+						// Get the limits of the reseller of the logged in client
+						$client_group_id = $_SESSION["s"]["user"]["default_group"];
+						$reseller = $app->db->queryOneRecord("SELECT ".$limit_parts[1]." as lm FROM client WHERE client_id = ?", $client['parent_client_id']);
+						$allowed = explode(',', $reseller['lm']);
+					} else {
+						return $values;
+					}
+				} // end if admin
+			} // end if reseller
+
+			//* values are limited to a field in the system settings
+			if($limit_parts[0] == 'system') {
+				$app->uses('getconf');
+				$tmp_conf = $app->getconf->get_global_config($limit_parts[1]);
+				$tmp_key = $limit_parts[2];
+				$allowed = $allowed = explode(',',$tmp_conf[$tmp_key]);
+			}
+
+			// add the current value to the allowed array
+			$allowed[] = $current_value;
+
+			// remove all values that are not allowed
+			$values_new = array();
+			foreach($values as $key => $val) {
+				if(in_array($key, $allowed)) $values_new[$key] = $val;
+			}
+
+			$values = $values_new;
+
 		}
 
-		$values_new = array();
-		foreach($values as $key => $val) {
-			if(in_array($key, $allowed)) $values_new[$key] = $val;
-		}
-
-		return $values_new;
+		return $values;
 	}
 
 
@@ -423,7 +438,7 @@ class tform_base {
 		$csrf_token = $app->auth->csrf_token_get($this->formDef['name']);
 		$_csrf_id = $csrf_token['csrf_id'];
 		$_csrf_value = $csrf_token['csrf_key'];
-		
+
 		$this->formDef['tabs'][$tab]['fields']['_csrf_id'] = array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -439,7 +454,7 @@ class tform_base {
 		$record['_csrf_id'] = $_csrf_id;
 		$record['_csrf_key'] = $_csrf_value;
 		/* CSRF PROTECTION */
-		
+
 		$new_record = array();
 		if($action == 'EDIT') {
 			$record = $this->decode($record, $tab);
@@ -464,7 +479,7 @@ class tform_base {
 
 					// If a limitation for the values is set
 					if(isset($field['valuelimit']) && is_array($field["value"])) {
-						$field["value"] = $this->applyValueLimit($field['valuelimit'], $field["value"]);
+						$field["value"] = $this->applyValueLimit($field['valuelimit'], $field["value"], $val);
 					}
 
 					switch ($field['formtype']) {
@@ -574,7 +589,7 @@ class tform_base {
 
 						$new_record[$key] = $this->_getDateHTML($key, $dt_value);
 						break;
-					
+
 					default:
 						if(isset($record[$key])) {
 							$new_record[$key] = $app->functions->htmlentities($record[$key]);
@@ -599,7 +614,7 @@ class tform_base {
 
 				// If a limitation for the values is set
 				if(isset($field['valuelimit']) && is_array($field["value"])) {
-					$field["value"] = $this->applyValueLimit($field['valuelimit'], $field["value"]);
+					$field["value"] = $this->applyValueLimit($field['valuelimit'], $field["value"], $field['default']);
 				}
 
 				switch ($field['formtype']) {
@@ -686,7 +701,7 @@ class tform_base {
 
 					$new_record[$key] = $this->_getDateTimeHTML($key, $dt_value, $display_seconds);
 					break;
-				
+
 				case 'DATE':
 					$dt_value = (isset($field['default'])) ? $field['default'] : 0;
 
@@ -735,7 +750,7 @@ class tform_base {
 					unset($_POST);
 					unset($record);
 				}
-				
+
 				if(isset($_SESSION['_csrf_timeout']) && is_array($_SESSION['_csrf_timeout'])) {
 					$to_unset = array();
 					foreach($_SESSION['_csrf_timeout'] as $_csrf_id => $timeout) {
@@ -752,7 +767,7 @@ class tform_base {
 			}
 			/* CSRF PROTECTION */
 		}
-		
+
 		$new_record = array();
 		if(is_array($record)) {
 			foreach($fields as $key => $field) {
@@ -1050,6 +1065,29 @@ class tform_base {
 				}
 				unset($error);
 				break;
+			case 'ISEMAILADDRESS':
+				$error = false;
+				if($validator['allowempty'] != 'y') $validator['allowempty'] = 'n';
+				if($validator['allowempty'] == 'y' && $field_value == '') {
+					//* Do nothing
+				} else {
+					if(function_exists('filter_var')) {
+						if(filter_var($field_value, FILTER_VALIDATE_EMAIL) === false) {
+							$error = true;
+						}
+						if ($error) {
+							$errmsg = $validator['errmsg'];
+							if(isset($this->wordbook[$errmsg])) {
+								$this->errorMessage .= $this->wordbook[$errmsg]."<br />\r\n";
+							} else {
+								$this->errorMessage .= $errmsg."<br />\r\n";
+							}
+						}
+
+					} else $this->errorMessage .= "function filter_var missing <br />\r\n";
+				}
+				unset($error);
+				break;
 			case 'ISINT':
 				if(function_exists('filter_var') && $field_value < PHP_INT_MAX) {
 					//if($field_value != '' && filter_var($field_value, FILTER_VALIDATE_INT, array("options" => array('min_range'=>0))) === false) {
@@ -1183,7 +1221,7 @@ class tform_base {
 					}
 				}
 				break;
-			
+
 			case 'ISDATETIME':
 				/* Checks a datetime value against the date format of the current language */
 				if($validator['allowempty'] != 'y') $validator['allowempty'] = 'n';
@@ -1201,7 +1239,7 @@ class tform_base {
 					}
 				}
 				break;
-			
+
 			case 'RANGE':
 				//* Checks if the value is within the given range or above / below a value
 				//* Range examples: < 10 = ":10", between 2 and 10 = "2:10", above 5 = "5:".
@@ -1266,7 +1304,7 @@ class tform_base {
 		$sql_update = '';
 
 		$record = $this->encode($record, $tab, true);
-		
+
 		if(($this->primary_id_override > 0)) {
 			$sql_insert_key .= '`'.$this->formDef["db_table_idx"].'`, ';
 			$sql_insert_val .= $this->primary_id_override.", ";

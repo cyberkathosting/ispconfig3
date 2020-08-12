@@ -111,7 +111,9 @@ class nginx_reverseproxy_plugin {
 		$crt_file = $ssl_dir.'/'.$domain.'.crt';
 		$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
 
-		$vhost_data['nginx_directives'] = preg_replace("/\[IP\]/", $vhost_data['ip_address'], $vhost_data['nginx_directives']);
+		if($vhost_data['nginx_directives']) {
+			$vhost_data['nginx_directives'] = preg_replace("/\[IP\]/", $vhost_data['ip_address'], $vhost_data['nginx_directives']);
+		}
 
 
 		if($data['new']['ssl'] == 'y' && @is_file($crt_file) && @is_file($key_file)) {
@@ -176,7 +178,7 @@ class nginx_reverseproxy_plugin {
 		}
 
 
-		$vhost_file = escapeshellcmd($nginx_config['nginx_vhost_conf_dir'].'/'.$data['new']['domain'].'.vhost');
+		$vhost_file = $nginx_config['nginx_vhost_conf_dir'].'/'.$data['new']['domain'].'.vhost';
 		//* Make a backup copy of vhost file
 		copy($vhost_file, $vhost_file.'~');
 
@@ -187,7 +189,7 @@ class nginx_reverseproxy_plugin {
 
 
 		// Set the symlink to enable the vhost
-		$vhost_symlink = escapeshellcmd($nginx_config['nginx_vhost_conf_enabled_dir'].'/'.$data['new']['domain'].'.vhost');
+		$vhost_symlink = $nginx_config['nginx_vhost_conf_enabled_dir'].'/'.$data['new']['domain'].'.vhost';
 		if($data['new']['active'] == 'y' && !is_link($vhost_symlink)) {
 			symlink($vhost_file, $vhost_symlink);
 			$app->log('Creating symlink: '.$vhost_symlink.'->'.$vhost_file, LOGLEVEL_DEBUG);
@@ -199,18 +201,18 @@ class nginx_reverseproxy_plugin {
 			$app->log('Removing symlink: '.$vhost_symlink.'->'.$vhost_file, LOGLEVEL_DEBUG);
 		}
 
-		if(!is_dir('/var/log/ispconfig/nginx/'.$data['new']['domain'])) exec('mkdir -p /var/log/ispconfig/nginx/'.$data['new']['domain']);
+		if(!is_dir('/var/log/ispconfig/nginx/'.$data['new']['domain'])) $app->system->exec_safe('mkdir -p ?', '/var/log/ispconfig/nginx/'.$data['new']['domain']);
 
 		// remove old symlink and vhost file, if domain name of the site has changed
 		if($this->action == 'update' && $data['old']['domain'] != '' && $data['new']['domain'] != $data['old']['domain']) {
-			$vhost_symlink = escapeshellcmd($nginx_config['nginx_vhost_conf_enabled_dir'].'/'.$data['old']['domain'].'.vhost');
+			$vhost_symlink = $nginx_config['nginx_vhost_conf_enabled_dir'].'/'.$data['old']['domain'].'.vhost';
 			unlink($vhost_symlink);
 			$app->log('Removing symlink: '.$vhost_symlink.'->'.$vhost_file, LOGLEVEL_DEBUG);
-			$vhost_file = escapeshellcmd($nginx_config['nginx_vhost_conf_dir'].'/'.$data['old']['domain'].'.vhost');
+			$vhost_file = $nginx_config['nginx_vhost_conf_dir'].'/'.$data['old']['domain'].'.vhost';
 			unlink($vhost_file);
 			$app->log('Removing file: '.$vhost_file, LOGLEVEL_DEBUG);
 
-			if(is_dir('/var/log/ispconfig/nginx/'.$data['old']['domain'])) exec('rm -rf /var/log/ispconfig/nginx/'.$data['old']['domain']);
+			if(is_dir('/var/log/ispconfig/nginx/'.$data['old']['domain'])) $app->system->exec_safe('rm -rf ?', '/var/log/ispconfig/nginx/'.$data['old']['domain']);
 		}
 
 		// request a httpd reload when all records have been processed
@@ -232,7 +234,7 @@ class nginx_reverseproxy_plugin {
 	function ssl($event_name, $data) {
 		global $app, $conf;
 
-		if(!is_dir($conf['nginx']['config_dir'].'/ssl')) exec('mkdir -p '.$conf['nginx']['config_dir'].'/ssl');
+		if(!is_dir($conf['nginx']['config_dir'].'/ssl')) $app->system->exec_safe('mkdir -p ?', $conf['nginx']['config_dir'].'/ssl');
 		$ssl_dir = $conf['nginx']['config_dir'].'/ssl';
 		$domain = $data['new']['ssl_domain'];
 		$key_file = $ssl_dir.'/'.$domain.'.key.org';
@@ -250,7 +252,7 @@ class nginx_reverseproxy_plugin {
 			//$csr_file = $ssl_dir.'/'.$domain.".csr";
 			//$crt_file = $ssl_dir.'/'.$domain.".crt";
 			//$bundle_file = $ssl_dir.'/'.$domain.".bundle";
-			$this->_exec('rsync -v -e ssh root@'.$web['ip_address'].':~/$src_ssl_dir '.$ssl_dir);
+			$app->system->exec_safe('rsync -v -e ssh root@?:? ?', $web['ip_address'], '~/'.$src_ssl_dir, $ssl_dir);
 
 			$app->log('Syncing SSL Cert for: '.$domain, LOGLEVEL_DEBUG);
 		}
@@ -284,29 +286,22 @@ class nginx_reverseproxy_plugin {
 
 			//* This is a website
 			// Deleting the vhost file, symlink and the data directory
-			$vhost_symlink = escapeshellcmd($nginx_config['nginx_vhost_conf_enabled_dir'].'/'.$data['old']['domain'].'.vhost');
+			$vhost_symlink = $nginx_config['nginx_vhost_conf_enabled_dir'].'/'.$data['old']['domain'].'.vhost';
 			unlink($vhost_symlink);
 			$app->log('Removing symlink: '.$vhost_symlink.'->'.$vhost_file, LOGLEVEL_DEBUG);
 
-			$vhost_file = escapeshellcmd($nginx_config['nginx_vhost_conf_dir'].'/'.$data['old']['domain'].'.vhost');
+			$vhost_file = $nginx_config['nginx_vhost_conf_dir'].'/'.$data['old']['domain'].'.vhost';
 			unlink($vhost_file);
 			$app->log('Removing vhost file: '.$vhost_file, LOGLEVEL_DEBUG);
 
 
 
 			// Delete the log file directory
-			$vhost_logfile_dir = escapeshellcmd('/var/log/ispconfig/nginx/'.$data['old']['domain']);
-			if($data['old']['domain'] != '' && !stristr($vhost_logfile_dir, '..')) exec('rm -rf '.$vhost_logfile_dir);
+			$vhost_logfile_dir = '/var/log/ispconfig/nginx/'.$data['old']['domain'];
+			if($data['old']['domain'] != '' && !stristr($vhost_logfile_dir, '..')) $app->system->exec_safe('rm -rf ?', $vhost_logfile_dir);
 			$app->log('Removing website logfile directory: '.$vhost_logfile_dir, LOGLEVEL_DEBUG);
 
 		}
-	}
-
-	//* Wrapper for exec function for easier debugging
-	private function _exec($command) {
-		global $app;
-		$app->log('exec: '.$command, LOGLEVEL_DEBUG);
-		exec($command);
 	}
 
 	function rewrite_insert($event_name, $data) {
@@ -329,7 +324,7 @@ class nginx_reverseproxy_plugin {
 		$tpl->newTemplate("nginx_reverseproxy_rewrites.conf.master");
 		if (!empty($rules))$tpl->setLoop('nginx_rewrite_rules', $rules);
 
-		$rewrites_file = escapeshellcmd($nginx_config['nginx_vhost_conf_dir'].'/default.rewrites.conf');
+		$rewrites_file = $nginx_config['nginx_vhost_conf_dir'].'/default.rewrites.conf';
 		//* Make a backup copy of vhost file
 		copy($rewrites_file, $rewrites_file.'~');
 
@@ -340,7 +335,7 @@ class nginx_reverseproxy_plugin {
 
 
 		// Set the symlink to enable the vhost
-		$rewrite_symlink = escapeshellcmd($nginx_config['nginx_vhost_conf_enabled_dir'].'/default.rewrites.conf');
+		$rewrite_symlink = $nginx_config['nginx_vhost_conf_enabled_dir'].'/default.rewrites.conf';
 
 		if(!is_link($rewrite_symlink)) {
 			symlink($rewrites_file, $rewrite_symlink);

@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `openvz_ip` (
   `vm_id` int(11) NOT NULL DEFAULT '0',
   `reserved` varchar(255) NOT NULL DEFAULT 'n',
   PRIMARY KEY (`ip_address_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
+)  DEFAULT CHARSET=utf8 ;
 
 --
 -- Dumping data for table `openvz_ip`
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `openvz_ostemplate` (
   `active` varchar(255) NOT NULL DEFAULT 'y',
   `description` text,
   PRIMARY KEY (`ostemplate_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
+)  DEFAULT CHARSET=utf8 ;
 
 --
 -- Dumping data for table `openvz_ostemplate`
@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `openvz_template` (
   `create_dns` varchar(1) NOT NULL DEFAULT 'n',
   `capability` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`template_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
+)  DEFAULT CHARSET=utf8 ;
 
 --
 -- Dumping data for table `openvz_template`
@@ -119,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `openvz_traffic` (
   `traffic_date` date NOT NULL,
   `traffic_bytes` bigint(32) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`veid`,`traffic_date`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `openvz_traffic`
@@ -164,7 +164,7 @@ CREATE TABLE IF NOT EXISTS `openvz_vm` (
   `capability` text NOT NULL,
   `config` mediumtext NOT NULL,
   PRIMARY KEY (`vm_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
+)  DEFAULT CHARSET=utf8 ;
 
 --
 -- Dumping data for table `openvz_vm`

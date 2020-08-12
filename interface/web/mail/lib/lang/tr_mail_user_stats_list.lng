@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Posta Trafiği';
+$wb['list_head_txt'] = 'E-posta Trafiği';
 $wb['email_txt'] = 'E-posta';
 $wb['this_month_txt'] = 'Bu ay';
 $wb['last_month_txt'] = 'Geçen ay';

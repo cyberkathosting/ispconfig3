@@ -30,7 +30,6 @@ chdir = /
 <tmpl_if name='php_fpm_chroot'>
 chroot = <tmpl_var name='php_fpm_chroot_dir'>
 php_admin_value[doc_root] = <tmpl_var name='php_fpm_chroot_web_folder'>
-php_admin_value[cgi.fix_pathinfo] = 0
 </tmpl_if>
 
 env[HOSTNAME] = $HOSTNAME

@@ -33,6 +33,11 @@ class cronjob_backup_mail extends cronjob {
 	protected $_schedule = '0 0 * * *';
 	private $tmp_backup_dir = '';
 
+	/**
+	 * The maximum number of backups that ISPConfig can store.
+	 */
+	const max_backups = 30;
+
 	/* this function is optional if it contains no custom code */
 	public function onPrepare() {
 		global $app;
@@ -69,12 +74,11 @@ class cronjob_backup_mail extends cronjob {
 			$records = $app->db->queryAllRecords("SELECT * FROM mail_user WHERE server_id = ? AND maildir != ''", intval($conf['server_id']));
 			if(is_array($records) && $run_backups) {
 				if(!is_dir($backup_dir)) {
-					mkdir(escapeshellcmd($backup_dir), $backup_dir_permissions, true);
+					mkdir($backup_dir, $backup_dir_permissions, true);
 				} else {
-					chmod(escapeshellcmd($backup_dir), $backup_dir_permissions);
+					chmod($backup_dir, $backup_dir_permissions);
 				}
-				system('which pigz > /dev/null', $ret);
-				if($ret === 0) {
+				if($app->system->is_installed('pigz')) {
 					$use_pigz = true;
 				} else {
 					$use_pigz = false;
@@ -122,24 +126,28 @@ class cronjob_backup_mail extends cronjob {
 						if ($rec['maildir_format'] == 'mdbox') {
 							if (empty($this->tmp_backup_dir)) $this->tmp_backup_dir = $rec['maildir'];
 							// Create temporary backup-mailbox
-							exec("su -c 'dsync backup -u \"".$rec["email"]."\" mdbox:".$this->tmp_backup_dir."/backup'", $tmp_output, $retval);
+							$app->system->exec_safe("su -c ?", 'dsync backup -u "'.$rec["email"].'" mdbox:' . $this->tmp_backup_dir . '/backup');
 		
 							if($backup_mode == 'userzip') {
 								$mail_backup_file.='.zip';
-								exec('cd '.$this->tmp_backup_dir.' && zip '.$mail_backup_dir.'/'.$mail_backup_file.' -b '.escapeshellarg($backup_tmp).' -r backup > /dev/null && rm -rf backup', $tmp_output, $retval);
-							}
-							else {
+								$app->system->exec_safe('cd ? && zip ? -b ? -r backup > /dev/null && rm -rf backup', $this->tmp_backup_dir, $mail_backup_dir.'/'.$mail_backup_file, $backup_tmp);
+								$retval = $app->system->last_exec_retcode();
+							} else {
 								$mail_backup_file.='.tar.gz';
 								if ($use_pigz) {
-									exec('tar pcf - --directory '.escapeshellarg($this->tmp_backup_dir).' backup | pigz > '.$mail_backup_dir.'/'.$mail_backup_file.' && rm -rf '.$this->tmp_backup_dir.'/backup', $tmp_output, $retval);
+									$app->system->exec_safe('tar pcf - --directory ? backup | pigz > ? && rm -rf ?', $this->tmp_backup_dir, $mail_backup_dir.'/'.$mail_backup_file, $this->tmp_backup_dir.'/backup');
+									$retval = $app->system->last_exec_retcode();
 								} else {
-									exec(escapeshellcmd('tar pczf '.$mail_backup_dir.'/'.$mail_backup_file.' --directory '.$this->tmp_backup_dir.' backup && rm -rf '.$this->tmp_backup_dir.'/backup'), $tmp_output, $retval);
+									$app->system->exec_safe('tar pczf ? --directory ? backup && rm -rf ?', $mail_backup_dir.'/'.$mail_backup_file, $this->tmp_backup_dir, $this->tmp_backup_dir.'/backup');
+									$retval = $app->system->last_exec_retcode();
 								}
 							}
 							
 							if ($retval != 0) {
 								// Cleanup
-								if (file_exists($this->tmp_backup_dir.'/backup')) exec('rm -rf '.$this->tmp_backup_dir.'/backup');
+								if(file_exists($this->tmp_backup_dir . '/backup')) {
+									$app->system->exec_safe('rm -rf ?', $this->tmp_backup_dir . '/backup');
+								}
 							}
 						}
 						else {
@@ -154,15 +162,17 @@ class cronjob_backup_mail extends cronjob {
 							//* create archives
 							if($backup_mode == 'userzip') {
 								$mail_backup_file.='.zip';
-								exec('cd '.$domain_dir.' && zip '.$mail_backup_dir.'/'.$mail_backup_file.' -b '.escapeshellarg($backup_tmp).' -r '.$source_dir.' > /dev/null', $tmp_output, $retval);
+								$app->system->exec_safe('cd ? && zip ? -b ? -r ? > /dev/null', $domain_dir, $mail_backup_dir.'/'.$mail_backup_file, $backup_tmp, $source_dir);
+								$retval = $app->system->last_exec_retcode();
 							} else {
 								/* Create a tar.gz backup */
 								$mail_backup_file.='.tar.gz';
 								if ($use_pigz) {
-									exec('tar pcf - --directory '.escapeshellarg($domain_dir).' '.escapeshellarg($source_dir).' | pigz > '.$mail_backup_dir.'/'.$mail_backup_file, $tmp_output, $retval);
+									$app->system->exec_safe('tar pcf - --directory ? ? | pigz > ?', $domain_dir, $source_dir, $mail_backup_dir.'/'.$mail_backup_file);
 								} else {
-									exec(escapeshellcmd('tar pczf '.$mail_backup_dir.'/'.$mail_backup_file.' --directory '.$domain_dir.' '.$source_dir), $tmp_output, $retval);
+									$app->system->exec_safe('tar pczf ? --directory ? ?', $mail_backup_dir.'/'.$mail_backup_file, $domain_dir, $source_dir);
 								}
+								$retval = $app->system->last_exec_retcode();
 							}
 						}
 						
@@ -181,7 +191,9 @@ class cronjob_backup_mail extends cronjob {
 							if(is_file($mail_backup_dir.'/'.$mail_backup_file)) unlink($mail_backup_dir.'/'.$mail_backup_file);
 							// And remove backup-mdbox
 							if ($rec['maildir_format'] == 'mdbox') {
-								if(file_exists($rec['maildir'].'/backup'))  exec("su -c 'rm -rf ".$rec['maildir']."/backup'");
+								if(file_exists($rec['maildir'] . '/backup')) {
+									$app->system->exec_safe('rm -rf ?', $rec['maildir'] . '/backup');
+								}
 							}
 							$app->log($mail_backup_file.' NOK:'.implode('',$tmp_output), LOGLEVEL_WARN);
 						}
@@ -196,7 +208,7 @@ class cronjob_backup_mail extends cronjob {
 						}
 						$dir_handle->close();
 						rsort($files);
-						for ($n = $backup_copies; $n <= 10; $n++) {
+						for ($n = $backup_copies; $n <= self::max_backups; $n++) {
 							if(isset($files[$n]) && is_file($mail_backup_dir.'/'.$files[$n])) {
 								unlink($mail_backup_dir.'/'.$files[$n]);
 								$sql = "DELETE FROM mail_backup WHERE server_id = ? AND parent_domain_id = ? AND filename = ?";

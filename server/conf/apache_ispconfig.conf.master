@@ -35,6 +35,10 @@ CustomLog "| /usr/local/ispconfig/server/scripts/vlogger -s access.log -t \"%Y%m
   </tmpl_if>
 </Directory>
 
+<Directory /var/www>
+  Options -Indexes
+</Directory>
+
 <Directory /var/www/conf>
     AllowOverride None
   <tmpl_if name='apache_version' op='>' value='2.2' format='version'>
@@ -132,7 +136,7 @@ Alias /.well-known/acme-challenge /usr/local/ispconfig/interface/acme/.well-know
         Allow from all
     </tmpl_if>
 	<IfModule mpm_itk_module>
-       AssignUserId www-data www-data
+       AssignUserId <tmpl_var name='system_user'> <tmpl_var name='system_group'>
     </IfModule>
 </Directory>
 

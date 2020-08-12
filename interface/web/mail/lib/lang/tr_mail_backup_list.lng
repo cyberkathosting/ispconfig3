@@ -1,16 +1,16 @@
 <?php
-$wb['list_head_txt'] = 'Existing backups';
-$wb['date_txt'] = 'Date';
-$wb['backup_type_txt'] = 'Type';
-$wb['filename_txt'] = 'Backup file';
-$wb['restore_backup_txt'] = 'Restore';
-$wb['restore_info_txt'] = 'Restore of the backup has been started. This action takes several minutes to be completed.';
-$wb['restore_confirm_txt'] = 'Restoring may overwrite existing files in your mailbox. Do you really want to restore this backup?';
-$wb['download_pending_txt'] = 'There is already a pending backup download job.';
-$wb['restore_pending_txt'] = 'There is already a pending backup restore job.';
-$wb['delete_backup_txt'] = 'Delete Backup';
-$wb['delete_info_txt'] = 'Delete of the backup has been started. This action takes several minutes to be completed.';
-$wb['delete_confirm_txt'] = 'Really delete this backup?';
-$wb['delete_pending_txt'] = 'There is already a pending backup delete job.';
-$wb['filesize_txt'] = 'Filesize';
+$wb['list_head_txt'] = 'Var Olan Yedekler';
+$wb['date_txt'] = 'Tarih';
+$wb['backup_type_txt'] = 'Tür';
+$wb['filename_txt'] = 'Yedek Dosyası';
+$wb['restore_backup_txt'] = 'Geri Yükle';
+$wb['restore_info_txt'] = 'Yedekten geri yükleme işlemi başlatıldı. Bu işlemin tamamlanması bir kaç dakika sürebilir.';
+$wb['restore_confirm_txt'] = 'Geri yükleme işlemi sırasında e-posta kutunuzda var olan iletilerin üzerine yazılabilir. Bu yedeği geri yüklemek istediğinize emin misiniz?';
+$wb['download_pending_txt'] = 'Zaten bekleyen bir yedekleme indirme işlemi var.';
+$wb['restore_pending_txt'] = 'Zaten bekleyen bir yedek geri yükleme işlemi var.';
+$wb['delete_backup_txt'] = 'Yedeği Sil';
+$wb['delete_info_txt'] = 'Yedeği silme işlemi başlatıldı. Bu işlemin tamamlanması bir kaç dakika sürebilir.';
+$wb['delete_confirm_txt'] = 'Bu yedeği silmek istediğinize emin misiniz?';
+$wb['delete_pending_txt'] = 'Zaten bekleyen bir yedek silme işlemi var.';
+$wb['filesize_txt'] = 'Dosya Boyutu';
 ?>

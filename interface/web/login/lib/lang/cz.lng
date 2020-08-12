@@ -7,6 +7,7 @@ $wb['pass_reset_txt'] = 'Bude Vám vygenerováno a zasláno nové heslo na e-mai
 $wb['pw_reset'] = 'Heslo bylo resetováno a zasláno na Váš e-mail.';
 $wb['pw_error'] = 'Uživatelské jméno nebo e-mail nesouhlasí.';
 $wb['pw_error_noinput'] = 'Prosím zadejte uživatelské jméno a e-mail.';
+$wb['pw_reset_error_smtp_connection'] = 'There was a connection problem when trying to send an email pertaining to your password reset request.';
 $wb['pw_reset_mail_msg'] = 'Vaše heslo do ISPConfigu bylo resetováno. Nové heslo je: ';
 $wb['pw_reset_mail_title'] = 'Heslo do ISPConfigu bylo resetováno.';
 $wb['user_regex_error'] = 'Uživatelské jméno obsahuje nepovolené znaky nebo je delší než 64 znaků.';

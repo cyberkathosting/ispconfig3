@@ -33,7 +33,7 @@ $wb['top_menu_monitor'] = 'Monitor';
 $wb['top_menu_sites'] = 'Stránky';
 $wb['top_menu_dns'] = 'DNS';
 $wb['top_menu_tools'] = 'Nástroje';
-$wb['top_menu_help'] = 'Pomoc';
+$wb['top_menu_help'] = 'Podpora';
 $wb['toolsarea_head_txt'] = 'Nástroje';
 $wb['top_menu_billing'] = 'Fakturace';
 $wb['top_menu_domain'] = 'Doména';
@@ -158,4 +158,5 @@ $wb['datalog_status_d_xmpp_domain'] = 'Smazat XMPP doménu';
 $wb['datalog_status_i_xmpp_user'] = 'Vytvořit XMPP uživatele';
 $wb['datalog_status_u_xmpp_user'] = 'Aktualizovat XMPP uživatele';
 $wb['datalog_status_d_xmpp_user'] = 'Smazat XMPP uživatele';
+$wb['unlimited_txt'] = 'neomezeno';
 ?>

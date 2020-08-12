@@ -4,4 +4,7 @@ $wb['btn_save_txt'] = 'Borrar el cliente';
 $wb['confirm_action_txt'] = 'Confirmar acción';
 $wb['confirm_client_delete_txt'] = '¿Está seguro de que desea borrar el cliente?';
 $wb['delete_explanation'] = 'Esta acción eliminará el siguiente número de registros asociados con este cliente';
+$wb['list_head_txt'] = 'Delete Client';
+$wb['table_txt'] = 'Table';
+$wb['data_txt'] = 'Data';
 ?>

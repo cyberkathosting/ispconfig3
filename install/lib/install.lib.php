@@ -95,6 +95,10 @@ function get_distname() {
 				$mainver = current($mainver).'.'.next($mainver);
 			}
 			switch ($mainver){
+			case "20.04":
+				$relname = "(Focal Fossa)";
+				$distconfid = 'ubuntu2004';
+				break;
 			case "18.04":
 				$relname = "(Bionic Beaver)";
 				$distconfid = 'ubuntu1804';
@@ -186,7 +190,7 @@ function get_distname() {
 				break;
 			default:
 				$relname = "UNKNOWN";
-				$distconfid = 'ubuntu1604';
+				$distconfid = 'ubuntu2004';
 			}
 			$distver = $ver.$lts." ".$relname;
 			swriteln("Operating System: ".$distname.' '.$distver."\n");
@@ -227,6 +231,13 @@ function get_distname() {
 			$distid = 'debian60';
 			$distbaseid = 'debian';
 			swriteln("Operating System: Debian 9.0 (Stretch) or compatible\n");
+		} elseif(substr(trim(file_get_contents('/etc/debian_version')),0,2) == '10') {
+			$distname = 'Debian';
+			$distver = 'Buster';
+			$distconfid = 'debian100';
+			$distid = 'debian60';
+			$distbaseid = 'debian';
+			swriteln("Operating System: Debian 10.0 (Buster) or compatible\n");
 		} elseif(strstr(trim(file_get_contents('/etc/debian_version')), '/sid')) {
 			$distname = 'Debian';
 			$distver = 'Testing';
@@ -238,7 +249,7 @@ function get_distname() {
 			$distname = 'Debian';
 			$distver = 'Unknown';
 			$distid = 'debian60';
-			$distconfid = 'debian90';
+			$distconfid = 'debian100';
 			$distbaseid = 'debian';
 			swriteln("Operating System: Debian or compatible, unknown version.\n");
 		}
@@ -333,6 +344,15 @@ function get_distname() {
 			} else {
 				$distid = 'centos72';
 			}
+			swriteln("Operating System: CentOS $var\n");
+        } elseif(stristr($content, 'CentOS Linux release 8')) {
+			$distname = 'CentOS';
+			$distver = 'Unknown';
+			$distbaseid = 'fedora';
+			$distid = 'centos80';
+			$var=explode(" ", $content);
+			$var=explode(".", $var[3]);
+			$var=$var[0].".".$var[1];
 			swriteln("Operating System: CentOS $var\n");
 		} else {
 			$distname = 'Redhat';
@@ -455,29 +475,38 @@ function rf($file){
 }
 
 function wf($file, $content){
-	mkdirs(dirname($file));
+	if(!$ret_val = mkdirs(dirname($file))) return false;
 	if(!$fp = fopen($file, 'wb')){
 		ilog('WARNING: could not open file '.$file);
+		// implicitly returned false because the following fwrite and fclose both fail,
+		// but to be explicit:
+		$ret_val = false;
 	}
-	fwrite($fp, $content);
-	fclose($fp);
+	fwrite($fp, $content) or $ret_val = false;
+	fclose($fp) or $ret_val = false;
+	return $ret_val;
 }
 
 function af($file, $content){
-	mkdirs(dirname($file));
+	if(!$ret_val = mkdirs(dirname($file))) return false;
 	if(!$fp = fopen($file, 'ab')){
 		ilog('WARNING: could not open file '.$file);
+		$ret_val = false;
 	}
-	fwrite($fp, $content);
-	fclose($fp);
+	fwrite($fp, $content) or $ret_val = false;
+	fclose($fp) or $ret_val = false;
+	return $ret_val;
 }
 
 function aftsl($file, $content){
+	$ret_val = true;
 	if(!$fp = fopen($file, 'ab')){
 		ilog('WARNING: could not open file '.$file);
+		$ret_val = false;
 	}
-	fwrite($fp, $content);
-	fclose($fp);
+	fwrite($fp, $content) or $ret_val = false;
+	fclose($fp) or $ret_val = false;
+	return $ret_val;
 }
 
 function unix_nl($input){
@@ -662,8 +691,7 @@ function ini_to_array($ini) {
 
 
 //* Converts a config array to a string
-function array_to_ini($config_array = '') {
-	if($config_array == '') $config_array = $this->config;
+function array_to_ini($config_array) {
 	$content = '';
 	foreach($config_array as $section => $data) {
 		$content .= "[$section]\n";

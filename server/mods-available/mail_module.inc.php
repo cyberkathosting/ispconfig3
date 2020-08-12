@@ -55,7 +55,14 @@ class mail_module {
 		'mail_content_filter_delete',
 		'mail_mailinglist_insert',
 		'mail_mailinglist_update',
-		'mail_mailinglist_delete');
+		'mail_mailinglist_delete',
+		'spamfilter_users_insert',
+		'spamfilter_users_update',
+		'spamfilter_users_delete',
+		'spamfilter_wblist_insert',
+		'spamfilter_wblist_update',
+		'spamfilter_wblist_delete'
+		);
 
 	//* This function is called during ispconfig installation to determine
 	//  if a symlink shall be created for this plugin.
@@ -102,7 +109,11 @@ class mail_module {
 		$app->modules->registerTableHook('mail_get', 'mail_module', 'process');
 		$app->modules->registerTableHook('mail_content_filter', 'mail_module', 'process');
 		$app->modules->registerTableHook('mail_mailinglist', 'mail_module', 'process');
+		$app->modules->registerTableHook('spamfilter_users', 'mail_module', 'process');
+		$app->modules->registerTableHook('spamfilter_wblist', 'mail_module', 'process'); 
 
+		$app->services->registerService('rspamd', 'mail_module', 'restartRspamd');
+		$app->services->registerService('postfix', 'mail_module', 'restartPostfix');
 	}
 
 	/*
@@ -154,9 +165,50 @@ class mail_module {
 			if($action == 'u') $app->plugins->raiseEvent('mail_mailinglist_update', $data);
 			if($action == 'd') $app->plugins->raiseEvent('mail_mailinglist_delete', $data);
 			break;
+		case 'spamfilter_users':
+			if($action == 'i') $app->plugins->raiseEvent('spamfilter_users_insert', $data);
+			if($action == 'u') $app->plugins->raiseEvent('spamfilter_users_update', $data);
+			if($action == 'd') $app->plugins->raiseEvent('spamfilter_users_delete', $data);
+			break;
+		case 'spamfilter_wblist':
+			if($action == 'i') $app->plugins->raiseEvent('spamfilter_wblist_insert', $data);
+			if($action == 'u') $app->plugins->raiseEvent('spamfilter_wblist_update', $data);
+			if($action == 'd') $app->plugins->raiseEvent('spamfilter_wblist_delete', $data);
+			break;
 		} // end switch
 	} // end function
 
+	function restartRspamd($action = 'reload') {
+		global $app;
+
+		$app->uses('system');
+
+		$daemon = 'rspamd';
+
+		$retval = array('output' => '', 'retval' => 0);
+		if($action == 'restart') {
+			exec($app->system->getinitcommand($daemon, 'restart').' 2>&1', $retval['output'], $retval['retval']);
+		} else {
+			exec($app->system->getinitcommand($daemon, 'reload').' 2>&1', $retval['output'], $retval['retval']);
+		}
+		return $retval;
+	}
+	
+	function restartPostfix($action = 'reload') {
+		global $app;
+
+		$app->uses('system');
+
+		$daemon = 'postfix';
+
+		$retval = array('output' => '', 'retval' => 0);
+		if($action == 'restart') {
+			exec($app->system->getinitcommand($daemon, 'restart').' 2>&1', $retval['output'], $retval['retval']);
+		} else {
+			exec($app->system->getinitcommand($daemon, 'reload').' 2>&1', $retval['output'], $retval['retval']);
+		}
+		return $retval;
+	}
 } // end class
 
 ?>

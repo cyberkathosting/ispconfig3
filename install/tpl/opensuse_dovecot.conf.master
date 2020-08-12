@@ -1274,11 +1274,17 @@ plugin {
   # 
   # Location of the active script. When ManageSieve is used this is actually 
   # a symlink pointing to the active script in the sieve storage directory. 
-  sieve=~/.dovecot.sieve
-  #
+  sieve=~/.sieve
+
   # The path to the directory where the personal Sieve scripts are stored. For 
   # ManageSieve this is where the uploaded scripts are stored.
   sieve_dir=~/sieve
+
+  sieve_before=/var/vmail/%d/%n/.ispconfig-before.sieve
+  sieve_after=/var/vmail/%d/%n/.ispconfig.sieve
+  sieve_max_script_size = 2M
+  sieve_max_actions = 100
+  sieve_max_redirects = 25
 }
 
 # Config files can also be included. deliver doesn't support them currently.

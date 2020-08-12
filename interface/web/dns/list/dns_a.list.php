@@ -132,7 +132,7 @@ $liste["item"][] = array( 'field'  => "type",
 	'prefix' => "",
 	'suffix' => "",
 	'width'  => "",
-	'value'  => array('A'=>'A', 'AAAA' => 'AAAA', 'ALIAS'=>'ALIAS', 'CAA'=>'CAA', 'CNAME'=>'CNAME', 'DS'=>'DS', 'HINFO'=>'HINFO', 'LOC'=>'LOC', 'MX'=>'MX', 'NS'=>'NS', 'PTR'=>'PTR', 'RP'=>'RP', 'SRV'=>'SRV', 'TLSA'=>'TLSA', 'TXT'=>'TXT'));
+	'value'  => array('A'=>'A', 'AAAA' => 'AAAA', 'ALIAS'=>'ALIAS', 'CAA'=>'CAA', 'CNAME'=>'CNAME', 'DNAME'=>'DNAME', 'DS'=>'DS', 'HINFO'=>'HINFO', 'LOC'=>'LOC', 'MX'=>'MX', 'NAPTR'=>'NAPTR', 'NS'=>'NS', 'PTR'=>'PTR', 'RP'=>'RP', 'SRV'=>'SRV', 'SSHFP'=>'SSHFP', 'TLSA'=>'TLSA', 'TXT'=>'TXT'));
 
 
 ?>

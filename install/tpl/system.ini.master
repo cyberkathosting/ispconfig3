@@ -16,6 +16,7 @@ webmail_url=/webmail
 dkim_path=/var/lib/amavis/dkim
 smtp_enabled=y
 smtp_host=localhost
+enable_welcome_mail=y
 
 [monitor]
 
@@ -33,6 +34,8 @@ vhost_aliasdomains=n
 client_username_web_check_disabled=n
 backups_include_into_web_quota=n
 reseller_can_use_options=n
+web_php_options=no,fast-cgi,mod,php-fpm
+show_aps_menu=n
 
 
 [tools]
@@ -54,6 +57,7 @@ tab_change_warning=n
 use_loadindicator=y
 use_combobox=y
 maintenance_mode=n
+maintenance_mode_exclude_ips=
 admin_dashlets_left=
 admin_dashlets_right=
 reseller_dashlets_left=
@@ -67,3 +71,4 @@ session_timeout=0
 session_allow_endless=0
 min_password_length=8
 min_password_strength=3
+ssh_authentication=

@@ -1,4 +1,7 @@
 <?php
+$wb['server_config'] = 'Server Config';
+$wb['server_config_error_not_updated'] = 'Error in Server Config: not updated';
+$wb['server_config_error_section_not_updated'] = 'Error in Server Config: %s section not updated';
 $wb['jailkit_chroot_home_txt'] = 'Jailkit Chroot home';
 $wb['jailkit_chroot_app_sections_txt'] = 'Jailkit Chroot Anwendungsbereiche';
 $wb['jailkit_chroot_app_programs_txt'] = 'Jailkit Chrooted Anwendungen';
@@ -8,6 +11,9 @@ $wb['website_symlinks_txt'] = 'Webseiten Symlinks';
 $wb['website_symlinks_rel_txt'] = 'Erstelle relative Symlinks';
 $wb['vhost_conf_dir_txt'] = 'vHost Konfigurationsverzeichnis';
 $wb['vhost_conf_enabled_dir_txt'] = 'vHost config enabled dir';
+$wb['apache_init_script_txt'] = 'Apache-Init-Skript';
+$wb['apache_init_script_note_txt'] = 'Wenn Sie dieses Feld leer lassen, wird das Apache-Init-Skript automatisch erkannt';
+$wb['apache_init_script_error_regex'] = 'Ungültiges Apache-Init-Skript.';
 $wb['getmail_config_dir_txt'] = 'Getmail Konfigurationsverzeichnis';
 $wb['fastcgi_starter_path_txt'] = 'FastCGI Starter Pfad';
 $wb['fastcgi_starter_script_txt'] = 'FastCGI Starter Script';
@@ -267,8 +273,8 @@ $wb['php_ini_check_minutes_txt'] = 'Prüfe php.ini alle X Minuten auf Änderunge
 $wb['php_ini_check_minutes_error_empty'] = 'Bitte geben Sie einen Wert an, wie oft die php.ini auf Änderungen geprüft werden soll.';
 $wb['php_ini_check_minutes_info_txt'] = '0 = keine Prüfung';
 $wb['php_handler_txt'] = 'Standard-PHP-Handler';
+$wb['php_fpm_default_chroot_txt'] = 'Default chrooted PHP-FPM';
 $wb['php_fpm_incron_reload_txt'] = 'Install incron trigger file to reload PHP-FPM';
-$wb['enable_spdy_txt'] = 'Stellt SPDY/HTTP2 zur Verfügung';
 $wb['disable_bind_log_txt'] = 'Disable bind9 messages for Loglevel WARN';
 $wb['apps_vhost_enabled_txt'] = 'Apps-vhost enabled';
 $wb['disabled_txt'] = 'Disabled';
@@ -292,7 +298,16 @@ $wb['logging_txt'] = 'Store website access and error logs';
 $wb['logging_desc_txt'] = 'Use Tools > Resync to apply changes to existing sites. For Apache, access and error log can be anonymized. For nginx, only the access log is anonymized, the error log will contain IP addresses.';
 $wb['log_retention_txt'] = 'Log retention (days)';
 $wb['log_retention_error_ispositive'] = 'Log retention must be a number > 0';
+$wb['php_default_hide_txt'] = 'Hide Default PHP-Version in selectbox';
 $wb['php_default_name_txt'] = 'Beschreibung Standard PHP';
 $wb['php_default_name_error_empty'] = 'Beschreibung Standard PHP ist leer.';
 $wb['error_mailbox_message_size_txt'] = 'Mailboxgröße muss gleich oder größer als max. Nachrichtengröße sein.';
+$wb['php_fpm_reload_mode_txt'] = 'PHP-FPM reload Modus';
+$wb['content_filter_txt'] = 'Content-Filter';
+$wb['rspamd_url_txt'] = 'Rspamd-URL';
+$wb['rspamd_user_txt'] = 'Rspamd-Benutzer';
+$wb['rspamd_password_txt'] = 'Rspamd-Passwort';
+$wb['vhost_proxy_protocol_enabled_txt'] = 'Enable PROXY Protocol';
+$wb['vhost_proxy_protocol_http_port_txt'] = 'PROXY Protocol HTTP Port';
+$wb['vhost_proxy_protocol_https_port_txt'] = 'PROXY Protocol HTTPS Port';
 ?>

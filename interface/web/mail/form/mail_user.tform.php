@@ -181,13 +181,13 @@ $form["tabs"]['mailuser'] = array(
 					'type' => 'TOLOWER')
 			),
 			'validators' => array (  0 => array ( 'type' => 'REGEX',
-					'regex' => '/^(\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\.[a-z\-]{2,10}){0,1}(,\s*\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\.[a-z\-]{2,10}){0,}$/i',
+					'regex' => '/^(\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\.[a-z\-]{2,63}){0,1}(,\s*\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\.[a-z\-]{2,63}){0,}$/i',
 					'errmsg'=> 'cc_error_isemail'),
 			),
 			'default' => '',
 			'value'  => '',
 			'width'  => '30',
-			'maxlength' => '255'
+			'maxlength' => '65535'
 		),
 		'sender_cc' => array (
 			'datatype' => 'VARCHAR',
@@ -199,14 +199,15 @@ $form["tabs"]['mailuser'] = array(
 				2 => array( 'event' => 'SAVE',
 					'type' => 'TOLOWER')
 			),
-			'validators' => array (  0 => array ( 'type' => 'REGEX',
-					'regex'=>'/^(\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\.[a-z\-]{2,10}){0,1}(,\s*\w+[\w\.\-\+]*\w{0,}@\w+[\w.-]*\.[a-z\-]{2,10}){0,}$/i',
+			'validators' => array (  0 => array ( 'type' => 'ISEMAILADDRESS',
+					'allowempty' => 'y',
 					'errmsg'=> 'sender_cc_error_isemail'),
 			),
 			'default' => '',
 			'value'  => '',
 			'width'  => '30',
-			'maxlength' => '255'
+			'maxlength' => '255',
+			'searchable' => 2
 		),
 		'maildir' => array (
 			'datatype' => 'VARCHAR',
@@ -292,6 +293,12 @@ $form["tabs"]['mailuser'] = array(
 			'default' => 'n',
 			'value'  => array(1 => 'y', 0 => 'n')
 		),
+		'disabledeliver' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value'  => array(1 => 'y', 0 => 'n')
+		),
 		'disableimap' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
@@ -360,20 +367,16 @@ if ($global_config['mail']['mailbox_show_autoresponder_tab'] === 'y') {
 			'autoresponder_start_date' => array (
 				'datatype' => 'DATETIME',
 				'formtype' => 'DATETIME',
-				'validators'=> array ( 
+				'validators'=> array (
 					0 => array ( 'type' => 'ISDATETIME',
 						'allowempty' => 'y',
 						'errmsg'=> 'autoresponder_start_date_is_no_date'),
-					1 => array ( 'type' => 'CUSTOM',
-						'class' => 'validate_autoresponder',
-						'function' => 'start_date',
-						'errmsg'=> 'autoresponder_start_date_is_required'),
 				)
 			),
 			'autoresponder_end_date' => array (
 				'datatype' => 'DATETIME',
 				'formtype' => 'DATETIME',
-				'validators'=> array (  
+				'validators'=> array (
 					0 => array ( 'type' => 'ISDATETIME',
 						'allowempty' => 'y',
 						'errmsg'=> 'autoresponder_end_date_is_no_date'),
@@ -402,9 +405,23 @@ if ($global_config['mail']['mailbox_show_mail_filter_tab'] === 'y') {
 			//#################################
 			'move_junk' => array (
 				'datatype' => 'VARCHAR',
-				'formtype' => 'CHECKBOX',
-				'default' => 'n',
-				'value'  => array(0 => 'n', 1 => 'y')
+				'formtype' => 'SELECT',
+				'default' => 'y',
+				'value' => array('y' => 'move_junk_y_txt', 'a' => 'move_junk_a_txt', 'n' => 'move_junk_n_txt'),
+			),
+			'purge_trash_days' => array (
+				'datatype' => 'VARCHAR',
+				'formtype' => 'TEXT',
+				'validators' => array (
+				),
+				'default' => '0',
+			),
+			'purge_junk_days' => array (
+				'datatype' => 'VARCHAR',
+				'formtype' => 'TEXT',
+				'validators' => array (
+				),
+				'default' => '0',
 			),
 			//#################################
 			// END Datatable fields
@@ -469,10 +486,10 @@ if ($backup_available) {
 				'datatype'      => 'INTEGER',
 				'formtype'      => 'SELECT',
 				'default'       => '',
-				'value'         => array('1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' => '7', '8' => '8', '9' => '9', '10' => '10')
+				'value'			=> array('1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' => '7', '8' => '8', '9' => '9', '10' => '10', '15' => '15', '20' => '20', '30' => '30')
 			),
 		##################################
-		# ENDE Datatable fields
+		# END Datatable fields
 		##################################
 		),
 		'plugins' => array (

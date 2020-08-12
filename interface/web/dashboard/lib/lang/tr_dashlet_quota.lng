@@ -1,8 +1,8 @@
 <?php
 $wb['quota_txt'] = 'Web Sitesi Disk Kotası';
-$wb['domain_txt'] = 'Alan Adı / Web Sitesi';
+$wb['domain_txt'] = 'Etki Alanı / Web Sitesi';
 $wb['used_txt'] = 'Kullanılan Alan';
-$wb['hard_txt'] = 'Donanım sınırı';
-$wb['soft_txt'] = 'Yazılım sınırı';
+$wb['hard_txt'] = 'Donanım Sınırı';
+$wb['soft_txt'] = 'Yazılım Sınırı';
 $wb['no_sites_txt'] = 'Henüz bir web sitesi yok.';
 ?>

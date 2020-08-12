@@ -1,8 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Sanal Sunucu';
+$wb['list_head_txt'] = 'sSunucu';
 $wb['active_txt'] = 'Etkin';
 $wb['server_id_txt'] = 'Sunucu';
-$wb['ostemplate_id_txt'] = 'OS Kalıbı';
+$wb['ostemplate_id_txt'] = 'İşl. Sis. Kalıbı';
 $wb['template_id_txt'] = 'Kalıp';
 $wb['hostname_txt'] = 'Sunucu Adı';
 $wb['ip_address_txt'] = 'IP Adresi';

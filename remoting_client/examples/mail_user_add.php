@@ -32,6 +32,7 @@ try {
 		'autoresponder_start_date' => '',
 		'autoresponder_end_date' => '',
 		'autoresponder_text' => 'hallo',
+		'autoresponder_subject' => 'Out of office reply',
 		'move_junk' => 'n',
 		'custom_mailfilter' => 'spam',
 		'postfix' => 'n',

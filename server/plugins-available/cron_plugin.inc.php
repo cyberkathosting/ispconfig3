@@ -103,7 +103,7 @@ class cron_plugin {
 			$app->log("Websites (and Crons) cannot be owned by the root user or group.", LOGLEVEL_WARN);
 			return false;
 		}
-		
+
 		// Get the client ID
 		$client = $app->dbmaster->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ?", $data["new"]["sys_groupid"]);
 		$client_id = intval($client["client_id"]);
@@ -112,18 +112,18 @@ class cron_plugin {
 		// Create group and user, if not exist
 		$app->uses("system");
 
-		$groupname = escapeshellcmd($parent_domain["system_group"]);
+		$groupname = $parent_domain["system_group"];
 		if($parent_domain["system_group"] != '' && !$app->system->is_group($parent_domain["system_group"])) {
-			exec("groupadd $groupname");
+			$app->system->exec_safe("groupadd ?", $groupname);
 			$app->log("Adding the group: $groupname", LOGLEVEL_DEBUG);
 		}
 
-		$username = escapeshellcmd($parent_domain["system_user"]);
+		$username = $parent_domain["system_user"];
 		if($parent_domain["system_user"] != '' && !$app->system->is_user($parent_domain["system_user"])) {
-			exec("useradd -d ".escapeshellcmd($parent_domain["document_root"])." -g $groupname $username -s /bin/false");
+			$app->system->exec_safe("useradd -d ? -g ? ? -s /bin/false", $parent_domain["document_root"], $groupname, $username);
 			$app->log("Adding the user: $username", LOGLEVEL_DEBUG);
 		}
-        
+
         // Set the quota for the user
         if($username != '' && $app->system->is_user($username)) {
            if($parent_domain['hd_quota'] > 0) {
@@ -136,19 +136,19 @@ class cron_plugin {
             }
 
             // get the primitive folder for document_root and the filesystem, will need it later.
-            $df_output=explode(" ", exec("df -T " . escapeshellarg($parent_domain["document_root"]) . "|awk 'END{print \$2,\$NF}'"));
+            $df_output=explode(" ", $app->system->exec_safe("df -T ?|awk 'END{print \$2,\$NF}'", $parent_domain["document_root"]));
             $file_system = $df_output[0];
             $primitive_root = $df_output[1];
 
             if ( in_array($file_system , array('ext2','ext3','ext4'),true) ) {
-              exec('setquota -u '. $username . ' ' . $blocks_soft . ' ' . $blocks_hard . ' 0 0 -a &> /dev/null');
-              exec('setquota -T -u '.$username.' 604800 604800 -a &> /dev/null');
+              $app->system->exec_safe('setquota -u ? ? ? 0 0 -a &> /dev/null', $username, $blocks_soft, $blocks_hard);
+              $app->system->exec_safe('setquota -T -u ? 604800 604800 -a &> /dev/null', $username);
             } elseif ($file_system == 'xfs') {
-                
-              exec("xfs_quota -x -c 'limit -u bsoft=$mb_soft" . 'm'. " bhard=$mb_hard" . 'm'. " $username' $primitive_root");
+
+              $app->system->exec_safe("xfs_quota -x -c ? ?", "limit -u bsoft=$mb_soft" . 'm'. " bhard=$mb_hard" . 'm'. " $username", $primitive_root);
 
               // xfs only supports timers globally, not per user.
-              exec("xfs_quota -x -c 'timer -bir -i 604800' $primitive_root");
+              $app->system->exec_safe("xfs_quota -x -c 'timer -bir -i 604800' ?", $primitive_root);
 
               unset($project_uid, $username_position, $xfs_projects);
               unset($primitive_root, $df_output, $mb_hard, $mb_soft);
@@ -164,7 +164,7 @@ class cron_plugin {
 		}
 
 		// make temp directory writable for the apache and website users
-		$app->system->chmod(escapeshellcmd($parent_domain["document_root"].'/tmp'), 0777);
+		$app->system->chmod($parent_domain["document_root"].'/tmp', 0777);
 
 		/** TODO READ CRON MASTER **/
 
@@ -177,21 +177,23 @@ class cron_plugin {
 	}
 
 	function delete($event_name, $data) {
-		global $app, $conf;
+		global $app;
 
 		//* get data from web
 		$parent_domain = $app->db->queryOneRecord("SELECT `domain_id`, `system_user`, `system_group`, `document_root`, `hd_quota` FROM `web_domain` WHERE `domain_id` = ?", $data["old"]["parent_domain_id"]);
-		if(!$parent_domain["domain_id"]) {
-			$app->log("Parent domain not found", LOGLEVEL_WARN);
-			return 0;
+
+		if(!$parent_domain) {
+			$tmp = $app->db->queryOneRecord('SELECT * FROM sys_datalog WHERE dbtable = ? AND dbidx = ? AND `action` = ? ORDER BY `datalog_id` DESC', 'web_domain', 'domain_id:' . $data['old']['parent_domain_id'], 'd');
+			$tmp = unserialize($tmp);
+			if($tmp && isset($tmp['old'])) {
+				$this->parent_domain = $tmp['old'];
+			} else {
+				$app->log("Parent domain not found", LOGLEVEL_WARN);
+				return 0;
+			}
+		} else {
+			$this->parent_domain = $parent_domain;
 		}
-
-		// Get the client ID
-		$client = $app->dbmaster->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ?", $data["old"]["sys_groupid"]);
-		$client_id = intval($client["client_id"]);
-		unset($client);
-
-		$this->parent_domain = $parent_domain;
 		$this->_write_crontab();
 	}
 
@@ -219,31 +221,31 @@ class cron_plugin {
 		if($cron_jobs && count($cron_jobs) > 0) {
 			foreach($cron_jobs as $job) {
 				if($job['run_month'] == '@reboot') {
-					$command = "@reboot";
+					$cron_line = "@reboot";
 				} else {
-					$command = str_replace(" ", "", $job['run_min']) . "\t" . str_replace(" ", "", $job['run_hour']) . "\t" . str_replace(" ", "", $job['run_mday']) . "\t" . str_replace(" ", "", $job['run_month']) . "\t" . str_replace(" ", "", $job['run_wday']);
+					$cron_line = str_replace(" ", "", $job['run_min']) . "\t" . str_replace(" ", "", $job['run_hour']) . "\t" . str_replace(" ", "", $job['run_mday']) . "\t" . str_replace(" ", "", $job['run_month']) . "\t" . str_replace(" ", "", $job['run_wday']);
 				}
-				
-				$log_target = ">/dev/null 2>&1";
+
+				$log_target = "";
 				$log_wget_target = '/dev/null';
 				$log_root = '';
 				if($job['log'] == 'y') {
 					if($job['type'] != 'chrooted') $log_root = $this->parent_domain['document_root'];
 					$log_root .= '/private';
-					
+
 					$log_target = '>>' . $log_root . '/cron.log 2>>' . $log_root . '/cron_error.log';
 					$log_wget_target = $log_root . '/cron_wget.log';
 				}
-				
-				$command .= "\t{$this->parent_domain['system_user']}"; //* running as user
+
+				$cron_line .= "\t{$this->parent_domain['system_user']}"; //* running as user
 				if($job['type'] == 'url') {
-					$command .= "\t{$cron_config['wget']} --no-check-certificate --user-agent='Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0' -q -t 1 -T 7200 -O " . $log_wget_target . " " . escapeshellarg($job['command']) . " " . $log_target;
+					$cron_line .= "\t{$cron_config['wget']} --no-check-certificate --user-agent='Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0' -q -t 1 -T 7200 -O " . $log_wget_target . " " . escapeshellarg($job['command']) . " " . $log_target;
 				} else {
 					if(strpos($job['command'], "\n") !== false || strpos($job['command'], "\r") !== false || strpos($job['command'], chr(0)) !== false) {
 						$app->log("Insecure Cron job SKIPPED: " . $job['command'], LOGLEVEL_WARN);
 						continue;
 					}
-					
+
 					$web_root = '';
 					if($job['type'] == 'chrooted') {
 						if(substr($job['command'], 0, strlen($this->parent_domain['document_root'])) == $this->parent_domain['document_root']) {
@@ -253,26 +255,26 @@ class cron_plugin {
 					} else {
 						$web_root = $this->parent_domain['document_root'];
 					}
-					
+
 					$web_root .= '/web';
 					$job['command'] = str_replace('[web_root]', $web_root, $job['command']);
 
-					$command .= "\t";
-					//if($job['type'] != 'chrooted' && substr($job['command'], 0, 1) != "/") $command .= $this->parent_domain['document_root'].'/';
-					$command .= $job['command'] . " " . $log_target;
+					$cron_line .= "\t";
+					//if($job['type'] != 'chrooted' && substr($job['command'], 0, 1) != "/") $cron_line .= $this->parent_domain['document_root'].'/';
+					$cron_line .= $job['command'] . " " . $log_target;
 				}
 
 				if($job['type'] == 'chrooted') {
-					$chr_cron_content .= $command . " #{$job['domain']}\n";
+					$chr_cron_content .= $cron_line . " #{$job['domain']}\n";
 					$chr_cmd_count++;
 				} else {
-					$cron_content .= $command . " #{$job['domain']}\n";
+					$cron_content .= $cron_line . " #{$job['domain']}\n";
 					$cmd_count++;
 				}
 			}
 		}
 
-		$cron_file = escapeshellcmd($cron_config["crontab_dir"].'/ispc_'.$this->parent_domain["system_user"]);
+		$cron_file = $cron_config["crontab_dir"].'/ispc_'.$this->parent_domain["system_user"];
 		//TODO : change this when distribution information has been integrated into server record
 		//* Gentoo vixie-cron requires files to end with .cron in the cron.d directory
 		if (file_exists('/etc/gentoo-release')) {
@@ -287,7 +289,7 @@ class cron_plugin {
 			$app->log("Deleted Cron file $cron_file", LOGLEVEL_DEBUG);
 		}
 
-		$cron_file = escapeshellcmd($cron_config["crontab_dir"].'/ispc_chrooted_'.$this->parent_domain["system_user"]);
+		$cron_file = $cron_config["crontab_dir"].'/ispc_chrooted_'.$this->parent_domain["system_user"];
 		if($chr_cmd_count > 0) {
 			$app->system->file_put_contents($cron_file, $chr_cron_content);
 			$app->log("Wrote Cron file $cron_file with content:\n$chr_cron_content", LOGLEVEL_DEBUG);

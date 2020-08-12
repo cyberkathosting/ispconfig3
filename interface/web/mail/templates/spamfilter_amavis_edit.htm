@@ -1,0 +1,193 @@
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+	<!-- Settings -->
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingSettings">
+      <h4 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSettings" aria-expanded="true" aria-controls="collapseSettings">
+          {tmpl_var name='amavis_settings_txt'}
+        </a>
+      </h4>
+    </div>
+    <div id="collapseSettings" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingWeb">
+      <div class="panel-body">
+			<div class="form-group">
+                <label for="banned_files_lover" class="col-sm-3 control-label">{tmpl_var name='banned_files_lover_txt'}</label>
+                <div class="col-sm-9"><select name="banned_files_lover" id="banned_files_lover" class="form-control">
+                    {tmpl_var name='banned_files_lover'}
+                </select></div>
+            </div>
+            <div class="form-group">
+                <label for="bad_header_lover" class="col-sm-3 control-label">{tmpl_var name='bad_header_lover_txt'}</label>
+                <div class="col-sm-9"><select name="bad_header_lover" id="bad_header_lover" class="form-control">
+                    {tmpl_var name='bad_header_lover'}
+                </select></div>
+            </div>
+            <div class="form-group">
+                <label for="bypass_virus_checks" class="col-sm-3 control-label">{tmpl_var name='bypass_virus_checks_txt'}</label>
+                <div class="col-sm-9"><select name="bypass_virus_checks" id="bypass_virus_checks" class="form-control">
+                    {tmpl_var name='bypass_virus_checks'}
+                </select></div>
+            </div>
+            <div class="form-group">
+                <label for="bypass_banned_checks" class="col-sm-3 control-label">{tmpl_var name='bypass_banned_checks_txt'}</label>
+                <div class="col-sm-9"><select name="bypass_banned_checks" id="bypass_banned_checks" class="form-control">
+                    {tmpl_var name='bypass_banned_checks'}
+                </select></div>
+            </div>
+            <div class="form-group">
+                <label for="bypass_header_checks" class="col-sm-3 control-label">{tmpl_var name='bypass_header_checks_txt'}</label>
+                <div class="col-sm-9"><select name="bypass_header_checks" id="bypass_header_checks" class="form-control">
+                    {tmpl_var name='bypass_header_checks'}
+                </select></div>
+            </div>
+	  </div>
+	</div>
+  </div>
+	
+<!-- Tag Level -->
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingTaglevel">
+      <h4 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTaglevel" aria-expanded="true" aria-controls="collapseTaglevel">
+          {tmpl_var name='amavis_taglevel_txt'}
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTaglevel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTaglevel">
+      <div class="panel-body">
+
+            <div class="form-group">
+                <label for="spam_tag_level" class="col-sm-3 control-label">{tmpl_var name='spam_tag_level_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="spam_tag_level" id="spam_tag_level" value="{tmpl_var name='spam_tag_level'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="spam_tag2_level" class="col-sm-3 control-label">{tmpl_var name='spam_tag2_level_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="spam_tag2_level" id="spam_tag2_level" value="{tmpl_var name='spam_tag2_level'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="spam_kill_level" class="col-sm-3 control-label">{tmpl_var name='spam_kill_level_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="spam_kill_level" id="spam_kill_level" value="{tmpl_var name='spam_kill_level'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="spam_dsn_cutoff_level" class="col-sm-3 control-label">{tmpl_var name='spam_dsn_cutoff_level_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="spam_dsn_cutoff_level" id="spam_dsn_cutoff_level" value="{tmpl_var name='spam_dsn_cutoff_level'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="spam_quarantine_cutoff_level" class="col-sm-3 control-label">{tmpl_var name='spam_quarantine_cutoff_level_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="spam_quarantine_cutoff_level" id="spam_quarantine_cutoff_level" value="{tmpl_var name='spam_quarantine_cutoff_level'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="spam_modifies_subj" class="col-sm-3 control-label">{tmpl_var name='spam_modifies_subj_txt'}</label>
+                <div class="col-sm-9"><select name="spam_modifies_subj" id="spam_modifies_subj" class="form-control">
+                    {tmpl_var name='spam_modifies_subj'}
+                </select></div>
+            </div>
+            <div class="form-group">
+                <label for="spam_subject_tag" class="col-sm-3 control-label">{tmpl_var name='spam_subject_tag_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="spam_subject_tag" id="spam_subject_tag" value="{tmpl_var name='spam_subject_tag'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="spam_subject_tag2" class="col-sm-3 control-label">{tmpl_var name='spam_subject_tag2_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="spam_subject_tag2" id="spam_subject_tag2" value="{tmpl_var name='spam_subject_tag2'}" class="form-control" /></div></div>
+	  </div>
+	</div>
+  </div>
+
+<!-- Quarantine -->
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingQuarantine">
+      <h4 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseQuarantine" aria-expanded="true" aria-controls="collapseQuarantine">
+          {tmpl_var name='amavis_quarantine_txt'}
+        </a>
+      </h4>
+    </div>
+    <div id="collapseQuarantine" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingQuarantine">
+      <div class="panel-body">
+
+
+            <div class="form-group">
+                <label for="virus_quarantine_to" class="col-sm-3 control-label">{tmpl_var name='virus_quarantine_to_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="virus_quarantine_to" id="virus_quarantine_to" value="{tmpl_var name='virus_quarantine_to'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="spam_quarantine_to" class="col-sm-3 control-label">{tmpl_var name='spam_quarantine_to_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="spam_quarantine_to" id="spam_quarantine_to" value="{tmpl_var name='spam_quarantine_to'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="banned_quarantine_to" class="col-sm-3 control-label">{tmpl_var name='banned_quarantine_to_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="banned_quarantine_to" id="banned_quarantine_to" value="{tmpl_var name='banned_quarantine_to'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="bad_header_quarantine_to" class="col-sm-3 control-label">{tmpl_var name='bad_header_quarantine_to_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="bad_header_quarantine_to" id="bad_header_quarantine_to" value="{tmpl_var name='bad_header_quarantine_to'}" class="form-control" /></div></div>
+	  </div>
+	</div>
+  </div>
+
+<!-- Other -->
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOther">
+      <h4 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOther" aria-expanded="true" aria-controls="collapseOther">
+          {tmpl_var name='amavis_other_txt'}
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOther" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOther">
+      <div class="panel-body">
+
+            <div class="form-group">
+                <label for="addr_extension_virus" class="col-sm-3 control-label">{tmpl_var name='addr_extension_virus_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="addr_extension_virus" id="addr_extension_virus" value="{tmpl_var name='addr_extension_virus'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="addr_extension_spam" class="col-sm-3 control-label">{tmpl_var name='addr_extension_spam_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="addr_extension_spam" id="addr_extension_spam" value="{tmpl_var name='addr_extension_spam'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="addr_extension_banned" class="col-sm-3 control-label">{tmpl_var name='addr_extension_banned_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="addr_extension_banned" id="addr_extension_banned" value="{tmpl_var name='addr_extension_banned'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="addr_extension_bad_header" class="col-sm-3 control-label">{tmpl_var name='addr_extension_bad_header_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="addr_extension_bad_header" id="addr_extension_bad_header" value="{tmpl_var name='addr_extension_bad_header'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="warnvirusrecip" class="col-sm-3 control-label">{tmpl_var name='warnvirusrecip_txt'}</label>
+                <div class="col-sm-9"><select name="warnvirusrecip" id="warnvirusrecip" class="form-control">
+                    {tmpl_var name='warnvirusrecip'}
+                </select></div>
+            </div>
+            <div class="form-group">
+                <label for="warnbannedrecip" class="col-sm-3 control-label">{tmpl_var name='warnbannedrecip_txt'}</label>
+                <div class="col-sm-9"><select name="warnbannedrecip" id="warnbannedrecip" class="form-control">
+                    {tmpl_var name='warnbannedrecip'}
+                </select></div>
+            </div>
+            <div class="form-group">
+                <label for="warnbadhrecip" class="col-sm-3 control-label">{tmpl_var name='warnbadhrecip_txt'}</label>
+                <div class="col-sm-9"><select name="warnbadhrecip" id="warnbadhrecip" class="form-control">
+                    {tmpl_var name='warnbadhrecip'}
+                </select></div>
+            </div>
+            <div class="form-group">
+                <label for="newvirus_admin" class="col-sm-3 control-label">{tmpl_var name='newvirus_admin_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="newvirus_admin" id="newvirus_admin" value="{tmpl_var name='newvirus_admin'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="virus_admin" class="col-sm-3 control-label">{tmpl_var name='virus_admin_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="virus_admin" id="virus_admin" value="{tmpl_var name='virus_admin'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="banned_admin" class="col-sm-3 control-label">{tmpl_var name='banned_admin_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="banned_admin" id="banned_admin" value="{tmpl_var name='banned_admin'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="bad_header_admin" class="col-sm-3 control-label">{tmpl_var name='bad_header_admin_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="bad_header_admin" id="bad_header_admin" value="{tmpl_var name='bad_header_admin'}" class="form-control" /></div></div>
+            <div class="form-group">
+                <label for="spam_admin" class="col-sm-3 control-label">{tmpl_var name='spam_admin_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="spam_admin" id="spam_admin" value="{tmpl_var name='spam_admin'}" class="form-control" /></div></div>
+			<div class="form-group">
+                <label for="message_size_limit" class="col-sm-3 control-label">{tmpl_var name='message_size_limit_txt'}</label>
+                <div class="col-sm-9"><div class="input-group"><input type="text" name="message_size_limit" id="message_size_limit" value="{tmpl_var name='message_size_limit'}" class="form-control" aria-describedby="message_size_limit-desc" /><span class="input-group-addon" id="message_size_limit-desc">Bytes</span></div></div>
+            </div>
+            <div class="form-group">
+                <label for="banned_rulenames" class="col-sm-3 control-label">{tmpl_var name='banned_rulenames_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="banned_rulenames" id="banned_rulenames" value="{tmpl_var name='banned_rulenames'}" class="form-control" /></div></div>
+	  </div>
+	</div>
+  </div>
+
+				
+        <input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="mail/spamfilter_policy_edit.php">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="mail/spamfilter_policy_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+        </div></div>

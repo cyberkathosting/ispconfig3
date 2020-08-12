@@ -106,6 +106,16 @@ class apps_vhost_plugin {
 				$vhost_port_listen = '#';
 			}
 			$tpl->setVar('vhost_port_listen', $vhost_port_listen);
+			
+			$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
+			if($mail_config['content_filter'] == 'rspamd'){
+				$use_rspamd = true;
+				exec('/usr/sbin/a2enmod proxy');
+				exec('/usr/sbin/a2enmod proxy_http');
+			} else {
+				$use_rspamd = false;
+			}
+			$tpl->setVar('use_rspamd', $use_rspamd);
 
 			$content = $tpl->grab();
 
@@ -121,7 +131,7 @@ class apps_vhost_plugin {
 			$app->system->file_put_contents("$vhost_conf_dir/apps.vhost", $content);
 
 			// enabled / disable apps-vhost
-			$vhost_symlink = escapeshellcmd($web_config['vhost_conf_enabled_dir'].'/000-apps.vhost');
+			$vhost_symlink = $web_config['vhost_conf_enabled_dir'].'/000-apps.vhost';
 			if(is_link($vhost_symlink) && $web_config['apps_vhost_enabled'] == 'n') {
 				$app->system->unlink($vhost_symlink);
 			}
@@ -156,11 +166,11 @@ class apps_vhost_plugin {
 				$apps_vhost_ip = $web_config['apps_vhost_ip'].':';
 			}
 
-			$socket_dir = escapeshellcmd($web_config['php_fpm_socket_dir']);
+			$socket_dir = $web_config['php_fpm_socket_dir'];
 			if(substr($socket_dir, -1) != '/') $socket_dir .= '/';
-			if(!is_dir($socket_dir)) exec('mkdir -p '.$socket_dir);
+			if(!is_dir($socket_dir)) $app->system->exec_safe('mkdir -p ?', $socket_dir);
 			$fpm_socket = $socket_dir.'apps.sock';
-			$cgi_socket = escapeshellcmd($web_config['nginx_cgi_socket']);
+			$cgi_socket = $web_config['nginx_cgi_socket'];
 
 			$content = str_replace('{apps_vhost_ip}', $apps_vhost_ip, $content);
 			$content = str_replace('{apps_vhost_port}', $web_config['apps_vhost_port'], $content);
@@ -174,6 +184,7 @@ class apps_vhost_plugin {
 				|| file_exists('/var/run/php/php7.1-fpm.sock')
 				|| file_exists('/var/run/php/php7.2-fpm.sock')
 				|| file_exists('/var/run/php/php7.3-fpm.sock')
+				|| file_exists('/var/run/php/php7.4-fpm.sock')
 			){
 				$use_tcp = '#';
 				$use_socket = '';
@@ -184,10 +195,20 @@ class apps_vhost_plugin {
 			$content = str_replace('{use_tcp}', $use_tcp, $content);
 			$content = str_replace('{use_socket}', $use_socket, $content);
 			
+			$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
+			if($mail_config['content_filter'] == 'rspamd'){
+				$use_rspamd = '';
+			} else {
+				$use_rspamd = '#';
+			}
+			$content = str_replace('{use_rspamd}', $use_rspamd, $content);
+
 			// Fix socket path on PHP 7 systems
 			if(file_exists('/var/run/php/php7.0-fpm.sock'))	$content = str_replace('/var/run/php5-fpm.sock', '/var/run/php/php7.0-fpm.sock', $content);
 			if(file_exists('/var/run/php/php7.1-fpm.sock'))	$content = str_replace('/var/run/php5-fpm.sock', '/var/run/php/php7.1-fpm.sock', $content);
 			if(file_exists('/var/run/php/php7.2-fpm.sock'))	$content = str_replace('/var/run/php5-fpm.sock', '/var/run/php/php7.2-fpm.sock', $content);
+			if(file_exists('/var/run/php/php7.3-fpm.sock')) $content = str_replace('/var/run/php5-fpm.sock', '/var/run/php/php7.3-fpm.sock', $content);
+			if(file_exists('/var/run/php/php7.4-fpm.sock')) $content = str_replace('/var/run/php5-fpm.sock', '/var/run/php/php7.4-fpm.sock', $content);
 
 			// PHP-FPM
 			// Dont just copy over the php-fpm pool template but add some custom settings
@@ -207,7 +228,7 @@ class apps_vhost_plugin {
 			file_put_contents("$vhost_conf_dir/apps.vhost", $content);
 
 			// enabled / disable apps-vhost
-			$vhost_symlink = escapeshellcmd($web_config['vhost_conf_enabled_dir'].'/000-apps.vhost');
+			$vhost_symlink = $web_config['vhost_conf_enabled_dir'].'/000-apps.vhost';
 			if(is_link($vhost_symlink) && $web_config['apps_vhost_enabled'] == 'n') {
 				$app->system->unlink($vhost_symlink);
 			}
@@ -221,7 +242,3 @@ class apps_vhost_plugin {
 
 
 } // end class
-
-
-
-?>

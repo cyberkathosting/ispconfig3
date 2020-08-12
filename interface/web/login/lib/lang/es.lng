@@ -16,6 +16,7 @@ $wb['pw_button_txt'] = 'Reenviar contraseña';
 $wb['pw_error'] = 'El usuario o la cuenta de correo no coinciden.';
 $wb['pw_error_length'] = 'La longitud de la contraseña es superior a 64 caracteres.';
 $wb['pw_error_noinput'] = 'Por favor, introduzca la dirección de correo y el nombre de usuario.';
+$wb['pw_reset_error_smtp_connection'] = 'There was a connection problem when trying to send an email pertaining to your password reset request.';
 $wb['pw_lost_txt'] = 'Olvidé la contraseña';
 $wb['pw_reset'] = 'La nueva contraseña ha sido generada y enviada a su cuenta de correo.';
 $wb['pw_reset_mail_msg'] = 'La contraseña de su cuenta de panel de control ISPConfig 3 ha sido regenerada. La nueva contraseña es: ';

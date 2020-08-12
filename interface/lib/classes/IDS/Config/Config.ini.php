@@ -47,6 +47,7 @@
 	; exceptions[]    = POST.website_symlinks
 	; exceptions[]    = POST.vhost_conf_dir
 	; exceptions[]    = POST.vhost_conf_enabled_dir
+	; exceptions[]    = POST.apache_init_script
 	; exceptions[]    = POST.nginx_vhost_conf_dir
 	; exceptions[]    = POST.nginx_vhost_conf_enabled_dir
 	; exceptions[]    = POST.php_open_basedir

@@ -1,0 +1,25 @@
+			<div class="form-group">
+                <label for="rspamd_spam_greylisting_level" class="col-sm-3 control-label">{tmpl_var name='rspamd_spam_greylisting_level_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="rspamd_spam_greylisting_level" id="rspamd_spam_greylisting_level" value="{tmpl_var name='rspamd_spam_greylisting_level'}" class="form-control" /></div>
+			</div>
+			<div class="form-group">
+                <label for="rspamd_spam_tag_level" class="col-sm-3 control-label">{tmpl_var name='rspamd_spam_tag_level_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="rspamd_spam_tag_level" id="rspamd_spam_tag_level" value="{tmpl_var name='rspamd_spam_tag_level'}" class="form-control" /></div>
+			</div>
+			<div class="form-group">
+                <label for="rspamd_spam_tag_method" class="col-sm-3 control-label">{tmpl_var name='rspamd_spam_tag_method_txt'}</label>
+                <div class="col-sm-9"><select name="rspamd_spam_tag_method" id="rspamd_spam_tag_method" class="form-control">
+                    {tmpl_var name='rspamd_spam_tag_method'}
+                </select></div>
+            </div>
+			<div class="form-group">
+                <label for="rspamd_spam_kill_level" class="col-sm-3 control-label">{tmpl_var name='rspamd_spam_kill_level_txt'}</label>
+                <div class="col-sm-9"><input type="text" name="rspamd_spam_kill_level" id="rspamd_spam_kill_level" value="{tmpl_var name='rspamd_spam_kill_level'}" class="form-control" /></div>
+			</div>
+
+        <input type="hidden" name="id" value="{tmpl_var name='id'}">
+
+        <div class="clear"><div class="right">
+            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="mail/spamfilter_policy_edit.php">{tmpl_var name='btn_save_txt'}</button>
+            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="mail/spamfilter_policy_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+        </div></div>

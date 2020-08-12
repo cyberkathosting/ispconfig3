@@ -158,26 +158,6 @@ class file{
 		return $ret_val;
 	}
 
-	function edit_dist($var, $val){
-		global $$var;
-		$files = array('/root/ispconfig/dist.inc.php');
-		foreach($files as $file){
-			if(is_file($file)){
-				$file_content = $this->unix_nl($this->rf($file));
-				$lines = explode("\n", $file_content);
-				for($i=0;$i<sizeof($lines);$i++){
-					$parts = explode('=', $lines[$i]);
-					if($parts[0] == $var || $parts[0] == '$'.$var.' '){
-						$parts[1] = str_replace($$var, $val, $parts[1]);
-					}
-					$lines[$i] = implode('=', $parts);
-				}
-				$file_content = implode("\n", $lines);
-				$this->wf($file, $file_content);
-			}
-		}
-	}
-
 	function getDirectoryListing($dirname, $sortorder = 'a', $show_subdirs = 0, $show_subdirfiles = 0, $exts = '', $ext_save = 1){
 		// This function will return an array with filenames based on the criteria you can set in the variables
 		// @sortorder : a for ascending (the standard) or d for descending (you can use the "r" for reverse as well, works the same)

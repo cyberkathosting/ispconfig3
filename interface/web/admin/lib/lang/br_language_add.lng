@@ -1,8 +1,8 @@
 <?php
 $wb['list_head_txt'] = 'Adicionar novo idioma';
-$wb['language_select_txt'] = 'Selecionar o idioma base';
+$wb['language_select_txt'] = 'Selecionar idioma base';
 $wb['language_new_txt'] = 'Novo idioma';
-$wb['language_new_hint_txt'] = '2 letras código ISO 639-1 (veja http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)';
+$wb['language_new_hint_txt'] = '2 caracteres ISO 639-1 para o código do idioma (veja em http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)';
 $wb['btn_save_txt'] = 'Adicionar novo conjunto de idiomas';
 $wb['btn_cancel_txt'] = 'Voltar';
 ?>

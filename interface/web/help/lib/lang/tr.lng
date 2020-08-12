@@ -11,4 +11,5 @@ $wb['FAQ Sections'] = 'SSS Bölümleri';
 $wb['Manage Sections'] = 'Bölüm Yönetimi';
 $wb['Add a Question & Answer Pair'] = 'Soru-Yanıt Ekle';
 $wb['Manage Questions'] = 'Soru Yönetimi';
+
 ?>

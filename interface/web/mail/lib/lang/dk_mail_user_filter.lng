@@ -11,6 +11,7 @@ $wb['limit_mailfilter_txt'] = 'Max. antal af mailfiltere er nået.';
 $wb['subject_txt'] = 'Emne';
 $wb['from_txt'] = 'Fra';
 $wb['to_txt'] = 'Til';
+$wb['list_id_txt'] = 'List ID';
 $wb['contains_txt'] = 'Indeholder';
 $wb['is_txt'] = 'Er';
 $wb['begins_with_txt'] = 'Begynder med';

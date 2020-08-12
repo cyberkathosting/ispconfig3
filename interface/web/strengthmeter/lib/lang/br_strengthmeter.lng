@@ -2,7 +2,7 @@
 $wb['password_strength_0_txt'] = 'Muito curta';
 $wb['password_strength_1_txt'] = 'Fraca';
 $wb['password_strength_2_txt'] = 'Razoável';
-$wb['password_strength_3_txt'] = 'Bom';
+$wb['password_strength_3_txt'] = 'Boa';
 $wb['password_strength_4_txt'] = 'Forte';
-$wb['password_strength_5_txt'] = 'Muito Forte';
+$wb['password_strength_5_txt'] = 'Muito forte';
 ?>

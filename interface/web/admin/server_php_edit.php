@@ -50,9 +50,11 @@ $app->uses('tpl,tform,tform_actions');
 $app->load('tform_actions');
 
 class page_action extends tform_actions {
-
+	function onSubmit() {
+		parent::onSubmit();
+	}
 	function onBeforeUpdate() {
-		global $app, $conf;
+		global $app;
 
 		//* Check if the server has been changed
 		// We do this only for the admin or reseller users, as normal clients can not change the server ID anyway
@@ -71,5 +73,3 @@ class page_action extends tform_actions {
 
 $page = new page_action;
 $page->onLoad();
-
-?>

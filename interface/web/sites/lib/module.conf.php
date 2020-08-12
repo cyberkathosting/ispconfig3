@@ -157,33 +157,37 @@ if($app->auth->get_client_limit($userid, 'shell_user') != 0 or $app->auth->get_c
 }
 
 // APS menu
-if($app->auth->get_client_limit($userid, 'aps') != 0)
-{
-	$items = array();
+if($app->auth->get_client_limit($userid, 'aps') != 0) {
+	// read web config
+	$app->uses('getconf');
+	$global_config = $app->getconf->get_global_config('sites');
+	if($global_config['show_aps_menu'] == 'y') {
+	  $items = array();
 
-	$items[] = array(   'title'   => 'Available packages',
-		'target'  => 'content',
-		'link'    => 'sites/aps_availablepackages_list.php',
-		'html_id' => 'aps_availablepackages_list');
+  	$items[] = array(   'title'   => 'Available packages',
+  		'target'  => 'content',
+  		'link'    => 'sites/aps_availablepackages_list.php',
+  		'html_id' => 'aps_availablepackages_list');
 
-	$items[] = array(   'title'   => 'Installed packages',
-		'target'  => 'content',
-		'link'    => 'sites/aps_installedpackages_list.php',
-		'html_id' => 'aps_installedpackages_list');
+  	$items[] = array(   'title'   => 'Installed packages',
+  		'target'  => 'content',
+  		'link'    => 'sites/aps_installedpackages_list.php',
+  		'html_id' => 'aps_installedpackages_list');
 
 
-	// Second menu group, available only for admins
-	if($_SESSION['s']['user']['typ'] == 'admin')
-	{
-		$items[] = array(   'title'   => 'Update Packagelist',
-			'target'  => 'content',
-			'link'    => 'sites/aps_update_packagelist.php',
-			'html_id' => 'aps_packagedetails_show');
-	}
+  	// Second menu group, available only for admins
+  	if($_SESSION['s']['user']['typ'] == 'admin')
+  	{
+  		$items[] = array(   'title'   => 'Update Packagelist',
+  			'target'  => 'content',
+  			'link'    => 'sites/aps_update_packagelist.php',
+  			'html_id' => 'aps_packagedetails_show');
+  	}
 
-	$module['nav'][] = array(   'title' => 'APS Installer',
-		'open'  => 1,
-		'items' => $items);
+  	$module['nav'][] = array(   'title' => 'APS Installer',
+  		'open'  => 1,
+  		'items' => $items);
+  }
 }
 
 // Statistics menu
@@ -209,12 +213,14 @@ $items[] = array(   'title'   => 'Database quota',
 	'link'    => 'sites/database_quota_stats.php',
 	'html_id' => 'databse_quota_stats');
 
-$items[] = array (
-	'title'   => 'Backup Stats',
-	'target'  => 'content',
-	'link'    => 'sites/backup_stats.php',
-	'html_id' => 'backup_stats'
-);
+if($app->auth->get_client_limit($userid, 'backup') == 'y') {
+        $items[] = array (
+                'title'   => 'Backup Stats',
+                'target'  => 'content',
+                'link'    => 'sites/backup_stats.php',
+                'html_id' => 'backup_stats'
+        );
+}
 
 $module['nav'][] = array(   'title' => 'Statistics',
 	'open'  => 1,

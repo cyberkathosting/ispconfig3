@@ -17,6 +17,7 @@ $wb['Messaging'] = 'Wiadomości dla klientów';
 $wb['Send email'] = 'Wyślij email';
 $wb['Edit Client Circle'] = 'Edytuj grupy klientów';
 $wb['Domains'] = 'Domeny';
+$wb['Add Domain'] = 'Add Domain';
 $wb['domain_txt'] = 'Domena';
 $wb['client_txt'] = 'Klient';
 $wb['error_domain_in mailuse'] = 'Ta domena nie może zostać usunięta ponieważ jest używana jako domena dla poczty email.';

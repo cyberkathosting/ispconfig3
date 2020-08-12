@@ -108,7 +108,7 @@ class remoting_client extends remoting {
 		if(isset($rec['client_id'])) {
 			return $app->functions->intval($rec['client_id']);
 		} else {
-			throw new SoapFault('no_client_found', 'There is no sysuser account for this client ID.');
+			throw new SoapFault('no_client_found', 'There is no sys_user account with this userid.');
 			return false;
 		}
 
@@ -257,7 +257,7 @@ class remoting_client extends remoting {
 
 		if(@is_numeric($client_id)) {
 			$sql = "SELECT * FROM `client_template_assigned` WHERE `client_id` = ?";
-			return $app->db->queryOneRecord($sql, $client_id);
+			return $app->db->queryAllRecords($sql, $client_id);
 		} else {
 			throw new SoapFault('The ID must be an integer.');
 			return array();
@@ -604,11 +604,9 @@ class remoting_client extends remoting {
 			if($user) {
 				$saved_password = stripslashes($user['password']);
 
-				if(substr($saved_password, 0, 3) == '$1$') {
-					//* The password is crypt-md5 encrypted
-					$salt = '$1$'.substr($saved_password, 3, 8).'$';
-
-					if(crypt(stripslashes($password), $salt) != $saved_password) {
+				if(preg_match('/^\$[156]\$/', $saved_password)) {
+					//* The password is crypt encrypted
+					if(crypt(stripslashes($password), $saved_password) !== $saved_password) {
 						$user = false;
 					}
 				} else {
@@ -636,11 +634,9 @@ class remoting_client extends remoting {
 			if($user) {
 				$saved_password = stripslashes($user['passwort']);
 
-				if(substr($saved_password, 0, 3) == '$1$') {
+				if(preg_match('/^\$[156]\$/', $saved_password)) {
 					//* The password is crypt-md5 encrypted
-					$salt = '$1$'.substr($saved_password, 3, 8).'$';
-
-					if(crypt(stripslashes($password), $salt) != $saved_password) {
+					if(crypt(stripslashes($password), $saved_password) != $saved_password) {
 						$user = false;
 					}
 				} else {

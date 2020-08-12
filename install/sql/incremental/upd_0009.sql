@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `proxy_reverse` (
   `rewrite_url_dst` varchar(100) NOT NULL,
   `active` enum('n','y') NOT NULL default 'y',
   PRIMARY KEY  (`rewrite_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE IF NOT EXISTS `firewall_filter` (
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `firewall_filter` (
   `active` enum('n','y') NOT NULL default 'y',
   `client_id` int(11) NOT NULL,
   PRIMARY KEY  (`firewall_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `firewall_forward` (
   `firewall_id` int(11) unsigned NOT NULL auto_increment,
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `firewall_forward` (
   `active` enum('n','y') NOT NULL default 'y',
   `client_id` int(11) NOT NULL,
   PRIMARY KEY  (`firewall_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 alter table `server` add column `proxy_server` tinyint(1) not null after `vserver_server`;
 alter table `server` add column `firewall_server` tinyint(1) not null after `proxy_server`;

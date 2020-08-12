@@ -8,4 +8,5 @@ $wb['domain_error_regex'] = 'Nama domain tidak valid atau domain mengandung kara
 $wb['limit_mailcatchall_txt'] = 'Jumlah maks akun catchall email untuk akun Anda sudah tercapai.';
 $wb['source_txt'] = 'Source';
 $wb['destination_error_isemail'] = 'Destination is no valid email address.';
+$wb['greylisting_txt'] = 'Enable greylisting';
 ?>

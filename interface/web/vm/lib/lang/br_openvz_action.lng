@@ -1,16 +1,16 @@
 <?php
-$wb['head_txt'] = 'Ações do servidor virtual para máquinas virtuais:';
+$wb['head_txt'] = 'Ações do virtualizador:';
 $wb['start_txt'] = 'Iniciar máquina virtual';
 $wb['stop_txt'] = 'Parar máquina virtual';
 $wb['restart_txt'] = 'Reiniciar máquina virtual';
-$wb['ostemplate_txt'] = 'Adicionar gabarito de SO';
-$wb['ostemplate_desc_txt'] = '(exemplo: debian-6.0-i386-custom)';
+$wb['ostemplate_txt'] = 'Adicionar gabarito de sistema operacional';
+$wb['ostemplate_desc_txt'] = '(exemplo: debian-9.0-amd64-custom)';
 $wb['btn_save_txt'] = 'Executar ação selecionada';
 $wb['btn_cancel_txt'] = 'Cancelar';
-$wb['start_exec_txt'] = 'O comando -iniciar- foi enviado ao servidor servidor de máquinas virtuais. Espere alguns minutos até que a máquina virtual seja iniciada.';
-$wb['stop_exec_txt'] = 'O comando -parar- foi enviado ao servidor servidor de máquinas virtuais. Espere alguns minutos até que a máquina virtual pare.';
-$wb['restart_exec_txt'] = 'O comando -reiniciar- foi enviado ao servidor servidor de máquinas virtuais. Espere alguns minutos até que a máquina virtual seja reiniciada.';
-$wb['ostemplate_name_error'] = 'O gabarito de SO contém caracteres não permitidos.';
-$wb['ostemplate_name_unique_error'] = 'Já existe um gabarito de SO com este nome.';
-$wb['ostemplate_exec_txt'] = 'O comando -criar máquina virtual- foi enviado ao servidor servidor de máquinas virtuais. Espere alguns minutos até que a máquina virtual seja criada.';
+$wb['start_exec_txt'] = 'O comando "Iniciar" foi enviado para o virtualizador. Aguarde alguns instantes para a máquina virtual carregar.';
+$wb['stop_exec_txt'] = 'O comando "Parar" foi enviado para o virtualizador. Aguarde alguns instantes para a máquina virtual parar.';
+$wb['restart_exec_txt'] = 'O comando "Reiniciar" foi enviando para o virtualizador. Aguarde alguns instantes para a máquina virtual reiniciar.';
+$wb['ostemplate_name_error'] = 'O gabarito de sistema operacional contém caracteres não permitidos.';
+$wb['ostemplate_name_unique_error'] = 'Já existe um gabarito de sistema operacional com o mesmo nome.';
+$wb['ostemplate_exec_txt'] = 'O comando "Adicionar gabarito de SO" foi enviado para o virtualizador. Aguarde alguns instantes para o gabarito ser adicionado.';
 ?>

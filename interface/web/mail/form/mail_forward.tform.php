@@ -133,7 +133,7 @@ $form["tabs"]['forward'] = array (
 			'value'  => array(1 => 'y', 0 => 'n')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );

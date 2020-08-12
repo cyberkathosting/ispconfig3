@@ -1,23 +1,24 @@
 <?php
-$wb['head_txt'] = 'ISPConfig 3 E-posta Ayarları Alma';
-$wb['legend_txt'] = 'Uzak sunucu bağlantı bilgileri';
-$wb['legend2_txt'] = 'E-posta alan adı alınsın';
-$wb['resync_sites_txt'] = 'Web siteleri eşleştirilsin';
-$wb['resync_ftp_txt'] = 'FTP kullanıcıları eşleştirilsin';
-$wb['resync_shell_txt'] = 'Kabuk kullanıcıları eşleştirilsin';
-$wb['resync_cron_txt'] = 'Zamanlanmış görevler eşleştirilsin';
-$wb['resync_db_txt'] = 'Müşteri veritabanı ayarları eşleştirilsin';
-$wb['resync_mailbox_txt'] = 'Posta kutuları eşleştirilsin';
-$wb['resync_dns_txt'] = 'DNS kayıtları eşleştirilsin';
-$wb['btn_start_txt'] = 'Almayı Başlat';
+$wb['head_txt'] = 'ISPConfig 3 E-posta Ayarlarını İçe Aktarma';
+$wb['legend_txt'] = 'Uzak Sunucu Bağlantı Bilgileri';
+$wb['legend2_txt'] = 'E-posta etki alanı içe aktarılsın';
+$wb['resync_sites_txt'] = 'Web Siteleri Eşitlensin';
+$wb['resync_ftp_txt'] = 'FTP Kullanıcıları Eşitlensin';
+$wb['resync_shell_txt'] = 'Kabuk Kullanıcıları Eşitlensin';
+$wb['resync_cron_txt'] = 'Zamanlanmış Görevler Eşitlensin';
+$wb['resync_db_txt'] = 'Müşteri Veritabanı Ayarları Eşitlensin';
+$wb['resync_mailbox_txt'] = 'E-posta Kutuları Eşitlensin';
+$wb['resync_dns_txt'] = 'DNS Kayıtları Eşitlensin';
+$wb['btn_start_txt'] = 'İçe Aktarmayı Başlat';
 $wb['btn_connect_txt'] = 'Uzak Sunucuya Bağlan';
 $wb['btn_cancel_txt'] = 'Geri';
 $wb['client_group_id_txt'] = 'Yerel Müşteri';
-$wb['mail_domain_txt'] = 'Uzak e-posta alan adı';
-$wb['import_mailbox_txt'] = 'Posta kutusunu al';
-$wb['import_aliasdomain_txt'] = 'Takma alan adını al';
-$wb['import_alias_txt'] = 'Takma e-postayı al';
-$wb['import_forward_txt'] = 'Yönlendirmeyi al';
-$wb['import_user_filter_txt'] = 'Kullanıcı süzgecini al';
-$wb['import_spamfilter_txt'] = 'Önemsiz posta süzgecini al';
+$wb['mail_domain_txt'] = 'Uzak E-posta Etki Alanı';
+$wb['import_mailbox_txt'] = 'E-posta Kutusu İçe Aktarılsın';
+$wb['import_aliasdomain_txt'] = 'Takma Etki Alanı İçe Aktarılsın';
+$wb['import_alias_txt'] = 'Takma E-posta İçe Aktarılsın';
+$wb['import_forward_txt'] = 'Yönlendirme İçe Aktarılsın';
+$wb['import_user_filter_txt'] = 'Kullanıcı Süzgeci İçe Aktarılsın';
+$wb['import_spamfilter_txt'] = 'Önemsiz İleti Süzgeci İçe Aktarılsın';
+
 ?>

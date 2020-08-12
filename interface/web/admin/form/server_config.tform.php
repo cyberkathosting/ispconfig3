@@ -33,7 +33,7 @@
 
  */
 
-$form["title"] = "Server Config";
+$form["title"] = "server_config";
 $form["description"] = "";
 $form["name"] = "server_config";
 $form["action"] = "server_config_edit.php";
@@ -131,7 +131,7 @@ $form["tabs"]['server'] = array(
 			'validators' => array(	0 => array('type' => 'NOTEMPTY',
 												'errmsg' => 'hostname_error_empty'),
 									1 => array ('type' => 'REGEX',
-												'regex' => '/^[\w\.\-]{2,255}\.[a-zA-Z0-9\-]{2,30}$/',
+												'regex' => '/^[\w\.\-]{2,255}\.[a-zA-Z0-9\-]{2,63}$/',
 												'errmsg'=> 'hostname_error_regex'),
 			),
 			'value' => '',
@@ -413,7 +413,7 @@ $form["tabs"]['server'] = array(
 			'value' => array(0 => 'n', 1 => 'y')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -465,6 +465,29 @@ $form["tabs"]['mail'] = array(
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '255'
+		),
+		'content_filter' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'SELECT',
+			'default' => 'rspamd',
+			'value' => array('amavisd' => 'Amavisd', 'rspamd' => 'Rspamd')
+		),
+		'rspamd_password' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255',
+			'filters'   => array( 0 => array( 'event' => 'SAVE',
+												'type' => 'TRIM'),
+			),
+		),
+		'rspamd_available' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value' => array(0 => 'n', 1 => 'y')
 		),
 		'dkim_path' => array(
 			'datatype' => 'VARCHAR',
@@ -676,7 +699,7 @@ $form["tabs"]['mail'] = array(
 			'value' => array(0 => 'n', 1 => 'y')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -704,7 +727,7 @@ $form["tabs"]['getmail'] = array(
 			'maxlength' => '255'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -797,6 +820,28 @@ $form["tabs"]['web'] = array(
 			'default' => 'n',
 			'value' => array(0 => 'n',1 => 'y')
 		),
+		'vhost_proxy_protocol_enabled' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value' => array(0 => 'n',1 => 'y')
+		),
+		'vhost_proxy_protocol_http_port' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '880',
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
+		'vhost_proxy_protocol_https_port' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '8443',
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
 		'vhost_conf_dir' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -820,6 +865,18 @@ $form["tabs"]['web'] = array(
 									1 => array ( 	'type' => 'REGEX',
 										'regex' => '/^\/[a-zA-Z0-9\.\-\_\/]{5,128}$/',
 										'errmsg'=> 'vhost_conf_enabled_dir_error_regex'),
+			),
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
+		'apache_init_script' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'validators' => array(	0 => array('type' => 'REGEX',
+										'regex' => '/^(|[a-zA-Z0-9\.\-\_]{1,128})$/',
+										'errmsg' => 'apache_init_script_error_regex'),
 			),
 			'value' => '',
 			'width' => '40',
@@ -1094,6 +1151,12 @@ $form["tabs"]['web'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
+		'php_default_hide' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value' => array(0 => 'n', 1 => 'y')
+		),
 		'php_default_name' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -1211,6 +1274,12 @@ $form["tabs"]['web'] = array(
 			'value' => array('no' => 'disabled_txt', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP', 'php-fpm' => 'PHP-FPM', 'hhvm' => 'HHVM'),
 			'searchable' => 2
 		),
+		'php_fpm_default_chroot' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value' => array(0 => 'n', 1 => 'y')
+		),
 		'php_fpm_incron_reload' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
@@ -1247,15 +1316,6 @@ $form["tabs"]['web'] = array(
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '255'
-		),
-		'enable_spdy' => array (
-			'datatype' => 'VARCHAR',
-			'formtype' => 'CHECKBOX',
-			'default'  => 'y',
-			'value' => array (
-				0 => 'n',
-				1 => 'y'
-			)
 		),
 		'apps_vhost_enabled' => array (
 			'datatype' => 'VARCHAR',
@@ -1376,8 +1436,16 @@ $form["tabs"]['web'] = array(
 				1 => 'y'
 			)
 		),
+		'php_fpm_reload_mode' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'SELECT',
+			'default' => 'reload',
+			'value' => array('reload' => 'Reload', 'restart' => 'Restart'),
+			'width' => '40',
+			'maxlength' => '255'
+		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -1467,7 +1535,7 @@ $form["tabs"]['dns'] = array(
 			'value' => array(0 => 'n', 1 => 'y')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -1584,7 +1652,7 @@ $form["tabs"]['fastcgi'] = array(
 			'maxlength' => '255'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -1747,7 +1815,7 @@ $form["tabs"]['jailkit'] = array(
 			'maxlength' => '1000'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -1810,7 +1878,7 @@ $form["tabs"]['ufw_firewall'] = array (
 			'value'		=> array('low' => 'low', 'medium' => 'medium', 'high' => 'high')
 		)
 	##################################
-	# ENDE Datatable fields
+	# END Datatable fields
 	##################################
 	)
 );
@@ -1839,7 +1907,7 @@ $form["tabs"]['vlogger'] = array(
 			'maxlength' => '255'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -1897,7 +1965,7 @@ $form["tabs"]['cron'] = array(
 			'maxlength' => '255'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -1941,8 +2009,14 @@ $form["tabs"]['rescue'] = array(
 			'value' => array(0 => 'n', 1 => 'y')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
-?>
+
+/*$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
+if(!isset($mail_config['rspamd_available']) || $mail_config['rspamd_available'] != 'y') {
+	$form['tabs']['mail']['fields']['content_filter']['default'] = 'amavisd';
+	unset($form['tabs']['mail']['fields']['content_filter']['value']['rspamd']);
+	unset($form['tabs']['mail']['fields']['rspamd_password']);
+}*/

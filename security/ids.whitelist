@@ -7,6 +7,7 @@ admin:/admin/server_config_edit.php:POST.website_path
 admin:/admin/server_config_edit.php:POST.website_symlinks
 admin:/admin/server_config_edit.php:POST.vhost_conf_dir
 admin:/admin/server_config_edit.php:POST.vhost_conf_enabled_dir
+admin:/admin/server_config_edit.php:POST.apache_init_script
 admin:/admin/server_config_edit.php:POST.nginx_vhost_conf_dir
 admin:/admin/server_config_edit.php:POST.nginx_vhost_conf_enabled_dir
 admin:/admin/server_config_edit.php:POST.php_open_basedir

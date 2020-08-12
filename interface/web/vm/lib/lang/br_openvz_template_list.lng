@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Gabarito de máquina virtual OpenVZ';
+$wb['list_head_txt'] = 'Gabarito de máquina virtual';
 $wb['active_txt'] = 'Ativo';
-$wb['template_name_txt'] = 'Nome do Gabarito';
+$wb['template_name_txt'] = 'Nome do gabarito';
 ?>

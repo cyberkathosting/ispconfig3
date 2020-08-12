@@ -32,7 +32,8 @@ class web_module {
 
 	var $module_name = 'web_module';
 	var $class_name = 'web_module';
-	var $actions_available = array( 'web_domain_insert',
+	var $actions_available = array(
+		'web_domain_insert',
 		'web_domain_update',
 		'web_domain_delete',
 		'ftp_user_insert',
@@ -64,7 +65,9 @@ class web_module {
 		'aps_package_delete',
 		'aps_setting_insert',
 		'aps_setting_update',
-		'aps_setting_delete');
+		'aps_setting_delete',
+		'directive_snippets_update'
+	);
 
 	//* This function is called during ispconfig installation to determine
 	//  if a symlink shall be created for this plugin.
@@ -114,6 +117,7 @@ class web_module {
 		$app->modules->registerTableHook('aps_instances_settings', 'web_module', 'process');
 		$app->modules->registerTableHook('aps_packages', 'web_module', 'process');
 		$app->modules->registerTableHook('aps_settings', 'web_module', 'process');
+		$app->modules->registerTableHook('directive_snippets', 'web_module', 'process');
 
 		// Register service
 		$app->services->registerService('httpd', 'web_module', 'restartHttpd');
@@ -185,6 +189,11 @@ class web_module {
 			if($action == 'u') $app->plugins->raiseEvent('aps_setting_update', $data);
 			if($action == 'd') $app->plugins->raiseEvent('aps_setting_delete', $data);
 			break;
+		case 'directive_snippets':
+			if($action == 'i') $app->plugins->raiseEvent('directive_snippets_insert', $data);
+			if($action == 'u') $app->plugins->raiseEvent('directive_snippets_update', $data);
+			if($action == 'd') $app->plugins->raiseEvent('directive_snippets_delete', $data);
+			break;
 		} // end switch
 	} // end function
 
@@ -203,7 +212,9 @@ class web_module {
 			$daemon = $web_config['server_type'];
 			break;
 		default:
-			if(is_file($conf['init_scripts'] . '/' . 'httpd') || is_dir('/etc/httpd')) {
+			if (!empty($web_config['apache_init_script'])) {
+				$daemon = $web_config['apache_init_script'];
+			} elseif(is_file($conf['init_scripts'] . '/' . 'httpd') || is_dir('/etc/httpd')) {
 				$daemon = 'httpd';
 			} else {
 				$daemon = 'apache2';

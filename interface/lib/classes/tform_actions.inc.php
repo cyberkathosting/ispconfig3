@@ -297,6 +297,9 @@ class tform_actions {
 	 */
 	function onDelete() {
 		global $app, $conf, $list_def_file, $tform_def_file;
+		
+		// Check CSRF Token
+		$app->auth->csrf_token_check('GET');
 
 		include_once $list_def_file;
 

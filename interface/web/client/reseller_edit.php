@@ -200,6 +200,9 @@ class page_action extends tform_actions {
 	*/
 	function onAfterInsert() {
 		global $app, $conf;
+		
+		$app->uses('auth');
+		
 		// Create the group for the reseller
 		$groupid = $app->db->datalogInsert('sys_group', array("name" => $this->dataRecord["username"], "description" => '', "client_id" => $this->id), 'groupid');
 		$groups = $groupid;
@@ -213,16 +216,10 @@ class page_action extends tform_actions {
 		$active = 1;
 		$language = $this->dataRecord["language"];
 
-		$salt="$1$";
-		$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-		for ($n=0;$n<8;$n++) {
-			$salt.=$base64_alphabet[mt_rand(0, 63)];
-		}
-		$salt.="$";
-		$password = crypt(stripslashes($password), $salt);
-
+		$password = $app->auth->crypt_password(stripslashes($password));
+		
 		// Create the controlpaneluser for the reseller
-		$sql = "INSERT INTO sys_user (username,passwort,modules,startmodule,app_theme,typ,active,language,groups,default_group,client_id)
+		$sql = "INSERT INTO sys_user (`username`,`passwort`,`modules`,`startmodule`,`app_theme`,`typ`, `active`,`language`,`groups`,`default_group`,`client_id`)
 		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		$app->db->query($sql, $username, $password, $modules, $startmodule, $usertheme, $type, $active, $language, $groups, $groupid, $this->id);
 
@@ -313,6 +310,8 @@ class page_action extends tform_actions {
 	function onAfterUpdate() {
 		global $app, $conf;
 
+		$app->uses('auth');
+		
 		// username changed
 		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord['username']) && $this->dataRecord['username'] != '' && $this->oldDataRecord['username'] != $this->dataRecord['username']) {
 			$username = $this->dataRecord["username"];
@@ -329,13 +328,8 @@ class page_action extends tform_actions {
 		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord["password"]) && $this->dataRecord["password"] != '') {
 			$password = $this->dataRecord["password"];
 			$client_id = $this->id;
-			$salt="$1$";
-			$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-			for ($n=0;$n<8;$n++) {
-				$salt.=$base64_alphabet[mt_rand(0, 63)];
-			}
-			$salt.="$";
-			$password = crypt(stripslashes($password), $salt);
+			
+			$password = $app->auth->crypt_password(stripslashes($password));
 			$sql = "UPDATE sys_user SET passwort = ? WHERE client_id = ?";
 			$app->db->query($sql, $password, $client_id);
 		}
@@ -367,6 +361,124 @@ class page_action extends tform_actions {
 		if(isset($this->dataRecord['template_master'])) {
 			$app->uses('client_templates');
 			$app->client_templates->update_client_templates($this->id, $this->_template_additional);
+		}
+		
+		if(!isset($this->dataRecord['locked'])) $this->dataRecord['locked'] = 'n';
+		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && $this->dataRecord["locked"] != $this->oldDataRecord['locked']) {
+			/** lock all the things like web, mail etc. - easy to extend */
+
+
+			// get tmp_data of client
+			$client_data = $app->db->queryOneRecord('SELECT `tmp_data` FROM `client` WHERE `client_id` = ?', $this->id);
+
+			if($client_data['tmp_data'] == '') $tmp_data = array();
+			else $tmp_data = unserialize($client_data['tmp_data']);
+
+			if(!is_array($tmp_data)) $tmp_data = array();
+
+			// database tables with their primary key columns
+			$to_disable = array('cron' => 'id',
+				'ftp_user' => 'ftp_user_id',
+				'mail_domain' => 'domain_id',
+				'mail_user' => 'mailuser_id',
+				'mail_user_smtp' => 'mailuser_id',
+				'mail_forwarding' => 'forwarding_id',
+				'mail_get' => 'mailget_id',
+				'openvz_vm' => 'vm_id',
+				'shell_user' => 'shell_user_id',
+				'webdav_user' => 'webdav_user_id',
+				'web_database' => 'database_id',
+				'web_domain' => 'domain_id',
+				'web_folder' => 'web_folder_id',
+				'web_folder_user' => 'web_folder_user_id'
+			);
+
+			$udata = $app->db->queryOneRecord('SELECT `userid` FROM `sys_user` WHERE `client_id` = ?', $this->id);
+			$gdata = $app->db->queryOneRecord('SELECT `groupid` FROM `sys_group` WHERE `client_id` = ?', $this->id);
+			$sys_groupid = $gdata['groupid'];
+			$sys_userid = $udata['userid'];
+
+			$entries = array();
+			if($this->dataRecord['locked'] == 'y') {
+				$prev_active = array();
+				$prev_sysuser = array();
+				foreach($to_disable as $current => $keycolumn) {
+					$active_col = 'active';
+					$reverse = false;
+					if($current == 'mail_user') {
+						$active_col = 'postfix';
+					} elseif($current == 'mail_user_smtp') {
+						$current = 'mail_user';
+						$active_col = 'disablesmtp';
+						$reverse = true;
+					}
+					
+					if(!isset($prev_active[$current])) $prev_active[$current] = array();
+					if(!isset($prev_sysuser[$current])) $prev_sysuser[$current] = array();
+
+					$entries = $app->db->queryAllRecords('SELECT ?? as `id`, `sys_userid`, ?? FROM ?? WHERE `sys_groupid` = ?', $keycolumn, $active_col, $current, $sys_groupid);
+					foreach($entries as $item) {
+
+						if($item[$active_col] != 'y' && $reverse == false) $prev_active[$current][$item['id']][$active_col] = 'n';
+						elseif($item[$active_col] == 'y' && $reverse == true) $prev_active[$current][$item['id']][$active_col] = 'y';
+						if($item['sys_userid'] != $sys_userid) $prev_sysuser[$current][$item['id']] = $item['sys_userid'];
+						// we don't have to store these if y, as everything without previous state gets enabled later
+
+						$app->db->datalogUpdate($current, array($active_col => ($reverse == true ? 'y' : 'n'), 'sys_userid' => $_SESSION["s"]["user"]["userid"]), $keycolumn, $item['id']);
+					}
+				}
+
+				$tmp_data['prev_active'] = $prev_active;
+				$tmp_data['prev_sys_userid'] = $prev_sysuser;
+				$app->db->query("UPDATE `client` SET `tmp_data` = ? WHERE `client_id` = ?", serialize($tmp_data), $this->id);
+				unset($prev_active);
+				unset($prev_sysuser);
+			} elseif($this->dataRecord['locked'] == 'n') {
+				foreach($to_disable as $current => $keycolumn) {
+					$active_col = 'active';
+					$reverse = false;
+					if($current == 'mail_user') {
+						$active_col = 'postfix';
+					} elseif($current == 'mail_user_smtp') {
+						$current = 'mail_user';
+						$active_col = 'disablesmtp';
+						$reverse = true;
+					}
+					
+					$entries = $app->db->queryAllRecords('SELECT ?? as `id` FROM ?? WHERE `sys_groupid` = ?', $keycolumn, $current, $sys_groupid);
+					foreach($entries as $item) {
+						$set_active = ($reverse == true ? 'n' : 'y');
+						$set_inactive = ($reverse == true ? 'y' : 'n');
+						$set_sysuser = $sys_userid;
+						if(array_key_exists('prev_active', $tmp_data) == true
+							&& array_key_exists($current, $tmp_data['prev_active']) == true
+							&& array_key_exists($item['id'], $tmp_data['prev_active'][$current]) == true
+							&& $tmp_data['prev_active'][$current][$item['id']][$active_col] == $set_inactive) $set_active = $set_inactive;
+						if(array_key_exists('prev_sysuser', $tmp_data) == true
+							&& array_key_exists($current, $tmp_data['prev_sysuser']) == true
+							&& array_key_exists($item['id'], $tmp_data['prev_sysuser'][$current]) == true
+							&& $tmp_data['prev_sysuser'][$current][$item['id']] != $sys_userid) $set_sysuser = $tmp_data['prev_sysuser'][$current][$item['id']];
+
+						$app->db->datalogUpdate($current, array($active_col => $set_active, 'sys_userid' => $set_sysuser), $keycolumn, $item['id']);
+					}
+				}
+				if(array_key_exists('prev_active', $tmp_data)) unset($tmp_data['prev_active']);
+				$app->db->query("UPDATE `client` SET `tmp_data` = ? WHERE `client_id` = ?", serialize($tmp_data), $this->id);
+			}
+			unset($tmp_data);
+			unset($entries);
+			unset($to_disable);
+		}
+		
+		if(!isset($this->dataRecord['canceled'])) $this->dataRecord['canceled'] = 'n';
+		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && $this->dataRecord["canceled"] != $this->oldDataRecord['canceled']) {
+			if($this->dataRecord['canceled'] == 'y') {
+				$sql = "UPDATE sys_user SET active = '0' WHERE client_id = ?";
+				$app->db->query($sql, $this->id);
+			} elseif($this->dataRecord['canceled'] == 'n') {
+				$sql = "UPDATE sys_user SET active = '1' WHERE client_id = ?";
+				$app->db->query($sql, $this->id);
+			}
 		}
 
 		parent::onAfterUpdate();

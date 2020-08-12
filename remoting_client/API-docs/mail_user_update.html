@@ -12,7 +12,7 @@
 
   </style></head>
 
-<body style="color: rgb(0, 0, 0); alink="#804080" link="#804080" vlink="#603060">
+<body style="color: rgb(0, 0, 0);" alink="#804080" link="#804080" vlink="#603060">
 <div style="padding:40px">
 <h1>mail_user_update(<span class="var">$session_id</span>, <span class="var">$client_id</span>, <span class="var">$primary_id</span>, <span class="var">$params</span>);</h1>
 <br>
@@ -24,6 +24,7 @@
 <p class="margin"> server_id&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
 <p class="margin"> email&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
 <p class="margin"> password&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
+<p class="margin"> _ispconfig_pw_crypted&nbsp;&nbsp;(<span class="paratype">int(11)</span>) Set to 1 to indicate that the password is already crypted.</p>
 <p class="margin"> name&nbsp;&nbsp;(<span class="paratype">varchar(255)</span>)</p>
 <p class="margin"> uid&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
 <p class="margin"> gid&nbsp;&nbsp;(<span class="paratype">int(11)</span>)</p>
@@ -35,7 +36,7 @@
 <p class="margin"> autoresponder_start_date&nbsp;&nbsp;(<span class="paratype">datetime</span>)</p>
 <p class="margin"> autoresponder_end_date&nbsp;&nbsp;(<span class="paratype">datetime</span>)</p>
 <p class="margin"> autoresponder_text&nbsp;&nbsp;(<span class="paratype">mediumtext</span>)</p>
-<p class="margin"> move_junk&nbsp;&nbsp;(<span class="paratype">enum('n','y')</span>)</p>
+<p class="margin"> move_junk&nbsp;&nbsp;(<span class="paratype">enum('y','a','n')</span>)</p>
 <p class="margin"> custom_mailfilter&nbsp;&nbsp;(<span class="paratype">mediumtext</span>)</p>
 <p class="margin"> postfix&nbsp;&nbsp;(<span class="paratype">enum('n','y')</span>)</p>
 <p class="margin"> access&nbsp;&nbsp;(<span class="paratype">enum('n','y')</span>)</p>

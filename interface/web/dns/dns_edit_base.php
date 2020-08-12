@@ -44,6 +44,29 @@ class dns_page_action extends tform_actions {
 		return false;
 	}
 
+	protected function zoneFileEscape( $str ) {
+		// escape backslash and double quotes
+		$ret = str_replace( '\\', '\\\\', $str );
+		$ret = str_replace( '"', '\\"', $ret );
+		return $ret;
+	}
+
+	protected function zoneFileUnescape( $str ) {
+		// escape sequence can be rfc 1035 '\DDD' (backslash, 3 digits) or '\X' (backslash, non-digit char)
+		return preg_replace_callback(  '/\\\\(\d\d\d|\D)/',
+			function( $Matches ) {
+				if (preg_match( '/\d{3}/', $Matches[1] )) {
+					return chr( $Matches[1] );
+				} elseif (preg_match( '/\D/', $Matches[1])) {
+					return $Matches[1];
+				} else {
+					return $Matches[0];
+				}
+			},
+			$str
+		);
+	}
+
 	function onShowNew() {
 		global $app, $conf;
 

@@ -70,6 +70,9 @@ class page_action extends tform_actions {
 	function onShowEnd() {
 		global $app, $conf;
 
+		// Workaround for #5448, accessed via link on quota dashlet.
+		$app->tpl->setVar('app_module', 'mail');
+
 		$email = $this->dataRecord["email"];
 		$email_parts = explode("@", $email);
 		$app->tpl->setVar("email_local_part", $email_parts[0]);
@@ -77,7 +80,7 @@ class page_action extends tform_actions {
 
 		// Getting Domains of the user
 		// $sql = "SELECT domain, server_id FROM mail_domain WHERE ".$app->tform->getAuthSQL('r').' ORDER BY domain';
-		$sql = "SELECT domain, server_id FROM mail_domain WHERE (".$app->tform->getAuthSQL('r').") AND domain NOT IN (SELECT SUBSTR(source,2) FROM mail_forwarding WHERE type = 'aliasdomain') ORDER BY domain";               
+		$sql = "SELECT domain, server_id FROM mail_domain WHERE (".$app->tform->getAuthSQL('r').") AND domain NOT IN (SELECT SUBSTR(source,2) FROM mail_forwarding WHERE type = 'aliasdomain') ORDER BY domain";
 		$domains = $app->db->queryAllRecords($sql);
 		$domain_select = '';
 		if(is_array($domains)) {
@@ -96,7 +99,7 @@ class page_action extends tform_actions {
 		if (isset($_POST['policy'])) $tmp_user['policy_id'] = intval($_POST['policy']);
 		$sql = "SELECT id, policy_name FROM spamfilter_policy WHERE ".$app->tform->getAuthSQL('r') . " ORDER BY policy_name";
 		$policys = $app->db->queryAllRecords($sql);
-		$policy_select = "<option value='0'>".$app->tform->lng("no_policy")."</option>";
+		$policy_select = "<option value='0'>".$app->tform->lng("inherit_policy")."</option>";
 		if(is_array($policys)) {
 			foreach( $policys as $p) {
 				$selected = ($p["id"] == $tmp_user["policy_id"])?'SELECTED':'';
@@ -217,7 +220,7 @@ class page_action extends tform_actions {
 			$tmp = $app->db->queryOneRecord("SELECT maildir_format FROM mail_user WHERE mailuser_id = ".$app->functions->intval($this->id));
 			$this->dataRecord['maildir_format'] = $tmp['maildir_format'];
 		}
-		
+
 		//* compose the email field
 		if(isset($_POST["email_local_part"]) && isset($_POST["email_domain"])) {
 			$this->dataRecord["email"] = strtolower($_POST["email_local_part"]."@".$app->functions->idn_encode($_POST["email_domain"]));
@@ -236,7 +239,7 @@ class page_action extends tform_actions {
 			$maildir = str_replace("[localpart]", strtolower($_POST["email_local_part"]), $maildir);
 			$this->dataRecord["maildir"] = $maildir;
 			$this->dataRecord["homedir"] = $mail_config["homedir_path"];
-			
+
 			// Will be overwritten by mail_plugin
 			if ($mail_config["mailbox_virtual_uidgid_maps"] == 'y') {
 				$this->dataRecord['uid'] = -1;
@@ -245,7 +248,7 @@ class page_action extends tform_actions {
 				$this->dataRecord['uid'] = intval($mail_config["mailuser_uid"]);
 				$this->dataRecord['gid'] = intval($mail_config["mailuser_gid"]);
 			}
-				
+
 			//* Check if there is no alias or forward with this address
 			$tmp = $app->db->queryOneRecord("SELECT count(forwarding_id) as number FROM mail_forwarding WHERE active = 'y' AND source = ?", $this->dataRecord["email"]);
 			if($tmp['number'] > 0) $app->tform->errorMessage .= $app->tform->lng("duplicate_alias_or_forward_txt")."<br>";
@@ -295,7 +298,7 @@ class page_action extends tform_actions {
 					"priority" => 10,
 					"policy_id" => $policy_id,
 					"email" => $this->dataRecord["email"],
-					"fullname" => $this->dataRecord["email"],
+					"fullname" => $app->functions->idn_decode($this->dataRecord["email"]),
 					"local" => 'Y'
 				);
 				$app->db->datalogInsert('spamfilter_users', $insert_data, 'id');
@@ -307,11 +310,12 @@ class page_action extends tform_actions {
 		if(isset($this->dataRecord["email"])) {
 			$disableimap = ($this->dataRecord["disableimap"])?'y':'n';
 			$disablepop3 = ($this->dataRecord["disablepop3"])?'y':'n';
-			$disabledeliver = ($this->dataRecord["postfix"] == 'y')?'n':'y';
 			$disablesmtp = ($this->dataRecord["disablesmtp"])?'y':'n';
+			$disabledeliver = ($this->dataRecord["disabledeliver"])?'y':'n';
 
-			$sql = "UPDATE mail_user SET disableimap = ?, disablesieve = ?, disablepop3 = ?, disablesmtp = ?, disabledeliver = ?, disablelda = ?, disabledoveadm = ? WHERE mailuser_id = ?";
-			$app->db->query($sql, $disableimap, $disableimap, $disablepop3, $disablesmtp, $disabledeliver, $disabledeliver, $disableimap, $this->id);
+			$app->db->query($sql, $disableimap, $disableimap, $disablepop3, $disablesmtp, $disabledeliver, $disabledeliver, $this->id);
+			$sql = "UPDATE mail_user SET disableimap = ?, disablesieve = ?, disablepop3 = ?, disablesmtp = ?, disabledeliver = ?, disablelda = ?, disablelmtp = ? WHERE mailuser_id = ?";
+			$app->db->query($sql, $disableimap, $disableimap, $disablepop3, $disablesmtp, $disabledeliver, $disabledeliver, $disabledeliver, $this->id);
 		}
 	}
 
@@ -342,7 +346,7 @@ class page_action extends tform_actions {
 						"priority" => 10,
 						"policy_id" => $policy_id,
 						"email" => $this->dataRecord["email"],
-						"fullname" => $this->dataRecord["email"],
+						"fullname" => $app->functions->idn_decode($this->dataRecord["email"]),
 						"local" => 'Y'
 					);
 					$app->db->datalogInsert('spamfilter_users', $insert_data, 'id');
@@ -359,11 +363,11 @@ class page_action extends tform_actions {
 		if(isset($this->dataRecord["email"])) {
 			$disableimap = (isset($this->dataRecord["disableimap"]) && $this->dataRecord["disableimap"])?'y':'n';
 			$disablepop3 = (isset($this->dataRecord["disablepop3"]) && $this->dataRecord["disablepop3"])?'y':'n';
-			$disabledeliver = ($this->dataRecord["postfix"] == 'y')?'n':'y';
 			$disablesmtp = (isset($this->dataRecord["disablesmtp"]) && $this->dataRecord["disablesmtp"])?'y':'n';
+			$disabledeliver = (isset($this->dataRecord["disabledeliver"]) && $this->dataRecord["disabledeliver"])?'y':'n';
 
-			$sql = "UPDATE mail_user SET disableimap = ?, disablesieve = ?, `disablesieve-filter` = ?, disablepop3 = ?, disablesmtp = ?, disabledeliver = ?, disablelda = ?, disabledoveadm = ? WHERE mailuser_id = ?";
-			$app->db->query($sql, $disableimap, $disableimap, $disableimap, $disablepop3, $disablesmtp, $disabledeliver, $disabledeliver, $disableimap, $this->id);
+			$sql = "UPDATE mail_user SET disableimap = ?, disablesieve = ?, `disablesieve-filter` = ?, disablepop3 = ?, disablesmtp = ?, disabledeliver = ?, disablelda = ?, disablelmtp = ? WHERE mailuser_id = ?";
+			$app->db->query($sql, $disableimap, $disableimap, $disableimap, $disablepop3, $disablesmtp, $disabledeliver, $disabledeliver, $disabledeliver, $this->id);
 		}
 
 		//** If the email address has been changed, change it in all aliases too

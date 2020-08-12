@@ -88,14 +88,14 @@ $form["tabs"]['filter'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => '',
-			'value'  => array('Subject' => 'subject_txt', 'From'=>'from_txt', 'To'=>'to_txt')
+			'value'  => array('Subject' => 'subject_txt', 'From'=>'from_txt', 'To'=>'to_txt', 'List-Id'=>'list_id_txt', 'Header' => 'header_txt', 'Size' => 'size_over_txt')
 		),
 		'op' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => '',
 			//'value'  => array('contains'=>'contains_txt','is' => 'Is','begins'=>'Begins with','ends'=>'Ends with')
-			'value'  => array('contains'=>'contains_txt', 'is' => 'is_txt', 'begins'=>'begins_with_txt', 'ends'=>'ends_with_txt')
+			'value'  => array('contains'=>'contains_txt', 'is' => 'is_txt', 'begins'=>'begins_with_txt', 'ends'=>'ends_with_txt', 'localpart' => 'localpart_txt', 'domain' => 'domain_txt')
 		),
 		'searchterm' => array (
 			'datatype' => 'VARCHAR',
@@ -116,7 +116,7 @@ $form["tabs"]['filter'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => '',
-			'value'  => array('move' => 'move_to_txt', 'delete'=>'delete_txt')
+			'value'  => array('move' => 'move_to_txt', 'delete'=>'delete_txt', 'keep' => 'keep_txt', 'reject' => 'reject_txt')
 		),
 		'target' => array (
 			'datatype' => 'VARCHAR',
@@ -137,7 +137,7 @@ $form["tabs"]['filter'] = array (
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );

@@ -41,7 +41,7 @@ class services {
 		if(is_array($this->registered_services[$service_name])) {
 			$this->delayed_restarts[$service_name] = $action;
 		} else {
-			$app->log("Unable to add a delayed restart for '$service_name'. Service not registered.", LOGLEVEL_WARNING);
+			$app->log("Unable to add a delayed restart for '$service_name'. Service not registered.", LOGLEVEL_WARN);
 		}
 
 	}

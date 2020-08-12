@@ -173,6 +173,10 @@ class cronjob_mailbox_stats extends cronjob {
 							continue;
 						}
 					}
+					
+					$this->mail_boxes = $mail_boxes;
+				    $this->mail_rewrites = $mail_rewrites;
+					
 					$this->add_mailbox_traffic($cur_line['from'], $cur_line['size'],$mail_boxes, $mail_rewrites);
 					//echo "1\n";
 					//print_r($this->mailbox_traffic);
@@ -221,6 +225,7 @@ class cronjob_mailbox_stats extends cronjob {
 			$tstamp = date('Y-m');
 			$sql = "SELECT mailuser_id,email FROM mail_user WHERE server_id = ?";
 			$records = $app->db->queryAllRecords($sql, $conf['server_id']);
+			$mailbox_traffic = $this->mailbox_traffic;
 			foreach($records as $rec) {
 				if(array_key_exists($rec['email'], $mailbox_traffic)) {
 					$sql = "SELECT * FROM mail_traffic WHERE month = ? AND mailuser_id = ?";

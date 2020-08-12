@@ -1,14 +1,14 @@
 <?php
-$wb['web_folder_id_txt'] = 'Pastas protegidas';
+$wb['web_folder_id_txt'] = 'Pasta';
 $wb['username_txt'] = 'Usuário';
 $wb['password_txt'] = 'Senha';
 $wb['active_txt'] = 'Ativo';
 $wb['folder_error_empty'] = 'Nenhuma pasta selecionada.';
 $wb['password_strength_txt'] = 'Dificuldade da senha';
-$wb['generate_password_txt'] = 'Gerar senha';
-$wb['repeat_password_txt'] = 'Repetir senha';
-$wb['password_mismatch_txt'] = 'A senhas não coincidem.';
-$wb['password_match_txt'] = 'A senhas coincidem.';
+$wb['generate_password_txt'] = 'Gerar Senha';
+$wb['repeat_password_txt'] = 'Repetir Senha';
+$wb['password_mismatch_txt'] = 'As senhas não coincidem.';
+$wb['password_match_txt'] = 'As senhas coincidem.';
 $wb['no_folder_perm'] = 'Você não tem permissão para esta pasta.';
 $wb['error_user_exists_already_txt'] = 'Já existe um registro igual para este usuário.';
 ?>

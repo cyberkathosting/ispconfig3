@@ -164,7 +164,7 @@ $form["tabs"]['shell'] = array (
 			'maxlength' => '600'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -248,7 +248,7 @@ if($_SESSION["s"]["user"]["typ"] == 'admin') {
 				'maxlength' => '255'
 			),
 			//#################################
-			// ENDE Datatable fields
+			// END Datatable fields
 			//#################################
 		)
 	);

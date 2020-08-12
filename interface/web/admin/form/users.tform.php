@@ -60,8 +60,8 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-$form['title']   = 'Users';
-$form['description']  = 'Form to edit systemusers.';
+$form['title']   = 'users_txt';
+//$form['description']  = 'Form to edit systemusers.';
 $form['name']   = 'users';
 $form['action']  = 'users_edit.php';
 $form['db_table'] = 'sys_user';
@@ -129,7 +129,7 @@ if(is_array($tmp_records)) {
 }
 
 $form['tabs']['users'] = array (
-	'title'  => 'Users',
+	'title'  => 'users_txt',
 	'width'  => 80,
 	'template'  => 'templates/users_user_edit.htm',
 	'fields'  => array (
@@ -199,6 +199,12 @@ $form['tabs']['users'] = array (
 		'startmodule' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
+			'validators' => array (  0 => array (    'type' => 'NOTEMPTY',
+					'errmsg'=> 'startmodule_empty'),
+				1 => array (    'type' => 'REGEX',
+					'regex' => '/^[a-z0-9\_]{0,64}$/',
+					'errmsg'=> 'startmodule_regex'),
+			),
 			'regex'  => '',
 			'errmsg' => '',
 			'default' => '',

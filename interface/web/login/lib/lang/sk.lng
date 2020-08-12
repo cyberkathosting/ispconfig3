@@ -7,6 +7,7 @@ $wb['pass_reset_txt'] = 'Nové heslo bude vytvorené a poslané na e-mailovú ad
 $wb['pw_reset'] = 'Heslo bolo resetnuté a posielané na e-mailovú adresu.';
 $wb['pw_error'] = 'Užívateľské meno alebo e-mailová adresa nezodpovedá.';
 $wb['pw_error_noinput'] = 'Prosím, zadajte e-mailovú adresu a Užívateľské meno.';
+$wb['pw_reset_error_smtp_connection'] = 'There was a connection problem when trying to send an email pertaining to your password reset request.';
 $wb['pw_reset_mail_msg'] = 'Heslo k svojmu účtu na ovládacom paneli bol resetnuté. Nové heslo je:';
 $wb['pw_reset_mail_title'] = 'Heslo ovládacieho panelu bolo resetnuté.';
 $wb['user_regex_error'] = 'Užívateľské meno obsahuje neplatné znaky, alebo je dlhšia ako 64 znakov.';

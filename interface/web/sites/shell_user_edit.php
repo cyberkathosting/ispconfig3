@@ -75,6 +75,7 @@ class page_action extends tform_actions {
 
 		$app->uses('getconf,tools_sites');
 		$global_config = $app->getconf->get_global_config('sites');
+		$system_config = $app->getconf->get_global_config();
 		$shelluser_prefix = $app->tools_sites->replacePrefix($global_config['shelluser_prefix'], $this->dataRecord);
 
 		if ($this->dataRecord['username'] != ""){
@@ -95,6 +96,8 @@ class page_action extends tform_actions {
 		} else {
 			$app->tpl->setVar("edit_disabled", 0);
 		}
+
+		$app->tpl->setVar('ssh_authentication', $system_config['misc']['ssh_authentication']);
 
 		parent::onShowEnd();
 	}
@@ -122,6 +125,17 @@ class page_action extends tform_actions {
 		if(isset($this->dataRecord['dir']) && stristr($this->dataRecord['dir'], './')) $app->tform->errorMessage .= $app->tform->lng('dir_slashdot_error').'<br />';
 
 		if(isset($this->dataRecord['ssh_rsa'])) $this->dataRecord['ssh_rsa'] = trim($this->dataRecord['ssh_rsa']);
+
+		$system_config = $app->getconf->get_global_config();
+
+		if($system_config['misc']['ssh_authentication'] == 'password') {
+			$this->dataRecord['ssh_rsa'] = null;
+		}
+
+		if($system_config['misc']['ssh_authentication'] == 'key') {
+			$this->dataRecord['password'] = null;
+			$this->dataRecord['repeat_password'] = null;
+		}
 
 		parent::onSubmit();
 	}

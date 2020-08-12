@@ -11,6 +11,7 @@ $wb['limit_mailfilter_txt'] = 'Le nombre max de filtres e-mail est atteint.';
 $wb['subject_txt'] = 'Sujet';
 $wb['from_txt'] = 'De';
 $wb['to_txt'] = 'Pour';
+$wb['list_id_txt'] = 'List ID';
 $wb['contains_txt'] = 'Contient';
 $wb['is_txt'] = 'Est';
 $wb['begins_with_txt'] = 'Commence par';

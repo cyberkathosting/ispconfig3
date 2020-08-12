@@ -32,19 +32,19 @@
 					<td><a href="#" data-load-content="admin/server_ip_map_edit.php?id={tmpl_var name='id'}">{tmpl_var name="source_ip"}</a></td>
 					<td><a href="#" data-load-content="admin/server_ip_map_edit.php?id={tmpl_var name='id'}">{tmpl_var name="destination_ip"}</a></td>
 					<td class="text-right">
-						<a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: ISPConfig.confirm_action('admin/server_ip_map_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></a>
+						<a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: ISPConfig.confirm_action('admin/server_ip_map_del.php?id={tmpl_var name='id'}&_csrf_id={tmpl_var name='csrf_id'}&_csrf_key={tmpl_var name='csrf_key'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></a>
 					</td>
 				</tr>
 			</tmpl_loop>
 			<tmpl_unless name="records">
 				<tr class="tbl_row_noresults tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
-					<td colspan="4">{tmpl_var name='globalsearch_noresults_text_txt'}</td>
+					<td colspan="5">{tmpl_var name='globalsearch_noresults_text_txt'}</td>
 				</tr>
 			</tmpl_unless>
 		</tbody>
 		<tfoot>
 			<tr>
-				<td colspan="4"><tmpl_var name="paging"></td>
+				<td colspan="5"><tmpl_var name="paging"></td>
 			</tr>
 		</tfoot>
 	</table>

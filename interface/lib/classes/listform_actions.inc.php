@@ -39,6 +39,7 @@ class listform_actions {
 	private $sortKeys;
 
 	private function _sort($aOne, $aTwo) {
+		$suffixes=array('k' => 1, 'M' => 1024, 'G' => 1048576, 'T' => 1099511627776);
 		if(!is_array($aOne) || !is_array($aTwo)) return 0;
 
 		if(!is_array($this->sortKeys)) $this->sortKeys = array($this->sortKeys);
@@ -49,6 +50,15 @@ class listform_actions {
 			}
 			$a = $aOne[$sKey];
 			$b = $aTwo[$sKey];
+
+			if(preg_match('/(\d+\.?\d*) ([kMGT])B/', $a, $match)) {
+				$a = $match[1] * $suffixes[$match[2]];
+			}
+
+			if(preg_match('/(\d+\.?\d*) ([kMGT])B/', $b, $match)) {
+				$b = $match[1]  * $suffixes[$match[2]];
+			}
+
 			if(is_string($a)) $a = strtolower($a);
 			if(is_string($b)) $b = strtolower($b);
 			if($a < $b) return $sDir == 'DESC' ? 1 : -1;
@@ -130,12 +140,18 @@ class listform_actions {
 		// Getting Datasets from DB
 		$records = $app->db->queryAllRecords($this->getQueryString($php_sort));
 
+		$csrf_token = $app->auth->csrf_token_get($app->listform->listDef['name']);
+		$_csrf_id = $csrf_token['csrf_id'];
+		$_csrf_key = $csrf_token['csrf_key'];
+
 		$this->DataRowColor = "#FFFFFF";
 		$records_new = array();
 		if(is_array($records)) {
 			$this->idx_key = $app->listform->listDef["table_idx"];
-			foreach($records as $rec) {
-				$records_new[] = $this->prepareDataRow($rec);
+			foreach($records as $key => $rec) {
+				$records_new[$key] = $this->prepareDataRow($rec);
+				$records_new[$key]['csrf_id'] = $_csrf_id;
+				$records_new[$key]['csrf_key'] = $_csrf_key;
 			}
 		}
 
@@ -173,10 +189,11 @@ class listform_actions {
 		//* substitute value for select fields
 		if(is_array($app->listform->listDef['item']) && count($app->listform->listDef['item']) > 0) {
 			foreach($app->listform->listDef['item'] as $field) {
+				if($rec['active'] == 'n') $rec['warn_inactive'] = 'y';
 				$key = $field['field'];
 				if(isset($field['formtype']) && $field['formtype'] == 'SELECT') {
 					if(strtolower($rec[$key]) == 'y' or strtolower($rec[$key]) == 'n') {
-						// Set a additional image variable for bolean fields
+						// Set a additional image variable for boolean fields
 						$rec['_'.$key.'_'] = (strtolower($rec[$key]) == 'y')?'x16/tick_circle.png':'x16/cross_circle.png';
 					}
 					//* substitute value for select field
@@ -264,7 +281,7 @@ class listform_actions {
 		foreach($limits as $key => $val){
 			$options .= '<option value="'.$key.'" '.(isset($_SESSION['search']['limit']) &&  $_SESSION['search']['limit'] == $key ? 'selected="selected"':'' ).(!isset($_SESSION['search']['limit']) && $key == '15' ? 'selected="selected"':'').'>'.$val.'</option>';
 		}
-		$app->tpl->setVar('search_limit', '<select name="search_limit" class="search_limit">'.$options.'</select>');
+		$app->tpl->setVar('search_limit', '<select name="search_limit" class="search_limit" style="width: 60px;">'.$options.'</select>');
 
 		$app->tpl->setVar('toolsarea_head_txt', $app->lng('toolsarea_head_txt'));
 		$app->tpl->setVar($app->listform->wordbook);

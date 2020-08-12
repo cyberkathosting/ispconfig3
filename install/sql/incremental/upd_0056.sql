@@ -4,7 +4,7 @@ CREATE TABLE `client_template_assigned` (
   `client_template_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`assigned_template_id`),
   KEY `client_id` (`client_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 ALTER TABLE `client` ADD `gender` enum('','m','f') NOT NULL DEFAULT '' AFTER `company_id`,
   ADD `locked` enum('n','y') NOT NULL DEFAULT 'n' AFTER `created_at`,

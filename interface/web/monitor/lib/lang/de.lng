@@ -162,4 +162,6 @@ $wb['monitor_database_name_txt'] = 'Database';
 $wb['monitor_database_size_txt'] = 'Size';
 $wb['monitor_database_client_txt'] = 'Client';
 $wb['monitor_database_domain_txt'] = 'Domain';
+$wb['Database size'] = 'Database size';
+$wb['Show MySQL Database size'] = 'Show MySQL Database size';
 ?>

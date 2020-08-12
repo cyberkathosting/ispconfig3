@@ -87,6 +87,10 @@ if ($settings['use_domain_module'] == 'y') {
 		'target'  => 'content',
 		'link' => 'client/domain_list.php');
 
+		$items[] = array(   'title'  => 'Add Domain',
+			'target'  => 'content',
+			'link' => 'client/domain_edit.php');
+
 	$module['nav'][] = array( 'title' => 'Domains',
 		'open'  => 1,
 		'items' => $items);

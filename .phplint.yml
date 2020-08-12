@@ -1,5 +1,5 @@
 path: ./
-jobs: 10
+jobs: 5
 cache: .phplint-cache
 extensions:
   - php

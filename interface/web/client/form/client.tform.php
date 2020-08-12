@@ -390,8 +390,8 @@ $form["tabs"]['address'] = array (
 				2 => array( 'event' => 'SAVE',
 					'type' => 'TOLOWER')
 			),
-			'validators' => array (  
-				0 => array ( 'type' => 'ISEMAIL', 'errmsg'=> 'email_error_isemail'),
+			'validators' => array (
+				0 => array ( 'type' => 'ISEMAILADDRESS', 'errmsg'=> 'email_error_isemail'),
 				1 => array ( 'type' => 'NOTEMPTY',
 					'errmsg'=> 'email_error_empty'),
 			),
@@ -621,7 +621,7 @@ $form["tabs"]['address'] = array (
 					'type' => 'TOLOWER')
 			),
 			'validators' => array (
-				0 => array ( 'type' => 'ISEMAIL', 'allowempty' => 'y', 'errmsg'=> 'email_error_isemail'),
+				0 => array ( 'type' => 'ISEMAILADDRESS', 'allowempty' => 'y', 'errmsg'=> 'email_error_isemail'),
 			),
 			'default' => '',
 			'value'  => '',
@@ -1087,7 +1087,7 @@ $form["tabs"]['limits'] = array (
 			),
 			'default' => '',
 			'separator' => ',',
-			'valuelimit' => 'client:web_php_options',
+			'valuelimit' => 'system:sites:web_php_options',
 			'value'  => array('no' => 'Disabled', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP', 'php-fpm' => 'PHP-FPM', 'hhvm' => 'HHVM')
 		),
 		'limit_cgi' => array (
@@ -1518,7 +1518,7 @@ $form["tabs"]['ipaddress'] = array (
 			'separator'	=> ';'
 		),
 	##################################
-	# ENDE Datatable fields
+	# END Datatable fields
 	##################################
 	)
 );

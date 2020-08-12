@@ -104,6 +104,8 @@ class page_action extends tform_actions {
 	function onAfterUpdate() {
 		global $app, $conf;
 
+		$app->uses('auth');
+		
 		$client = $app->db->queryOneRecord("SELECT * FROM sys_user WHERE userid = ?", $this->id);
 		$client_id = $app->functions->intval($client['client_id']);
 		$username = $this->dataRecord["username"];
@@ -121,13 +123,7 @@ class page_action extends tform_actions {
 		// password changed
 		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord["passwort"]) && $this->dataRecord["passwort"] != '') {
 			$password = $this->dataRecord["passwort"];
-			$salt="$1$";
-			$base64_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-			for ($n=0;$n<8;$n++) {
-				$salt.=$base64_alphabet[mt_rand(0, 63)];
-			}
-			$salt.="$";
-			$password = crypt(stripslashes($password), $salt);
+			$password = $app->auth->crypt_password($password);
 			$sql = "UPDATE client SET password = ? WHERE client_id = ? AND username = ?";
 			$app->db->query($sql, $password, $client_id, $username);
 		}

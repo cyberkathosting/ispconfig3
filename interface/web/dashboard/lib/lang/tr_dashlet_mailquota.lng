@@ -1,5 +1,5 @@
 <?php
-$wb['mailquota_txt'] = 'Posta Kutusu Kotası';
+$wb['mailquota_txt'] = 'E-posta Kutusu Kotası';
 $wb['email_txt'] = 'E-posta Adresi';
 $wb['name_txt'] = 'Ad';
 $wb['used_txt'] = 'Kullanılan Alan';

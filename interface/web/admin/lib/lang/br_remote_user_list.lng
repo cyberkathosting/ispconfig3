@@ -1,7 +1,7 @@
 <?php
 $wb['list_head_txt'] = 'Usuários remotos';
-$wb['list_desc_txt'] = '';
+$wb['list_desc_txt'] = 'Usuário remoto';
 $wb['add_new_record_txt'] = 'Adicionar novo usuário';
-$wb['parent_remote_userid_txt'] = 'ID';
-$wb['username_txt'] = 'Nome do usuário';
+$wb['parent_remote_userid_txt'] = 'ID do usuário';
+$wb['username_txt'] = 'Nome';
 ?>

@@ -11,6 +11,9 @@ require_once '../../lib/app.inc.php';
 // Check module permissions
 $app->auth->check_module_permissions('admin');
 
+// Do not allow FAQ editor in DEMO mode
+if($conf['demo_mode'] == true) $app->error('This function is disabled in demo mode.');
+
 // Load the form
 $app->uses('tform_actions');
 $app->tform_actions->onDelete();

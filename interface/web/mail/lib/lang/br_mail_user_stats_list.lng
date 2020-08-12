@@ -1,6 +1,6 @@
 <?php
 $wb['list_head_txt'] = 'Tráfego de e-mail';
-$wb['email_txt'] = 'e-mail';
+$wb['email_txt'] = 'e-Mail';
 $wb['this_month_txt'] = 'Este mês';
 $wb['last_month_txt'] = 'Último mês';
 $wb['this_year_txt'] = 'Este ano';

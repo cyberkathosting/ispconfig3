@@ -1,0 +1,7 @@
+user = {mysql_server_ispconfig_user}
+password = {mysql_server_ispconfig_password}
+dbname = {mysql_server_database}
+hosts = {mysql_server_ip}
+query = SELECT SUBSTRING_INDEX(destination, '@', -1) FROM mail_forwarding
+         WHERE source = '@%s' AND type = 'aliasdomain' AND active = 'y' AND server_id = {server_id}
+

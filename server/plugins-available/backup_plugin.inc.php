@@ -54,6 +54,8 @@ class backup_plugin {
 		$app->plugins->registerAction('backup_download', $this->plugin_name, 'backup_action');
 		$app->plugins->registerAction('backup_restore', $this->plugin_name, 'backup_action');
 		$app->plugins->registerAction('backup_delete', $this->plugin_name, 'backup_action');
+		$app->plugins->registerAction('backup_web_files', $this->plugin_name, 'make_backup_callback');
+		$app->plugins->registerAction('backup_database', $this->plugin_name, 'make_backup_callback');
 		//$app->plugins->registerAction('backup_download_mail', $this->plugin_name, 'backup_action_mail');
 		$app->plugins->registerAction('backup_restore_mail', $this->plugin_name, 'backup_action_mail');
 		$app->plugins->registerAction('backup_delete_mail', $this->plugin_name, 'backup_action_mail');
@@ -69,6 +71,7 @@ class backup_plugin {
 		if(is_array($backup)) {
 
 			$app->uses('ini_parser,file,getconf,system');
+			$app->load("backup");
 
 			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $backup['parent_domain_id']);
 			$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
@@ -78,7 +81,8 @@ class backup_plugin {
 			
 			$backup_dir_is_ready = true;
             //* mount backup directory, if necessary
-            if( $server_config['backup_dir_is_mount'] == 'y' && !$app->system->mount_backup_dir($server_config['backup_dir']) ) $backup_dir_is_ready = false;
+			if (!backup::mount_backup_dir($conf['server_id']))
+				$backup_dir_is_ready = false;
 
 			if($backup_dir_is_ready){
 				//* Make backup available for download
@@ -104,13 +108,13 @@ class backup_plugin {
 						// extract tar.gz archive
 						$dump_directory = str_replace(".tar.gz", "", $backup['filename']);
 						$extracted = "/usr/local/ispconfig/server/temp";
-						exec("tar -xzvf ".escapeshellarg($backup_dir.'/'.$backup['filename'])." --directory=".escapeshellarg($extracted));
+						$app->system->exec_safe("tar -xzvf ? --directory=?", $backup_dir.'/'.$backup['filename'], $extracted);
 						$restore_directory = $extracted."/".$dump_directory."/".$db_name;
 
 						// mongorestore -h 127.0.0.1 -u root -p 123456 --authenticationDatabase admin -d c1debug --drop ./toRestore
-						$command = "mongorestore -h 127.0.0.1 --port 27017 -u root -p 123456 --authenticationDatabase admin -d ".$db_name." --drop ".escapeshellarg($restore_directory);
-						exec($command);
-						exec("rm -rf ".escapeshellarg($extracted."/".$dump_directory));
+						$command = "mongorestore -h 127.0.0.1 --port 27017 -u root -p 123456 --authenticationDatabase admin -d ? --drop ?";
+						$app->system->exec_safe($command, $db_name, $restore_directory);
+						$app->system->exec_safe("rm -rf ?", $extracted."/".$dump_directory);
 					}
 
 					unset($clientdb_host);
@@ -121,47 +125,12 @@ class backup_plugin {
 
 				//* Restore a mysql backup
 				if($action_name == 'backup_restore' && $backup['backup_type'] == 'mysql') {
-					//* Load sql dump into db
-					include 'lib/mysql_clientdb.conf';
-
-					if(file_exists($backup_dir.'/'.$backup['filename'])) {
-						//$parts = explode('_',$backup['filename']);
-						//$db_name = $parts[1];
-						preg_match('@^db_(.+)_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}\.sql\.gz$@', $backup['filename'], $matches);
-						$db_name = $matches[1];
-						$command = "gunzip --stdout ".escapeshellarg($backup_dir.'/'.$backup['filename'])." | mysql -h ".escapeshellarg($clientdb_host)." -u ".escapeshellarg($clientdb_user)." -p".escapeshellarg($clientdb_password)." ".escapeshellarg($db_name);
-						exec($command);
-					}
-					unset($clientdb_host);
-					unset($clientdb_user);
-					unset($clientdb_password);
-					$app->log('Restored MySQL backup '.$backup_dir.'/'.$backup['filename'], LOGLEVEL_DEBUG);
+					backup::restoreBackupDatabase($backup['backup_format'], trim($backup['backup_password']), $backup_dir, $backup['filename'], $backup['backup_mode'], $backup['backup_type']);
 				}
 
 				//* Restore a web backup
 				if($action_name == 'backup_restore' && $backup['backup_type'] == 'web') {
-					$app->system->web_folder_protection($web['document_root'], false);
-					if($backup['backup_mode'] == 'userzip') {
-						if(file_exists($backup_dir.'/'.$backup['filename']) && $web['document_root'] != '' && $web['document_root'] != '/' && !stristr($backup_dir.'/'.$backup['filename'], '..') && !stristr($backup_dir.'/'.$backup['filename'], 'etc')) {
-							if(file_exists($web['document_root'].'/backup/'.$backup['filename'])) rename($web['document_root'].'/backup/'.$backup['filename'], $web['document_root'].'/backup/'.$backup['filename'].'.bak');
-							copy($backup_dir.'/'.$backup['filename'], $web['document_root'].'/backup/'.$backup['filename']);
-							chgrp($web['document_root'].'/backup/'.$backup['filename'], $web['system_group']);
-							//chown($web['document_root'].'/backup/'.$backup['filename'],$web['system_user']);
-							$command = 'sudo -u '.escapeshellarg($web['system_user']).' unzip -qq -o  '.escapeshellarg($web['document_root'].'/backup/'.$backup['filename']).' -d '.escapeshellarg($web['document_root']).' 2> /dev/null';
-							exec($command);
-							unlink($web['document_root'].'/backup/'.$backup['filename']);
-							if(file_exists($web['document_root'].'/backup/'.$backup['filename'].'.bak')) rename($web['document_root'].'/backup/'.$backup['filename'].'.bak', $web['document_root'].'/backup/'.$backup['filename']);
-							$app->log('Restored Web backup '.$backup_dir.'/'.$backup['filename'], LOGLEVEL_DEBUG);
-						}
-					}
-					if($backup['backup_mode'] == 'rootgz') {
-						if(file_exists($backup_dir.'/'.$backup['filename']) && $web['document_root'] != '' && $web['document_root'] != '/' && !stristr($backup_dir.'/'.$backup['filename'], '..') && !stristr($backup_dir.'/'.$backup['filename'], 'etc')) {
-							$command = 'tar xzf '.escapeshellarg($backup_dir.'/'.$backup['filename']).' --directory '.escapeshellarg($web['document_root']);
-							exec($command);
-							$app->log('Restored Web backup '.$backup_dir.'/'.$backup['filename'], LOGLEVEL_DEBUG);
-						}
-					}
-					$app->system->web_folder_protection($web['document_root'], true);
+					backup::restoreBackupWebFiles($backup['backup_format'], trim($backup['backup_password']), $backup_dir, $backup['filename'], $backup['backup_mode'], $backup['backup_type'], $web['document_root'], $web['system_user'], $web['system_group']);
 				}
 				
 				if($action_name == 'backup_delete') {
@@ -175,7 +144,7 @@ class backup_plugin {
 					}
 				}
 
-				if( $server_config['backup_dir_is_mount'] == 'y' ) $app->system->umount_backup_dir($backup_dir);
+				backup::unmount_backup_dir($conf['server_id']);
 			} else {
 				$app->log('Backup directory not ready.', LOGLEVEL_DEBUG);
 			}
@@ -183,6 +152,37 @@ class backup_plugin {
 			$app->log('No backup with ID '.$backup_id.' found.', LOGLEVEL_DEBUG);
 		}
 
+		return 'ok';
+	}
+
+	/**
+	 * Makes a backup of website files or database, it's triggered by action and required for the plugin to work.
+	 * Please, don't call this function directly unless you know what you're doing.
+	 * @param string $action_name is the backup source: web files or database
+	 * @param string|int $domain_id
+	 * @return string
+	 * @author Ramil Valitov <ramilvalitov@gmail.com>
+	 * @uses backup_plugin::run_backup() recommended to use if you need to make backups
+	 */
+	public function make_backup_callback($action_name, $domain_id)
+	{
+		global $app;
+
+		//Load backup class
+		$app->load('backup');
+		$app->log('Triggered backup routine for domain id ' . $domain_id . ', action name ' . $action_name, LOGLEVEL_DEBUG);
+
+		switch ($action_name) {
+			case 'backup_web_files':
+				backup::run_backup($domain_id, 'web', "manual");
+				break;
+			case 'backup_database':
+				backup::run_backup($domain_id, 'mysql', "manual");
+				break;
+			default:
+				$app->log('Unknown backup action name: ' . $action_name, LOGLEVEL_ERROR);
+				break;
+		}
 		return 'ok';
 	}
 
@@ -237,22 +237,24 @@ class backup_plugin {
 							if($mail_backup['backup_mode'] == 'userzip') {
 								copy($mail_backup_file, $record['maildir'].'/'.$mail_backup['filename']);
 								chgrp($record['maildir'].'/'.$mail_backup['filename'], $mail_config['mailuser_group']);
-								$command = 'sudo -u '.$mail_config['mailuser_name'].' unzip -qq -o  '.escapeshellarg($record['maildir'].'/'.$mail_backup['filename']).' -d '.escapeshellarg($record['maildir']).' 2> /dev/null';
-								exec($command,$tmp_output, $retval);
+								$command = 'sudo -u ? unzip -qq -o ? -d ? 2> /dev/null';
+								$app->system->exec_safe($command, $mail_config['mailuser_name'], $record['maildir'].'/'.$mail_backup['filename'], $record['maildir']);
+								$retval = $app->system->last_exec_retcode();
 								unlink($record['maildir'].'/'.$mail_backup['filename']);
-							}
-							if($mail_backup['backup_mode'] == 'rootgz') {
-								$command='tar xfz '.escapeshellarg($mail_backup_file).' --directory '.escapeshellarg($record['maildir']);
-								exec($command,$tmp_output, $retval);
+							} elseif($mail_backup['backup_mode'] == 'rootgz') {
+								$command='tar xfz ? --directory ?';
+								$app->system->exec_safe($command, $mail_backup_file, $record['maildir']);
+								$retval = $app->system->last_exec_retcode();
 							}
 							
 							if($retval == 0) {
 								// Now import backup-mailbox into special backup-folder
 								$backupname = "backup-".date("Y-m-d", $mail_backup['tstamp']);
-								exec("doveadm mailbox create -u \"".$record["email"]."\" $backupname");
-								exec("doveadm import -u \"".$record["email"]."\" mdbox:".$record['maildir']."/backup $backupname all", $tmp_output, $retval);
-								exec("for f in `doveadm mailbox list -u \"".$record["email"]."\" $backupname*`; do doveadm mailbox subscribe -u \"".$record["email"]."\" \$f; done", $tmp_output, $retval);
-								exec('rm -rf '.$record['maildir'].'/backup');
+								$app->system->exec_safe("doveadm mailbox create -u ? ?", $record["email"], $backupname);
+								$app->system->exec_safe("doveadm import -u ? mdbox:? ? all", $record["email"], $record['maildir']."/backup", $backupname);
+								$app->system->exec_safe("for f in `doveadm mailbox list -u ? ?*`; do doveadm mailbox subscribe -u ? \$f; done", $record["email"], $backupname, $record["email"]);
+								$retval = $app->system->last_exec_retcode();
+								$app->system->exec_safe('rm -rf ?', $record['maildir'].'/backup');
 							}
 							
 							if($retval == 0){
@@ -260,7 +262,7 @@ class backup_plugin {
 							} else {
 								// cleanup
 								if (file_exists($record['maildir'].'/'.$mail_backup['filename'])) unlink($record['maildir'].'/'.$mail_backup['filename']);
-								if (file_exists($record['maildir']."/backup")) exec('rm -rf '.$record['maildir']."/backup");
+								if (file_exists($record['maildir']."/backup")) $app->system->exec_safe('rm -rf ?', $record['maildir']."/backup");
 								
 								$app->log('Unable to restore Mail backup '.$mail_backup_file.' '.$tmp_output,LOGLEVEL_ERROR);
 							}
@@ -269,8 +271,10 @@ class backup_plugin {
 							if($mail_backup['backup_mode'] == 'userzip') {
 								copy($mail_backup_file, $domain_dir.'/'.$mail_backup['filename']);
 								chgrp($domain_dir.'/'.$mail_backup['filename'], $mail_config['mailuser_group']);
-								$command = 'sudo -u '.$mail_config['mailuser_name'].' unzip -qq -o  '.escapeshellarg($domain_dir.'/'.$mail_backup['filename']).' -d '.escapeshellarg($domain_dir).' 2> /dev/null';
-								exec($command,$tmp_output, $retval);
+								$command = 'sudo -u ? unzip -qq -o ? -d ? 2> /dev/null';
+								$app->system->exec_safe($command, $mail_config['mailuser_name'], $domain_dir.'/'.$mail_backup['filename'], $domain_dir);
+								$retval = $app->system->last_exec_retcode();
+								$tmp_output = $app->system->last_exec_out();
 								unlink($domain_dir.'/'.$mail_backup['filename']);
 								if($retval == 0){
 									$app->log('Restored Mail backup '.$mail_backup_file,LOGLEVEL_DEBUG);
@@ -279,8 +283,10 @@ class backup_plugin {
 								}
 							}
 							if($mail_backup['backup_mode'] == 'rootgz') {
-								$command='tar xfz '.escapeshellarg($mail_backup_file).' --directory '.escapeshellarg($domain_dir);
-								exec($command,$tmp_output, $retval);
+								$command='tar xfz ? --directory ?';
+								$app->system->exec_safe($command, $mail_backup_file, $domain_dir);
+								$retval = $app->system->last_exec_retcode();
+								$tmp_output = $app->system->last_exec_out();
 								if($retval == 0){
 									$app->log('Restored Mail backup '.$mail_backup_file,LOGLEVEL_DEBUG);
 								} else {
@@ -315,5 +321,4 @@ class backup_plugin {
 				
 } // end class
 
-?>			
-
+?>

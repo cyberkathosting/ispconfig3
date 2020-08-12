@@ -146,7 +146,7 @@ $wb['limit_xmpp_status_txt'] = 'Host de estado disponible';
 $wb['limit_xmpp_user_error_notint'] = 'El límite de usuarios XMPP debe ser un número.';
 $wb['limit_xmpp_user_txt'] = 'Número máximo de cuentas XMPP';
 $wb['limit_xmpp_vjud_txt'] = 'Directorio de usuarios VJUD disponible';
-$wb['locked_txt'] = 'Bloqueado (desactivar sitios web etc.)';
+$wb['locked_txt'] = 'Locked (disables everything except DNS)';
 $wb['mail_servers_placeholder'] = 'Seleccionar servidores de correo';
 $wb['mail_servers_txt'] = 'Servidores de correo';
 $wb['mail_servers_used'] = 'El servidor que está intentando borrar de este cliente está siendo utilizado como servidor de correo. Por favor asegúrese de que este servidor no esté siendo utilizado por este cliente antes de borrarlo.';
@@ -200,5 +200,6 @@ $wb['limit_ssl_letsencrypt_txt'] = 'Let\'s Encrypt available';
 $wb['limit_directive_snippets_txt'] = 'Show web server config selection';
 $wb['password_click_to_set_txt'] = 'Click to set';
 $wb['limit_dns_record_error_notint'] = 'The dns record limit must be a number.';
+$wb['Address'] = 'Address';
 $wb['Limits'] = 'Limits';
 ?>

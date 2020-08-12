@@ -125,7 +125,7 @@ $form["tabs"]['database_user'] = array (
 			'maxlength' => '255'
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );

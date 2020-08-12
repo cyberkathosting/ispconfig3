@@ -86,7 +86,7 @@ $form["tabs"]['catchall'] = array (
 				1 => array ( 'type' => 'UNIQUE',
 					'errmsg'=> 'domain_error_unique'),
 				2 => array ( 'type' => 'REGEX',
-					'regex' => '/^\@[\w\.\-]{2,255}\.[a-zA-Z\-]{2,30}$/',
+					'regex' => '/^\@[\w\.\-]{2,255}\.[a-zA-Z\-]{2,63}$/',
 					'errmsg'=> 'domain_error_regex'),
 			),
 			'default' => '',
@@ -113,7 +113,7 @@ $form["tabs"]['catchall'] = array (
 										'valuefield'	=> 'email'
 									 ),
 			*/
-			'validators' => array (  0 => array ( 'type' => 'ISEMAIL',
+			'validators' => array (  0 => array ( 'type' => 'ISEMAILADDRESS',
 					'errmsg'=> 'destination_error_isemail'),
 			),
 			'value'  => '',
@@ -131,8 +131,14 @@ $form["tabs"]['catchall'] = array (
 			'default' => 'y',
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
+		'greylisting' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value'  => array(1 => 'y', 0 => 'n')
+		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );

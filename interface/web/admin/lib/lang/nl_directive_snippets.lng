@@ -1,12 +1,13 @@
 <?php
 $wb['Directive Snippets'] = 'Directive Snippets';
-$wb['name_txt'] = 'Name of Snippet';
+$wb['name_txt'] = 'Naam van de Snippet';
 $wb['type_txt'] = 'Type';
 $wb['snippet_txt'] = 'Snippet';
 $wb['active_txt'] = 'Active';
-$wb['directive_snippets_name_empty'] = 'Please specify a name for the snippet.';
-$wb['directive_snippets_name_error_unique'] = 'There is already a directive snippet with this name.';
-$wb['variables_txt'] = 'Variables';
-$wb['customer_viewable_txt'] = 'Customer viewable';
-$wb['required_php_snippets_txt'] = 'Requiered PHP Snippet';
+$wb['directive_snippets_name_empty'] = 'Geef de Directive Snippet een naam.';
+$wb['directive_snippets_name_error_unique'] = 'Er is al een Directive Snippet met deze naam.';
+$wb['variables_txt'] = 'Variabelen';
+$wb['customer_viewable_txt'] = 'Zichtbaar voor klanten';
+$wb['required_php_snippets_txt'] = 'Vereiste PHP Snippet';
+$wb['update_sites_txt'] = 'Update sites using this snippet';
 ?>

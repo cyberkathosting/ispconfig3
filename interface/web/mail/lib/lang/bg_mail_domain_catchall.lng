@@ -8,4 +8,5 @@ $wb['domain_error_regex'] = 'Грешен домейн или непозволе
 $wb['limit_mailcatchall_txt'] = 'Максималният брой записи за catchall в твоят акоунт е достигнат.';
 $wb['source_txt'] = 'Source';
 $wb['destination_error_isemail'] = 'Destination is no valid email address.';
+$wb['greylisting_txt'] = 'Enable greylisting';
 ?>

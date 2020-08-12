@@ -4,4 +4,6 @@ $wb['server_id_txt'] = 'Server';
 $wb['add_new_record_txt'] = 'Lägg till ny PHP-version';
 $wb['client_id_txt'] = 'Kund';
 $wb['name_txt'] = 'PHP-namn';
+$wb['active_txt'] = 'Active';
+$wb['usage_txt'] = 'Usage count';
 ?>

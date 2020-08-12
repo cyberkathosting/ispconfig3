@@ -52,7 +52,7 @@ class list_action extends listform_actions {
 		if (!is_numeric($rec['used'])) $rec['used']=$rec['used'][1];
 
 		if($rec['quota'] == 0){
-			$rec['quota'] = $app->lng('unlimited');
+			$rec['quota'] = $app->lng('unlimited_txt');
 			$rec['percentage'] = '';
 			$rec['percentage_sort'] = 0;
 		} else {

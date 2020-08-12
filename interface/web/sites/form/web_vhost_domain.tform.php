@@ -96,7 +96,7 @@ if(!$app->auth->is_admin()) {
 	if($client['limit_backup'] != 'y') $backup_available = false;
 }
 
-$app->uses('getconf');
+$app->uses('getconf,system');
 $web_config = $app->getconf->get_global_config('sites');
 
 $form["tabs"]['domain'] = array (
@@ -250,14 +250,14 @@ $form["tabs"]['domain'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => 'fast-cgi',
-			'valuelimit' => 'client:web_php_options',
+			'valuelimit' => 'system:sites:web_php_options;client:web_php_options',
 			'value'  => array('no' => 'disabled_txt', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP', 'php-fpm' => 'PHP-FPM', 'hhvm' => 'HHVM'),
 			'searchable' => 2
 		),
-		'fastcgi_php_version' => array (
-			'datatype' => 'VARCHAR',
+		'server_php_id' => array (
+			'datatype' => 'INTEGER',
 			'formtype' => 'SELECT',
-			'default' => '',
+			'default' => '0',
 			/*'datasource'	=> array ( 	'type'	=> 'SQL',
 										'querystring' => "SELECT ip_address,ip_address FROM server_ip WHERE ip_type = 'IPv4' AND {AUTHSQL} ORDER BY ip_address",
 										'keyfield'=> 'ip_address',
@@ -299,7 +299,7 @@ $form["tabs"]['domain'] = array (
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	),
 	'plugins' => array (
@@ -435,7 +435,7 @@ $form["tabs"]['redirect'] = array (
 			)
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -591,17 +591,8 @@ if($ssl_available) {
 				'default' => '',
 				'value'  => array('' => 'none_txt', 'save' => 'save_certificate_txt', 'create' => 'create_certificate_txt', 'del' => 'delete_certificate_txt')
 			),
-			'enable_spdy' => array (
-				'datatype' => 'VARCHAR',
-				'formtype' => 'CHECKBOX',
-				'default'  => 'n',
-				'value' => array (
-					0 => 'n',
-					1 => 'y'
-				)
-			),
 			//#################################
-			// ENDE Datatable fields
+			// END Datatable fields
 			//#################################
 		)
 	);
@@ -638,10 +629,10 @@ $form["tabs"]['stats'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => 'awstats',
-			'value'  => array('webalizer' => 'Webalizer', 'awstats' => 'AWStats', '' => 'None')
+			'value'  => array('awstats' => 'AWStats', 'goaccess' => 'GoAccess', 'webalizer' => 'Webalizer','' => 'None')
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );
@@ -649,6 +640,28 @@ $form["tabs"]['stats'] = array (
 
 //* Backup
 if ($backup_available) {
+	$missing_utils = array();
+	$compressors_list = array(
+		'gzip',
+		'gunzip',
+		'zip',
+		'unzip',
+		'pigz',
+		'tar',
+		'bzip2',
+		'bunzip2',
+		'xz',
+		'unxz',
+		'7z',
+		'rar',
+	);
+	foreach ($compressors_list as $compressor) {
+		if (!$app->system->is_installed($compressor)) {
+			array_push($missing_utils, $compressor);
+		}
+	}
+	$app->tpl->setVar("missing_utils", implode(", ",$missing_utils), true);
+
 	$form["tabs"]['backup'] = array (
 		'title'  => "Backup",
 		'width'  => 100,
@@ -668,7 +681,7 @@ if ($backup_available) {
 				'datatype' => 'INTEGER',
 				'formtype' => 'SELECT',
 				'default' => '',
-				'value'  => array('1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' => '7', '8' => '8', '9' => '9', '10' => '10')
+				'value'  => array('1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' => '7', '8' => '8', '9' => '9', '10' => '10', '15' => '15', '20' => '20', '30' => '30')
 			),
 			'backup_excludes' => array (
 				'datatype' => 'VARCHAR',
@@ -682,8 +695,60 @@ if ($backup_available) {
 				'width'  => '30',
 				'maxlength' => '255'
 			),
+			'backup_format_web' => array (
+				'datatype' => 'VARCHAR',
+				'formtype' => 'SELECT',
+				'default' => '',
+				'value' => array(
+					'default' => 'backup_format_default_txt',
+					'zip' => 'backup_format_zip_txt',
+					'zip_bzip2' => 'backup_format_zip_bzip2_txt',
+					'tar_gzip' => 'backup_format_tar_gzip_txt',
+					'tar_bzip2' => 'backup_format_tar_bzip2_txt',
+					'tar_xz' => 'backup_format_tar_xz_txt',
+					'tar_7z_lzma2' => 'backup_format_tar_7z_lzma2_txt',
+					'tar_7z_lzma' => 'backup_format_tar_7z_lzma_txt',
+					'tar_7z_ppmd' => 'backup_format_tar_7z_ppmd_txt',
+					'tar_7z_bzip2' => 'backup_format_tar_7z_bzip2_txt',
+					'rar' => 'backup_format_rar_txt',
+				)
+			),
+			'backup_format_db' => array (
+				'datatype' => 'VARCHAR',
+				'formtype' => 'SELECT',
+				'default' => '',
+				'value' => array(
+					'zip' => 'backup_format_zip_txt',
+					'zip_bzip2' => 'backup_format_zip_bzip2_txt',
+					'gzip' => 'backup_format_gzip_txt',
+					'bzip2' => 'backup_format_bzip2_txt',
+					'xz' => 'backup_format_xz_txt',
+					'7z_lzma2' => 'backup_format_7z_lzma2_txt',
+					'7z_lzma' => 'backup_format_7z_lzma_txt',
+					'7z_ppmd' => 'backup_format_7z_ppmd_txt',
+					'7z_bzip2' => 'backup_format_7z_bzip2_txt',
+					'rar' => 'backup_format_rar_txt',
+				)
+			),
+			'backup_encrypt' => array (
+				'datatype' => 'VARCHAR',
+				'formtype' => 'CHECKBOX',
+				'default'  => 'n',
+				'value' => array (
+					0 => 'n',
+					1 => 'y'
+				)
+			),
+			'backup_password' => array (
+				'datatype' => 'VARCHAR',
+				'formtype' => 'TEXT',
+				'default' => '',
+				'value'  => '',
+				'width'  => '30',
+				'maxlength' => '255'
+			),
 			//#################################
-			// ENDE Datatable fields
+			// END Datatable fields
 			//#################################
 		),
 		'plugins' => array (
@@ -766,6 +831,12 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'
 				'width'  => '30',
 				'maxlength' => '255'
 			),
+			'proxy_protocol' => array (
+				'datatype' => 'VARCHAR',
+				'formtype' => 'CHECKBOX',
+				'default' => 'y',
+				'value' => array(0 => 'n',1 => 'y')
+			),
 			'php_fpm_use_socket' => array (
 				'datatype' => 'VARCHAR',
 				'formtype' => 'CHECKBOX',
@@ -781,7 +852,7 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'
 			'pm' => array (
 				'datatype' => 'VARCHAR',
 				'formtype' => 'SELECT',
-				'default' => 'dynamic',
+				'default' => 'ondemand',
 				'value'  => array('static' => 'static', 'dynamic' => 'dynamic', 'ondemand' => 'ondemand (PHP Version >= 5.3.9)')
 			),
 			'pm_max_children' => array (
@@ -972,7 +1043,7 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'
 				'maxlength' => '4'
 			)
 			//#################################
-			// ENDE Datatable fields
+			// END Datatable fields
 			//#################################
 		)
 	);

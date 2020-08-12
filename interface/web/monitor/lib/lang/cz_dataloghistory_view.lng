@@ -1,0 +1,26 @@
+<?php
+$wb['i'] = 'Vložit';
+$wb['u'] = 'Aktualizace';
+$wb['d'] = 'Odstranit';
+$wb['list_head_txt'] = 'Záznam historie datového logu';
+$wb['id_txt'] = 'ID';
+$wb['timestamp_txt'] = 'Časové razítko';
+$wb['table_txt'] = 'Tabulka';
+$wb['action_txt'] = 'Akce';
+$wb['session_id_txt'] = 'ID Relace';
+$wb['fields_txt'] = 'Pole';
+$wb['fields_inserted_txt'] = 'Vložená pole';
+$wb['fields_updated_txt'] = 'Aktualizovaná pole';
+$wb['fields_deleted_txt'] = 'Odstraněná pole';
+$wb['no_changes_txt'] = 'Žádné změny (re-sync)';
+$wb['is_diff_txt'] = 'The differences are highlighted';
+$wb['is_diff_inserts_txt'] = 'Vložení';
+$wb['is_diff_deletes_txt'] = 'Odstranění';
+$wb['field_txt'] = 'Pole';
+$wb['value_txt'] = 'Hodnota';
+$wb['old_txt'] = 'Starý';
+$wb['new_txt'] = 'Nový';
+$wb['btn_cancel_txt'] = 'Zpět';
+$wb['undo_txt'] = 'Vrátit akci';
+$wb['undo_confirmation_txt'] = 'Opravdu chcete tuto akci vrátit zpět ?';
+?>

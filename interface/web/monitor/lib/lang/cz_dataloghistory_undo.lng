@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Záznam historie datového logu';
+$wb['success_txt'] = 'Undo successful';
+$wb['error_txt'] = 'Error during undo: Record does not exist anymore';
+$wb['error_undelete_txt'] = 'Error during undelete: Record with primary id already existing.';
+$wb['btn_cancel_txt'] = 'Zpět';
+?>

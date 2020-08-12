@@ -1,12 +1,13 @@
 <?php
-$wb['list_head_txt'] = 'Posta Kutusu';
+$wb['list_head_txt'] = 'E-posta Kutusu';
 $wb['email_txt'] = 'E-posta';
 $wb['autoresponder_txt'] = 'Otomatik Yanıtlayıcı';
-$wb['add_new_record_txt'] = 'Posta Kutusu Ekle';
+$wb['add_new_record_txt'] = 'E-posta Kutusu Ekle';
 $wb['name_txt'] = 'Gerçek Ad';
 $wb['login_txt'] = 'Oturum Aç';
-$wb['postfix_txt'] = 'Receiving';
+$wb['postfix_txt'] = 'Alınıyor';
 $wb['disablesmtp_txt'] = 'SMTP (sending)';
+$wb['disabledeliver_txt'] = 'INBOX';
 $wb['disableimap_txt'] = 'IMAP';
 $wb['disablepop3_txt'] = 'POP3';
 ?>

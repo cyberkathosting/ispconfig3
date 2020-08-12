@@ -1,16 +1,16 @@
 <?php
 $wb['server_id_txt'] = 'Servidor';
 $wb['zone_txt'] = 'Zona';
-$wb['name_txt'] = 'Descritor de serviço';
+$wb['name_txt'] = 'Descritor do serviço';
 $wb['type_txt'] = 'Tipo';
 $wb['data_txt'] = 'Dados TLSA';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Ativo';
 $wb['limit_dns_record_txt'] = 'O limite de registros dns para esta conta foi alcançado.';
-$wb['no_zone_perm'] = 'Você não tem permissão para adicionar registros a esta zona dns.';
-$wb['name_error_empty'] = 'Descritor de serviço está em branco.';
-$wb['name_error_regex'] = 'Descritor de serviço é inválido. Formato correto: \"_&lt;port&gt;._(tcp|udp).&lt;hostname&gt;\".';
+$wb['no_zone_perm'] = 'Você não tem permissão para adicionar registros dns nesta zona.';
+$wb['name_error_empty'] = 'O nome do host está em branco.';
+$wb['name_error_regex'] = 'O nome do host possui formato inválido (somente nomes canônicos são suportados). Correto: _&lt;port&gt;._(tcp|udp).&lt;hostname&gt;';
 $wb['data_error_empty'] = 'Dados TLSA está em branco.';
-$wb['data_error_regex'] = 'Dados TLSA são inválidos. Formato correto: \"n n n HASH\".';
-$wb['ttl_range_error'] = 'O ttl mínimo são 60 segundos.';
+$wb['data_error_regex'] = 'Formato dos dados TLSA inválido. Correto: n n n HASH';
+$wb['ttl_range_error'] = 'O TTL mínimo são 60 segundos.';
 ?>

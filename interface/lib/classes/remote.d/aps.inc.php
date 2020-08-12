@@ -43,8 +43,7 @@ class remoting_aps extends remoting {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
-		
-		require_once '../../../lib/config.inc.php';
+
 		$app->load('aps_crawler');
 		
 		$aps = new ApsCrawler($app, true); // true = Interface mode, false = Server mode
@@ -238,6 +237,9 @@ class remoting_aps extends remoting {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
 			return false;
 		}
+		
+		$app->uses('remoting_lib');
+		$app->remoting_lib->loadUserProfile(0);
 	
 		$app->load('aps_guicontroller');
 		$gui = new ApsGUIController($app);

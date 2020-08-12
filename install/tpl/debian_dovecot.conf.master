@@ -682,7 +682,7 @@ protocol managesieve {
   # the sieve storage directory. This must match the SIEVE setting used by
   # deliver (refer to http://wiki.dovecot.org/LDA/Sieve#location for more
   # info). Variable substitution with % is recognized.
-  sieve=~/.dovecot.sieve
+  sieve=~/.sieve
 
   # This specifies the path to the directory where the uploaded scripts must
   # be stored. In terms of '%' variable substitution it is identical to
@@ -1144,4 +1144,10 @@ plugin {
   # they're moved to a 3rd namespace. The mails won't be counted in quota,
   # and they're not deleted automatically (use a cronjob or something).
   #lazy_expunge = .EXPUNGED/ .DELETED/ .DELETED/.EXPUNGED/
+
+  sieve_before=/var/vmail/%d/%n/.ispconfig-before.sieve
+  sieve_after=/var/vmail/%d/%n/.ispconfig.sieve
+  sieve_max_script_size = 2M
+  sieve_max_actions = 100
+  sieve_max_redirects = 25
 }

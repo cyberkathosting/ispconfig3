@@ -53,55 +53,33 @@ class page_action extends tform_actions {
 	function onShowNew() {
 		global $app, $conf;
 
-		// we will check only users, not admins
-		if($_SESSION["s"]["user"]["typ"] == 'user') {
-			if(!$app->tform->checkClientLimit('limit_mailfilter')) {
-				$app->error($app->tform->wordbook["limit_mailfilter_txt"]);
-			}
-			if(!$app->tform->checkResellerLimit('limit_mailfilter')) {
-				$app->error('Reseller: '.$app->tform->wordbook["limit_mailfilter_txt"]);
-			}
-		}
-
+		if($_SESSION["s"]["user"]["typ"] != 'admin') die('This function needs admin priveliges');
+		
 		parent::onShowNew();
 	}
 
 	function onBeforeUpdate() {
 		global $app, $conf;
 
+		if($_SESSION["s"]["user"]["typ"] != 'admin') die('This function needs admin priveliges');
+		
 		//* Check if the server has been changed
 		// We do this only for the admin or reseller users, as normal clients can not change the server ID anyway
-		if($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) {
-			$rec = $app->db->queryOneRecord("SELECT server_id from mail_access WHERE access_id = ?", $this->id);
-			if($rec['server_id'] != $this->dataRecord["server_id"]) {
-				//* Add a error message and switch back to old server
-				$app->tform->errorMessage .= $app->lng('The Server can not be changed.');
-				$this->dataRecord["server_id"] = $rec['server_id'];
-			}
-			unset($rec);
+		$rec = $app->db->queryOneRecord("SELECT server_id from mail_access WHERE access_id = ?", $this->id);
+		if($rec['server_id'] != $this->dataRecord["server_id"]) {
+			//* Add a error message and switch back to old server
+			$app->tform->errorMessage .= $app->lng('The Server can not be changed.');
+			$this->dataRecord["server_id"] = $rec['server_id'];
 		}
+		unset($rec);
 	}
 
 	function onSubmit() {
 		global $app, $conf;
 
-		if(substr($this->dataRecord['source'], 0, 1) === '@') $this->dataRecord['source'] = substr($this->dataRecord['source'], 1);
-		
-		// Check the client limits, if user is not the admin
-		if($_SESSION["s"]["user"]["typ"] != 'admin') { // if user is not admin
-			// Get the limits of the client
-			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT limit_mailfilter FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
+		if($_SESSION["s"]["user"]["typ"] != 'admin') die('This function needs admin priveliges');
 
-			// Check if the user may add another mailbox.
-			if($this->id == 0 && $client["limit_mailfilter"] >= 0) {
-				$tmp = $app->db->queryOneRecord("SELECT count(access_id) as number FROM mail_access WHERE sys_groupid = ?", $client_group_id);
-				if($tmp["number"] >= $client["limit_mailfilter"]) {
-					$app->tform->errorMessage .= $app->tform->wordbook["limit_mailfilter_txt"]."<br>";
-				}
-				unset($tmp);
-			}
-		} // end if user is not admin
+		if(substr($this->dataRecord['source'], 0, 1) === '@') $this->dataRecord['source'] = substr($this->dataRecord['source'], 1);
 
 		parent::onSubmit();
 	}

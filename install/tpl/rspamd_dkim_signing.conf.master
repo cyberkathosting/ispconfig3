@@ -1,0 +1,3 @@
+try_fallback = false;
+path_map = "/etc/rspamd/local.d/dkim_domains.map";
+selector_map = "/etc/rspamd/local.d/dkim_selectors.map";

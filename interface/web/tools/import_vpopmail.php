@@ -242,6 +242,7 @@ function start_import() {
 						"disablesmtp" => 'n',
 						"disablesieve" => 'n',
 						"disablelda" => 'n',
+						"disablelmtp" => 'n',
 						"disabledoveadm" => 'n'
 					);
 					$app->db->datalogInsert('mail_user', $sql, 'mailuser_id');

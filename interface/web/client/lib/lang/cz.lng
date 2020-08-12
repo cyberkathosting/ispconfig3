@@ -17,6 +17,7 @@ $wb['Messaging'] = 'Odesílání zpráv';
 $wb['Send email'] = 'Odeslat e-mail';
 $wb['Edit Client Circle'] = 'Upravit skupinu klientů';
 $wb['Domains'] = 'Domény';
+$wb['Add Domain'] = 'Add Domain';
 $wb['domain_txt'] = 'Doména';
 $wb['client_txt'] = 'Klient';
 $wb['error_domain_in mailuse'] = 'Tato doména nelze odstranit, protože je v používána jako poštovní doména';

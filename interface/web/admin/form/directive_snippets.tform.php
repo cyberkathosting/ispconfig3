@@ -66,10 +66,9 @@ $form["tabs"]['directive_snippets'] = array (
 		'name' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
-			'validators' => array (  0 =>  array (    'type' => 'NOTEMPTY',
-					'errmsg'=> 'directive_snippets_name_empty'),
-				1 => array ( 'type' => 'UNIQUE',
-					'errmsg'=> 'directive_snippets_name_error_unique'),
+			'validators' => array (  
+				0 => array ( 'type' => 'NOTEMPTY', 'errmsg'=> 'directive_snippets_name_empty'),
+				1 => array ( 'type' => 'CUSTOM', 'class' => 'validate_server_directive_snippets', 'function' => 'validate_snippet'),
 			),
 			'filters'   => array(
 					0 => array( 'event' => 'SAVE',
@@ -111,6 +110,12 @@ $form["tabs"]['directive_snippets'] = array (
 			'default' => 'y',
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
+		'update_sites' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value'  => array(0 => 'n', 1 => 'y')
+		),
 		'required_php_snippets' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOXARRAY',
@@ -123,7 +128,7 @@ $form["tabs"]['directive_snippets'] = array (
 			'separator' => ',',
 		),
 		//#################################
-		// ENDE Datatable fields
+		// END Datatable fields
 		//#################################
 	)
 );

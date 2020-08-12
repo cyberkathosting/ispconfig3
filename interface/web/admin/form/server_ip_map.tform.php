@@ -28,8 +28,8 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-$form["title"]    = "IPv4 Address mapping";
-$form["description"]  = "Form to map IPv4-addresses for Web-Server";
+$form["title"]    = "server_ip_map_title";
+$form["description"]  = "server_ip_map_desc";
 $form["name"]    = "server_ip_map";
 $form["action"]   = "server_ip_map_edit.php";
 $form["db_table"]  = "server_ip_map";
@@ -46,7 +46,7 @@ $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update,
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
 $form["tabs"]['server_ip_map'] = array (
-	'title'  => "IP Address Mapping",
+	'title'  => "server_ip_map_title",
 	'width'  => 80,
 	'template'  => "templates/server_ip_map_edit.htm",
 	'fields'  => array (

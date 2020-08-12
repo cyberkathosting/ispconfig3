@@ -17,7 +17,7 @@ class z_php_fpm_incron_reload_plugin {
 	function onInstall() {
 		global $conf;
 
-		return $conf['services']['web'] === true;
+		return $conf['services']['web'] == true;
 	}
 
 	function onLoad() {
@@ -45,8 +45,8 @@ class z_php_fpm_incron_reload_plugin {
 	function incronUpdate($eventName, $data) {
 		global $app;
 
-		if ($data['new']['document_root'] === $data['old']['document_root']) {
-			$app->log('Document root unchanged. Not updating incron configuration.', LOGLEVEL_DEBUG);
+		if ($this->documentRootUnchanged($data) && $this->phpVersionUnchanged($data)) {
+			$app->log('Document root and PHP version unchanged. Not updating incron configuration.', LOGLEVEL_DEBUG);
 
 			return;
 		}
@@ -59,6 +59,16 @@ class z_php_fpm_incron_reload_plugin {
 		$this->teardown($data['old']);
 	}
 
+	private function documentRootUnchanged($data)
+	{
+		return $data['new']['document_root'] === $data['old']['document_root'];
+	}
+
+	private function phpVersionUnchanged($data)
+	{
+		return $data['new']['server_php_id'] === $data['old']['server_php_id'];
+	}
+
 	private function setup($data)
 	{
 		$triggerFile = $this->getTriggerFilePath($data['document_root']);
@@ -67,7 +77,7 @@ class z_php_fpm_incron_reload_plugin {
 		$this->createIncronConfiguration(
 			$triggerFile,
 			$data['system_user'],
-			$data['fastcgi_php_version']
+			$data['server_php_id']
 		);
 
 		$this->restartIncronService();
@@ -163,12 +173,14 @@ class z_php_fpm_incron_reload_plugin {
 	}
 
 	private function getPhpService($fastcgiPhpVersion) {
-		$phpInfo = explode(':', $fastcgiPhpVersion);
+		global $app;
+
+		$phpInfo = $app->db->queryOneRecord('SELECT * FROM server_php WHERE server_php_id = ?', $fastcgiPhpVersion);
 		if (empty($phpInfo)) {
 			return null;
 		}
 
-		$phpService = $phpInfo[1];
+		$phpService = $phpInfo['php_fpm_init_script'];
 		if (empty($phpService)) {
 			return null;
 		}

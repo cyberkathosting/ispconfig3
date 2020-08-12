@@ -37,7 +37,7 @@ if(is_array($tmp_rec)) {
 			} else {
 				$temp['username'] = 'admin';
 			}
-			
+
 			if(is_array($temp) && !empty($temp)) {
 				$monitor_data[$server_id.'.'.$db_name]['database_name'] = $data['database_name'];
 				$monitor_data[$server_id.'.'.$db_name]['client'] = isset($temp['username']) ? $temp['username'] : '';
@@ -61,7 +61,7 @@ class list_action extends listform_actions {
 		$rec['bgcolor'] = $this->DataRowColor;
 
 		$database_name = $rec['database_name'];
-		
+
 		if(!empty($monitor_data[$rec['server_id'].'.'.$database_name])){
 			$rec['database'] = $monitor_data[$rec['server_id'].'.'.$database_name]['database_name'];
 			$rec['client'] = $monitor_data[$rec['server_id'].'.'.$database_name]['client'];
@@ -71,8 +71,8 @@ class list_action extends listform_actions {
 			$rec['used'] = $monitor_data[$rec['server_id'].'.'.$database_name]['used'];
 			$rec['quota'] = $monitor_data[$rec['server_id'].'.'.$database_name]['quota'];
 
-			if($rec['quota'] == 0){
-				$rec['quota'] = $app->lng('unlimited');
+			if($rec['quota'] <= 0){
+				$rec['quota'] = $app->lng('unlimited_txt');
 				$rec['percentage'] = '';
 			} else {
 				if ($rec['used'] > 0 ) $rec['percentage'] = round(100 * intval($rec['used']) / ( intval($rec['quota'])*1024*1024) ).'%';
@@ -83,7 +83,8 @@ class list_action extends listform_actions {
 		} else {
 			$web_database = $app->db->queryOneRecord("SELECT * FROM web_database WHERE database_id = ?", $rec[$this->idx_key]);
 			$rec['database'] = $rec['database_name'];
-			$rec['server_name'] = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ?", $web_database['server_id'])['server_name'];
+			$temp = $app->db->queryOneRecord("SELECT server_name FROM server WHERE server_id = ?", $web_database['server_id']);
+			$rec['server_name'] = $temp['server_name'];
 			$sys_group = $app->db->queryOneRecord("SELECT * FROM sys_group WHERE groupid = ?", $web_database['sys_groupid']);
 			$client = $app->db->queryOneRecord("SELECT * FROM client WHERE client_id = ?", $sys_group['client_id']);
 			$rec['client'] = $client['username'];

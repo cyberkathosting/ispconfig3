@@ -33,11 +33,16 @@ class installer extends installer_base {
 	public function configure_dovecot()
 	{
 		global $conf;
-		
+	
 		$virtual_transport = 'dovecot';
 
 		$configure_lmtp = false;
-		
+
+		// use lmtp if installed
+		if($configure_lmtp = is_file('/usr/lib/dovecot/lmtp')) {
+			$virtual_transport = 'lmtp:unix:private/dovecot-lmtp';
+		}
+
 		// check if virtual_transport must be changed
 		if ($this->is_update) {
 			$tmp = $this->db->queryOneRecord("SELECT * FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . ".server", $conf['server_id']);
@@ -68,7 +73,6 @@ class installer extends installer_base {
 		}
 
 		//* Reconfigure postfix to use dovecot authentication
-		// Adding the amavisd commands to the postfix configuration
 		$postconf_commands = array (
 			'dovecot_destination_recipient_limit = 1',
 			'virtual_transport = '.$virtual_transport,
@@ -116,6 +120,38 @@ class installer extends installer_base {
 				file_put_contents($config_dir.'/'.$configfile,$content);
 				unset($content);
 			}
+			if(version_compare($dovecot_version,2.3) >= 0) {
+				// Remove deprecated setting(s)
+				removeLine($config_dir.'/'.$configfile, 'ssl_protocols =');
+				
+				// Check if we have a dhparams file and if not, create it
+				if(!file_exists('/etc/dovecot/dh.pem')) {
+					swriteln('Creating new DHParams file, this takes several minutes. Do not interrupt the script.');
+					if(file_exists('/var/lib/dovecot/ssl-parameters.dat')) {
+						// convert existing ssl parameters file
+						$command = 'dd if=/var/lib/dovecot/ssl-parameters.dat bs=1 skip=88 | openssl dhparam -inform der > /etc/dovecot/dh.pem';
+						caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+					} else {
+						/*
+						   Create a new dhparams file. We use 2048 bit only as it simply takes too long
+						   on smaller systems to generate a 4096 bit dh file (> 30 minutes). If you need
+						   a 4096 bit file, create it manually before you install ISPConfig
+						*/
+						$command = 'openssl dhparam -out /etc/dovecot/dh.pem 2048';
+						caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+					}
+				}
+				//remove #2.3+ comment
+				$content = file_get_contents($config_dir.'/'.$configfile);
+				$content = str_replace('#2.3+ ','',$content);
+				file_put_contents($config_dir.'/'.$configfile,$content);
+				unset($content);
+				
+			} else {
+				// remove settings which are not supported in Dovecot < 2.3
+				removeLine($config_dir.'/'.$configfile, 'ssl_min_protocol =');
+				removeLine($config_dir.'/'.$configfile, 'ssl_dh =');
+			}
 		} else {
 			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian6_dovecot.conf.master')) {
 				copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian6_dovecot.conf.master', $config_dir.'/'.$configfile);
@@ -124,10 +160,19 @@ class installer extends installer_base {
 			}
 		}
 		
+		$dovecot_protocols = 'imap pop3';
+
 		//* dovecot-lmtpd
 		if($configure_lmtp) {
-			replaceLine($config_dir.'/'.$configfile, 'protocols = imap pop3', 'protocols = imap pop3 lmtp', 1, 0);
+			$dovecot_protocols .= ' lmtp';
 		}
+
+		//* dovecot-managesieved
+		if(is_file('/usr/lib/dovecot/managesieve')) {
+			$dovecot_protocols .= ' sieve';
+		}
+
+		replaceLine($config_dir.'/'.$configfile, 'protocols = imap pop3', "protocols = $dovecot_protocols", 1, 0);
 
 		//* dovecot-sql.conf
 		$configfile = 'dovecot-sql.conf';

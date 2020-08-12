@@ -44,7 +44,7 @@ $wb['dmarc_more_spf_txt'] = 'More than one active SPF Record';
 $wb['dmarc_invalid_email_txt'] = 'Neplatný e-mail';
 $wb['dmarc_empty_txt'] = 'DMARC Record empty - specify at least one option';
 $wb['record_exists_txt'] = 'DNS záznam již existuje';
-$wb['limit_dns_record_txt'] = 'The max. number of DNS records for your account is reached.';
-$wb['no_zone_perm'] = 'You do not have the permission to add a record to this DNS zone.';
+$wb['limit_dns_record_txt'] = 'Byl dosažen max. počet DNS záznamů pro váš účet.';
+$wb['no_zone_perm'] = 'Nemáte oprávnění přidat záznam do této zóny DNS.';
 $wb['ttl_range_error'] = 'Min. TTL doba je 60 sekund.';
 ?>

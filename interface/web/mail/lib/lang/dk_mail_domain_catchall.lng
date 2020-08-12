@@ -8,4 +8,5 @@ $wb['domain_error_regex'] = 'Ugyldigt domæne navn eller domæne, indeholder ugy
 $wb['limit_mailcatchall_txt'] = 'Max. antal af e-mail catchall konti for din konto er nået.';
 $wb['source_txt'] = 'Kilde';
 $wb['destination_error_isemail'] = 'Destinationen er ikke en gyldig e-mail adresse.';
+$wb['greylisting_txt'] = 'Enable greylisting';
 ?>

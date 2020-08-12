@@ -3,6 +3,7 @@ $wb['pass_reset_txt'] = 'Нова парола ще бъде генериран�
 $wb['pw_reset'] = 'Новата ви парола беше изпратена на електронната ви поща.';
 $wb['pw_error'] = 'Греяно потребителското име или електронна поща.';
 $wb['pw_error_noinput'] = 'Моля въведете потребителско име и електронна поща.';
+$wb['pw_reset_error_smtp_connection'] = 'There was a connection problem when trying to send an email pertaining to your password reset request.';
 $wb['pw_reset_mail_msg'] = 'Новата парола за вашия ISPConfig 3 контролен панел е:';
 $wb['pw_reset_mail_title'] = 'Нова парола за вашия ISPConfig 3 контролен панел';
 $wb['user_regex_error'] = 'Потребителско име contains unallowed characters or is longer then 64 characters.';

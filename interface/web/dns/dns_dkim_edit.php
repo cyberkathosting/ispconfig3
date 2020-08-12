@@ -126,9 +126,10 @@ class page_action extends tform_actions {
 		$this->dataRecord["stamp"] = date('Y-m-d H:i:s');
 
 		// check for duplicate entry
+		// Should NOT include data in this check?  it must be unique for zone/name (selector)/type, regardless of data
 		$check=$app->db->queryOneRecord("SELECT * FROM dns_rr WHERE zone = ? AND type = ? AND data = ? AND name = ?", $this->dataRecord["zone"], $this->dataRecord["type"], $this->dataRecord["data"], $this->dataRecord['name']);
 		if ($check!='') $app->tform->errorMessage .= $app->tform->wordbook["record_exists_txt"];
-		if (empty($this->dataRecord['data'])) $app->tform->errorMessage /= $app->tform->wordbook["dkim_disabled_txt"];
+		if (empty($this->dataRecord['data'])) $app->tform->errorMessage .= $app->tform->wordbook["dkim_disabled_txt"];
 
 		// validate selector and public-key
 		if (empty($this->dataRecord['selector'])) $app->tform->errorMessage .= '<br/>'.$app->tform->wordbook["dkim_selector_empty_txt"].'<br/>';

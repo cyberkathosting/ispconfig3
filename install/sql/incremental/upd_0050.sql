@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `dns_slave` (
   PRIMARY KEY  (`id`),
   KEY `origin` (`origin`),
   KEY `active` (`active`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 ALTER TABLE `dns_slave` DROP INDEX `origin`;
 ALTER TABLE `dns_slave` ADD CONSTRAINT `slave` UNIQUE (`origin`,`server_id`);

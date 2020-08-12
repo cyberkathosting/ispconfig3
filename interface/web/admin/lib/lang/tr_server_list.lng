@@ -1,12 +1,12 @@
 <?php
 $wb['list_head_txt'] = 'Sunucu';
 $wb['server_name_txt'] = 'Ad';
-$wb['mail_server_txt'] = 'Posta';
+$wb['mail_server_txt'] = 'E-posta';
 $wb['web_server_txt'] = 'Web';
 $wb['dns_server_txt'] = 'DNS';
 $wb['file_server_txt'] = 'Dosya';
 $wb['db_server_txt'] = 'Veritabanı';
-$wb['vserver_server_txt'] = 'SSunucu';
+$wb['vserver_server_txt'] = 'sSunucu';
 $wb['proxy_server_txt'] = 'Vekil Sunucu';
 $wb['firewall_server_txt'] = 'Güvenlik Duvarı';
 $wb['add_new_record_txt'] = 'Sunucu Ekle';

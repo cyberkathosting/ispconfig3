@@ -22,21 +22,24 @@
             <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_alias_edit.php?zone={tmpl_var name='parent_id'}">ALIAS</button>
             <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_caa_edit.php?zone={tmpl_var name='parent_id'}">CAA</button>
             <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_cname_edit.php?zone={tmpl_var name='parent_id'}">CNAME</button>
+            <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_dname_edit.php?zone={tmpl_var name='parent_id'}">DNAME</button>
             <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_dkim_edit.php?zone={tmpl_var name='parent_id'}">DKIM</button>
 			<button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_ds_edit.php?zone={tmpl_var name='parent_id'}">DS</button>
             <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_dmarc_edit.php?zone={tmpl_var name='parent_id'}">DMARC</button>
             <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_hinfo_edit.php?zone={tmpl_var name='parent_id'}">HINFO</button>
 			<button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_loc_edit.php?zone={tmpl_var name='parent_id'}">LOC</button>
             <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_mx_edit.php?zone={tmpl_var name='parent_id'}">MX</button>
+            <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_naptr_edit.php?zone={tmpl_var name='parent_id'}">NAPTR</button>
             <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_ns_edit.php?zone={tmpl_var name='parent_id'}">NS</button>
             <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_ptr_edit.php?zone={tmpl_var name='parent_id'}">PTR</button>
             <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_rp_edit.php?zone={tmpl_var name='parent_id'}">RP</button>
             <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_spf_edit.php?zone={tmpl_var name='parent_id'}">SPF</button>
             <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_srv_edit.php?zone={tmpl_var name='parent_id'}">SRV</button>
+            <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_sshfp_edit.php?zone={tmpl_var name='parent_id'}">SSHFP</button>
 			<button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_tlsa_edit.php?zone={tmpl_var name='parent_id'}">TLSA</button>
             <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_txt_edit.php?zone={tmpl_var name='parent_id'}">TXT</button>
         </div>
-    
+
 </div>
 
 
@@ -75,7 +78,7 @@
                         <td><a href="#" data-load-content="dns/dns_{tmpl_var name='type_lowercase'}_edit.php?id={tmpl_var name='id'}">{tmpl_var name="aux"}</a></td>
                         <td><a href="#" data-load-content="dns/dns_{tmpl_var name='type_lowercase'}_edit.php?id={tmpl_var name='id'}">{tmpl_var name="ttl"}</a></td>
                         <td class="text-right">
-                            <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: ISPConfig.confirm_action('dns/dns_rr_del.php?id={tmpl_var name='id'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></a>
+                            <a class="btn btn-default formbutton-danger formbutton-narrow" href="javascript: ISPConfig.confirm_action('dns/dns_rr_del.php?id={tmpl_var name='id'}&_csrf_id={tmpl_var name='csrf_id'}&_csrf_key={tmpl_var name='csrf_key'}&phpsessid={tmpl_var name='phpsessid'}','{tmpl_var name='delete_confirmation'}');"><span class="icon icon-delete"></span></a>
                         </td>
                     </tr>
                 </tmpl_loop>
@@ -92,4 +95,3 @@
             </tfoot>
         </table>
 </div>
-    

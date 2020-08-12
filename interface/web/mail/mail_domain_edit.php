@@ -75,7 +75,13 @@ class page_action extends tform_actions {
 		$app->uses('ini_parser,getconf');
 		$settings = $app->getconf->get_global_config('domains');
 
-		if($_SESSION["s"]["user"]["typ"] == 'admin' && $settings['use_domain_module'] != 'y') {
+		if($_SESSION["s"]["user"]["typ"] == 'admin' && $settings['use_domain_module'] == 'y') {
+			$sql = "SELECT CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.groupid = ?";
+			$clients = $app->db->queryAllRecords($sql, $this->dataRecord['sys_groupid']);
+			$client_select = '<option value="dummy">' . $clients[0]['contactname'] . '</option>';
+			$app->tpl->setVar("client_group_name", $client_select);
+		}
+		elseif($_SESSION["s"]["user"]["typ"] == 'admin' && $settings['use_domain_module'] != 'y') {
 			// Getting Clients of the user
 			$sql = "SELECT sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 ORDER BY client.company_name, client.contact_name, sys_group.name";
 
@@ -159,7 +165,7 @@ class page_action extends tform_actions {
 			 * The domain-module is in use.
 			*/
 			$domains = $app->tools_sites->getDomainModuleDomains("mail_domain", $this->dataRecord["domain"]);
-			$domain_select = '';
+			$domain_select = "<option value=''></option>";
 			if(is_array($domains) && sizeof($domains) > 0) {
 				/* We have domains in the list, so create the drop-down-list */
 				foreach( $domains as $domain) {
@@ -273,7 +279,10 @@ class page_action extends tform_actions {
 		}
 
 		//* make sure that the email domain is lowercase
-		if(isset($this->dataRecord["domain"])) $this->dataRecord["domain"] = strtolower($this->dataRecord["domain"]);
+		if(isset($this->dataRecord["domain"])){
+			$this->dataRecord["domain"] = $app->functions->idn_encode($this->dataRecord["domain"]);
+			$this->dataRecord["domain"] = strtolower($this->dataRecord["domain"]);
+		}
 
 
 		parent::onSubmit();
@@ -317,7 +326,7 @@ class page_action extends tform_actions {
 			$soaDomain = $this->dataRecord['domain'].'.';
  			while ((!isset($soa) && (substr_count($soaDomain,'.') > 1))) {
 				$soa = $app->db->queryOneRecord("SELECT id AS zone, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, server_id, ttl, serial FROM dns_soa WHERE active = 'Y' AND origin = ?", $soaDomain);
-				$soaDomain = preg_replace("/^\w+\./","",$soaDomain);
+				$soaDomain = preg_replace("/^[^\.]+\./","",$soaDomain);
 			}
 			if ( isset($soa) && !empty($soa) ) $this->update_dns($this->dataRecord, $soa);
 		}
@@ -450,7 +459,7 @@ class page_action extends tform_actions {
 			$soaDomain = $domain.'.';
 			while ((!isset($soa) && (substr_count($soaDomain,'.') > 1))) {
 				$soa = $app->db->queryOneRecord("SELECT id AS zone, sys_userid, sys_groupid, sys_perm_user, sys_perm_group, sys_perm_other, server_id, ttl, serial FROM dns_soa WHERE active = 'Y' AND origin = ?", $soaDomain);
-				$soaDomain = preg_replace("/^[\w\-]+\./","",$soaDomain);
+				$soaDomain = preg_replace("/^[^\.]+\./","",$soaDomain);
 			}
 
 			if ( ($selector || $dkim_private || $dkim_active) && $dkim_active )

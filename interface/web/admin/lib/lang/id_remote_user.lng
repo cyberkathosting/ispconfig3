@@ -1,4 +1,5 @@
 <?php
+$wb['remote_user_txt'] = 'Remote User';
 $wb['username_txt'] = 'Nama pengguna';
 $wb['password_txt'] = 'Kata Sandi';
 $wb['function_txt'] = 'Fungsi';
@@ -34,6 +35,7 @@ $wb['DNS alias functions'] = 'Fungsi-fungsi Alias DNS';
 $wb['DNS cname functions'] = 'Fungsi-fungsi CNAME DNS';
 $wb['DNS hinfo functions'] = 'Fungsi-fungsi HINFO DNS';
 $wb['DNS mx functions'] = 'Fungsi-fungsi MX DNS';
+$wb['DNS naptr functions'] = 'Fungsi-fungsi NAPTR DNS';
 $wb['DNS ns functions'] = 'Fungsi-fungsi NS DNS';
 $wb['DNS ptr functions'] = 'Fungsi-fungsi PTR DNS';
 $wb['DNS rp functions'] = 'Fungsi-fungsi RP DNS';

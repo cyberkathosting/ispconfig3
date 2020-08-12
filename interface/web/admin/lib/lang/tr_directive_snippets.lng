@@ -1,12 +1,13 @@
 <?php
-$wb['Directive Snippets'] = 'Yönerge Parçacıkları';
-$wb['name_txt'] = 'Parçacık Adı';
-$wb['type_txt'] = 'Tip';
-$wb['snippet_txt'] = 'Parçacık';
+$wb['Directive Snippets'] = 'Yönerge Kod Parçaları';
+$wb['name_txt'] = 'Kod Parçası Adı';
+$wb['type_txt'] = 'Tür';
+$wb['snippet_txt'] = 'Kod Parçası';
 $wb['active_txt'] = 'Etkin';
-$wb['directive_snippets_name_empty'] = 'Parçacık adı boş olamaz.';
-$wb['directive_snippets_name_error_unique'] = 'Aynı adlı bir yönerge parçacığı zaten var.';
+$wb['directive_snippets_name_empty'] = 'Kod Parçası adı boş olamaz.';
+$wb['directive_snippets_name_error_unique'] = 'Aynı adlı bir yönerge kod parçası zaten var.';
 $wb['variables_txt'] = 'Değişkenler';
-$wb['customer_viewable_txt'] = 'Customer viewable';
-$wb['required_php_snippets_txt'] = 'Requiered PHP Snippet';
+$wb['customer_viewable_txt'] = 'Müşteri görebilir';
+$wb['required_php_snippets_txt'] = 'Gerekli PHP Parçası';
+$wb['update_sites_txt'] = 'Update sites using this snippet';
 ?>

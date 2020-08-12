@@ -1,4 +1,6 @@
 <?php
+$wb['server_ip_edit_title'] = 'IP Adresses';
+$wb['server_ip_edit_desc'] = 'Form to edit system IP adresses';
 $wb['server_id_txt'] = 'Server';
 $wb['ip_address_txt'] = 'IP adresa';
 $wb['virtualhost_txt'] = 'HTTP ime virtualnog hosta';

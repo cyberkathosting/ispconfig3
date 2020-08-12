@@ -9,4 +9,5 @@ $wb['directive_snippets_name_error_unique'] = 'Es existiert schon ein Direktiven
 $wb['variables_txt'] = 'Variablen';
 $wb['customer_viewable_txt'] = 'Sichtbar für Kunden';
 $wb['required_php_snippets_txt'] = 'Requiered PHP Snippet';
+$wb['update_sites_txt'] = 'Update sites using this snippet';
 ?>

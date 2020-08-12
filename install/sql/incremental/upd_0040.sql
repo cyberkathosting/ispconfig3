@@ -21,4 +21,4 @@ CREATE TABLE IF NOT EXISTS `directive_snippets` (
   `snippet` mediumtext,
   `active` enum('n','y') NOT NULL DEFAULT 'y',
   PRIMARY KEY (`directive_snippets_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

@@ -1,4 +1,5 @@
 <?php
+$wb['remote_user_txt'] = 'Remote User';
 $wb['Client functions'] = 'Funciones para clientes';
 $wb['DNS a functions'] = 'Funciones DNS para registro A';
 $wb['DNS aaaa functions'] = 'Funciones DNS para registro AAAA';
@@ -6,6 +7,7 @@ $wb['DNS alias functions'] = 'Funciones DNS para registro ALIAS';
 $wb['DNS cname functions'] = 'Funciones DNS para registro CNAME';
 $wb['DNS hinfo functions'] = 'Funciones DNS para registro HINFO';
 $wb['DNS mx functions'] = 'Funciones DNS para registro MX';
+$wb['DNS naptr functions'] = 'Funciones DNS para registro NAPTR';
 $wb['DNS ns functions'] = 'Funciones DNS para registro NS';
 $wb['DNS ptr functions'] = 'Funciones DNS para registro PTR';
 $wb['DNS rp functions'] = 'Funciones DNS para registro RP';

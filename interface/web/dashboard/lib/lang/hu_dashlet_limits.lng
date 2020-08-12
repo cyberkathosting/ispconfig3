@@ -1,7 +1,6 @@
 <?php
 $wb['limits_txt'] = 'Account limits';
 $wb['of_txt'] = '-';
-$wb['unlimited_txt'] = 'Korlátlan';
 $wb['limit_maildomain_txt'] = 'Email domainek száma';
 $wb['limit_mailbox_txt'] = 'Mailbox-ok száma';
 $wb['limit_mailalias_txt'] = 'Email aliasok száma';

@@ -1,0 +1,53 @@
+# RBL
+symbols = {
+	"RBL_SENDERSCORE" {
+		weight = 4.0;
+		description = "From address is listed in senderscore.com BL";
+	}
+	"RBL_SPAMHAUS_SBL" {
+		weight = 2.0;
+		description = "From address is listed in zen sbl";
+	}
+	"RBL_SPAMHAUS_CSS" {
+	  weight = 2.0;
+	  description = "From address is listed in zen css";
+	}
+	"RBL_SPAMHAUS_XBL" {
+	  weight = 4.0;
+	  description = "From address is listed in zen xbl";
+	}
+	"RBL_SPAMHAUS_XBL_ANY" {
+	  weight = 4.0;
+	  description = "From or receive address is listed in zen xbl (any list)";
+	}
+	"RBL_SPAMHAUS_PBL" {
+	  weight = 2.0;
+	  description = "From address is listed in zen pbl (ISP list)";
+	}
+	"RBL_SPAMHAUS_DROP" {
+	  weight = 7.0;
+	  description = "From address is listed in zen drop bl";
+	}
+	"RECEIVED_SPAMHAUS_XBL" {
+	  weight = 3.0;
+	  description = "Received address is listed in zen xbl";
+	  one_shot = true;
+	}
+	"RBL_MAILSPIKE_WORST" {
+	  weight = 2.0;
+	  description = "From address is listed in RBL - worst possible reputation";
+	}
+	"RBL_MAILSPIKE_VERYBAD" {
+	  weight = 1.5;
+	  description = "From address is listed in RBL - very bad reputation";
+	}
+	"RBL_MAILSPIKE_BAD" {
+	  weight = 1.0;
+	  description = "From address is listed in RBL - bad reputation";
+	}
+	"RBL_SEM" {
+	  weight = 1.0;
+	  description = "Address is listed in Spameatingmonkey RBL";
+	}
+	# /RBL
+}

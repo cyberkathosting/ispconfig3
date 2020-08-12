@@ -1,0 +1,12 @@
+<?php
+$wb['login_1_txt'] = 'Bu kullanıcı olarak oturum açmak ister misiniz';
+$wb['login_2_txt'] = '"Geri dönmek" için oturumu kapat üzerine tıklayın.';
+$wb['btn_yes_txt'] = 'Evet, Müşteri olarak oturum aç';
+$wb['btn_back_txt'] = 'Hayır, listeye geri dön';
+$wb['udp_port_help_txt'] = 'Virgül ile ayırarak yazın';
+$wb['active_txt'] = 'Etkin';
+$wb['firewall_error_unique'] = 'Bu sunucu için bir güvenlik duvarı kaydı zaten var.';
+$wb['active_txt'] = 'Etkin';
+$wb['tcp_ports_error_regex'] = 'TCP kapı açıklamasında karakter kullanılamaz. Yalnız rakam, ":" ve "," karakterleri kullanılabilir.';
+$wb['udp_ports_error_regex'] = 'UDP kapı açıklamasında karakter kullanılamaz. Yalnız rakam, ":" ve "," karakterleri kullanılabilir.';
+?>

@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Mesclar idioma';
+$wb['list_head_txt'] = 'Mesclar idiomas';
 $wb['list_desc_txt'] = 'Mesclar o arquivo de idioma selecionado com o arquivo de idioma principal (em inglês). <br />Isto permite completar qualquer falha de tradução, com o arquivo principal original em inglês.';
 $wb['language_select_txt'] = 'Selecionar idioma';
 $wb['btn_save_txt'] = 'Mesclar arquivos agora';

@@ -108,9 +108,9 @@ class mysql_clientdb_plugin {
 						$result->free();
 				}
 		}
-		
+
 		$app->log("Calling $action for $database_name with access $user_access_mode and hosts " . implode(', ', $host_list), LOGLEVEL_DEBUG);
-		
+
 		// loop through hostlist
 		foreach($host_list as $db_host) {
 			$db_host = trim($db_host);
@@ -137,22 +137,24 @@ class mysql_clientdb_plugin {
 				$app->log("Invalid host " . $db_host . " for GRANT to " . $database_name, LOGLEVEL_DEBUG);
 				continue;
 			}
-			
+
 			$grants = 'ALL PRIVILEGES';
 			if($user_access_mode == 'r') $grants = 'SELECT';
 			elseif($user_access_mode == 'rd') $grants = 'SELECT, DELETE, ALTER, DROP';
-			
+
+			$database_name = str_replace('_', '\\_', $link->escape_string($database_name));
+
 			if($action == 'GRANT') {
 				if($user_access_mode == 'r' || $user_access_mode == 'rd') {
-					if(!$link->query("REVOKE ALL PRIVILEGES ON `".$link->escape_string($database_name)."`.* FROM '".$link->escape_string($database_user)."'@'$db_host'")) $success = false;
-					$app->log("REVOKE ALL PRIVILEGES ON `".$link->escape_string($database_name)."`.* FROM '".$link->escape_string($database_user)."'@'$db_host' success? " . ($success ? 'yes' : 'no'), LOGLEVEL_DEBUG);
+					if(!$link->query("REVOKE ALL PRIVILEGES ON `".$database_name."`.* FROM '".$link->escape_string($database_user)."'@'$db_host'")) $success = false;
+					$app->log("REVOKE ALL PRIVILEGES ON `".$database_name."`.* FROM '".$link->escape_string($database_user)."'@'$db_host' success? " . ($success ? 'yes' : 'no'), LOGLEVEL_DEBUG);
 					$success = true;
 				}
-				
-				if(!$link->query("GRANT " . $grants . " ON `".$link->escape_string($database_name)."`.* TO '".$link->escape_string($database_user)."'@'$db_host' IDENTIFIED BY PASSWORD '".$link->escape_string($database_password)."'")) $success = false;
-				$app->log("GRANT " . $grants . " ON `".$link->escape_string($database_name)."`.* TO '".$link->escape_string($database_user)."'@'$db_host' IDENTIFIED BY PASSWORD '".$link->escape_string($database_password)."' success? " . ($success ? 'yes' : 'no'), LOGLEVEL_DEBUG);
+
+				if(!$link->query("GRANT " . $grants . " ON `".$database_name."`.* TO '".$link->escape_string($database_user)."'@'$db_host' IDENTIFIED BY PASSWORD '".$link->escape_string($database_password)."'")) $success = false;
+				$app->log("GRANT " . $grants . " ON `".$database_name."`.* TO '".$link->escape_string($database_user)."'@'$db_host' IDENTIFIED BY PASSWORD '".$link->escape_string($database_password)."' success? " . ($success ? 'yes' : 'no'), LOGLEVEL_DEBUG);
 			} elseif($action == 'REVOKE') {
-				if(!$link->query("REVOKE ALL PRIVILEGES ON `".$link->escape_string($database_name)."`.* FROM '".$link->escape_string($database_user)."'@'$db_host'")) $success = false;
+				if(!$link->query("REVOKE ALL PRIVILEGES ON `".$database_name."`.* FROM '".$link->escape_string($database_user)."'@'$db_host'")) $success = false;
 			} elseif($action == 'DROP') {
 				if(!$link->query("DROP USER '".$link->escape_string($database_user)."'@'$db_host'")) $success = false;
 			} elseif($action == 'RENAME') {
@@ -293,7 +295,7 @@ class mysql_clientdb_plugin {
 				$app->log('Unable to connect to the database: '.$link->connect_error, LOGLEVEL_ERROR);
 				return;
 			}
-			
+
 			// check if the database exists
 			if($data['new']['database_name'] == $data['old']['database_name']) {
 				$result = $link->query("SHOW DATABASES LIKE '".$link->escape_string($data['new']['database_name'])."'");
@@ -344,15 +346,15 @@ class mysql_clientdb_plugin {
 							$triggers_array[] = $row;
 						}
 						$app->log('Dumping triggers from '.$old_name, LOGLEVEL_DEBUG);
-						$command = "mysqldump -h ".escapeshellarg($clientdb_host)." -u ".escapeshellarg($clientdb_user)." -p".escapeshellarg($clientdb_password)." ".$old_name." -d -t -R -E > ".$timestamp.$old_name.'.triggers';
-						exec($command, $out, $ret);
+						$command = "mysqldump -h ? -u ? -p? ? -d -t -R -E > ?";
+						$app->system->exec_safe($command, $clientdb_host, $clientdb_user, $clientdb_password, $old_name, $timestamp.$old_name.'.triggers');
+						$ret = $app->system->last_exec_retcode();
 						$app->system->chmod($timestamp.$old_name.'.triggers', 0600);
 						if ($ret != 0) {
 							unset($triggers_array);
 							$app->system->unlink($timestamp.$old_name.'.triggers');
 							$app->log('Unable to dump triggers from '.$old_name, LOGLEVEL_ERROR);
 						}
-						unset($out);
 					}
 
 					//* save views
@@ -366,15 +368,15 @@ class mysql_clientdb_plugin {
 						}
 						$app->log('Dumping views from '.$old_name, LOGLEVEL_DEBUG);
 						$temp_views = implode(' ', $temp);
-						$command = "mysqldump -h ".escapeshellarg($clientdb_host)." -u ".escapeshellarg($clientdb_user)." -p".escapeshellarg($clientdb_password)." ".$old_name." ".$temp_views." > ".$timestamp.$old_name.'.views';
-						exec($command, $out, $ret);
+						$command = "mysqldump -h ? -u ? -p? ? ? > ?";
+						$app->system->exec_safe($command, $clientdb_host, $clientdb_user, $clientdb_password, $old_name, $temp_views, $timestamp.$old_name.'.views');
+						$ret = $app->system->last_exec_retcode();
 						$app->system->chmod($timestamp.$old_name.'.views', 0600);
 						if ($ret != 0) {
 							unset($views_array);
 							$app->system->unlink($timestamp.$old_name.'.views');
 							$app->log('Unable to dump views from '.$old_name, LOGLEVEL_ERROR);
 						}
-						unset($out);
 						unset($temp);
 						unset($temp_views);
 					}
@@ -405,8 +407,9 @@ class mysql_clientdb_plugin {
 								unset($_trigger);
 							}
 							//* update triggers, routines and events
-							$command = "mysql -h ".escapeshellarg($clientdb_host)." -u ".escapeshellarg($clientdb_user)." -p".escapeshellarg($clientdb_password)." ".$new_name." < ".$timestamp.$old_name.'.triggers';
-							exec($command, $out, $ret);
+							$command = "mysql -h ? -u ? -p? ? < ?";
+							$app->system->exec_safe($command, $clientdb_host, $clientdb_user, $clientdb_password, $new_name, $timestamp.$old_name.'.triggers');
+							$ret = $app->system->last_exec_retcode();
 							if ($ret != 0) {
 								$app->log('Unable to import triggers for '.$new_name, LOGLEVEL_ERROR);
 							} else {
@@ -416,8 +419,9 @@ class mysql_clientdb_plugin {
 
 						//* loading views
 						if (@is_array($views_array)) {
-							$command = "mysql -h ".escapeshellarg($clientdb_host)." -u ".escapeshellarg($clientdb_user)." -p".escapeshellarg($clientdb_password)." ".$new_name." < ".$timestamp.$old_name.'.views';
-							exec($command, $out, $ret);
+							$command = "mysql -h ? -u ? -p? ? < ?";
+							$app->system->exec_safe($command, $clientdb_host, $clientdb_user, $clientdb_password, $new_name, $timestamp.$old_name.'.views');
+							$ret = $app->system->last_exec_retcode();
 							if ($ret != 0) {
 								$app->log('Unable to import views for '.$new_name, LOGLEVEL_ERROR);
 							} else {

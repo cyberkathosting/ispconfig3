@@ -89,20 +89,20 @@ class webserver_plugin {
 		//** add default php.ini files to check
 		$check_files[] = array('file' => $web_config['php_ini_path_apache'],
 			'mode' => 'mod',
-			'php_version' => ''); // default;
+			'php_version' => 0); // default;
 
 		$check_files[] = array('file' => $web_config['php_ini_path_cgi'],
 			'mode' => '', // all but 'mod' and 'fast-cgi'
-			'php_version' => ''); // default;
+			'php_version' => 0); // default;
 
 		if($fastcgi_config["fastcgi_phpini_path"] && $fastcgi_config["fastcgi_phpini_path"] != $web_config['php_ini_path_cgi']) {
 			$check_files[] = array('file' => $fastcgi_config["fastcgi_phpini_path"],
 				'mode' => 'fast-cgi',
-				'php_version' => ''); // default;
+				'php_version' => 0); // default;
 		} else {
 			$check_files[] = array('file' => $web_config['php_ini_path_cgi'],
 				'mode' => 'fast-cgi', // all but 'mod'
-				'php_version' => ''); // default;
+				'php_version' => 0); // default;
 		}
 
 
@@ -112,11 +112,11 @@ class webserver_plugin {
 			if($php['php_fastcgi_ini_dir'] && $php['php_fastcgi_ini_dir'] . '/php.ini' != $web_config['php_ini_path_cgi']) {
 				$check_files[] = array('file' => $php['php_fastcgi_ini_dir'] . '/php.ini',
 					'mode' => 'fast-cgi',
-					'php_version' => $php['php_fastcgi_ini_dir']);
+					'php_version' => $php['server_php_id']);
 			} elseif($php['php_fpm_ini_dir'] && $php['php_fpm_ini_dir'] . '/php.ini' != $web_config['php_ini_path_cgi']) {
 				$check_files[] = array('file' => $php['php_fpm_ini_dir'] . '/php.ini',
 					'mode' => 'php-fpm',
-					'php_version' => $php['php_fpm_ini_dir']);
+					'php_version' => $php['server_php_id']);
 			}
 		}
 		unset($php_versions);

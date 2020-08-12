@@ -1,5 +1,5 @@
 <?php
-$wb['list_head_txt'] = 'Önemsiz Posta Beyaz Listesi';
+$wb['list_head_txt'] = 'Önemsiz İleti Beyaz Listesi';
 $wb['active_txt'] = 'Etkin';
 $wb['server_id_txt'] = 'Sunucu';
 $wb['priority_txt'] = 'Öncelik';

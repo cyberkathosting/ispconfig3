@@ -8,6 +8,7 @@
         -o smtpd_helo_restrictions=
         -o smtpd_sender_restrictions=
         -o smtpd_recipient_restrictions=permit_mynetworks,reject
+        -o smtpd_end_of_data_restrictions=
         -o mynetworks=127.0.0.0/8
         -o strict_rfc821_envelopes=yes
         -o receive_override_options=no_unknown_recipient_checks,no_header_body_checks

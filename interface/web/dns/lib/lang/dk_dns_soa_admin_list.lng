@@ -7,5 +7,6 @@ $wb['ns_txt'] = 'NS';
 $wb['mbox_txt'] = 'E-mail';
 $wb['add_new_record_wizard_txt'] = 'Tilføj ny DNS Zone med Guide';
 $wb['add_new_record_txt'] = 'Tilføj ny DNS Zone manuelt';
+$wb['import_zone_file_txt'] = 'Import Zone File';
 $wb['sys_groupid_txt'] = 'Kunde';
 ?>

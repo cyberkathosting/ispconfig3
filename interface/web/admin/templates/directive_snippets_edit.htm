@@ -1,10 +1,3 @@
-<div class='page-header'>
-	<h1><tmpl_var name="list_head_txt"></h1>
-</div>
-<p><tmpl_var name="list_desc_txt"></p>
-
-
-        
             <div class="form-group">
                 <label for="name" class="col-sm-3 control-label">{tmpl_var name='name_txt'}</label>
                 <tmpl_if name='is_master'><div class="col-sm-9 col-text">{tmpl_var name='name'}</div></tmpl_else><div class="col-sm-9"><input type="text" name="name" id="name" value="{tmpl_var name='name'}" class="form-control" /></div></tmpl_if>
@@ -19,7 +12,8 @@
                 <label for="snippet" class="col-sm-3 control-label">{tmpl_var name='snippet_txt'}</label>
                 <tmpl_if name='is_master'><div class="col-sm-9 col-text"><pre>{tmpl_var name='snippet'}</pre></div></tmpl_else><div class="col-sm-9"><textarea class="form-control" name="snippet" id="snippet" rows='10' cols='50'>{tmpl_var name='snippet'}</textarea>
                 &nbsp; Nginx {tmpl_var name='variables_txt'}: <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT}</a>, <a href="javascript:void(0);" class="addPlaceholder">{FASTCGIPASS}</a>, <a href="javascript:void(0);" class="addPlaceholder">{PHPFALLBACKFASTCGIPASS}</a><br />
-				&nbsp; Apache {tmpl_var name='variables_txt'}: <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT}</a>, <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT_CLIENT}</a>
+				&nbsp; Apache {tmpl_var name='variables_txt'}: <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT}</a>, <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT_CLIENT}</a> <br />
+				&nbsp; PHP {tmpl_var name='variables_txt'}: <a href="javascript:void(0);" class="addPlaceholder">{WEBROOT}</a>
 				</div></tmpl_if>
             </div>
             <tmpl_if name='is_master'></tmpl_else>
@@ -42,7 +36,10 @@
                     {tmpl_var name='active'}
                 </div>
             </div>
-        
+			<div class="form-group">
+				<label for="update_sites" class="col-sm-3 control-label">{tmpl_var name='update_sites_txt'}</label>
+				<div class="col-sm-9">{tmpl_var name='update_sites'}</div>        
+			</div> 
             
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
             

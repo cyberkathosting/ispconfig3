@@ -165,7 +165,8 @@ class page_action extends tform_actions {
 
 		// Set name
 		if($this->dataRecord['additional'] != '') {
-			$temp = explode(',', $this->dataRecord['additional'])[0]; // if we have more hostnames the interface-plugin will be used
+			$temp = explode(',', $this->dataRecord['additional']);
+			$temp = $temp[0]; // if we have more hostnames the interface-plugin will be used
 			$temp = trim($temp,'.');
 			if(trim($temp != '')) $this->dataRecord['name'] = $temp.'.'.$this->dataRecord['name'];
 			unset($temp);

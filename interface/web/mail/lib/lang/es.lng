@@ -45,4 +45,6 @@ $wb['Tag-Level'] = 'Nivel de etiqueta';
 $wb['User / Domain'] = 'Usuario / Dominio';
 $wb['Users'] = 'Usuarios';
 $wb['Whitelist'] = 'Lista blanca';
+$wb['add_header_txt'] = 'Header (adds \"X-Spam: Yes\")';
+$wb['rewrite_subject_txt'] = 'Subject (adds \"***SPAM***\" at the beginning)';
 ?>

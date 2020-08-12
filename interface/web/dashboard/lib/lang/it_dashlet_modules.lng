@@ -1,4 +1,4 @@
 <?php
 $wb['available_modules_txt'] = 'Moduli disponibili';
-$wb['go_to_txt'] = 'Go to';
+$wb['go_to_txt'] = 'Vai a';
 ?>

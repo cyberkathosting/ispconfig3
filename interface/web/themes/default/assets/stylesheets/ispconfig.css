@@ -1,5 +1,6 @@
 body {
-  overflow-y: scroll; }
+  overflow-y: scroll;
+  overflow-x: hidden; }
 
 .left {
   float: left; }
@@ -140,7 +141,9 @@ body {
 
 #sidebar {
   margin-top: 27px;
-  width: 18%;
+  min-width: 18%;
+  max-width: 21%;
+  width: auto;
   border-style: solid;
   border-width: 1px;
   border-radius: 4px; }
@@ -421,7 +424,7 @@ ul.gs-resultbox li.gs-cheader p.gs-cheader-limit {
 ul.df-resultbox li.df-cdata img,
 ul.gs-resultbox li.gs-cdata img {
   margin-right: 12px; }
-    
+
 ul.df-resultbox li.df-cdata p span.df-cdata-title,
 ul.gs-resultbox li.gs-cdata p span.gs-cdata-title {
   font-weight: bold; }
@@ -794,4 +797,7 @@ span.notification_text {
 	color: red;
 	background: #fdd;
 	text-decoration: none;
+}
+#apache_directives, #nginx_directives, #proxy_directives {
+	font-family: Consolas, "Courier New", Courier, monospace;
 }
