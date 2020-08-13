@@ -176,8 +176,17 @@ class bind_plugin {
 		//* Write Data back ino DB
 		$dnssecdata = "DS-Records:\n".file_get_contents($dns_config['bind_zonefiles_dir'].'/dsset-'.$domain.'.');
 		$dnssecdata .= "\n------------------------------------\n\nDNSKEY-Records:\n";
-		foreach (glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'*.key') as $keyfile) {
-			$dnssecdata .= file_get_contents($keyfile)."\n\n";
+		
+		if(in_array('ECDSAP256SHA256',$dnssec_algo)) {
+			foreach (glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'.+013*.key') as $keyfile) {
+				$dnssecdata .= file_get_contents($keyfile)."\n\n";
+			}
+		}
+		
+		if(in_array('NSEC3RSASHA1',$dnssec_algo)) {
+			foreach (glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'.+007*.key') as $keyfile) {
+				$dnssecdata .= file_get_contents($keyfile)."\n\n";
+			}
 		}
 		
 		if ($app->dbmaster !== $app->db) $app->dbmaster->query('UPDATE dns_soa SET dnssec_info=?, dnssec_initialized=\'Y\', dnssec_last_signed=? WHERE id=?', $dnssecdata, intval(time()), intval($data['new']['id']));
