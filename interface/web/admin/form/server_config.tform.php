@@ -1819,7 +1819,7 @@ $form["tabs"]['jailkit'] = array(
 			'formtype' => 'TEXT',
 			'default' => '',
 			'validators' => array(	0 => array ( 	'type' => 'REGEX',
-										'regex' => '/^[a-zA-Z0-9\.\-\_\/\ ]{1,}$/',
+										'regex' => '/^[a-zA-Z0-9\.\-\_\/\ ]*$/',
 										'errmsg'=> 'jailkit_chroot_authorized_keys_template_error_regex'),
 			),
 			'value' => '',
