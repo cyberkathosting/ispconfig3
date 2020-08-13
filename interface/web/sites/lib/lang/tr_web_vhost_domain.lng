@@ -184,4 +184,5 @@ $wb["backup_format_tar_7z_lzma_txt"] = 'tar + 7z (LZMA)';
 $wb["backup_format_tar_7z_lzma2_txt"] = 'tar + 7z (LZMA2)';
 $wb["backup_format_tar_7z_ppmd_txt"] = 'tar + 7z (PPMd)';
 $wb["backup_format_tar_7z_bzip2_txt"] = 'tar + 7z (BZip2)';
+$wb['dependent_domains_txt'] = 'Dependent sub- / aliasdomains';
 ?>
