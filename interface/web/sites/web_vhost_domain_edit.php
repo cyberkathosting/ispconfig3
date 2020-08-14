@@ -1188,6 +1188,9 @@ class page_action extends tform_actions {
 
 		//* make sure that the domain is lowercase
 		if(isset($this->dataRecord["domain"])) $this->dataRecord["domain"] = strtolower($this->dataRecord["domain"]);
+		
+		//* server_id must be > 0
+		if(isset($this->dataRecord["server_id"]) && $this->dataRecord["server_id"] < 1) $app->tform->errorMessage .= $app->lng("server_id_0_error_txt");
 
 		//* get the server config for this server
 		$app->uses("getconf");

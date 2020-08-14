@@ -302,6 +302,9 @@ function onSubmit() {
 		if($tmp["number"] > 0) {
 			$app->error($app->tform->wordbook["origin_error_unique"]);
 		}
+		
+		//* server_id must be > 0
+		if(isset($this->dataRecord["server_id"]) && $this->dataRecord["server_id"] < 1) $app->tform->errorMessage .= $app->lng("server_id_0_error_txt");
 	}
 	parent::onSubmit();
 }
