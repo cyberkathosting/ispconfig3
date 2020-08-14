@@ -149,8 +149,8 @@ class cronjob_goaccess extends cronjob {
 		                        if(!@is_dir($goa_db_dir)) $app->system->mkdirpath($goa_db_dir);
 	
 		                        if(is_link('/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log')) $app->system->unlink('/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log');
-					$app->system->create_relative_link($logfile, '/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log');
 
+					symlink($logfile, '/var/log/ispconfig/httpd/'.$domain.'/yesterday-access.log');
 					$app->system->exec_safe('chown -R ?:? ?', $username, $groupname, $statsdir);
 	
 					$goamonth = date("n");
