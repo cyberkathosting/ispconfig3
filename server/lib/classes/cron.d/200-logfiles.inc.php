@@ -124,7 +124,7 @@ class cronjob_logfiles extends cronjob {
 
 			$cron_logfiles = array('cron.log', 'cron_error.log', 'cron_wget.log');
 			foreach($cron_logfiles as $cron_logfile) {
-				$cron_logfile = $rec['document_root'].'/' . $log_folder . '/' . $cron_logfile;
+				$cron_logfile = $rec['document_root'].'/private/' . $cron_logfile;
 
 				// rename older files (move up by one)
 				$num = $log_retention;
