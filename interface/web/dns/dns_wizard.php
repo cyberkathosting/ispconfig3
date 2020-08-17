@@ -339,6 +339,7 @@ if($_POST['create'] == 1) {
 	$section = '';
 	$vars = array();
 	$vars['xfer']='';
+	$vars['dnssec_algo']='ECDSAP256SHA256';
 	$dns_rr = array();
 	foreach($tpl_rows as $row) {
 		$row = trim($row);
@@ -398,6 +399,7 @@ if($_POST['create'] == 1) {
 		$xfer = $vars['xfer'];
 		$also_notify = $vars['also_notify'];
 		$update_acl = $vars['update_acl'];
+		$dnssec_algo = $vars['dnssec_algo'];
 		$serial = $app->validate_dns->increase_serial(0);
 
 		$insert_data = array(
@@ -420,7 +422,8 @@ if($_POST['create'] == 1) {
 			"xfer" => $xfer,
 			"also_notify" => $also_notify,
 			"update_acl" => $update_acl,
-			"dnssec_wanted" => $enable_dnssec
+			"dnssec_wanted" => $enable_dnssec,
+			"dnssec_algo" => $dnssec_algo
 		);
 		$dns_soa_id = $app->db->datalogInsert('dns_soa', $insert_data, 'id');
 		if($dns_soa_id > 0) $app->plugin->raiseEvent('dns:wizard:on_after_insert', $dns_soa_id);

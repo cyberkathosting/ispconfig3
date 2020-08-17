@@ -41,4 +41,5 @@ $wb['ttl_range_error'] = 'En düşük TTL süresi 60 saniyedir.';
 $wb['error_not_allowed_server_id'] = 'Seçilmiş sunucuda bu hesap kullanılamaz.';
 $wb['soa_cannot_be_changed_txt'] = 'Bölge (SOA) değiştirilemez. Lütfen bölgeyi değiştirmek için yöneticiniz ile görüşün.';
 $wb['configuration_error_txt'] = 'YAPILANDIRMA SORUNU';
+$wb['dnssec_algo_txt'] = 'DNSSEC Algorithm';
 ?>
