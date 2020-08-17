@@ -193,7 +193,7 @@ class cronjob_logfiles extends cronjob {
 				if(is_file($ispconfig_logfile . '.' . $num . '.gz')) rename($ispconfig_logfile . '.' . $num . '.gz', $ispconfig_logfile . '.' . ($num + 1) . '.gz');
 				$num--;
 			}
-			// compress current logfile
+			//* compress current logfile
 			if(is_file($ispconfig_logfile)) {
 				$app->system->exec_safe("gzip -c ? > ?", $ispconfig_logfile, $ispconfig_logfile . '.1.gz');
 				$app->system->exec_safe("cat /dev/null > ?", $ispconfig_logfile);
