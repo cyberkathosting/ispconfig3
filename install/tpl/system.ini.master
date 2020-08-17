@@ -36,6 +36,7 @@ backups_include_into_web_quota=n
 reseller_can_use_options=n
 web_php_options=no,fast-cgi,mod,php-fpm
 show_aps_menu=n
+client_protection=y
 
 
 [tools]
