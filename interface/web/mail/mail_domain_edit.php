@@ -283,7 +283,9 @@ class page_action extends tform_actions {
 			$this->dataRecord["domain"] = $app->functions->idn_encode($this->dataRecord["domain"]);
 			$this->dataRecord["domain"] = strtolower($this->dataRecord["domain"]);
 		}
-
+		
+		//* server_id must be > 0
+		if(isset($this->dataRecord["server_id"]) && $this->dataRecord["server_id"] < 1) $app->tform->errorMessage .= $app->lng("server_id_0_error_txt");
 
 		parent::onSubmit();
 	}
