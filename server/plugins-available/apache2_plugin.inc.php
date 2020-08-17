@@ -1925,6 +1925,21 @@ class apache2_plugin {
 			$app->file->removeDirectory($data['new']['document_root'].'/web/stats');
 		}
 
+		//* Remove the AWstats configuration file
+		if($data['old']['stats_type'] == 'awstats') {
+			$this->awstats_delete($data, $web_config);
+		}
+
+		//* Remove the GoAccess configuration file
+		if($data['old']['stats_type'] == 'goaccess') {
+			$this->goaccess_delete($data, $web_config);
+		}
+
+                //* Remove the Webalizer configuration file
+                if($data['old']['stats_type'] == 'webalizer') {
+                        $this->webalizer_delete($data, $web_config);
+                }
+
 		$this->php_fpm_pool_update($data, $web_config, $pool_dir, $pool_name, $socket_dir, $web_folder);
 		$this->hhvm_update($data, $web_config);
 
@@ -2328,14 +2343,9 @@ class apache2_plugin {
 
 			}
 
-			//* Remove the awstats configuration file
+			//* Remove the AWstats configuration file
 			if($data['old']['stats_type'] == 'awstats') {
 				$this->awstats_delete($data, $web_config);
-			}
-
-			//* Remove the GoAccess configuration file
-			if($data['old']['stats_type'] == 'goaccess') {
-				$this->goaccess_delete($data, $web_config);
 			}
 
 			if($data['old']['type'] == 'vhostsubdomain' || $data['old']['type'] == 'vhostalias') {
@@ -3127,6 +3137,18 @@ class apache2_plugin {
 			$app->log('Removed GoAccess config file: '.$goaccess_conf, LOGLEVEL_DEBUG);
 		}
 	}
+
+        //* Delete the Webalizer configuration file
+        private function webalizer_delete ($data, $web_config) {
+                global $app;
+
+                $webalizer_conf = $data['old']['document_root'] . "/log/webalizer.conf";
+
+                if ( @is_file($webalizer_conf) ) {
+                        $app->system->unlink($webalizer_conf);
+                        $app->log('Removed Webalizer config file: '.$webalizer_conf, LOGLEVEL_DEBUG);
+                }
+        }
 
 	private function hhvm_update($data, $web_config) {
 		global $app, $conf;
