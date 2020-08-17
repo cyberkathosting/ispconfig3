@@ -1814,6 +1814,18 @@ $form["tabs"]['jailkit'] = array(
 			'width' => '40',
 			'maxlength' => '1000'
 		),
+		'jailkit_chroot_authorized_keys_template' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'validators' => array(	0 => array ( 	'type' => 'REGEX',
+										'regex' => '/^[a-zA-Z0-9\.\-\_\/\ ]*$/',
+										'errmsg'=> 'jailkit_chroot_authorized_keys_template_error_regex'),
+			),
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '1000'
+		),
 		//#################################
 		// END Datatable fields
 		//#################################
