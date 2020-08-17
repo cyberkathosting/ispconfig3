@@ -1939,6 +1939,11 @@ class nginx_plugin {
                         $this->goaccess_update($data, $web_config);
                 }
 
+                //* Remove the AWstats configuration file
+                if($data['old']['stats_type'] == 'awstats') {
+                        $this->awstats_delete($data, $web_config);
+                }
+
 		//* Remove the GoAccess configuration file
 		if($data['old']['stats_type'] == 'goaccess') {
 			$this->goaccess_delete($data, $web_config);
@@ -2334,11 +2339,6 @@ class nginx_plugin {
 			if($data['old']['stats_type'] == 'awstats') {
 				$this->awstats_delete($data, $web_config);
 			}
-
-			//* Remove the GoAccess configuration file
-                        if($data['old']['stats_type'] == 'goaccess') {
-                                $this->goaccess_delete($data, $web_config);
-                        }
 
 			//* Delete the web-backups
 			if($data['old']['type'] == 'vhost') {
