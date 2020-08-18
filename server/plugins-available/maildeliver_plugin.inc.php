@@ -92,7 +92,6 @@ class maildeliver_plugin {
 			or (isset($data["new"]["email"]) and $data["old"]["email"] != $data["new"]["email"])
 			or $data["old"]["autoresponder_start_date"] != $data["new"]["autoresponder_start_date"]
 			or $data["old"]["autoresponder_end_date"] != $data["new"]["autoresponder_end_date"]
-			or $data["old"]["cc"] != $data["new"]["cc"]
 		) {
 
 			$app->log("Mailfilter config has been changed", LOGLEVEL_DEBUG);
@@ -119,16 +118,6 @@ class maildeliver_plugin {
 				//* Create new filter file based on template
 				$tpl = new tpl();
 				$tpl->newTemplate("sieve_filter.master");
-
-				// cc Field
-				$tmp_mails_arr = explode(',',$data["new"]["cc"]);
-				$tmp_addresses_arr = array();
-				foreach($tmp_mails_arr as $address) {
-					if(trim($address) != '') $tmp_addresses_arr[] = array('address' => trim($address));
-				}
-			
-				$tpl->setVar('cc', $data["new"]["cc"]);
-				$tpl->setLoop('ccloop', $tmp_addresses_arr);
 
 				// Custom filters
 				if($data["new"]["custom_mailfilter"] == 'NULL') $data["new"]["custom_mailfilter"] = '';
