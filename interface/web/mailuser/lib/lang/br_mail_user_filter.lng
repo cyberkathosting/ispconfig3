@@ -18,4 +18,7 @@ $wb['begins_with_txt'] = 'Iniciando com';
 $wb['ends_with_txt'] = 'Finalizando com';
 $wb['move_to_txt'] = 'Mover para';
 $wb['delete_txt'] = 'Remover';
+$wb['header_txt'] = 'Header';
+$wb['size_over_txt'] = 'Email size over (KB)';
+$wb['size_under_txt'] = 'Email size under (KB)';
 ?>
