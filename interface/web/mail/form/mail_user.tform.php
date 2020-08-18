@@ -189,6 +189,12 @@ $form["tabs"]['mailuser'] = array(
 			'width'  => '30',
 			'maxlength' => '65535'
 		),
+		'forward_in_lda' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value'  => array(0 => 'n', 1 => 'y')
+		),
 		'sender_cc' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',

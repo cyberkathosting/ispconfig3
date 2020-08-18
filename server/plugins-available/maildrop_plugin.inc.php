@@ -175,11 +175,15 @@ class maildrop_plugin {
 
 		// Write the custom mailfilter script, if mailfilter recipe has changed
 		if($data["old"]["custom_mailfilter"] != $data["new"]["custom_mailfilter"]
-			or $data["old"]["move_junk"] != $data["new"]["move_junk"]) {
+			or $data["old"]["move_junk"] != $data["new"]["move_junk"]
+			or $data["old"]["cc"] != $data["new"]["cc"]
+			or $data["old"]["forward_in_lda"] != $data["new"]["forward_in_lda"]
+		) {
 
 			$app->log("Mailfilter config has been changed", LOGLEVEL_DEBUG);
 			if(trim($data["new"]["custom_mailfilter"]) != ''
-				or $data["new"]["move_junk"] != 'n') {
+				or $data["new"]["move_junk"] != 'n'
+				or $data["new"]["cc"] != '') {
 
 				// Delete the old filter recipe
 				$email_parts = explode("@", $data["old"]["email"]);
@@ -195,6 +199,15 @@ class maildrop_plugin {
 				$config_file_path = $this->mailfilter_config_dir.'/'.$email_parts[1].'/'.$email_parts[0].'/.mailfilter';
 
 				$mailfilter_content = '';
+
+				if ($data["new"]["forward_in_lda"] == 'y' && $data["new"]["cc"] != '') {
+					$tmp_mails_arr = explode(',',$data["new"]["cc"]);
+					foreach($tmp_mails_arr as $address) {
+						if(trim($address) != '') $mailfilter_content .= "cc \"!".trim($address)."\"\n";
+					}
+					//$mailfilter_content .= "cc \"!".$data["new"]["cc"]."\"\n";
+					$app->log("Added CC address ".$data["new"]["cc"].' to mailfilter file.', LOGLEVEL_DEBUG);
+				}
 
 				if($data["new"]["move_junk"] != 'n') {
 					if(file_exists($conf["rootpath"].'/conf-custom/mailfilter_move_junk.master')) {
