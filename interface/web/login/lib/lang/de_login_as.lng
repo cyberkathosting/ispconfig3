@@ -9,4 +9,6 @@ $wb['firewall_error_unique'] = 'Es gibt bereits einen Firewalleintrag für diese
 $wb['tcp_ports_error_regex'] = 'Es sind nur Zahlen in der TCP Port Definition erlaubt. ';
 $wb['udp_ports_error_regex'] = 'Es sind nur Zahlen in der UDP Port Definition erlaubt., ';
 $wb['login_as_or_logout_txt'] = 'Wollen Sie sich wieder als {UTYPE} anmelden oder sich abmelden?';
+$wb['btn_reloginas_txt'] = 'Yes, re-login as %s';
+$wb['btn_nologout_txt'] = 'No, logout';
 ?>
