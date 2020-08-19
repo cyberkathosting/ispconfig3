@@ -5,5 +5,5 @@ $wb['client_txt'] = 'Kunde';
 $wb['used_txt'] = 'Verwendeter Speicherplatz';
 $wb['quota_txt'] = 'Quota';
 $wb['percentage_txt'] = 'Verbraucht in %';
-$wb['list_head_txt'] = 'Database Quota';
+$wb['list_head_txt'] = 'Datenbank-Quota';
 ?>
