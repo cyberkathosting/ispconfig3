@@ -30,7 +30,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 class letsencrypt {
 
-	/**
+	/** 
 	 * Construct for this class
 	 *
 	 * @return system
