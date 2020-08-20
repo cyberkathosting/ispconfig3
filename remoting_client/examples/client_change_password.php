@@ -21,7 +21,7 @@ try {
 
     $success = $client->client_change_password($session_id, $client_id, $new_password);
 
-	if ($success = 1)
+	if ($success == 1)
 	{
         echo "Password has been changed successfully";
 	}
