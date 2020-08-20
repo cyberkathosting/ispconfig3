@@ -9,4 +9,6 @@ $wb['firewall_error_unique'] = 'Уже есть такая запись бред
 $wb['tcp_ports_error_regex'] = 'Недопустимый символ в указании tcp порта. Корректные сиволы - цифры, \\":\\" и \\",\\"';
 $wb['udp_ports_error_regex'] = 'Некорректный символ в указании UDP порта. Допустимые сиволы - цифры, \\":\\" и \\",\\"';
 $wb['login_as_or_logout_txt'] = 'Вы хотите заново войти как {UTYPE} или выйти?';
+$wb['btn_reloginas_txt'] = 'Yes, re-login as %s';
+$wb['btn_nologout_txt'] = 'No, logout';
 ?>

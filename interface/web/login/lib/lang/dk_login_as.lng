@@ -9,4 +9,6 @@ $wb['firewall_error_unique'] = 'Der er allerede en firewall post for denne serve
 $wb['tcp_ports_error_regex'] = 'Tegn ikke tilladt i TCP port definition. Tilladt tegn er tal, \\":\\" og \\",\\".';
 $wb['udp_ports_error_regex'] = 'Tegn ikke tilladt i UDP port definition. Tilladt tegn er tal, \\":\\" og \\",\\".';
 $wb['login_as_or_logout_txt'] = 'Do you want to re-login as {UTYPE} or logout?';
+$wb['btn_reloginas_txt'] = 'Yes, re-login as %s';
+$wb['btn_nologout_txt'] = 'No, logout';
 ?>
