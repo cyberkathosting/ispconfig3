@@ -2,6 +2,6 @@
 $wb['mailbox_spamfilter_txt'] = 'Önemsiz İleti Süzgeci';
 $wb['spamfilter_txt'] = 'Önemsiz ileti süzgeci';
 $wb['email_txt'] = 'E-posta';
-$wb['no_policy'] = '- devre dışı -';
+$wb['inherit_policy'] = '- Inherit domain setting -';
 $wb['policy_txt'] = 'Kural';
 ?>
