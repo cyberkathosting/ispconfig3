@@ -1,81 +1,106 @@
 <tmpl_if name="config_error_msg">
-<div style="background: #ffdfdf; border: 1px solid #df7d7d; border-width: 1px 0; margin: 1.5em 0 1.5em 0; padding: 7px;">
-                <p style="font-face:bold">{tmpl_var name='configuration_error_txt'}</p>
-				<div>
-				<div style="float:left;width:150px;">{tmpl_var name='config_error_tstamp'} :&nbsp;</div><div style="padding-left:150px;">{tmpl_var name='config_error_msg'}</div>
-				</div>
-</div>
+  <div style="background: #ffdfdf; border: 1px solid #df7d7d; border-width: 1px 0; margin: 1.5em 0 1.5em 0; padding: 7px;">
+    <p style="font-face:bold">{tmpl_var name='configuration_error_txt'}</p>
+    <div>
+      <div style="float:left;width:150px;">{tmpl_var name='config_error_tstamp'} :&nbsp;</div>
+      <div style="padding-left:150px;">{tmpl_var name='config_error_msg'}</div>
+    </div>
+  </div>
 </tmpl_if>
 
-            <div class="form-group">
-                <label for="backup_interval" class="col-sm-3 control-label">{tmpl_var name='backup_interval_txt'}</label>
-                <div class="col-sm-9"><select name="backup_interval" id="backup_interval" class="form-control">
-                    {tmpl_var name='backup_interval'}
-                </select></div>
-            </div>
-            <div class="form-group">
-                <label for="backup_copies" class="col-sm-3 control-label">{tmpl_var name='backup_copies_txt'}</label>
-                <div class="col-sm-9"><select name="backup_copies" id="backup_copies" class="form-control">
-                    {tmpl_var name='backup_copies'}
-                </select></div>
-            </div>
-			<div class="form-group">
-                <label for="backup_excludes" class="col-sm-3 control-label">{tmpl_var name='backup_excludes_txt'}</label>
-                <div class="col-sm-6"><input type="text" name="backup_excludes" id="backup_excludes" value="{tmpl_var name='backup_excludes'}" class="form-control" /></div><div class="col-sm-3 input-sm">&nbsp;{tmpl_var name='backup_excludes_note_txt'}
-            </div></div>
 
-            <legend>{tmpl_var name='backup_compression_options_txt'}</legend>
-            <div class="tab-content">
-                {tmpl_var name='backup_format_web_note_txt'}
-            </div>
-            <tmpl_if name="missing_utils">
-                <div class="tab-content bg-warning text-warning">
-                    {tmpl_var name='backup_missing_utils_txt'} {tmpl_var name='missing_utils'}
-                </div>
-            </tmpl_if>
-            <div class="form-group">
-                <label for="backup_format_web" class="col-sm-3 control-label">{tmpl_var name='backup_format_web_txt'}</label>
-                <div class="col-sm-9">
-                    <select name="backup_format_web" id="backup_format_web" class="form-control">
-                        {tmpl_var name='backup_format_web'}
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="backup_format_db" class="col-sm-3 control-label">{tmpl_var name='backup_format_db_txt'}</label>
-                <div class="col-sm-9">
-                    <select name="backup_format_db" id="backup_format_db" class="form-control">
-                        {tmpl_var name='backup_format_db'}
-                    </select>
-                </div>
-            </div>
-
-            <legend>{tmpl_var name='backup_encryption_options_txt'}</legend>
-            <div class="tab-content">
-                {tmpl_var name='backup_encryption_note_txt'}
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">
-                    {tmpl_var name='backup_enable_encryption_txt'}
-                </label>
-                <div class="col-sm-9">
-                    {tmpl_var name="backup_encrypt"}
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="backup_password" class="col-sm-3 control-label">
-                    {tmpl_var name='backup_password_txt'}
-                </label>
-                <div class="col-sm-9">
-                    <input type="text" name="backup_password" id="backup_password" value="{tmpl_var name='backup_password'}" class="form-control" />
-                </div>
-            </div>
-
-        {tmpl_var name='backup_records'}
-
-        <input type="hidden" name="id" value="{tmpl_var name='id'}">
-
-        <div class="clear"><div class="right">
-            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="sites/web_vhost_domain_edit.php">{tmpl_var name='btn_save_txt'}</button>
-            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="sites/web_vhost_domain_list.php">{tmpl_var name='btn_cancel_txt'}</button>
-        </div></div>
+<div class="form-group">
+  <label for="backup_interval" class="col-sm-3 control-label">{tmpl_var name='backup_interval_txt'}</label>
+  <div class="col-sm-9"><select name="backup_interval" id="backup_interval" class="form-control">
+    {tmpl_var name='backup_interval'}
+    </select>
+  </div>
+</div>
+<div class="form-group">
+  <label for="backup_copies" class="col-sm-3 control-label">{tmpl_var name='backup_copies_txt'}</label>
+  <div class="col-sm-9"><select name="backup_copies" id="backup_copies" class="form-control">
+    {tmpl_var name='backup_copies'}
+    </select>
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading" role="tab" id="headingCompression">
+    <h4 class="panel-title">
+      <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseCompression" aria-expanded="false" aria-controls="collapseCompression">
+      {tmpl_var name='backup_compression_options_txt'}
+      </a>
+    </h4>
+  </div>
+  <div id="collapseCompression" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingCompression">
+    <div class="panel-body">
+      <div class="form-group">
+        <label for="backup_excludes" class="col-sm-3 control-label">{tmpl_var name='backup_excludes_txt'}</label>
+        <div class="col-sm-6"><input type="text" name="backup_excludes" id="backup_excludes" value="{tmpl_var name='backup_excludes'}" class="form-control" /></div>
+        <div class="col-sm-3 input-sm">&nbsp;{tmpl_var name='backup_excludes_note_txt'}
+        </div>
+      </div>
+      <div class="tab-content">
+        {tmpl_var name='backup_format_web_note_txt'}
+      </div>
+      <tmpl_if name="missing_utils">
+        <div class="tab-content bg-warning text-warning">
+          {tmpl_var name='backup_missing_utils_txt'} {tmpl_var name='missing_utils'}
+        </div>
+      </tmpl_if>
+      <div class="form-group">
+        <label for="backup_format_web" class="col-sm-3 control-label">{tmpl_var name='backup_format_web_txt'}</label>
+        <div class="col-sm-9">
+          <select name="backup_format_web" id="backup_format_web" class="form-control">
+          {tmpl_var name='backup_format_web'}
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="backup_format_db" class="col-sm-3 control-label">{tmpl_var name='backup_format_db_txt'}</label>
+        <div class="col-sm-9">
+          <select name="backup_format_db" id="backup_format_db" class="form-control">
+          {tmpl_var name='backup_format_db'}
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel-heading" role="tab" id="headingEncryption">
+    <h4 class="panel-title">
+      <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseEncryption" aria-expanded="false" aria-controls="collapseEncryption">
+      {tmpl_var name='backup_encryption_options_txt'}
+      </a>
+    </h4>
+  </div>
+  <div id="collapseEncryption" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingEncryption">
+    <div class="panel-body">
+      <div class="tab-content">
+        {tmpl_var name='backup_encryption_note_txt'}
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label">
+        {tmpl_var name='backup_enable_encryption_txt'}
+        </label>
+        <div class="col-sm-9">
+          {tmpl_var name="backup_encrypt"}
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="backup_password" class="col-sm-3 control-label">
+        {tmpl_var name='backup_password_txt'}
+        </label>
+        <div class="col-sm-9">
+          <input type="text" name="backup_password" id="backup_password" value="{tmpl_var name='backup_password'}" class="form-control" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{tmpl_var name='backup_records'}
+<input type="hidden" name="id" value="{tmpl_var name='id'}">
+<div class="clear">
+  <div class="right">
+    <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="sites/web_vhost_domain_edit.php">{tmpl_var name='btn_save_txt'}</button>
+    <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="sites/web_vhost_domain_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+  </div>
+</div>
