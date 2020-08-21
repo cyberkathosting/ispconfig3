@@ -737,11 +737,16 @@ class installer_base {
 		global $conf;
 
 		$config_dir = $conf['postfix']['config_dir'].'/';
+		$postfix_group = $conf['postfix']['group'];
 		$full_file_name = $config_dir.$configfile;
+
 		//* Backup exiting file
 		if(is_file($full_file_name)) {
 			copy($full_file_name, $config_dir.$configfile.'~');
+			chmod($config_dir.$configfile.'~',0600);
 		}
+		
+		//* Replace variables in config file template
 		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', 'tpl/'.$configfile.'.master');
 		$content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
 		$content = str_replace('{mysql_server_ispconfig_password}', $conf['mysql']['ispconfig_password'], $content);
@@ -749,6 +754,13 @@ class installer_base {
 		$content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
 		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		wf($full_file_name, $content);
+		
+		//* Changing mode and group of the new created config file
+		caselog('chmod u=rw,g=r,o= '.escapeshellarg($full_file_name).' &> /dev/null',
+			__FILE__, __LINE__, 'chmod on '.$full_file_name, 'chmod on '.$full_file_name.' failed');
+		caselog('chgrp '.escapeshellarg($postfix_group).' '.escapeshellarg($full_file_name).' &> /dev/null',
+			__FILE__, __LINE__, 'chgrp on '.$full_file_name, 'chgrp on '.$full_file_name.' failed');
+		
 	}
 
 	public function configure_jailkit() {
@@ -876,8 +888,8 @@ class installer_base {
 			$postfix_service = @($out[0]=='')?false:true;
 		} else { //* fallback - Postfix < 2.9
 			$content = rf($conf['postfix']['config_dir'].'/master.cf');
-			$regex = "/^((?!#)".$service.".*".$type.".*)$/m";
-			$postfix_service = @(preg_match($regex, $content))?true:false;
+			$quoted_regex = "^((?!#)".preg_quote($service, '/').".*".preg_quote($type, '/').".*)$";
+			$postfix_service = @(preg_match("/$quoted_regex/m", $content))?true:false;
 		}
 
 		return $postfix_service;
@@ -915,10 +927,11 @@ class installer_base {
 			while ( !feof( $cf ) ) {
 				$line = fgets( $cf );
 
+				$quoted_regex = '^'.preg_quote($service, '/').'\s+'.preg_quote($type, '/');
 				if ( $reading_service ) {
 					# regex matches a new service or "empty" (whitespace) line
 					if ( preg_match( '/^([^\s#]+.*|\s*)$/', $line ) &&
-					   ! preg_match( '/^'.$service.'\s+'.$type.'/', $line ) ) {
+					   ! preg_match( "/$quoted_regex/", $line ) ) {
 						$out .= $line;
 						$reading_service = false;
 					}
@@ -926,7 +939,7 @@ class installer_base {
 					# $skipped_lines .= $line;
 
 				# regex matches definition matching service to be removed
-				} else if ( preg_match( '/^'.$service.'\s+'.$type.'/', $line ) ) {
+				} else if ( preg_match( "/$quoted_regex/", $line ) ) {
 
 					$reading_service = true;
 					# $skipped_lines .= $line;
@@ -959,6 +972,12 @@ class installer_base {
 
 		//* mysql-virtual_forwardings.cf
 		$this->process_postfix_config('mysql-virtual_forwardings.cf');
+
+		//* mysql-virtual_alias_domains.cf
+		$this->process_postfix_config('mysql-virtual_alias_domains.cf');
+
+		//* mysql-virtual_alias_maps.cf
+		$this->process_postfix_config('mysql-virtual_alias_maps.cf');
 
 		//* mysql-virtual_mailboxes.cf
 		$this->process_postfix_config('mysql-virtual_mailboxes.cf');
@@ -999,6 +1018,9 @@ class installer_base {
 		//* mysql-virtual_uids.cf
 		$this->process_postfix_config('mysql-virtual_uids.cf');
 
+		//* mysql-virtual_alias_domains.cf
+		$this->process_postfix_config('mysql-verify_recipients.cf');
+
 		// test if lmtp if available
 		$configure_lmtp = $this->get_postfix_service('lmtp','unix');
 
@@ -1020,12 +1042,6 @@ class installer_base {
 			$content = preg_replace('/amavis:/', 'lmtp:', $content);
 		}
 		wf($full_file_name, $content);
-
-		//* Changing mode and group of the new created config files.
-		caselog('chmod u=rw,g=r,o= '.$config_dir.'/mysql-virtual_*.cf* &> /dev/null',
-			__FILE__, __LINE__, 'chmod on mysql-virtual_*.cf*', 'chmod on mysql-virtual_*.cf* failed');
-		caselog('chgrp '.$cf['group'].' '.$config_dir.'/mysql-virtual_*.cf* &> /dev/null',
-			__FILE__, __LINE__, 'chgrp on mysql-virtual_*.cf*', 'chgrp on mysql-virtual_*.cf* failed');
 
 		//* Creating virtual mail user and group
 		$command = 'groupadd -g '.$cf['vmail_groupid'].' '.$cf['vmail_groupname'];
@@ -1151,13 +1167,13 @@ class installer_base {
 		if(is_file('/var/run/courier/authdaemon/')) caselog($command.' &> /dev/null', __FILE__, __LINE__, 'EXECUTED: '.$command, 'Failed to execute the command '.$command);
 
 		//* Check maildrop service in posfix master.cf
-		$regex = "/^maildrop   unix.*pipe flags=DRhu user=vmail argv=\\/usr\\/bin\\/maildrop -d ".$cf['vmail_username']." \\$\{extension} \\$\{recipient} \\$\{user} \\$\{nexthop} \\$\{sender}/";
+		$quoted_regex = '^maildrop   unix.*pipe flags=DRhu user=vmail '.preg_quote('argv=/usr/bin/maildrop -d '.$cf['vmail_username'].' ${extension} ${recipient} ${user} ${nexthop} ${sender}', '/');
 		$configfile = $config_dir.'/master.cf';
 		if($this->get_postfix_service('maildrop', 'unix')) {
 			exec ("postconf -M maildrop.unix 2> /dev/null", $out, $ret);
-			$change_maildrop_flags = @(preg_match($regex, $out[0]) && $out[0] !='')?false:true;
+			$change_maildrop_flags = @(preg_match("/$quoted_regex/", $out[0]) && $out[0] !='')?false:true;
 		} else {
-			$change_maildrop_flags = @(preg_match($regex, $configfile))?false:true;
+			$change_maildrop_flags = @(preg_match("/$quoted_regex/", $configfile))?false:true;
 		}
 		if ($change_maildrop_flags) {
 			//* Change maildrop service in posfix master.cf
@@ -1337,6 +1353,9 @@ class installer_base {
 		}
 
 		$config_dir = $conf['postfix']['config_dir'];
+		$quoted_config_dir = preg_quote($config_dir, '/');
+		$postfix_version = `postconf -d mail_version 2>/dev/null`;
+		$postfix_version = preg_replace( '/mail_version\s*=\s*(.*)\s*/', '$1', $postfix_version );
 
 		//* Configure master.cf and add a line for deliver
 		if(!$this->get_postfix_service('dovecot', 'unix')) {
@@ -1348,7 +1367,7 @@ class installer_base {
 				chmod($config_dir.'/master.cf~2', 0400);
 			}
 			//* Configure master.cf and add a line for deliver
-			$content = rf($conf["postfix"]["config_dir"].'/master.cf');
+			$content = rf($config_dir.'/master.cf');
 			$deliver_content = 'dovecot   unix  -       n       n       -       -       pipe'."\n".'  flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -f ${sender} -d ${user}@${nexthop}'."\n";
 			af($config_dir.'/master.cf', $deliver_content);
 			unset($content);
@@ -1365,7 +1384,32 @@ class installer_base {
 		);
 
 		// Make a backup copy of the main.cf file
-		copy($conf['postfix']['config_dir'].'/main.cf', $conf['postfix']['config_dir'].'/main.cf~3');
+		copy($config_dir.'/main.cf', $config_dir.'/main.cf~3');
+
+		$options = preg_split("/,\s*/", exec("postconf -h smtpd_recipient_restrictions"));
+		$new_options = array();
+		foreach ($options as $value) {
+			$value = trim($value);
+			if ($value == '') continue;
+			if (preg_match("|check_recipient_access\s+proxy:mysql:${quoted_config_dir}/mysql-verify_recipients.cf|", $value)) {
+				continue;
+			}
+			$new_options[] = $value;
+		}
+		if ($configure_lmtp) {
+			for ($i = 0; isset($new_options[$i]); $i++) {
+				if ($new_options[$i] == 'reject_unlisted_recipient') {
+					array_splice($new_options, $i+1, 0, array("check_recipient_access proxy:mysql:${config_dir}/mysql-verify_recipients.cf"));
+					break;
+				}
+			}
+			# postfix < 3.3 needs this when using reject_unverified_recipient:
+			if(version_compare($postfix_version, 3.3, '<')) {
+				$postconf_commands[] = "enable_original_recipient = yes";
+			}
+		}
+		#exec("postconf -e 'smtpd_recipient_restrictions = ".implode(", ", $new_options)."'");
+		$postconf_commands[] = "smtpd_recipient_restrictions = ".implode(", ", $new_options);
 
 		// Executing the postconf commands
 		foreach($postconf_commands as $cmd) {
@@ -1605,12 +1649,16 @@ class installer_base {
 
 			exec("postconf -e 'smtpd_sender_restrictions = check_sender_access mysql:/etc/postfix/mysql-virtual_sender.cf, permit_mynetworks, permit_sasl_authenticated'");
 
-			$new_options = array();
+
 			$options = preg_split("/,\s*/", exec("postconf -h smtpd_recipient_restrictions"));
+			$new_options = array();
 			foreach ($options as $value) {
-				if (!preg_match('/check_policy_service\s+inet:127.0.0.1:10023/', $value)) {
-					$new_options[] = $value;
+				$value = trim($value);
+				if ($value == '') continue;
+				if (preg_match('/check_policy_service\s+inet:127.0.0.1:10023/', $value)) {
+					continue;
 				}
+				$new_options[] = $value;
 			}
 			exec("postconf -e 'smtpd_recipient_restrictions = ".implode(", ", $new_options)."'");
 
@@ -1766,7 +1814,12 @@ class installer_base {
 
 		$tpl = new tpl();
 		$tpl->newTemplate('rspamd_worker-controller.inc.master');
-		$tpl->setVar('rspamd_password', $mail_config['rspamd_password']);
+		$rspamd_password = $mail_config['rspamd_password'];
+		$crypted_password = trim(exec('rspamadm pw -p ' . escapeshellarg($rspamd_password)));
+		if($crypted_password) {
+			$rspamd_password = $crypted_password;
+		}
+		$tpl->setVar('rspamd_password', $rspamd_password);
 		wf('/etc/rspamd/local.d/worker-controller.inc', $tpl->grab());
 		chmod('/etc/rspamd/local.d/worker-controller.inc', 0644);
 	}

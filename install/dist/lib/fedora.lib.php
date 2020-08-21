@@ -63,6 +63,12 @@ class installer_dist extends installer_base {
 		//* mysql-virtual_forwardings.cf
 		$this->process_postfix_config('mysql-virtual_forwardings.cf');
 
+		//* mysql-virtual_alias_domains.cf
+		$this->process_postfix_config('mysql-virtual_alias_domains.cf');
+
+		//* mysql-virtual_alias_maps.cf
+		$this->process_postfix_config('mysql-virtual_alias_maps.cf');
+
 		//* mysql-virtual_mailboxes.cf
 		$this->process_postfix_config('mysql-virtual_mailboxes.cf');
 
@@ -102,6 +108,9 @@ class installer_dist extends installer_base {
 		//* mysql-virtual_uids.cf
 		$this->process_postfix_config('mysql-virtual_uids.cf');
 
+		//* mysql-virtual_alias_domains.cf
+		$this->process_postfix_config('mysql-verify_recipients.cf');
+
 		//* postfix-dkim
 		$filename='tag_as_originating.re';
 		$full_file_name=$config_dir.'/'.$filename;
@@ -114,12 +123,6 @@ class installer_dist extends installer_base {
 		if(is_file($full_file_name)) copy($full_file_name, $full_file_name.'~');
 		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/postfix-'.$filename.'.master', 'tpl/postfix-'.$filename.'.master');
 		wf($full_file_name, $content);
-
-		//* Changing mode and group of the new created config files.
-		caselog('chmod o= '.$config_dir.'/mysql-virtual_*.cf* &> /dev/null',
-			__FILE__, __LINE__, 'chmod on mysql-virtual_*.cf*', 'chmod on mysql-virtual_*.cf* failed');
-		caselog('chgrp '.$cf['group'].' '.$config_dir.'/mysql-virtual_*.cf* &> /dev/null',
-			__FILE__, __LINE__, 'chgrp on mysql-virtual_*.cf*', 'chgrp on mysql-virtual_*.cf* failed');
 
 		//* Creating virtual mail user and group
 		$command = 'groupadd -g '.$cf['vmail_groupid'].' '.$cf['vmail_groupname'];

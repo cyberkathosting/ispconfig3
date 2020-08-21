@@ -33,9 +33,6 @@ class postfix_server_plugin {
 	var $plugin_name = 'postfix_server_plugin';
 	var $class_name = 'postfix_server_plugin';
 
-
-	var $postfix_config_dir = '/etc/postfix';
-
 	//* This function is called during ispconfig installation to determine
 	//  if a symlink shall be created for this plugin.
 	function onInstall() {
@@ -79,11 +76,16 @@ class postfix_server_plugin {
 		$old_ini_data = $app->ini_parser->parse_ini_string($data['old']['config']);
 		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 
+                // Get postfix version
+		exec('postconf -d mail_version 2>&1', $out);
+		$postfix_version = preg_replace('/.*=\s*/', '', $out[0]);
+		unset($out);
+
 		copy('/etc/postfix/main.cf', '/etc/postfix/main.cf~');
-		
+
 		if ($mail_config['relayhost'].$mail_config['relayhost_user'].$mail_config['relayhost_password'] != $old_ini_data['mail']['relayhost'].$old_ini_data['mail']['relayhost_user'].$old_ini_data['mail']['relayhost_password']) {
 			$content = file_exists('/etc/postfix/sasl_passwd') ? file_get_contents('/etc/postfix/sasl_passwd') : '';
-			$content = preg_replace('/^'.preg_quote($old_ini_data['email']['relayhost']).'\s+[^\n]*(:?\n|)/m','',$content);
+			$content = preg_replace('/^'.preg_quote($old_ini_data['email']['relayhost'], '/').'\s+[^\n]*(:?\n|)/m','',$content);
 
 			if (!empty($mail_config['relayhost_user']) || !empty($mail_config['relayhost_password'])) {
 				$content .= "\n".$mail_config['relayhost'].'   '.$mail_config['relayhost_user'].':'.$mail_config['relayhost_password'];
@@ -115,14 +117,16 @@ class postfix_server_plugin {
 			$options = preg_split("/,\s*/", exec("postconf -h smtpd_recipient_restrictions"));
 			$new_options = array();
 			foreach ($options as $key => $value) {
+				$value = trim($value);
+				if ($value == '') continue;
 				if (!preg_match('/reject_rbl_client/', $value)) {
 					$new_options[] = $value;
 				} else {
 					if(is_array($rbl_hosts) && !empty($rbl_hosts) && !$rbl_updated){
 						$rbl_updated = true;
-						foreach ($rbl_hosts as $key => $value) {
-							$value = trim($value);
-							if($value != '') $new_options[] = "reject_rbl_client ".$value;
+						foreach ($rbl_hosts as $key2 => $value2) {
+							$value2 = trim($value2);
+							if($value2 != '') $new_options[] = "reject_rbl_client ".$value2;
 						}
 					}
 				}
@@ -139,7 +143,7 @@ class postfix_server_plugin {
 		}
 		
 		if($mail_config['reject_sender_login_mismatch'] != $old_ini_data['mail']['reject_sender_login_mismatch']) {
-			$options = explode(", ", exec("postconf -h smtpd_sender_restrictions"));
+			$options = preg_split("/,\s*/", exec("postconf -h smtpd_sender_restrictions"));
 			$new_options = array();
 			foreach ($options as $key => $value) {
 				if (!preg_match('/reject_authenticated_sender_login_mismatch/', $value)) {
@@ -190,6 +194,31 @@ class postfix_server_plugin {
 			}
 		}
 
+		$quoted_postfix_config_dir = preg_quote($conf['postfix']['config_dir'], '|');
+		$new_options = array();
+		$options = preg_split("/,\s*/", exec("postconf -h smtpd_recipient_restrictions"));
+		foreach ($options as $key => $value) {
+			$value = trim($value);
+			if ($value == '') continue;
+			if (preg_match("|check_recipient_access\s+proxy:mysql:${quoted_postfix_config_dir}/mysql-verify_recipients.cf|", $value)) {
+				continue;
+			}
+			$new_options[] = $value;
+		}
+		if (defined($configure_lmtp) && $configure_lmtp) {
+			for ($i = 0; isset($new_options[$i]); $i++) {
+				if ($new_options[$i] == 'reject_unlisted_recipient') {
+					array_splice($new_options, $i+1, 0, array("check_recipient_access proxy:mysql:${postfix_config_dir}/mysql-verify_recipients.cf"));
+					break;
+				}
+			}
+			# postfix < 3.3 needs this when using reject_unverified_recipient:
+			if(version_compare($postfix_version, 3.3, '<')) {
+				exec("postconf -e 'enable_original_recipient = yes'");
+			}
+		}
+		exec("postconf -e 'smtpd_recipient_restrictions = ".implode(", ", $new_options)."'");
+
 		if($mail_config['content_filter'] != $old_ini_data['mail']['content_filter']) {
 			if($mail_config['content_filter'] == 'rspamd'){
 				exec("postconf -X 'receive_override_options'");
@@ -206,9 +235,12 @@ class postfix_server_plugin {
 				$new_options = array();
 				$options = preg_split("/,\s*/", exec("postconf -h smtpd_recipient_restrictions"));
 				foreach ($options as $key => $value) {
-					if (!preg_match('/check_policy_service\s+inet:127.0.0.1:10023/', $value)) {
-						$new_options[] = $value;
+					$value = trim($value);
+					if ($value == '') continue;
+					if (preg_match('/check_policy_service\s+inet:127.0.0.1:10023/', $value)) {
+						continue;
 					}
+					$new_options[] = $value;
 				}
 				exec("postconf -e 'smtpd_recipient_restrictions = ".implode(", ", $new_options)."'");
 				
@@ -235,7 +267,7 @@ class postfix_server_plugin {
 				exec("postconf -e 'receive_override_options = no_address_mappings'");
 				exec("postconf -e 'content_filter = " . ($configure_lmtp ? "lmtp" : "amavis" ) . ":[127.0.0.1]:10024'");
 				
-				exec("postconf -e 'smtpd_sender_restrictions = check_sender_access mysql:/etc/postfix/mysql-virtual_sender.cf regexp:/etc/postfix/tag_as_originating.re, permit_mynetworks, permit_sasl_authenticated, check_sender_access regexp:/etc/postfix/tag_as_foreign.re'");
+				exec("postconf -e 'smtpd_sender_restrictions = check_sender_access mysql:/etc/postfix/mysql-virtual_sender.cf, check_sender_access regexp:/etc/postfix/tag_as_originating.re, permit_mynetworks, permit_sasl_authenticated, check_sender_access regexp:/etc/postfix/tag_as_foreign.re'");
 			}
 		}
 		

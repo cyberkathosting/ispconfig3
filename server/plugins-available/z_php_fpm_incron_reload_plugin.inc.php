@@ -66,7 +66,7 @@ class z_php_fpm_incron_reload_plugin {
 
 	private function phpVersionUnchanged($data)
 	{
-		return $data['new']['fastcgi_php_version'] === $data['old']['fastcgi_php_version'];
+		return $data['new']['server_php_id'] === $data['old']['server_php_id'];
 	}
 
 	private function setup($data)
@@ -77,7 +77,7 @@ class z_php_fpm_incron_reload_plugin {
 		$this->createIncronConfiguration(
 			$triggerFile,
 			$data['system_user'],
-			$data['fastcgi_php_version']
+			$data['server_php_id']
 		);
 
 		$this->restartIncronService();
@@ -173,12 +173,14 @@ class z_php_fpm_incron_reload_plugin {
 	}
 
 	private function getPhpService($fastcgiPhpVersion) {
-		$phpInfo = explode(':', $fastcgiPhpVersion);
+		global $app;
+
+		$phpInfo = $app->db->queryOneRecord('SELECT * FROM server_php WHERE server_php_id = ?', $fastcgiPhpVersion);
 		if (empty($phpInfo)) {
 			return null;
 		}
 
-		$phpService = $phpInfo[1];
+		$phpService = $phpInfo['php_fpm_init_script'];
 		if (empty($phpService)) {
 			return null;
 		}

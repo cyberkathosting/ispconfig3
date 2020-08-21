@@ -310,4 +310,6 @@ $wb['rspamd_password_txt'] = 'Rspamd-Passwort';
 $wb['vhost_proxy_protocol_enabled_txt'] = 'Enable PROXY Protocol';
 $wb['vhost_proxy_protocol_http_port_txt'] = 'PROXY Protocol HTTP Port';
 $wb['vhost_proxy_protocol_https_port_txt'] = 'PROXY Protocol HTTPS Port';
+$wb["jailkit_chroot_authorized_keys_template_txt"] = 'Jailkit authorized_keys template';
+$wb['jailkit_chroot_authorized_keys_template_error_regex'] = 'Invalid jaikit chroot authorized_keys template file.';
 ?>

@@ -1,7 +1,0 @@
-<?php
-$wb['interface_head_txt'] = 'Postavke teme';
-$wb['interface_desc_txt'] = 'Podesi temu';
-$wb['language_txt'] = 'Jezik';
-$wb['startmodule_txt'] = 'Početna stranica';
-$wb['app_theme_txt'] = 'Tema';
-?>

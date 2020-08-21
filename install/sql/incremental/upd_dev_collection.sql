@@ -45,5 +45,28 @@ ALTER TABLE `web_domain` DROP COLUMN `enable_spdy`;
 -- was missing in incremental, inserted for fixing older installations
 ALTER TABLE `web_domain` ADD `folder_directive_snippets` TEXT NULL AFTER `https_port`;
 
+ALTER TABLE `web_domain` ADD `server_php_id` INT(11) UNSIGNED NOT NULL DEFAULT 0;
+
+UPDATE `web_domain` as w LEFT JOIN sys_group as g ON (g.groupid = w.sys_groupid) INNER JOIN `server_php` as p ON (w.fastcgi_php_version = CONCAT(p.name, ':', p.php_fastcgi_binary, ':', p.php_fastcgi_ini_dir) AND p.server_id IN (0, w.server_id) AND p.client_id IN (0, g.client_id)) SET w.server_php_id = p.server_php_id, w.fastcgi_php_version = '' WHERE 1;
+
+UPDATE `web_domain` as w LEFT JOIN sys_group as g ON (g.groupid = w.sys_groupid) INNER JOIN `server_php` as p ON (w.fastcgi_php_version = CONCAT(p.name, ':', p.php_fpm_init_script, ':', p.php_fpm_ini_dir, ':', p.php_fpm_pool_dir) AND p.server_id IN (0, w.server_id) AND p.client_id IN (0, g.client_id)) SET w.server_php_id = p.server_php_id, w.fastcgi_php_version = '' WHERE 1;
+
+-- we have to decide whether to delete the column or leave it there for investigating not-converted entries
+-- ALTER TABLE `web_domain` DROP COLUMN `fastcgi_php_version`;
+
 ALTER TABLE `web_domain` CHANGE `apache_directives` `apache_directives` mediumtext NULL DEFAULT NULL;
 ALTER TABLE `web_domain` CHANGE `nginx_directives` `nginx_directives` mediumtext NULL DEFAULT NULL;
+
+-- add move to junk before/after option, default to after
+ALTER TABLE `mail_user` MODIFY `move_junk` enum('y','a','n') NOT NULL DEFAULT 'y';
+
+-- Change id_rsa column to TEXT format
+ALTER TABLE `client` CHANGE `id_rsa` `id_rsa` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '';
+
+ALTER TABLE `directive_snippets` ADD `update_sites` ENUM('y','n') NOT NULL DEFAULT 'n' ;
+
+-- Add DNSSEC Algorithm setting
+ALTER TABLE `dns_soa` ADD `dnssec_algo` SET('NSEC3RSASHA1','ECDSAP256SHA256') NULL DEFAULT NULL AFTER `dnssec_wanted`;
+UPDATE `dns_soa` SET `dnssec_algo` = 'NSEC3RSASHA1' WHERE `dnssec_algo` IS NULL AND dnssec_initialized = 'Y';
+UPDATE `dns_soa` SET `dnssec_algo` = 'ECDSAP256SHA256' WHERE `dnssec_algo` IS NULL AND dnssec_initialized = 'N';
+ALTER TABLE `dns_soa` CHANGE `dnssec_algo` `dnssec_algo` SET('NSEC3RSASHA1','ECDSAP256SHA256') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'ECDSAP256SHA256';

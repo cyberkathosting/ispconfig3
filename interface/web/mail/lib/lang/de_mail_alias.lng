@@ -12,6 +12,6 @@ $wb['domain_txt'] = 'Domain';
 $wb['duplicate_email_alias_txt'] = 'Dieser E-Mail Alias existiert bereits.';
 $wb['source_txt'] = 'Alias';
 $wb['send_as_txt'] = 'Senden als';
-$wb['send_as_exp'] = 'Ziel erlauben, den alias als Absender zu benutzen';
+$wb['send_as_exp'] = 'Ziel erlauben, den Alias als Absender zu benutzen';
 $wb['greylisting_txt'] = 'Aktiviere Greylisting';
 ?>

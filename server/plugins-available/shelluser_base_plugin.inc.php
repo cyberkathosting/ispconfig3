@@ -58,20 +58,20 @@ class shelluser_base_plugin {
 		/*
 		Register for the events
 		*/
-		
+
 		$app->plugins->registerEvent('shell_user_insert', $this->plugin_name, 'insert');
 		$app->plugins->registerEvent('shell_user_update', $this->plugin_name, 'update');
 		$app->plugins->registerEvent('shell_user_delete', $this->plugin_name, 'delete');
-		
+
 
 	}
 
 
 	function insert($event_name, $data) {
 		global $app, $conf;
-		
+
 		$app->uses('system,getconf');
-		
+
 		$security_config = $app->getconf->get_security_config('permissions');
 		if($security_config['allow_shell_user'] != 'yes') {
 			$app->log('Shell user plugin disabled by security settings.',LOGLEVEL_WARN);
@@ -88,7 +88,7 @@ class shelluser_base_plugin {
 			$app->log('Directory of the shell user is not valid.',LOGLEVEL_WARN);
 			return false;
 		}
-		
+
 		if(!$app->system->is_allowed_user($data['new']['username'], false, false)
 			|| !$app->system->is_allowed_user($data['new']['puser'], true, true)
 			|| !$app->system->is_allowed_group($data['new']['pgroup'], true, true)) {
@@ -96,8 +96,8 @@ class shelluser_base_plugin {
 			return false;
 		}
 
-		if($data['new']['active'] != 'y') $data['new']['shell'] = '/bin/false';
-		
+		if($data['new']['active'] != 'y' || $data['new']['chroot'] == "jailkit") $data['new']['shell'] = '/bin/false';
+
 		if($app->system->is_user($data['new']['puser'])) {
 
 			// Get the UID of the parent user
@@ -105,24 +105,20 @@ class shelluser_base_plugin {
 			if($uid > $this->min_uid) {
 				//* Remove webfolder protection
 				$app->system->web_folder_protection($web['document_root'], false);
-				
+
 				//* Home directory of the new shell user
-				if($data['new']['chroot'] == 'jailkit') {
-					$homedir = $data['new']['dir'];
-				} else {
-					$homedir = $data['new']['dir'].'/home/'.$data['new']['username'];
-				}
-				
+				$homedir = $data['new']['dir'].'/home/'.$data['new']['username'];
+
 				// Create home base directory if it does not exist
 				if(!is_dir($data['new']['dir'].'/home')){
 					$app->file->mkdirs($data['new']['dir'].'/home', '0755');
 				}
-				
+
 				// Change ownership of home base dir to root user
 				$app->system->chown($data['new']['dir'].'/home','root');
 				$app->system->chgrp($data['new']['dir'].'/home','root');
 				$app->system->chmod($data['new']['dir'].'/home',0755);
-				
+
 				if(!is_dir($homedir)){
 					$app->file->mkdirs($homedir, '0750');
 					$app->system->chown($homedir,$data['new']['puser'],false);
@@ -142,10 +138,10 @@ class shelluser_base_plugin {
 						$app->log("Command chpasswd failed for user ".$data['new']['username'] . ' with code ' . $retval . ': ' . $stderr, LOGLEVEL_WARN);
 					}
 				}
-			
+
 				$app->system->chown($data['new']['dir'],$data['new']['username'],false);
 				$app->system->chgrp($data['new']['dir'],$data['new']['pgroup'],false);
-				
+
 
 				// call the ssh-rsa update function
 				$app->uses("getconf");
@@ -186,7 +182,7 @@ class shelluser_base_plugin {
 		global $app, $conf;
 
 		$app->uses('system,getconf');
-		
+
 		$security_config = $app->getconf->get_security_config('permissions');
 		if($security_config['allow_shell_user'] != 'yes') {
 			$app->log('Shell user plugin disabled by security settings.',LOGLEVEL_WARN);
@@ -199,7 +195,7 @@ class shelluser_base_plugin {
 			$app->log('Directory of the shell user is outside of website docroot.',LOGLEVEL_WARN);
 			return false;
 		}
-		
+
 		if(strpos($data['new']['dir'], '/../') !== false || substr($data['new']['dir'],-3) == '/..') {
 			$app->log('Directory of the shell user is not valid.',LOGLEVEL_WARN);
 			return false;
@@ -211,14 +207,14 @@ class shelluser_base_plugin {
 			$app->log('Shell user must not be root or in group root.',LOGLEVEL_WARN);
 			return false;
 		}
-		
+
 		if($data['new']['active'] != 'y') $data['new']['shell'] = '/bin/false';
-		
+
 		if($app->system->is_user($data['new']['puser'])) {
 			// Get the UID of the parent user
 			$uid = intval($app->system->getuid($data['new']['puser']));
 			if($uid > $this->min_uid) {
-				
+
 				//* Home directory of the shell user
 				if($data['new']['chroot'] == 'jailkit') {
 					$homedir = $data['new']['dir'];
@@ -227,10 +223,10 @@ class shelluser_base_plugin {
 					$homedir = $data['new']['dir'].'/home/'.$data['new']['username'];
 					$homedir_old = $data['old']['dir'].'/home/'.$data['old']['username'];
 				}
-				
+
 				$app->log("Homedir New: ".$homedir, LOGLEVEL_DEBUG);
 				$app->log("Homedir Old: ".$homedir_old, LOGLEVEL_DEBUG);
-				
+
 				// Check if the user that we want to update exists, if not, we insert it
 				if($app->system->is_user($data['old']['username'])) {
 					//* Remove webfolder protection
@@ -243,7 +239,7 @@ class shelluser_base_plugin {
 							$app->log("New Homedir exists, renaming it to ".$homedir.'_bak', LOGLEVEL_DEBUG);
 							$app->system->rename($homedir,$homedir.'_bak');
 						}
-						
+
 						// Move old directory to new path
 						$app->system->rename($homedir_old,$homedir);
 						$app->file->mkdirs($homedir, '0750');
@@ -280,7 +276,7 @@ class shelluser_base_plugin {
 						$app->system->chown($homedir.'/.bash_history', $data['new']['username']);
 						$app->system->chgrp($homedir.'/.bash_history', $data['new']['pgroup']);
 					}
-					
+
 					//* Create .profile file
 					if(!is_file($data['new']['dir']).'/.profile') {
 						$app->system->touch($homedir.'/.profile');
@@ -307,7 +303,7 @@ class shelluser_base_plugin {
 		global $app, $conf;
 
 		$app->uses('system,getconf,services');
-		
+
 		$security_config = $app->getconf->get_security_config('permissions');
 		if($security_config['allow_shell_user'] != 'yes') {
 			$app->log('Shell user plugin disabled by security settings.',LOGLEVEL_WARN);
@@ -319,21 +315,21 @@ class shelluser_base_plugin {
 			$userid = intval($app->system->getuid($data['old']['username']));
 			if($userid > $this->min_uid) {
 				$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ".intval($data['old']['parent_domain_id']));
-					
+
 				// check if we have to delete the dir
 				$check = $app->db->queryOneRecord('SELECT shell_user_id FROM `shell_user` WHERE `dir` = ?', $data['old']['dir']);
 				if(!$check && is_dir($data['old']['dir'])) {
-					
+
 					$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $data['old']['parent_domain_id']);
 					$app->system->web_folder_protection($web['document_root'], false);
-					
+
 					// delete dir
 					if($data['new']['chroot'] == 'jailkit') {
 						$homedir = $data['old']['dir'];
 					} else {
 						$homedir = $data['old']['dir'].'/home/'.$data['old']['username'];
 					}
-				
+
 					if(substr($homedir, -1) !== '/') $homedir .= '/';
 					$files = array('.bash_logout', '.bash_history', '.bashrc', '.profile');
 					$dirs = array('.ssh', '.cache');
@@ -359,17 +355,22 @@ class shelluser_base_plugin {
 					}
 					unset($files);
 					unset($dirs);
-					
+
 					$app->system->web_folder_protection($web['document_root'], true);
 				}
-				
+
 				// We delete only non jailkit users, jailkit users will be deleted by the jailkit plugin.
 				if ($data['old']['chroot'] != "jailkit") {
 					// if this web uses PHP-FPM, that PPH-FPM service must be stopped before we can delete this user
 					if($web['php'] == 'php-fpm'){
-						if(trim($web['fastcgi_php_version']) != ''){
+						if($web['server_php_id'] != 0){
 							$default_php_fpm = false;
-							list($custom_php_fpm_name, $custom_php_fpm_init_script, $custom_php_fpm_ini_dir, $custom_php_fpm_pool_dir) = explode(':', trim($web['fastcgi_php_version']));
+							$tmp_php = $app->db->queryOneRecord('SELECT * FROM server_php WHERE server_php_id = ?', $web['server_php_id']);
+							if($tmp_php) {
+								$custom_php_fpm_ini_dir = $tmp_php['php_fpm_ini_dir'];
+								$custom_php_fpm_init_script = $tmp_php['php_fpm_init_script'];
+								if(substr($custom_php_fpm_ini_dir, -1) != '/') $custom_php_fpm_ini_dir .= '/';
+							}
 						} else {
 							$default_php_fpm = true;
 						}

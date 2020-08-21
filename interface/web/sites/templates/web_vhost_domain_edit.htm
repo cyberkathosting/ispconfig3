@@ -230,14 +230,14 @@
                     {tmpl_var name='php'}
                 </select></div>
             </div>
-            {tmpl_hook name="field_fastcgi_php_version"}
-            <div class="form-group fastcgi_php_version">
-                <label for="fastcgi_php_version" class="col-sm-3 control-label">{tmpl_var name='fastcgi_php_version_txt'}</label>
-                <div class="col-sm-9"><select name="fastcgi_php_version" id="fastcgi_php_version" class="form-control">
-                    {tmpl_var name='fastcgi_php_version'}
+            {tmpl_hook name="field_server_php_id"}
+            <div class="form-group server_php_id">
+                <label for="server_php_id" class="col-sm-3 control-label">{tmpl_var name='server_php_id_txt'}</label>
+                <div class="col-sm-9"><select name="server_php_id" id="server_php_id" class="form-control">
+                    {tmpl_var name='server_php_id'}
                 </select></div>
-                <tmpl_if name="fastcgi_php_version_default_hidden_warning_confirmed">
-                    <input type="hidden" id="fastcgi_php_version_default_hidden_warning_confirmed" name="fastcgi_php_version_default_hidden_warning_confirmed" value="{tmpl_var name='fastcgi_php_version_default_hidden_warning_confirmed'}" />
+                <tmpl_if name="server_php_id_default_hidden_warning_confirmed">
+                    <input type="hidden" id="server_php_id_default_hidden_warning_confirmed" name="server_php_id_default_hidden_warning_confirmed" value="{tmpl_var name='server_php_id_default_hidden_warning_confirmed'}" />
                 </tmpl_if>
             </div>
             <tmpl_if name="limit_directive_snippets" op="==" value="y"><div class="form-group">
@@ -289,46 +289,56 @@
             serverId = $(this).val();
             adjustForm();
             reloadWebIP();
-            reloadFastcgiPHPVersions();
+            reloadServerPHPVersions();
 			reloadDirectiveSnippets();
         });
     }
     adjustForm(true);
-    reloadFastcgiPHPVersions(true);
+    reloadServerPHPVersions(true);
 
     jQuery('#client_group_id').change(function(){
         clientGroupId = $(this).val();
         reloadWebIP();
-		reloadFastcgiPHPVersions();
+		reloadServerPHPVersions();
     });
 
     if(jQuery('#php').val() == 'fast-cgi' || jQuery('#php').val() == 'php-fpm' || (jQuery('#php').val() == 'hhvm' && serverType == 'nginx')){
-        jQuery('.fastcgi_php_version:hidden').show();
+        jQuery('.server_php_id:hidden').show();
+		// This block can be removed?
 		if(jQuery('#php').val() == 'hhvm'){
-			jQuery('#fastcgi_php_version_txt').hide();
+			// There is no element with id="server_php_id_txt"
+			jQuery('#server_php_id_txt').hide();
+			// There is no element with id="#fastcgi_php_fallback_version_txt"
 			jQuery('#fastcgi_php_fallback_version_txt').show();
 		} else {
-			jQuery('#fastcgi_php_version_txt').show();
+			// There is no element with id="server_php_id_txt"
+			jQuery('#server_php_id_txt').show();
+			// There is no element with id="#fastcgi_php_fallback_version_txt"
 			jQuery('#fastcgi_php_fallback_version_txt').hide();
 		}
     } else {
-        jQuery('.fastcgi_php_version:visible').hide();
+        jQuery('.server_php_id:visible').hide();
     }
     //ISPConfig.resetFormChanged();
 
     jQuery('#php').change(function(){
-        reloadFastcgiPHPVersions();
+        reloadServerPHPVersions();
         if(jQuery(this).val() == 'fast-cgi' || jQuery(this).val() == 'php-fpm' || (jQuery(this).val() == 'hhvm' && serverType == 'nginx')){
-            jQuery('.fastcgi_php_version:hidden').show();
+            jQuery('.server_php_id:hidden').show();
+			// This block can be removed?
 			if(jQuery(this).val() == 'hhvm'){
-				jQuery('#fastcgi_php_version_txt').hide();
+				// There is no element with id="server_php_id_txt"
+				jQuery('#server_php_id_txt').hide();
+				// There is no element with id="#fastcgi_php_fallback_version_txt"
 				jQuery('#fastcgi_php_fallback_version_txt').show();
 			} else {
-				jQuery('#fastcgi_php_version_txt').show();
+				// There is no element with id="server_php_id_txt"
+				jQuery('#server_php_id_txt').show();
+				// There is no element with id="#fastcgi_php_fallback_version_txt"
 				jQuery('#fastcgi_php_fallback_version_txt').hide();
 			}
         } else {
-            jQuery('.fastcgi_php_version:visible').hide();
+            jQuery('.server_php_id:visible').hide();
         }
     });
     jQuery('#parent_domain_id').change(function() {
@@ -357,7 +367,7 @@
         jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {web_id : parentWebId, type : "getserverid"}, function(data) {
             if(data.serverid) serverId = data.serverid;
             adjustForm(noFormChange);
-            if(noFormChange) reloadFastcgiPHPVersions(noFormChange);
+            if(noFormChange) reloadServerPHPVersions(noFormChange);
         });
     }
 
@@ -447,34 +457,34 @@
 		$('#'+elem).select2();
 	}
 
-    function reloadFastcgiPHPVersions(noFormChange) {
-        jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {server_id : serverId, php_type : jQuery('#php').val(), type : "getphpfastcgi", client_group_id : clientGroupId}, function(data) {
+    function reloadServerPHPVersions(noFormChange) {
+        jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {server_id : serverId, php_type : jQuery('#php').val(), type : "getserverphp", client_group_id : clientGroupId}, function(data) {
             //var options = '<option value="">Default</option>';
 			var options = '';
-            var phpfastcgiselected = '';
+            var serverphpidselected = '';
             $.each(data, function(key, val) {
 				<tmpl_if name="id">
-                if($('#fastcgi_php_version').val() == key){
-                    phpfastcgiselected = ' selected="selected"';
+                if($('#server_php_id').val() == key){
+                    serverphpidselected = ' selected="selected"';
                 } else {
-                    phpfastcgiselected = '';
+                    serverphpidselected = '';
                 }
 				</tmpl_else>
-					phpfastcgiselected = '';
+					serverphpidselected = '';
 				</tmpl_if>
-                options += '<option value="'+key+'"'+phpfastcgiselected+'>'+val+'</option>';
+                options += '<option value="'+key+'"'+serverphpidselected+'>'+val+'</option>';
             });
 			<tmpl_if name="id">
-			if($('#fastcgi_php_version').val() == ''){
-                phpfastcgiselected = ' selected="selected"';
+			if($('#server_php_id').val() == '0'){
+                serverphpidselected = ' selected="selected"';
             } else {
-                phpfastcgiselected = '';
+                serverphpidselected = '';
             }
 			</tmpl_else>
-				phpfastcgiselected = '';
+				serverphpidselected = '';
 			</tmpl_if>
-			//options += '<option value=""'+phpfastcgiselected+'>{tmpl_var name="default_php_txt"}</option>';
-            $('#fastcgi_php_version').html(options).change();
+			//options += '<option value=""'+serverphpidselected+'>{tmpl_var name="default_php_txt"}</option>';
+            $('#server_php_id').html(options).change();
             if(noFormChange) ISPConfig.resetFormChanged();
         });
     }

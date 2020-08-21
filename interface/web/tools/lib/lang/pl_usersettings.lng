@@ -9,4 +9,7 @@ $wb['generate_password_txt'] = 'Wygeneruj hasło';
 $wb['repeat_password_txt'] = 'Powtórz hasło';
 $wb['password_mismatch_txt'] = 'Hasła się nie zgadzają';
 $wb['password_match_txt'] = 'Hasła się zgadzają';
+$wb['language_txt'] = 'Język';
+$wb['startmodule_txt'] = 'Moduł startowy';
+$wb['app_theme_txt'] = 'Temat';
 ?>

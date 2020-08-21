@@ -338,6 +338,11 @@ class installer extends installer_base
 			replaceLine($config_dir.'/'.$configfile, 'protocols = imap pop3', 'protocols = imap pop3 lmtp', 1, 0);
 		}
 
+		//* Get the dovecot version
+		exec('dovecot --version', $tmp);
+		$dovecot_version = $tmp[0];
+		unset($tmp);
+
 		//* dovecot-sql.conf
 		$configfile = $config_dir.'/dovecot-sql.conf';
 		$content = $this->get_template_file('debian_dovecot-sql.conf', true, true);

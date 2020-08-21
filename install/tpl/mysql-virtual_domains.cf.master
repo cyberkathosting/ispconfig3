@@ -1,8 +1,6 @@
 user = {mysql_server_ispconfig_user}
 password = {mysql_server_ispconfig_password}
 dbname = {mysql_server_database}
-table = mail_domain
-select_field = domain
-where_field = domain
-additional_conditions = and active = 'y' and server_id = {server_id}
 hosts = {mysql_server_ip}
+query = SELECT domain FROM mail_domain WHERE domain = '%s' AND active = 'y' AND server_id = {server_id}
+           AND NOT EXISTS (SELECT source FROM mail_forwarding WHERE source = '@%s' AND type = 'aliasdomain' AND active = 'y' AND server_id = {server_id})

@@ -85,75 +85,114 @@ class bind_plugin {
 
 		//* load the server configuration options
 		$dns_config = $app->getconf->get_server_config($conf["server_id"], 'dns');
-		
+
 		$domain = substr($data['new']['origin'], 0, strlen($data['new']['origin'])-1);
 		if (!file_exists($dns_config['bind_zonefiles_dir'].'/'.$this->zone_file_prefix().$domain)) return false;
-		
+
 		//* Check Entropy
 		if (file_get_contents('/proc/sys/kernel/random/entropy_avail') < 400) {
 			$app->log('DNSSEC ERROR: We are low on entropy. Not generating new Keys for '.$domain.'. Please consider installing package haveged.', LOGLEVEL_WARN);
 			echo "DNSSEC ERROR: We are low on entropy. Not generating new Keys for $domain. Please consider installing package haveged.\n";
 			return false;
 		}
-		
+
 		//* Verify that we do not already have keys (overwriting-protection)
-		if (file_exists($dns_config['bind_zonefiles_dir'].'/dsset-'.$domain.'.')) {
-			return $this->soa_dnssec_update($data);
-		} else if ($data['new']['dnssec_initialized'] == 'Y') { //In case that we generated keys but the dsset-file was not generated
-			$keycount=0;
-			foreach (glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'*.key') as $keyfile) {
-				$keycount++;
-			}
-			if ($keycount > 0) {
-				$this->soa_dnssec_sign($data);
-				return true;
+		if($data['old']['dnssec_algo'] == $data['new']['dnssec_algo']) {
+			if (file_exists($dns_config['bind_zonefiles_dir'].'/dsset-'.$domain.'.')) {
+				return $this->soa_dnssec_update($data);
+			} else if ($data['new']['dnssec_initialized'] == 'Y') { //In case that we generated keys but the dsset-file was not generated
+				$keycount=0;
+				foreach (glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'*.key') as $keyfile) {
+					$keycount++;
+				}
+				if ($keycount > 0) {
+					$this->soa_dnssec_sign($data);
+					return true;
+				}
 			}
 		}
-		
-		//Do some magic...
-		$app->system->exec_safe('cd ?; dnssec-keygen -a NSEC3RSASHA1 -b 2048 -n ZONE ?; dnssec-keygen -f KSK -a NSEC3RSASHA1 -b 4096 -n ZONE ?', $dns_config['bind_zonefiles_dir'], $domain, $domain);
+
+		// Get DNSSEC Algorithms
+		$dnssec_algo = explode(',',$data['new']['dnssec_algo']);
+
+		//* Create the Zone Signing and Key Signing Keys
+		if(in_array('ECDSAP256SHA256',$dnssec_algo) && count(glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'.+013*.key')) == 0) {
+			$app->system->exec_safe('cd ?; dnssec-keygen -3 -a ECDSAP256SHA256 -n ZONE ?; dnssec-keygen -f KSK -3 -a ECDSAP256SHA256 -n ZONE ?', $dns_config['bind_zonefiles_dir'], $domain, $domain);
+		}
+		if(in_array('NSEC3RSASHA1',$dnssec_algo) && count(glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'.+007*.key')) == 0) {
+			$app->system->exec_safe('cd ?; dnssec-keygen -a NSEC3RSASHA1 -b 2048 -n ZONE ?; dnssec-keygen -f KSK -a NSEC3RSASHA1 -b 4096 -n ZONE ?', $dns_config['bind_zonefiles_dir'], $domain, $domain);
+		}
 
 		$this->soa_dnssec_sign($data); //Now sign the zone for the first time
 		$data['new']['dnssec_initialized']='Y';
 	}
-	
+
 	function soa_dnssec_sign(&$data) {
 		global $app, $conf;
-		
+
 		//* Load libraries
 		$app->uses("getconf,tpl");
 
 		//* load the server configuration options
 		$dns_config = $app->getconf->get_server_config($conf["server_id"], 'dns');
-		
+
 		$filespre = $this->zone_file_prefix();
 		$domain = substr($data['new']['origin'], 0, strlen($data['new']['origin'])-1);
 		if (!file_exists($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain)) return false;
-		
+
+		//* Get DNSSEC Algorithms
+		$dnssec_algo = explode(',',$data['new']['dnssec_algo']);
+
+		//* Get Zone file content
 		$zonefile = file_get_contents($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain);
 		$keycount=0;
-		foreach (glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'*.key') as $keyfile) {
-			$includeline = '$INCLUDE '.basename($keyfile);
-			if (!preg_match('@'.preg_quote($includeline).'@', $zonefile)) $zonefile .= "\n".$includeline."\n";
-			$keycount++;
+
+		//* Include ECDSAP256SHA256 keys in zone
+		if(in_array('ECDSAP256SHA256',$dnssec_algo)) {
+			foreach (glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'.+013*.key') as $keyfile) {
+				$includeline = '$INCLUDE '.basename($keyfile);
+				if (!preg_match('@'.preg_quote($includeline).'@', $zonefile)) $zonefile .= "\n".$includeline."\n";
+				$keycount++;
+			}
 		}
-		if ($keycount != 2) $app->log('DNSSEC Warning: There are more or less than 2 keyfiles for zone '.$domain, LOGLEVEL_WARN);
+
+		//* Include NSEC3RSASHA1 keys in zone
+		if(in_array('NSEC3RSASHA1',$dnssec_algo)) {
+			foreach (glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'.+007*.key') as $keyfile) {
+				$includeline = '$INCLUDE '.basename($keyfile);
+				if (!preg_match('@'.preg_quote($includeline).'@', $zonefile)) $zonefile .= "\n".$includeline."\n";
+				$keycount++;
+			}
+		}
+
+		$keycount_wanted = count(explode(',',$data['new']['dnssec_algo']))*2;
+
+		if ($keycount != $keycount_wanted) $app->log('DNSSEC Warning: There are more or less than 2 keyfiles for each algorithm for zone '.$domain.'. Found: '.$keycount. ' Expected: '.$keycount_wanted, LOGLEVEL_WARN);
 		file_put_contents($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain, $zonefile);
-		
-		//Sign the zone and set it valid for max. 16 days
+
+		//* Sign the zone and set it valid for max. 16 days
 		$app->system->exec_safe('cd ?; dnssec-signzone -A -e +1382400 -3 $(head -c 1000 /dev/random | sha1sum | cut -b 1-16) -N increment -o ? -t ?', $dns_config['bind_zonefiles_dir'], $domain, $filespre.$domain);
-			 
-		//Write Data back ino DB
+
+		//* Write Data back ino DB
 		$dnssecdata = "DS-Records:\n".file_get_contents($dns_config['bind_zonefiles_dir'].'/dsset-'.$domain.'.');
 		$dnssecdata .= "\n------------------------------------\n\nDNSKEY-Records:\n";
-		foreach (glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'*.key') as $keyfile) {
-			$dnssecdata .= file_get_contents($keyfile)."\n\n";
+
+		if(in_array('ECDSAP256SHA256',$dnssec_algo)) {
+			foreach (glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'.+013*.key') as $keyfile) {
+				$dnssecdata .= file_get_contents($keyfile)."\n\n";
+			}
 		}
-		
+
+		if(in_array('NSEC3RSASHA1',$dnssec_algo)) {
+			foreach (glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'.+007*.key') as $keyfile) {
+				$dnssecdata .= file_get_contents($keyfile)."\n\n";
+			}
+		}
+
 		if ($app->dbmaster !== $app->db) $app->dbmaster->query('UPDATE dns_soa SET dnssec_info=?, dnssec_initialized=\'Y\', dnssec_last_signed=? WHERE id=?', $dnssecdata, intval(time()), intval($data['new']['id']));
 		$app->db->query('UPDATE dns_soa SET dnssec_info=?, dnssec_initialized=\'Y\', dnssec_last_signed=? WHERE id=?', $dnssecdata, intval(time()), intval($data['new']['id']));
 	}
-	
+
 	function soa_dnssec_update(&$data, $new=false) {
 		global $app, $conf;
 
@@ -162,20 +201,20 @@ class bind_plugin {
 
 		//* load the server configuration options
 		$dns_config = $app->getconf->get_server_config($conf["server_id"], 'dns');
-		
+
 		$filespre = $this->zone_file_prefix();
 		$domain = substr($data['new']['origin'], 0, strlen($data['new']['origin'])-1);
 		if (!file_exists($dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain)) return false;
-		
+
 		//* Check for available entropy
 		if (file_get_contents('/proc/sys/kernel/random/entropy_avail') < 200) {
 			$app->log('DNSSEC ERROR: We are low on entropy. This could cause server script to fail. Please consider installing package haveged.', LOGLEVEL_ERR);
 			echo "DNSSEC ERROR: We are low on entropy. This could cause server script to fail. Please consider installing package haveged.\n";
 			return false;
 		}
-		
+
 		if (!$new && !file_exists($dns_config['bind_zonefiles_dir'].'/dsset-'.$domain.'.')) $this->soa_dnssec_create($data);
-		
+
 		$dbdata = $app->db->queryOneRecord('SELECT id,serial FROM dns_soa WHERE id=?', intval($data['new']['id']));
 		$app->system->exec_safe('cd ?; named-checkzone ? ? | egrep -ho \'[0-9]{10}\'', $dns_config['bind_zonefiles_dir'], $domain, $dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain);
 		$retState = $app->system->last_exec_retcode();
@@ -183,10 +222,10 @@ class bind_plugin {
 			$app->log('DNSSEC Error: Error in Zonefile for '.$domain, LOGLEVEL_ERR);
 			return false;
 		}
-		
+
 		$this->soa_dnssec_sign($data);
 	}
-	
+
 	function soa_dnssec_delete(&$data) {
 		global $app, $conf;
 
@@ -195,13 +234,16 @@ class bind_plugin {
 
 		//* load the server configuration options
 		$dns_config = $app->getconf->get_server_config($conf["server_id"], 'dns');
-		
+
 		$domain = substr($data['new']['origin'], 0, strlen($data['new']['origin'])-1);
-		
-		unlink($dns_config['bind_zonefiles_dir'].'/K'.$domain.'.+*');
+
+		$key_files = glob($dns_config['bind_zonefiles_dir'].'/K'.$domain.'.+*');
+		foreach($key_files as $file) {
+			unlink($file);
+		}
 		unlink($dns_config['bind_zonefiles_dir'].'/'.$this->zone_file_prefix().$domain.'.signed');
 		unlink($dns_config['bind_zonefiles_dir'].'/dsset-'.$domain.'.');
-		
+
 		if ($app->dbmaster !== $app->db) $app->dbmaster->query('UPDATE dns_soa SET dnssec_info=\'\', dnssec_initialized=\'N\' WHERE id=?', intval($data['new']['id']));
 		$app->db->query('UPDATE dns_soa SET dnssec_info=\'\', dnssec_initialized=\'N\' WHERE id=?', intval($data['new']['id']));
 	}
@@ -303,19 +345,24 @@ class bind_plugin {
 			unset($records_out);
 			unset($zone);
 		}
-		
+
 		//* DNSSEC-Implementation
-		if($data['old']['origin'] != $data['new']['origin']) {			
+		if($data['old']['origin'] != $data['new']['origin']) {
 			if (@$data['old']['dnssec_initialized'] == 'Y' && strlen(@$data['old']['origin']) > 3) $this->soa_dnssec_delete($data); //delete old keys
 			if ($data['new']['dnssec_wanted'] == 'Y') $this->soa_dnssec_create($data);
-		}
-		else if ($data['new']['dnssec_wanted'] == 'Y' && $data['old']['dnssec_initialized'] == 'N') $this->soa_dnssec_create($data);
-		else if ($data['new']['dnssec_wanted'] == 'N' && $data['old']['dnssec_initialized'] == 'Y') {	//delete old signed file if dnssec is no longer wanted
+		} elseif($data['old']['dnssec_algo'] != $data['new']['dnssec_algo']) {
+			$app->log("DNSSEC Algorithm has changed: ".$data['new']['dnssec_algo'], LOGLEVEL_DEBUG);
+			if ($data['new']['dnssec_wanted'] == 'Y') $this->soa_dnssec_create($data);
+		} elseif ($data['new']['dnssec_wanted'] == 'Y' && $data['old']['dnssec_initialized'] == 'N') {
+			$this->soa_dnssec_create($data);
+		} elseif ($data['new']['dnssec_wanted'] == 'N' && $data['old']['dnssec_initialized'] == 'Y') {	//delete old signed file if dnssec is no longer wanted
 			$filename = $dns_config['bind_zonefiles_dir'].'/' . $this->zone_file_prefix() . str_replace("/", "_", substr($data['old']['origin'], 0, -1));
 			if(is_file($filename.'.signed')) unlink($filename.'.signed');
- 		} else if ($data['new']['dnssec_wanted'] == 'Y') $this->soa_dnssec_update($data);
+ 		} elseif ($data['new']['dnssec_wanted'] == 'Y') {
+			$this->soa_dnssec_update($data);
+		}
 		// END DNSSEC
-		
+
 		//* rebuild the named.conf file if the origin has changed or when the origin is inserted.
 		//if($this->action == 'insert' || $data['old']['origin'] != $data['new']['origin']) {
 		$this->write_named_conf($data, $dns_config);
@@ -329,7 +376,7 @@ class bind_plugin {
 			if(is_file($filename.'.err')) unlink($filename.'.err');
 			if(is_file($filename.'.signed')) unlink($filename.'.signed');
  		}
- 		
+
 		//* Restart bind nameserver if update_acl is not empty, otherwise reload it
 		if($data['new']['update_acl'] != '') {
 			$app->services->restartServiceDelayed('bind', 'restart');
@@ -360,7 +407,7 @@ class bind_plugin {
 			//delete keys
 			$app->system->exec_safe('/usr/local/ispconfig/server/scripts/dnssec-delete.sh ?', $data['old']['origin']);
 		}
- 		
+
 		//* Reload bind nameserver
 		$app->services->restartServiceDelayed('bind', 'reload');
 
@@ -485,8 +532,6 @@ class bind_plugin {
 			$options = '';
 			if(trim($tmp['xfer']) != '') {
 				$options .= "        allow-transfer {".str_replace(',', ';', $tmp['xfer']).";};\n";
-			} else {
-				$options .= "        allow-transfer {none;};\n";
 			}
 			if(trim($tmp['also_notify']) != '') $options .= '        also-notify {'.str_replace(',', ';', $tmp['also_notify']).";};\n";
 			if(trim($tmp['update_acl']) != '') $options .= "        allow-update {".str_replace(',', ';', $tmp['update_acl']).";};\n";
@@ -510,7 +555,7 @@ class bind_plugin {
 		foreach($tmps_sec as $tmp) {
 
 			// When you have more than one master, the serial number is used to determine which Master has the most current version of the zone by the
-			// slaves.  The slaves actually ask for the SOA record from each Master when refreshing. 
+			// slaves.  The slaves actually ask for the SOA record from each Master when refreshing.
 			$options = "        masters {".str_replace(',', ';', $tmp['ns']).";};\n";
 			if(trim($tmp['xfer']) != '') {
 				$options .= "        allow-transfer {".str_replace(',', ';', $tmp['xfer']).";};\n";

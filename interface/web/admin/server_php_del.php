@@ -52,28 +52,14 @@ $app->load('tform_actions');
 class page_action extends tform_actions {
 
 	function onBeforeDelete() {
-		global $app; $conf;
+		global $app;
 
-		$check = array();
+ 		$sql = 'SELECT domain_id FROM web_domain WHERE server_id = ? AND server_php_id = ?';
+ 		$web_domains = $app->db->queryAllRecords($sql, $this->dataRecord['server_id'], $this->id);
 
-		// fastcgi
-		if(!empty(trim($this->dataRecord['php_fastcgi_binary']))) $check[] = trim($this->dataRecord['php_fastcgi_binary']);
-		if(!empty(trim($this->dataRecord['php_fastcgi_ini_dir']))) $check[] = trim($this->dataRecord['php_fastcgi_ini_dir']);
-		if(!empty($check)) $fastcgi_check = implode(':', $check);
-		unset($check);
-
-		// fpm
-		if(!empty(trim($this->dataRecord['php_fpm_init_script']))) $check[] = trim($this->dataRecord['php_fpm_init_script']);
-		if(!empty(trim($this->dataRecord['php_fpm_ini_dir']))) $check[] = trim($this->dataRecord['php_fpm_ini_dir']);
-		if(!empty(trim($this->dataRecord['php_fpm_pool_dir']))) $check[] = trim($this->dataRecord['php_fpm_pool_dir']);
-		if(!empty($check)) $fpm_check = implode(':', $check);
-
- 		$sql = 'SELECT domain_id FROM web_domain WHERE server_id = ? AND fastcgi_php_version LIKE ?';
- 		if(isset($fastcgi_check)) $web_domains_fastcgi = $app->db->queryAllRecords($sql, $this->dataRecord['server_id'], '%:'.$fastcgi_check);
-		if(isset($fpm_check)) $web_domains_fpm = $app->db->queryAllRecords($sql, $this->dataRecord['server_id'], '%:'.$fpm_check);
-
-		if(!empty($webdomains_fastcgi) || !empty($web_domains_fpm))	$app->error($app->tform->lng('php_in_use_error'));
-
+		 if(!empty($web_domains)) {
+			$app->error($app->tform->lng('php_in_use_error'));
+		}
 	}
 
 }
@@ -81,4 +67,3 @@ class page_action extends tform_actions {
 $page = new page_action;
 $page->onDelete();
 
-?>

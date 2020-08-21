@@ -15,11 +15,21 @@ try {
 	}
 
 	//* Set the function parameters.
-	$domain = 'test.int';
 
-	$record_record = $client->mail_domain_get_by_domain($session_id, $domain);
+    $client_id = 1;
+	$new_password = 'YourNewPassword';
 
-	print_r($record_record);
+    $success = $client->client_change_password($session_id, $client_id, $new_password);
+
+	if ($success == 1)
+	{
+        echo "Password has been changed successfully";
+	}
+	else
+	{
+		echo "Error";
+	}
+
 	echo "<br>";
 
 	if($client->logout($session_id)) {

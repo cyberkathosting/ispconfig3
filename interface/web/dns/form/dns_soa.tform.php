@@ -276,6 +276,15 @@ $form["tabs"]['dns_soa'] = array (
 			'default' => 'Y',
 			'value'  => array(0 => 'N', 1 => 'Y')
 		),
+		'dnssec_algo' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOXARRAY',
+			'separator' => ',',
+			'default' => 'ECDSAP256SHA256',
+			'value'  => array('NSEC3RSASHA1' => '7 (NSEC3RSASHA1)','ECDSAP256SHA256' => '13 (ECDSAP256SHA256)'),
+			'width'  => '30',
+			'maxlength' => '255'
+		),
  		'dnssec_info' => array (
  			'datatype' => 'TEXT',
  			'formtype' => 'TEXTAREA',

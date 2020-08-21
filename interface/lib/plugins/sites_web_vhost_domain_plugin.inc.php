@@ -46,12 +46,20 @@ class sites_web_vhost_domain_plugin {
 		$vhostdomain_type = 'domain';
 		if($page_form->dataRecord['type'] == 'vhostalias') $vhostdomain_type = 'aliasdomain';
 		elseif($page_form->dataRecord['type'] == 'vhostsubdomain') $vhostdomain_type = 'subdomain';
-		
-		// make sure that the record belongs to the clinet group and not the admin group when a dmin inserts it
-		// also make sure that the user can not delete domain created by a admin
+
+		// make sure that the record belongs to the client group and not the admin group when a admin inserts it
+		// also make sure that the user can not delete domain created by a admin if client protection is enabled
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($page_form->dataRecord["client_group_id"])) {
 			$client_group_id = $app->functions->intval($page_form->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE web_domain SET sys_groupid = ?, sys_perm_group = 'ru' WHERE domain_id = ?", $client_group_id, $page_form->id);
+			$app->uses('getconf');
+	  	$global_config = $app->getconf->get_global_config('sites');
+	  	if($global_config['client_protection'] == 'y') {
+		    $app->db->query("UPDATE web_domain SET sys_groupid = ?, sys_perm_group = 'ru' WHERE domain_id = ?", $client_group_id, $this->id);
+			} else {
+				$sysuser = $app->db->queryOneRecord('SELECT userid FROM sys_user WHERE default_group = ?',$client_group_id);
+				$sysuser_id = (is_array($sysuser) && isset($sysuser['userid']) && $sysuser['userid'] > 0)?$sysuser['userid']:1;
+				$app->db->query("UPDATE web_domain SET sys_userid = ?, sys_groupid = ?, sys_perm_group = 'riud' WHERE domain_id = ?", $sysuser_id, $client_group_id, $this->id);
+			}
 		}
 		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($page_form->dataRecord["client_group_id"])) {
 			$client_group_id = $app->functions->intval($page_form->dataRecord["client_group_id"]);
@@ -62,7 +70,7 @@ class sites_web_vhost_domain_plugin {
 		$web_config = $app->getconf->get_server_config($app->functions->intval($page_form->dataRecord['server_id']), 'web');
 		if(isset($app->tform) && is_object($app->tform)) $web_rec = $app->tform->getDataRecord($page_form->id);
 		else $web_rec = $app->remoting_lib->getDataRecord($page_form->id);
-		
+
 		if($vhostdomain_type == 'domain') {
 			$document_root = str_replace("[website_id]", $page_form->id, $web_config["website_path"]);
 			$document_root = str_replace("[website_idhash_1]", $this->id_hash($page_form->id, 1), $document_root);
@@ -97,7 +105,7 @@ class sites_web_vhost_domain_plugin {
 			$document_root    = str_replace("[client_idhash_2]", $this->id_hash($client_id, 2), $document_root);
 			$document_root    = str_replace("[client_idhash_3]", $this->id_hash($client_id, 3), $document_root);
 			$document_root    = str_replace("[client_idhash_4]", $this->id_hash($client_id, 4), $document_root);
-			
+
 			if($event_name == 'sites:web_vhost_domain:on_after_update') {
 				if(($_SESSION["s"]["user"]["typ"] == 'admin' || $app->auth->has_clients($_SESSION['s']['user']['userid'])) &&  isset($page_form->dataRecord["client_group_id"]) && $page_form->dataRecord["client_group_id"] != $page_form->oldDataRecord["sys_groupid"]) {
 
@@ -280,7 +288,7 @@ class sites_web_vhost_domain_plugin {
 				$php_open_basedir    = str_replace("[website_path]", $document_root, $web_config["php_open_basedir"]);
 				$php_open_basedir    = str_replace("[website_domain]", $app->functions->idn_encode($page_form->dataRecord['domain']), $php_open_basedir);
 				$htaccess_allow_override  = $web_config["htaccess_allow_override"];
-				
+
 				$sql = "UPDATE web_domain SET system_user = ?, system_group = ?, document_root = ?, allow_override = ?, php_open_basedir = ?  WHERE domain_id = ?";
 				$app->db->query($sql, $system_user, $system_group, $document_root, $htaccess_allow_override, $php_open_basedir, $page_form->id);
 			}

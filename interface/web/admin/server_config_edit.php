@@ -192,10 +192,11 @@ class page_action extends tform_actions {
 							$app->db->datalogUpdate('mail_user', $mail_user, 'mailuser_id', $mail_user["mailuser_id"], true);
 							$mail_user['autoresponder'] = 'y';
 							$app->db->datalogUpdate('mail_user', $mail_user, 'mailuser_id', $mail_user["mailuser_id"], true);
-						} elseif($mail_user['move_junk'] == 'y') {
+						} elseif($mail_user['move_junk'] != 'n') {
+							$save = $mail_user['move_junk'];
 							$mail_user['move_junk'] = 'n';
 							$app->db->datalogUpdate('mail_user', $mail_user, 'mailuser_id', $mail_user["mailuser_id"], true);
-							$mail_user['move_junk'] = 'y';
+							$mail_user['move_junk'] = $save;
 							$app->db->datalogUpdate('mail_user', $mail_user, 'mailuser_id', $mail_user["mailuser_id"], true);
 						} else {
 							$app->db->datalogUpdate('mail_user', $mail_user, 'mailuser_id', $mail_user["mailuser_id"], true);
