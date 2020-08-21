@@ -162,23 +162,48 @@ class mail_user_filter_plugin {
 
 				$content .= 'if header :regex    ["'.strtolower($page_form->dataRecord["source"]).'"] ["';
 
-				$searchterm = preg_quote($page_form->dataRecord["searchterm"]);
-				$searchterm = str_replace(
-					array(
-						'"',
-						'\\[',
-						'\\]'
-					),
-					array(
-						'\\"',
-						'\\\\[',
-						'\\\\]'
-					), $searchterm);
+				# special chars in sieve regex must be escaped with double-backslash
+				if($page_form->dataRecord["op"] == 'regex') {
+					# if providing a regex, special chars must already be quoted as intended;
+					# we will simply try to check for an obviously unquoted double-quote and handle that.
+					$patterns = array( '/([^\\\\]{2})"/', '/([^\\\\])\\\\"/' );
+					$replace  = array( '${1}\\\\\\\\"', '${1}\\\\\\\\"' );
+					$searchterm = preg_replace( $patterns, $replace, $page_form->dataRecord["searchterm"] );
+				} else {
+					$sieve_regex_escape = array(
+						'\\' => '\\\\\\',
+						'+' => '\\\\+',
+						'*' => '\\\\*',
+						'?' => '\\\\?',
+						'[' => '\\\\[',
+						'^' => '\\\\^',
+						']' => '\\\\]',
+						'$' => '\\\\$',
+						'(' => '\\\\(',
+						')' => '\\\\)',
+						'{' => '\\\\{',
+						'}' => '\\\\}',
+						'|' => '\\\\|',
+						'.' => '\\\\.',
+						# these (from preg_quote) should not be needed
+						#'=' => '\\\\=',
+						#'!' => '\\\\!',
+						#'<' => '\\\\<',
+						#'>' => '\\\\>',
+						#':' => '\\\\:',
+						#'-' => '\\\\-',
+						#'#' => '\\\\#',
+						);
+					$searchterm = strtr( $page_form->dataRecord["searchterm"], $sieve_regex_escape );
+
+				}
 
 				if($page_form->dataRecord["op"] == 'contains') {
 					$content .= ".*".$searchterm;
 				} elseif ($page_form->dataRecord["op"] == 'is') {
 					$content .= "^".$searchterm."$";
+				} elseif ($page_form->dataRecord["op"] == 'regex') {
+					$content .= $searchterm;
 				} elseif ($page_form->dataRecord["op"] == 'begins') {
 					$content .= "^".$searchterm."";
 				} elseif ($page_form->dataRecord["op"] == 'ends') {
