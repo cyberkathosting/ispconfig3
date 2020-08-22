@@ -1940,18 +1940,18 @@ class nginx_plugin {
                 }
 
                 //* Remove the AWstats configuration file
-                if($data['old']['stats_type'] == 'awstats') {
-                        $this->awstats_delete($data, $web_config);
+		if($data['old']['stats_type'] == 'awstats' && $data['new']['stats_type'] != 'awstats') {
+			$this->awstats_delete($data, $web_config);
                 }
 
 		//* Remove the GoAccess configuration file
-		if($data['old']['stats_type'] == 'goaccess') {
+		if($data['old']['stats_type'] == 'goaccess' && $data['new']['stats_type'] != 'goaccess') {
 			$this->goaccess_delete($data, $web_config);
 		}
 
                 //* Remove the Webalizer configuration file
-                if($data['old']['stats_type'] == 'webalizer') {
-                        $this->webalizer_delete($data, $web_config);
+		if($data['old']['stats_type'] == 'webalizer' && $data['new']['stats_type'] != 'webalizer') {
+			$this->webalizer_delete($data, $web_config);
                 }
 
 		//* Remove Stats-Folder when Statistics set to none
