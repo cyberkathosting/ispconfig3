@@ -9,30 +9,30 @@ var ISPConfig = {
 	registeredHooks: new Array(),
 	new_tpl_add_id: 0,
 	dataLogTimer: 0,
-	
+
 	options: {
 		useLoadIndicator: false,
 		useComboBox: false
 	},
-	
+
 	setOption: function(key, value) {
 		ISPConfig.options[key] = value;
 	},
-	
+
 	setOptions: function(opts) {
 		$.extend(ISPConfig.options, opts);
 	},
-	
+
 	reportError: function(request) {
-		
+
 	},
-	
+
 	registerHook: function(name, callback) {
 		if(!ISPConfig.registeredHooks[name]) ISPConfig.registeredHooks[name] = new Array();
 		var newindex = ISPConfig.registeredHooks[name].length;
 		ISPConfig.registeredHooks[name][newindex] = callback;
 	},
-	
+
 	callHook: function(name, params) {
 		if(!ISPConfig.registeredHooks[name]) return;
 		for(var i = 0; i < ISPConfig.registeredHooks[name].length; i++) {
@@ -40,14 +40,14 @@ var ISPConfig = {
 			callback(name, params);
 		}
 	},
-	
+
 	resetFormChanged: function() {
 		ISPConfig.pageFormChanged = false;
 	},
 
 	showLoadIndicator: function() {
 		document.body.style.cursor = 'wait';
-		
+
 		if(ISPConfig.options.useLoadIndicator == true) {
 			ISPConfig.requestsRunning += 1;
 
@@ -96,7 +96,7 @@ var ISPConfig = {
 	onAfterContentLoad: function(url, data) {
 		if(!data) data = '';
 		else data = '&' + data;
-		
+
 		if(ISPConfig.options.useComboBox == true) {
 			$('#pageContent').find("select:not(.chosen-select)").select2({
 				placeholder: '',
@@ -119,7 +119,7 @@ var ISPConfig = {
 				}
 			});
 		}
-		
+
 		$('input[data-input-element="date"]').datetimepicker({
 			'language': 'en', // TODO
 			'todayHighlight': true,
@@ -144,18 +144,18 @@ var ISPConfig = {
 			$(this).prop('readonly', true)
 			.tooltip({title: "Click to set", placement: "left"});
 		});
-		$('input[type="password"]').on('click focus', function() { 
+		$('input[type="password"]').on('click focus', function() {
 			$(this).prop('readonly', false);
 			$(this).tooltip('destroy');
 		});
-		
+
 		ISPConfig.callHook('onAfterContentLoad', {'url': url, 'data': data });
 	},
 
 	submitForm: function(formname, target, confirmation) {
 		var successMessage = arguments[3];
 		if(!confirmation) confirmation = false;
-		
+
 		if(!confirmation || window.confirm(confirmation)) {
 			var submitFormObj = $.ajax({
 				type: "POST",
@@ -210,12 +210,12 @@ var ISPConfig = {
 			if(errormsg){
 				msg = msg+'<div id="errorMsg">'+errormsg+'</div>';
 			}
-			
+
 			var csrf_key = $response.find('input[name="_csrf_key"]').val();
 			var csrf_id = $response.find('input[name="_csrf_id"]').val();
-			
+
 			msg = msg + '<input type="hidden" name="_csrf_id" value="' + csrf_id + '" /><input type="hidden" name="_csrf_key" value="' + csrf_key + '" />';
-			
+
 			return msg;
 
 		};
@@ -264,7 +264,7 @@ var ISPConfig = {
 			}
 		});
 	},
-	
+
 	loadContent: function(pagename) {
 		var params = arguments[1];
 		var pageContentObject2 = $.ajax({
@@ -350,7 +350,7 @@ var ISPConfig = {
 				ISPConfig.reportError('Ajax Request was not successful. 114');
 			}
 		});
-		
+
 		ISPConfig.loadMenus();
 		ISPConfig.keepalive();
 		ISPConfig.dataLogNotification();
@@ -358,11 +358,11 @@ var ISPConfig = {
 			try {
 				$('form#pageForm').find('input[name="username"]').focus();
 			} catch (e) {
-			
+
 			}
 		}, 1000);
 	},
-	
+
 	loadMenus: function() {
 		var sideNavObject = $.ajax({
 			type: "GET",
@@ -409,7 +409,7 @@ var ISPConfig = {
 			console.log('tab change interrupted, request still running.');
 			return false;
 		}
-	
+
 		document.pageForm.next_tab.value = tab;
 
 		var idel = $('form#pageForm').find('[name="id"]');
@@ -487,7 +487,7 @@ var ISPConfig = {
 			}
 		});
 	},
-	
+
 	keepalive: function() {
 		var pageContentObject3 = $.ajax({
 			type: "GET",
@@ -618,13 +618,13 @@ $(document).on('click', 'a[data-load-content],button[data-load-content]', functi
 		console.log('preventing click because there is still a request running.');
 		return;
 	}
-	
+
 	$page.on('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function() { $page.stop(); });
 	$page.animate({scrollTop: 0}, 1000, function() { $page.off('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function() { $page.stop(); }); });
-	
+
 	var content_to_load = $(this).attr('data-load-content');
 	if(!content_to_load) return this;
-	
+
 	ISPConfig.loadContent(content_to_load);
 });
 
@@ -634,13 +634,13 @@ $(document).on('click', 'a[data-capp],button[data-capp]', function(e) {
 		console.log('preventing click because there is still a request running.');
 		return;
 	}
-	
+
 	$page.on('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function() { $page.stop(); });
 	$page.animate({scrollTop: 0}, 1000, function() { $page.off('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function() { $page.stop(); }); });
-	
+
 	var content_to_load = $(this).attr('data-capp');
 	if(!content_to_load) return this;
-	
+
 	ISPConfig.capp(content_to_load);
 });
 
@@ -650,14 +650,14 @@ $(document).on('click', 'a[data-submit-form],button[data-submit-form]', function
 		console.log('preventing click because there is still a request running.');
 		return;
 	}
-	
+
 	$page.on('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function() { $page.stop(); });
 	$page.animate({scrollTop: 0}, 1000, function() { $page.off('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function() { $page.stop(); }); });
-	
+
 	var $el = $(this);
 	var act = $el.attr('data-form-action');
 	var form = $el.attr('data-submit-form');
-	
+
 	if($el.attr('data-form-upload') == 'true') ISPConfig.submitUploadForm(form, act);
 	else ISPConfig.submitForm(form, act);
 });
@@ -679,28 +679,28 @@ $(document).on('click', 'th[data-column]', function(e) {
 	var $self = $(this);
 	var column = $self.attr('data-column');
 	if(!column) return this;
-	
+
 	if($("#pageForm .table #Filter").length > 0 && $self.attr('data-sortable') != 'false') {
 		var $el = $('#Filter');
 		var act = $el.attr('data-form-action');
 		var form = $el.attr('data-submit-form');
-		
+
 		var dir = $self.attr('data-ordered');
-		
+
 		var separator = '?';
 		if(act.indexOf("?") >= 0){
 			separator = '&';
 		}
 		act = act + separator + 'orderby=' + column;
 		ISPConfig.submitForm(form, act);
-		
+
 		$(document).ajaxComplete(function() {
 			var $self = $('#pageForm .table th[data-column="' + column + '"]');
 			$self.parent().children('th[data-column]').removeAttr('data-ordered');
 			if(dir && dir == 'asc') $self.attr('data-ordered', 'desc');
 			else $self.attr('data-ordered', 'asc');
 		});
-		
+
 	}
 });
 
@@ -765,25 +765,23 @@ $(document).on('ready', function () {
 			})
 		}
 	});
-	
+
 	// Animierter Ladefortschritt
 	$('.progress .progress-bar').css('width', function () {
 		return $(this).attr('aria-valuenow') + '%';
 	});
-	
-	ISPConfig.loadInitContent();
 
 	$('#searchform').submit(function(e) {
 		e.preventDefault();
 	});
-	
+
 	$("#pageForm").submit(function(e){
 		//Prevent form submit: e.preventDefault() in lists
 		if ($("#pageForm .table #Filter").length > 0) {
 			e.preventDefault();
 		}
 	});
-	
+
 	$.fn.setCursorPosition = function(pos) {
 		var self = $(this).get(0);
 		if(self.setSelectionRange) {
@@ -799,11 +797,11 @@ $(document).on('ready', function () {
 			range.select();
 		}
 	};
-	
+
 	$.fn.getCursorPosition = function() {
 		var iCaretPos = 0;
 		var self = $(this).get(0);
-		
+
 		if(typeof self.selectionStart === 'number') {
 			iCaretPos = self.selectionDirection == 'backward' ? self.selectionStart : self.selectionEnd;
 		} else if(document.selection) {
@@ -815,4 +813,3 @@ $(document).on('ready', function () {
 		return iCaretPos;
 	};
 });
-

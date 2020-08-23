@@ -172,16 +172,17 @@ class remoteaction_core_module {
 		/*
 		 * Do the update
 		 */
-		exec("aptitude update");
-		exec("aptitude safe-upgrade -y");
+		 //Guess this is not wanted here?
+		 //exec("aptitude update");
+		 //exec("aptitude safe-upgrade -y");
 
 		//TODO : change this when distribution information has been integrated into server record
 		if(file_exists('/etc/gentoo-release')) {
 			exec("glsa-check -f --nocolor affected");
 		}
 		else {
-			exec("aptitude update");
-			exec("aptitude safe-upgrade -y");
+			exec("apt-get update");
+			exec("apt-get -y upgrade");
 		}
 
 		/*
@@ -192,7 +193,7 @@ class remoteaction_core_module {
 
 	private function _doIspCUpdate($action) {
 		global $app;
-		
+
 		// Ensure that this code is not executed twice as this would cause a loop in case of a failure
 		$this->_actionDone($action['action_id'], 'ok');
 

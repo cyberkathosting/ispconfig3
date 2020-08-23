@@ -1,7 +1,7 @@
 alias_maps = hash:/etc/aliases, hash:/var/lib/mailman/data/aliases
 alias_database = hash:/etc/aliases, hash:/var/lib/mailman/data/aliases
 virtual_alias_domains = proxy:mysql:{config_dir}/mysql-virtual_alias_domains.cf
-virtual_alias_maps = hash:/var/lib/mailman/data/virtual-mailman, proxy:mysql:{config_dir}/mysql-virtual_forwardings.cf, proxy:mysql:{config_dir}/mysql-virtual_alias_domains.cf, proxy:mysql:{config_dir}/mysql-virtual_email2email.cf
+virtual_alias_maps = hash:/var/lib/mailman/data/virtual-mailman, proxy:mysql:{config_dir}/mysql-virtual_forwardings.cf, proxy:mysql:{config_dir}/mysql-virtual_alias_maps.cf, proxy:mysql:{config_dir}/mysql-virtual_email2email.cf
 virtual_mailbox_domains = proxy:mysql:{config_dir}/mysql-virtual_domains.cf
 virtual_mailbox_maps = proxy:mysql:{config_dir}/mysql-virtual_mailboxes.cf
 virtual_mailbox_base = {vmail_mailbox_base}
@@ -37,10 +37,13 @@ nested_header_checks = regexp:{config_dir}/nested_header_checks
 body_checks = regexp:{config_dir}/body_checks
 inet_interfaces = all
 smtp_tls_security_level = may
-smtpd_tls_mandatory_protocols = !SSLv2, !SSLv3
-smtpd_tls_protocols = !SSLv2,!SSLv3
-smtp_tls_protocols = !SSLv2,!SSLv3
+smtpd_tls_mandatory_protocols = !SSLv2, !SSLv3, !TLSv1, !TLSv1.1
+smtpd_tls_protocols = !SSLv2,!SSLv3, !TLSv1, !TLSv1.1
+smtp_tls_protocols = !SSLv2,!SSLv3, !TLSv1, !TLSv1.1
 smtpd_tls_exclude_ciphers = RC4, aNULL
 smtp_tls_exclude_ciphers = RC4, aNULL
+smtpd_tls_mandatory_ciphers = medium
+tls_medium_cipherlist = ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384
+tls_preempt_cipherlist = no
 # needed for postfix < 3.3 when using reject_unverified_recipient (lmtp):
 enable_original_recipient = yes

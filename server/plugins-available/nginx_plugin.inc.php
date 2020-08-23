@@ -455,7 +455,7 @@ class nginx_plugin {
 			unset($tmp);
 
 			if($app->system->is_blacklisted_web_path($web_folder)) {
-				$app->log('Vhost is using a blacklisted web folder: ' . $web_folder, LOGLEVEL_ERROR);
+				$app->log('Vhost ' . $subdomain_host . ' is using a blacklisted web folder: ' . $web_folder, LOGLEVEL_ERROR);
 				return 0;
 			}
 

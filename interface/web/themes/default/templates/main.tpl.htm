@@ -58,9 +58,9 @@
 					  <div>
 						<div>
 						  <div class='input-group'>
-							<input id='globalsearch' type='text' class='form-control' placeholder='Search' />
+							<input id='globalsearch' type='text' class='form-control' placeholder='{tmpl_var name="globalsearch_searchfield_watermark_txt"}' />
 							<span class='input-group-btn'>
-							  <button class='btn btn-default' title='Search…'>
+                <button class='btn btn-default' title='{tmpl_var name="globalsearch_searchfield_watermark_txt"}'>
 								<span class='icon icon-lens'></span>
 							  </button>
 							</span>
@@ -90,7 +90,7 @@
 				    </ul>
 			      </div>
 			      <div class="modal-footer">
-			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        <button type="button" class="btn btn-default" data-dismiss="modal">{tmpl_var name="datalog_changes_close_txt"}</button>
 			      </div>
 			    </div>
 			  </div>
@@ -152,6 +152,8 @@
 			searchFieldWatermark: '<tmpl_var name="globalsearch_searchfield_watermark_txt">',
 			resultBoxPosition: ''
 		});
+
+    ISPConfig.loadInitContent();
 
 	});
   //-->

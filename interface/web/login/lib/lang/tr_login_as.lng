@@ -10,4 +10,6 @@ $wb['active_txt'] = 'Etkin';
 $wb['tcp_ports_error_regex'] = 'TCP kapı açıklamasında karakter kullanılamaz. Yalnız rakam, ":" ve "," karakterleri kullanılabilir.';
 $wb['udp_ports_error_regex'] = 'UDP kapı açıklamasında karakter kullanılamaz. Yalnız rakam, ":" ve "," karakterleri kullanılabilir.';
 $wb['login_as_or_logout_txt'] = '{UTYPE} olarak oturum açmak ya da oturumunuzu kapatmak ister misiniz?';
+$wb['btn_reloginas_txt'] = 'Yes, re-login as %s';
+$wb['btn_nologout_txt'] = 'No, logout';
 ?>
