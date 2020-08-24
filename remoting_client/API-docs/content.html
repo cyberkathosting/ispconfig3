@@ -1,44 +1,159 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html><head>
-  <title>ISPCOnfig 3 remote API documentation</title>
+<html>
 
-  
-  
-  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<head>
+    <title>ISPCOnfig 3 remote API documentation</title>
 
-  
-  <style type="text/css">
-<!--
-.command {
-    padding: 1em;
-    border: 1px dashed #2f6fab;
-    color: black;
-    background-color: #f9f9f9;
-    line-height: 1.1em;
-        font-family: Courier New, Courier, mono;
-        font-size: 12px;
-        font-style: italic;
-}
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
-.system {
-    color: black;
-        font-family: Courier New, Courier, mono;
-        font-size: 12px;
-        font-style: italic;
-}
+    <style type="text/css">
+        <!--
+        .command {
+            padding: 1em;
+            border: 1px dashed #2f6fab;
+            color: black;
+            background-color: #f9f9f9;
+            line-height: 1.1em;
+            font-family: Courier New, Courier, mono;
+            font-size: 12px;
+            font-style: italic;
+        }
 
-.highlight {
-    color: #FF0000;
-	font-family: Georgia, "Times New Roman", Times, serif;
-	font-size: 12px;
-	text-decoration: underline;
-}
--->
- </style></head><body style="color: rgb(0, 0, 0); background-color:#FFFFFF;;" alink="#804080" link="#804080" vlink="#603060">
-<div style="padding:40px">
-<h2>Home</h2>
-<br>
-ISPConfig 3 remote API documentation.
-</div>
+        .notes {
+            color: #17075c;
+            font-family: Georgia, "Times New Roman", Times, serif;
+            font-size: 14px;
 
-</body></html>
+        }
+
+        .preface {
+            color: black;
+            font-family: Georgia, "Times New Roman", Times, serif;
+            font-size: 14px;
+        }
+
+        a:link,
+        a:visited {
+            text-decoration: none;
+        }
+
+
+        a:hover,
+        a:active {
+            text-decoration: underline;
+        }
+
+        .question {
+            font-size: 14px;
+            padding: 0em 0em 0em 1em;
+        }
+
+        .answer {
+            padding: 0em 0em 0em 2em;
+        }
+        -->
+    </style>
+</head>
+
+<body>
+    <div style="padding:40px">
+        <h2>ISPConfig 3 Remote API Documentation</h2>
+        <div class="notes">
+            <h3>Notes</h3>
+
+            <p class="preface">These notes are new for v3.2 and the content will change.<br />
+                This is currently in FAQ format, because the topics seem to be Frequently Asked Questions.<br />
+                Over time, notes will also be added to individual function pages.<br />
+                If you would like to help with this process, please visit the forum, and add your comments to <a
+                    href="https://www.howtoforge.com/community/threads/api-doc-you-can-help.84944/">this thread</a>
+                which has been created for this purpose.<br />
+                Thank you for your patience and collaboration.
+            </p>
+
+            <h4 class="question">What do we do to get started with API calls?</h4>
+            <div class="answer">
+                <p>Create a "Remote" User in the ISPConfig UI. Check boxes there to assign permissions for
+                    the kinds of queries that can be processed by that user.</p>
+                <p>Almost all API queries require a session_id. To get that, call the login function, sending the remote
+                    username and password. The response will be a single value which will be used as your session ID for
+                    a limited time period for all other requests.</p>
+                <p>Finishing with a logout request is recommended, but optional since the session IDs expire.</p>
+            </div>
+
+            <h4 class="question">How do I get all records with a _get request?</h4>
+            <div class="answer">Rather than using a single integer ID as a primary key selector (domain_id, group_id,
+                etc), use -1. Where the primary key for a _get request is a string, use an empty array ' [] '. Do not
+                use an empty string ' "" ', which is itself a valid string and will/should return an empty array result.
+            </div>
+
+            <h4 class="question">Are defaults used if we only send some of the defined parameters?</h4>
+            <div class="answer">No, there are no default values except where explicitly noted. For example, in the
+                system_config_get function, the key element is optional because it is documented as defaulting to an
+                empty string. For all requests, except where documented otherwise, send all documented parameters.</div>
+
+            <h4 class="question">Examples are provided for SOAP, why not for REST?</h4>
+            <div class="answer">The REST API supports all functions and can be exactly substituted for SOAP examples.
+                For all functions, the request and response parameters are the same for SOAP and REST.</div>
+
+            <h4 class="question">Are there examples for cURL? Python? C#? JavaScript? (anything else...)</h4>
+            <div class="answer">The documentation details request and response parameters which can be passed using any
+                language or toolchain. The URL always includes the function name. Queries are always sent via POST. The
+                result is always in the same JSON format. Use Postman or another tool to generate code in your preferred
+                languages.</div>
+
+            <h4 class="question">I created a new record (domain, mail user, etc). Why isn't it showing in the UI?</h4>
+            <div class="answer">If a parent ID is invalid, a transaction may be accepted, with a record created under a
+                different parent entity.
+            </div>
+
+            <h4 class="question">Why does a response show a successful result when there is no data?</h4>
+            <div class="answer">Carefully check the names and values being sent. Invalid name/value pairs are ignored. A
+                request that does not include a valid request paramenter is requesting nothing, so the return value is
+                nothing. The query was successful, and returned no data.</div>
+
+            <h4 class="question">Why are parameters $session_id and others being ignored?</h4>
+            <div class="answer">The documentation shows PHP function syntax. SOAP and REST parameters do not include the
+                leading $dollar-sign</div>
+
+            <h4 class="question">Key Concept:</h4>
+            <div class="answer">Based on the above you may be thinking there is very little error checking with this
+                API. That is correct. As noted by Jesse Norell: <blockquote>"The api is largely just an interface to the
+                    database tables, and will usually accept what you send, whether that's consistent/correct or not. It
+                    can be a feature, eg. you can create a mail alias first before creating the mailbox to which it
+                    forwards, but it does mean you have a lot more testing to do on your side because you can't just
+                    rely on an error to be thrown if you send inconsistent data."</blockquote>
+            </div>
+
+            <h4 class="question">What is sys_userid and sys_groupid?</h4>
+            <div class="answer">
+                <p>These fields are referenced often in the developer forum and in code, usually with some confusion.
+                    These internal database fields are used in SQL queries to determine parent/child client
+                    relationships. The fields are not passed to API calls, with the exception of one function,
+                    client_get_id which is a convenience function to return the client_id for a sys_userid. In the past
+                    other functions included these keys in the request. Now, when a function request includes a
+                    client_id, at query time a lookup is done to get the internal sys_userid for that client.</p>
+                <p>The sys_userid can identify the creator of a record. This may be the ID of the local/UI user or the
+                    remote/API user that is logging in to create records. If a client record is created without a
+                    reseller, both the sys_userid and the sys_groupid are the same user ID.</p>
+                <p>If a client record is created with a reseller, the meaning of the fields is completely different. The
+                    sys_userid is not a logged-in user ID. It is a new ID that represents the client under the reseller.
+                    The sys_groupid for a client under a reseller is (a foreign-key to) the sys_userid of the client
+                    record for the reseller. In this scenario, the sys_groupid establishes a child-to-parent
+                    relationship.</p>
+            </div>
+
+            <h4 class="question">What domains are the 'domains_' functions operating on?</h4>
+            <div class="answer">The 'domains_' functions update the 'domains' table, which is used by the domain limit
+                module. Clients and resellers are restricted to the domains in this table. To activate domain limits, go
+                to System > Interface > Main Config, then to the Domains tab. Logout/in. Then go to Sites, Add or Edit a
+                site, the "Domain" dropdown list uses this table.</div>
+
+            <h4 class="question">What will be here next?</h4>
+            <div class="answer">Maybe something you write... </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

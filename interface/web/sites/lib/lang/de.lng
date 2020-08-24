@@ -14,7 +14,7 @@ $wb['Command Line'] = 'Kommandozeile';
 $wb['Shell-User'] = 'Shell Benutzer';
 $wb['Cron Jobs'] = 'Cronjobs';
 $wb['Statistics'] = 'Statistik';
-$wb['Web traffic'] = 'Datentransfer';
+$wb['Web traffic'] = 'Web-Datentransfer';
 $wb['Website quota (Harddisk)'] = 'Speicherplatzbeschränkung';
 $wb['Cron'] = 'Cron';
 $wb['Stats'] = 'Statistiken';
@@ -32,4 +32,7 @@ $wb['Installed packages'] = 'Installierte Pakete';
 $wb['Update Packagelist'] = 'Paketliste aktualisieren';
 $wb['error_proxy_requires_url'] = 'Weiterleitungstyp ';
 $wb['Subdomain (Vhost)'] = 'Subdomain (vHost)';
+$wb['Database quota'] = 'Datenbank-Quota';
+$wb['FTP traffic'] = 'FTP-Datentransfer';
+$wb['Backup Stats'] = 'Backup-Statistiken';
 ?>
