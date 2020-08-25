@@ -184,10 +184,10 @@ class tools_monitor {
 
 			foreach($data as $key => $value) {
 				if ($key != '') {
-					$memory = number_format($value / 1048576);
+					$memory = $app->functions->formatBytes($value);
 					$html .= '<tr>
                         <td>' . $key . ':</td>
-                        <td>' . $memory . ' MB</td>
+                        <td>' . $memory . '</td>
                         </tr>';
 				}
 			}
