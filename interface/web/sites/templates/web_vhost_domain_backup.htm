@@ -23,6 +23,13 @@
     </select>
   </div>
 </div>
+<div class="form-group">
+  <label for="backup_excludes" class="col-sm-3 control-label">{tmpl_var name='backup_excludes_txt'}</label>
+  <div class="col-sm-6"><input type="text" name="backup_excludes" id="backup_excludes" value="{tmpl_var name='backup_excludes'}" class="form-control" /></div>
+  <div class="col-sm-3 input-sm">&nbsp;{tmpl_var name='backup_excludes_note_txt'}
+  </div>
+</div>
+<br>
 <div class="panel panel-default">
   <div class="panel-heading" role="tab" id="headingCompression">
     <h4 class="panel-title">
@@ -33,14 +40,7 @@
   </div>
   <div id="collapseCompression" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingCompression">
     <div class="panel-body">
-      <div class="form-group">
-        <label for="backup_excludes" class="col-sm-3 control-label">{tmpl_var name='backup_excludes_txt'}</label>
-        <div class="col-sm-6"><input type="text" name="backup_excludes" id="backup_excludes" value="{tmpl_var name='backup_excludes'}" class="form-control" /></div>
-        <div class="col-sm-3 input-sm">&nbsp;{tmpl_var name='backup_excludes_note_txt'}
-        </div>
-      </div>
       <tmpl_if name="missing_utils">
-        <br>
         <div class="tab-content alert alert-warning">
           {tmpl_var name='backup_missing_utils_txt'} {tmpl_var name='missing_utils'}
         </div>
