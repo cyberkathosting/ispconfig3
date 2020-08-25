@@ -2227,7 +2227,7 @@ class system{
 			$program_args .= ' ' . escapeshellarg($prog);
 		}
 
-		$cmd = 'jk_cp -k ?' . $program_args;
+		$cmd = 'jk_cp -j ?' . $program_args;
 		$this->exec_safe($cmd, $home_dir);
 
 		return true;
@@ -2250,7 +2250,7 @@ class system{
 		}
 
 		// Initialize the chroot into the specified directory with the specified applications
-		$cmd = 'jk_init -f -k -c /etc/jailkit/jk_init.ini -j ?' . $app_args;
+		$cmd = 'jk_init -f -c /etc/jailkit/jk_init.ini -j ?' . $app_args;
 		$this->exec_safe($cmd, $home_dir);
 
 		// Create the temp directory
