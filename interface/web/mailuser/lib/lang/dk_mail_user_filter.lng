@@ -17,6 +17,7 @@ $wb['is_txt'] = 'Er';
 $wb['begins_with_txt'] = 'Begynder med';
 $wb['ends_with_txt'] = 'Slutter med';
 $wb['move_to_txt'] = 'Flyt til';
+$wb['regex_txt'] = 'Matches Regex';
 $wb['delete_txt'] = 'Slet';
 $wb['mailbox_filter_txt'] = 'Mailbox filter';
 $wb['header_txt'] = 'Header';

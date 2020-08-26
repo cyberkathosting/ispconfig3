@@ -3,6 +3,7 @@ $wb['action_txt'] = 'Acción';
 $wb['active_txt'] = 'Habilitado';
 $wb['begins_with_txt'] = 'Comienza con';
 $wb['contains_txt'] = 'Contiene';
+$wb['regex_txt'] = 'Matches Regex';
 $wb['delete_txt'] = 'Borrar';
 $wb['ends_with_txt'] = 'Termina con';
 $wb['from_txt'] = 'De';
