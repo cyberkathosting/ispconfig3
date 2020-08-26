@@ -697,7 +697,7 @@ class tform_base {
 								if(trim($tvl) == trim($k)) $checked = ' CHECKED';
 							}
 							// $out .= "<label for=\"".$key."[]\" class=\"inlineLabel\"><input name=\"".$key."[]\" id=\"".$key."[]\" value=\"$k\" type=\"checkbox\" $checked /> $v</label>\r\n";
-							$out .= "<label for=\"".$key.$elementNo."\" class=\"inlineLabel\"><input name=\"".$key."[]\" id=\"".$key.$elementNo."\" value=\"$k\" type=\"checkbox\" $checked /> $v</label> &nbsp;\r\n";
+							$out .= "<label for=\"".$key.$elementNo."\" class=\"inlineLabel\"><input name=\"".$key."[]\" id=\"".$key.$elementNo."\" value=\"$k\" type=\"checkbox\" $checked /> $v</label><br/>\r\n";
 							$elementNo++;
 						}
 					}
