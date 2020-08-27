@@ -53,7 +53,7 @@ class page_action extends tform_actions {
 	function onShowNew() {
 		global $app, $conf;
 
-		if($_SESSION["s"]["user"]["typ"] != 'admin') die('This function needs admin priveliges');
+		if($_SESSION["s"]["user"]["typ"] != 'admin') die('This function needs admin privileges');
 		
 		parent::onShowNew();
 	}
@@ -61,7 +61,7 @@ class page_action extends tform_actions {
 	function onBeforeUpdate() {
 		global $app, $conf;
 
-		if($_SESSION["s"]["user"]["typ"] != 'admin') die('This function needs admin priveliges');
+		if($_SESSION["s"]["user"]["typ"] != 'admin') die('This function needs admin privileges');
 		
 		//* Check if the server has been changed
 		// We do this only for the admin or reseller users, as normal clients can not change the server ID anyway
@@ -77,7 +77,7 @@ class page_action extends tform_actions {
 	function onSubmit() {
 		global $app, $conf;
 
-		if($_SESSION["s"]["user"]["typ"] != 'admin') die('This function needs admin priveliges');
+		if($_SESSION["s"]["user"]["typ"] != 'admin') die('This function needs admin privileges');
 
 		if(substr($this->dataRecord['source'], 0, 1) === '@') $this->dataRecord['source'] = substr($this->dataRecord['source'], 1);
 
