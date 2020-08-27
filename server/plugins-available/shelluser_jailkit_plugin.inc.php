@@ -109,6 +109,11 @@ class shelluser_jailkit_plugin {
 						$this->data = $data;
 						$this->app = $app;
 						$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
+						foreach (array('jailkit_chroot_app_sections', 'jailkit_chroot_app_programs', 'jailkit_do_not_remove_paths') as $section) {
+							if (isset($web[$section]) && $web[$section] != '' ) {
+								$this->jailkit_config[$section] = $web[$section];
+							}
+						}
 
 						$this->_update_website_security_level();
 
@@ -158,8 +163,6 @@ class shelluser_jailkit_plugin {
 			return false;
 		}
 		
-		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $data['new']['parent_domain_id']);
-
 		if(!$app->system->is_allowed_user($data['new']['username'], false, false)
 			|| !$app->system->is_allowed_user($data['new']['puser'], true, true)
 			|| !$app->system->is_allowed_group($data['new']['pgroup'], true, true)) {
@@ -168,6 +171,8 @@ class shelluser_jailkit_plugin {
 		}
 
 		if($app->system->is_user($data['new']['puser'])) {
+			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $data['new']['parent_domain_id']);
+
 			// Get the UID of the parent user
 			$uid = intval($app->system->getuid($data['new']['puser']));
 			if($uid > $this->min_uid) {
@@ -186,6 +191,11 @@ class shelluser_jailkit_plugin {
 						$this->data = $data;
 						$this->app = $app;
 						$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
+						foreach (array('jailkit_chroot_app_sections', 'jailkit_chroot_app_programs', 'jailkit_do_not_remove_paths') as $section) {
+							if (isset($web[$section]) && $web[$section] != '' ) {
+								$this->jailkit_config[$section] = $web[$section];
+							}
+						}
 
 						$this->_update_website_security_level();
 
@@ -231,12 +241,17 @@ class shelluser_jailkit_plugin {
 			return false;
 		}
 
-		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $data['old']['parent_domain_id']);
-
 		if ($data['old']['chroot'] == "jailkit")
 		{
+			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $data['old']['parent_domain_id']);
+
 			$app->uses("getconf");
 			$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
+			foreach (array('jailkit_chroot_app_sections', 'jailkit_chroot_app_programs', 'jailkit_do_not_remove_paths') as $section) {
+				if (isset($web[$section]) && $web[$section] != '' ) {
+					$this->jailkit_config[$section] = $web[$section];
+				}
+			}
 
 			$jailkit_chroot_userhome = $this->_get_home_dir($data['old']['username']);
 
@@ -248,13 +263,17 @@ class shelluser_jailkit_plugin {
 			$app->system->exec_safe($command, $data['old']['username'], $data['old']['username']);
 			
 			// Remove the jailed user from passwd and shadow file inside the jail
-			$app->system->removeLine($data['old']['dir'].'/etc/passwd', $data['old']['username']);
-			$app->system->removeLine($data['old']['dir'].'/etc/shadow', $data['old']['username']);
+			$app->system->removeLine($data['old']['dir'].'/etc/passwd', $data['old']['username'].':');
+			$app->system->removeLine($data['old']['dir'].'/etc/shadow', $data['old']['username'].':');
 
 			if(@is_dir($data['old']['dir'].$jailkit_chroot_userhome)) {
 				$this->_delete_homedir($data['old']['dir'].$jailkit_chroot_userhome,$userid,$data['old']['parent_domain_id']);
 				
 				$app->log("Jailkit Plugin -> delete chroot home:".$data['old']['dir'].$jailkit_chroot_userhome, LOGLEVEL_DEBUG);
+			}
+
+			if (isset($web['delete_unused_jailkit']) && $web['delete_unused_jailkit']) {
+				$app->system->delete_jailkit_if_unused($web['domain_id']);
 			}
 
 			$app->system->web_folder_protection($web['document_root'], true);

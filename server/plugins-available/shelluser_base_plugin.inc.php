@@ -233,7 +233,6 @@ class shelluser_base_plugin {
 					$app->system->web_folder_protection($web['document_root'], false);
 
 					if($homedir != $homedir_old){
-						$app->system->web_folder_protection($web['document_root'], false);
 						// Rename dir, in case the new directory exists already.
 						if(is_dir($homedir)) {
 							$app->log("New Homedir exists, renaming it to ".$homedir.'_bak', LOGLEVEL_DEBUG);
@@ -245,10 +244,8 @@ class shelluser_base_plugin {
 						$app->file->mkdirs($homedir, '0750');
 						$app->system->chown($homedir,$data['new']['puser']);
 						$app->system->chgrp($homedir,$data['new']['pgroup']);
-						$app->system->web_folder_protection($web['document_root'], true);
 					} else {
 						if(!is_dir($homedir)){
-							$app->system->web_folder_protection($web['document_root'], false);
 							if(!is_dir($data['new']['dir'].'/home')){
 								$app->file->mkdirs($data['new']['dir'].'/home', '0755');
 								$app->system->chown($data['new']['dir'].'/home','root');
@@ -257,7 +254,6 @@ class shelluser_base_plugin {
 							$app->file->mkdirs($homedir, '0750');
 							$app->system->chown($homedir,$data['new']['puser']);
 							$app->system->chgrp($homedir,$data['new']['pgroup']);
-							$app->system->web_folder_protection($web['document_root'], true);
 						}
 					}
 					$app->system->usermod($data['old']['username'], 0, $app->system->getgid($data['new']['pgroup']), $homedir, $data['new']['shell'], $data['new']['password'], $data['new']['username']);
@@ -361,7 +357,7 @@ class shelluser_base_plugin {
 
 				// We delete only non jailkit users, jailkit users will be deleted by the jailkit plugin.
 				if ($data['old']['chroot'] != "jailkit") {
-					// if this web uses PHP-FPM, that PPH-FPM service must be stopped before we can delete this user
+					// if this web uses PHP-FPM, that PHP-FPM service must be stopped before we can delete this user
 					if($web['php'] == 'php-fpm'){
 						if($web['server_php_id'] != 0){
 							$default_php_fpm = false;
