@@ -1,7 +1,7 @@
 <?php
 $wb['email_txt'] = 'Correo';
 $wb['mailbox_spamfilter_txt'] = 'Filtro de spam';
-$wb['no_policy'] = '- no habilitado -';
+$wb['inherit_policy'] = '- Inherit domain setting -';
 $wb['policy_txt'] = 'Directiva';
 $wb['spamfilter_txt'] = 'Filtro de spam';
 ?>

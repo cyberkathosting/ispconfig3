@@ -17,5 +17,9 @@ $wb['is_txt'] = 'Ist';
 $wb['begins_with_txt'] = 'Startet mit';
 $wb['ends_with_txt'] = 'Endet mit';
 $wb['move_to_txt'] = 'Verschieben nach';
+$wb['regex_txt'] = 'Matches Regex';
 $wb['delete_txt'] = 'Löschen';
+$wb['header_txt'] = 'Header';
+$wb['size_over_txt'] = 'Email size over (KB)';
+$wb['size_under_txt'] = 'Email size under (KB)';
 ?>
