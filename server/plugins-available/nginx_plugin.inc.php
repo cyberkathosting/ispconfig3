@@ -1939,6 +1939,21 @@ class nginx_plugin {
                         $this->goaccess_update($data, $web_config);
                 }
 
+                //* Remove the AWstats configuration file
+		if($data['old']['stats_type'] == 'awstats' && $data['new']['stats_type'] != 'awstats') {
+			$this->awstats_delete($data, $web_config);
+                }
+
+		//* Remove the GoAccess configuration file
+		if($data['old']['stats_type'] == 'goaccess' && $data['new']['stats_type'] != 'goaccess') {
+			$this->goaccess_delete($data, $web_config);
+		}
+
+                //* Remove the Webalizer configuration file
+		if($data['old']['stats_type'] == 'webalizer' && $data['new']['stats_type'] != 'webalizer') {
+			$this->webalizer_delete($data, $web_config);
+                }
+
 		//* Remove Stats-Folder when Statistics set to none
 		if($data['new']['stats_type'] == '' && ($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias')) {
 			$app->file->removeDirectory($data['new']['document_root'].'/web/stats');
@@ -2325,11 +2340,6 @@ class nginx_plugin {
 				$this->awstats_delete($data, $web_config);
 			}
 
-			//* Remove the GoAccess configuration file
-                        if($data['old']['stats_type'] == 'goaccess') {
-                                $this->goaccess_delete($data, $web_config);
-                        }
-
 			//* Delete the web-backups
 			if($data['old']['type'] == 'vhost') {
 				$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
@@ -2650,6 +2660,18 @@ class nginx_plugin {
                 if ( @is_file($goaccess_conf) ) {
                         $app->system->unlink($goaccess_conf);
                         $app->log('Removed GoAccess config file: '.$goaccess_conf, LOGLEVEL_DEBUG);
+                }
+        }
+
+        //* Delete the Webalizer configuration file
+        private function webalizer_delete ($data, $web_config) {
+                global $app;
+
+                $webalizer_conf = $data['old']['document_root'] . "/log/webalizer.conf";
+
+                if ( @is_file($webalizer_conf) ) {
+                        $app->system->unlink($webalizer_conf);
+                        $app->log('Removed Webalizer config file: '.$webalizer_conf, LOGLEVEL_DEBUG);
                 }
         }
 
