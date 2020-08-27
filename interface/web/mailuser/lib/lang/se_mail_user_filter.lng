@@ -16,6 +16,10 @@ $wb['is_txt'] = 'Är';
 $wb['begins_with_txt'] = 'Börjar med';
 $wb['ends_with_txt'] = 'Slutar med';
 $wb['move_to_txt'] = 'Flytta till';
+$wb['regex_txt'] = 'Matches Regex';
 $wb['delete_txt'] = 'Radera';
 $wb['mailbox_filter_txt'] = 'Mailbox filter';
+$wb['header_txt'] = 'Header';
+$wb['size_over_txt'] = 'Email size over (KB)';
+$wb['size_under_txt'] = 'Email size under (KB)';
 ?>

@@ -1,0 +1,5 @@
+# Postfix configuration for version 2.10 and up
+smtpd_relay_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination
+
+# This is supported in version 2.9, but lets not create another conf file for it
+address_verify_sender_ttl = 15686s

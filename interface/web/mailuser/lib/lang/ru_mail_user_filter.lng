@@ -16,6 +16,10 @@ $wb['is_txt'] = 'Равно';
 $wb['begins_with_txt'] = 'Начинается с';
 $wb['ends_with_txt'] = 'Заканчивается на';
 $wb['move_to_txt'] = 'Переместить в';
+$wb['regex_txt'] = 'Matches Regex';
 $wb['delete_txt'] = 'Удалить';
 $wb['mailbox_filter_txt'] = 'Фильтр почтового ящика';
+$wb['header_txt'] = 'Header';
+$wb['size_over_txt'] = 'Email size over (KB)';
+$wb['size_under_txt'] = 'Email size under (KB)';
 ?>

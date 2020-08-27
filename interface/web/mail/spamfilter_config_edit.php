@@ -53,7 +53,7 @@ class page_action extends tform_actions {
 	function onShowEdit() {
 		global $app, $conf;
 
-		if($_SESSION["s"]["user"]["typ"] != 'admin') die('This function needs admin priveliges');
+		if($_SESSION["s"]["user"]["typ"] != 'admin') die('This function needs admin privileges');
 
 		if($app->tform->errorMessage == '') {
 			$app->uses('ini_parser,getconf');
@@ -73,7 +73,7 @@ class page_action extends tform_actions {
 	function onUpdateSave($sql) {
 		global $app;
 
-		if($_SESSION["s"]["user"]["typ"] != 'admin') die('This function needs admin priveliges');
+		if($_SESSION["s"]["user"]["typ"] != 'admin') die('This function needs admin privileges');
 		$app->uses('ini_parser,getconf');
 
 		$section = $app->tform->getCurrentTab();

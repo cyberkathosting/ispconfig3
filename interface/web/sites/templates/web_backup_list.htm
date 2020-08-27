@@ -3,13 +3,15 @@
 <button class="btn btn-default formbutton-default" type="button" onclick="ISPConfig.confirm_action('sites/web_vhost_domain_edit.php?id={tmpl_var name='parent_id'}&next_tab=backup&make_backup=web&','{tmpl_var name='make_backup_confirm_txt'}');">{tmpl_var name="make_backup_web_txt"}</button>
 
 <tmpl_if name="msg">
-    <div id="OKMsg" class="tab-content bg-success text-success text-center"><p><tmpl_var name="msg"></p></div>
+  <br><br>
+  <div id="OKMsg" class="tab-content alert alert-success text-center"><p><tmpl_var name="msg"></p></div>
 </tmpl_if>
 <tmpl_if name="error">
-    <div id="errorMsg" class="tab-content bg-danger text-danger text-center">
-        <h4><tmpl_var name="error_txt"></h4>
-        <p><tmpl_var name="error"></p>
-    </div>
+  <br><br>
+  <div id="errorMsg" class="tab-content alert alert-danger text-center">
+    <h4><tmpl_var name="error_txt"></h4>
+    <p><tmpl_var name="error"></p>
+  </div>
 </tmpl_if>
 <h3><tmpl_var name="list_head_txt"></h3>
 
@@ -57,5 +59,5 @@
                 </tbody>
             </table>
 </div>
-        
+
     </div>
