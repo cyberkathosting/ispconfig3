@@ -3079,8 +3079,8 @@ class apache2_plugin {
                         }
                 }
 
-                if(!is_dir($data['new']['document_root']."/" . $web_folder . "/stats/.db")) $app->system->mkdirpath($data['new']['document_root'] . "/" . $web_folder . "/stats/.db");
-                $goaccess_conf = $data['new']['document_root'].'/log/goaccess.conf';
+                if(!is_dir($data['new']['document_root'] . "/log/goaccess_db")) $app->system->mkdirpath($data['new']['document_root'] . "/log/goaccess_db");
+		$goaccess_conf = $data['new']['document_root'].'/log/goaccess.conf';
 
                 /*
                 In case that you use a different log format, you should use a custom goaccess.conf which you'll have to put into /usr/local/ispconfig/server/conf-custom/.

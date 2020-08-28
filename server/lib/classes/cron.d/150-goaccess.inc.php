@@ -144,7 +144,7 @@ class cronjob_goaccess extends cronjob {
 
 					if(!@is_dir($statsdir)) $app->system->mkdirpath($statsdir, 0755, $username, $groupname);
 
-					$goa_db_dir = $docroot.'/'.$web_folder.'/stats/.db/';
+                                        $goa_db_dir = $docroot.'/log/goaccess_db';
 					$output_html = $docroot.'/'.$web_folder.'/stats/goaindex.html';
 		                        if(!@is_dir($goa_db_dir)) $app->system->mkdirpath($goa_db_dir);
 	
@@ -177,11 +177,6 @@ class cronjob_goaccess extends cronjob {
 							 $app->system->mkdirpath($statsdirold, 0755, $username, $groupname);
 						}
 
-						// don't rotate db files per month
-						//rename($goa_db_dir, $statsdirold.'db');
-						//mkdir($goa_db_dir);
-
-
 						$files = scandir($statsdir);
 
 						foreach ($files as $file) {
@@ -204,7 +199,7 @@ class cronjob_goaccess extends cronjob {
 					 * For versions prior 1.4 you need GoAccess with btree support compiled!
 					 */
 				
-					$cust_lang = $conf['language']."_".strtoupper($conf['language']);
+                                        $cust_lang = $conf['language']."_".strtoupper($conf['language'])."UTF-8";
 
 					if(version_compare($goaccess_version,1.4) >= 0) {
 						$app->system->exec_safe("LANG=? goaccess -f ? --config-file ? --restore --persist --db-path=? --output=?", $cust_lang, $logfile, $goaccess_conf, $goa_db_dir, $output_html);
