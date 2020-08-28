@@ -32,18 +32,17 @@
 
 
 */
-
 global $app;
 
 $form["title"]    = "mailbox_filter_txt";
-$form["description"]            = "";
+$form["description"]  = "";
 $form["name"]    = "mail_user_filter";
 $form["action"]   = "mail_user_filter_edit.php";
 $form["db_table"]  = "mail_user_filter";
-$form["db_table_idx"]           = "filter_id";
+$form["db_table_idx"] = "filter_id";
 $form["db_history"]  = "no";
-$form["tab_default"]            = "filter";
-$form["list_default"]           = "mail_user_filter_list.php";
+$form["tab_default"] = "filter";
+$form["list_default"] = "mail_user_filter_list.php";
 $form["auth"]   = 'yes'; // yes / no
 
 $form["auth_preset"]["userid"]  = 0; // 0 = id of the user, > 0 id must match with id of current user
@@ -74,6 +73,12 @@ $form["tabs"]['filter'] = array (
 			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
 					'errmsg'=> 'rulename_error_empty'),
 			),
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
 			'default' => '',
 			'value'  => '',
 			'width'  => '30',
@@ -83,20 +88,24 @@ $form["tabs"]['filter'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => '',
-			'value'  => array('Subject' => 'subject_txt', 'From'=>'from_txt', 'To'=>'to_txt', 'List-Id'=>'list_id_txt')
+			'value'  => array('Subject' => 'subject_txt', 'From'=>'from_txt', 'To'=>'to_txt', 'List-Id'=>'list_id_txt', 'Header' => 'header_txt', 'Size' => 'size_over_txt')
 		),
 		'op' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => '',
 			//'value'  => array('contains'=>'contains_txt','is' => 'Is','begins'=>'Begins with','ends'=>'Ends with')
-			'value'  => array('contains'=>'contains_txt', 'is' => 'is_txt', 'begins'=>'begins_with_txt', 'ends'=>'ends_with_txt')
+			'value'  => array('contains'=>'contains_txt', 'is'=>'is_txt', 'begins'=>'begins_with_txt', 'ends'=>'ends_with_txt', 'regex'=>'regex_txt', 'localpart'=>'localpart_txt', 'domain'=>'domain_txt')
 		),
 		'searchterm' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
 			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
 					'errmsg'=> 'searchterm_is_empty'),
+			),
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
 			),
 			'default' => '',
 			'value'  => '',
@@ -107,13 +116,13 @@ $form["tabs"]['filter'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => '',
-			'value'  => array('move' => 'move_to_txt', 'delete'=>'delete_txt')
+			'value'  => array('move' => 'move_to_txt', 'delete'=>'delete_txt', 'keep' => 'keep_txt', 'reject' => 'reject_txt')
 		),
 		'target' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
 			'validators' => array (  0 => array ( 'type' => 'REGEX',
-					'regex' => '/^[a-zA-Z0-9\.\-\_\ ]{0,100}$/',
+					'regex' => '/^[\p{Latin}0-9\.\-\_\ \&]{0,100}$/u',
 					'errmsg'=> 'target_error_regex'),
 			),
 			'default' => '',

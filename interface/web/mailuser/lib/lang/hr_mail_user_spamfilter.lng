@@ -2,6 +2,6 @@
 $wb['mailbox_spamfilter_txt'] = 'Spam filter';
 $wb['spamfilter_txt'] = 'Spam filter';
 $wb['email_txt'] = 'Email';
-$wb['no_policy'] = '- isključeno -';
+$wb['inherit_policy'] = '- Inherit domain setting -';
 $wb['policy_txt'] = 'Pravila';
 ?>

@@ -16,6 +16,10 @@ $wb['is_txt'] = 'Şununla aynı';
 $wb['begins_with_txt'] = 'Şununla başlayan';
 $wb['ends_with_txt'] = 'Şununla biten';
 $wb['move_to_txt'] = 'Şuraya taşı';
+$wb['regex_txt'] = 'Matches Regex';
 $wb['delete_txt'] = 'Sil';
 $wb['mailbox_filter_txt'] = 'E-posta kutusu süzgeci';
+$wb['header_txt'] = 'Header';
+$wb['size_over_txt'] = 'Email size over (KB)';
+$wb['size_under_txt'] = 'Email size under (KB)';
 ?>

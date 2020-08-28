@@ -102,9 +102,16 @@ class installer extends installer_base
 		}
 
 		$reject_sender_login_mismatch = '';
+		$reject_authenticated_sender_login_mismatch = '';
 		if(isset($server_ini_array['mail']['reject_sender_login_mismatch']) && ($server_ini_array['mail']['reject_sender_login_mismatch'] == 'y')) {
-			$reject_sender_login_mismatch = ', reject_authenticated_sender_login_mismatch';
+			$reject_sender_login_mismatch = ', reject_sender_login_mismatch';
+			$reject_authenticated_sender_login_mismatch = 'reject_authenticated_sender_login_mismatch, ';
 		}
+
+		# placeholder includes comment char
+		$stress_adaptive_placeholder = '#{stress_adaptive} ';
+		$stress_adaptive = (isset($server_ini_array['mail']['stress_adaptive']) && ($server_ini_array['mail']['stress_adaptive'] == 'y')) ? '' : $stress_adaptive_placeholder;
+
 		unset($server_ini_array);
 
 		$postconf_placeholders = array('{config_dir}' => $config_dir,
@@ -114,6 +121,8 @@ class installer extends installer_base
 			'{rbl_list}' => $rbl_list,
 			'{greylisting}' => $greylisting,
 			'{reject_slm}' => $reject_sender_login_mismatch,
+			'{reject_aslm}' => $reject_authenticated_sender_login_mismatch,
+			$stress_adaptive_placeholder => $stress_adaptive,
 		);
 
 		$postconf_tpl = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/gentoo_postfix.conf.master', 'tpl/gentoo_postfix.conf.master');

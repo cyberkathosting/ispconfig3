@@ -529,7 +529,7 @@ class mysql_clientdb_plugin {
 			//* Remote access option has changed.
 			if($data['new']['remote_access'] != $data['old']['remote_access']) {
 
-				//* set new priveliges
+				//* set new privileges
 				if($data['new']['remote_access'] == 'y') {
 					if($db_user) {
 						if($db_user['database_user'] == 'root'){

@@ -967,6 +967,11 @@ class installer_base {
 			$this->error("The postfix configuration directory '$config_dir' does not exist.");
 		}
 
+		//* Get postfix version
+		exec('postconf -d mail_version 2>&1', $out);
+		$postfix_version = preg_replace('/.*=\s*/', '', $out[0]);
+		unset($out);
+
 		//* mysql-virtual_domains.cf
 		$this->process_postfix_config('mysql-virtual_domains.cf');
 
@@ -1072,12 +1077,28 @@ class installer_base {
 		}
 
 		$reject_sender_login_mismatch = '';
-		if(isset($server_ini_array['mail']['reject_sender_login_mismatch']) && ($server_ini_array['mail']['reject_sender_login_mismatch'] == 'y')) {
-			$reject_sender_login_mismatch = ', reject_authenticated_sender_login_mismatch';
+		$reject_authenticated_sender_login_mismatch = '';
+		if (isset($server_ini_array['mail']['reject_sender_login_mismatch']) && ($server_ini_array['mail']['reject_sender_login_mismatch'] == 'y')) {
+			$reject_sender_login_mismatch = ',reject_sender_login_mismatch,';
+			$reject_authenticated_sender_login_mismatch = 'reject_authenticated_sender_login_mismatch, ';
 		}
-		unset($server_ini_array);
 
-		$tmp = str_replace('.','\.',$conf['hostname']);
+		# placeholder includes comment char
+		$stress_adaptive_placeholder = '#{stress_adaptive}';
+		$stress_adaptive = (isset($server_ini_array['mail']['stress_adaptive']) && ($server_ini_array['mail']['stress_adaptive'] == 'y')) ? '' : $stress_adaptive_placeholder;
+
+		$reject_unknown_client_hostname='';
+		if (isset($server_ini_array['mail']['reject_unknown']) && ($server_ini_array['mail']['reject_unknown'] == 'client' || $server_ini_array['mail']['reject_unknown'] == 'client_helo')) {
+			$reject_unknown_client_hostname=',reject_unknown_client_hostname';
+		}
+		$reject_unknown_helo_hostname='';
+		if ((!isset($server_ini_array['mail']['reject_unknown'])) || $server_ini_array['mail']['reject_unknown'] == 'helo' || $server_ini_array['mail']['reject_unknown'] == 'client_helo') {
+			$reject_unknown_helo_hostname=',reject_unknown_helo_hostname';
+		}
+
+		unset($server_ini_array);
+		
+		$myhostname = str_replace('.','\.',$conf['hostname']);
 
 		$postconf_placeholders = array('{config_dir}' => $config_dir,
 			'{vmail_mailbox_base}' => $cf['vmail_mailbox_base'],
@@ -1086,12 +1107,42 @@ class installer_base {
 			'{rbl_list}' => $rbl_list,
 			'{greylisting}' => $greylisting,
 			'{reject_slm}' => $reject_sender_login_mismatch,
-			'{myhostname}' => $tmp,
+			'{reject_aslm}' => $reject_authenticated_sender_login_mismatch,
+			'{myhostname}' => $myhostname,
+			$stress_adaptive_placeholder => $stress_adaptive,
+			'{reject_unknown_client_hostname}' => $reject_unknown_client_hostname,
+			'{reject_unknown_helo_hostname}' => $reject_unknown_helo_hostname,
 		);
 
 		$postconf_tpl = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_postfix.conf.master', 'tpl/debian_postfix.conf.master');
 		$postconf_tpl = strtr($postconf_tpl, $postconf_placeholders);
 		$postconf_commands = array_filter(explode("\n", $postconf_tpl)); // read and remove empty lines
+
+		//* Merge version-specific postfix config
+		if(version_compare($postfix_version , '2.5', '>=')) {
+		    $configfile = 'postfix_2-5.conf';
+		    $content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', 'tpl/'.$configfile.'.master');
+		    $content = strtr($content, $postconf_placeholders);
+		    $postconf_commands = array_merge($postconf_commands, array_filter(explode("\n", $content)));
+		}
+		if(version_compare($postfix_version , '2.10', '>=')) {
+		    $configfile = 'postfix_2-10.conf';
+		    $content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', 'tpl/'.$configfile.'.master');
+		    $content = strtr($content, $postconf_placeholders);
+		    $postconf_commands = array_merge($postconf_commands, array_filter(explode("\n", $content)));
+		}
+		if(version_compare($postfix_version , '3.0', '>=')) {
+		    $configfile = 'postfix_3-0.conf';
+		    $content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', 'tpl/'.$configfile.'.master');
+		    $content = strtr($content, $postconf_placeholders);
+		    $postconf_commands = array_merge($postconf_commands, array_filter(explode("\n", $content)));
+		}
+		if(version_compare($postfix_version , '3.3', '>=')) {
+		    $configfile = 'postfix_3-3.conf';
+		    $content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', 'tpl/'.$configfile.'.master');
+		    $content = strtr($content, $postconf_placeholders);
+		    $postconf_commands = array_merge($postconf_commands, array_filter(explode("\n", $content)));
+		}
 
 		//* These postconf commands will be executed on installation only
 		if($this->is_update == false) {
@@ -1399,7 +1450,7 @@ class installer_base {
 		if ($configure_lmtp) {
 			for ($i = 0; isset($new_options[$i]); $i++) {
 				if ($new_options[$i] == 'reject_unlisted_recipient') {
-					array_splice($new_options, $i+1, 0, array("check_recipient_access proxy:mysql:${config_dir}/mysql-verify_recipients.cf"));
+					array_splice($new_options, $i+1, 0, array("check_recipient_access proxy:mysql:${quoted_config_dir}/mysql-verify_recipients.cf"));
 					break;
 				}
 			}
@@ -1408,7 +1459,6 @@ class installer_base {
 				$postconf_commands[] = "enable_original_recipient = yes";
 			}
 		}
-		#exec("postconf -e 'smtpd_recipient_restrictions = ".implode(", ", $new_options)."'");
 		$postconf_commands[] = "smtpd_recipient_restrictions = ".implode(", ", $new_options);
 
 		// Executing the postconf commands
@@ -1630,7 +1680,7 @@ class installer_base {
 
 	public function configure_rspamd() {
 		global $conf;
-
+		
 		//* These postconf commands will be executed on installation and update
 		$server_ini_rec = $this->db->queryOneRecord("SELECT config FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . '.server', $conf['server_id']);
 		$server_ini_array = ini_to_array(stripslashes($server_ini_rec['config']));
@@ -1647,8 +1697,33 @@ class installer_base {
 			exec("postconf -e 'milter_mail_macros = i {mail_addr} {client_addr} {client_name} {auth_authen}'");
 			exec("postconf -e 'milter_default_action = accept'");
 
-			exec("postconf -e 'smtpd_sender_restrictions = check_sender_access mysql:/etc/postfix/mysql-virtual_sender.cf, permit_mynetworks, permit_sasl_authenticated'");
+			if(! isset($mail_config['reject_sender_login_mismatch'])) {
+				$mail_config['reject_sender_login_mismatch'] = 'n';
+			}
+			$options = preg_split("/,\s*/", exec("postconf -h smtpd_sender_restrictions"));
+			$new_options = array();
+			foreach ($options as $key => $value) {
+				$value = trim($value);
+				if ($value == '') continue;
+				if (preg_match('/tag_as_(originating|foreign)\.re/', $value)) {
+					continue;
+				}
+				if (preg_match('/reject_(authenticated_)?sender_login_mismatch/', $value)) {
+					continue;
+				}
+				$new_options[] = $value;
+			}
+			if ($mail_config['reject_sender_login_mismatch'] == 'y') {
+				array_splice($new_options, 0, 0, array('reject_authenticated_sender_login_mismatch'));
 
+				for ($i = 0; isset($new_options[$i]); $i++) {
+					if ($new_options[$i] == 'permit_mynetworks') {
+						array_splice($new_options, $i+1, 0, array('reject_sender_login_mismatch'));
+						break;
+					}
+				}
+			}
+			exec("postconf -e 'smtpd_sender_restrictions = ".implode(", ", $new_options)."'");
 
 			$options = preg_split("/,\s*/", exec("postconf -h smtpd_recipient_restrictions"));
 			$new_options = array();
