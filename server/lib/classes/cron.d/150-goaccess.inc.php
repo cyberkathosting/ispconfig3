@@ -130,14 +130,6 @@ class cronjob_goaccess extends cronjob {
 						unset($content);
 					}
 
-					/* Update the primary domain name in the title, it could occasionally change */
-					if(is_file($goaccess_conf) && (filesize($goaccess_conf) > 0)) {
-						$content = $app->system->file_get_contents($goaccess_conf, true);
-						$content = preg_replace('/^(#)?html-report-title(.*)/m', "html-report-title $domain", $content);
-						$app->system->file_put_contents($goaccess_conf, $content, true);
-						unset($content);
-					}
-
 	                                $username = $rec['system_user'];
 	                                $groupname = $rec['system_group'];
 	                                $docroot = $rec['document_root'];
