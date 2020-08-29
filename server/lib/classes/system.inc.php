@@ -944,17 +944,19 @@ class system{
 	function rmdir($dir, $recursive=false) {
 		$dir = rtrim($dir, '/');
 		if (is_dir($dir)) {
-			$objects = scandir($dir);
+			$objects = array_diff(scandir($dir), array('.', '..'));
 			foreach ($objects as $object) {
-				if ($object != "." && $object != ".." && $recursive) {
-					if (filetype($dir.'/'.$object) == 'dir') 
-						$this->rmdir($dir.'/'.$object, $recursive); 
-					else unlink ($dir.'/'.$object);
+				if ($recursive) {
+					if (is_dir("$dir/$object")) {
+						$this->rmdir("$dir/$object", $recursive); 
+					} else {
+						unlink ("$dir/$object");
+					}
 				}
 			}
-			reset($objects);
-			rmdir($dir);
+			return rmdir($dir);
 		}
+		return false;
 	}
 
 	function touch($file, $allow_symlink = false){
@@ -2241,7 +2243,7 @@ class system{
 
 	public function create_jailkit_chroot($home_dir, $app_sections = array(), $options = array()) {
 		if(!is_dir($home_dir)) {
-			$app->log("Jail directory does not exist: $homedir", LOGLEVEL_WARN);
+			$app->log("create_jailkit_chroot: jail directory does not exist: $homedir", LOGLEVEL_WARN);
 			return false;
 		}
 		if(empty($app_sections)) {
@@ -2291,7 +2293,7 @@ class system{
 
 	public function create_jailkit_programs($home_dir, $programs = array(), $options = array()) {
 		if(!is_dir($home_dir)) {
-			$app->log("Jail directory does not exist: $homedir", LOGLEVEL_WARN);
+			$app->log("create_jailkit_programs: jail directory does not exist: $homedir", LOGLEVEL_WARN);
 			return false;
 		}
 		if(empty($programs)) {
@@ -2311,6 +2313,7 @@ class system{
 			'|^/tmp/?$|',
 			'|^/run/?$|',
 			'|^/boot/?$|',
+			'|^/var(/?|/backups?/?)?$|',
 		);
 
 		$program_args = '';
@@ -2350,15 +2353,18 @@ class system{
 
 	public function update_jailkit_chroot($home_dir, $sections = array(), $programs = array(), $options = array()) {
 		if(!is_dir($home_dir)) {
-			$app->log("Jail directory does not exist: $homedir", LOGLEVEL_WARN);
+			$app->log("update_jailkit_chroot: jail directory does not exist: $homedir", LOGLEVEL_WARN);
 			return false;
 		}
 
-		$opts = array('force');
+		$opts = array();
 		foreach ($options as $opt) {
 			switch ($opt) {
 			case '-k|hardlink':
 				$opts[] = 'hardlink';
+				break;
+			case '-f|force':
+				$opts[] = 'force';
 				break;
 			}
 		}
@@ -2380,17 +2386,21 @@ class system{
 			'var',
 		);
 
+		$skips = '';
+		$multiple_links = array();
 		foreach ($jailkit_directories as $dir) {
 			$root_dir = '/'.$dir;
 			$jail_dir = rtrim($home_dir, '/') . '/'.$dir;
 
 			if (!is_dir($jail_dir)) {
+				$skips .= " --skip=/$dir";
 				continue;
 			}
 
 			// if directory exists in jail but not in root, remove it
 			if (is_dir($jail_dir) && !is_dir($root_dir)) {
 				$this->rmdir($jail_dir, true);
+				$skips .= " --skip=/$dir";
 				continue;
 			}
 
@@ -2401,6 +2411,51 @@ class system{
 			if (!in_array($opts, 'hardlink') && !in_array($options, 'allow_hardlink')) {
 				$app->log("TODO: search for and remove hardlinked files", LOGLEVEL_DEBUG);
 				// search for and save list of files
+
+                                $find_multiple_links = function ( $path ) use ( &$find_multiple_links ) {
+					$found = array();
+					if (is_dir($path)) {
+						$objects = array_diff(scandir($path), array('.', '..'));
+						foreach ($objects as $object) {
+							$ret = $find_multiple_links( "$path/$object" );
+							if (count($ret) > 0) {
+								$found = array_merge($found, $ret);
+							}
+						}
+					} else {
+						$stat = stat($path);
+						if ($stat['nlink'] > 1) {
+							$found[$path] = $path;
+						}
+					}
+					return $found;
+				};
+
+				$ret = $find_multiple_links( $jail_dir );
+				if (count($ret) > 0) {
+					$multiple_links = array_merge($multiple_links, $ret);
+				}
+			}
+		}
+
+		
+		$cmd = 'jk_update --jail='.escapeshellarg($home_dir) . $skips;
+		exec($cmd, $out, $ret);
+		foreach ($out as $line) {
+			if (substr( $line, 0, 4 ) === "skip")) {
+				continue;
+			}
+			if (preg_match('|^(? [^ ]+){6}(.+)$'.preg_quote($home_dir, '|').'|', $line, $matches)) {
+				# remove deprecated files that jk_update failed to remove
+				if (is_file($matches[1])) {
+$app->log("removing deprecated file which jk_update failed to remove:  ".$matches[1], LOGLEVEL_DEBUG);
+					unlink($matches[1]);
+				} elseif (is_dir($matches[1])) {
+$app->log("removing deprecated directory which jk_update failed to remove:  ".$matches[1], LOGLEVEL_DEBUG);
+					$this->rmdir($matches[1], true);
+				}
+               			# unhandled error
+				$app->log("jk_update error for jail $home_dir:  ".$matches[1], LOGLEVEL_DEBUG);
 			}
 		}
 
@@ -2417,13 +2472,73 @@ class system{
 			$this->chmod($home_dir . '/tmp', 0770, true);
 		}
 
-		// search for and remove hardlinked
+		// search for any hardlinked files which are now missing
 		if (!in_array($opts, 'hardlink') && !in_array($options, 'allow_hardlink')) {
-			$app->log("TODO: search for hardlinked files now missing and add back", LOGLEVEL_DEBUG);
+			foreach ($multiple_links as $file) {
+				if (!is_file($file)) {
+					// strip $home_dir from $file
+					if (substr($file, 0, strlen(rtrim($home_dir, '/'))) == strlen(rtrim($home_dir, '/'))) {
+						$file = substr($file, strlen(rtrim($home_dir, '/')));
+					}
+					if (is_file($file)) { // file exists in root
+$app->log("file with multiple links still missing, running jk_cp to restore: $file", LOGLEVEL_DEBUG);
+						$cmd = 'jk_cp -j ? ' . escapeshellarg($file);
+						$this->exec_safe($cmd, $home_dir);
+					} else {
+						// not necessarily an error
+						$app->log("previously hardlinked file was not found to restore: $file", LOGLEVEL_DEBUG);
+					}
+				}
+			}
 		}
 
 		// Fix permissions of the root firectory
 		$this->chmod($home_dir . '/bin', 0755, true);  // was chmod g-w $CHROOT_HOMEDIR/bin
+
+		return true;
+	}
+
+	public function delete_jailkit_chroot($home_dir, $options = array()) {
+		if(!is_dir($home_dir)) {
+			$app->log("delete_jailkit_chroot: jail directory does not exist: $homedir", LOGLEVEL_DEBUG);
+			return false;
+		}
+
+		$jailkit_directories = array(
+			'bin',
+			'dev',
+			'etc',
+			'lib',
+			'lib32',
+			'lib64',
+			'opt',
+			'sys',
+			'usr',
+			'var',
+		);
+
+		$removed = '';
+		foreach ($jailkit_directories as $dir) {
+			$jail_dir = rtrim($home_dir, '/') . '/'.$dir;
+
+			if (is_dir($jail_dir)) {
+				$this->rmdir($jail_dir, true);
+				$removed .= ' /'.$dir;
+			}
+
+		}
+
+		$app->log("delete_jailkit_chroot: removed from jail $homedir: $removed", LOGLEVEL_DEBUG);
+
+		// handle etc and home special
+		$home = rtrim($home_dir, '/') . '/home';
+		@rmdir($home);  # ok to fail if non-empty
+
+		$private = rtrim($home_dir, '/') . '/private';
+		if (is_dir($home) && is_dir($private)) {
+			$archive = $private.'/home-'.date('c');
+			rename($home, $archive);
+		}
 
 		return true;
 	}
