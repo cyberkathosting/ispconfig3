@@ -139,8 +139,7 @@ class mail_user_filter_plugin {
 
 			if($page_form->dataRecord["source"] == 'Header') {
 				$parts = explode(':',trim($page_form->dataRecord["searchterm"]));
-				$page_form->dataRecord["source"] = trim($parts[0]);
-				unset($parts[0]);
+				$page_form->dataRecord["source"] = trim(array_shift($parts));
 				$page_form->dataRecord["searchterm"] = trim(implode(':',$parts));
 				unset($parts);
 			}
