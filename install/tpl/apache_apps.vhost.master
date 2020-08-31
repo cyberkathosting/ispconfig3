@@ -57,7 +57,6 @@
   <tmpl_var name="ssl_comment">SSLStaplingResponderTimeout 5
   <tmpl_var name="ssl_comment">SSLStaplingReturnResponderErrors Off
   </tmpl_if>
-</VirtualHost>
 
 <tmpl_if name='apache_version' op='>=' value='2.3.3' format='version'>
 <IfModule mod_ssl.c>
