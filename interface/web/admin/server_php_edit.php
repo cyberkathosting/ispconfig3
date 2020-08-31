@@ -51,36 +51,10 @@ $app->load('tform_actions');
 
 class page_action extends tform_actions {
 	function onSubmit() {
-		global $app;
-
-		if(isset($this->id) && $this->id > 0 && $app->tform->getCurrentTab() == 'php_name') {
-			$rec = $app->db->queryOneRecord('SELECT * FROM server_php WHERE server_php_id = ?', $this->id);
-			if($rec['name'] != $this->dataRecord['name']) {
-				$check = array();
-				// fastcgi
-				if($rec['php_fastcgi_binary'] != '') $check[] = $rec['php_fastcgi_binary'];
-				if($rec['php_fastcgi_ini_dir'] != '') $check[] = $rec['php_fastcgi_ini_dir'];
-				if(!empty($check)) $fastcgi_check = implode(':', $check);
-				unset($check);
-				// fpm
-				if($rec['php_fpm_init_script'] != '') $check[] = $rec['php_fpm_init_script'];
-				if($rec['php_fpm_ini_dir'] != '') $check[] = $rec['php_fpm_ini_dir'];
-				if($rec['php_fpm_pool_dir'] != '') $check[] = $rec['php_fpm_pool_dir'];
-				if(!empty($check)) $fpm_check = implode(':', $check);
-
- 				$sql = 'SELECT domain_id FROM web_domain WHERE server_id = ? AND fastcgi_php_version LIKE ?';
-		 		if(isset($fastcgi_check)) $web_domains_fastcgi = $app->db->queryAllRecords($sql, $this->dataRecord['server_id'], '%:'.$fastcgi_check);
-				if(isset($fpm_check)) $web_domains_fpm = $app->db->queryAllRecords($sql, $this->dataRecord['server_id'], '%:'.$fpm_check);
-
-				if(!empty($webdomains_fastcgi) || !empty($web_domains_fpm))	$app->error($app->tform->lng('php_in_use_error').' '.$app->tform->lng('php_name_in_use_error'));
-			}
-		}
-
 		parent::onSubmit();
-
 	}
 	function onBeforeUpdate() {
-		global $app, $conf;
+		global $app;
 
 		//* Check if the server has been changed
 		// We do this only for the admin or reseller users, as normal clients can not change the server ID anyway
@@ -99,5 +73,3 @@ class page_action extends tform_actions {
 
 $page = new page_action;
 $page->onLoad();
-
-?>

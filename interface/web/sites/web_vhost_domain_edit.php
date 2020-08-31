@@ -258,20 +258,15 @@ class page_action extends tform_actions {
 				}
 			}
 			if (empty($web_config['php_default_hide']) || 'n' === $web_config['php_default_hide']) {
-				$php_select = "<option value=''>".$app->functions->htmlentities($web_config['php_default_name'])."</option>";
+				$php_select = "<option value='0'>".$app->functions->htmlentities($web_config['php_default_name'])."</option>";
 			}
 			if(is_array($php_records) && !empty($php_records)) {
 				foreach( $php_records as $php_record) {
-					if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
-						$php_version = $php_record['name'].':'.$php_record['php_fpm_init_script'].':'.$php_record['php_fpm_ini_dir'].':'.$php_record['php_fpm_pool_dir'];
-					} else {
-						$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];
-					}
-					$selected = ($php_version == $this->dataRecord["fastcgi_php_version"])?'SELECTED':'';
-					$php_select .= "<option value='" . $app->functions->htmlentities($php_version) . "' $selected>".$app->functions->htmlentities($php_record['name'])."</option>\r\n";
+					$selected = ($php_record['server_php_id'] == $this->dataRecord["server_php_id"])?'SELECTED':'';
+					$php_select .= "<option value='" . $php_record['server_php_id'] . "' $selected>".$app->functions->htmlentities($php_record['name'])."</option>\r\n";
 				}
 			}
-			$app->tpl->setVar("fastcgi_php_version", $php_select);
+			$app->tpl->setVar("server_php_id", $php_select);
 			unset($php_records);
 
 			// add limits to template to be able to hide settings
@@ -406,20 +401,15 @@ class page_action extends tform_actions {
 				}
 			}
 			if (empty($web_config['php_default_hide']) || 'n' === $web_config['php_default_hide']) {
-				$php_select = "<option value=''>".$app->functions->htmlentities($web_config['php_default_name'])."</option>";
+				$php_select = "<option value='0'>".$app->functions->htmlentities($web_config['php_default_name'])."</option>";
 			}
 			if(is_array($php_records) && !empty($php_records)) {
 				foreach( $php_records as $php_record) {
-					if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
-						$php_version = $php_record['name'].':'.$php_record['php_fpm_init_script'].':'.$php_record['php_fpm_ini_dir'].':'.$php_record['php_fpm_pool_dir'];
-					} else {
-						$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];
-					}
-					$selected = ($php_version == $this->dataRecord["fastcgi_php_version"])?'SELECTED':'';
-					$php_select .= "<option value='" . $app->functions->htmlentities($php_version) . "' $selected>".$app->functions->htmlentities($php_record['name'])."</option>\r\n";
+					$selected = ($php_record['server_php_id'] == $this->dataRecord["server_php_id"])?'SELECTED':'';
+					$php_select .= "<option value='" . $php_record['server_php_id'] . "' $selected>".$app->functions->htmlentities($php_record['name'])."</option>\r\n";
 				}
 			}
-			$app->tpl->setVar("fastcgi_php_version", $php_select);
+			$app->tpl->setVar("server_php_id", $php_select);
 			unset($php_records);
 
 			// add limits to template to be able to hide settings
@@ -628,20 +618,15 @@ class page_action extends tform_actions {
 				}
 			}
 			if (empty($web_config['php_default_hide']) || 'n' === $web_config['php_default_hide']) {
-				$php_select = "<option value=''>".$app->functions->htmlentities($web_config['php_default_name'])."</option>";
+				$php_select = "<option value='0'>".$app->functions->htmlentities($web_config['php_default_name'])."</option>";
 			}
 			if(is_array($php_records) && !empty($php_records)) {
 				foreach( $php_records as $php_record) {
-					if($this->dataRecord['php'] == 'php-fpm' || ($this->dataRecord['php'] == 'hhvm' && $server_type == 'nginx')){
-						$php_version = $php_record['name'].':'.$php_record['php_fpm_init_script'].':'.$php_record['php_fpm_ini_dir'].':'.$php_record['php_fpm_pool_dir'];
-					} else {
-						$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];
-					}
-					$selected = ($php_version == $this->dataRecord["fastcgi_php_version"])?'SELECTED':'';
-					$php_select .= "<option value='" . $app->functions->htmlentities($php_version) . "' $selected>".$app->functions->htmlentities($php_record['name'])."</option>\r\n";
+					$selected = ($php_record['server_php_id'] == $this->dataRecord["server_php_id"])?'SELECTED':'';
+					$php_select .= "<option value='" . $php_record['server_php_id'] . "' $selected>".$app->functions->htmlentities($php_record['name'])."</option>\r\n";
 				}
 			}
-			$app->tpl->setVar("fastcgi_php_version", $php_select);
+			$app->tpl->setVar("server_php_id", $php_select);
 			unset($php_records);
 
 			foreach($read_limits as $limit) $app->tpl->setVar($limit, ($limit == 'force_suexec' ? 'n' : 'y'));
@@ -1030,11 +1015,7 @@ class page_action extends tform_actions {
 				$this->dataRecord['web_folder'] = strtolower($this->dataRecord['web_folder']);
 				if(substr($this->dataRecord['web_folder'], 0, 1) === '/') $this->dataRecord['web_folder'] = substr($this->dataRecord['web_folder'], 1);
 				if(substr($this->dataRecord['web_folder'], -1) === '/') $this->dataRecord['web_folder'] = substr($this->dataRecord['web_folder'], 0, -1);
-				$forbidden_folders = array('', 'cgi-bin', 'log', 'private', 'ssl', 'tmp', 'webdav');
-				$check_folder = strtolower($this->dataRecord['web_folder']);
-				if(substr($check_folder, 0, 1) === '/') $check_folder = substr($check_folder, 1); // strip / at beginning to check against forbidden entries
-				if(strpos($check_folder, '/') !== false) $check_folder = substr($check_folder, 0, strpos($check_folder, '/')); // get the first part of the path to check it
-				if(in_array($check_folder, $forbidden_folders)) {
+				if($app->system->is_blacklisted_web_path($this->dataRecord['web_folder'])) {
 					$app->tform->errorMessage .= $app->tform->lng("web_folder_invalid_txt")."<br>";
 				}
 
@@ -1208,6 +1189,9 @@ class page_action extends tform_actions {
 		//* make sure that the domain is lowercase
 		if(isset($this->dataRecord["domain"])) $this->dataRecord["domain"] = strtolower($this->dataRecord["domain"]);
 
+		//* server_id must be > 0
+		if(isset($this->dataRecord["server_id"]) && $this->dataRecord["server_id"] < 1) $app->tform->errorMessage .= $app->lng("server_id_0_error_txt");
+
 		//* get the server config for this server
 		$app->uses("getconf");
 		if($this->id > 0){
@@ -1349,28 +1333,24 @@ class page_action extends tform_actions {
 		}
 
 		// Check custom PHP version
-		if(isset($this->dataRecord['fastcgi_php_version']) && $this->dataRecord['fastcgi_php_version'] != '') {
+		if(isset($this->dataRecord['server_php_id']) && $this->dataRecord['server_php_id'] != 0) {
 			// Check php-fpm mode
 			if($this->dataRecord['php'] == 'php-fpm'){
-				$tmp = $app->db->queryOneRecord("SELECT * FROM server_php WHERE active = 'y' AND CONCAT(name,':',php_fpm_init_script,':',php_fpm_ini_dir,':',php_fpm_pool_dir) = '".$app->db->quote($this->dataRecord['fastcgi_php_version'])."'");
-				if(is_array($tmp)) {
-					$this->dataRecord['fastcgi_php_version'] = $tmp['name'].':'.$tmp['php_fpm_init_script'].':'.$tmp['php_fpm_ini_dir'].':'.$tmp['php_fpm_pool_dir'];
-				} else {
-					$this->dataRecord['fastcgi_php_version'] = '';
+				$tmp = $app->db->queryOneRecord("SELECT * FROM server_php WHERE active = 'y' AND server_php_id = ?", $this->dataRecord['server_php_id']);
+				if(!is_array($tmp) || !$tmp['php_fpm_init_script']) {
+					$this->dataRecord['server_php_id'] = 0;
 				}
 				unset($tmp);
 			// Check fast-cgi mode
 			} elseif($this->dataRecord['php'] == 'fast-cgi') {
-				$tmp = $app->db->queryOneRecord("SELECT * FROM server_php WHERE active = 'y' AND CONCAT(name,':',php_fastcgi_binary,':',php_fastcgi_ini_dir) = '".$app->db->quote($this->dataRecord['fastcgi_php_version'])."'");
-				if(is_array($tmp)) {
-					$this->dataRecord['fastcgi_php_version'] = $tmp['name'].':'.$tmp['php_fastcgi_binary'].':'.$tmp['php_fastcgi_ini_dir'];
-				} else {
-					$this->dataRecord['fastcgi_php_version'] = '';
+				$tmp = $app->db->queryOneRecord("SELECT * FROM server_php WHERE active = 'y' AND server_php_id = ?", $this->dataRecord['server_php_id']);
+				if(!is_array($tmp) || !$tmp['php_fastcgi_binary']) {
+					$this->dataRecord['server_php_id'] = 0;
 				}
 				unset($tmp);
 			} else {
-				// Other PHP modes do not have custom versions, so we force the value to be empty
-				$this->dataRecord['fastcgi_php_version'] = '';
+				// Other PHP modes do not have custom versions, so we force the value to be zero
+				$this->dataRecord['server_php_id'] = 0;
 			}
 		}
 
@@ -1399,11 +1379,19 @@ class page_action extends tform_actions {
 	function onAfterInsert() {
 		global $app, $conf;
 
-		// make sure that the record belongs to the clinet group and not the admin group when admin inserts it
-		// also make sure that the user can not delete domain created by a admin
+		// make sure that the record belongs to the client group and not the admin group when admin inserts it
+		// also make sure that the user can not delete domain created by a admin if client protection is enabled
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
 			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-			$app->db->query("UPDATE web_domain SET sys_groupid = ?, sys_perm_group = 'ru' WHERE domain_id = ?", $client_group_id, $this->id);
+			$app->uses('getconf');
+			$global_config = $app->getconf->get_global_config('sites');
+			if($global_config['client_protection'] == 'y') {
+				$app->db->query("UPDATE web_domain SET sys_groupid = ?, sys_perm_group = 'ru' WHERE domain_id = ?", $client_group_id, $this->id);
+			} else {
+				$sysuser = $app->db->queryOneRecord('SELECT userid FROM sys_user WHERE default_group = ?',$client_group_id);
+				$sysuser_id = (is_array($sysuser) && isset($sysuser['userid']) && $sysuser['userid'] > 0)?$sysuser['userid']:1;
+				$app->db->query("UPDATE web_domain SET sys_userid = ?, sys_groupid = ?, sys_perm_group = 'riud' WHERE domain_id = ?", $sysuser_id, $client_group_id, $this->id);
+			}
 		}
 		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($this->dataRecord["client_group_id"])) {
 			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
@@ -1502,7 +1490,7 @@ class page_action extends tform_actions {
 					$rec = $app->db->queryOneRecord("SELECT server_id from web_domain WHERE domain_id = ?", $this->id);
 					if($rec['server_id'] != $this->dataRecord["server_id"]) {
 						//* Add a error message and switch back to old server
-						$app->tform->errorMessage .= $app->lng('The Server can not be changed.');
+						$app->tform->errorMessage .= $app->lng('error_server_change_not_possible');
 						$this->dataRecord["server_id"] = $rec['server_id'];
 					}
 					unset($rec);
@@ -1513,17 +1501,17 @@ class page_action extends tform_actions {
 				$rec = $app->db->queryOneRecord("SELECT sys_perm_group, domain, ip_address, ipv6_address from web_domain WHERE domain_id = ?", $this->id);
 				if(isset($this->dataRecord["domain"]) && $rec['domain'] != $this->dataRecord["domain"] && !$app->tform->checkPerm($this->id, 'u')) {
 					//* Add a error message and switch back to old server
-					$app->tform->errorMessage .= $app->lng('The Domain can not be changed. Please ask your Administrator if you want to change the domain name.');
+					$app->tform->errorMessage .= $app->lng('error_domain_change_forbidden');
 					$this->dataRecord["domain"] = $rec['domain'];
 				}
 				if(isset($this->dataRecord["ip_address"]) && $rec['ip_address'] != $this->dataRecord["ip_address"] && $rec['sys_perm_group'] != 'riud') {
 					//* Add a error message and switch back to old server
-					$app->tform->errorMessage .= $app->lng('The IP can not be changed. Please ask your Administrator if you want to change the IPv4-Address.');
+					$app->tform->errorMessage .= $app->lng('error_ipv4_change_forbidden');
 					$this->dataRecord["ip_address"] = $rec['ip_address'];
 				}
 				if(isset($this->dataRecord["ipv6_address"]) && $rec['ipv6_address'] != $this->dataRecord["ipv6_address"] && $rec['sys_perm_group'] != 'riud') {
 					//* Add a error message and switch back to old server
-					$app->tform->errorMessage .= $app->lng('The IP can not be changed. Please ask your Administrator if you want to change the IPv6-Address.');
+					$app->tform->errorMessage .= $app->lng('error_ipv6_change_forbidden');
 					$this->dataRecord["ipv6_address"] = $rec['ipv6_address'];
 				}
 				unset($rec);
@@ -1564,27 +1552,27 @@ class page_action extends tform_actions {
 
 		// The default PHP version is indicated by an empty string, so if the default PHP version is hidden
 		// then an empty string is not a valid PHP version.
-		if (empty($this->dataRecord['fastcgi_php_version'])) {
-			$app->tform->errorMessage .= sprintf('%s<br>', $app->tform->lng('fastcgi_php_version_invalid_txt'));
+		if (empty($this->dataRecord['server_php_id'])) {
+			$app->tform->errorMessage .= sprintf('%s<br>', $app->tform->lng('server_php_id_invalid_txt'));
 			return;
 		}
 
 		// If the default PHP version is now hidden but this vhost was using it, we don't want to implicitly
 		// switch the user to some random Additional PHP version. So we show a warning instead.
-		$old_fastcgi_php_version = null;
+		$old_server_php_id = null;
 		if ($this->id > 0) {
-			$existing = $app->db->queryOneRecord('SELECT fastcgi_php_version FROM web_domain WHERE domain_id = ?', $this->id);
-			$old_fastcgi_php_version = $existing['fastcgi_php_version'];
+			$existing = $app->db->queryOneRecord('SELECT server_php_id FROM web_domain WHERE domain_id = ?', $this->id);
+			$old_server_php_id = $existing['server_php_id'];
 		}
 
-		if ('' === $old_fastcgi_php_version) {
+		if ('' === $old_server_php_id) {
 			// Warning was already shown, user confirmed the new PHP version
-			if (!empty($_POST['fastcgi_php_version_default_hidden_warning_confirmed'])) {
+			if (!empty($_POST['server_php_id_default_hidden_warning_confirmed'])) {
 				return;
 			}
 
-			$app->tform->errorMessage .= sprintf('%s<br>', $app->tform->lng('fastcgi_php_version_default_hidden_warning_txt'));
-			$app->tpl->setVar('fastcgi_php_version_default_hidden_warning_confirmed', 1);
+			$app->tform->errorMessage .= sprintf('%s<br>', $app->tform->lng('server_php_id_default_hidden_warning_txt'));
+			$app->tpl->setVar('server_php_id_default_hidden_warning_confirmed', 1);
 		}
 	}
 }

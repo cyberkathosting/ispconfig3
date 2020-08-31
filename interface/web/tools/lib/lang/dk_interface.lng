@@ -1,7 +1,0 @@
-<?php
-$wb['interface_head_txt'] = 'Interface Indstillinger';
-$wb['interface_desc_txt'] = 'Ændre din grænseflade';
-$wb['language_txt'] = 'Sprog';
-$wb['startmodule_txt'] = 'Startmodule';
-$wb['app_theme_txt'] = 'Design';
-?>

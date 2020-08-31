@@ -35,6 +35,10 @@ CustomLog "| /usr/local/ispconfig/server/scripts/vlogger -s access.log -t \"%Y%m
 	</tmpl_if>
 </Directory>
 
+<Directory /var/www>
+  Options -Indexes
+</Directory>
+
 <Directory /var/www/conf>
     AllowOverride None
 	<tmpl_if name='apache_version' op='>' value='2.2' format='version'>

@@ -1,0 +1,4 @@
+# Postfix configuration for version 3.3 and up
+
+# 3.2 and earlier should not have this set when using reject_unverified_recipient
+enable_original_recipient = no

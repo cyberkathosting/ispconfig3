@@ -9,4 +9,5 @@ $wb['directive_snippets_name_error_unique'] = 'Der er allerede et direktiv uddra
 $wb['variables_txt'] = 'Variabler';
 $wb['customer_viewable_txt'] = 'Customer viewable';
 $wb['required_php_snippets_txt'] = 'Requiered PHP Snippet';
+$wb['update_sites_txt'] = 'Update sites using this snippet';
 ?>

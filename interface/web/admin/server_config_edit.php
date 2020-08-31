@@ -79,7 +79,7 @@ class page_action extends tform_actions {
 	function onShowEdit() {
 		global $app, $conf;
 
-		if($_SESSION["s"]["user"]["typ"] != 'admin') die('This function needs admin priveliges');
+		if($_SESSION["s"]["user"]["typ"] != 'admin') die('This function needs admin privileges');
 
 		if($app->tform->errorMessage == '') {
 			$app->uses('ini_parser,getconf');
@@ -115,7 +115,7 @@ class page_action extends tform_actions {
 	function onUpdateSave($sql) {
 		global $app, $conf;
 
-		if($_SESSION["s"]["user"]["typ"] != 'admin') die('This function needs admin priveliges');
+		if($_SESSION["s"]["user"]["typ"] != 'admin') die('This function needs admin privileges');
 		$app->uses('ini_parser,getconf');
 
 		if($conf['demo_mode'] != true) {
@@ -192,10 +192,11 @@ class page_action extends tform_actions {
 							$app->db->datalogUpdate('mail_user', $mail_user, 'mailuser_id', $mail_user["mailuser_id"], true);
 							$mail_user['autoresponder'] = 'y';
 							$app->db->datalogUpdate('mail_user', $mail_user, 'mailuser_id', $mail_user["mailuser_id"], true);
-						} elseif($mail_user['move_junk'] == 'y') {
+						} elseif($mail_user['move_junk'] != 'n') {
+							$save = $mail_user['move_junk'];
 							$mail_user['move_junk'] = 'n';
 							$app->db->datalogUpdate('mail_user', $mail_user, 'mailuser_id', $mail_user["mailuser_id"], true);
-							$mail_user['move_junk'] = 'y';
+							$mail_user['move_junk'] = $save;
 							$app->db->datalogUpdate('mail_user', $mail_user, 'mailuser_id', $mail_user["mailuser_id"], true);
 						} else {
 							$app->db->datalogUpdate('mail_user', $mail_user, 'mailuser_id', $mail_user["mailuser_id"], true);

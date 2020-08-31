@@ -159,4 +159,6 @@ $wb['datalog_status_i_xmpp_user'] = 'Create XMPP user';
 $wb['datalog_status_u_xmpp_user'] = 'Update XMPP user';
 $wb['datalog_status_d_xmpp_user'] = 'Delete XMPP user';
 $wb['unlimited_txt'] = 'Ilimitado';
+$wb['server_id_0_error_txt'] = 'Please select a valid Server. Server ID must be > 0.';
+$wb['datalog_changes_close_txt'] = 'Close';
 ?>

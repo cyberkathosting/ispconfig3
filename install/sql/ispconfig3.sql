@@ -253,7 +253,7 @@ CREATE TABLE `client` (
   `canceled` enum('n','y') NOT NULL DEFAULT 'n',
   `can_use_api` enum('n','y') NOT NULL DEFAULT 'n',
   `tmp_data` mediumblob,
-  `id_rsa` varchar(2000) NOT NULL DEFAULT '',
+  `id_rsa` text NOT NULL DEFAULT '',
   `ssh_rsa` varchar(600) NOT NULL DEFAULT '',
   `customer_no_template` varchar(255) DEFAULT 'R[CLIENTID]C[CUSTOMER_NO]',
   `customer_no_start` int(11) NOT NULL DEFAULT '1',
@@ -470,6 +470,7 @@ CREATE TABLE IF NOT EXISTS `directive_snippets` (
   `required_php_snippets` varchar(255) NOT NULL DEFAULT '',
   `active` enum('n','y') NOT NULL DEFAULT 'y',
   `master_directive_snippets_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `update_sites` ENUM('y','n') NOT NULL DEFAULT 'n',
   PRIMARY KEY (`directive_snippets_id`)
 ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -625,6 +626,7 @@ CREATE TABLE `dns_soa` (
   `update_acl` varchar(255) default NULL,
   `dnssec_initialized` ENUM('Y','N') NOT NULL DEFAULT 'N',
   `dnssec_wanted` ENUM('Y','N') NOT NULL DEFAULT 'N',
+  `dnssec_algo` SET('NSEC3RSASHA1','ECDSAP256SHA256') NOT NULL DEFAULT 'ECDSAP256SHA256',
   `dnssec_last_signed` BIGINT NOT NULL DEFAULT '0',
   `dnssec_info` TEXT NULL,
   PRIMARY KEY  (`id`),
@@ -1046,7 +1048,7 @@ CREATE TABLE `mail_user` (
   `autoresponder_end_date` datetime NULL default NULL,
   `autoresponder_subject` varchar(255) NOT NULL default 'Out of office reply',
   `autoresponder_text` mediumtext NULL,
-  `move_junk` enum('n','y') NOT NULL default 'n',
+  `move_junk` enum('y','a','n') NOT NULL default 'y',
   `purge_trash_days` INT NOT NULL DEFAULT '0',
   `purge_junk_days` INT NOT NULL DEFAULT '0',
   `custom_mailfilter` mediumtext,
@@ -2046,8 +2048,8 @@ CREATE TABLE `web_domain` (
   `stats_password` varchar(255) default NULL,
   `stats_type` varchar(255) default 'awstats',
   `allow_override` varchar(255) NOT NULL default 'All',
-  `apache_directives` mediumtext,
-  `nginx_directives` mediumtext,
+  `apache_directives` mediumtext NULL DEFAULT NULL,
+  `nginx_directives` mediumtext NULL DEFAULT NULL,
   `php_fpm_use_socket` ENUM('n','y') NOT NULL DEFAULT 'y',
   `php_fpm_chroot` enum('n','y') NOT NULL DEFAULT 'n',
   `pm` enum('static','dynamic','ondemand') NOT NULL DEFAULT 'ondemand',
@@ -2068,7 +2070,6 @@ CREATE TABLE `web_domain` (
   `backup_excludes` mediumtext,
   `active` enum('n','y') NOT NULL default 'y',
   `traffic_quota_lock` enum('n','y') NOT NULL default 'n',
-  `fastcgi_php_version` varchar(255) DEFAULT NULL,
   `proxy_directives` mediumtext,
   `last_quota_notification` date NULL default NULL,
   `rewrite_rules` mediumtext,
@@ -2081,6 +2082,7 @@ CREATE TABLE `web_domain` (
   `folder_directive_snippets` text,
   `log_retention` int(11) NOT NULL DEFAULT '10',
   `proxy_protocol` enum('n','y') NOT NULL default 'n',
+  `server_php_id` INT(11) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY  (`domain_id`),
   UNIQUE KEY `serverdomain` (  `server_id` , `ip_address`,  `domain` )
 ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -2499,7 +2501,7 @@ INSERT INTO `country` (`iso`, `name`, `printable_name`, `iso3`, `numcode`, `eu`)
 -- Dumping data for table `dns_template`
 --
 
-INSERT INTO `dns_template` (`template_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `name`, `fields`, `template`, `visible`) VALUES (1, 1, 1, 'riud', 'riud', '', 'Default', 'DOMAIN,IP,NS1,NS2,EMAIL,DKIM,DNSSEC', '[ZONE]\norigin={DOMAIN}.\nns={NS1}.\nmbox={EMAIL}.\nrefresh=7200\nretry=540\nexpire=604800\nminimum=3600\nttl=3600\n\n[DNS_RECORDS]\nA|{DOMAIN}.|{IP}|0|3600\nA|www|{IP}|0|3600\nA|mail|{IP}|0|3600\nNS|{DOMAIN}.|{NS1}.|0|3600\nNS|{DOMAIN}.|{NS2}.|0|3600\nMX|{DOMAIN}.|mail.{DOMAIN}.|10|3600\nTXT|{DOMAIN}.|v=spf1 mx a ~all|0|3600', 'y');
+INSERT INTO `dns_template` (`template_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `name`, `fields`, `template`, `visible`) VALUES (1, 1, 1, 'riud', 'riud', '', 'Default', 'DOMAIN,IP,NS1,NS2,EMAIL,DKIM,DNSSEC', '[ZONE]\norigin={DOMAIN}.\nns={NS1}.\nmbox={EMAIL}.\nrefresh=7200\nretry=540\nexpire=604800\nminimum=3600\nttl=3600\ndnssec_algo=ECDSAP256SHA256\n\n[DNS_RECORDS]\nA|{DOMAIN}.|{IP}|0|3600\nA|www|{IP}|0|3600\nA|mail|{IP}|0|3600\nNS|{DOMAIN}.|{NS1}.|0|3600\nNS|{DOMAIN}.|{NS2}.|0|3600\nMX|{DOMAIN}.|mail.{DOMAIN}.|10|3600\nTXT|{DOMAIN}.|v=spf1 mx a ~all|0|3600', 'y');
 
 
 -- --------------------------------------------------------

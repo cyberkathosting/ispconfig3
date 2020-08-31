@@ -124,7 +124,7 @@ class cronjob_logfiles extends cronjob {
 
 			$cron_logfiles = array('cron.log', 'cron_error.log', 'cron_wget.log');
 			foreach($cron_logfiles as $cron_logfile) {
-				$cron_logfile = $rec['document_root'].'/' . $log_folder . '/' . $cron_logfile;
+				$cron_logfile = $rec['document_root'].'/private/' . $cron_logfile;
 
 				// rename older files (move up by one)
 				$num = $log_retention;
@@ -193,7 +193,7 @@ class cronjob_logfiles extends cronjob {
 				if(is_file($ispconfig_logfile . '.' . $num . '.gz')) rename($ispconfig_logfile . '.' . $num . '.gz', $ispconfig_logfile . '.' . ($num + 1) . '.gz');
 				$num--;
 			}
-			// compress current logfile
+			//* compress current logfile
 			if(is_file($ispconfig_logfile)) {
 				$app->system->exec_safe("gzip -c ? > ?", $ispconfig_logfile, $ispconfig_logfile . '.1.gz');
 				$app->system->exec_safe("cat /dev/null > ?", $ispconfig_logfile);

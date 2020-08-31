@@ -52,7 +52,7 @@ class page_action extends tform_actions {
 
 	function onShow() {
 		global $app;
-		
+
 		$this->id = $app->functions->intval($_SESSION['s']['user']['mailuser_id']);
 
 		parent::onShow();
@@ -118,7 +118,7 @@ class page_action extends tform_actions {
 		$tmp_user = $app->db->queryOneRecord("SELECT policy_id FROM spamfilter_users WHERE email = ?", $rec['email']);
 		$sql = "SELECT id, policy_name FROM spamfilter_policy WHERE ".$app->tform->getAuthSQL('r');
 		$policys = $app->db->queryAllRecords($sql);
-		$policy_select = "<option value='0'>".$app->tform->lng("no_policy")."</option>";
+		$policy_select = "<option value='0'>".$app->tform->lng("inherit_policy")."</option>";
 		if(is_array($policys)) {
 			foreach( $policys as $p) {
 				$selected = ($p["id"] == $tmp_user["policy_id"])?'SELECTED':'';

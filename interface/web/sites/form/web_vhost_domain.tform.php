@@ -254,10 +254,10 @@ $form["tabs"]['domain'] = array (
 			'value'  => array('no' => 'disabled_txt', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP', 'php-fpm' => 'PHP-FPM', 'hhvm' => 'HHVM'),
 			'searchable' => 2
 		),
-		'fastcgi_php_version' => array (
-			'datatype' => 'VARCHAR',
+		'server_php_id' => array (
+			'datatype' => 'INTEGER',
 			'formtype' => 'SELECT',
-			'default' => '',
+			'default' => '0',
 			/*'datasource'	=> array ( 	'type'	=> 'SQL',
 										'querystring' => "SELECT ip_address,ip_address FROM server_ip WHERE ip_type = 'IPv4' AND {AUTHSQL} ORDER BY ip_address",
 										'keyfield'=> 'ip_address',
@@ -629,7 +629,7 @@ $form["tabs"]['stats'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => 'awstats',
-			'value'  => array('webalizer' => 'Webalizer', 'awstats' => 'AWStats', '' => 'None')
+			'value'  => array('awstats' => 'AWStats', 'goaccess' => 'GoAccess', 'webalizer' => 'Webalizer','' => 'None')
 		),
 		//#################################
 		// END Datatable fields

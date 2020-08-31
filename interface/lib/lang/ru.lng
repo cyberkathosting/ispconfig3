@@ -159,4 +159,6 @@ $wb['datalog_status_i_xmpp_user'] = 'Создать пользователя XMP
 $wb['datalog_status_u_xmpp_user'] = 'Обновить пользователя XMPP';
 $wb['datalog_status_d_xmpp_user'] = 'Удалить пользователя XMPP';
 $wb['unlimited_txt'] = 'Безлимитный';
+$wb['server_id_0_error_txt'] = 'Please select a valid Server. Server ID must be > 0.';
+$wb['datalog_changes_close_txt'] = 'Close';
 ?>

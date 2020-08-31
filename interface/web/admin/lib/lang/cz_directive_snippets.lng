@@ -9,4 +9,5 @@ $wb['directive_snippets_name_error_unique'] = 'There is already a directive snip
 $wb['variables_txt'] = 'Proměnné';
 $wb['customer_viewable_txt'] = 'Dostupná volba pro klienta';
 $wb['required_php_snippets_txt'] = 'Requiered PHP Snippet';
+$wb['update_sites_txt'] = 'Update sites using this snippet';
 ?>
