@@ -265,7 +265,7 @@ class sites_web_vhost_domain_plugin {
 					$backup_format_db = $page_form->dataRecord['backup_format_db'];
 					$records = $app->db->queryAllRecords("SELECT database_id FROM web_database WHERE parent_domain_id = ".$page_form->id);
 					foreach($records as $rec) {
-						$app->db->datalogUpdate('web_database', array("backup_interval" => $backup_interval, "backup_copies" => $backup_copies, "backup_format_web" => $backup_format_web, "backup_format_db" => $backup_format_db), 'database_id', $rec['database_id']);
+						$app->db->datalogUpdate('web_database', array("backup_interval" => $backup_interval, "backup_copies" => $backup_copies), 'database_id', $rec['database_id']);
 					}
 					unset($records);
 					unset($rec);
