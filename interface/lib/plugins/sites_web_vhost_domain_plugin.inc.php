@@ -52,13 +52,13 @@ class sites_web_vhost_domain_plugin {
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($page_form->dataRecord["client_group_id"])) {
 			$client_group_id = $app->functions->intval($page_form->dataRecord["client_group_id"]);
 			$app->uses('getconf');
-	  	$global_config = $app->getconf->get_global_config('sites');
-	  	if($global_config['client_protection'] == 'y') {
-		    $app->db->query("UPDATE web_domain SET sys_groupid = ?, sys_perm_group = 'ru' WHERE domain_id = ?", $client_group_id, $this->id);
+			$global_config = $app->getconf->get_global_config('sites');
+			if($global_config['client_protection'] == 'y') {
+				$app->db->query("UPDATE web_domain SET sys_groupid = ?, sys_perm_group = 'ru' WHERE domain_id = ?", $client_group_id, $page_form->id);
 			} else {
 				$sysuser = $app->db->queryOneRecord('SELECT userid FROM sys_user WHERE default_group = ?',$client_group_id);
 				$sysuser_id = (is_array($sysuser) && isset($sysuser['userid']) && $sysuser['userid'] > 0)?$sysuser['userid']:1;
-				$app->db->query("UPDATE web_domain SET sys_userid = ?, sys_groupid = ?, sys_perm_group = 'riud' WHERE domain_id = ?", $sysuser_id, $client_group_id, $this->id);
+				$app->db->query("UPDATE web_domain SET sys_userid = ?, sys_groupid = ?, sys_perm_group = 'riud' WHERE domain_id = ?", $sysuser_id, $client_group_id, $page_form->id);
 			}
 		}
 		if($app->auth->has_clients($_SESSION['s']['user']['userid']) && isset($page_form->dataRecord["client_group_id"])) {
