@@ -44,3 +44,7 @@ ALTER TABLE `web_domain` DROP COLUMN `enable_spdy`;
 
 -- was missing in incremental, inserted for fixing older installations
 ALTER TABLE `web_domain` ADD `folder_directive_snippets` TEXT NULL AFTER `https_port`;
+
+-- Fix issue #5635
+ALTER TABLE `client_template` CHANGE `ssh_chroot` `ssh_chroot` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '';
+ALTER TABLE `client_template` CHANGE `web_php_options` `web_php_options` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '';
