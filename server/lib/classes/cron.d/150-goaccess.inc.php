@@ -191,8 +191,7 @@ class cronjob_goaccess extends cronjob {
 					 * For versions prior 1.4 you need GoAccess with B+Tree support compiled!
 					 */
 
-
-			                $sql_user = "SELECT client_id FROM sys_group WHERE groupid = ?";
+					$sql_user = "SELECT client_id FROM sys_group WHERE groupid = ?";
 					$rec_user = $app->db->queryOneRecord($sql_user, $rec['sys_groupid']);
 					$lang_query = "SELECT country,language FROM client WHERE client_id = ?";
 					$lang_user = $app->db->queryOneRecord($lang_query, $rec_user['client_id']);
@@ -204,16 +203,16 @@ class cronjob_goaccess extends cronjob {
 							$cust_lang = 'en_UK.UTF-8';
 							break;
 						case 'br':
-							$cust_lang = 'pt_BR.UTF-8';
+							$cust_lang = 'pt_PT.UTF-8';
 							break;
 						case 'ca':
-							$cust_lang = 'en_CA.UTF-8';
+							$cust_lang = 'en_US.UTF-8';
 							break;
 						case 'ja':
 							$cust_lang = 'ja_JP.UTF-8';
 							break;
 						case 'ar':
-							$cust_lang = 'es_AR.UTF-8';
+							$cust_lang = 'es_ES.UTF-8';
 							break;
 						case 'el':
 							$cust_lang = 'el_GR.UTF-8';
@@ -229,7 +228,6 @@ class cronjob_goaccess extends cronjob {
 							break;
 					}
 
-					echo $cust_lang ."\n\n";
 					if(version_compare($goaccess_version,1.4) >= 0) {
 						$app->system->exec_safe("LANG=? goaccess -f ? --config-file ? --restore --persist --db-path=? --output=?", $cust_lang, $logfile, $goaccess_conf, $goa_db_dir, $output_html);
 					} else {
