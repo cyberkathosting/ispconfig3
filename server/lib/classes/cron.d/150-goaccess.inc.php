@@ -186,11 +186,6 @@ class cronjob_goaccess extends cronjob {
 					}
 
 
-					/*
-					 * GoAccess removed with 1.4 B+Tree support and supports from this version on only "In-Memory with On-Disk Persistance Storage".
-					 * For versions prior 1.4 you need GoAccess with B+Tree support compiled!
-					 */
-
 					$sql_user = "SELECT client_id FROM sys_group WHERE groupid = ?";
 					$rec_user = $app->db->queryOneRecord($sql_user, $rec['sys_groupid']);
 					$lang_query = "SELECT country,language FROM client WHERE client_id = ?";
@@ -227,6 +222,12 @@ class cronjob_goaccess extends cronjob {
 							$cust_lang = 'cs_CZ.UTF-8';
 							break;
 					}
+
+
+                                        /*
+                                         * GoAccess removed with 1.4 B+Tree support and supports from this version on only "In-Memory with On-Disk Persistance Storage".
+                                         * For versions prior 1.4 you need GoAccess with B+Tree support compiled!
+                                         */
 
 					if(version_compare($goaccess_version,1.4) >= 0) {
 						$app->system->exec_safe("LANG=? goaccess -f ? --config-file ? --restore --persist --db-path=? --output=?", $cust_lang, $logfile, $goaccess_conf, $goa_db_dir, $output_html);
