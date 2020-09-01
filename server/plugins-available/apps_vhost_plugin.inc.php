@@ -106,7 +106,7 @@ class apps_vhost_plugin {
 				$vhost_port_listen = '#';
 			}
 			$tpl->setVar('vhost_port_listen', $vhost_port_listen);
-			
+
 			$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 			if($mail_config['content_filter'] == 'rspamd'){
 				$use_rspamd = true;
@@ -127,6 +127,17 @@ class apps_vhost_plugin {
 			$content = str_replace('{apps_vhost_basedir}', $web_config['website_basedir'], $content);
 			$content = str_replace('{vhost_port_listen}', $vhost_port_listen, $content);
 			/* end of backwards compatibility section */
+			/* Check if SSL should be enabled: */
+			if(is_file($install_dir.'/interface/ssl/ispserver.crt') && is_file($install_dir.'/interface/ssl/ispserver.key')) {
+				$tpl->setVar('ssl_comment','');
+			} else {
+				$tpl->setVar('ssl_comment','#');
+			}
+			if(is_file($install_dir.'/interface/ssl/ispserver.crt') && is_file($install_dir.'/interface/ssl/ispserver.key') && is_file($install_dir.'/interface/ssl/ispserver.bundle')) {
+				$tpl->setVar('ssl_bundle_comment','');
+			} else {
+				$tpl->setVar('ssl_bundle_comment','#');
+			}
 
 			$app->system->file_put_contents("$vhost_conf_dir/apps.vhost", $content);
 
@@ -194,7 +205,7 @@ class apps_vhost_plugin {
 			}
 			$content = str_replace('{use_tcp}', $use_tcp, $content);
 			$content = str_replace('{use_socket}', $use_socket, $content);
-			
+
 			$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 			if($mail_config['content_filter'] == 'rspamd'){
 				$use_rspamd = '';

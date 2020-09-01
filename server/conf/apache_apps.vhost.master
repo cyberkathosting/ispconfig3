@@ -58,12 +58,6 @@
   <tmpl_var name="ssl_comment">SSLStaplingReturnResponderErrors Off
   </tmpl_if>
 
-<tmpl_if name='apache_version' op='>=' value='2.3.3' format='version'>
-<IfModule mod_ssl.c>
-  <tmpl_var name="ssl_comment">SSLStaplingCache shmcb:/var/run/ocsp(128000)
-</IfModule>
-</tmpl_if>
-
   <IfModule mod_headers.c>
 	RequestHeader unset Proxy early
   </IfModule>
@@ -127,6 +121,10 @@
   RewriteRule ^/rspamd/(.*) http://127.0.0.1:11334/$1 [P]
 {/tmpl_if}
 
-
-
 </VirtualHost>
+
+<tmpl_if name='apache_version' op='>=' value='2.3.3' format='version'>
+<IfModule mod_ssl.c>
+  <tmpl_var name="ssl_comment">SSLStaplingCache shmcb:/var/run/ocsp(128000)
+</IfModule>
+</tmpl_if>
