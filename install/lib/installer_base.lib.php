@@ -745,7 +745,7 @@ class installer_base {
 			copy($full_file_name, $config_dir.$configfile.'~');
 			chmod($config_dir.$configfile.'~',0600);
 		}
-		
+
 		//* Replace variables in config file template
 		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', 'tpl/'.$configfile.'.master');
 		$content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
@@ -754,13 +754,13 @@ class installer_base {
 		$content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
 		$content = str_replace('{server_id}', $conf['server_id'], $content);
 		wf($full_file_name, $content);
-		
+
 		//* Changing mode and group of the new created config file
 		caselog('chmod u=rw,g=r,o= '.escapeshellarg($full_file_name).' &> /dev/null',
 			__FILE__, __LINE__, 'chmod on '.$full_file_name, 'chmod on '.$full_file_name.' failed');
 		caselog('chgrp '.escapeshellarg($postfix_group).' '.escapeshellarg($full_file_name).' &> /dev/null',
 			__FILE__, __LINE__, 'chgrp on '.$full_file_name, 'chgrp on '.$full_file_name.' failed');
-		
+
 	}
 
 	public function configure_jailkit() {
@@ -1097,7 +1097,7 @@ class installer_base {
 		}
 
 		unset($server_ini_array);
-		
+
 		$myhostname = str_replace('.','\.',$conf['hostname']);
 
 		$postconf_placeholders = array('{config_dir}' => $config_dir,
@@ -1680,7 +1680,7 @@ class installer_base {
 
 	public function configure_rspamd() {
 		global $conf;
-		
+
 		//* These postconf commands will be executed on installation and update
 		$server_ini_rec = $this->db->queryOneRecord("SELECT config FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . '.server', $conf['server_id']);
 		$server_ini_array = ini_to_array(stripslashes($server_ini_rec['config']));
@@ -2503,6 +2503,16 @@ class installer_base {
 			$tpl->setVar('apps_vhost_dir',$conf['web']['website_basedir'].'/apps');
 			$tpl->setVar('apps_vhost_basedir',$conf['web']['website_basedir']);
 			$tpl->setVar('apps_vhost_servername',$apps_vhost_servername);
+			if(is_file($install_dir.'/interface/ssl/ispserver.crt') && is_file($install_dir.'/interface/ssl/ispserver.key')) {
+				$tpl->setVar('ssl_comment','');
+			} else {
+				$tpl->setVar('ssl_comment','#');
+			}
+			if(is_file($install_dir.'/interface/ssl/ispserver.crt') && is_file($install_dir.'/interface/ssl/ispserver.key') && is_file($install_dir.'/interface/ssl/ispserver.bundle')) {
+				$tpl->setVar('ssl_bundle_comment','');
+			} else {
+				$tpl->setVar('ssl_bundle_comment','#');
+			}
 			$tpl->setVar('apache_version',getapacheversion());
 			if($this->is_update == true) {
 				$tpl->setVar('logging',get_logging_state());
