@@ -273,7 +273,7 @@ class shelluser_jailkit_plugin {
 			}
 
 			if (isset($web['delete_unused_jailkit']) && $web['delete_unused_jailkit']) {
-				$app->system->delete_jailkit_if_unused($web['domain_id']);
+				$this->_delete_jailkit_if_unused($web['domain_id']);
 			}
 
 			$app->system->web_folder_protection($web['document_root'], true);
@@ -328,6 +328,8 @@ class shelluser_jailkit_plugin {
 
 			$app->system->file_put_contents($motd, $tpl->grab());
 
+		} else {
+			$app->system->update_jailkit_chroot($this->data['new']['dir']);
 		}
 	}
 
@@ -560,6 +562,30 @@ class shelluser_jailkit_plugin {
 					$app->system->web_folder_protection($web['document_root'], true);
 				}
 	
+	}
+
+	private function _delete_jailkit_if_unused($parent_domain_id) {
+		global $app, $conf;
+
+		// get jail directory
+		$parent_domain = $app->db->queryOneRecord("SELECT * FROM `web_domain` WHERE `domain_id` = ? OR `parent_domain_id` = ? AND `document_root` IS NOT NULL", $parent_domain_id, $parent_domain_id);
+		if (!is_dir($parent_domain['document_root'])) {
+			return;
+		}
+
+		// check for any shell_user using this jail
+		$inuse = $app->db->queryOneRecord('SELECT shell_user_id FROM `shell_user` WHERE `parent_domain_id` = ? AND `chroot` = ?', $parent_domain_id, 'jailkit');
+		if($inuse) {
+			return;
+		}
+
+		// check for any cron job using this jail
+		$inuse = $app->db->queryOneRecord('SELECT id FROM `cron` WHERE `parent_domain_id` = ? AND `type` = ?', $parent_domain_id, 'chrooted');
+		if($inuse) {
+			return;
+		}
+
+		$app->system->delete_jailkit_chroot($parent_domain['document_root']);
 	}
 
 } // end class

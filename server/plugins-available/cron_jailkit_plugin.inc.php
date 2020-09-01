@@ -76,7 +76,7 @@ class cron_jailkit_plugin {
 		}
 
 		//* get data from web
-		$parent_domain = $app->db->queryOneRecord("SELECT `domain_id`, `system_user`, `system_group`, `document_root`, `domain` FROM `web_domain` WHERE `domain_id` = ?", $data["new"]["parent_domain_id"]);
+		$parent_domain = $app->db->queryOneRecord("SELECT * FROM `web_domain` WHERE `domain_id` = ?", $data["new"]["parent_domain_id"]);
 		if(!$parent_domain["domain_id"]) {
 			$app->log("Parent domain not found", LOGLEVEL_WARN);
 			return 0;
@@ -107,6 +107,11 @@ class cron_jailkit_plugin {
 				$this->data = $data;
 				$this->app = $app;
 				$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
+				foreach (array('jailkit_chroot_app_sections', 'jailkit_chroot_app_programs', 'jailkit_do_not_remove_paths') as $section) {
+					if (isset($parent_domain[$section]) && $parent_domain[$section] != '' ) {
+						$this->jailkit_config[$section] = $parent_domain[$section];
+					}
+				}
 
 				$this->_update_website_security_level();
 
@@ -141,7 +146,7 @@ class cron_jailkit_plugin {
 			return 0;
 		}
 		//* get data from web
-		$parent_domain = $app->db->queryOneRecord("SELECT `domain_id`, `system_user`, `system_group`, `document_root`, `domain` FROM `web_domain` WHERE `domain_id` = ?", $data["new"]["parent_domain_id"]);
+		$parent_domain = $app->db->queryOneRecord("SELECT * FROM `web_domain` WHERE `domain_id` = ?", $data["new"]["parent_domain_id"]);
 		if(!$parent_domain["domain_id"]) {
 			$app->log("Parent domain not found", LOGLEVEL_WARN);
 			return 0;
@@ -167,20 +172,15 @@ class cron_jailkit_plugin {
 			{
 				$app->log("Jailkit Plugin (Cron) -> setting up jail", LOGLEVEL_DEBUG);
 				// load the server configuration options
-				/*
 				$app->uses("getconf");
 				$this->data = $data;
 				$this->app = $app;
 				$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
-                $this->parent_domain = $parent_domain;
-
-				$this->_setup_jailkit_chroot();
-				$this->_add_jailkit_user();
-				*/
-				$app->uses("getconf");
-				$this->data = $data;
-				$this->app = $app;
-				$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
+				foreach (array('jailkit_chroot_app_sections', 'jailkit_chroot_app_programs', 'jailkit_do_not_remove_paths') as $section) {
+					if (isset($parent_domain[$section]) && $parent_domain[$section] != '' ) {
+						$this->jailkit_config[$section] = $parent_domain[$section];
+					}
+				}
 
 				$this->_update_website_security_level();
 
@@ -205,8 +205,25 @@ class cron_jailkit_plugin {
 	function delete($event_name, $data) {
 		global $app, $conf;
 
-		//* nothing to do here!
+		if($data["old"]["parent_domain_id"] == '') {
+			$app->log("Parent domain not set", LOGLEVEL_WARN);
+			return 0;
+		}
 
+		$app->uses('system');
+
+		if ($data['old']['type'] == "chrooted")
+		{
+			$parent_domain = $app->db->queryOneRecord("SELECT * FROM `web_domain` WHERE `domain_id` = ?", $data['old']['parent_domain_id']);
+
+			// should copy some _delete_homedir() functionality from shelluser_jailkit_plugin ?
+
+			if (isset($parent_domain['delete_unused_jailkit']) && $parent_domain['delete_unused_jailkit']) {
+				$app->system->web_folder_protection($parent_domain['document_root'], false);
+				$this->_delete_jailkit_if_unused($parent_domain['domain_id']);
+				$app->system->web_folder_protection($parent_domain['document_root'], true);
+			}
+		}
 	}
 
 	function _setup_jailkit_chroot()
@@ -247,6 +264,8 @@ class cron_jailkit_plugin {
 
 			$app->system->file_put_contents($motd, $tpl->grab());
 
+		} else {
+			$app->system->update_jailkit_chroot($this->data['new']['dir']);
 		}
 		$this->_add_jailkit_programs();
 	}
@@ -309,6 +328,30 @@ class cron_jailkit_plugin {
 			$app->system->chgrp($web["document_root"], 'root');
 			$app->system->web_folder_protection($web["document_root"], true);
 		}
+	}
+
+	private function _delete_jailkit_if_unused($parent_domain_id) {
+		global $app, $conf;
+
+		// get jail directory
+		$parent_domain = $app->db->queryOneRecord("SELECT * FROM `web_domain` WHERE `domain_id` = ? OR `parent_domain_id` = ? AND `document_root` IS NOT NULL", $parent_domain_id, $parent_domain_id);
+		if (!is_dir($parent_domain['document_root'])) {
+			return;
+		}
+
+		// check for any shell_user using this jail
+		$inuse = $app->db->queryOneRecord('SELECT shell_user_id FROM `shell_user` WHERE `parent_domain_id` = ? AND `chroot` = ?', $parent_domain_id, 'jailkit');
+		if($inuse) {
+			return;
+		}
+
+		// check for any cron job using this jail
+		$inuse = $app->db->queryOneRecord('SELECT id FROM `cron` WHERE `parent_domain_id` = ? AND `type` = ?', $parent_domain_id, 'chrooted');
+		if($inuse) {
+			return;
+		}
+
+		$app->system->delete_jailkit_chroot($parent_domain['document_root']);
 	}
 
 } // end class

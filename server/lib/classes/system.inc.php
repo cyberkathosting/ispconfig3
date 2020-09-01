@@ -2243,7 +2243,7 @@ class system{
 
 	public function create_jailkit_chroot($home_dir, $app_sections = array(), $options = array()) {
 		if(!is_dir($home_dir)) {
-			$app->log("create_jailkit_chroot: jail directory does not exist: $homedir", LOGLEVEL_WARN);
+			$app->log("create_jailkit_chroot: jail directory does not exist: $home_dir", LOGLEVEL_WARN);
 			return false;
 		}
 		if(empty($app_sections)) {
@@ -2293,7 +2293,7 @@ class system{
 
 	public function create_jailkit_programs($home_dir, $programs = array(), $options = array()) {
 		if(!is_dir($home_dir)) {
-			$app->log("create_jailkit_programs: jail directory does not exist: $homedir", LOGLEVEL_WARN);
+			$app->log("create_jailkit_programs: jail directory does not exist: $home_dir", LOGLEVEL_WARN);
 			return false;
 		}
 		if(empty($programs)) {
@@ -2337,7 +2337,7 @@ class system{
 				}
 			}
 			if (count($bad_paths) > 0) {
-				$app->log("Prohibited path not added to jail $homedir: " . implode(", ", $bad_paths), LOGLEVEL_WARN);
+				$app->log("Prohibited path not added to jail $home_dir: " . implode(", ", $bad_paths), LOGLEVEL_WARN);
 			} else {
 				$program_args .= ' ' . escapeshellarg($prog);
 			}
@@ -2353,7 +2353,7 @@ class system{
 
 	public function update_jailkit_chroot($home_dir, $sections = array(), $programs = array(), $options = array()) {
 		if(!is_dir($home_dir)) {
-			$app->log("update_jailkit_chroot: jail directory does not exist: $homedir", LOGLEVEL_WARN);
+			$app->log("update_jailkit_chroot: jail directory does not exist: $home_dir", LOGLEVEL_WARN);
 			return false;
 		}
 
@@ -2407,11 +2407,8 @@ class system{
 			// remove dangling symlinks
 			$app->log("TODO: search for and remove dangling symlinks", LOGLEVEL_DEBUG);
 
-			// search for and remove hardlinked
+			// save list of hardlinked files
 			if (!in_array($opts, 'hardlink') && !in_array($options, 'allow_hardlink')) {
-				$app->log("TODO: search for and remove hardlinked files", LOGLEVEL_DEBUG);
-				// search for and save list of files
-
                                 $find_multiple_links = function ( $path ) use ( &$find_multiple_links ) {
 					$found = array();
 					if (is_dir($path)) {
@@ -2498,9 +2495,9 @@ $app->log("file with multiple links still missing, running jk_cp to restore: $fi
 		return true;
 	}
 
-	public function delete_jailkit_chroot($home_dir, $options = array()) {
+	public function delete_jailkit_chroot($home_dir) {
 		if(!is_dir($home_dir)) {
-			$app->log("delete_jailkit_chroot: jail directory does not exist: $homedir", LOGLEVEL_DEBUG);
+			$app->log("delete_jailkit_chroot: jail directory does not exist: $home_dir", LOGLEVEL_DEBUG);
 			return false;
 		}
 
@@ -2528,7 +2525,7 @@ $app->log("file with multiple links still missing, running jk_cp to restore: $fi
 
 		}
 
-		$app->log("delete_jailkit_chroot: removed from jail $homedir: $removed", LOGLEVEL_DEBUG);
+		$app->log("delete_jailkit_chroot: removed from jail $home_dir: $removed", LOGLEVEL_DEBUG);
 
 		// handle etc and home special
 		$home = rtrim($home_dir, '/') . '/home';
