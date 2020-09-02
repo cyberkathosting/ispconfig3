@@ -1382,11 +1382,11 @@ class page_action extends tform_actions {
 		// make sure that the record belongs to the client group and not the admin group when admin inserts it
 		// also make sure that the user can not delete domain created by a admin if client protection is enabled
 		if($_SESSION["s"]["user"]["typ"] == 'admin' && isset($this->dataRecord["client_group_id"])) {
-  	  $client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
-	  	$app->uses('getconf');
-	  	$global_config = $app->getconf->get_global_config('sites');
-	  	if($global_config['client_protection'] == 'y') {
-		    $app->db->query("UPDATE web_domain SET sys_groupid = ?, sys_perm_group = 'ru' WHERE domain_id = ?", $client_group_id, $this->id);
+			$client_group_id = $app->functions->intval($this->dataRecord["client_group_id"]);
+			$app->uses('getconf');
+			$global_config = $app->getconf->get_global_config('sites');
+			if($global_config['client_protection'] == 'y') {
+				$app->db->query("UPDATE web_domain SET sys_groupid = ?, sys_perm_group = 'ru' WHERE domain_id = ?", $client_group_id, $this->id);
 			} else {
 				$sysuser = $app->db->queryOneRecord('SELECT userid FROM sys_user WHERE default_group = ?',$client_group_id);
 				$sysuser_id = (is_array($sysuser) && isset($sysuser['userid']) && $sysuser['userid'] > 0)?$sysuser['userid']:1;
