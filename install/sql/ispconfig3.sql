@@ -2084,6 +2084,10 @@ CREATE TABLE `web_domain` (
   `log_retention` int(11) NOT NULL DEFAULT '10',
   `proxy_protocol` enum('n','y') NOT NULL default 'n',
   `server_php_id` INT(11) UNSIGNED NOT NULL DEFAULT 0,
+  `jailkit_chroot_app_sections` mediumtext NULL DEFAULT NULL,
+  `jailkit_chroot_app_programs` mediumtext NULL DEFAULT NULL,
+  `delete_unused_jailkit` enum('n','y') NOT NULL default 'n',
+  `last_jailkit_update` date NULL DEFAULT NULL,
   PRIMARY KEY  (`domain_id`),
   UNIQUE KEY `serverdomain` (  `server_id` , `ip_address`,  `domain` )
 ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

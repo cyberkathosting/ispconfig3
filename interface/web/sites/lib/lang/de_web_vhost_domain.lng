@@ -186,4 +186,13 @@ $wb['error_ipv4_change_forbidden'] = 'The IP cannot be changed. Please contact y
 $wb['error_ipv6_change_forbidden'] = 'The IP cannot be changed. Please contact your administrator if you want to change the IPv6 address.';
 $wb['error_domain_change_forbidden'] = 'The domain name cannot be changed. Please contact your administrator if you want to change the domain name.';
 $wb['error_server_change_not_possible'] = 'The server cannot be changed.';
-?>
+$wb['jailkit_chroot_app_sections_txt'] = 'Jailkit Chroot Anwendungsbereiche';
+$wb['jailkit_chroot_app_programs_txt'] = 'Jailkit Chrooted Anwendungen';
+$wb['jailkit_chroot_app_sections_error_empty'] = 'Jailkit Chroot Anwendungsbereiche ist leer.';
+$wb['jailkit_chroot_app_programs_error_empty'] = 'Jailkit Chrooted Anwendungen ist leer.';
+$wb['jailkit_chroot_app_sections_error_regex'] = 'Invalid jaikit chroot sections.';
+$wb['jailkit_chroot_app_programs_error_regex'] = 'Invalid jaikit chroot app programs.';
+$wb['tooltip_jailkit_chroot_app_sections_txt'] = 'When empty, uses Jailkit chroot app sections from Server Config';
+$wb['tooltip_jailkit_chroot_app_programs_txt'] = 'When empty, uses Jailkit chroot applications from Server Config';
+$wb['delete_unused_jailkit_txt'] = 'Delete unused jailkit chroot';
+$wb['tooltip_delete_unused_jailkit_txt'] = 'Delete the jailkit chroot environment when there are no shell users or cron jobs which require it.';
