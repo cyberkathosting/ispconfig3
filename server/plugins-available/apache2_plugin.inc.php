@@ -1243,7 +1243,8 @@ class apache2_plugin {
 		$vhost_data['apache_directives'] = str_replace("\r", "\n", $vhost_data['apache_directives']);
 		$trans = array(
 			'{DOCROOT}' => $vhost_data['web_document_root_www'],
-			'{DOCROOT_CLIENT}' => $vhost_data['web_document_root']
+			'{DOCROOT_CLIENT}' => $vhost_data['web_document_root'],
+      '{DOMAIN}' => $vhost_data['domain']
 		);
 		$vhost_data['apache_directives'] = strtr($vhost_data['apache_directives'], $trans);
 
@@ -3084,7 +3085,7 @@ class apache2_plugin {
 
                 /*
                 In case that you use a different log format, you should use a custom goaccess.conf which you'll have to put into /usr/local/ispconfig/server/conf-custom/.
-                By default the originaly with GoAccess shipped goaccess.conf from /etc/ will be used along with the log-format value COMBINED. 
+                By default the originaly with GoAccess shipped goaccess.conf from /etc/ will be used along with the log-format value COMBINED.
 		*/
 
                 if(file_exists("/usr/local/ispconfig/server/conf-custom/goaccess.conf.master")) {
@@ -3116,7 +3117,7 @@ class apache2_plugin {
 
                 if(is_file($goaccess_conf) && (filesize($goaccess_conf) > 0)) {
                         $app->log('Created GoAccess config file: '.$goaccess_conf, LOGLEVEL_DEBUG);
-                } 
+                }
 
                 if(is_file($data['new']['document_root']."/" . $web_folder . "/stats/index.html")) $app->system->unlink($data['new']['document_root']."/" . $web_folder . "/stats/index.html");
                 if(file_exists("/usr/local/ispconfig/server/conf-custom/goaccess_index.php.master")) {

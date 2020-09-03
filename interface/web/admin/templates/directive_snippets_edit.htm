@@ -11,8 +11,8 @@
 			<div class="form-group">
                 <label for="snippet" class="col-sm-3 control-label">{tmpl_var name='snippet_txt'}</label>
                 <tmpl_if name='is_master'><div class="col-sm-9 col-text"><pre>{tmpl_var name='snippet'}</pre></div></tmpl_else><div class="col-sm-9"><textarea class="form-control" name="snippet" id="snippet" rows='10' cols='50'>{tmpl_var name='snippet'}</textarea>
-                &nbsp; Nginx {tmpl_var name='variables_txt'}: <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT}</a>, <a href="javascript:void(0);" class="addPlaceholder">{FASTCGIPASS}</a>, <a href="javascript:void(0);" class="addPlaceholder">{PHPFALLBACKFASTCGIPASS}</a><br />
-				&nbsp; Apache {tmpl_var name='variables_txt'}: <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT}</a>, <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT_CLIENT}</a> <br />
+                &nbsp; Nginx {tmpl_var name='variables_txt'}: <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT}</a>, <a href="javascript:void(0);" class="addPlaceholder">{DOMAIN}</a>, <a href="javascript:void(0);" class="addPlaceholder">{FASTCGIPASS}</a>, <a href="javascript:void(0);" class="addPlaceholder">{PHPFALLBACKFASTCGIPASS}</a><br />
+				&nbsp; Apache {tmpl_var name='variables_txt'}: <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT}</a>, <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT_CLIENT}</a>, <a href="javascript:void(0);" class="addPlaceholder">{DOMAIN}</a> <br />
 				&nbsp; PHP {tmpl_var name='variables_txt'}: <a href="javascript:void(0);" class="addPlaceholder">{WEBROOT}</a>
 				</div></tmpl_if>
             </div>
@@ -38,23 +38,23 @@
             </div>
 			<div class="form-group">
 				<label for="update_sites" class="col-sm-3 control-label">{tmpl_var name='update_sites_txt'}</label>
-				<div class="col-sm-9">{tmpl_var name='update_sites'}</div>        
-			</div> 
-            
+				<div class="col-sm-9">{tmpl_var name='update_sites'}</div>
+			</div>
+
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
-            
+
         <div class="clear"><div class="right">
             <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="admin/directive_snippets_edit.php">{tmpl_var name='btn_save_txt'}</button>
             <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="admin/directive_snippets_list.php">{tmpl_var name='btn_cancel_txt'}</button>
         </div></div>
 <script language="JavaScript" type="text/javascript">
-		
+
     if(jQuery('#type').val() == 'nginx'){
         jQuery('.nginx:hidden').show();
     } else {
         jQuery('.nginx:visible').hide();
     }
-	
+
 	if (jQuery('#type').val() != 'nginx' && jQuery('#type').val() != 'apache') {
 		jQuery('#customer_viewable').closest('div.ctrlHolder:visible').hide();
 		jQuery('.php:visible').hide();
@@ -62,7 +62,7 @@
 		jQuery('#customer_viewable').closest('div.ctrlHolder:hidden').show();
 		jQuery('.php:hidden').show();
 	}
-    
+
     jQuery('#type').change(function(){
 		if (jQuery(this).val() != 'nginx' && jQuery(this).val() != 'apache') {
 			jQuery('#customer_viewable').closest('div.ctrlHolder:visible').hide();
@@ -77,5 +77,5 @@
             jQuery('.nginx:visible').hide();
         }
     });
-			
+
 </script>
