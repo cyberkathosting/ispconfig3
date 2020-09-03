@@ -86,7 +86,7 @@ echo " _____ ___________   _____              __ _
                                              |___/ ";
 echo "\n".str_repeat('-', 80)."\n";
 echo "\n\n>> Update  \n\n";
-echo "Please choose the update method. For production systems select 'stable'. \nWARNING: The update from GIT is only for development systems and may break your current setup. Do not use the GIT version on servers that host any live websites!\nNote: Update all slave servers, before you update master server.\n\n";
+echo "Please choose the update method. For production systems select 'stable'. \nWARNING: The update from GIT is only for development systems and may break your current setup. Do not use the GIT version on servers that host any live websites!\nNote: Enable maintenance mode and update your master server first. Then update all slave servers, and disable maintenance mode when all servers are updated.\n\n";
 
 $method = simple_query('Select update method', array('stable', 'git-stable', 'git-master'), 'stable');
 
