@@ -146,9 +146,12 @@ class maildrop_plugin {
 
 				if ($data['new']['autoresponder_start_date'] && $data["new"]["autoresponder_start_date"] != '0000-00-00 00:00:00') { // Dates have been set
 					$tpl = str_replace('{start_date}', strtotime($data["new"]["autoresponder_start_date"]), $tpl);
-					$tpl = str_replace('{end_date}', strtotime($data["new"]["autoresponder_end_date"]), $tpl);
 				} else {
 					$tpl = str_replace('{start_date}', -7200, $tpl);
+				}
+				if ($data['new']['autoresponder_end_date'] && $data["new"]["autoresponder_end_date"] != '0000-00-00 00:00:00') { // Dates have been set
+					$tpl = str_replace('{end_date}', strtotime($data["new"]["autoresponder_end_date"]), $tpl);
+				} else {
 					$tpl = str_replace('{end_date}', 2147464800, $tpl);
 				}
 
@@ -204,7 +207,7 @@ class maildrop_plugin {
 					$app->log("Added CC address ".$data["new"]["cc"].' to mailfilter file.', LOGLEVEL_DEBUG);
 				}
 
-				if($data["new"]["move_junk"] == 'y') {
+				if($data["new"]["move_junk"] != 'n') {
 					if(file_exists($conf["rootpath"].'/conf-custom/mailfilter_move_junk.master')) {
 						$mailfilter_content .= file_get_contents($conf["rootpath"].'/conf-custom/mailfilter_move_junk.master')."\n";
 					} else {

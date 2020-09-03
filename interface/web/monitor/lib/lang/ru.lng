@@ -162,4 +162,6 @@ $wb['Show MongoDB-Log'] = 'Показать журнал MongoDB';
 $wb['monitor_services_mongodb_txt'] = 'MongoDB-сервер:';
 $wb['monitor_title_mongodb_txt'] = 'Журнал MongoDB';
 $wb['Show Data Log History'] = 'Show Data Log History';
+$wb['Database size'] = 'Database size';
+$wb['Show MySQL Database size'] = 'Show MySQL Database size';
 ?>

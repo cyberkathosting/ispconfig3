@@ -1,12 +1,13 @@
 <?php
-$wb["list_head_txt"] = 'Mailbox';
-$wb["email_txt"] = 'Email';
-$wb["autoresponder_txt"] = 'Autoresponder';
-$wb["add_new_record_txt"] = 'Add new Mailbox';
-$wb["name_txt"] = 'Realname';
-$wb["login_txt"] = 'Login';
-$wb["postfix_txt"] = 'Receiving';
-$wb["disablesmtp_txt"] = 'SMTP (sending)';
-$wb["disableimap_txt"] = 'IMAP';
-$wb["disablepop3_txt"] = 'POP3';
+$wb['list_head_txt'] = 'Mailbox';
+$wb['email_txt'] = 'Email';
+$wb['autoresponder_txt'] = 'Autoresponder';
+$wb['add_new_record_txt'] = 'Add new Mailbox';
+$wb['name_txt'] = 'Realname';
+$wb['login_txt'] = 'Login';
+$wb['postfix_txt'] = 'Receiving';
+$wb['disablesmtp_txt'] = 'SMTP (sending)';
+$wb['disabledeliver_txt'] = 'INBOX';
+$wb['disableimap_txt'] = 'IMAP';
+$wb['disablepop3_txt'] = 'POP3';
 ?>

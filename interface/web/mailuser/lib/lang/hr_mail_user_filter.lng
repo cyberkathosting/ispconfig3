@@ -16,6 +16,10 @@ $wb['is_txt'] = 'je';
 $wb['begins_with_txt'] = 'Počinje sa';
 $wb['ends_with_txt'] = 'Završava sa';
 $wb['move_to_txt'] = 'Prebaci u ';
+$wb['regex_txt'] = 'Matches Regex';
 $wb['delete_txt'] = 'Obriši';
 $wb['mailbox_filter_txt'] = 'Mailbox filter';
+$wb['header_txt'] = 'Header';
+$wb['size_over_txt'] = 'Email size over (KB)';
+$wb['size_under_txt'] = 'Email size under (KB)';
 ?>

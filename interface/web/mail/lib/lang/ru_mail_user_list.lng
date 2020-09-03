@@ -7,6 +7,7 @@ $wb['name_txt'] = 'Реальное имя';
 $wb['login_txt'] = 'Логин';
 $wb['postfix_txt'] = 'Получатель';
 $wb['disablesmtp_txt'] = 'SMTP (отправка)';
+$wb['disabledeliver_txt'] = 'INBOX';
 $wb['disableimap_txt'] = 'IMAP';
 $wb['disablepop3_txt'] = 'POP3';
 ?>

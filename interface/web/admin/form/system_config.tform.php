@@ -148,6 +148,12 @@ $form["tabs"]['sites'] = array (
 			'width'  => '30',
 			'maxlength' => '255'
 		),
+		'client_protection' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value'  => array(0 => 'n', 1 => 'y')
+		),
 		'vhost_subdomains' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
@@ -795,4 +801,3 @@ $form['tabs']['dns_ca'] = array (
 		)
 	)
 );
-

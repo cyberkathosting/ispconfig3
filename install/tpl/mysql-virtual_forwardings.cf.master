@@ -2,4 +2,10 @@ user = {mysql_server_ispconfig_user}
 password = {mysql_server_ispconfig_password}
 dbname = {mysql_server_database}
 hosts = {mysql_server_ip}
-query = SELECT u.email as target FROM mail_forwarding as s INNER JOIN mail_user as u ON (u.email = CONCAT('%u@', SUBSTRING_INDEX(s.destination,'@',-1))) WHERE s.source = '@%d' AND s.type = 'aliasdomain' AND s.active = 'y' AND u.disabledeliver = 'n' AND s.server_id = {server_id} UNION SELECT s.destination as target FROM mail_forwarding as s WHERE s.source = '%s' AND s.type IN ('alias', 'forward') and s.active = 'y' AND s.server_id = {server_id} UNION SELECT s.destination as target FROM mail_forwarding as s INNER JOIN mail_forwarding as f ON (f.source = CONCAT('%u@', SUBSTRING_INDEX(s.destination,'@',-1))) WHERE s.source = '@%d' AND s.type = 'aliasdomain' AND s.active = 'y' AND f.active = 'y' AND s.server_id = {server_id} UNION SELECT s.destination as target FROM mail_forwarding as s WHERE s.source = '@%d' AND s.type IN ('catchall') and s.active = 'y' AND s.server_id = {server_id} UNION SELECT s.destination as target FROM mail_forwarding as s INNER JOIN mail_forwarding as t ON (t.source = s.destination AND t.type = 'catchall') WHERE s.source = '@%d' AND s.type = 'aliasdomain' and s.active = 'y' AND t.active = 'y' AND s.server_id = {server_id}
+query = SELECT s.destination AS target FROM mail_forwarding AS s
+            WHERE s.source = '%s' AND s.type IN ('alias', 'forward') AND s.active = 'y' AND s.server_id = {server_id}
+        UNION
+        SELECT s.destination AS target FROM mail_forwarding AS s
+            WHERE s.source = '@%d' AND s.type = 'catchall' AND s.active = 'y' AND s.server_id = {server_id}
+            AND NOT EXISTS (SELECT email FROM mail_user WHERE email = '%s' AND server_id = {server_id})
+            AND NOT EXISTS (SELECT source FROM mail_forwarding WHERE source = '%s' AND active = 'y' AND server_id = {server_id})

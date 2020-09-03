@@ -31,25 +31,11 @@ include_once 'validate_datetime.inc.php';
 
 class validate_autoresponder extends validate_datetime
 {
-	function start_date($field_name, $field_value, $validator)
-	{
-		global $app;
-		
-		// save field value for later use in end_date()
-		$this->start_date = $field_value;
-
-		if($_POST['autoresponder'] == 'y' && $field_value == '') {
-			// we need a start date when autoresponder is on
-			return $app->tform->lng($validator['errmsg']).'<br />';
-		}
-	}
-
 	function end_date($field_name, $field_value, $validator)
 	{
 		global $app;
 
-		$start_date = $this->start_date;
-		//$start_date = $app->tform_actions->dataRecord['autoresponder_start_date'];
+		$start_date = $app->tform_actions->dataRecord['autoresponder_start_date'];
 		
 		// Parse date
 		$datetimeformat = (isset($app->remoting_lib) ? $app->remoting_lib->datetimeformat : $app->tform->datetimeformat);
@@ -60,8 +46,8 @@ class validate_autoresponder extends validate_datetime
 		$start_date_tstamp = mktime($start_date_array['hour'], $start_date_array['minute'], $start_date_array['second'], $start_date_array['month'], $start_date_array['day'], $start_date_array['year']);
 		$end_date_tstamp = mktime($end_date_array['hour'], $end_date_array['minute'], $end_date_array['second'], $end_date_array['month'], $end_date_array['day'], $end_date_array['year']);
 		
-		// End date has to be > start date
-		if($end_date_tstamp <= $start_date_tstamp && ($start_date || $field_value)) {
+		// If both are set, end date has to be > start date
+		if($start_date && $field_value && $end_date_tstamp <= $start_date_tstamp) {
 			return $app->tform->lng($validator['errmsg']).'<br />';
 		}
 	}

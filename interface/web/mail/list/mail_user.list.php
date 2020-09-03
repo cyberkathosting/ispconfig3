@@ -107,6 +107,15 @@ $liste["item"][] = array( 'field'  => "disablesmtp",
 	'width'  => "",
 	'value'  => array('n' => $app->lng('yes_txt'), 'y' => $app->lng('no_txt')));
 
+$liste["item"][] = array( 'field'  => "disabledeliver",
+	'datatype' => "VARCHAR",
+	'formtype' => "SELECT",
+	'op'  => "=",
+	'prefix' => "",
+	'suffix' => "",
+	'width'  => "",
+	'value'  => array('n' => $app->lng('yes_txt'), 'y' => $app->lng('no_txt')));
+
 $liste["item"][] = array( 'field'  => "disableimap",
 	'datatype' => "VARCHAR",
 	'formtype' => "SELECT",

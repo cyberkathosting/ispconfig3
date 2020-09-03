@@ -162,4 +162,6 @@ $wb['System load 5 minutes'] = 'Carga del sistema hace 5 minutos';
 $wb['System State (All Servers)'] = 'Estado de los sistemas';
 $wb['Users online'] = 'Usuarios en línea';
 $wb['Show Data Log History'] = 'Show Data Log History';
+$wb['Database size'] = 'Database size';
+$wb['Show MySQL Database size'] = 'Show MySQL Database size';
 ?>

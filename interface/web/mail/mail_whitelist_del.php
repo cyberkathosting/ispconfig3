@@ -42,7 +42,7 @@ $tform_def_file = "form/mail_whitelist.tform.php";
 require_once '../../lib/config.inc.php';
 require_once '../../lib/app.inc.php';
 
-if($_SESSION["s"]["user"]["typ"] != 'admin') $app->error('This function needs admin priveliges');
+if($_SESSION["s"]["user"]["typ"] != 'admin') $app->error('This function needs admin privileges');
 
 //* Check permissions for module
 $app->auth->check_module_permissions('mail');

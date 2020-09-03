@@ -184,9 +184,10 @@ class tools_monitor {
 
 			foreach($data as $key => $value) {
 				if ($key != '') {
+					$memory = $app->functions->formatBytes($value);
 					$html .= '<tr>
                         <td>' . $key . ':</td>
-                        <td>' . $value . '</td>
+                        <td>' . $memory . '</td>
                         </tr>';
 				}
 			}

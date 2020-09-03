@@ -41,4 +41,5 @@ $wb['dnssec_wanted_info'] = 'Když deaktivujete DNSSEC klíče nebudou odstraně
 $wb['error_not_allowed_server_id'] = 'Vybraný server není pro tento účet povolen.';
 $wb['soa_cannot_be_changed_txt'] = 'Die Zone (SOA) kann nicht verändert werden. Bitte kontaktieren Sie ihren Administrator, um die Zone zu ändern.';
 $wb['configuration_error_txt'] = 'CONFIGURATION ERROR';
+$wb['dnssec_algo_txt'] = 'DNSSEC Algorithm';
 ?>

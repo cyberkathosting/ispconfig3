@@ -103,7 +103,7 @@ class cron_plugin {
 			$app->log("Websites (and Crons) cannot be owned by the root user or group.", LOGLEVEL_WARN);
 			return false;
 		}
-		
+
 		// Get the client ID
 		$client = $app->dbmaster->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ?", $data["new"]["sys_groupid"]);
 		$client_id = intval($client["client_id"]);
@@ -123,7 +123,7 @@ class cron_plugin {
 			$app->system->exec_safe("useradd -d ? -g ? ? -s /bin/false", $parent_domain["document_root"], $groupname, $username);
 			$app->log("Adding the user: $username", LOGLEVEL_DEBUG);
 		}
-        
+
         // Set the quota for the user
         if($username != '' && $app->system->is_user($username)) {
            if($parent_domain['hd_quota'] > 0) {
@@ -144,7 +144,7 @@ class cron_plugin {
               $app->system->exec_safe('setquota -u ? ? ? 0 0 -a &> /dev/null', $username, $blocks_soft, $blocks_hard);
               $app->system->exec_safe('setquota -T -u ? 604800 604800 -a &> /dev/null', $username);
             } elseif ($file_system == 'xfs') {
-                
+
               $app->system->exec_safe("xfs_quota -x -c ? ?", "limit -u bsoft=$mb_soft" . 'm'. " bhard=$mb_hard" . 'm'. " $username", $primitive_root);
 
               // xfs only supports timers globally, not per user.
@@ -177,21 +177,23 @@ class cron_plugin {
 	}
 
 	function delete($event_name, $data) {
-		global $app, $conf;
+		global $app;
 
 		//* get data from web
 		$parent_domain = $app->db->queryOneRecord("SELECT `domain_id`, `system_user`, `system_group`, `document_root`, `hd_quota` FROM `web_domain` WHERE `domain_id` = ?", $data["old"]["parent_domain_id"]);
-		if(!$parent_domain["domain_id"]) {
-			$app->log("Parent domain not found", LOGLEVEL_WARN);
-			return 0;
+
+		if(!$parent_domain) {
+			$tmp = $app->db->queryOneRecord('SELECT * FROM sys_datalog WHERE dbtable = ? AND dbidx = ? AND `action` = ? ORDER BY `datalog_id` DESC', 'web_domain', 'domain_id:' . $data['old']['parent_domain_id'], 'd');
+			$tmp = unserialize($tmp);
+			if($tmp && isset($tmp['old'])) {
+				$this->parent_domain = $tmp['old'];
+			} else {
+				$app->log("Parent domain not found", LOGLEVEL_WARN);
+				return 0;
+			}
+		} else {
+			$this->parent_domain = $parent_domain;
 		}
-
-		// Get the client ID
-		$client = $app->dbmaster->queryOneRecord("SELECT client_id FROM sys_group WHERE sys_group.groupid = ?", $data["old"]["sys_groupid"]);
-		$client_id = intval($client["client_id"]);
-		unset($client);
-
-		$this->parent_domain = $parent_domain;
 		$this->_write_crontab();
 	}
 
@@ -223,18 +225,18 @@ class cron_plugin {
 				} else {
 					$cron_line = str_replace(" ", "", $job['run_min']) . "\t" . str_replace(" ", "", $job['run_hour']) . "\t" . str_replace(" ", "", $job['run_mday']) . "\t" . str_replace(" ", "", $job['run_month']) . "\t" . str_replace(" ", "", $job['run_wday']);
 				}
-				
+
 				$log_target = "";
 				$log_wget_target = '/dev/null';
 				$log_root = '';
 				if($job['log'] == 'y') {
 					if($job['type'] != 'chrooted') $log_root = $this->parent_domain['document_root'];
 					$log_root .= '/private';
-					
+
 					$log_target = '>>' . $log_root . '/cron.log 2>>' . $log_root . '/cron_error.log';
 					$log_wget_target = $log_root . '/cron_wget.log';
 				}
-				
+
 				$cron_line .= "\t{$this->parent_domain['system_user']}"; //* running as user
 				if($job['type'] == 'url') {
 					$cron_line .= "\t{$cron_config['wget']} --no-check-certificate --user-agent='Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0' -q -t 1 -T 7200 -O " . $log_wget_target . " " . escapeshellarg($job['command']) . " " . $log_target;
@@ -243,7 +245,7 @@ class cron_plugin {
 						$app->log("Insecure Cron job SKIPPED: " . $job['command'], LOGLEVEL_WARN);
 						continue;
 					}
-					
+
 					$web_root = '';
 					if($job['type'] == 'chrooted') {
 						if(substr($job['command'], 0, strlen($this->parent_domain['document_root'])) == $this->parent_domain['document_root']) {
@@ -253,7 +255,7 @@ class cron_plugin {
 					} else {
 						$web_root = $this->parent_domain['document_root'];
 					}
-					
+
 					$web_root .= '/web';
 					$job['command'] = str_replace('[web_root]', $web_root, $job['command']);
 

@@ -296,12 +296,17 @@ function onSubmit() {
 
 		$this->dataRecord["xfer"] = preg_replace('/\s+/', '', $this->dataRecord["xfer"]);
 		$this->dataRecord["also_notify"] = preg_replace('/\s+/', '', $this->dataRecord["also_notify"]);
+		
+		if(isset($this->dataRecord['dnssec_wanted']) && $this->dataRecord['dnssec_wanted'] == 'Y' && $this->dataRecord['dnssec_algo'] == '') $this->dataRecord['dnssec_algo'] = 'ECDSAP256SHA256';
 
 		//* Check if a secondary zone with the same name already exists
 		$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_slave WHERE origin = ? AND server_id = ?", $this->dataRecord["origin"], $this->dataRecord["server_id"]);
 		if($tmp["number"] > 0) {
 			$app->error($app->tform->wordbook["origin_error_unique"]);
 		}
+		
+		//* server_id must be > 0
+		if(isset($this->dataRecord["server_id"]) && $this->dataRecord["server_id"] < 1) $app->tform->errorMessage .= $app->lng("server_id_0_error_txt");
 	}
 	parent::onSubmit();
 }

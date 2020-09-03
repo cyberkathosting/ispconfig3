@@ -1787,6 +1787,18 @@ class system{
 		}
 	}
 
+	public function is_blacklisted_web_path($path) {
+		$blacklist = array('bin', 'cgi-bin', 'dev', 'etc', 'home', 'lib', 'lib64', 'log', 'ssl', 'usr', 'var', 'proc', 'net', 'sys', 'srv', 'sbin', 'run');
+
+		$path = ltrim($path, '/');
+		$parts = explode('/', $path);
+		if(in_array(strtolower($parts[0]), $blacklist, true)) {
+			return true;
+		}
+
+		return false;
+	}
+
 	function web_folder_protection($document_root, $protect) {
 		global $app, $conf;
 
@@ -2215,7 +2227,7 @@ class system{
 			$program_args .= ' ' . escapeshellarg($prog);
 		}
 
-		$cmd = 'jk_cp -k ?' . $program_args;
+		$cmd = 'jk_cp -j ?' . $program_args;
 		$this->exec_safe($cmd, $home_dir);
 
 		return true;
@@ -2238,7 +2250,7 @@ class system{
 		}
 
 		// Initialize the chroot into the specified directory with the specified applications
-		$cmd = 'jk_init -f -k -c /etc/jailkit/jk_init.ini -j ?' . $app_args;
+		$cmd = 'jk_init -f -c /etc/jailkit/jk_init.ini -j ?' . $app_args;
 		$this->exec_safe($cmd, $home_dir);
 
 		// Create the temp directory

@@ -131,7 +131,7 @@ class remoting_lib extends tform_base {
 			$this->sys_userid            = $user['userid'];
 			$this->sys_default_group     = $user['default_group'];
 			$this->sys_groups             = $user['groups'];
-			// we have to force admin priveliges for the remoting API as some function calls might fail otherwise.
+			// we have to force admin privileges for the remoting API as some function calls might fail otherwise.
 			if($client_login == false) $_SESSION["s"]["user"]["typ"] = 'admin';
 		}
 

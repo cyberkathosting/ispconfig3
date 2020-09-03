@@ -94,4 +94,5 @@ $wb['active_txt'] = 'Ativo';
 $wb['btn_save_txt'] = 'Salvar';
 $wb['btn_cancel_txt'] = 'Cancelar';
 $wb['web_php_options_txt'] = 'Manipulador do php (Somente apache)';
+$wb['client_protection_txt'] = 'Client protection';
 ?>

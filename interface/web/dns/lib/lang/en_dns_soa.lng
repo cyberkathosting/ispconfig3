@@ -41,4 +41,5 @@ $wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 $wb['error_not_allowed_server_id'] = 'The selected server is not allowed for this account.';
 $wb['soa_cannot_be_changed_txt'] = 'The Zone (SOA) can not be changed. Please contact your administrator to change the zone.';
 $wb['configuration_error_txt'] = 'CONFIGURATION ERROR';
+$wb['dnssec_algo_txt'] = 'DNSSEC Algorithm';
 ?>

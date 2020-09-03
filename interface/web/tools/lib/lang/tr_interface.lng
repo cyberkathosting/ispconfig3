@@ -1,7 +1,0 @@
-<?php
-$wb['interface_head_txt'] = 'Arayüz Ayarları';
-$wb['interface_desc_txt'] = 'Arayüzü Düzenle';
-$wb['language_txt'] = 'Dil';
-$wb['startmodule_txt'] = 'Başlangıç modülü';
-$wb['app_theme_txt'] = 'Tasarım';
-?>
