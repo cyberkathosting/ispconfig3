@@ -187,9 +187,11 @@ class cron_jailkit_plugin {
 				$app->system->web_folder_protection($parent_domain['document_root'], false);
 
 				$this->_setup_jailkit_chroot();
+
 				$this->_add_jailkit_user();
 
 				$this->_update_website_security_level();
+
 				$app->system->web_folder_protection($parent_domain['document_root'], true);
 			}
 
@@ -265,7 +267,16 @@ class cron_jailkit_plugin {
 			$app->system->file_put_contents($motd, $tpl->grab());
 
 		} else {
-			$app->system->update_jailkit_chroot($this->data['new']['dir']);
+			$options = array( 'allow_hardlink', );
+			if (isset($this->jailkit_config) && isset($this->jailkit_config['jailkit_hardlinks'])) {
+				if ($this->jailkit_config['jailkit_hardlinks'] == 'yes') {
+					$options = array( 'hardlink', );
+				} elseif ($this->jailkit_config['jailkit_hardlinks'] == 'no') {
+					unset($options['allow_hardlink']);
+				}
+			}
+
+			$app->system->update_jailkit_chroot($this->data['new']['dir'], $options);
 		}
 		$this->_add_jailkit_programs();
 	}

@@ -1845,6 +1845,16 @@ $form["tabs"]['jailkit'] = array(
 			'width' => '40',
 			'maxlength' => '1000'
 		),
+		'jailkit_hardlinks' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'SELECT',
+			'default' => 'allow',
+			'value' => array(
+				'allow' => 'jailkit_hardlinks_allow_txt',
+				'no' => 'jailkit_hardlinks_no_txt',
+				'yes' => 'jailkit_hardlinks_yes_txt',
+			)
+		),
 		//#################################
 		// END Datatable fields
 		//#################################

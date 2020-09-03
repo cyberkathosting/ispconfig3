@@ -133,6 +133,7 @@ class shelluser_jailkit_plugin {
 						$app->system->exec_safe($command, $data['new']['username']);
 
 						$this->_update_website_security_level();
+
 						$app->system->web_folder_protection($web['document_root'], true);
 						$app->log("Jailkit Plugin -> insert username:".$data['new']['username'], LOGLEVEL_DEBUG);
 					} else {
@@ -202,6 +203,7 @@ class shelluser_jailkit_plugin {
 						$app->system->web_folder_protection($web['document_root'], false);
 
 						$this->_setup_jailkit_chroot();
+
 						$this->_add_jailkit_user();
 
 						//* call the ssh-rsa update function
@@ -329,7 +331,16 @@ class shelluser_jailkit_plugin {
 			$app->system->file_put_contents($motd, $tpl->grab());
 
 		} else {
-			$app->system->update_jailkit_chroot($this->data['new']['dir']);
+			$options = array( 'allow_hardlink', );
+			if (isset($this->jailkit_config) && isset($this->jailkit_config['jailkit_hardlinks'])) {
+				if ($this->jailkit_config['jailkit_hardlinks'] == 'yes') {
+					$options = array( 'hardlink', );
+				} elseif ($this->jailkit_config['jailkit_hardlinks'] == 'no') {
+					unset($options['allow_hardlink']);
+				}
+			}
+
+			$app->system->update_jailkit_chroot($this->data['new']['dir'], $options);
 		}
 	}
 
