@@ -109,7 +109,7 @@ class shelluser_jailkit_plugin {
 						$this->data = $data;
 						$this->app = $app;
 						$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
-						foreach (array('jailkit_chroot_app_sections', 'jailkit_chroot_app_programs', 'jailkit_do_not_remove_paths') as $section) {
+						foreach (array('jailkit_chroot_app_sections', 'jailkit_chroot_app_programs') as $section) {
 							if (isset($web[$section]) && $web[$section] != '' ) {
 								$this->jailkit_config[$section] = $web[$section];
 							}
@@ -192,7 +192,7 @@ class shelluser_jailkit_plugin {
 						$this->data = $data;
 						$this->app = $app;
 						$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
-						foreach (array('jailkit_chroot_app_sections', 'jailkit_chroot_app_programs', 'jailkit_do_not_remove_paths') as $section) {
+						foreach (array('jailkit_chroot_app_sections', 'jailkit_chroot_app_programs') as $section) {
 							if (isset($web[$section]) && $web[$section] != '' ) {
 								$this->jailkit_config[$section] = $web[$section];
 							}
@@ -342,6 +342,9 @@ class shelluser_jailkit_plugin {
 
 			$app->system->update_jailkit_chroot($this->data['new']['dir'], $options);
 		}
+
+		// might need to update master db here?  checking....
+		$app->db->query("UPDATE `web_domain` SET `last_jailkit_update` = NOW() WHERE `document_root` = ?", $this->data['new']['dir']);
 	}
 
 	function _add_jailkit_programs()
@@ -597,6 +600,9 @@ class shelluser_jailkit_plugin {
 		}
 
 		$app->system->delete_jailkit_chroot($parent_domain['document_root']);
+
+		// might need to update master db here?  checking....
+		$app->db->query("UPDATE `web_domain` SET `last_jailkit_update` = NOW() WHERE `document_root` = ?", $parent_domain['document_root']);
 	}
 
 } // end class
