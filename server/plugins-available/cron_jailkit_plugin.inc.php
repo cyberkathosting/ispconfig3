@@ -275,8 +275,13 @@ class cron_jailkit_plugin {
 					unset($options['allow_hardlink']);
 				}
 			}
+			// force update existing jails
+			$options[] = 'force';
 
-			$app->system->update_jailkit_chroot($this->data['new']['dir'], $options);
+			$sections = $this->jailkit_config['jailkit_chroot_app_sections'];
+			$programs = $this->jailkit_config['jailkit_chroot_app_programs'];
+
+			$app->system->update_jailkit_chroot($this->data['new']['dir'], $sections, $programs, $options);
 		}
 		$this->_add_jailkit_programs();
 
@@ -288,11 +293,13 @@ class cron_jailkit_plugin {
 	{
 		global $app;
 
+		$opts = array('force');
+
 		//copy over further programs and its libraries
-		$app->system->create_jailkit_programs($this->parent_domain['document_root'], $this->jailkit_config['jailkit_chroot_app_programs']);
+		$app->system->create_jailkit_programs($this->parent_domain['document_root'], $this->jailkit_config['jailkit_chroot_app_programs'], $opts);
 		$this->app->log("Added app programs to jailkit chroot", LOGLEVEL_DEBUG);
 		
-		$app->system->create_jailkit_programs($this->parent_domain['document_root'], $this->jailkit_config['jailkit_chroot_cron_programs']);
+		$app->system->create_jailkit_programs($this->parent_domain['document_root'], $this->jailkit_config['jailkit_chroot_cron_programs'], $opts);
 		$this->app->log("Added cron programs to jailkit chroot", LOGLEVEL_DEBUG);
 	}
 

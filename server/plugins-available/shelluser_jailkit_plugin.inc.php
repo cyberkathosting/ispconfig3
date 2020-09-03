@@ -284,7 +284,6 @@ class shelluser_jailkit_plugin {
 
 		$app->log("Jailkit Plugin -> delete username:".$data['old']['username'], LOGLEVEL_DEBUG);
 
-
 	}
 
 	function _setup_jailkit_chroot()
@@ -339,8 +338,13 @@ class shelluser_jailkit_plugin {
 					unset($options['allow_hardlink']);
 				}
 			}
+			// force update existing jails
+			$options[] = 'force';
 
-			$app->system->update_jailkit_chroot($this->data['new']['dir'], $options);
+			$sections = $this->jailkit_config['jailkit_chroot_app_sections'];
+			$programs = $this->jailkit_config['jailkit_chroot_app_programs'];
+
+			$app->system->update_jailkit_chroot($this->data['new']['dir'], $sections, $programs, $options);
 		}
 
 		// might need to update master db here?  checking....
