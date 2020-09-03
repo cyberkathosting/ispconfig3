@@ -60,6 +60,7 @@ foreach ($goaprev as $key => $value)
 $goaccessindex = 'goaindex.html';
 
 $html = "<!DOCTYPE html>\n<html>\n<head>\n<title>Stats</title>\n";
+$html .= "<meta charset=\"UTF-8\">\n";
 $html .= "<style>\nhtml,body {margin:0px;padding:0px;width:100%;height:100%;background-color: #ccc;}\n";
 $html .= "#header\n{\nwidth:100%;margin:0px auto;\nheight:20px;\nposition:fixed;\npadding:4px;\ntext-align:center;\n}\n";
 $html .= "iframe {width:100%;height:95%;margin:0px;margin-top:40px;border:0px;padding:0px;}\n</style>\n</head>\n<body>\n";
