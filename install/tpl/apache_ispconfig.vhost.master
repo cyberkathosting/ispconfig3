@@ -111,29 +111,3 @@ NameVirtualHost *:<tmpl_var name="vhost_port">
   <tmpl_var name="ssl_comment">SSLStaplingReturnResponderErrors Off
   </tmpl_if>
 </VirtualHost>
-
-<tmpl_if name='apache_version' op='>=' value='2.3.3' format='version'>
-<IfModule mod_ssl.c>
-  <tmpl_var name="ssl_comment">SSLStaplingCache shmcb:/var/run/ocsp(128000)
-</IfModule>
-</tmpl_if>
-
-<Directory /var/www/php-cgi-scripts>
-  AllowOverride None
-  <tmpl_if name='apache_version' op='>' value='2.2' format='version'>
-  Require all denied
-  <tmpl_else>
-  Order Deny,Allow
-  Deny from all
-  </tmpl_if>
-</Directory>
-
-<Directory /var/www/php-fcgi-scripts>
-  AllowOverride None
-  <tmpl_if name='apache_version' op='>' value='2.2' format='version'>
-  Require all denied
-  <tmpl_else>
-  Order Deny,Allow
-  Deny from all
-  </tmpl_if>
-</Directory>
