@@ -38,7 +38,6 @@ $wb['use_domain_module_hint'] = 'Se você usar este módulo, os clientes podem s
 $wb['new_domain_txt'] = 'Código HTML para criar um novo domínio';
 $wb['webftp_url_txt'] = 'URL do FTPweb';
 $wb['admin_mail_txt'] = 'Administrador(es) de e-mails';
-$wb['monitor_key_txt'] = 'Palavras reservadas a monitorar';
 $wb['admin_name_txt'] = 'Nome do administrador';
 $wb['maintenance_mode_txt'] = 'Modo manutenção';
 $wb['maintenance_mode_exclude_ips_txt'] = 'Exclude IP\'s from maintenance';
