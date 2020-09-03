@@ -16,6 +16,7 @@ $wb['contains_txt'] = 'Содержит';
 $wb['is_txt'] = 'Равно';
 $wb['begins_with_txt'] = 'Начинается с';
 $wb['ends_with_txt'] = 'Заканчивается на';
+$wb['regex_txt'] = 'Matches Regex';
 $wb['delete_txt'] = 'Удалить';
 $wb['move_stop_txt'] = 'Переместить в';
 $wb['header_txt'] = 'Заголовок';

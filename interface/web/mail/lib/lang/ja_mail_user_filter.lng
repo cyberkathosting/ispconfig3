@@ -16,6 +16,7 @@ $wb['contains_txt'] = 'Contains';
 $wb['is_txt'] = 'Is';
 $wb['begins_with_txt'] = 'Begins with';
 $wb['ends_with_txt'] = 'Ends with';
+$wb['regex_txt'] = 'Matches Regex';
 $wb['delete_txt'] = 'Delete';
 $wb['move_stop_txt'] = 'Move to';
 $wb['header_txt'] = 'Header';
