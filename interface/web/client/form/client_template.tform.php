@@ -849,6 +849,7 @@ $form["tabs"]['limits'] = array (
 			'datatype'  => 'VARCHAR',
 			'formtype'  => 'SELECT',
 			'default'   => '',
+			'valuelimit' => 'client:limit_cron_type',
 			'value'     => array('full' => 'Full Cron', 'chrooted' => 'Chrooted Cron', 'url' => 'URL Cron')
 		),
 		'limit_cron_frequency' => array (
@@ -902,6 +903,7 @@ $form["tabs"]['limits'] = array (
 				'keyfield'=> 'template_id',
 				'valuefield'=> 'template_name'
 			),
+			'valuelimit' => 'client:limit_openvz_vm_template_id',
 			'value'  => array(0 => ' ')
 		),
 		'limit_aps' => array (
