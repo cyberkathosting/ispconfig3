@@ -2351,15 +2351,15 @@ $app->log("removing broken symlink $path", LOGLEVEL_DEBUG);
 		# prohibit ill-advised copying paths known to be sensitive/problematic
 		# (easy to bypass if needed, eg. use /./etc)
 		$blacklisted_paths_regex = array(
-			'|^/$|',
-			'|^/proc(/.*)?$|',
-			'|^/sys(/.*)?$|',
-			'|^/etc/?$|',
-			'|^/dev/?$|',
-			'|^/tmp/?$|',
-			'|^/run/?$|',
-			'|^/boot/?$|',
-			'|^/var(/?|/backups?/?)?$|',
+			'@^/$@',
+			'@^/proc(/.*)?$@',
+			'@^/sys(/.*)?$@',
+			'@^/etc/?$@',
+			'@^/dev/?$@',
+			'@^/tmp/?$@',
+			'@^/run/?$@',
+			'@^/boot/?$@',
+			'@^/var(/?|/backups?/?)?$@',
 		);
 
 		$program_args = '';
@@ -2460,8 +2460,10 @@ $app->log("removing broken symlink $path", LOGLEVEL_DEBUG);
 				continue;
 			}
 
+			$this->remove_broken_symlinks($dir, true);
+
 			// save list of hardlinked files
-			if (!in_array($opts, 'hardlink') && !in_array($options, 'allow_hardlink')) {
+			if (!in_array('hardlink', $opts) && !in_array('allow_hardlink', $options)) {
                                 $find_multiple_links = function ( $path ) use ( &$find_multiple_links ) {
 					$found = array();
 					if (is_dir($path)) {
@@ -2487,6 +2489,7 @@ $app->log("removing broken symlink $path", LOGLEVEL_DEBUG);
 				}
 			}
 
+			// remove broken symlinks a second time after hardlink cleanup
 			$this->remove_broken_symlinks($dir, true);
 		}
 
@@ -2497,7 +2500,7 @@ $app->log("removing broken symlink $path", LOGLEVEL_DEBUG);
 			if (substr( $line, 0, 4 ) === "skip") {
 				continue;
 			}
-			if (preg_match('|^(? [^ ]+){6}(.+)$'.preg_quote($home_dir, '|').'|', $line, $matches)) {
+			if (preg_match('@^(? [^ ]+){6}(.+)'.preg_quote($home_dir, '@').'$@', $line, $matches)) {
 				# remove deprecated files that jk_update failed to remove
 				if (is_file($matches[1])) {
 $app->log("removing deprecated file which jk_update failed to remove:  ".$matches[1], LOGLEVEL_DEBUG);
@@ -2525,7 +2528,7 @@ $app->log("removing deprecated directory which jk_update failed to remove:  ".$m
 		}
 
 		// search for any hardlinked files which are now missing
-		if (!in_array($opts, 'hardlink') && !in_array($options, 'allow_hardlink')) {
+		if (!in_array('hardlink', $opts) && !in_array('allow_hardlink', $options)) {
 			foreach ($multiple_links as $file) {
 				if (!is_file($file)) {
 					// strip $home_dir from $file
@@ -2552,7 +2555,7 @@ $app->log("file with multiple links still missing, running jk_cp to restore: $fi
 			$rewrite = false;
 			$jk_socketd_ini = $app->ini_parser->parse_ini_file('/etc/jailkit/jk_socketd.ini');
 			foreach ($jk_socketd_ini as $log => $settings) {
-				$jail = preg_replace('|/dev/log$|', '', $log);
+				$jail = preg_replace('@/dev/log$@', '', $log);
 				if ($jail != $log && !is_dir($jail)) {
 					unset($jk_socketd_ini[$log]);
 					$rewrite=true;

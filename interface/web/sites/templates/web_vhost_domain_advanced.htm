@@ -130,13 +130,6 @@
     <b>{tmpl_var name="available_proxy_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="proxy_directive_snippets_txt"}
   </div>
 </div>
-<input type="hidden" name="id" value="{tmpl_var name='id'}">
-<div class="clear">
-  <div class="right">
-    <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="sites/web_vhost_domain_edit.php">{tmpl_var name='btn_save_txt'}</button>
-    <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="sites/web_vhost_domain_list.php">{tmpl_var name='btn_cancel_txt'}</button>
-  </div>
-</div>
 <div class="jailkit">
   <div class="form-group">
     <label class="col-sm-3 control-label">{tmpl_var name='jailkit_chroot_app_sections_txt'}</label>
@@ -155,6 +148,13 @@
     <div class="col-sm-9">
       <a href="#" data-toggle="tooltip" title="{tmpl_var name='tooltip_delete_unused_jailkit_txt'}">{tmpl_var name='delete_unused_jailkit'}</a>
     </div>
+  </div>
+</div>
+<input type="hidden" name="id" value="{tmpl_var name='id'}">
+<div class="clear">
+  <div class="right">
+    <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="sites/web_vhost_domain_edit.php">{tmpl_var name='btn_save_txt'}</button>
+    <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="sites/web_vhost_domain_list.php">{tmpl_var name='btn_cancel_txt'}</button>
   </div>
 </div>
 
