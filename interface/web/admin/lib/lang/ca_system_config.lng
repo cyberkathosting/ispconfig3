@@ -38,7 +38,6 @@ $wb['use_domain_module_hint'] = 'If you use the domain limits, your customers ca
 $wb['new_domain_txt'] = 'HTML to create a new domain';
 $wb['webftp_url_txt'] = 'WebFTP URL';
 $wb['admin_mail_txt'] = 'Administrator\'s e-mail';
-$wb['monitor_key_txt'] = 'Monitor keyword';
 $wb['admin_name_txt'] = 'Administrator\'s name';
 $wb['maintenance_mode_txt'] = 'Maintenance Mode';
 $wb['maintenance_mode_exclude_ips_txt'] = 'Exclude IP\'s from maintenance';

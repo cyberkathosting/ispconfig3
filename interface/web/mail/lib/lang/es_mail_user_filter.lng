@@ -6,6 +6,7 @@ $wb['contains_txt'] = 'Contiene';
 $wb['delete_txt'] = 'Borrar';
 $wb['domain_txt'] = 'Domain';
 $wb['ends_with_txt'] = 'Termina con';
+$wb['regex_txt'] = 'Matches Regex';
 $wb['from_txt'] = 'De';
 $wb['header_txt'] = 'Cabecera';
 $wb['is_txt'] = 'Es';

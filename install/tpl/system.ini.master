@@ -52,7 +52,6 @@ custom_login_link=
 dashboard_atom_url_admin=https://www.ispconfig.org/atom
 dashboard_atom_url_reseller=https://www.ispconfig.org/atom
 dashboard_atom_url_client=https://www.ispconfig.org/atom
-monitor_key=
 tab_change_discard=n
 tab_change_warning=n
 use_loadindicator=y

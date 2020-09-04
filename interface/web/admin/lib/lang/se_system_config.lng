@@ -27,7 +27,6 @@ $wb['enable_custom_login_txt'] = 'Tillåt valfritt inloggningsnamn';
 $wb['mailmailinglist_link_txt'] = 'Länka till epostlista i listan över epostlistor';
 $wb['mailmailinglist_url_txt'] = 'Adress till epostlista';
 $wb['admin_mail_txt'] = 'Administratörens epostadress';
-$wb['monitor_key_txt'] = 'Bevakning nyckelord';
 $wb['admin_name_txt'] = 'Administratörens namn';
 $wb['maintenance_mode_txt'] = 'Underhållsläge';
 $wb['maintenance_mode_exclude_ips_txt'] = 'Exclude IP\'s from maintenance';
