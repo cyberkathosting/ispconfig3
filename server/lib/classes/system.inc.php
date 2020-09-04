@@ -934,6 +934,10 @@ class system{
 		return copy($file1, $file2);
 	}
 
+        function move($file1, $file2) {
+                return rename($file1, $file2);
+        }
+
 	function touch($file, $allow_symlink = false){
 		global $app;
 		if($allow_symlink == false && @file_exists($file) && $this->checkpath($file) == false) {
