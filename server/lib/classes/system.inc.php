@@ -935,7 +935,10 @@ class system{
 	}
 
         function move($file1, $file2) {
-                return rename($file1, $file2);
+		return copy($file1, $file2);
+		if(file_exists($file1) || is_link($file1)) {
+                        return unlink($file1);
+                }
         }
 
 	function touch($file, $allow_symlink = false){
