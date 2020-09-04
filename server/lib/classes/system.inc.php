@@ -2376,6 +2376,10 @@ class system{
 	}
 
 	public function update_jailkit_chroot($home_dir, $sections = array(), $programs = array(), $options = array()) {
+		global $app;
+
+		$app->uses('ini_parser');
+
 		// Disallow operating on root directory
 		if(realpath($home_dir) == '/') {
 			$app->log("update_jailkit_chroot: invalid home_dir: $home_dir", LOGLEVEL_WARN);
@@ -2434,9 +2438,6 @@ class system{
 				continue;
 			}
 
-			// remove dangling symlinks
-			$app->log("TODO: search for and remove dangling symlinks", LOGLEVEL_DEBUG);
-
 			// save list of hardlinked files
 			if (!in_array($opts, 'hardlink') && !in_array($options, 'allow_hardlink')) {
                                 $find_multiple_links = function ( $path ) use ( &$find_multiple_links ) {
@@ -2463,13 +2464,16 @@ class system{
 					$multiple_links = array_merge($multiple_links, $ret);
 				}
 			}
+
+			// remove dangling symlinks
+			$app->log("TODO: search for and remove dangling symlinks", LOGLEVEL_DEBUG);
 		}
 
 		
 		$cmd = 'jk_update --jail='.escapeshellarg($home_dir) . $skips;
 		exec($cmd, $out, $ret);
 		foreach ($out as $line) {
-			if (substr( $line, 0, 4 ) === "skip")) {
+			if (substr( $line, 0, 4 ) === "skip") {
 				continue;
 			}
 			if (preg_match('|^(? [^ ]+){6}(.+)$'.preg_quote($home_dir, '|').'|', $line, $matches)) {
@@ -2522,10 +2526,31 @@ $app->log("file with multiple links still missing, running jk_cp to restore: $fi
 		// Fix permissions of the root firectory
 		$this->chmod($home_dir . '/bin', 0755, true);  // was chmod g-w $CHROOT_HOMEDIR/bin
 
+		// remove non-existent jails from /etc/jailkit/jk_socketd.ini
+		if (is_file('/etc/jailkit/jk_socketd.ini')) {
+			$rewrite = false;
+			$jk_socketd_ini = $app->ini_parser->parse_ini_file('/etc/jailkit/jk_socketd.ini');
+			foreach ($jk_socketd_ini as $log => $settings) {
+				$jail = preg_replace('|/dev/log$|', '', $log);
+				if ($jail != $log && !is_dir($jail)) {
+					unset($jk_socketd_ini[$log]);
+					$rewrite=true;
+				}
+			}
+			if ($rewrite) {
+				$app->log('update_jailkit_chroot: writing /etc/jailkit/jk_socketd.ini', LOGLEVEL_DEBUG);
+				$app->ini_parse->write_ini_file($jk_socketd_ini, '/etc/jailkit/jk_socketd.ini');
+			}
+		}
+
 		return true;
 	}
 
 	public function delete_jailkit_chroot($home_dir) {
+		global $app;
+
+		$app->uses('ini_parser');
+
 		// Disallow operating on root directory
 		if(realpath($home_dir) == '/') {
 			$app->log("delete_jailkit_chroot: invalid home_dir: $home_dir", LOGLEVEL_WARN);
@@ -2571,6 +2596,17 @@ $app->log("file with multiple links still missing, running jk_cp to restore: $fi
 		if (is_dir($home) && is_dir($private)) {
 			$archive = $private.'/home-'.date('c');
 			rename($home, $archive);
+		}
+
+		// remove $home_dir from /etc/jailkit/jk_socketd.ini
+		if (is_file('/etc/jailkit/jk_socketd.ini')) {
+			$jk_socketd_ini = $app->ini_parser->parse_ini_file('/etc/jailkit/jk_socketd.ini');
+			$log = $home . '/dev/log';
+			if (isset($jk_socketd_ini[$log]) {
+				unset($jk_socketd_ini[$log]);
+				$app->log('delete_jailkit_chroot: writing /etc/jailkit/jk_socketd.ini', LOGLEVEL_DEBUG);
+				$app->ini_parse->write_ini_file($jk_socketd_ini, '/etc/jailkit/jk_socketd.ini');
+			}
 		}
 
 		return true;
