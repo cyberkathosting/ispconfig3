@@ -172,7 +172,7 @@ class cronjob_goaccess extends cronjob {
 						$files = scandir($statsdir);
 
 						foreach ($files as $file) {
-							if (substr($file, 0, 1) != "." && !is_dir("$statsdir"."/"."$file") && substr($file, 0, 1) != "w" && substr($file, 0, 1) != "i") $app->system->copy("$statsdir"."/"."$file", "$statsdirold"."$file");
+							if (substr($file, 0, 1) != "." && !is_dir("$statsdir"."/"."$file") && substr($file, 0, 1) != "w" && substr($file, 0, 1) != "i") $app->system->move("$statsdir"."/"."$file", "$statsdirold"."$file");
 						}
 					}
 
