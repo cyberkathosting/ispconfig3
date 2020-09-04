@@ -941,26 +941,26 @@ class system{
                 return $return_var == 0 ? true : false;
         }
 
-	function rmdir($dir, $recursive=false) {
+	function rmdir($path, $recursive=false) {
 		// Disallow operating on root directory
-		if(realpath($dir) == '/') {
-			$app->log("rmdir: afraid I might delete root: $dir", LOGLEVEL_WARN);
+		if(realpath($path) == '/') {
+			$app->log("rmdir: afraid I might delete root: $path", LOGLEVEL_WARN);
 			return false;
 		}
 
-		$dir = rtrim($dir, '/');
-		if (is_dir($dir)) {
-			$objects = array_diff(scandir($dir), array('.', '..'));
+		$path = rtrim($path, '/');
+		if (is_dir($path)) {
+			$objects = array_diff(scandir($path), array('.', '..'));
 			foreach ($objects as $object) {
 				if ($recursive) {
-					if (is_dir("$dir/$object")) {
-						$this->rmdir("$dir/$object", $recursive); 
+					if (is_dir("$path/$object")) {
+						$this->rmdir("$path/$object", $recursive); 
 					} else {
-						unlink ("$dir/$object");
+						unlink ("$path/$object");
 					}
 				}
 			}
-			return rmdir($dir);
+			return rmdir($path);
 		}
 		return false;
 	}
@@ -1005,6 +1005,28 @@ class system{
 		//if(strstr($to,'/etc/letsencrypt/archive/')) $to = str_replace('/etc/letsencrypt/archive/','/etc/letsencrypt/live/',$to);
 
 		return symlink($cfrom, $to);
+	}
+
+	function remove_broken_symlinks($path, $recursive=false) {
+		if ($path != '/') {
+			$path = rtrim($path, '/');
+		}
+		if (is_dir($path)) {
+			$objects = array_diff(scandir($path), array('.', '..'));
+			foreach ($objects as $object) {
+				if ($recursive) {
+					if (is_dir("$path/$object")) {
+						$this->remove_broken_symlinks("$path/$object", $recursive); 
+					} elseif (is_link("$path/$object") && !file_exists("$path/$object")) {
+$app->log("removing broken symlink $path/$object", LOGLEVEL_DEBUG);
+						unlink ("$path/$object");
+					}
+				}
+			}
+		} elseif (is_link("$path") && !file_exists("$path")) {
+$app->log("removing broken symlink $path", LOGLEVEL_DEBUG);
+			unlink ("$path");
+		}
 	}
 
 	function checkpath($path) {
@@ -2465,8 +2487,7 @@ class system{
 				}
 			}
 
-			// remove dangling symlinks
-			$app->log("TODO: search for and remove dangling symlinks", LOGLEVEL_DEBUG);
+			$this->remove_broken_symlinks($dir, true);
 		}
 
 		
@@ -2602,7 +2623,7 @@ $app->log("file with multiple links still missing, running jk_cp to restore: $fi
 		if (is_file('/etc/jailkit/jk_socketd.ini')) {
 			$jk_socketd_ini = $app->ini_parser->parse_ini_file('/etc/jailkit/jk_socketd.ini');
 			$log = $home . '/dev/log';
-			if (isset($jk_socketd_ini[$log]) {
+			if (isset($jk_socketd_ini[$log])) {
 				unset($jk_socketd_ini[$log]);
 				$app->log('delete_jailkit_chroot: writing /etc/jailkit/jk_socketd.ini', LOGLEVEL_DEBUG);
 				$app->ini_parse->write_ini_file($jk_socketd_ini, '/etc/jailkit/jk_socketd.ini');
