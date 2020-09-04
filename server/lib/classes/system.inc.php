@@ -942,6 +942,12 @@ class system{
         }
 
 	function rmdir($dir, $recursive=false) {
+		// Disallow operating on root directory
+		if(realpath($dir) == '/') {
+			$app->log("rmdir: afraid I might delete root: $dir", LOGLEVEL_WARN);
+			return false;
+		}
+
 		$dir = rtrim($dir, '/');
 		if (is_dir($dir)) {
 			$objects = array_diff(scandir($dir), array('.', '..'));
@@ -2219,6 +2225,12 @@ class system{
 	}
 
 	public function create_jailkit_user($username, $home_dir, $user_home_dir, $shell = '/bin/bash', $p_user = null, $p_user_home_dir = null) {
+		// Disallow operating on root directory
+		if(realpath($home_dir) == '/') {
+			$app->log("create_jailkit_user: invalid home_dir: $home_dir", LOGLEVEL_WARN);
+			return false;
+		}
+
 		// Check if USERHOMEDIR already exists
 		if(!is_dir($home_dir . '/.' . $user_home_dir)) {
 			$this->mkdirpath($home_dir . '/.' . $user_home_dir, 0755, $username);
@@ -2242,6 +2254,12 @@ class system{
 	}
 
 	public function create_jailkit_chroot($home_dir, $app_sections = array(), $options = array()) {
+		// Disallow operating on root directory
+		if(realpath($home_dir) == '/') {
+			$app->log("create_jailkit_chroot: invalid home_dir: $home_dir", LOGLEVEL_WARN);
+			return false;
+		}
+
 		if(!is_dir($home_dir)) {
 			$app->log("create_jailkit_chroot: jail directory does not exist: $home_dir", LOGLEVEL_WARN);
 			return false;
@@ -2292,6 +2310,12 @@ class system{
 	}
 
 	public function create_jailkit_programs($home_dir, $programs = array(), $options = array()) {
+		// Disallow operating on root directory
+		if(realpath($home_dir) == '/') {
+			$app->log("create_jailkit_programs: invalid home_dir: $home_dir", LOGLEVEL_WARN);
+			return false;
+		}
+
 		if(!is_dir($home_dir)) {
 			$app->log("create_jailkit_programs: jail directory does not exist: $home_dir", LOGLEVEL_WARN);
 			return false;
@@ -2352,6 +2376,12 @@ class system{
 	}
 
 	public function update_jailkit_chroot($home_dir, $sections = array(), $programs = array(), $options = array()) {
+		// Disallow operating on root directory
+		if(realpath($home_dir) == '/') {
+			$app->log("update_jailkit_chroot: invalid home_dir: $home_dir", LOGLEVEL_WARN);
+			return false;
+		}
+
 		if(!is_dir($home_dir)) {
 			$app->log("update_jailkit_chroot: jail directory does not exist: $home_dir", LOGLEVEL_WARN);
 			return false;
@@ -2496,6 +2526,12 @@ $app->log("file with multiple links still missing, running jk_cp to restore: $fi
 	}
 
 	public function delete_jailkit_chroot($home_dir) {
+		// Disallow operating on root directory
+		if(realpath($home_dir) == '/') {
+			$app->log("delete_jailkit_chroot: invalid home_dir: $home_dir", LOGLEVEL_WARN);
+			return false;
+		}
+
 		if(!is_dir($home_dir)) {
 			$app->log("delete_jailkit_chroot: jail directory does not exist: $home_dir", LOGLEVEL_DEBUG);
 			return false;
