@@ -16,6 +16,7 @@ $wb['contains_txt'] = 'Sadrži';
 $wb['is_txt'] = 'Is';
 $wb['begins_with_txt'] = 'Počinje sa';
 $wb['ends_with_txt'] = 'Završava sa';
+$wb['regex_txt'] = 'Matches Regex';
 $wb['delete_txt'] = 'Obriši';
 $wb['move_stop_txt'] = 'Move to';
 $wb['header_txt'] = 'Header';

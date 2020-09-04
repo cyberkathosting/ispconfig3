@@ -20,7 +20,6 @@ $wb['new_domain_txt'] = 'HTML текст, чтобы создать новый �
 $wb['webdavuser_prefix_txt'] = 'Префикс пользователя WebDAV';
 $wb['webdavuser_prefix_error_regex'] = 'Некорректный символ в префиксе пользователя WebDAV.';
 $wb['webftp_url_txt'] = 'URL WebFTP';
-$wb['monitor_key_txt'] = 'Monitor keyword';
 $wb['dashboard_atom_url_admin_txt'] = 'Dashboard atom feed URL (admin)';
 $wb['dashboard_atom_url_reseller_txt'] = 'Dashboard atom feed URL (reseller)';
 $wb['dashboard_atom_url_client_txt'] = 'Dashboard atom feed URL (client)';

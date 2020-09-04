@@ -56,7 +56,7 @@ class cronjob_goaccess extends cronjob {
 		// Create goaccess statistics
 		//######################################################################################################
 
-		$sql = "SELECT domain_id, domain, document_root, web_folder, type, system_user, system_group, parent_domain_id FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain' or type = 'vhostalias') and stats_type = 'goaccess' AND server_id = ?";
+		$sql = "SELECT domain_id, sys_groupid, domain, document_root, web_folder, type, system_user, system_group, parent_domain_id FROM web_domain WHERE (type = 'vhost' or type = 'vhostsubdomain' or type = 'vhostalias') and stats_type = 'goaccess' AND server_id = ?";
 		$records = $app->db->queryAllRecords($sql, $conf['server_id']);
 
 		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
@@ -130,21 +130,13 @@ class cronjob_goaccess extends cronjob {
 						unset($content);
 					}
 
-					/* Update the primary domain name in the title, it could occasionally change */
-					if(is_file($goaccess_conf) && (filesize($goaccess_conf) > 0)) {
-						$content = $app->system->file_get_contents($goaccess_conf, true);
-						$content = preg_replace('/^(#)?html-report-title(.*)/m', "html-report-title $domain", $content);
-						$app->system->file_put_contents($goaccess_conf, $content, true);
-						unset($content);
-					}
-
 	                                $username = $rec['system_user'];
 	                                $groupname = $rec['system_group'];
 	                                $docroot = $rec['document_root'];
 
 					if(!@is_dir($statsdir)) $app->system->mkdirpath($statsdir, 0755, $username, $groupname);
 
-					$goa_db_dir = $docroot.'/'.$web_folder.'/stats/.db/';
+                                        $goa_db_dir = $docroot.'/log/goaccess_db';
 					$output_html = $docroot.'/'.$web_folder.'/stats/goaindex.html';
 		                        if(!@is_dir($goa_db_dir)) $app->system->mkdirpath($goa_db_dir);
 	
@@ -177,11 +169,6 @@ class cronjob_goaccess extends cronjob {
 							 $app->system->mkdirpath($statsdirold, 0755, $username, $groupname);
 						}
 
-						// don't rotate db files per month
-						//rename($goa_db_dir, $statsdirold.'db');
-						//mkdir($goa_db_dir);
-
-
 						$files = scandir($statsdir);
 
 						foreach ($files as $file) {
@@ -199,12 +186,48 @@ class cronjob_goaccess extends cronjob {
 					}
 
 
-					/*
-					 * GoAccess removed with 1.4 btree support and supports from this version on only "In-Memory with On-Disk Persitance Storage".
-					 * For versions prior 1.4 you need GoAccess with btree support compiled!
-					 */
-				
-					$cust_lang = $conf['language']."_".strtoupper($conf['language']);
+					$sql_user = "SELECT client_id FROM sys_group WHERE groupid = ?";
+					$rec_user = $app->db->queryOneRecord($sql_user, $rec['sys_groupid']);
+					$lang_query = "SELECT country,language FROM client WHERE client_id = ?";
+					$lang_user = $app->db->queryOneRecord($lang_query, $rec_user['client_id']);
+					$cust_lang = $lang_user['language']."_".strtoupper($lang_user['language']).".UTF-8";
+
+					switch($lang_user['language'])
+					{
+						case 'en':
+							$cust_lang = 'en_UK.UTF-8';
+							break;
+						case 'br':
+							$cust_lang = 'pt_PT.UTF-8';
+							break;
+						case 'ca':
+							$cust_lang = 'en_US.UTF-8';
+							break;
+						case 'ja':
+							$cust_lang = 'ja_JP.UTF-8';
+							break;
+						case 'ar':
+							$cust_lang = 'es_ES.UTF-8';
+							break;
+						case 'el':
+							$cust_lang = 'el_GR.UTF-8';
+							break;
+						case 'se':
+							$cust_lang = 'sv_SE.UTF-8';
+							break;
+						case 'dk':
+							$cust_lang = 'da_DK.UTF-8';
+							break;
+						case 'cz':
+							$cust_lang = 'cs_CZ.UTF-8';
+							break;
+					}
+
+
+                                        /*
+                                         * GoAccess removed with 1.4 B+Tree support and supports from this version on only "In-Memory with On-Disk Persistance Storage".
+                                         * For versions prior 1.4 you need GoAccess with B+Tree support compiled!
+                                         */
 
 					if(version_compare($goaccess_version,1.4) >= 0) {
 						$app->system->exec_safe("LANG=? goaccess -f ? --config-file ? --restore --persist --db-path=? --output=?", $cust_lang, $logfile, $goaccess_conf, $goa_db_dir, $output_html);
@@ -214,11 +237,16 @@ class cronjob_goaccess extends cronjob {
 						if($match[0] == "keep-db-files") {
 							$app->system->exec_safe("LANG=? goaccess -f ? --config-file ? --load-from-disk --keep-db-files --db-path=? --output=?", $cust_lang, $logfile, $goaccess_conf, $goa_db_dir, $output_html);
 						} else {
-		                                        $app->log("Stats not generated. The GoAccess binary was not compiled with btree support. Please recompile/reinstall GoAccess with btree support, or install GoAccess version >= 1.4!", LOGLEVEL_ERROR);
+		                                        $app->log("Stats couldn't be generated. The GoAccess binary wasn't compiled with B+Tree support. Please recompile/reinstall GoAccess with B+Tree support, or install GoAccess version >= 1.4! (recommended)", LOGLEVEL_ERROR);
 						}
 		                                unset($output);
 					}
+
 					unset($cust_lang);
+					unset($sql_user);
+					unset($rec_user);
+					unset($lang_query);
+					unset($lang_user);
 	
 					if(!is_file($rec['document_root']."/".$web_folder."/stats/index.php")) {
 						if(file_exists("/usr/local/ispconfig/server/conf-custom/goaccess_index.php.master")) {
@@ -237,7 +265,7 @@ class cronjob_goaccess extends cronjob {
 					$app->system->exec_safe('chown -R ?:? ?', $username, $groupname, $statsdir);
 				}
 			} else {
-				$app->log("Stats not generated. The GoAccess binary couldn't be found. Make sure that GoAccess is installed and that it is in \$PATH", LOGLEVEL_ERROR);
+				$app->log("Stats couldn't be generated. The GoAccess binary couldn't be found. Make sure that GoAccess is installed and that it is in \$PATH", LOGLEVEL_ERROR);
 			}
 
 		} 

@@ -26,7 +26,6 @@ $wb['enable_custom_login_txt'] = 'Zezwalaj na dowolną nazwę loginu';
 $wb['mailmailinglist_link_txt'] = 'Link do listy mailingowej na liście list mailingowych';
 $wb['mailmailinglist_url_txt'] = 'URL listy mailingowej';
 $wb['admin_mail_txt'] = 'E-Mail administratora';
-$wb['monitor_key_txt'] = 'Klucz monitora';
 $wb['admin_name_txt'] = 'Nazwa administratora';
 $wb['system_config_desc_txt'] = '';
 $wb['smtp_missing_admin_mail_txt'] = 'Podaj nazwę administratora oraz adres email jeżeli chcesz użyć wysyłanie maili przez SMTP.';

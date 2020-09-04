@@ -1,198 +1,206 @@
 <tmpl_if name="config_error_msg">
-<div style="background: #ffdfdf; border: 1px solid #df7d7d; border-width: 1px 0; margin: 1.5em 0 1.5em 0; padding: 7px;">
-                <p style="font-face:bold">{tmpl_var name='configuration_error_txt'}</p>
-				<div>
-				<div style="float:left;width:150px;">{tmpl_var name='config_error_tstamp'} :&nbsp;</div><div style="padding-left:150px;">{tmpl_var name='config_error_msg'}</div>
-				</div>
-</div>
+  <div style="background: #ffdfdf; border: 1px solid #df7d7d; border-width: 1px 0; margin: 1.5em 0 1.5em 0; padding: 7px;">
+    <p style="font-face:bold">{tmpl_var name='configuration_error_txt'}</p>
+    <div>
+      <div style="float:left;width:150px;">{tmpl_var name='config_error_tstamp'} :&nbsp;</div>
+      <div style="padding-left:150px;">{tmpl_var name='config_error_msg'}</div>
+    </div>
+  </div>
 </tmpl_if>
-
-
-        
-            <input name="document_root" id="document_root" value="{tmpl_var name='document_root'}" size="30" maxlength="255" type="hidden" class="textInput" />
-            <div class="form-group">
-                <label for="added_date" class="col-sm-3 control-label">{tmpl_var name='added_date_txt'}</label>
-                <div class="col-sm-9"><input type="text" name="added_date" id="added_date" value="{tmpl_var name='added_date'}" class="form-control" /></div></div>
-			<div class="form-group">
-                <label for="added_by" class="col-sm-3 control-label">{tmpl_var name='added_by_txt'}</label>
-                <div class="col-sm-9"><input type="text" name="added_by" id="added_by" value="{tmpl_var name='added_by'}" class="form-control" /></div></div>
-			<div class="form-group">
-                <label for="system_user" class="col-sm-3 control-label">{tmpl_var name='system_user_txt'}</label>
-                <div class="col-sm-9">
-                <div class="checkbox">&nbsp; &nbsp;{tmpl_var name='system_user'}</div>
-                </div>
-                <input name="system_user" id="system_user" value="{tmpl_var name='system_user'}" type="hidden" />
-            </div>
-            <div class="form-group">
-                <label for="system_group" class="col-sm-3 control-label">{tmpl_var name='system_group_txt'}</label>
-                <div class="col-sm-9">
-                <div class="checkbox">&nbsp; &nbsp;{tmpl_var name='system_group'}</div>
-                </div>
-                <input name="system_group" id="system_group" value="{tmpl_var name='system_group'}" type="hidden" />
-            </div>
-            <div class="form-group">
-                <label for="log_retention" class="col-sm-3 control-label">{tmpl_var name='log_retention_txt'}</label>
-                <div class="col-sm-9"><input name="log_retention" id="log_retention" value="{tmpl_var name='log_retention'}" type="text" class="form-control" /></div>
-            </div>
-            <div class="form-group apache">
-                <label for="allow_override" class="col-sm-3 control-label">{tmpl_var name='allow_override_txt'}</label>
-                <div class="col-sm-9"><input type="text" name="allow_override" id="allow_override" value="{tmpl_var name='allow_override'}" class="form-control" /></div></div>
-			<div class="form-group nginx">
-                <label for="http_port" class="col-sm-3 control-label">{tmpl_var name='http_port_txt'}</label>
-                <div class="col-sm-9"><input name="http_port" id="http_port" value="{tmpl_var name='http_port'}" type="text" class="form-control" /></div>
-            </div>
-			<div class="form-group nginx">
-                <label for="https_port" class="col-sm-3 control-label">{tmpl_var name='https_port_txt'}</label>
-                <div class="col-sm-9"><input name="https_port" id="https_port" value="{tmpl_var name='https_port'}" type="text" class="form-control" /></div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">{tmpl_var name='proxy_protocol_txt'}</label>
-                <div class="col-sm-9">
-                    {tmpl_var name='proxy_protocol'}
-                </div>
-            </div>
-            <div class="phpfpm">
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">{tmpl_var name='php_fpm_use_socket_txt'}</label>
-                    <div class="col-sm-9">
-                        {tmpl_var name='php_fpm_use_socket'}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">{tmpl_var name='php_fpm_chroot_txt'}</label>
-                    <div class="col-sm-9">
-                        {tmpl_var name='php_fpm_chroot'}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="pm" class="col-sm-3 control-label">{tmpl_var name='pm_txt'}</label>
-                    <div class="col-sm-9"><select name="pm" id="pm" class="form-control">
-                        {tmpl_var name='pm'}
-                    </select></div>
-                </div>
-                <div class="ctrlHolder pm_ondemand" style="background: #ffdfdf; border: 1px solid #df7d7d; border-width: 1px 0; margin: 1.5em 0 1.5em 0; padding: 7px;">
-                    {tmpl_var name='pm_ondemand_hint_txt'}
-                </div>
-                <div class="form-group">
-                    <label for="pm_max_children" class="col-sm-3 control-label">{tmpl_var name='pm_max_children_txt'}</label>
-                    <div class="col-sm-9"><input type="text" name="pm_max_children" id="pm_max_children" value="{tmpl_var name='pm_max_children'}" class="form-control" /></div></div>
-                <div class="form-group pm_dynamic">
-                    <label for="pm_start_servers" class="col-sm-3 control-label">{tmpl_var name='pm_start_servers_txt'}</label>
-                    <div class="col-sm-9"><input type="text" name="pm_start_servers" id="pm_start_servers" value="{tmpl_var name='pm_start_servers'}" class="form-control" /></div></div>
-                <div class="form-group pm_dynamic">
-                    <label for="pm_min_spare_servers" class="col-sm-3 control-label">{tmpl_var name='pm_min_spare_servers_txt'}</label>
-                    <div class="col-sm-9"><input type="text" name="pm_min_spare_servers" id="pm_min_spare_servers" value="{tmpl_var name='pm_min_spare_servers'}" class="form-control" /></div></div>
-                <div class="form-group pm_dynamic">
-                    <label for="pm_max_spare_servers" class="col-sm-3 control-label">{tmpl_var name='pm_max_spare_servers_txt'}</label>
-                    <div class="col-sm-9"><input type="text" name="pm_max_spare_servers" id="pm_max_spare_servers" value="{tmpl_var name='pm_max_spare_servers'}" class="form-control" /></div></div>
-                <div class="form-group pm_ondemand">
-                    <label for="pm_process_idle_timeout" class="col-sm-3 control-label">{tmpl_var name='pm_process_idle_timeout_txt'}</label>
-                    <div class="col-sm-6"><input type="text" name="pm_process_idle_timeout" id="pm_process_idle_timeout" value="{tmpl_var name='pm_process_idle_timeout'}" class="form-control" /></div><div class="col-sm-3 input-sm">&nbsp;s
-                </div></div>
-                <div class="form-group">
-                    <label for="pm_max_requests" class="col-sm-3 control-label">{tmpl_var name='pm_max_requests_txt'}</label>
-                    <div class="col-sm-9"><input type="text" name="pm_max_requests" id="pm_max_requests" value="{tmpl_var name='pm_max_requests'}" class="form-control" /></div></div>
-            </div>
-            <div class="form-group php">
-                <label for="php_open_basedir" class="col-sm-3 control-label">{tmpl_var name='php_open_basedir_txt'}</label>
-                <div class="col-sm-9"><input type="text" name="php_open_basedir" id="php_open_basedir" value="{tmpl_var name='php_open_basedir'}" class="form-control" /></div></div>
-            <div class="form-group php">
-                <label for="custom_php_ini" class="col-sm-3 control-label">{tmpl_var name='custom_php_ini_txt'}</label>
-                <div class="col-sm-9"><textarea class="form-control" name="custom_php_ini" id="custom_php_ini" rows='10' cols='50'>{tmpl_var name='custom_php_ini'}</textarea>
-				<b>{tmpl_var name="available_php_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="php_directive_snippets_txt"}
-				</div>
-            </div>
-            <div class="form-group apache">
-                <label for="apache_directives" class="col-sm-3 control-label">{tmpl_var name='apache_directives_txt'}</label>
-                <div class="col-sm-9"><textarea class="form-control" name="apache_directives" id="apache_directives" rows='10' cols='50'>{tmpl_var name='apache_directives'}</textarea>
-				<b>{tmpl_var name="available_apache_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="apache_directive_snippets_txt"}<br>----<br><b>&nbsp;{tmpl_var name='variables_txt'}:</b> <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT}</a>,  <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT_CLIENT}</a>
-				</div>
-			</div>
-            <div class="form-group nginx">
-                <label for="nginx_directives" class="col-sm-3 control-label">{tmpl_var name='nginx_directives_txt'}</label>
-                <div class="col-sm-9"><textarea class="form-control" name="nginx_directives" id="nginx_directives" rows='10' cols='50'>{tmpl_var name='nginx_directives'}</textarea>
-				<b>{tmpl_var name="available_nginx_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="nginx_directive_snippets_txt"}<br>----<br><b>&nbsp;{tmpl_var name='variables_txt'}:</b> <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT}</a>,  <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT_CLIENT}</a>, <a href="javascript:void(0);" class="addPlaceholder">{FASTCGIPASS}</a>, <a href="javascript:void(0);" class="addPlaceholder">{PHPFALLBACKFASTCGIPASS}</a>
-				</div>
-			</div>
-			<div class="form-group proxy">
-                <label for="proxy_directives" class="col-sm-3 control-label">{tmpl_var name='proxy_directives_txt'}</label>
-                <div class="col-sm-9"><textarea class="form-control" name="proxy_directives" id="proxy_directives" rows='10'>{tmpl_var name='proxy_directives'}</textarea>
-				<b>{tmpl_var name="available_proxy_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="proxy_directive_snippets_txt"}
-				</div>
-            </div>
-        
-
-        <input type="hidden" name="id" value="{tmpl_var name='id'}">
-
-        <div class="clear"><div class="right">
-            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="sites/web_vhost_domain_edit.php">{tmpl_var name='btn_save_txt'}</button>
-            <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="sites/web_vhost_domain_list.php">{tmpl_var name='btn_cancel_txt'}</button>
-        </div></div>
+<input name="document_root" id="document_root" value="{tmpl_var name='document_root'}" size="30" maxlength="255" type="hidden" class="textInput" />
+<div class="form-group">
+  <label for="added_date" class="col-sm-3 control-label">{tmpl_var name='added_date_txt'}</label>
+  <div class="col-sm-9"><input type="text" name="added_date" id="added_date" value="{tmpl_var name='added_date'}" class="form-control" /></div>
+</div>
+<div class="form-group">
+  <label for="added_by" class="col-sm-3 control-label">{tmpl_var name='added_by_txt'}</label>
+  <div class="col-sm-9"><input type="text" name="added_by" id="added_by" value="{tmpl_var name='added_by'}" class="form-control" /></div>
+</div>
+<div class="form-group">
+  <label for="system_user" class="col-sm-3 control-label">{tmpl_var name='system_user_txt'}</label>
+  <div class="col-sm-9">
+    <div class="checkbox">&nbsp; &nbsp;{tmpl_var name='system_user'}</div>
+  </div>
+  <input name="system_user" id="system_user" value="{tmpl_var name='system_user'}" type="hidden" />
+</div>
+<div class="form-group">
+  <label for="system_group" class="col-sm-3 control-label">{tmpl_var name='system_group_txt'}</label>
+  <div class="col-sm-9">
+    <div class="checkbox">&nbsp; &nbsp;{tmpl_var name='system_group'}</div>
+  </div>
+  <input name="system_group" id="system_group" value="{tmpl_var name='system_group'}" type="hidden" />
+</div>
+<div class="form-group">
+  <label for="log_retention" class="col-sm-3 control-label">{tmpl_var name='log_retention_txt'}</label>
+  <div class="col-sm-9"><input name="log_retention" id="log_retention" value="{tmpl_var name='log_retention'}" type="text" class="form-control" /></div>
+</div>
+<div class="form-group apache">
+  <label for="allow_override" class="col-sm-3 control-label">{tmpl_var name='allow_override_txt'}</label>
+  <div class="col-sm-9"><input type="text" name="allow_override" id="allow_override" value="{tmpl_var name='allow_override'}" class="form-control" /></div>
+</div>
+<div class="form-group nginx">
+  <label for="http_port" class="col-sm-3 control-label">{tmpl_var name='http_port_txt'}</label>
+  <div class="col-sm-9"><input name="http_port" id="http_port" value="{tmpl_var name='http_port'}" type="text" class="form-control" /></div>
+</div>
+<div class="form-group nginx">
+  <label for="https_port" class="col-sm-3 control-label">{tmpl_var name='https_port_txt'}</label>
+  <div class="col-sm-9"><input name="https_port" id="https_port" value="{tmpl_var name='https_port'}" type="text" class="form-control" /></div>
+</div>
+<div class="form-group">
+  <label class="col-sm-3 control-label">{tmpl_var name='proxy_protocol_txt'}</label>
+  <div class="col-sm-9">
+    {tmpl_var name='proxy_protocol'}
+  </div>
+</div>
+<div class="phpfpm">
+  <div class="form-group">
+    <label class="col-sm-3 control-label">{tmpl_var name='php_fpm_use_socket_txt'}</label>
+    <div class="col-sm-9">
+      {tmpl_var name='php_fpm_use_socket'}
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-3 control-label">{tmpl_var name='php_fpm_chroot_txt'}</label>
+    <div class="col-sm-9">
+      {tmpl_var name='php_fpm_chroot'}
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="pm" class="col-sm-3 control-label">{tmpl_var name='pm_txt'}</label>
+    <div class="col-sm-9"><select name="pm" id="pm" class="form-control">
+      {tmpl_var name='pm'}
+      </select>
+    </div>
+  </div>
+  <div class="ctrlHolder pm_ondemand" style="background: #ffdfdf; border: 1px solid #df7d7d; border-width: 1px 0; margin: 1.5em 0 1.5em 0; padding: 7px;">
+    {tmpl_var name='pm_ondemand_hint_txt'}
+  </div>
+  <div class="form-group">
+    <label for="pm_max_children" class="col-sm-3 control-label">{tmpl_var name='pm_max_children_txt'}</label>
+    <div class="col-sm-9"><input type="text" name="pm_max_children" id="pm_max_children" value="{tmpl_var name='pm_max_children'}" class="form-control" /></div>
+  </div>
+  <div class="form-group pm_dynamic">
+    <label for="pm_start_servers" class="col-sm-3 control-label">{tmpl_var name='pm_start_servers_txt'}</label>
+    <div class="col-sm-9"><input type="text" name="pm_start_servers" id="pm_start_servers" value="{tmpl_var name='pm_start_servers'}" class="form-control" /></div>
+  </div>
+  <div class="form-group pm_dynamic">
+    <label for="pm_min_spare_servers" class="col-sm-3 control-label">{tmpl_var name='pm_min_spare_servers_txt'}</label>
+    <div class="col-sm-9"><input type="text" name="pm_min_spare_servers" id="pm_min_spare_servers" value="{tmpl_var name='pm_min_spare_servers'}" class="form-control" /></div>
+  </div>
+  <div class="form-group pm_dynamic">
+    <label for="pm_max_spare_servers" class="col-sm-3 control-label">{tmpl_var name='pm_max_spare_servers_txt'}</label>
+    <div class="col-sm-9"><input type="text" name="pm_max_spare_servers" id="pm_max_spare_servers" value="{tmpl_var name='pm_max_spare_servers'}" class="form-control" /></div>
+  </div>
+  <div class="form-group pm_ondemand">
+    <label for="pm_process_idle_timeout" class="col-sm-3 control-label">{tmpl_var name='pm_process_idle_timeout_txt'}</label>
+    <div class="col-sm-6"><input type="text" name="pm_process_idle_timeout" id="pm_process_idle_timeout" value="{tmpl_var name='pm_process_idle_timeout'}" class="form-control" /></div>
+    <div class="col-sm-3 input-sm">&nbsp;s
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="pm_max_requests" class="col-sm-3 control-label">{tmpl_var name='pm_max_requests_txt'}</label>
+    <div class="col-sm-9"><input type="text" name="pm_max_requests" id="pm_max_requests" value="{tmpl_var name='pm_max_requests'}" class="form-control" /></div>
+  </div>
+</div>
+<div class="form-group php">
+  <label for="php_open_basedir" class="col-sm-3 control-label">{tmpl_var name='php_open_basedir_txt'}</label>
+  <div class="col-sm-9"><input type="text" name="php_open_basedir" id="php_open_basedir" value="{tmpl_var name='php_open_basedir'}" class="form-control" /></div>
+</div>
+<div class="form-group php">
+  <label for="custom_php_ini" class="col-sm-3 control-label">{tmpl_var name='custom_php_ini_txt'}</label>
+  <div class="col-sm-9"><textarea class="form-control" name="custom_php_ini" id="custom_php_ini" rows='10' cols='50'>{tmpl_var name='custom_php_ini'}</textarea>
+    <b>{tmpl_var name="available_php_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="php_directive_snippets_txt"}
+  </div>
+</div>
+<div class="form-group apache">
+  <label for="apache_directives" class="col-sm-3 control-label">{tmpl_var name='apache_directives_txt'}</label>
+  <div class="col-sm-9"><textarea class="form-control" name="apache_directives" id="apache_directives" rows='10' cols='50'>{tmpl_var name='apache_directives'}</textarea>
+    <b>{tmpl_var name="available_apache_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="apache_directive_snippets_txt"}<br>----<br><b>&nbsp;{tmpl_var name='variables_txt'}:</b> <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT}</a>,  <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT_CLIENT}</a>,  <a href="javascript:void(0);" class="addPlaceholder">{DOMAIN}</a>
+  </div>
+</div>
+<div class="form-group nginx">
+  <label for="nginx_directives" class="col-sm-3 control-label">{tmpl_var name='nginx_directives_txt'}</label>
+  <div class="col-sm-9"><textarea class="form-control" name="nginx_directives" id="nginx_directives" rows='10' cols='50'>{tmpl_var name='nginx_directives'}</textarea>
+    <b>{tmpl_var name="available_nginx_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="nginx_directive_snippets_txt"}<br>----<br><b>&nbsp;{tmpl_var name='variables_txt'}:</b> <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT}</a>,  <a href="javascript:void(0);" class="addPlaceholder">{DOCROOT_CLIENT}</a>,  <a href="javascript:void(0);" class="addPlaceholder">{DOMAIN}</a>,  <a href="javascript:void(0);" class="addPlaceholder">{FASTCGIPASS}</a>, <a href="javascript:void(0);" class="addPlaceholder">{PHPFALLBACKFASTCGIPASS}</a>
+  </div>
+</div>
+<div class="form-group proxy">
+  <label for="proxy_directives" class="col-sm-3 control-label">{tmpl_var name='proxy_directives_txt'}</label>
+  <div class="col-sm-9"><textarea class="form-control" name="proxy_directives" id="proxy_directives" rows='10'>{tmpl_var name='proxy_directives'}</textarea>
+    <b>{tmpl_var name="available_proxy_directive_snippets_txt"}</b><br><br>&nbsp;{tmpl_var name="proxy_directive_snippets_txt"}
+  </div>
+</div>
+<input type="hidden" name="id" value="{tmpl_var name='id'}">
+<div class="clear">
+  <div class="right">
+    <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="sites/web_vhost_domain_edit.php">{tmpl_var name='btn_save_txt'}</button>
+    <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="sites/web_vhost_domain_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+  </div>
+</div>
 <script language="JavaScript" type="text/javascript">
-    var webId = jQuery('input[name="id"]').val();
-    var serverId;
-    getServerId();
-    adjustForm();
-		
-    var pm = jQuery('#pm').val();
-    pmMode(pm);
-    jQuery('#pm').change(function(){
-        pm = jQuery(this).val();
-        pmMode(pm);
-    });
-		
-    function pmMode(pm){
-        switch(pm){
-            case "static":
-                jQuery('.pm_dynamic').add('.pm_ondemand').hide();
-                jQuery('.pm_static').show();
-                break;
-            case "dynamic":
-                jQuery('.pm_static').add('.pm_ondemand').hide();
-                jQuery('.pm_dynamic').show();
-                break;
-            case "ondemand":
-                jQuery('.pm_static').add('.pm_dynamic').hide();
-                jQuery('.pm_ondemand').show();
-                break;
-        }
-    }
-		
-    function getServerId(){
-        jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {web_id : webId, type : "getserverid"}, function(data) {
-            serverId = data.serverid;
-        });
-    }
-		
-    function adjustForm(){
-        jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {server_id : serverId, type : "getservertype"}, function(data) {
-            if(data.servertype == "nginx"){
-                jQuery('.nginx').show();
-                jQuery('.apache').hide();
-            } else {
-                jQuery('.nginx').hide();
-                jQuery('.apache').show();
-            }
-        });
-        jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {web_id : webId, type : "getphptype"}, function(data) {
-            if(data.phptype == "php-fpm"){
-                jQuery('.phpfpm').show();
-            } else {
-                jQuery('.phpfpm').hide();
-            }
-			if(data.phptype == "no"){
-                jQuery('.php').hide();
-            } else {
-                jQuery('.php').show();
-            }
-        });
-		jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {web_id : webId, type : "getredirecttype"}, function(data) {
-            if(data.redirecttype == "proxy"){
-                jQuery('.proxy').show();
-            } else {
-                jQuery('.proxy').hide();
-            }
-        });
-    }
-			
+  var webId = jQuery('input[name="id"]').val();
+  var serverId;
+  getServerId();
+  adjustForm();
+
+  var pm = jQuery('#pm').val();
+  pmMode(pm);
+  jQuery('#pm').change(function(){
+      pm = jQuery(this).val();
+      pmMode(pm);
+  });
+
+  function pmMode(pm){
+      switch(pm){
+          case "static":
+              jQuery('.pm_dynamic').add('.pm_ondemand').hide();
+              jQuery('.pm_static').show();
+              break;
+          case "dynamic":
+              jQuery('.pm_static').add('.pm_ondemand').hide();
+              jQuery('.pm_dynamic').show();
+              break;
+          case "ondemand":
+              jQuery('.pm_static').add('.pm_dynamic').hide();
+              jQuery('.pm_ondemand').show();
+              break;
+      }
+  }
+
+  function getServerId(){
+      jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {web_id : webId, type : "getserverid"}, function(data) {
+          serverId = data.serverid;
+      });
+  }
+
+  function adjustForm(){
+      jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {server_id : serverId, type : "getservertype"}, function(data) {
+          if(data.servertype == "nginx"){
+              jQuery('.nginx').show();
+              jQuery('.apache').hide();
+          } else {
+              jQuery('.nginx').hide();
+              jQuery('.apache').show();
+          }
+      });
+      jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {web_id : webId, type : "getphptype"}, function(data) {
+          if(data.phptype == "php-fpm"){
+              jQuery('.phpfpm').show();
+          } else {
+              jQuery('.phpfpm').hide();
+          }
+  if(data.phptype == "no"){
+              jQuery('.php').hide();
+          } else {
+              jQuery('.php').show();
+          }
+      });
+  jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {web_id : webId, type : "getredirecttype"}, function(data) {
+          if(data.redirecttype == "proxy"){
+              jQuery('.proxy').show();
+          } else {
+              jQuery('.proxy').hide();
+          }
+      });
+  }
 </script>
