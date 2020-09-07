@@ -250,7 +250,7 @@ class installer_base {
 				die();
 			}
 
-			$unwanted_sql_plugins = [''];
+			$unwanted_sql_plugins = array('');
 		} else {
 			$unwanted_sql_plugins = array('validate_password');
 		}
