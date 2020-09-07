@@ -935,15 +935,15 @@ class system{
 	}
 
         function move($file1, $file2) {
-		if(file_exists($file1) || is_link($file1)) {
+		if(file_exists($file1) || is_link($file1) && is_dir(realpath(dirname($file2)))) {
 			if(copy($file1, $file2)) {
 				return unlink($file1);
 			} else {
-				$app->log("move failed: couldn't move file/link " .$file1." to ".$file2, LOGLEVEL_DEBUG);
+				$app->log("move failed: couldn't move file/link " .$file1. " to " .$file2, LOGLEVEL_DEBUG);
 				return false;
 			}
 		} else {
-			$app->log("move failed: source " .$file1." doesn't exist.", LOGLEVEL_DEBUG);
+			$app->log("move failed: source " .$file1. " doesn't exist.", LOGLEVEL_DEBUG);
 			return false;
 		}
         }
