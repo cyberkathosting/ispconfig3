@@ -761,6 +761,41 @@ class db
 			break;
 		}
 	}
+	
+	/**
+	 * Get the database type (mariadb or mysql)
+	 *
+	 * @access public
+	 * @return string 'mariadb' or string 'mysql'
+	 */
+	
+	public function getDatabaseType() {
+		$tmp = $this->queryOneRecord('SELECT VERSION() as version');
+		if(stristr($tmp['version'],'mariadb')) {
+			return 'mariadb';
+		} else {
+			return 'mysql';
+		}
+	}
+	
+	/**
+	 * Get the database version
+	 *
+	 * @access public
+	 * @param bool   $major_version_only = true will return the major version only, e.g. 8 for MySQL 8
+	 * @return string version number
+	 */
+	
+	public function getDatabaseVersion($major_version_only = false) {
+		$tmp = $this->queryOneRecord('SELECT VERSION() as version');
+		$version = explode('-', $tmp['version']);
+		if($major_version_only == true) {
+			$version_parts = explode('.', $version[0]);
+			return $version_parts[0];
+		} else {
+			return $version[0];
+		}
+	}
 
 }
 
