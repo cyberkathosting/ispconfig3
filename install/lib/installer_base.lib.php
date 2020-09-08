@@ -206,7 +206,7 @@ class installer_base {
 		if(version_compare(phpversion(), '5.4', '<')) $msg .= "PHP Version 5.4 or newer is required.\n";
 		if(!function_exists('curl_init')) $msg .= "PHP Curl Module is missing.\n";
 		if(!function_exists('mysqli_connect')) $msg .= "PHP MySQLi Module is nmissing.\n";
-		if(!function_exists('mb_detect_encoding')) $msg .= "PHP Multibyte Module (MB) is nmissing.\n";
+		if(!function_exists('mb_detect_encoding')) $msg .= "PHP Multibyte Module (MB) is missing.\n";
 		
 		if($msg != '') die($msg);
 	}
