@@ -2046,7 +2046,6 @@ class installer_base {
 			if(!@is_link($vhost_conf_enabled_dir.'/000-apps.vhost')) {
 				symlink($vhost_conf_dir.'/apps.vhost', $vhost_conf_enabled_dir.'/000-apps.vhost');
 			}
-
 		}
 	}
 
@@ -2059,7 +2058,14 @@ class installer_base {
 
 		// Check dns a record exist and its ip equal to server public ip
 		$svr_ip = file_get_contents('http://dynamicdns.park-your-domain.com/getip');
-		if (checkdnsrr(idn_to_ascii($hostname, IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46), 'A')) {
+		if(function_exists('idn_to_ascii')) {
+			if(defined('IDNA_NONTRANSITIONAL_TO_ASCII') && defined('INTL_IDNA_VARIANT_UTS46') && constant('IDNA_NONTRANSITIONAL_TO_ASCII')) {
+				$hostname = idn_to_ascii($hostname, IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46);
+			} else {
+				$hostname = idn_to_ascii($hostname);
+			}
+		}
+		if (checkdnsrr($hostname, 'A')) {
 			$dnsa=dns_get_record($hostname, DNS_A);
 			$dns_ips = array();
 			foreach ($dnsa as $rec) {
@@ -2071,44 +2077,111 @@ class installer_base {
 		$le_live_dir = '/etc/letsencrypt/live/' . $hostname;
 		if (!@is_dir($le_live_dir) && in_array($svr_ip, $dns_ips)) {
 
+			// Set webroot path for all ISPConfig server LE certs
+			$webroot_path = $conf['ispconfig_install_dir'].'/interface/acme';
+			if (!@is_dir($webroot_path)) $webroot_path = '/var/www/html';
+			
+			// This script is needed earlier to check and open http port 80 or standalone might fail
+			// Make executable and temporary symlink latest letsencrypt pre, post and renew hook script before install
+			if (file_exists(dirname(getcwd()) . '/server/scripts/letsencrypt_pre_hook.sh'))
+				symlink(dirname(getcwd()) . '/server/scripts/letsencrypt_pre_hook.sh', '/usr/local/bin/letsencrypt_pre_hook.sh');
+			if (file_exists(dirname(getcwd()) . '/server/scripts/letsencrypt_post_hook.sh'))
+				symlink(dirname(getcwd()) . '/server/scripts/letsencrypt_post_hook.sh', '/usr/local/bin/letsencrypt_post_hook.sh');
+			if (file_exists(dirname(getcwd()) . '/server/scripts/letsencrypt_renew_hook.sh'))
+				symlink(dirname(getcwd()) . '/server/scripts/letsencrypt_renew_hook.sh', '/usr/local/bin/letsencrypt_renew_hook.sh');
+			chown('/usr/local/bin/letsencrypt_pre_hook.sh', 'root');
+			chown('/usr/local/bin/letsencrypt_post_hook.sh', 'root');
+			chown('/usr/local/bin/letsencrypt_renew_hook.sh', 'root');
+			chmod('/usr/local/bin/letsencrypt_pre_hook.sh', 0700);
+			chmod('/usr/local/bin/letsencrypt_post_hook.sh', 0700);
+			chmod('/usr/local/bin/letsencrypt_renew_hook.sh', 0700);
+			
+			// Check http port 80 status as it cannot be determined at post hook stage
+			$port80_status=exec('true &>/dev/null </dev/tcp/127.0.0.1/80 && echo open || echo close');
+			
+			// Set pre-, post- and renew hook
+			$pre_hook = file_exists('/usr/local/bin/letsencrypt_pre_hook.sh') ? "--pre-hook \"letsencrypt_pre_hook.sh\"" : "";
+			$renew_hook = file_exists('/usr/local/bin/letsencrypt_renew_hook.sh') ? "  --renew-hook \"letsencrypt_renew_hook.sh\"" : "";
+			if ($port80_status == 'close') {
+				$post_hook = file_exists('/usr/local/bin/letsencrypt_post_hook.sh') ? " --post-hook \"letsencrypt_post_hook.sh\"" : "";
+				$hook = $pre_hook . $post_hook . $renew_hook;
+			}
+			else
+				$hook = $pre_hook . $renew_hook;
+			
 			// Get the default LE client name and version
 			$le_client = explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt /opt/eff.org/certbot/venv/bin/certbot'));
 			$le_client = reset($le_client);
-			$le_info = exec($le_client . ' --version  2>&1', $ret, $val);
-			if(preg_match('/^(\S+|\w+)\s+(\d+(\.\d+)+)$/', $le_info, $matches)) { $le_name = $matches[1]; $le_version = $matches[2]; }
 			
-			// Define certbot commands
-			$acme_version = '--server https://acme-v0' . (($le_version >=0.22) ? '2' : '1') . '.api.letsencrypt.org/directory';
-			$certonly = 'certonly --agree-tos --non-interactive --expand --rsa-key-size 4096';
-			$webroot = '--authenticator webroot --webroot-path /var/www/html';
-			$standalone = '--authenticator standalone';
-
-			// Only certbot is supported to prevent unknown failures
-			if($le_name == 'certbot' && is_executable($le_client)) {
+			// Check for Neilpang acme.sh as well
+			$acme = explode("\n", shell_exec('which /usr/local/ispconfig/server/scripts/acme.sh /root/.acme.sh/acme.sh'));
+			$acme = reset($acme);
+			
+			// Attempt to use Neilpang acme.sh first, as it is now the preferred LE client
+			if (is_executable($acme)) {
+				
 				// If this is a webserver, we use webroot
-				if(($conf['nginx']['installed'] || $conf['apache']['installed']) == true) {
-					$well_known = '/var/www/html/.well-known';
-					$challenge = "$well_known/acme_challenge";
-					$acme_challenge = '/usr/local/ispconfig/interface/acme/.well-known/acme-challenge';
-					if (!is_dir($well_known)) mkdir($well_known, 0755, true);
-					if (!is_dir($challenge)) exec("ln -sf $acme_challenge $challenge");
-					exec("$le_client $certonly $acme_version $webroot --email postmaster@$hostname -d $hostname");
-				}
+				if(($conf['nginx']['installed'] || $conf['apache']['installed']) == true)
+					exec("$acme --issue -d $hostname --webroot $webroot_path $renew_hook");
+					
 				// Else, it is not webserver, so we use standalone
 				else
-					exec("$le_client $certonly $acme_version $standalone --email postmaster@$hostname -d $hostname");
+					exec("$acme --issue --standalone -d $hostname $hook");
+						
+				// Define LE certs name and path, then install them
+				if (!@is_dir($le_live_dir)) mkdir($le_live_dir, 0755, true);
+				$acme_cert = "--cert-file $le_live_dir/cert.pem";
+				$acme_key = "--key-file $le_live_dir/privkey.pem";
+				$acme_ca = "--ca-file $le_live_dir/chain.pem";
+				$acme_chain = "--fullchain-file $le_live_dir/fullchain.pem";
+				exec("$acme --install-cert -d $hostname $acme_cert $acme_key $acme_ca $acme_chain");
+					
+			// Else, we attempt to use the official LE certbot client certbot
+			} else {
+				
+				//  But only if it is otherwise available
+				if(is_executable($le_client)) {
+					
+					// Get its version info due to be used for webroot arguement issues
+					$le_info = exec($le_client . ' --version  2>&1', $ret, $val);
+					if(preg_match('/^(\S+|\w+)\s+(\d+(\.\d+)+)$/', $le_info, $matches))
+						$le_version = $matches[2];
+					
+					// Define certbot commands
+					$acme_version = '--server https://acme-v0' . (($le_version >=0.22) ? '2' : '1') . '.api.letsencrypt.org/directory';
+					$certonly = 'certonly --agree-tos --non-interactive --expand --rsa-key-size 4096';
+
+					// certbot choice of authenticator
+					$standalone_auth = '--authenticator standalone';
+					$webroot_auth = '--authenticator webroot';
+
+					// certbot webroot arguments i.e. map for >=0.30 or path for <=0.29
+					$webroot_map[$hostname] = $webroot_path;
+					if ($le_version >=0.30)
+						$webroot_args = '--webroot-map ' . escapeshellarg(str_replace(array('\r', '\n'), '', json_encode($webroot_map)));
+					else
+						$webroot_args = "-d $hostname --webroot-path $webroot_path";
+
+					// If this is a webserver, we use webroot
+					if(($conf['nginx']['installed'] || $conf['apache']['installed']) == true) {
+						exec("$le_client $certonly $acme_version $webroot_auth --email postmaster@$hostname $webroot_args $renew_hook");
+					}
+					// Else, it is not webserver, so we use standalone
+					else
+						exec("$le_client $certonly $acme_version $standalone_auth --email postmaster@$hostname -d $hostname $hook");
+						
+				}
 			}
 		}
 
 		//* Define and check ISPConfig SSL folder */
-		$install_dir = $conf['ispconfig_install_dir'];
+		$ssl_dir = $conf['ispconfig_install_dir'].'/interface/ssl';
+		if(!@is_dir($ssl_dir)) mkdir($ssl_dir, 0755, true);
 
-		$ssl_crt_file = $install_dir.'/interface/ssl/ispserver.crt';
-		$ssl_csr_file = $install_dir.'/interface/ssl/ispserver.csr';
-		$ssl_key_file = $install_dir.'/interface/ssl/ispserver.key';
-		$ssl_pem_file = $install_dir.'/interface/ssl/ispserver.pem';
-
-		if(!@is_dir($install_dir.'/interface/ssl')) mkdir($install_dir.'/interface/ssl', 0755, true);
+		$ssl_crt_file = $ssl_dir.'/ispserver.crt';
+		$ssl_csr_file = $ssl_dir.'/ispserver.csr';
+		$ssl_key_file = $ssl_dir.'/ispserver.key';
+		$ssl_pem_file = $ssl_dir.'/ispserver.pem';
 
 		$date = new DateTime();
 
@@ -2117,8 +2190,8 @@ class installer_base {
 
 			// Backup existing ispserver ssl files
 			if (file_exists($ssl_crt_file)) rename($ssl_crt_file, $ssl_crt_file . '-' .$date->format('YmdHis') . '.bak');
-			if (file_exists($ssl_crt_file)) rename($ssl_key_file, $ssl_key_file . '-' .$date->format('YmdHis') . '.bak');
-			if (file_exists($ssl_crt_file)) rename($ssl_pem_file, $ssl_pem_file . '-' .$date->format('YmdHis') . '.bak');
+			if (file_exists($ssl_key_file)) rename($ssl_key_file, $ssl_key_file . '-' .$date->format('YmdHis') . '.bak');
+			if (file_exists($ssl_pem_file)) rename($ssl_pem_file, $ssl_pem_file . '-' .$date->format('YmdHis') . '.bak');
 
 			// Create symlink to LE fullchain and key for ISPConfig
 			symlink($le_live_dir.'/fullchain.pem', $ssl_crt_file);
@@ -2145,41 +2218,41 @@ class installer_base {
 		
 		// Extend LE SSL certs to postfix
 		if ($conf['postfix']['installed'] == true && strtolower($this->simple_query('Symlink ISPConfig LE SSL certs to postfix?', array('y', 'n'), 'y')) == 'y') {
-		    
-		    // Define folder, file(s)
-		    $cf = $conf['postfix'];
-		    $postfix_dir = $cf['config_dir'];
-		    if(!is_dir($postfix_dir)) $this->error("The postfix configuration directory '$postfix_dir' does not exist.");
-		    $smtpd_crt = $postfix_dir.'/smtpd.cert';
-		    $smtpd_key = $postfix_dir.'/smtpd.key';
-		    
-		    // Backup existing postfix ssl files
-		    if (file_exists($smtpd_crt)) rename($smtpd_crt, $smtpd_crt . '-' .$date->format('YmdHis') . '.bak');
-		    if (file_exists($smtpd_key)) rename($smtpd_key, $smtpd_key . '-' .$date->format('YmdHis') . '.bak');
-		    
-		    // Create symlink to ISPConfig SSL files
-		    symlink($ssl_crt_file, $smtpd_crt);
-		    symlink($ssl_key_file, $smtpd_key);
-	    }
-	    
-	    // Extend LE SSL certs to pureftpd
-	    if ($conf['pureftpd']['installed'] == true && strtolower($this->simple_query('Symlink ISPConfig LE SSL certs to pureftpd? Creating dhparam file takes some times.', array('y', 'n'), 'y')) == 'y') {
-	        
-	        // Define folder, file(s)
-	        $pureftpd_dir = '/etc/ssl/private';
-	        if(!is_dir($pureftpd_dir)) mkdir($pureftpd_dir, 0755, true);
-	        $pureftpd_pem = $pureftpd_dir.'/pure-ftpd.pem';
-	        
-	        // Backup existing pureftpd ssl files
-	        if (file_exists($pureftpd_pem)) rename($pureftpd_pem, $pureftpd_pem . '-' .$date->format('YmdHis') . '.bak');
-	        
-	        // Create symlink to ISPConfig SSL files
-	        symlink($ssl_pem_file, $pureftpd_pem);
-	        if (!file_exists("$pureftpd_dir/pure-ftpd-dhparams.pem"))
-	            exec("cd $pureftpd_dir; openssl dhparam -out dhparam4096.pem 4096; ln -sf dhparam4096.pem pure-ftpd-dhparams.pem");
-        }
-        
-        exec("chown -R root:root $install_dir/interface/ssl");
+			
+			// Define folder, file(s)
+			$cf = $conf['postfix'];
+			$postfix_dir = $cf['config_dir'];
+			if(!is_dir($postfix_dir)) $this->error("The postfix configuration directory '$postfix_dir' does not exist.");
+			$smtpd_crt = $postfix_dir.'/smtpd.cert';
+			$smtpd_key = $postfix_dir.'/smtpd.key';
+			
+			// Backup existing postfix ssl files
+			if (file_exists($smtpd_crt)) rename($smtpd_crt, $smtpd_crt . '-' .$date->format('YmdHis') . '.bak');
+			if (file_exists($smtpd_key)) rename($smtpd_key, $smtpd_key . '-' .$date->format('YmdHis') . '.bak');
+			
+			// Create symlink to ISPConfig SSL files
+			symlink($ssl_crt_file, $smtpd_crt);
+			symlink($ssl_key_file, $smtpd_key);
+		}
+		
+		// Extend LE SSL certs to pureftpd
+		if ($conf['pureftpd']['installed'] == true && strtolower($this->simple_query('Symlink ISPConfig LE SSL certs to pureftpd? Creating dhparam file takes some times.', array('y', 'n'), 'y')) == 'y') {
+			
+			// Define folder, file(s)
+			$pureftpd_dir = '/etc/ssl/private';
+			if(!is_dir($pureftpd_dir)) mkdir($pureftpd_dir, 0755, true);
+			$pureftpd_pem = $pureftpd_dir.'/pure-ftpd.pem';
+			
+			// Backup existing pureftpd ssl files
+			if (file_exists($pureftpd_pem)) rename($pureftpd_pem, $pureftpd_pem . '-' .$date->format('YmdHis') . '.bak');
+			
+			// Create symlink to ISPConfig SSL files
+			symlink($ssl_pem_file, $pureftpd_pem);
+			if (!file_exists("$pureftpd_dir/pure-ftpd-dhparams.pem"))
+				exec("cd $pureftpd_dir; openssl dhparam -out dhparam2048.pem 2048; ln -sf dhparam2048.pem pure-ftpd-dhparams.pem");
+		}
+		
+		exec("chown -R root:root $ssl_dir");
 
 	}
 
@@ -2610,6 +2683,20 @@ class installer_base {
 		chmod($install_dir.'/server/scripts/ispconfig_update.sh', 0700);
 		if(!is_link('/usr/local/bin/ispconfig_update_from_dev.sh')) symlink($install_dir.'/server/scripts/ispconfig_update.sh', '/usr/local/bin/ispconfig_update_from_dev.sh');
 		if(!is_link('/usr/local/bin/ispconfig_update.sh')) symlink($install_dir.'/server/scripts/ispconfig_update.sh', '/usr/local/bin/ispconfig_update.sh');
+		
+		// Make executable then unlink and symlink letsencrypt pre, post and renew hook scripts
+		chown($install_dir.'/server/scripts/letsencrypt_pre_hook.sh', 'root');
+		chown($install_dir.'/server/scripts/letsencrypt_post_hook.sh', 'root');
+		chown($install_dir.'/server/scripts/letsencrypt_renew_hook.sh', 'root');
+		chmod($install_dir.'/server/scripts/letsencrypt_pre_hook.sh', 0700);
+		chmod($install_dir.'/server/scripts/letsencrypt_post_hook.sh', 0700);
+		chmod($install_dir.'/server/scripts/letsencrypt_renew_hook.sh', 0700);
+		if(is_link('/usr/local/bin/letsencrypt_pre_hook.sh')) unlink('/usr/local/bin/letsencrypt_pre_hook.sh');
+		if(is_link('/usr/local/bin/letsencrypt_post_hook.sh')) unlink('/usr/local/bin/letsencrypt_post_hook.sh');
+		if(is_link('/usr/local/bin/letsencrypt_renew_hook.sh')) unlink('/usr/local/bin/letsencrypt_renew_hook.sh');
+		symlink($install_dir.'/server/scripts/letsencrypt_pre_hook.sh', '/usr/local/bin/letsencrypt_pre_hook.sh');
+		symlink($install_dir.'/server/scripts/letsencrypt_post_hook.sh', '/usr/local/bin/letsencrypt_post_hook.sh');
+		symlink($install_dir.'/server/scripts/letsencrypt_renew_hook.sh', '/usr/local/bin/letsencrypt_renew_hook.sh');
 
 		//* Make the logs readable for the ispconfig user
 		if(@is_file('/var/log/mail.log')) exec('chmod +r /var/log/mail.log');
