@@ -76,3 +76,7 @@ ALTER TABLE `dns_soa` CHANGE `dnssec_algo` `dnssec_algo` SET('NSEC3RSASHA1','ECD
 ALTER TABLE `client_template` CHANGE `ssh_chroot` `ssh_chroot` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '';
 ALTER TABLE `client_template` CHANGE `web_php_options` `web_php_options` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '';
 
+-- add option to forward in lda, default to forward in mta except for existing forwards
+ALTER TABLE `mail_user` ADD `forward_in_lda` enum('n','y') NOT NULL default 'n' AFTER `cc`;
+UPDATE `mail_user` set `forward_in_lda` = 'y' where `cc` != '';
+

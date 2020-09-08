@@ -6,4 +6,6 @@ $wb['cc_error_isemail'] = 'Epostadressen i  -Skicka kopia till-fältet är ogilt
 $wb['email_is_cc_error'] = 'Epostadress och -Skicka kopia till- kan inte vara samma adress.';
 $wb['name_optional_txt'] = '(Frivilligt)';
 $wb['cc_note_txt'] = '(Separera flera epostadresser med kommatecken)';
+$wb['forward_in_lda_txt'] = 'Copy during delivery';
+$wb['tooltip_forward_in_lda_txt'] = 'Controls if mail copy is forwarded before or during delivery to mailbox.';
 ?>

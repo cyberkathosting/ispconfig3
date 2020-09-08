@@ -1041,6 +1041,7 @@ CREATE TABLE `mail_user` (
   `maildir_format` varchar(255) NOT NULL default 'maildir',
   `quota` bigint(20) NOT NULL default '-1',
   `cc` text,
+  `forward_in_lda` enum('n','y') NOT NULL default 'n',
   `sender_cc` varchar(255) NOT NULL default '',
   `homedir` varchar(255) NOT NULL default '',
   `autoresponder` enum('n','y') NOT NULL default 'n',
