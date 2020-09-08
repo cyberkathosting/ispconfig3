@@ -66,6 +66,9 @@ class installer_dist extends installer_base {
 		//* mysql-virtual_alias_domains.cf
 		$this->process_postfix_config('mysql-virtual_alias_domains.cf');
 
+		//* mysql-virtual_alias_maps.cf
+		$this->process_postfix_config('mysql-virtual_alias_maps.cf');
+
 		//* mysql-virtual_mailboxes.cf
 		$this->process_postfix_config('mysql-virtual_mailboxes.cf');
 
@@ -118,12 +121,6 @@ class installer_dist extends installer_base {
 		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/postfix-'.$filename.'.master', 'tpl/postfix-'.$filename.'.master');
 		wf($full_file_name, $content);
 
-		//* Changing mode and group of the new created config files.
-		caselog('chmod o= '.$config_dir.'/mysql-virtual_*.cf* &> /dev/null',
-			__FILE__, __LINE__, 'chmod on mysql-virtual_*.cf*', 'chmod on mysql-virtual_*.cf* failed');
-		caselog('chgrp '.$cf['group'].' '.$config_dir.'/mysql-virtual_*.cf* &> /dev/null',
-			__FILE__, __LINE__, 'chgrp on mysql-virtual_*.cf*', 'chgrp on mysql-virtual_*.cf* failed');
-
 		if(!is_dir($cf['vmail_mailbox_base'])) mkdir($cf['vmail_mailbox_base']);
 
 		//* Creating virtual mail user and group
@@ -167,9 +164,16 @@ class installer_dist extends installer_base {
 		}
 
 		$reject_sender_login_mismatch = '';
+		$reject_authenticated_sender_login_mismatch = '';
 		if(isset($server_ini_array['mail']['reject_sender_login_mismatch']) && ($server_ini_array['mail']['reject_sender_login_mismatch'] == 'y')) {
-			$reject_sender_login_mismatch = ', reject_authenticated_sender_login_mismatch';
+			$reject_sender_login_mismatch = ', reject_sender_login_mismatch';
+			$reject_authenticated_sender_login_mismatch = 'reject_authenticated_sender_login_mismatch, ';
 		}
+
+		# placeholder includes comment char
+		$stress_adaptive_placeholder = '#{stress_adaptive} ';
+		$stress_adaptive = (isset($server_ini_array['mail']['stress_adaptive']) && ($server_ini_array['mail']['stress_adaptive'] == 'y')) ? '' : $stress_adaptive_placeholder;
+
 		unset($server_ini_array);
 
 		$postconf_placeholders = array('{config_dir}' => $config_dir,
@@ -179,6 +183,8 @@ class installer_dist extends installer_base {
 			'{rbl_list}' => $rbl_list,
 			'{greylisting}' => $greylisting,
 			'{reject_slm}' => $reject_sender_login_mismatch,
+			'{reject_aslm}' => $reject_authenticated_sender_login_mismatch,
+			$stress_adaptive_placeholder => $stress_adaptive,
 		);
 
 		$postconf_tpl = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/opensuse_postfix.conf.master', 'tpl/opensuse_postfix.conf.master');

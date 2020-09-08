@@ -160,4 +160,6 @@ $wb['security_check2_txt'] = 'başarısız.';
 $wb['select_directive_snippet_txt'] = 'Yönerge Kod Parçaları';
 $wb['select_master_directive_snippet_txt'] = 'Ana Komut Parçaları';
 $wb['unlimited_txt'] = 'Sınırsız';
+$wb['server_id_0_error_txt'] = 'Please select a valid Server. Server ID must be > 0.';
+$wb['datalog_changes_close_txt'] = 'Close';
 ?>

@@ -106,7 +106,19 @@ class apps_vhost_plugin {
 				$vhost_port_listen = '#';
 			}
 			$tpl->setVar('vhost_port_listen', $vhost_port_listen);
-			
+
+			/* Check if SSL should be enabled: */
+			if(is_file('/usr/local/ispconfig/interface/ssl/ispserver.crt') && is_file('/usr/local/ispconfig/interface/ssl/ispserver.key')) {
+				$tpl->setVar('ssl_comment','');
+			} else {
+				$tpl->setVar('ssl_comment','#');
+			}
+			if(is_file('/usr/local/ispconfig/interface/ssl/ispserver.crt') && is_file('/usr/local/ispconfig/interface/ssl/ispserver.key') && is_file('/usr/local/ispconfig/interface/ssl/ispserver.bundle')) {
+				$tpl->setVar('ssl_bundle_comment','');
+			} else {
+				$tpl->setVar('ssl_bundle_comment','#');
+			}
+
 			$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 			if($mail_config['content_filter'] == 'rspamd'){
 				$use_rspamd = true;
@@ -194,7 +206,7 @@ class apps_vhost_plugin {
 			}
 			$content = str_replace('{use_tcp}', $use_tcp, $content);
 			$content = str_replace('{use_socket}', $use_socket, $content);
-			
+
 			$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 			if($mail_config['content_filter'] == 'rspamd'){
 				$use_rspamd = '';

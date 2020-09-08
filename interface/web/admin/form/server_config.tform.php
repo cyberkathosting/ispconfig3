@@ -456,11 +456,13 @@ $form["tabs"]['mail'] = array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
 			'default' => '/home/vmail/',
-			'validators' => array(	0 => array('type' => 'NOTEMPTY',
-										'errmsg' => 'homedir_path_error_empty'),
-									1 => array ( 	'type' => 'REGEX',
-										'regex' => '/^\/[a-zA-Z0-9\.\-\_\/]{5,128}$/',
-										'errmsg'=> 'homedir_path_error_regex'),
+			'validators' => array(	0 => array ( 'type' => 'NOTEMPTY',
+						           'errmsg' => 'homedir_path_error_empty'
+						    ),
+						1 => array ( 'type' => 'REGEX',
+						            'regex' => '/^\/[a-zA-Z0-9\.\-\_\/]{5,128}$/',
+							    'errmsg'=> 'homedir_path_error_regex'
+						    ),
 			),
 			'value' => '',
 			'width' => '40',
@@ -638,6 +640,17 @@ $form["tabs"]['mail'] = array(
 			'default' => 'n',
 			'value' => array(0 => 'n', 1 => 'y')
 		),
+		'reject_unknown' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'SELECT',
+			'default' => 'helo',
+			'value' => array(
+				'helo' => 'reject_unknown_helo_txt',
+				'client' => 'reject_unknown_client_txt',
+				'client_helo' => 'reject_unknown_client_helo_txt',
+				'none' => 'disabled_txt',
+			)
+		),
 		'mailbox_size_limit' => array(
 			'datatype' => 'INTEGER',
 			'formtype' => 'TEXT',
@@ -654,12 +667,6 @@ $form["tabs"]['mail'] = array(
 			'width' => '10',
 			'maxlength' => '15'
 		),
-		'mailbox_quota_stats' => array (
-			'datatype' => 'VARCHAR',
-			'formtype' => 'CHECKBOX',
-			'default' => 'y',
-			'value' => array(0 => 'n', 1 => 'y')
-		),
 		'realtime_blackhole_list' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -671,6 +678,18 @@ $form["tabs"]['mail'] = array(
 			'value' => '',
 			'width' => '40',
 			'maxlength' => '255'
+		),
+		'stress_adaptive' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value' => array(0 => 'n', 1 => 'y')
+		),
+		'mailbox_quota_stats' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value' => array(0 => 'n', 1 => 'y')
 		),
 		'overquota_notify_admin' => array(
 			'datatype' => 'VARCHAR',
@@ -1809,6 +1828,18 @@ $form["tabs"]['jailkit'] = array(
 									1 => array ( 	'type' => 'REGEX',
 										'regex' => '/^[a-zA-Z0-9\.\-\_\/\ ]{1,}$/',
 										'errmsg'=> 'jailkit_chroot_cron_programs_error_regex'),
+			),
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '1000'
+		),
+		'jailkit_chroot_authorized_keys_template' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'validators' => array(	0 => array ( 	'type' => 'REGEX',
+										'regex' => '/^[a-zA-Z0-9\.\-\_\/\ ]*$/',
+										'errmsg'=> 'jailkit_chroot_authorized_keys_template_error_regex'),
 			),
 			'value' => '',
 			'width' => '40',

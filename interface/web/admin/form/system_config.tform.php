@@ -148,6 +148,12 @@ $form["tabs"]['sites'] = array (
 			'width'  => '30',
 			'maxlength' => '255'
 		),
+		'client_protection' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value'  => array(0 => 'n', 1 => 'y')
+		),
 		'vhost_subdomains' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
@@ -589,12 +595,6 @@ $form["tabs"]['misc'] = array (
 			'default' => 'http://www.ispconfig.org/atom',
 			'value'  => ''
 		),
-		'monitor_key' => array (
-			'datatype' => 'VARCHAR',
-			'formtype' => 'TEXT',
-			'default' => '',
-			'value'  => ''
-		),
 		'tab_change_discard' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
@@ -795,4 +795,3 @@ $form['tabs']['dns_ca'] = array (
 		)
 	)
 );
-

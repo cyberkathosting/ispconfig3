@@ -19,7 +19,6 @@ $wb['new_domain_txt'] = 'HTML to create a new domain';
 $wb['webdavuser_prefix_txt'] = 'Webdav user prefix';
 $wb['webdavuser_prefix_error_regex'] = 'Неразрешени символи в името на webdav префикса.';
 $wb['webftp_url_txt'] = 'WebFTP URL';
-$wb['monitor_key_txt'] = 'Monitor keyword';
 $wb['dashboard_atom_url_admin_txt'] = 'Dashboard atom feed URL (admin)';
 $wb['dashboard_atom_url_reseller_txt'] = 'Dashboard atom feed URL (reseller)';
 $wb['dashboard_atom_url_client_txt'] = 'Dashboard atom feed URL (client)';
@@ -95,4 +94,5 @@ $wb['active_txt'] = 'Aktive';
 $wb['btn_save_txt'] = 'Save';
 $wb['btn_cancel_txt'] = 'Cancel';
 $wb['web_php_options_txt'] = 'PHP Handler (Apache only)';
+$wb['client_protection_txt'] = 'Client protection';
 ?>

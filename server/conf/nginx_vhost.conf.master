@@ -34,6 +34,7 @@ server {
         server_name <tmpl_var name='domain'> <tmpl_var name='alias'>;
 
         root   <tmpl_var name='web_document_root_www'>;
+		disable_symlinks if_not_owner from=$document_root;
 
 <tmpl_if name='ssl_enabled'>
 <tmpl_if name='rewrite_to_https' op='==' value='y'>

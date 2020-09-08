@@ -253,7 +253,7 @@ CREATE TABLE `client` (
   `canceled` enum('n','y') NOT NULL DEFAULT 'n',
   `can_use_api` enum('n','y') NOT NULL DEFAULT 'n',
   `tmp_data` mediumblob,
-  `id_rsa` text NOT NULL DEFAULT '',
+  `id_rsa` text,
   `ssh_rsa` varchar(600) NOT NULL DEFAULT '',
   `customer_no_template` varchar(255) DEFAULT 'R[CLIENTID]C[CUSTOMER_NO]',
   `customer_no_start` int(11) NOT NULL DEFAULT '1',
@@ -330,7 +330,7 @@ CREATE TABLE `client_template` (
   `limit_web_ip` text,
   `limit_web_domain` int(11) NOT NULL default '-1',
   `limit_web_quota` int(11) NOT NULL default '-1',
-  `web_php_options` varchar(255) NOT NULL DEFAULT 'no',
+  `web_php_options` varchar(255) NOT NULL DEFAULT '',
   `limit_cgi` enum('n','y') NOT NULL DEFAULT 'n',
   `limit_ssi` enum('n','y') NOT NULL DEFAULT 'n',
   `limit_perl` enum('n','y') NOT NULL DEFAULT 'n',
@@ -345,7 +345,7 @@ CREATE TABLE `client_template` (
   `limit_web_aliasdomain` int(11) NOT NULL default '-1',
   `limit_ftp_user` int(11) NOT NULL default '-1',
   `limit_shell_user` int(11) NOT NULL default '0',
-  `ssh_chroot` varchar(255) NOT NULL DEFAULT 'no',
+  `ssh_chroot` varchar(255) NOT NULL DEFAULT '',
   `limit_webdav_user` int(11) NOT NULL default '0',
   `limit_backup` ENUM( 'n', 'y' ) NOT NULL DEFAULT 'y',
   `limit_directive_snippets` ENUM( 'n', 'y' ) NOT NULL DEFAULT 'n',
@@ -470,6 +470,7 @@ CREATE TABLE IF NOT EXISTS `directive_snippets` (
   `required_php_snippets` varchar(255) NOT NULL DEFAULT '',
   `active` enum('n','y') NOT NULL DEFAULT 'y',
   `master_directive_snippets_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `update_sites` ENUM('y','n') NOT NULL DEFAULT 'n',
   PRIMARY KEY (`directive_snippets_id`)
 ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -625,6 +626,7 @@ CREATE TABLE `dns_soa` (
   `update_acl` varchar(255) default NULL,
   `dnssec_initialized` ENUM('Y','N') NOT NULL DEFAULT 'N',
   `dnssec_wanted` ENUM('Y','N') NOT NULL DEFAULT 'N',
+  `dnssec_algo` SET('NSEC3RSASHA1','ECDSAP256SHA256') NOT NULL DEFAULT 'ECDSAP256SHA256',
   `dnssec_last_signed` BIGINT NOT NULL DEFAULT '0',
   `dnssec_info` TEXT NULL,
   PRIMARY KEY  (`id`),
@@ -1038,7 +1040,8 @@ CREATE TABLE `mail_user` (
   `maildir` varchar(255) NOT NULL default '',
   `maildir_format` varchar(255) NOT NULL default 'maildir',
   `quota` bigint(20) NOT NULL default '-1',
-  `cc` text NOT NULL default '',
+  `cc` text,
+  `forward_in_lda` enum('n','y') NOT NULL default 'n',
   `sender_cc` varchar(255) NOT NULL default '',
   `homedir` varchar(255) NOT NULL default '',
   `autoresponder` enum('n','y') NOT NULL default 'n',
@@ -2068,7 +2071,6 @@ CREATE TABLE `web_domain` (
   `backup_excludes` mediumtext,
   `active` enum('n','y') NOT NULL default 'y',
   `traffic_quota_lock` enum('n','y') NOT NULL default 'n',
-  `fastcgi_php_version` varchar(255) DEFAULT NULL,
   `proxy_directives` mediumtext,
   `last_quota_notification` date NULL default NULL,
   `rewrite_rules` mediumtext,
@@ -2500,7 +2502,7 @@ INSERT INTO `country` (`iso`, `name`, `printable_name`, `iso3`, `numcode`, `eu`)
 -- Dumping data for table `dns_template`
 --
 
-INSERT INTO `dns_template` (`template_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `name`, `fields`, `template`, `visible`) VALUES (1, 1, 1, 'riud', 'riud', '', 'Default', 'DOMAIN,IP,NS1,NS2,EMAIL,DKIM,DNSSEC', '[ZONE]\norigin={DOMAIN}.\nns={NS1}.\nmbox={EMAIL}.\nrefresh=7200\nretry=540\nexpire=604800\nminimum=3600\nttl=3600\n\n[DNS_RECORDS]\nA|{DOMAIN}.|{IP}|0|3600\nA|www|{IP}|0|3600\nA|mail|{IP}|0|3600\nNS|{DOMAIN}.|{NS1}.|0|3600\nNS|{DOMAIN}.|{NS2}.|0|3600\nMX|{DOMAIN}.|mail.{DOMAIN}.|10|3600\nTXT|{DOMAIN}.|v=spf1 mx a ~all|0|3600', 'y');
+INSERT INTO `dns_template` (`template_id`, `sys_userid`, `sys_groupid`, `sys_perm_user`, `sys_perm_group`, `sys_perm_other`, `name`, `fields`, `template`, `visible`) VALUES (1, 1, 1, 'riud', 'riud', '', 'Default', 'DOMAIN,IP,NS1,NS2,EMAIL,DKIM,DNSSEC', '[ZONE]\norigin={DOMAIN}.\nns={NS1}.\nmbox={EMAIL}.\nrefresh=7200\nretry=540\nexpire=604800\nminimum=3600\nttl=3600\ndnssec_algo=ECDSAP256SHA256\n\n[DNS_RECORDS]\nA|{DOMAIN}.|{IP}|0|3600\nA|www|{IP}|0|3600\nA|mail|{IP}|0|3600\nNS|{DOMAIN}.|{NS1}.|0|3600\nNS|{DOMAIN}.|{NS2}.|0|3600\nMX|{DOMAIN}.|mail.{DOMAIN}.|10|3600\nTXT|{DOMAIN}.|v=spf1 mx a ~all|0|3600', 'y');
 
 
 -- --------------------------------------------------------

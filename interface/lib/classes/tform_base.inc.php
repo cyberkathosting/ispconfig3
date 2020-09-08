@@ -336,11 +336,11 @@ class tform_base {
 	}
 
 	//* If the parameter 'valuelimit' is set
-	function applyValueLimit($limit, $values, $current_value = '') {
+	function applyValueLimit($formtype, $limit, $values, $current_value = '') {
 
 		global $app;
 
-		// we mas have multiple limits, therefore we explode by ; first
+		// we may have multiple limits, therefore we explode by ; first
 		// Example: "system:sites:web_php_options;client:web_php_options"
 		$limits = explode(';',$limit);
 
@@ -399,17 +399,30 @@ class tform_base {
 				$tmp_key = $limit_parts[2];
 				$allowed = $allowed = explode(',',$tmp_conf[$tmp_key]);
 			}
+			
+			if($formtype == 'CHECKBOX') {
+				if(strstr($limit,'force_')) {
+					// Force the checkbox field to be ticked and enabled
+					if($allowed[0] == $values[1]) {
+						$values = 'on';
+					}
+				} else {
+					// Force the checkbox field to be unchecked and disabled
+					if($allowed[0] == $values[0]) {
+						$values = 'off';
+					}
+				}
+			} else {
+				// add the current value to the allowed array
+				$allowed[] = $current_value;
 
-			// add the current value to the allowed array
-			$allowed[] = $current_value;
-
-			// remove all values that are not allowed
-			$values_new = array();
-			foreach($values as $key => $val) {
-				if(in_array($key, $allowed)) $values_new[$key] = $val;
+				// remove all values that are not allowed
+				$values_new = array();
+				foreach($values as $key => $val) {
+					if(in_array($key, $allowed)) $values_new[$key] = $val;
+				}
+				$values = $values_new;
 			}
-
-			$values = $values_new;
 
 		}
 
@@ -479,7 +492,7 @@ class tform_base {
 
 					// If a limitation for the values is set
 					if(isset($field['valuelimit']) && is_array($field["value"])) {
-						$field["value"] = $this->applyValueLimit($field['valuelimit'], $field["value"], $val);
+						$field["value"] = $this->applyValueLimit($field['formtype'], $field['valuelimit'], $field["value"], $val);
 					}
 
 					switch ($field['formtype']) {
@@ -521,8 +534,14 @@ class tform_base {
 						break;
 
 					case 'CHECKBOX':
-						$checked = ($val == $field['value'][1])?' CHECKED':'';
-						$new_record[$key] = "<input name=\"".$key."\" id=\"".$key."\" value=\"".$field['value'][1]."\" type=\"checkbox\" $checked />\r\n";
+						if($field["value"] == 'off') {
+							$new_record[$key] = "<input name=\"".$key."\" id=\"".$key."\" value=\"".$field['value'][1]."\" type=\"checkbox\" disabled=\"disabled\" />\r\n";
+						} elseif ($field["value"] == 'on') {
+							$new_record[$key] = "<input name=\"".$key."\" id=\"".$key."\" value=\"".$field['value'][1]."\" type=\"checkbox\" disabled=\"disabled\" CHECKED />\r\n";
+						} else {
+							$checked = ($val == $field['value'][1])?' CHECKED':'';
+							$new_record[$key] = "<input name=\"".$key."\" id=\"".$key."\" value=\"".$field['value'][1]."\" type=\"checkbox\" $checked />\r\n";
+						}
 						break;
 
 					case 'CHECKBOXARRAY':
@@ -614,7 +633,7 @@ class tform_base {
 
 				// If a limitation for the values is set
 				if(isset($field['valuelimit']) && is_array($field["value"])) {
-					$field["value"] = $this->applyValueLimit($field['valuelimit'], $field["value"], $field['default']);
+					$field["value"] = $this->applyValueLimit($field['formtype'], $field['valuelimit'], $field["value"], $field['default']);
 				}
 
 				switch ($field['formtype']) {
@@ -651,9 +670,15 @@ class tform_base {
 					break;
 
 				case 'CHECKBOX':
-					// $checked = (empty($field["default"]))?'':' CHECKED';
-					$checked = ($field["default"] == $field['value'][1])?' CHECKED':'';
-					$new_record[$key] = "<input name=\"".$key."\" id=\"".$key."\" value=\"".$field['value'][1]."\" type=\"checkbox\" $checked />\r\n";
+					if($field["value"] == 'off') {
+						$new_record[$key] = "<input name=\"".$key."\" id=\"".$key."\" value=\"".$field['value'][1]."\" type=\"checkbox\" disabled=\"disabled\" />\r\n";
+					} elseif ($field["value"] == 'on') {
+						$new_record[$key] = "<input name=\"".$key."\" id=\"".$key."\" value=\"".$field['value'][1]."\" type=\"checkbox\" disabled=\"disabled\" CHECKED />\r\n";
+					} else {
+						// $checked = (empty($field["default"]))?'':' CHECKED';
+						$checked = ($field["default"] == $field['value'][1])?' CHECKED':'';
+						$new_record[$key] = "<input name=\"".$key."\" id=\"".$key."\" value=\"".$field['value'][1]."\" type=\"checkbox\" $checked />\r\n";
+					}
 					break;
 
 				case 'CHECKBOXARRAY':
@@ -1333,8 +1358,7 @@ class tform_base {
 								$record[$key] = $app->auth->crypt_password(stripslashes($record[$key]),'ISO-8859-1');
 								$sql_insert_val .= "'".$app->db->quote($record[$key])."', ";
 							} elseif (isset($field['encryption']) && $field['encryption'] == 'MYSQL') {
-								$tmp = $app->db->queryOneRecord("SELECT PASSWORD(?) as `crypted`", stripslashes($record[$key]));
-								$record[$key] = $tmp['crypted'];
+								$record[$key] = $app->db->getPasswordHash($record[$key]);
 								$sql_insert_val .= "'".$app->db->quote($record[$key])."', ";
 							} else {
 								$record[$key] = md5(stripslashes($record[$key]));
@@ -1365,8 +1389,7 @@ class tform_base {
 								$record[$key] = $app->auth->crypt_password(stripslashes($record[$key]),'ISO-8859-1');
 								$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";
 							} elseif (isset($field['encryption']) && $field['encryption'] == 'MYSQL') {
-								$tmp = $app->db->queryOneRecord("SELECT PASSWORD(?) as `crypted`", stripslashes($record[$key]));
-								$record[$key] = $tmp['crypted'];
+								$record[$key] = $app->db->getPasswordHash($record[$key]);
 								$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";
 							} else {
 								$record[$key] = md5(stripslashes($record[$key]));

@@ -1,6 +1,6 @@
 <?php
 $wb['autoresponder_active'] = 'Activar auto respuesta';
-$wb['autoresponder_end_date_isgreater'] = 'Debe indicar la fecha de finalización y esta debe ser mayor a la de inicio.';
+$wb['autoresponder_end_date_isgreater'] = 'End date must be later than start date.';
 $wb['autoresponder_end_date_txt'] = 'Finaliza el';
 $wb['autoresponder_start_date_txt'] = 'Comienza el';
 $wb['autoresponder_subject'] = 'Estoy fuera de la oficina';

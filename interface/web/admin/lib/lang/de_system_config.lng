@@ -35,7 +35,6 @@ $wb['enable_custom_login_txt'] = 'Abweichenden Login Namen erlauben';
 $wb['mailmailinglist_link_txt'] = 'Link zur Mailingliste in der Mailinglisten Übersicht';
 $wb['mailmailinglist_url_txt'] = 'Mailinglisten URL';
 $wb['admin_mail_txt'] = 'Administrator E-Mail';
-$wb['monitor_key_txt'] = 'ISPConfig Monitor App Passwort';
 $wb['admin_name_txt'] = 'Name des Administrators';
 $wb['maintenance_mode_txt'] = 'Wartungsmodus';
 $wb['maintenance_mode_exclude_ips_txt'] = 'Exclude IP\'s from maintenance';
@@ -99,4 +98,5 @@ $wb['active_txt'] = 'Aktiv';
 $wb['btn_save_txt'] = 'Speichern';
 $wb['btn_cancel_txt'] = 'Abbrechen';
 $wb['web_php_options_txt'] = 'PHP Handler (Nur Apache)';
+$wb['client_protection_txt'] = 'Client protection';
 ?>

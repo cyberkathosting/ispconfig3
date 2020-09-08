@@ -20,7 +20,6 @@ $wb['use_domain_module_txt'] = 'Koristi modul Domene za dodavanje novih domena';
 $wb['use_domain_module_hint'] = 'Ukoliko koristite ovaj modul, vaši klijenti mogu izabrati samo domenu koju im je admin kreirao. Klijenti ne mogu slobodno mijenjati postavke domene. Morate se ponovno logirati nakon mijenjanja ove postavke da bi promjene bile vidljive.';
 $wb['new_domain_txt'] = 'HTML za kreiranje nove domene';
 $wb['webftp_url_txt'] = 'WebFTP URL';
-$wb['monitor_key_txt'] = 'Monitoriranje riječi';
 $wb['dashboard_atom_url_admin_txt'] = 'RSS URL za početnu stranicu (admin)';
 $wb['dashboard_atom_url_reseller_txt'] = 'RSS URL za početnu stranicu (reseller)';
 $wb['dashboard_atom_url_client_txt'] = 'RSS URL za početnu stranicu (client)';
@@ -95,4 +94,5 @@ $wb['active_txt'] = 'Aktive';
 $wb['btn_save_txt'] = 'Save';
 $wb['btn_cancel_txt'] = 'Cancel';
 $wb['web_php_options_txt'] = 'PHP Handler (Apache only)';
+$wb['client_protection_txt'] = 'Client protection';
 ?>

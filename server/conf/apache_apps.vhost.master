@@ -1,4 +1,3 @@
-
 ######################################################
 # This virtual host contains the configuration
 # for the ISPConfig apps vhost
@@ -14,6 +13,50 @@
   <FilesMatch "\.ph(p3?|tml)$">
     SetHandler None
   </FilesMatch>
+
+  # SSL Configuration
+  <tmpl_var name="ssl_comment">SSLEngine On
+  <tmpl_if name='apache_version' op='>=' value='2.3.16' format='version'>
+  <tmpl_var name="ssl_comment">SSLProtocol All -SSLv3 -TLSv1 -TLSv1.1
+  <tmpl_else>
+  <tmpl_var name="ssl_comment">SSLProtocol All -SSLv2 -SSLv3
+  </tmpl_if>
+  <tmpl_var name="ssl_comment">SSLCertificateFile /usr/local/ispconfig/interface/ssl/ispserver.crt
+  <tmpl_var name="ssl_comment">SSLCertificateKeyFile /usr/local/ispconfig/interface/ssl/ispserver.key
+  <tmpl_var name="ssl_bundle_comment">SSLCACertificateFile /usr/local/ispconfig/interface/ssl/ispserver.bundle
+
+  <tmpl_var name="ssl_comment">SSLCipherSuite ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384
+  <tmpl_var name="ssl_comment">SSLHonorCipherOrder On
+  <tmpl_if name='apache_version' op='>=' value='2.4.3' format='version'>
+  <tmpl_var name="ssl_comment">SSLCompression Off
+  </tmpl_if>
+  <tmpl_if name='apache_version' op='>=' value='2.4.11' format='version'>
+  <tmpl_var name="ssl_comment">SSLSessionTickets Off
+  </tmpl_if>
+
+  <IfModule mod_headers.c>
+    # ISPConfig 3.1 currently requires unsafe-line for both scripts and styles, as well as unsafe-eval
+    Header set Content-Security-Policy "default-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self' data:; object-src 'none'"
+    <tmpl_var name="ssl_comment">Header set Content-Security-Policy "default-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self' data:; object-src 'none'; upgrade-insecure-requests"
+    Header set X-Content-Type-Options: nosniff
+    Header set X-Frame-Options: SAMEORIGIN
+    Header set X-XSS-Protection: "1; mode=block"
+    Header always edit Set-Cookie (.*) "$1; HTTPOnly"
+    <tmpl_var name="ssl_comment">Header always edit Set-Cookie (.*) "$1; Secure"
+    <IfVersion >= 2.4.7>
+        Header setifempty Strict-Transport-Security "max-age=15768000"
+    </IfVersion>
+    <IfVersion < 2.4.7>
+        Header set Strict-Transport-Security "max-age=15768000"
+    </IfVersion>
+    RequestHeader unset Proxy early
+  </IfModule>
+
+  <tmpl_if name='apache_version' op='>=' value='2.3.3' format='version'>
+  <tmpl_var name="ssl_comment">SSLUseStapling On
+  <tmpl_var name="ssl_comment">SSLStaplingResponderTimeout 5
+  <tmpl_var name="ssl_comment">SSLStaplingReturnResponderErrors Off
+  </tmpl_if>
 
   <IfModule mod_headers.c>
 	RequestHeader unset Proxy early
@@ -55,9 +98,9 @@
     <Directory {tmpl_var name='apps_vhost_dir'}>
 		Options +Indexes +FollowSymLinks +MultiViews +ExecCGI
 		AllowOverride AuthConfig Indexes Limit Options FileInfo
-		<FilesMatch "\.php$">
-			SetHandler fcgid-script
-		</FilesMatch>
+	    <FilesMatch "\.php$">
+		  SetHandler fcgid-script
+	    </FilesMatch>
 		FCGIWrapper {tmpl_var name='apps_vhost_basedir'}/php-fcgi-scripts/apps/.php-fcgi-starter .php
 		<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
 		Require all granted
@@ -79,3 +122,9 @@
 {/tmpl_if}
 
 </VirtualHost>
+
+<tmpl_if name='apache_version' op='>=' value='2.3.3' format='version'>
+<IfModule mod_ssl.c>
+  <tmpl_var name="ssl_comment">SSLStaplingCache shmcb:/var/run/ocsp(128000)
+</IfModule>
+</tmpl_if>

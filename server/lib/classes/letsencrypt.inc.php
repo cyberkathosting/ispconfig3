@@ -74,7 +74,7 @@ class letsencrypt {
 			$cert_arg = '--fullchain-file ' . escapeshellarg($bundle_file) . ' --cert-file ' . escapeshellarg($cert_file);
 		}
 
-		$cmd = 'R=0 ; C=0 ; ' . $letsencrypt . ' --issue ' . $cmd . ' -w /usr/local/ispconfig/interface/acme ; R=$? ; if [[ $R -eq 0 || $R -eq 2 ]] ; then ' . $letsencrypt . ' --install-cert ' . $cmd . ' --key-file ' . escapeshellarg($key_file) . ' ' . $cert_arg . ' --reloadcmd ' . escapeshellarg($this->get_reload_command()) . ' --log ' . escapeshellarg($conf['ispconfig_log_dir'].'/acme.log') . '; C=$? ; fi ; if [[ $C -eq 0 ]] ; then exit $R ; else exit $C  ; fi';
+		$cmd = 'R=0 ; C=0 ; ' . $letsencrypt . ' --issue ' . $cmd . ' -w /usr/local/ispconfig/interface/acme --always-force-new-domain-key --keylength 4096; R=$? ; if [[ $R -eq 0 || $R -eq 2 ]] ; then ' . $letsencrypt . ' --install-cert ' . $cmd . ' --key-file ' . escapeshellarg($key_file) . ' ' . $cert_arg . ' --reloadcmd ' . escapeshellarg($this->get_reload_command()) . ' --log ' . escapeshellarg($conf['ispconfig_log_dir'].'/acme.log') . '; C=$? ; fi ; if [[ $C -eq 0 ]] ; then exit $R ; else exit $C  ; fi';
 
 		return $cmd;
 	}
@@ -373,13 +373,38 @@ class letsencrypt {
 			if((isset($web_config['skip_le_check']) && $web_config['skip_le_check'] == 'y') || (isset($server_config['migration_mode']) && $server_config['migration_mode'] == 'y')) {
 				$le_domains[] = $temp_domain;
 			} else {
-				$le_hash_check = trim(@file_get_contents('http://' . $temp_domain . '/.well-known/acme-challenge/' . $le_rnd_file));
-				if($le_hash_check == $le_rnd_hash) {
-					$le_domains[] = $temp_domain;
-					$app->log("Verified domain " . $temp_domain . " should be reachable for letsencrypt.", LOGLEVEL_DEBUG);
-				} else {
-					$app->log("Could not verify domain " . $temp_domain . ", so excluding it from letsencrypt request.", LOGLEVEL_WARN);
+				//check caa-record
+				$caa_check = false;
+				$caa_domain = $temp_domain;
+				$count = substr_count($caa_domain, '.');
+				if($count === 2) {
+					if(strlen(explode('.', $caa_domain)[1]) > 3) {
+						$caa_domain = explode('.', $caa_domain, 2)[1];
+ 					}
+				} else if($count > 2) {
+					$caa_domain = get_domain(explode('.', $caa_domain, 2)[1]);
 				}
+				$caa_records = @dns_get_record($caa_domain, DNS_CAA); // requieres PHP 7.0.16, 7.1.2
+				if(is_array($caa_records) && !empty($caa_records)) {
+					foreach ($records as $record) {
+						if($record['value'] == 'letsencrypt.org') $caa_check = true;
+					}
+				} else {
+					$caa_check = true;
+				}
+
+				if($caa_check === true) {
+					$le_hash_check = trim(@file_get_contents('http://' . $temp_domain . '/.well-known/acme-challenge/' . $le_rnd_file));
+					if($le_hash_check == $le_rnd_hash) {
+						$le_domains[] = $temp_domain;
+						$app->log("Verified domain " . $temp_domain . " should be reachable for letsencrypt.", LOGLEVEL_DEBUG);
+					} else {
+						$app->log("Could not verify domain " . $temp_domain . ", so excluding it from letsencrypt request.", LOGLEVEL_WARN);
+					}
+				} else {
+					$app->log("Incomplete CAA-Records for " . $temp_domain . ", so excluding it from letsencrypt request.", LOGLEVEL_WARN);
+				}
+
 			}
 		}
 		$temp_domains = $le_domains;

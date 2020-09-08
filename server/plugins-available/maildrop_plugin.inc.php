@@ -176,7 +176,9 @@ class maildrop_plugin {
 		// Write the custom mailfilter script, if mailfilter recipe has changed
 		if($data["old"]["custom_mailfilter"] != $data["new"]["custom_mailfilter"]
 			or $data["old"]["move_junk"] != $data["new"]["move_junk"]
-			or $data["old"]["cc"] != $data["new"]["cc"]) {
+			or $data["old"]["cc"] != $data["new"]["cc"]
+			or $data["old"]["forward_in_lda"] != $data["new"]["forward_in_lda"]
+		) {
 
 			$app->log("Mailfilter config has been changed", LOGLEVEL_DEBUG);
 			if(trim($data["new"]["custom_mailfilter"]) != ''
@@ -198,7 +200,7 @@ class maildrop_plugin {
 
 				$mailfilter_content = '';
 
-				if($data["new"]["cc"] != '') {
+				if ($data["new"]["forward_in_lda"] == 'y' && $data["new"]["cc"] != '') {
 					$tmp_mails_arr = explode(',',$data["new"]["cc"]);
 					foreach($tmp_mails_arr as $address) {
 						if(trim($address) != '') $mailfilter_content .= "cc \"!".trim($address)."\"\n";

@@ -16,6 +16,7 @@ $wb['contains_txt'] = 'Indeholder';
 $wb['is_txt'] = 'Er';
 $wb['begins_with_txt'] = 'Begynder med';
 $wb['ends_with_txt'] = 'Slutter med';
+$wb['regex_txt'] = 'Matches Regex';
 $wb['move_stop_txt'] = 'Flyt til';
 $wb['delete_txt'] = 'Slet';
 $wb['header_txt'] = 'Hoved';

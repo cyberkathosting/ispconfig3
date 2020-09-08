@@ -93,6 +93,7 @@ class maildeliver_plugin {
 			or $data["old"]["autoresponder_start_date"] != $data["new"]["autoresponder_start_date"]
 			or $data["old"]["autoresponder_end_date"] != $data["new"]["autoresponder_end_date"]
 			or $data["old"]["cc"] != $data["new"]["cc"]
+			or $data["old"]["forward_in_lda"] != $data["new"]["forward_in_lda"]
 		) {
 
 			$app->log("Mailfilter config has been changed", LOGLEVEL_DEBUG);
@@ -121,14 +122,16 @@ class maildeliver_plugin {
 				$tpl->newTemplate("sieve_filter.master");
 
 				// cc Field
-				$tmp_mails_arr = explode(',',$data["new"]["cc"]);
-				$tmp_addresses_arr = array();
-				foreach($tmp_mails_arr as $address) {
-					if(trim($address) != '') $tmp_addresses_arr[] = array('address' => trim($address));
-				}
+				if ($data["new"]["forward_in_lda"] == 'y' && $data["new"]["cc"] != '') {
+					$tmp_mails_arr = explode(',',$data["new"]["cc"]);
+					$tmp_addresses_arr = array();
+					foreach($tmp_mails_arr as $address) {
+						if(trim($address) != '') $tmp_addresses_arr[] = array('address' => trim($address));
+					}
 			
-				$tpl->setVar('cc', $data["new"]["cc"]);
-				$tpl->setLoop('ccloop', $tmp_addresses_arr);
+					$tpl->setVar('cc', $data["new"]["cc"]);
+					$tpl->setLoop('ccloop', $tmp_addresses_arr);
+				}
 
 				// Custom filters
 				if($data["new"]["custom_mailfilter"] == 'NULL') $data["new"]["custom_mailfilter"] = '';

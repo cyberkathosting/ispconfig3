@@ -2,6 +2,4 @@ user = {mysql_server_ispconfig_user}
 password = {mysql_server_ispconfig_password}
 dbname = {mysql_server_database}
 hosts = {mysql_server_ip}
-query = SELECT email FROM mail_user WHERE email = '%s' AND postfix = 'y' AND disabledeliver = 'n' AND server_id = {server_id}
-        UNION
-        SELECT cc AS email FROM mail_user WHERE email = '%s' AND postfix = 'y' AND disabledeliver = 'y' AND server_id = {server_id}
+query = SELECT cc AS email FROM mail_user WHERE email = '%s' AND cc != '' AND (forward_in_lda = 'n' OR disabledeliver = 'y') AND postfix = 'y' AND server_id = {server_id}

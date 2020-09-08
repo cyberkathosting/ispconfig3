@@ -189,6 +189,12 @@ $form["tabs"]['mailuser'] = array(
 			'width'  => '30',
 			'maxlength' => '65535'
 		),
+		'forward_in_lda' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value'  => array(0 => 'n', 1 => 'y')
+		),
 		'sender_cc' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
@@ -199,7 +205,8 @@ $form["tabs"]['mailuser'] = array(
 				2 => array( 'event' => 'SAVE',
 					'type' => 'TOLOWER')
 			),
-			'validators' => array (  0 => array ( 'type' => 'ISEMAIL',
+			'validators' => array (  0 => array ( 'type' => 'ISEMAILADDRESS',
+					'allowempty' => 'y',
 					'errmsg'=> 'sender_cc_error_isemail'),
 			),
 			'default' => '',

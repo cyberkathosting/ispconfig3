@@ -159,4 +159,6 @@ $wb['security_check2_txt'] = 'fehlgeschlagen.';
 $wb['select_directive_snippet_txt'] = 'Direktiven Schnipsel';
 $wb['select_master_directive_snippet_txt'] = 'Master Direktiven Schnipsel';
 $wb['unlimited_txt'] = 'unlimitiert';
+$wb['server_id_0_error_txt'] = 'Bitte Server auswählen. Server ID muss > als 0 sein.';
+$wb['datalog_changes_close_txt'] = 'Close';
 ?>

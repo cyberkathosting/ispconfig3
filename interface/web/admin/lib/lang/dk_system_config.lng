@@ -33,7 +33,6 @@ $wb['use_domain_module_hint'] = 'Hvis du bruger domæne grænser, kan dine kunde
 $wb['new_domain_txt'] = 'HTML for at oprette et nyt domæne';
 $wb['webftp_url_txt'] = 'WebFTP URL';
 $wb['admin_mail_txt'] = 'Administratorer e-mail';
-$wb['monitor_key_txt'] = 'Monitor nøgleord';
 $wb['admin_name_txt'] = 'Administratorer navn';
 $wb['maintenance_mode_txt'] = 'Vedligeholdelsestilstand';
 $wb['maintenance_mode_exclude_ips_txt'] = 'Exclude IP\'s from maintenance';
@@ -95,4 +94,5 @@ $wb['active_txt'] = 'Aktive';
 $wb['btn_save_txt'] = 'Save';
 $wb['btn_cancel_txt'] = 'Cancel';
 $wb['web_php_options_txt'] = 'PHP Handler (Apache only)';
+$wb['client_protection_txt'] = 'Client protection';
 ?>

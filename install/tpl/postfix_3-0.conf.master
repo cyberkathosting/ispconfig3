@@ -1,0 +1,13 @@
+# Postfix configuration for version 3.0 and up
+
+# These will make postfix adapt more to load spikes
+#{stress_adaptive} in_flow_delay = ${stress?{3}:{1}}s
+#{stress_adaptive} smtp_connect_timeout = ${stress?{10}:{30}}s
+#{stress_adaptive} smtp_helo_timeout = ${stress?{10}:{60}}s
+#{stress_adaptive} smtp_mail_timeout = ${stress?{10}:{60}}s
+#{stress_adaptive} smtpd_error_sleep_time = ${stress?{1}:{2}}s
+#{stress_adaptive} smtpd_hard_error_limit = ${stress?{1}:{10}}
+#{stress_adaptive} smtpd_recipient_overshoot_limit = ${stress?{60}:{600}}
+#{stress_adaptive} smtpd_soft_error_limit = ${stress?{2}:{5}}
+#{stress_adaptive} smtpd_timeout = ${stress?{10}:{60}}s
+
