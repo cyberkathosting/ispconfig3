@@ -945,6 +945,10 @@ class page_action extends tform_actions {
 	function onShowEdit() {
 		global $app;
 		if($app->tform->checkPerm($this->id, 'riud')) $app->tform->formDef['tabs']['domain']['readonly'] = false;
+		$sql = "SELECT domain_id, domain, type FROM web_domain WHERE (type='alias' OR type='subdomain') AND parent_domain_id = ?";
+		$subs = $app->db->queryAllRecords($sql, $this->id);
+		$app->tpl->setLoop('web_aliasdomains_info', $subs);
+
 		parent::onShowEdit();
 	}
 
