@@ -1358,8 +1358,7 @@ class tform_base {
 								$record[$key] = $app->auth->crypt_password(stripslashes($record[$key]),'ISO-8859-1');
 								$sql_insert_val .= "'".$app->db->quote($record[$key])."', ";
 							} elseif (isset($field['encryption']) && $field['encryption'] == 'MYSQL') {
-								$tmp = $app->db->queryOneRecord("SELECT PASSWORD(?) as `crypted`", stripslashes($record[$key]));
-								$record[$key] = $tmp['crypted'];
+								$record[$key] = $app->db->getPasswordHash($record[$key]);
 								$sql_insert_val .= "'".$app->db->quote($record[$key])."', ";
 							} else {
 								$record[$key] = md5(stripslashes($record[$key]));
@@ -1390,8 +1389,7 @@ class tform_base {
 								$record[$key] = $app->auth->crypt_password(stripslashes($record[$key]),'ISO-8859-1');
 								$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";
 							} elseif (isset($field['encryption']) && $field['encryption'] == 'MYSQL') {
-								$tmp = $app->db->queryOneRecord("SELECT PASSWORD(?) as `crypted`", stripslashes($record[$key]));
-								$record[$key] = $tmp['crypted'];
+								$record[$key] = $app->db->getPasswordHash($record[$key]);
 								$sql_update .= "`$key` = '".$app->db->quote($record[$key])."', ";
 							} else {
 								$record[$key] = md5(stripslashes($record[$key]));

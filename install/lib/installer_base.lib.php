@@ -235,21 +235,27 @@ class installer_base {
 	public function configure_database() {
 		global $conf;
 
-		//* check sql-mode
-		/*$check_sql_mode = $this->db->queryOneRecord("SELECT @@sql_mode");
-
-		if ($check_sql_mode['@@sql_mode'] != '' && $check_sql_mode['@@sql_mode'] != 'NO_ENGINE_SUBSTITUTION') {
-			echo "Wrong SQL-mode. You should use NO_ENGINE_SUBSTITUTION. Add\n\n";
-			echo "    sql-mode=\"NO_ENGINE_SUBSTITUTION\"\n\n";
-			echo"to the mysqld-section in your mysql-config on this server and restart mysqld afterwards\n";
-			die();
-		}*/
-
-		$unwanted_sql_plugins = array('validate_password');
-		$sql_plugins = $this->db->queryAllRecords("SELECT plugin_name FROM information_schema.plugins WHERE plugin_status='ACTIVE' AND plugin_name IN ?", $unwanted_sql_plugins);
-		if(is_array($sql_plugins) && !empty($sql_plugins)) {
-			foreach ($sql_plugins as $plugin) echo "Login in to MySQL and disable $plugin[plugin_name] with:\n\n    UNINSTALL PLUGIN $plugin[plugin_name];";
-			die();
+		//** Check for unwanted plugins
+		if ($this->db->getDatabaseType() == 'mysql' && $this->db->getDatabaseVersion(true) >= 8) {
+			// component approach since MySQL 8.0
+			$unwanted_components = [
+				'file://component_validate_password',
+			];
+			$sql_components = $this->db->queryAllRecords("SELECT * FROM mysql.component where component_urn IN ?", $unwanted_components);
+			if(is_array($sql_components) && !empty($sql_components)) {
+				foreach ($sql_components as $component) {
+					$component_name = parse_url($component['component_urn'], PHP_URL_HOST);
+					echo "Login in to MySQL and disable '{$component_name}' with:\n\n    UNINSTALL COMPONENT '{$component['component_urn']}';\n\n";
+				}
+				die();
+			}
+		} else {
+			$unwanted_sql_plugins = array('validate_password');
+			$sql_plugins = $this->db->queryAllRecords("SELECT plugin_name FROM information_schema.plugins WHERE plugin_status='ACTIVE' AND plugin_name IN ?", $unwanted_sql_plugins);
+			if(is_array($sql_plugins) && !empty($sql_plugins)) {
+				foreach ($sql_plugins as $plugin) echo "Login in to MySQL and disable $plugin[plugin_name] with:\n\n    UNINSTALL PLUGIN $plugin[plugin_name];";
+				die();
+			}
 		}
 
 		//** Create the database
@@ -307,6 +313,15 @@ class installer_base {
 		$query = 'GRANT SELECT, INSERT, UPDATE, DELETE ON ?? TO ?@?';
 		if(!$this->db->query($query, $conf['mysql']['database'] . ".*", $conf['mysql']['ispconfig_user'], $from_host)) {
 			$this->error('Unable to grant databse permissions to user: '.$conf['mysql']['ispconfig_user'].' Error: '.$this->db->errorMessage);
+		}
+		
+		// add correct administrative rights to IPSConfig user (SUPER is deprecated and unnecessarily powerful)
+		 if ($this->db->getDatabaseType() == 'mysql' && $this->db->getDatabaseVersion(true) >= 8) {
+			// there might be more needed on replicated db environments, this was not tested
+			$query = 'GRANT SYSTEM_VARIABLES_ADMIN ON *.* TO ?@?';
+			if(!$this->db->query($query, $conf['mysql']['ispconfig_user'], $from_host)) {
+				$this->error('Unable to grant administrative permissions to user: '.$conf['mysql']['ispconfig_user'].' Error: '.$this->db->errorMessage);
+			}
 		}
 
 		//* Set the database name in the DB library

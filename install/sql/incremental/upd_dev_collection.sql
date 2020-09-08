@@ -37,7 +37,7 @@ ALTER TABLE `mail_user` ADD `disableindexer-worker` ENUM('n','y') CHARACTER SET 
 ALTER TABLE `dns_rr` CHANGE `type` `type` ENUM('A','AAAA','ALIAS','CNAME','DNAME','CAA','DS','HINFO','LOC','MX','NAPTR','NS','PTR','RP','SRV','SSHFP','TXT','TLSA','DNSKEY') NULL DEFAULT NULL AFTER `name`;
 
 -- change cc and sender_cc column type
-ALTER TABLE `mail_user` CHANGE `cc` `cc` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '';
+ALTER TABLE `mail_user` CHANGE `cc` `cc` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 -- remove SPDY option
 ALTER TABLE `web_domain` DROP COLUMN `enable_spdy`;
@@ -62,7 +62,7 @@ ALTER TABLE `web_domain` CHANGE `nginx_directives` `nginx_directives` mediumtext
 ALTER TABLE `mail_user` MODIFY `move_junk` enum('y','a','n') NOT NULL DEFAULT 'y';
 
 -- Change id_rsa column to TEXT format
-ALTER TABLE `client` CHANGE `id_rsa` `id_rsa` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '';
+ALTER TABLE `client` CHANGE `id_rsa` `id_rsa` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 ALTER TABLE `directive_snippets` ADD `update_sites` ENUM('y','n') NOT NULL DEFAULT 'n' ;
 
