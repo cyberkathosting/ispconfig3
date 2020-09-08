@@ -88,6 +88,9 @@ if($do_uninstall == 'yes') {
 	exec('rm -rf /usr/local/ispconfig');
 
 	// Delete various other files
+	@unlink("/usr/local/bin/letsencrypt_post_hook.sh");
+	@unlink("/usr/local/bin/letsencrypt_pre_hook.sh");
+	@unlink("/usr/local/bin/letsencrypt_renew_hook.sh");
 	@unlink("/usr/local/bin/ispconfig_update.sh");
 	@unlink("/usr/local/bin/ispconfig_update_from_svn.sh");
 	@unlink("/var/spool/mail/ispconfig");
