@@ -150,6 +150,8 @@ if (!$inst->get_php_version()) die('ISPConfig requieres PHP '.$inst->min_php."\n
 $retval=shell_exec("which which");
 if (empty($retval)) die ("ISPConfig requieres which \n");
 
+$inst->check_prerequisites();
+
 swriteln($inst->lng('    Following will be a few questions for primary configuration so be careful.'));
 swriteln($inst->lng('    Default values are in [brackets] and can be accepted with <ENTER>.'));
 swriteln($inst->lng('    Tap in "quit" (without the quotes) to stop the installer.'."\n\n"));

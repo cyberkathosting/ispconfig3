@@ -198,6 +198,18 @@ class installer_base {
 
 		if (($conf['apache']['installed'] && is_file($conf['apache']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")) || ($conf['nginx']['installed'] && is_file($conf['nginx']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost"))) $this->ispconfig_interface_installed = true;
 	}
+	
+	//** Check prerequisites
+	public function check_prerequisites() {
+		$msg = '';
+		
+		if(version_compare(phpversion(), '5.4', '<')) $msg .= "PHP Version 5.4 or newer is required. The currently used PHP version is ".phpversion().".\n";
+		if(!function_exists('curl_init')) $msg .= "PHP Curl Module is missing.\n";
+		if(!function_exists('mysqli_connect')) $msg .= "PHP MySQLi Module is nmissing.\n";
+		if(!function_exists('mb_detect_encoding')) $msg .= "PHP Multibyte Module (MB) is missing.\n";
+		
+		if($msg != '') die($msg);
+	}
 
     public function force_configure_app($service, $enable_force=true) {
 		$force = false;

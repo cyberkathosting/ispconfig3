@@ -188,6 +188,8 @@ $inst = new installer();
 if (!$inst->get_php_version()) die('ISPConfig requieres PHP '.$inst->min_php."\n");
 $inst->is_update = true;
 
+$inst->check_prerequisites();
+
 echo "This application will update ISPConfig 3 on your server.\n\n";
 
 //* Make a backup before we start the update
