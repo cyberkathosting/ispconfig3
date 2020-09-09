@@ -1,0 +1,14 @@
+MIME-Version: 1.0
+Content-type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+From: {admin_mail}
+Reply-To: {admin_mail}
+Subject: Quota de votre espace web ok
+
+Le site web {domain} n'est plus à la limite de son quota.
+
+Domaine : 	       	    {domain}
+Espace utilisé :	    {used}
+Limite souple :         {soft}
+Limite stricte :	    {hard}
+Ratio d'utilisation :	{ratio}
