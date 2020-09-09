@@ -216,7 +216,7 @@ class auth {
 		global $app;
 		$server_config_array = $app->getconf->get_global_config();
 		$min_password_strength = 0;
-		if(isset($server_config_array['misc']['min_password_strength'])) $min_password_strength = $server_config_array['misc']['min_password_strength'];;
+		if(isset($server_config_array['misc']['min_password_strength'])) $min_password_strength = $server_config_array['misc']['min_password_strength'];
 		return $min_password_strength;
 	}
 
