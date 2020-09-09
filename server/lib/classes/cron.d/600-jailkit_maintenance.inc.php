@@ -57,7 +57,8 @@ class cronjob_jailkit_maintenance extends cronjob {
 
 		$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
 		if(isset($server_config['migration_mode']) && $server_config['migration_mode'] == 'y') {
-			$app->log('Migration mode active, not running Jailkit updates.', LOGLEVEL_DEBUG);
+			//$app->log('Migration mode active, not running Jailkit updates.', LOGLEVEL_DEBUG);
+			print "Migration mode active, not running Jailkit updates.\n";
 		}
 
 		$update_options = array( 'allow_hardlink', );
@@ -82,7 +83,8 @@ class cronjob_jailkit_maintenance extends cronjob {
 				return;
 			}
 
-			$app->log('Beginning jailkit maintenance for domain '.$rec['domain'].' at '.$rec['document_root'], LOGLEVEL_DEBUG);
+			//$app->log('Beginning jailkit maintenance for domain '.$rec['domain'].' at '.$rec['document_root'], LOGLEVEL_DEBUG);
+			print 'Beginning jailkit maintenance for domain '.$rec['domain'].' at '.$rec['document_root']."\n";
 
 			// check for any shell_user using this jail
 			$shell_user_inuse = $app->db->queryOneRecord('SELECT shell_user_id FROM `shell_user` WHERE `parent_domain_id` = ? AND `chroot` = ? AND `server_id` = ?', $rec['domain_id'], 'jailkit', $conf['server_id']);
@@ -102,7 +104,8 @@ class cronjob_jailkit_maintenance extends cronjob {
 				$app->system->update_jailkit_chroot($rec['document_root'], $sections, $programs, $update_options);
 			} else {
 				if ($rec['delete_unused_jailkit'] == 'y') {
-					$app->log('Removing unused jail: '.$rec['document_root'], LOGLEVEL_DEBUG);
+					//$app->log('Removing unused jail: '.$rec['document_root'], LOGLEVEL_DEBUG);
+					print 'Removing unused jail: '.$rec['document_root']."\n";
 					$app->system->delete_jailkit_chroot($rec['document_root']);
 				}
 			}
