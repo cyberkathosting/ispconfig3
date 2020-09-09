@@ -386,7 +386,7 @@ class letsencrypt {
 				}
 				$caa_records = @dns_get_record($caa_domain, DNS_CAA); // requieres PHP 7.0.16, 7.1.2
 				if(is_array($caa_records) && !empty($caa_records)) {
-					foreach ($records as $record) {
+					foreach ($caa_records as $record) {
 						if($record['value'] == 'letsencrypt.org') $caa_check = true;
 					}
 				} else {
