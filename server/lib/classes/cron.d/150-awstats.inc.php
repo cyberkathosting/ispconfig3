@@ -143,7 +143,7 @@ class cronjob_awstats extends cronjob {
 				}
 			}
 
-			$command = escapeshellcmd($awstats_buildstaticpages_pl) . ' -month=' . escapeshellarg($awmonth) . ' -year=' . escapeshellarg($awyear) . ' -update -config=' . escapeshellarg($domain) . ' -dir=' . escapeshellarg($statsdir) . ' -awstatsprog=' . escapeshellarg($awstats_pl) . '";
+			$command = escapeshellcmd($awstats_buildstaticpages_pl) . ' -month=' . escapeshellarg($awmonth) . ' -year=' . escapeshellarg($awyear) . ' -update -config=' . escapeshellarg($domain) . ' -dir=' . escapeshellarg($statsdir) . ' -awstatsprog=' . escapeshellarg($awstats_pl);
 
 			if (date("d") == 2) {
 				$awmonth = date("m")-1;
