@@ -6,4 +6,6 @@ $wb['cc_error_isemail'] = 'Adres e-mail jest niepoprawny w polu -Wyślij kopię 
 $wb['email_is_cc_error'] = 'Adres e-mail i adres do wysyłki kopii nie mogą być takie same.';
 $wb['name_optional_txt'] = '(Optional)';
 $wb['cc_note_txt'] = '(Separate multiple email addresses with commas)';
+$wb['forward_in_lda_txt'] = 'Copy during delivery';
+$wb['tooltip_forward_in_lda_txt'] = 'Controls if mail copy is forwarded before or during delivery to mailbox.';
 ?>

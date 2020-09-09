@@ -150,6 +150,8 @@ if (!$inst->get_php_version()) die('ISPConfig requieres PHP '.$inst->min_php."\n
 $retval=shell_exec("which which");
 if (empty($retval)) die ("ISPConfig requieres which \n");
 
+$inst->check_prerequisites();
+
 swriteln($inst->lng('    Following will be a few questions for primary configuration so be careful.'));
 swriteln($inst->lng('    Default values are in [brackets] and can be accepted with <ENTER>.'));
 swriteln($inst->lng('    Tap in "quit" (without the quotes) to stop the installer.'."\n\n"));
@@ -572,6 +574,12 @@ if($install_mode == 'standard' || strtolower($inst->simple_query('Install ISPCon
 
 } else {
 	$inst->install_ispconfig_interface = false;
+}
+
+// Create SSL certs for non-webserver(s)?
+if(!file_exists('/usr/local/ispconfig/interface/ssl/ispserver.crt')) {
+    if(strtolower($inst->simple_query('Do you want to create SSL certs for your server?', array('y', 'n'), 'y')) == 'y')
+        $inst->make_ispconfig_ssl_cert();
 }
 
 $inst->install_ispconfig();

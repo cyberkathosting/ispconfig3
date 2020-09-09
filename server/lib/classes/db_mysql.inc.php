@@ -1106,6 +1106,75 @@ class db
 		}
 	}
 
+	/**
+	 * Get the database type (mariadb or mysql)
+	 *
+	 * @access public
+	 * @return string 'mariadb' or string 'mysql'
+	 */
+
+	public function getDatabaseType() {
+		$tmp = $this->queryOneRecord('SELECT VERSION() as version');
+		if(stristr($tmp['version'],'mariadb')) {
+			return 'mariadb';
+		} else {
+			return 'mysql';
+		}
+	}
+
+	/**
+	 * Get the database version
+	 *
+	 * @access public
+	 * @param bool   $major_version_only = true will return the major version only, e.g. 8 for MySQL 8
+	 * @return string version number
+	 */
+
+	public function getDatabaseVersion($major_version_only = false) {
+		$tmp = $this->queryOneRecord('SELECT VERSION() as version');
+		$version = explode('-', $tmp['version']);
+		if($major_version_only == true) {
+			$version_parts = explode('.', $version[0]);
+			return $version_parts[0];
+		} else {
+			return $version[0];
+		}
+	}
+	
+	/**
+	 * Get a mysql password hash
+	 *
+	 * @access public
+	 * @param string   cleartext password
+	 * @return string  Password hash
+	 */
+	
+	public function getPasswordHash($password) {
+		
+		$password_type = 'password';
+		
+		/* Disabled until caching_sha2_password is implemented
+		if($this->getDatabaseType() == 'mysql' && $this->getDatabaseVersion(true) >= 8) {
+			// we are in MySQL 8 mode
+			$tmp = $this->queryOneRecord("show variables like 'default_authentication_plugin'");
+			if($tmp['default_authentication_plugin'] == 'caching_sha2_password') {
+				$password_type = 'caching_sha2_password';
+			}
+		}
+		*/
+		
+		if($password_type == 'caching_sha2_password') {
+			/*
+				caching_sha2_password hashing needs to be implemented, have not 
+				found valid PHP implementation for the new password hash type.
+			*/
+		} else {
+			$password_hash = '*'.strtoupper(sha1(sha1($password, true)));
+		}
+		
+		return $password_hash;
+	}
+
 }
 
 /**

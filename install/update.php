@@ -188,6 +188,8 @@ $inst = new installer();
 if (!$inst->get_php_version()) die('ISPConfig requieres PHP '.$inst->min_php."\n");
 $inst->is_update = true;
 
+$inst->check_prerequisites();
+
 echo "This application will update ISPConfig 3 on your server.\n\n";
 
 //* Make a backup before we start the update
@@ -532,6 +534,12 @@ if ($inst->install_ispconfig_interface) {
 	if(strtolower($inst->simple_query('Create new ISPConfig SSL certificate', array('yes', 'no'), 'no','create_new_ispconfig_ssl_cert')) == 'yes') {
 		$inst->make_ispconfig_ssl_cert();
 	}
+}
+
+// Create SSL certs for non-webserver(s)?
+if(!file_exists('/usr/local/ispconfig/interface/ssl/ispserver.crt')) {
+    if(strtolower($inst->simple_query('Do you want to create SSL certs for your server?', array('y', 'n'), 'y')) == 'y')
+        $inst->make_ispconfig_ssl_cert();
 }
 
 $inst->install_ispconfig();
