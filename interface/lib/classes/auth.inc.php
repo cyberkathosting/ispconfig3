@@ -198,6 +198,36 @@ class auth {
 		
 	}
 
+	/**
+	 * Get the minimum password length.
+	 */
+	public function get_min_password_length() {
+		global $app;
+		$server_config_array = $app->getconf->get_global_config();
+		$min_password_length = 8;
+		if(isset($server_config_array['misc']['min_password_length'])) $min_password_length = $server_config_array['misc']['min_password_length'];
+		return $min_password_length;
+	}
+
+	/**
+	 * Get the minimum password strength.
+	 */
+	public function get_min_password_strength() {
+		global $app;
+		$server_config_array = $app->getconf->get_global_config();
+		$min_password_strength = 0;
+		if(isset($server_config_array['misc']['min_password_strength'])) $min_password_strength = $server_config_array['misc']['min_password_strength'];
+		return $min_password_strength;
+	}
+
+	/**
+	 * Generate a ranmdom password.
+	 *
+	 * @param int $minLength
+	 *   Minimum number of characters.
+	 * @param boolean $special
+	 *   Include special characters, like # and !
+	 */
 	public function get_random_password($minLength = 8, $special = false) {
 		if($minLength < 8) $minLength = 8;
 		$maxLength = $minLength + 5;
