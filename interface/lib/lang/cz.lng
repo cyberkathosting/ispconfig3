@@ -1,9 +1,9 @@
 <?php
-$wb['conf_format_dateshort'] = 'Y-d-m';
+$wb['conf_format_dateshort'] = 'd. m. Y';
 $wb['conf_format_datelong'] = 'l dS of F Y';
 $wb['conf_format_timeshort'] = 'H:i';
 $wb['conf_format_timelong'] = 'H:i:s';
-$wb['conf_format_datetime'] = 'Y-d-m H:i';
+$wb['conf_format_datetime'] = 'd. m. Y H:i';
 $wb['number_format_decimals'] = '4';
 $wb['number_format_decimals_client'] = '2';
 $wb['number_format_dec_point'] = '.';
@@ -69,7 +69,7 @@ $wb['monthnamesshort_dec'] = 'Pro';
 $wb['datepicker_nextText'] = 'Další';
 $wb['datepicker_prevText'] = 'Předchozí';
 $wb['logout_txt'] = 'Odhlášení';
-$wb['conf_format_dateshort_human_readable'] = 'yyyy-mm-dd';
+$wb['conf_format_dateshort_human_readable'] = 'dd. mm. yyyy';
 $wb['submit_confirmation'] = 'Opravdu chcete provést tuto akci ?';
 $wb['top_menu_mailuser'] = 'E-mail. uživ.';
 $wb['globalsearch_resultslimit_of_txt'] = 'z';
