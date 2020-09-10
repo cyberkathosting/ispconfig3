@@ -1,7 +1,6 @@
 # ISPConfig - Hosting Control Panel
 
-Nightly (master): [![pipeline status](https://git.ispconfig.org/ispconfig/ispconfig3/badges/master/pipeline.svg)](https://git.ispconfig.org/ispconfig/ispconfig3/commits/master)   
-Stable branch: [![pipeline status](https://git.ispconfig.org/ispconfig/ispconfig3/badges/stable-3.1/pipeline.svg)](https://git.ispconfig.org/ispconfig/ispconfig3/commits/stable-3.1)
+Development branch: [![pipeline status](https://git.ispconfig.org/ispconfig/ispconfig3/badges/develop/pipeline.svg)](https://git.ispconfig.org/ispconfig/ispconfig3/commits/develop)
 
 
 - Manage multiple servers from one control panel
