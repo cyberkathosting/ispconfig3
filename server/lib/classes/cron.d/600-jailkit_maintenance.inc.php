@@ -61,15 +61,15 @@ class cronjob_jailkit_maintenance extends cronjob {
 			print "Migration mode active, not running Jailkit updates.\n";
 		}
 
-		$update_options = array( 'allow_hardlink', );
-
 		$jailkit_config = $app->getconf->get_server_config($conf['server_id'], 'jailkit');
 		if (isset($this->jailkit_config) && isset($this->jailkit_config['jailkit_hardlinks'])) {
 			if ($this->jailkit_config['jailkit_hardlinks'] == 'yes') {
 				$update_options = array( 'hardlink', );
 			} elseif ($this->jailkit_config['jailkit_hardlinks'] == 'no') {
-				unset($update_options['allow_hardlink']);
+				$update_optiosn = array();
 			}
+		} else {
+			$update_options = array( 'allow_hardlink', );
 		}
 
 		// limit the number of jails we update at one time according to time of day

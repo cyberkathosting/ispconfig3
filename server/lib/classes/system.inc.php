@@ -949,15 +949,17 @@ class system{
 		}
 
 		$path = rtrim($path, '/');
-		if (is_dir($path)) {
+		if (is_dir($path) && !is_link($path)) {
 			$objects = array_diff(scandir($path), array('.', '..'));
 			foreach ($objects as $object) {
 				if ($recursive) {
-					if (is_dir("$path/$object")) {
+					if (is_dir("$path/$object") && !is_link("$path/$object")) {
 						$this->rmdir("$path/$object", $recursive); 
 					} else {
 						unlink ("$path/$object");
 					}
+				} else {
+					$app->log("rmdir: invoked non-recursive, not removing $path (expect rmdir failure)", LOGLEVEL_DEBUG);
 				}
 			}
 			return rmdir($path);
@@ -1011,16 +1013,18 @@ class system{
 		if ($path != '/') {
 			$path = rtrim($path, '/');
 		}
+global $app;
+#$app->log("remove_broken_symlinks: checking path: $path", LOGLEVEL_DEBUG);
 		if (is_dir($path)) {
+#$app->log("remove_broken_symlinks: $path is dir, running scandir", LOGLEVEL_DEBUG);
 			$objects = array_diff(scandir($path), array('.', '..'));
 			foreach ($objects as $object) {
-				if ($recursive) {
-					if (is_dir("$path/$object")) {
-						$this->remove_broken_symlinks("$path/$object", $recursive); 
-					} elseif (is_link("$path/$object") && !file_exists("$path/$object")) {
+#$app->log("remove_broken_symlinks: scandir found $object", LOGLEVEL_DEBUG);
+				if (is_dir("$path/$object") && $recursive) {
+					$this->remove_broken_symlinks("$path/$object", $recursive); 
+				} elseif (is_link("$path/$object") && !file_exists("$path/$object")) {
 $app->log("removing broken symlink $path/$object", LOGLEVEL_DEBUG);
-						unlink ("$path/$object");
-					}
+					unlink ("$path/$object");
 				}
 			}
 		} elseif (is_link("$path") && !file_exists("$path")) {
@@ -2299,10 +2303,12 @@ $app->log("removing broken symlink $path", LOGLEVEL_DEBUG);
 		$program_args = '';
 		foreach ($options as $opt) {
 			switch ($opt) {
-			case '-k|hardlink':
+			case '-k':
+			case 'hardlink':
 				$program_args .= ' -k';
 				break;
-			case '-f|force':
+			case '-f':
+			case 'force':
 				$program_args .= ' -f';
 				break;
 			}
@@ -2365,10 +2371,12 @@ $app->log("removing broken symlink $path", LOGLEVEL_DEBUG);
 		$program_args = '';
 		foreach ($options as $opt) {
 			switch ($opt) {
-			case '-k|hardlink':
+			case '-k':
+			case 'hardlink':
 				$program_args .= ' -k';
 				break;
-			case '-f|force':
+			case '-f':
+			case 'force':
 				$program_args .= ' -f';
 				break;
 			}
@@ -2400,6 +2408,7 @@ $app->log("removing broken symlink $path", LOGLEVEL_DEBUG);
 	public function update_jailkit_chroot($home_dir, $sections = array(), $programs = array(), $options = array()) {
 		global $app;
 
+$app->log("update_jailkit_chroot called for $home_dir with options ".print_r($options, true), LOGLEVEL_DEBUG);
 		$app->uses('ini_parser');
 
 		// Disallow operating on root directory
@@ -2416,10 +2425,12 @@ $app->log("removing broken symlink $path", LOGLEVEL_DEBUG);
 		$opts = array();
 		foreach ($options as $opt) {
 			switch ($opt) {
-			case '-k|hardlink':
+			case '-k':
+			case 'hardlink':
 				$opts[] = 'hardlink';
 				break;
-			case '-f|force':
+			case '-f':
+			case 'force':
 				$opts[] = 'force';
 				break;
 			}
@@ -2460,13 +2471,14 @@ $app->log("removing broken symlink $path", LOGLEVEL_DEBUG);
 				continue;
 			}
 
-			$this->remove_broken_symlinks($dir, true);
+			$this->remove_broken_symlinks($jail_dir, true);
 
 			// save list of hardlinked files
-			if (!in_array('hardlink', $opts) && !in_array('allow_hardlink', $options)) {
+			if (!(in_array('hardlink', $opts) || in_array('allow_hardlink', $options))) {
+$app->log("update_jailkit_chroot: searching for hardlinks in $jail_dir", LOGLEVEL_DEBUG);
                                 $find_multiple_links = function ( $path ) use ( &$find_multiple_links ) {
 					$found = array();
-					if (is_dir($path)) {
+					if (is_dir($path) && !is_link($path)) {
 						$objects = array_diff(scandir($path), array('.', '..'));
 						foreach ($objects as $object) {
 							$ret = $find_multiple_links( "$path/$object" );
@@ -2474,8 +2486,8 @@ $app->log("removing broken symlink $path", LOGLEVEL_DEBUG);
 								$found = array_merge($found, $ret);
 							}
 						}
-					} else {
-						$stat = stat($path);
+					} elseif (is_file($path)) {
+						$stat = lstat($path);
 						if ($stat['nlink'] > 1) {
 							$found[$path] = $path;
 						}
@@ -2483,34 +2495,42 @@ $app->log("removing broken symlink $path", LOGLEVEL_DEBUG);
 					return $found;
 				};
 
-				$ret = $find_multiple_links( $jail_dir );
+				$ret = $find_multiple_links($jail_dir);
 				if (count($ret) > 0) {
 					$multiple_links = array_merge($multiple_links, $ret);
 				}
-			}
 
-			// remove broken symlinks a second time after hardlink cleanup
-			$this->remove_broken_symlinks($dir, true);
+				// remove broken symlinks a second time after hardlink cleanup
+				$this->remove_broken_symlinks($jail_dir, true);
+			}
+else { $app->log("update_jailkit_chroot: NOT searching for hardlinks in $jail_dir, options: ".print_r($options, true), LOGLEVEL_DEBUG); }
 		}
 
+		foreach ($multiple_links as $file) {
+			$app->log("update_jailkit_chroot: removing hardlinked file: $file", LOGLEVEL_DEBUG);
+			unlink($file);
+		}
 		
-		$cmd = 'jk_update --jail='.escapeshellarg($home_dir) . $skips;
-		exec($cmd, $out, $ret);
-		foreach ($out as $line) {
+		$cmd = 'jk_update --jail=?' . $skips;
+		$this->exec_safe($cmd, $home_dir);
+$app->log('jk_update returned: '.print_r($this->_last_exec_out, true), LOGLEVEL_DEBUG);
+		foreach ($this->_last_exec_out as $line) {
 			if (substr( $line, 0, 4 ) === "skip") {
 				continue;
 			}
-			if (preg_match('@^(? [^ ]+){6}(.+)'.preg_quote($home_dir, '@').'$@', $line, $matches)) {
+			if (preg_match('@^(?: [^ ]+){6}(.+)'.preg_quote($home_dir, '@').'$@', $line, $matches)) {
 				# remove deprecated files that jk_update failed to remove
 				if (is_file($matches[1])) {
-$app->log("removing deprecated file which jk_update failed to remove:  ".$matches[1], LOGLEVEL_DEBUG);
+$app->log("update_jailkit_chroot: removing deprecated file which jk_update failed to remove:  ".$matches[1], LOGLEVEL_DEBUG);
 					unlink($matches[1]);
 				} elseif (is_dir($matches[1])) {
-$app->log("removing deprecated directory which jk_update failed to remove:  ".$matches[1], LOGLEVEL_DEBUG);
+$app->log("update_jailkit_chroot: removing deprecated directory which jk_update failed to remove:  ".$matches[1], LOGLEVEL_DEBUG);
 					$this->rmdir($matches[1], true);
 				}
                			# unhandled error
-				$app->log("jk_update error for jail $home_dir:  ".$matches[1], LOGLEVEL_DEBUG);
+				//$app->log("jk_update error for jail $home_dir:  ".$matches[1], LOGLEVEL_DEBUG);
+				// at least for 3.2 beta, lets gather some of this info:
+				$app->log("jk_update error for jail $home_dir, feel free to pass to ispconfig developers:  ".print_r( $matches, true), LOGLEVEL_DEBUG);
 			}
 		}
 
@@ -2528,20 +2548,20 @@ $app->log("removing deprecated directory which jk_update failed to remove:  ".$m
 		}
 
 		// search for any hardlinked files which are now missing
-		if (!in_array('hardlink', $opts) && !in_array('allow_hardlink', $options)) {
+		if (!(in_array('hardlink', $opts) || in_array('allow_hardlink', $options))) {
 			foreach ($multiple_links as $file) {
 				if (!is_file($file)) {
 					// strip $home_dir from $file
-					if (substr($file, 0, strlen(rtrim($home_dir, '/'))) == strlen(rtrim($home_dir, '/'))) {
+					if (substr($file, 0, strlen(rtrim($home_dir, '/'))) == rtrim($home_dir, '/')) {
 						$file = substr($file, strlen(rtrim($home_dir, '/')));
 					}
 					if (is_file($file)) { // file exists in root
-$app->log("file with multiple links still missing, running jk_cp to restore: $file", LOGLEVEL_DEBUG);
+						$app->log("update_jailkit_chroot: previously hardlinked file still missing, running jk_cp to restore: $file", LOGLEVEL_DEBUG);
 						$cmd = 'jk_cp -j ? ' . escapeshellarg($file);
 						$this->exec_safe($cmd, $home_dir);
 					} else {
 						// not necessarily an error
-						$app->log("previously hardlinked file was not found to restore: $file", LOGLEVEL_DEBUG);
+						$app->log("update_jailkit_chroot: previously hardlinked file was not restored and is no longer present in system: $file", LOGLEVEL_DEBUG);
 					}
 				}
 			}
@@ -2597,13 +2617,17 @@ $app->log("file with multiple links still missing, running jk_cp to restore: $fi
 			'sys',
 			'usr',
 			'var',
+			'run',		# not used by jailkit, but added for cleanup
 		);
 
 		$removed = '';
 		foreach ($jailkit_directories as $dir) {
 			$jail_dir = rtrim($home_dir, '/') . '/'.$dir;
 
-			if (is_dir($jail_dir)) {
+			if (is_link($jail_dir)) {
+				unlink($jail_dir);
+				$removed .= ' /'.$dir;
+			} elseif (is_dir($jail_dir)) {
 				$this->rmdir($jail_dir, true);
 				$removed .= ' /'.$dir;
 			}
@@ -2612,10 +2636,11 @@ $app->log("file with multiple links still missing, running jk_cp to restore: $fi
 
 		$app->log("delete_jailkit_chroot: removed from jail $home_dir: $removed", LOGLEVEL_DEBUG);
 
-		// handle etc and home special
+		// remove /home if empty
 		$home = rtrim($home_dir, '/') . '/home';
 		@rmdir($home);  # ok to fail if non-empty
 
+		// otherwise archive under /private
 		$private = rtrim($home_dir, '/') . '/private';
 		if (is_dir($home) && is_dir($private)) {
 			$archive = $private.'/home-'.date('c');

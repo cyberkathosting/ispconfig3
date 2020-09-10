@@ -290,13 +290,23 @@ class shelluser_jailkit_plugin {
 	{
 		global $app;
 
+		if (isset($this->jailkit_config) && isset($this->jailkit_config['jailkit_hardlinks'])) {
+			if ($this->jailkit_config['jailkit_hardlinks'] == 'yes') {
+				$options = array( 'hardlink', );
+			} elseif ($this->jailkit_config['jailkit_hardlinks'] == 'no') {
+				$options = array();
+			}
+		} else {
+			$options = array( 'allow_hardlink', );
+		}
+
 		//check if the chroot environment is created yet if not create it with a list of program sections from the config
 		if (!is_dir($this->data['new']['dir'].'/etc/jailkit'))
 		{
-			$app->system->create_jailkit_chroot($this->data['new']['dir'], $this->jailkit_config['jailkit_chroot_app_sections']);
+			$app->system->create_jailkit_chroot($this->data['new']['dir'], $this->jailkit_config['jailkit_chroot_app_sections'], $options);
 			$this->app->log("Added jailkit chroot", LOGLEVEL_DEBUG);
 
-			$this->_add_jailkit_programs();
+			$this->_add_jailkit_programs($options);
 
 			//add bash.bashrc script
 			//we need to collect the domain name to be used as the HOSTNAME in the bashrc script
@@ -330,14 +340,6 @@ class shelluser_jailkit_plugin {
 			$app->system->file_put_contents($motd, $tpl->grab());
 
 		} else {
-			$options = array( 'allow_hardlink', );
-			if (isset($this->jailkit_config) && isset($this->jailkit_config['jailkit_hardlinks'])) {
-				if ($this->jailkit_config['jailkit_hardlinks'] == 'yes') {
-					$options = array( 'hardlink', );
-				} elseif ($this->jailkit_config['jailkit_hardlinks'] == 'no') {
-					unset($options['allow_hardlink']);
-				}
-			}
 			// force update existing jails
 			$options[] = 'force';
 
@@ -347,11 +349,12 @@ class shelluser_jailkit_plugin {
 			$app->system->update_jailkit_chroot($this->data['new']['dir'], $sections, $programs, $options);
 		}
 
-		// might need to update master db here?  checking....
+		// this gets last_jailkit_update out of sync with master db, but that is ok,
+		// as it is only used as a timestamp to moderate the frequency of updating on the slaves
 		$app->db->query("UPDATE `web_domain` SET `last_jailkit_update` = NOW() WHERE `document_root` = ?", $this->data['new']['dir']);
 	}
 
-	function _add_jailkit_programs()
+	function _add_jailkit_programs($opts=array())
 	{
 		global $app;
 		$jailkit_chroot_app_programs = preg_split("/[\s,]+/", $this->jailkit_config['jailkit_chroot_app_programs']);
@@ -360,7 +363,7 @@ class shelluser_jailkit_plugin {
 				$jailkit_chroot_app_program = trim($jailkit_chroot_app_program);
 				if(is_file($jailkit_chroot_app_program) || is_dir($jailkit_chroot_app_program)){			
 					//copy over further programs and its libraries
-					$app->system->create_jailkit_programs($this->data['new']['dir'], $jailkit_chroot_app_program);
+					$app->system->create_jailkit_programs($this->data['new']['dir'], $jailkit_chroot_app_program, $opts);
 					$this->app->log("Added programs to jailkit chroot", LOGLEVEL_DEBUG);
 				}
 			}
