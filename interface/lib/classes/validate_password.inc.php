@@ -111,10 +111,8 @@ class validate_password {
 		$app->uses('ini_parser,getconf');
 		$server_config_array = $app->getconf->get_global_config();
 		
-		$min_password_strength = 0;
-		$min_password_length = 5;
-		if(isset($server_config_array['misc']['min_password_length'])) $min_password_length = $server_config_array['misc']['min_password_length'];
-		if(isset($server_config_array['misc']['min_password_strength'])) $min_password_strength = $server_config_array['misc']['min_password_strength'];
+		$min_password_length = $app->auth->get_min_password_length();
+		$min_password_strength = $app->auth->get_min_password_strength();
 		
 		if($min_password_strength > 0) {
 			$lng_text = $app->lng('weak_password_txt');

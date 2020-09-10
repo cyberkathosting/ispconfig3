@@ -1,0 +1,13 @@
+MIME-Version: 1.0
+Content-type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+From: {admin_mail}
+Reply-To: {admin_mail}
+Subject: Notification de quota de base de données
+
+La base de données {database_name} a atteint ou est sur le point d'atteindre son quota maximum.
+
+Base de données :		{database_name}
+Espace utilisé :		{used}
+Quota :      			{quota}
+Ratio d'utilisation :	{ratio}

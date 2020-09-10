@@ -1,0 +1,14 @@
+MIME-Version: 1.0
+Content-type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+From: {admin_mail}
+Reply-To: {admin_mail}
+Subject: Notification de quota de votre espace web
+
+Le site web {domain} a atteint ou est sur le point d'atteindre son quota maximum.
+
+Domaine : 	       	    {domain}
+Espace utilisé :	    {used}
+Limite souple :         {soft}
+Limite stricte :	    {hard}
+Ratio d'utilisation :	{ratio}

@@ -1,0 +1,4 @@
+From: ISPConfig <postmaster@localhost.localdomain>
+Subject: Bienvenue dans votre nouvelle boîte aux lettres
+
+Votre nouveau compte email est désormais activé. Votre webmaster.
