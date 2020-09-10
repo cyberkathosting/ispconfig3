@@ -6,4 +6,6 @@ $wb['cc_error_isemail'] = 'E-Mail Adresse ungültig im -Kopie senden an- Feld';
 $wb['email_is_cc_error'] = 'E-Mail Adresse und ';
 $wb['name_optional_txt'] = '(optional)';
 $wb['cc_note_txt'] = '(Mehrere E-Mail-Adressen mit Kommas trennen)';
+$wb['forward_in_lda_txt'] = 'Copy during delivery';
+$wb['tooltip_forward_in_lda_txt'] = 'Controls if mail copy is forwarded before or during delivery to mailbox.';
 ?>

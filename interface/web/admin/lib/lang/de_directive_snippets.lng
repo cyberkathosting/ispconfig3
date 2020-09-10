@@ -8,6 +8,6 @@ $wb['directive_snippets_name_empty'] = 'Bitte geben Sie einen Namen für den Sch
 $wb['directive_snippets_name_error_unique'] = 'Es existiert schon ein Direktiven-Schnipsel mit diesem Namen.';
 $wb['variables_txt'] = 'Variablen';
 $wb['customer_viewable_txt'] = 'Sichtbar für Kunden';
-$wb['required_php_snippets_txt'] = 'Requiered PHP Snippet';
+$wb['required_php_snippets_txt'] = 'Required PHP Snippet';
 $wb['update_sites_txt'] = 'Update sites using this snippet';
 ?>

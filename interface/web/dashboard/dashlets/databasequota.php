@@ -11,6 +11,11 @@ class dashlet_databasequota {
                        return;
                }
 
+		$modules = $_SESSION['s']['user']['modules'];
+		if (!in_array($modules, 'sites')) {
+			return '';
+		}
+
 		$tpl = new tpl;
 		$tpl->newTemplate("dashlets/templates/databasequota.htm");
 

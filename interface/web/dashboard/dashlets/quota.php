@@ -11,6 +11,11 @@ class dashlet_quota {
 				return;
 		}
 
+		$modules = $_SESSION['s']['user']['modules'];
+		if (!in_array($modules, 'sites')) {
+			return '';
+		}
+
 		$tpl = new tpl;
 		$tpl->newTemplate("dashlets/templates/quota.htm");
 

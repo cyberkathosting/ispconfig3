@@ -76,7 +76,13 @@ $form["tabs"]['mailuser'] = array (
 			'default' => '',
 			'value'  => '',
 			'width'  => '30',
-			'maxlength' => '255'
+			'maxlength' => '65535'
+		),
+		'forward_in_lda' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value'  => array(0 => 'n', 1 => 'y')
 		),
 		//#################################
 		// END Datatable fields

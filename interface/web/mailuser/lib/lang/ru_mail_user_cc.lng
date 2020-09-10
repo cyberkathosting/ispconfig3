@@ -6,4 +6,6 @@ $wb['cc_error_isemail'] = 'Поле -Отправить копию- не сод�
 $wb['email_is_cc_error'] = 'Адрес электронной почты и адрес для отправки копии не могут быть одинаковыми.';
 $wb['name_optional_txt'] = '(Опционально)';
 $wb['cc_note_txt'] = '(Разделите несколько адресов электронной почты запятыми)';
+$wb['forward_in_lda_txt'] = 'Copy during delivery';
+$wb['tooltip_forward_in_lda_txt'] = 'Controls if mail copy is forwarded before or during delivery to mailbox.';
 ?>
