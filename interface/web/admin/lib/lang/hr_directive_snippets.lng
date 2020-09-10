@@ -8,6 +8,6 @@ $wb['directive_snippets_name_empty'] = 'Molimo vas specificirajte naziv direktiv
 $wb['directive_snippets_name_error_unique'] = 'Već postoji direktiva sa tim imenom.';
 $wb['variables_txt'] = 'Varijable';
 $wb['customer_viewable_txt'] = 'Customer viewable';
-$wb['required_php_snippets_txt'] = 'Requiered PHP Snippet';
+$wb['required_php_snippets_txt'] = 'Required PHP Snippet';
 $wb['update_sites_txt'] = 'Update sites using this snippet';
 ?>

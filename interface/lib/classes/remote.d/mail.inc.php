@@ -222,8 +222,8 @@ class remoting_mail extends remoting {
 		if (!isset($params['gid'])) $params['gid'] = -1;
 		if (!isset($params['maildir_format'])) $params['maildir_format'] = 'maildir';
 
-		$affected_rows = $this->insertQuery('../mail/form/mail_user.tform.php', $client_id, $params);
-		return $affected_rows;
+		$mailuser_id = $this->insertQuery('../mail/form/mail_user.tform.php', $client_id, $params);
+		return $mailuser_id;
 	}
 
 	//* Update mail user

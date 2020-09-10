@@ -126,8 +126,7 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 	} elseif ($continue) {
 		if($client['client_id'] > 0) {
 			$server_config_array = $app->getconf->get_global_config();
-			$min_password_length = 8;
-			if(isset($server_config_array['misc']['min_password_length'])) $min_password_length = $server_config_array['misc']['min_password_length'];
+			$min_password_length = $app->auth->get_min_password_length();
 			
 			$new_password = $app->auth->get_random_password($min_password_length, true);
 			$new_password_encrypted = $app->auth->crypt_password($new_password);

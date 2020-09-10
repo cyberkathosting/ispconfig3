@@ -1,0 +1,13 @@
+MIME-Version: 1.0
+Content-type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+From: {admin_mail}
+Reply-To: {admin_mail}
+Subject: Quota de base de données ok
+
+La base de données {database_name} n'est plus à la limite de son quota.
+
+Base de données :   {database_name}
+Espace utilisé :		{used}
+Quota :		        	{quota}
+Ratio d'utilisation :	{ratio}
