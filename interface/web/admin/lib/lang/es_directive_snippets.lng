@@ -8,6 +8,6 @@ $wb['name_txt'] = 'Nombre del fragmento';
 $wb['snippet_txt'] = 'Fragmento';
 $wb['type_txt'] = 'Tipo';
 $wb['variables_txt'] = 'Variables';
-$wb['required_php_snippets_txt'] = 'Requiered PHP Snippet';
+$wb['required_php_snippets_txt'] = 'Required PHP Snippet';
 $wb['update_sites_txt'] = 'Update sites using this snippet';
 ?>
