@@ -148,6 +148,11 @@ class cronjob_awstats extends cronjob {
 					mkdir($statsdirold);
 				}
 				$files = scandir($statsdir);
+
+				if (($key = array_search('index.php', $files)) !== false) {
+					unset($files[$key]);
+				}
+
 				foreach ($files as $file) {
 					if (substr($file, 0, 1) != "." && !is_dir("$statsdir"."/"."$file") && substr($file, 0, 1) != "w" && substr($file, 0, 1) != "i") $app->system->move("$statsdir"."/"."$file", "$statsdirold"."$file");
 				}
