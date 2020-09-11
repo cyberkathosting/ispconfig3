@@ -198,16 +198,16 @@ class installer_base {
 
 		if (($conf['apache']['installed'] && is_file($conf['apache']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")) || ($conf['nginx']['installed'] && is_file($conf['nginx']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost"))) $this->ispconfig_interface_installed = true;
 	}
-	
+
 	//** Check prerequisites
 	public function check_prerequisites() {
 		$msg = '';
-		
+
 		if(version_compare(phpversion(), '5.4', '<')) $msg .= "PHP Version 5.4 or newer is required. The currently used PHP version is ".phpversion().".\n";
 		if(!function_exists('curl_init')) $msg .= "PHP Curl Module is missing.\n";
 		if(!function_exists('mysqli_connect')) $msg .= "PHP MySQLi Module is nmissing.\n";
 		if(!function_exists('mb_detect_encoding')) $msg .= "PHP Multibyte Module (MB) is missing.\n";
-		
+
 		if($msg != '') die($msg);
 	}
 
@@ -326,7 +326,7 @@ class installer_base {
 		if(!$this->db->query($query, $conf['mysql']['database'] . ".*", $conf['mysql']['ispconfig_user'], $from_host)) {
 			$this->error('Unable to grant databse permissions to user: '.$conf['mysql']['ispconfig_user'].' Error: '.$this->db->errorMessage);
 		}
-		
+
 		// add correct administrative rights to IPSConfig user (SUPER is deprecated and unnecessarily powerful)
 		 if ($this->db->getDatabaseType() == 'mysql' && $this->db->getDatabaseVersion(true) >= 8) {
 			// there might be more needed on replicated db environments, this was not tested
@@ -2896,12 +2896,12 @@ class installer_base {
 		exec("cat $ssl_key_file $ssl_crt_file > $ssl_pem_file; chmod 600 $ssl_pem_file");
 
 		// Extend LE SSL certs to postfix
-		if ($conf['postfix']['installed'] == true && strtolower($this->simple_query('Symlink ISPConfig LE SSL certs to postfix?', array('y', 'n'), 'y')) == 'y') {
+		if ($conf['postfix']['installed'] == true && strtolower($this->simple_query('Symlink ISPConfig SSL certs to Postfix?', array('y', 'n'), 'y')) == 'y') {
 
 			// Define folder, file(s)
 			$cf = $conf['postfix'];
 			$postfix_dir = $cf['config_dir'];
-			if(!is_dir($postfix_dir)) $this->error("The postfix configuration directory '$postfix_dir' does not exist.");
+			if(!is_dir($postfix_dir)) $this->error("The Postfix configuration directory '$postfix_dir' does not exist.");
 			$smtpd_crt = $postfix_dir.'/smtpd.cert';
 			$smtpd_key = $postfix_dir.'/smtpd.key';
 
@@ -2915,7 +2915,7 @@ class installer_base {
 		}
 
 		// Extend LE SSL certs to pureftpd
-		if ($conf['pureftpd']['installed'] == true && strtolower($this->simple_query('Symlink ISPConfig LE SSL certs to pureftpd? Creating dhparam file takes some times.', array('y', 'n'), 'y')) == 'y') {
+		if ($conf['pureftpd']['installed'] == true && strtolower($this->simple_query('Symlink ISPConfig SSL certs to Pure-FTPd? Creating dhparam file may take some time.', array('y', 'n'), 'y')) == 'y') {
 
 			// Define folder, file(s)
 			$pureftpd_dir = '/etc/ssl/private';
