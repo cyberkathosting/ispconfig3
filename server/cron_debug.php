@@ -52,7 +52,7 @@ if(isset($cmd_opt['cronjob']) && is_file($path.'/'.$cmd_opt['cronjob'])) {
 	// Cronjob that shell be run
 	$cronjob_file = $cmd_opt['cronjob'];
 } else {
-	die('Usage example: php cron_debug.php --cronjob=100-mailbox_stats.inc.php');
+	die('Usage example: php cron_debug.php --cronjob=100-mailbox_stats.inc.php'."\n");
 }
 
 // Load and run the cronjob
