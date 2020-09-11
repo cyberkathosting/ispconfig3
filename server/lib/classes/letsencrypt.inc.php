@@ -373,6 +373,17 @@ class letsencrypt {
 			if((isset($web_config['skip_le_check']) && $web_config['skip_le_check'] == 'y') || (isset($server_config['migration_mode']) && $server_config['migration_mode'] == 'y')) {
 				$le_domains[] = $temp_domain;
 			} else {
+				$le_hash_check = trim(@file_get_contents('http://' . $temp_domain . '/.well-known/acme-challenge/' . $le_rnd_file));
+				if($le_hash_check == $le_rnd_hash) {
+					$le_domains[] = $temp_domain;
+					$app->log("Verified domain " . $temp_domain . " should be reachable for letsencrypt.", LOGLEVEL_DEBUG);
+				} else {
+					$app->log("Could not verify domain " . $temp_domain . ", so excluding it from letsencrypt request.", LOGLEVEL_WARN);
+				}
+			}
+		}
+		if(!empty($le_domains)) {
+			foreach($le_domains as $idx=>$temp_domain) {
 				//check caa-record
 				$caa_check = false;
 				$caa_domain = $temp_domain;
@@ -393,20 +404,13 @@ class letsencrypt {
 					$caa_check = true;
 				}
 
-				if($caa_check === true) {
-					$le_hash_check = trim(@file_get_contents('http://' . $temp_domain . '/.well-known/acme-challenge/' . $le_rnd_file));
-					if($le_hash_check == $le_rnd_hash) {
-						$le_domains[] = $temp_domain;
-						$app->log("Verified domain " . $temp_domain . " should be reachable for letsencrypt.", LOGLEVEL_DEBUG);
-					} else {
-						$app->log("Could not verify domain " . $temp_domain . ", so excluding it from letsencrypt request.", LOGLEVEL_WARN);
-					}
-				} else {
+				if($caa_check === false) {
 					$app->log("Incomplete CAA-Records for " . $temp_domain . ", so excluding it from letsencrypt request.", LOGLEVEL_WARN);
+					unset($le_domains[$idx]);
 				}
-
 			}
 		}
+
 		$temp_domains = $le_domains;
 		unset($le_domains);
 		@unlink('/usr/local/ispconfig/interface/acme/.well-known/acme-challenge/' . $le_rnd_file);
