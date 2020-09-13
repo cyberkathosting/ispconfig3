@@ -46,5 +46,5 @@ $wb['dmarc_empty_txt'] = 'DMARC Record empty - specify at least one option';
 $wb['record_exists_txt'] = 'DNS-Record already exists';
 $wb['limit_dns_record_txt'] = 'The max. number of DNS records for your account is reached.';
 $wb['no_zone_perm'] = 'You do not have the permission to add a record to this DNS zone.';
-$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['ttl_range_error'] = 'Минималния TTL е 60 секунди.';
 ?>

@@ -15,5 +15,5 @@ $wb['limit_dns_record_txt'] = 'The max. number of DNS records for your account i
 $wb['ca_error_txt'] = 'No Certifiction Authority selected';
 $wb['caa_exists_error'] = 'CAA Record already exists';
 $wb['ca_option_error'] = 'Invalid format for additional options; OPTION=VALUE';
-$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['ttl_range_error'] = 'Минималния TTL е 60 секунди.';
 ?>
