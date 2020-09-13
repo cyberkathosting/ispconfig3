@@ -10,7 +10,7 @@ if [ -f /usr/local/ispconfig/server/lib/php.ini ]; then
 fi
 
 cd /usr/local/ispconfig/server
-/usr/bin/php -q \
+$(which php) -q \
     -d disable_classes= \
     -d disable_functions= \
     -d open_basedir= \
