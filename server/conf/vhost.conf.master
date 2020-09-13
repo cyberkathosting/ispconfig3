@@ -76,8 +76,8 @@
 		ErrorDocument 503 /error/503.html
 </tmpl_if>
 
-		<IfModule mod_ssl.c>
 <tmpl_if name='ssl_enabled'>
+  <IfModule mod_ssl.c>
 		SSLEngine on
 		SSLProtocol All -SSLv2 -SSLv3 -TLSv1 -TLSv1.1
 		# SSLCipherSuite          ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES256-SHA:ECDHE-ECDSA-DES-CBC3-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA:!DSS
@@ -88,17 +88,17 @@
 		SSLCertificateFile <tmpl_var name='ssl_crt_file'>
 		SSLCertificateKeyFile <tmpl_var name='ssl_key_file'>
 		<tmpl_if name='apache_version' op='>=' value='2.4' format='version'>
-		SSLUseStapling on
-		SSLStaplingResponderTimeout 5
-		SSLStaplingReturnResponderErrors off
+		  SSLUseStapling on
+		  SSLStaplingResponderTimeout 5
+		  SSLStaplingReturnResponderErrors off
 		</tmpl_if>
-<tmpl_if name='has_bundle_cert'>
-		<tmpl_if name='apache_version' op='<' value='2.4.8' format='version'>
-		SSLCertificateChainFile <tmpl_var name='ssl_bundle_file'>
-		</tmpl_if>
+    <tmpl_if name='has_bundle_cert'>
+		  <tmpl_if name='apache_version' op='<' value='2.4.8' format='version'>
+		    SSLCertificateChainFile <tmpl_var name='ssl_bundle_file'>
+		  </tmpl_if>
+    </tmpl_if>
+  </IfModule>
 </tmpl_if>
-</tmpl_if>
-		</IfModule>
 
 		<Directory {tmpl_var name='web_document_root_www'}>
 				# Clear PHP settings of this website
