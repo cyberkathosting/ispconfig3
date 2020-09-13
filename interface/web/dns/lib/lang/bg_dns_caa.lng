@@ -1,7 +1,7 @@
 <?php
 $wb['ca_list_txt'] = 'Certifiction Authority';
 $wb['ca_domain_txt'] = 'Domain';
-$wb['ca_hostname_txt'] = 'Additional Hostnamen';
+$wb['ca_hostname_txt'] = 'Additional Hostnames';
 $wb['ca_hostname_note_txt'] = '(Sepearated list with commas - empty for all hostnames)';
 $wb['ca_options_txt'] = 'Additional Options';
 $wb['ca_options_note_txt'] = 'requested by the CA (Sepearated list with commas)';
