@@ -274,7 +274,7 @@ class shelluser_jailkit_plugin {
 				$app->log("Jailkit Plugin -> delete chroot home:".$data['old']['dir'].$jailkit_chroot_userhome, LOGLEVEL_DEBUG);
 			}
 
-			if (isset($web['delete_unused_jailkit']) && $web['delete_unused_jailkit']) {
+			if (isset($web['delete_unused_jailkit']) && $web['delete_unused_jailkit'] == 'y') {
 				$this->_delete_jailkit_if_unused($web['domain_id']);
 			}
 

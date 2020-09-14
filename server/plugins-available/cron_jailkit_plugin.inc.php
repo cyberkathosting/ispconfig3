@@ -220,7 +220,7 @@ class cron_jailkit_plugin {
 
 			// should copy some _delete_homedir() functionality from shelluser_jailkit_plugin ?
 
-			if (isset($parent_domain['delete_unused_jailkit']) && $parent_domain['delete_unused_jailkit']) {
+			if (isset($parent_domain['delete_unused_jailkit']) && $parent_domain['delete_unused_jailkit'] == 'y') {
 				$app->system->web_folder_protection($parent_domain['document_root'], false);
 				$this->_delete_jailkit_if_unused($parent_domain['domain_id']);
 				$app->system->web_folder_protection($parent_domain['document_root'], true);
