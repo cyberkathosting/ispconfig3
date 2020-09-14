@@ -362,6 +362,11 @@ class cron_jailkit_plugin {
 			return;
 		}
 
+		// chroot is used by php-fpm
+		if (isset($parent_domain['php_fpm_chroot']) && $parent_domain['php_fpm_chroot'] == 'y') {
+			return;
+		}
+
 		// check for any shell_user using this jail
 		$inuse = $app->db->queryOneRecord('SELECT shell_user_id FROM `shell_user` WHERE `parent_domain_id` = ? AND `chroot` = ?', $parent_domain_id, 'jailkit');
 		if($inuse) {

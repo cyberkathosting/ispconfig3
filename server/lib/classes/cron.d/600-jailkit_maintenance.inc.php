@@ -75,7 +75,7 @@ class cronjob_jailkit_maintenance extends cronjob {
 		// limit the number of jails we update at one time according to time of day
 		$num_jails_to_update = (date('H') < 6) ? 25 : 3;
 
-		$sql = "SELECT domain_id, domain, document_root, jailkit_chroot_app_sections, jailkit_chroot_app_programs, delete_unused_jailkit FROM web_domain WHERE type = 'vhost' AND last_jailkit_update < (NOW() - INTERVAL 24 HOUR) AND server_id = ? ORDER by last_jailkit_update LIMIT ?";
+		$sql = "SELECT domain_id, domain, document_root, php_fpm_chroot, jailkit_chroot_app_sections, jailkit_chroot_app_programs, delete_unused_jailkit FROM web_domain WHERE type = 'vhost' AND last_jailkit_update < (NOW() - INTERVAL 24 HOUR) AND server_id = ? ORDER by last_jailkit_update LIMIT ?";
 		$records = $app->db->queryAllRecords($sql, $conf['server_id'], $num_jails_to_update);
 
 		foreach($records as $rec) {
@@ -92,7 +92,7 @@ class cronjob_jailkit_maintenance extends cronjob {
 			// check for any cron job using this jail
 			$cron_inuse = $app->db->queryOneRecord('SELECT id FROM `cron` WHERE `parent_domain_id` = ? AND `type` = ? AND `server_id` = ?', $rec['domain_id'], 'chrooted', $conf['server_id']);
 
-			if ($shell_user_inuse || $cron_inuse || $rec['delete_unused_jailkit'] != 'y') {
+			if ($shell_user_inuse || $cron_inuse || $rec['php_fpm_chroot'] == 'y' || $rec['delete_unused_jailkit'] != 'y') {
 				$sections = $jailkit_config['jailkit_chroot_app_sections'];
 				if (isset($web['jailkit_chroot_app_sections']) && $web['jailkit_chroot_app_sections'] != '') {
 					$sections = $web['jailkit_chroot_app_sections'];
@@ -102,12 +102,10 @@ class cronjob_jailkit_maintenance extends cronjob {
 					$programs = $web['jailkit_chroot_app_programs'];
 				}
 				$app->system->update_jailkit_chroot($rec['document_root'], $sections, $programs, $update_options);
-			} else {
-				if ($rec['delete_unused_jailkit'] == 'y') {
-					//$app->log('Removing unused jail: '.$rec['document_root'], LOGLEVEL_DEBUG);
-					print 'Removing unused jail: '.$rec['document_root']."\n";
-					$app->system->delete_jailkit_chroot($rec['document_root']);
-				}
+			} elseif ($rec['delete_unused_jailkit'] == 'y') {
+				//$app->log('Removing unused jail: '.$rec['document_root'], LOGLEVEL_DEBUG);
+				print 'Removing unused jail: '.$rec['document_root']."\n";
+				$app->system->delete_jailkit_chroot($rec['document_root']);
 			}
 
 			// might need to update master db here?  checking....
