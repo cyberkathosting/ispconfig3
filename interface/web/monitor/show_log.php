@@ -79,6 +79,11 @@ case 'log_ispc_cron':
 	$title = $app->lng("monitor_logs_ispccron_txt").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
 	$description = '';
 	break;
+case 'log_letsencrypt':
+		$logId = 'log_letsencrypt';
+		$title = $app->lng("monitor_logs_letsencrypt_txt").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
+		$description = '';
+		break;
 case 'log_freshclam':
 	$logId = 'log_freshclam';
 	$title = $app->lng("monitor_logs_freshclam_txt").' ('. $monTransSrv .' : ' . $_SESSION['monitor']['server_name'] . ')';
@@ -127,7 +132,7 @@ if(isset($record['data'])) {
 
 	$logData = explode("\n", htmlspecialchars($data));
 	$logDataHtml = '';
-	
+
 	/* set css class for each line of log, depending on key words in each line */
 	foreach($logData as $line => $val) {
 		if (strpos($val, 'ERROR') !== FALSE) {

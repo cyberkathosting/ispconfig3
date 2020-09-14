@@ -44,12 +44,12 @@ class monitor_tools {
 
 	//** Debian or Ubuntu
 	if(file_exists('/etc/debian_version')) {
-		
+
 		// Check if this is Ubuntu and not Debian
 		if (strstr(trim(file_get_contents('/etc/issue')), 'Ubuntu') || (is_file('/etc/os-release') && stristr(file_get_contents('/etc/os-release'), 'Ubuntu'))) {
-			
+
 			$issue = file_get_contents('/etc/issue');
-			
+
 			// Use content of /etc/issue file
 			if(strstr($issue,'Ubuntu')) {
 				if (strstr(trim($issue), 'LTS')) {
@@ -75,7 +75,7 @@ class monitor_tools {
 				} else {
 					$lts = "";
 				}
-				
+
 				$distname = 'Ubuntu';
 				$distid = 'debian40';
 				$distbaseid = 'debian';
@@ -353,7 +353,7 @@ class monitor_tools {
 	} else {
 		die('Unrecognized GNU/Linux distribution');
 	}
-	
+
 	// Set $distconfid to distid, if no different id for the config is defined
 	if(!isset($distconfid)) $distconfid = $distid;
 
@@ -559,6 +559,17 @@ class monitor_tools {
 			} elseif ($dist == 'gentoo') {
 				$logfile = '/var/log/cron';
 			}
+			break;
+		case 'log_letsencrypt':
+				if ($dist == 'debian') {
+					$logfile = '/var/log/letsencrypt/letsencrypt.log';
+				} elseif ($dist == 'redhat') {
+					$logfile = '/var/log/letsencrypt/letsencrypt.log';
+				} elseif ($dist == 'suse') {
+					$logfile = '/var/log/letsencrypt/letsencrypt.log';
+				} elseif ($dist == 'gentoo') {
+					$logfile = '/var/log/letsencrypt/letsencrypt.log';
+				}
 			break;
 		case 'log_freshclam':
 			if ($dist == 'debian') {

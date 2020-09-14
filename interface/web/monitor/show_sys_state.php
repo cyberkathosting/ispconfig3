@@ -223,12 +223,12 @@ function _getServerState($serverId, $serverName) {
 	/*
 	 * Info of a VE inside a OpenVz-Host
 	*/
-	
+
 	$alert_class = 'alert-info';
 	if($serverState == 'ok') $alert_class = 'alert-success';
 	if($serverState == 'warning') $alert_class = 'alert-warning';
 	if($serverState == 'critical' || $serverState == 'error') $alert_class = 'alert-danger';
-	
+
 	//$html_ve  = '<div class="systemmonitor-ve state-' . $serverState . '-ve os-' . $osData['name'] . '">';
 	//$html_ve  = '<div class="systemmonitor state-' . $serverState . ' os-' . $osData['name'] . '">';
 	$html_server = '<div class="alert '.$alert_class.'" role="alert">';
@@ -254,7 +254,7 @@ function _getServerState($serverId, $serverName) {
 	 * Info of a "normal" Server or a OpenVz-Host
 	*/
 	//$html_server = '<div class="systemmonitor-server state-' . $serverState . ' os-' . $osData['name'] . '">';
-	
+
 	/*
 	switch ($oldState) {
 	case 'no_state': $oldInt = 0;
@@ -276,7 +276,7 @@ function _getServerState($serverId, $serverName) {
 	if($serverState == 'ok') $alert_class = 'alert-success';
 	if($serverState == 'warning') $alert_class = 'alert-warning';
 	if($serverState == 'critical' || $serverState == 'error') $alert_class = 'alert-danger';
-	
+
 	$html_server = '<div class="alert '.$alert_class.'" role="alert">';
 	if ($osData != null) {
 		//$html_server .= '<div class="icoDevice"><p class="status"></p></div>';
@@ -613,6 +613,9 @@ function _processDbState($type, $serverId, $serverState, $messages) {
 		/* this type has no state */
 	}
 	if ($type == 'log_messages') {
+		/* this type has no state */
+	}
+	if ($type == 'log_letsencrypt') {
 		/* this type has no state */
 	}
 	if ($type == 'rkhunter') {
