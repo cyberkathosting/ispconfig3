@@ -2324,14 +2324,24 @@ $app->log("removing broken symlink $path", LOGLEVEL_DEBUG);
 		$cmd = 'jk_init' . $program_args;
 		$this->exec_safe($cmd, $home_dir);
 
-		// Create the temp directory
+		// Create the tmp and /var/run directories
 		if(!is_dir($home_dir . '/tmp')) {
 			$this->mkdirpath($home_dir . '/tmp', 0770);
 		} else {
 			$this->chmod($home_dir . '/tmp', 0770, true);
 		}
+		if(!is_dir($home_dir . '/var/run')) {
+			$this->mkdirpath($home_dir . '/var/run', 0755);
+		} else {
+			$this->chmod($home_dir . '/var/run', 0755, true);
+		}
+		if(!is_dir($home_dir . '/var/tmp')) {
+			$this->mkdirpath($home_dir . '/var/tmp', 0770);
+		} else {
+			$this->chmod($home_dir . '/var/tmp', 0770, true);
+		}
 
-		// Fix permissions of the root firectory
+		// Fix permissions of the root directory
 		$this->chmod($home_dir . '/bin', 0755, true);  // was chmod g-w $CHROOT_HOMEDIR/bin
 
 		return true;
@@ -2540,12 +2550,28 @@ $app->log("update_jailkit_chroot: removing deprecated directory which jk_update 
 			$this->create_jailkit_programs($home_dir, $programs, $opts);
 		}
 
-		// Create the temp directory
+		// Create the tmp and /var/run directories
 		if(!is_dir($home_dir . '/tmp')) {
 			$this->mkdirpath($home_dir . '/tmp', 0770);
 		} else {
 			$this->chmod($home_dir . '/tmp', 0770, true);
 		}
+		if(!is_dir($home_dir . '/var/run')) {
+			$this->mkdirpath($home_dir . '/var/run', 0755);
+		} else {
+			$this->chmod($home_dir . '/var/run', 0755, true);
+		}
+		if(!is_dir($home_dir . '/var/tmp')) {
+			$this->mkdirpath($home_dir . '/var/tmp', 0770);
+		} else {
+			$this->chmod($home_dir . '/var/tmp', 0770, true);
+		}
+
+		// TODO: Set /usr/bin/php symlink to php version of the website.
+		//
+		// Currently server_php does not have a field for the cli path;
+		// we can guess/determing according to OS-specific conventions or add that field.
+		// Then symlink /usr/bin/php (or correct OS-specific path) to that location.
 
 		// search for any hardlinked files which are now missing
 		if (!(in_array('hardlink', $opts) || in_array('allow_hardlink', $options))) {
