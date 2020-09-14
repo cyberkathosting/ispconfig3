@@ -935,11 +935,10 @@ class system{
 	}
 
 	function move($file1, $file2) {
-		$result = $this->copy($file1, $file2);
-		if($result) {
-			$result &= $this->unlink($file1);
-		}
-		return $result;
+                $cmd = 'mv ? ?';
+                $this->exec_safe($cmd, $file1, $file2);
+                $return_var = $this->last_exec_retcode();
+                return $return_var == 0 ? true : false;
         }
 
 	function touch($file, $allow_symlink = false){
