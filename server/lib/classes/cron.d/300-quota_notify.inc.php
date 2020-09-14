@@ -49,7 +49,7 @@ class cronjob_quota_notify extends cronjob {
 
 	public function onRunJob() {
 		global $app, $conf;
-		
+
 		/* used for all monitor cronjobs */
 		$app->load('monitor_tools');
 		$this->_tools = new monitor_tools();
@@ -88,7 +88,11 @@ class cronjob_quota_notify extends cronjob {
 						if($rec['traffic_quota_lock'] != 'y' && ($web_config['overtraffic_notify_admin'] == 'y' || $web_config['overtraffic_notify_client'] == 'y')) {
 
 							$placeholders = array('{domain}' => $rec['domain'],
-								'{admin_mail}' => ($global_config['admin_mail'] != ''? $global_config['admin_mail'] : 'root'));
+								'{admin_mail}' => ($global_config['admin_mail'] != ''? $global_config['admin_mail'] : 'root'),
+								'{used}' => $web_traffic,
+								'{limit}' => $web_traffic_quota,
+								'{ratio}' => number_format(($web_traffic_quota > 0 ? $web_traffic/$web_traffic_quota : 0) * 100, 2, '.', '').'%'
+							);
 
 							$recipients = array();
 							//* send email to admin
@@ -410,12 +414,12 @@ class cronjob_quota_notify extends cronjob {
 				$monitor_data = array();
 				foreach ($tmp_rec as $tmp_mon) {
 					$tmp_array = unserialize($app->db->unquote($tmp_mon['data']));
-					if(is_array($tmp_array)) 
+					if(is_array($tmp_array))
 						foreach($tmp_array as $sys_groupid => $data)
 							$monitor_data[$data['sys_groupid']][] = $data;
 				}
 				//* remove duplicates from monitor-data
-				foreach($monitor_data as $_monitor_data) 
+				foreach($monitor_data as $_monitor_data)
 					$monitor_data[$_monitor_data[0]['sys_groupid']]=array_map("unserialize", array_unique(array_map("serialize", $_monitor_data)));
 			}
 
@@ -492,11 +496,11 @@ class cronjob_quota_notify extends cronjob {
 										$recipients = array();
 
 										//* send email to admin
-										if($global_config['admin_mail'] != '' && $web_config['overquota_db_notify_admin'] == 'y') 
+										if($global_config['admin_mail'] != '' && $web_config['overquota_db_notify_admin'] == 'y')
 											$recipients[] = $global_config['admin_mail'];
 
 										//* Send email to client
-										if($web_config['overquota_db_notify_client'] == 'y' && $client['email'] != '') 
+										if($web_config['overquota_db_notify_client'] == 'y' && $client['email'] != '')
 											$recipients[] = $client['email'];
 
 										$this->_tools->send_notification_email('db_quota_ok_notification', $placeholders, $recipients);
@@ -507,7 +511,7 @@ class cronjob_quota_notify extends cronjob {
 
 							}
 
-						}   
+						}
 
 					}
 
