@@ -101,11 +101,15 @@ class cronjob_jailkit_maintenance extends cronjob {
 				if (isset($web['jailkit_chroot_app_programs']) && $web['jailkit_chroot_app_programs'] != '') {
 					$programs = $web['jailkit_chroot_app_programs'];
 				}
+				$app->system->web_folder_protection($rec['document_root'], false);
 				$app->system->update_jailkit_chroot($rec['document_root'], $sections, $programs, $update_options);
+				$app->system->web_folder_protection($rec['document_root'], true);
 			} elseif ($rec['delete_unused_jailkit'] == 'y') {
 				//$app->log('Removing unused jail: '.$rec['document_root'], LOGLEVEL_DEBUG);
 				print 'Removing unused jail: '.$rec['document_root']."\n";
+				$app->system->web_folder_protection($rec['document_root'], false);
 				$app->system->delete_jailkit_chroot($rec['document_root']);
+				$app->system->web_folder_protection($rec['document_root'], true);
 			}
 
 			// might need to update master db here?  checking....
