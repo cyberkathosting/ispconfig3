@@ -934,6 +934,13 @@ class system{
 		return copy($file1, $file2);
 	}
 
+	function move($file1, $file2) {
+                $cmd = 'mv ? ?';
+                $this->exec_safe($cmd, $file1, $file2);
+                $return_var = $this->last_exec_retcode();
+                return $return_var == 0 ? true : false;
+        }
+
 	function touch($file, $allow_symlink = false){
 		global $app;
 		if($allow_symlink == false && @file_exists($file) && $this->checkpath($file) == false) {
