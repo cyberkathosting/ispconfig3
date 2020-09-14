@@ -76,7 +76,7 @@ class getmail_plugin {
 
 	function update($event_name, $data) {
 		global $app, $conf;
-		
+
 		// Do not write getmail config files on mirror servers to avoid double fetching of emails.
 		if($conf['mirror_server_id'] > 0) return true;
 
@@ -116,7 +116,7 @@ class getmail_plugin {
 					$tpl = str_replace('{DELETE}', 'false', $tpl);
 				}
 
-				if($data["new"]["read_all"] == 'y') {
+				if($data["new"]["source_read_all"] == 'y') {
 					$tpl = str_replace('{READ_ALL}', 'true', $tpl);
 				} else {
 					$tpl = str_replace('{READ_ALL}', 'false', $tpl);
