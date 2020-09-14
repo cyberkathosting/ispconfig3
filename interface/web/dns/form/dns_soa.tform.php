@@ -56,8 +56,33 @@ $form["auth_preset"]["perm_user"] = 'riud'; //r = read, i = insert, u = update, 
 $form["auth_preset"]["perm_group"] = 'riud'; //r = read, i = insert, u = update, d = delete
 $form["auth_preset"]["perm_other"] = ''; //r = read, i = insert, u = update, d = delete
 
+$form["tabs"]['dns_records'] = array (
+	'title'  => "Records",
+	'width'  => 100,
+	'template'  => "templates/dns_records_edit.htm",
+	'fields'  => array (
+		//#################################
+		// Begin Datatable fields
+		//#################################
+
+		//#################################
+		// END Datatable fields
+		//#################################
+	),
+	'plugins' => array (
+		'dns_records' => array (
+			'class'   => 'plugin_listview',
+			'options' => array(
+				'listdef' => 'list/dns_a.list.php',
+				'sqlextwhere' => "zone = ".@$app->functions->intval(@$_REQUEST['id']),
+				'sql_order_by' => "ORDER BY type, name"
+			)
+		)
+	)
+);
+
 $form["tabs"]['dns_soa'] = array (
-	'title'  => "DNS Zone",
+	'title'  => "Zone settings",
 	'width'  => 100,
 	'template'  => "templates/dns_soa_edit.htm",
 	'fields'  => array (
@@ -300,31 +325,6 @@ $form["tabs"]['dns_soa'] = array (
 		//#################################
 		// END Datatable fields
 		//#################################
-	)
-);
-
-$form["tabs"]['dns_records'] = array (
-	'title'  => "Records",
-	'width'  => 100,
-	'template'  => "templates/dns_records_edit.htm",
-	'fields'  => array (
-		//#################################
-		// Begin Datatable fields
-		//#################################
-
-		//#################################
-		// END Datatable fields
-		//#################################
-	),
-	'plugins' => array (
-		'dns_records' => array (
-			'class'   => 'plugin_listview',
-			'options' => array(
-				'listdef' => 'list/dns_a.list.php',
-				'sqlextwhere' => "zone = ".@$app->functions->intval(@$_REQUEST['id']),
-				'sql_order_by' => "ORDER BY type, name"
-			)
-		)
 	)
 );
 

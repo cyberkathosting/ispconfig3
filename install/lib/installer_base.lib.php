@@ -2761,9 +2761,7 @@ class installer_base {
 
 		// Request for certs if no LE SSL folder for server fqdn exist
 		$le_live_dir = '/etc/letsencrypt/live/' . $hostname;
-		if (!@is_dir($le_live_dir) && (
-				($svr_ip4 && in_array($svr_ip4, $dns_ips)) || ($svr_ip6 && in_array($svr_ip6, $dns_ips))
-			)) {
+		if (!@is_dir($le_live_dir) && (($svr_ip4 && in_array($svr_ip4, $dns_ips)) || ($svr_ip6 && in_array($svr_ip6, $dns_ips)))) {
 
 			// This script is needed earlier to check and open http port 80 or standalone might fail
 			// Make executable and temporary symlink latest letsencrypt pre, post and renew hook script before install
@@ -2865,7 +2863,7 @@ class installer_base {
 		$date = new DateTime();
 
 		// If the LE SSL certs for this hostname exists
-		if (is_dir($le_live_dir) && in_array($svr_ip, $dns_ips)) {
+		if (is_dir($le_live_dir) && (($svr_ip4 && in_array($svr_ip4, $dns_ips)) || ($svr_ip6 && in_array($svr_ip6, $dns_ips)))) {
 
 			// Backup existing ispserver ssl files
 			if (file_exists($ssl_crt_file)) rename($ssl_crt_file, $ssl_crt_file . '-' .$date->format('YmdHis') . '.bak');
