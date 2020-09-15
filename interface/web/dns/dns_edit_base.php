@@ -112,7 +112,17 @@ class dns_page_action extends tform_actions {
 				}
 			}
 		} // end if user is not admin
-		
+
+		//* Replace @ to domain name
+		if(stristr($this->dataRecord["name"], '@')) {
+			$this->dataRecord["name"] = str_replace('@', $soa['origin'], $this->dataRecord["name"]);
+		}
+
+		//* Replace * to *.example.com.
+		if(stristr($this->dataRecord["name"], '*')) {
+			$this->dataRecord["name"] = str_replace('*', '*.' . $soa['origin'], $this->dataRecord["name"]);
+		}
+
 		if($this->checkDuplicate()) $app->tform->errorMessage .= $app->tform->lng("data_error_duplicate")."<br>";
 
 		// Set the server ID of the rr record to the same server ID as the parent record.
