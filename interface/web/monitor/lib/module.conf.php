@@ -181,7 +181,7 @@ $items[] = array( 'title'  => "Show ISPC Cron-Log",
 	'link' => 'monitor/show_log.php?log=log_ispc_cron',
 	'html_id' => 'log_ispc_cron');
 
-$items[] = array( 'title'  => "Show Let's Encrypt log",
+$items[] = array( 'title'  => "Let's Encrypt log",
 	'target'  => 'content',
 	'link' => 'monitor/show_log.php?log=log_letsencrypt',
 	'html_id' => 'log_letsencrypt');
