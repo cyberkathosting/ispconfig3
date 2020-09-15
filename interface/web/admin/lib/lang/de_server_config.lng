@@ -1,5 +1,6 @@
 <?php
 $wb['server_config'] = 'Server Config';
+$wb['config_for_txt'] = 'Configuration for';
 $wb['server_config_error_not_updated'] = 'Error in Server Config: not updated';
 $wb['server_config_error_section_not_updated'] = 'Error in Server Config: %s section not updated';
 $wb['jailkit_chroot_home_txt'] = 'Jailkit Chroot home';

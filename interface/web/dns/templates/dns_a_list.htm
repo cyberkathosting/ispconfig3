@@ -1,6 +1,5 @@
 <div class="pnl_toolsarea">
         <tmpl_if name='datalog_changes_count' op='>' value='0'>
-        <div>
             <div class="systemmonitor-state state-info">
                 <div class="status"></div>
                 <div class="statusMsg">
@@ -12,32 +11,31 @@
                     </ul>
                     {tmpl_var name="datalog_changes_end_txt"}
                 </div>
-            </div><br />
-        </div>
+            </div>
         </tmpl_if>
     <p class="fieldset-legend">{tmpl_var name="toolsarea_head_txt"}</p>
         <div class="buttons topbuttons">
-            <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_a_edit.php?zone={tmpl_var name='parent_id'}">A</button>
-            <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_aaaa_edit.php?zone={tmpl_var name='parent_id'}">AAAA</button>
-            <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_alias_edit.php?zone={tmpl_var name='parent_id'}">ALIAS</button>
-            <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_caa_edit.php?zone={tmpl_var name='parent_id'}">CAA</button>
-            <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_cname_edit.php?zone={tmpl_var name='parent_id'}">CNAME</button>
-            <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_dname_edit.php?zone={tmpl_var name='parent_id'}">DNAME</button>
-            <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_dkim_edit.php?zone={tmpl_var name='parent_id'}">DKIM</button>
-			<button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_ds_edit.php?zone={tmpl_var name='parent_id'}">DS</button>
-            <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_dmarc_edit.php?zone={tmpl_var name='parent_id'}">DMARC</button>
-            <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_hinfo_edit.php?zone={tmpl_var name='parent_id'}">HINFO</button>
-			<button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_loc_edit.php?zone={tmpl_var name='parent_id'}">LOC</button>
-            <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_mx_edit.php?zone={tmpl_var name='parent_id'}">MX</button>
-            <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_naptr_edit.php?zone={tmpl_var name='parent_id'}">NAPTR</button>
-            <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_ns_edit.php?zone={tmpl_var name='parent_id'}">NS</button>
-            <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_ptr_edit.php?zone={tmpl_var name='parent_id'}">PTR</button>
-            <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_rp_edit.php?zone={tmpl_var name='parent_id'}">RP</button>
-            <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_spf_edit.php?zone={tmpl_var name='parent_id'}">SPF</button>
-            <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_srv_edit.php?zone={tmpl_var name='parent_id'}">SRV</button>
-            <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_sshfp_edit.php?zone={tmpl_var name='parent_id'}">SSHFP</button>
-			<button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_tlsa_edit.php?zone={tmpl_var name='parent_id'}">TLSA</button>
-            <button class="btn btn-default formbutton-success" type="button" data-load-content="dns/dns_txt_edit.php?zone={tmpl_var name='parent_id'}">TXT</button>
+            <button class="btn btn-default dns-record-btn formbutton-success" type="button" data-load-content="dns/dns_a_edit.php?zone={tmpl_var name='parent_id'}">A</button>
+            <button class="btn btn-default dns-record-btn formbutton-success" type="button" data-load-content="dns/dns_aaaa_edit.php?zone={tmpl_var name='parent_id'}">AAAA</button>
+            <button class="btn btn-default dns-record-btn formbutton-success" type="button" data-load-content="dns/dns_alias_edit.php?zone={tmpl_var name='parent_id'}">ALIAS</button>
+            <button class="btn btn-default dns-record-btn formbutton-success" type="button" data-load-content="dns/dns_caa_edit.php?zone={tmpl_var name='parent_id'}">CAA</button>
+            <button class="btn btn-default dns-record-btn formbutton-success" type="button" data-load-content="dns/dns_cname_edit.php?zone={tmpl_var name='parent_id'}">CNAME</button>
+            <button class="btn btn-default dns-record-btn formbutton-success" type="button" data-load-content="dns/dns_dname_edit.php?zone={tmpl_var name='parent_id'}">DNAME</button>
+            <button class="btn btn-default dns-record-btn formbutton-success" type="button" data-load-content="dns/dns_dkim_edit.php?zone={tmpl_var name='parent_id'}">DKIM</button>
+			<button class="btn btn-default dns-record-btn formbutton-success" type="button" data-load-content="dns/dns_ds_edit.php?zone={tmpl_var name='parent_id'}">DS</button>
+            <button class="btn btn-default dns-record-btn formbutton-success" type="button" data-load-content="dns/dns_dmarc_edit.php?zone={tmpl_var name='parent_id'}">DMARC</button>
+            <button class="btn btn-default dns-record-btn formbutton-success" type="button" data-load-content="dns/dns_hinfo_edit.php?zone={tmpl_var name='parent_id'}">HINFO</button>
+			<button class="btn btn-default dns-record-btn formbutton-success" type="button" data-load-content="dns/dns_loc_edit.php?zone={tmpl_var name='parent_id'}">LOC</button>
+            <button class="btn btn-default dns-record-btn formbutton-success" type="button" data-load-content="dns/dns_mx_edit.php?zone={tmpl_var name='parent_id'}">MX</button>
+            <button class="btn btn-default dns-record-btn formbutton-success" type="button" data-load-content="dns/dns_naptr_edit.php?zone={tmpl_var name='parent_id'}">NAPTR</button>
+            <button class="btn btn-default dns-record-btn formbutton-success" type="button" data-load-content="dns/dns_ns_edit.php?zone={tmpl_var name='parent_id'}">NS</button>
+            <button class="btn btn-default dns-record-btn formbutton-success" type="button" data-load-content="dns/dns_ptr_edit.php?zone={tmpl_var name='parent_id'}">PTR</button>
+            <button class="btn btn-default dns-record-btn formbutton-success" type="button" data-load-content="dns/dns_rp_edit.php?zone={tmpl_var name='parent_id'}">RP</button>
+            <button class="btn btn-default dns-record-btn formbutton-success" type="button" data-load-content="dns/dns_spf_edit.php?zone={tmpl_var name='parent_id'}">SPF</button>
+            <button class="btn btn-default dns-record-btn formbutton-success" type="button" data-load-content="dns/dns_srv_edit.php?zone={tmpl_var name='parent_id'}">SRV</button>
+            <button class="btn btn-default dns-record-btn formbutton-success" type="button" data-load-content="dns/dns_sshfp_edit.php?zone={tmpl_var name='parent_id'}">SSHFP</button>
+			<button class="btn btn-default dns-record-btn formbutton-success" type="button" data-load-content="dns/dns_tlsa_edit.php?zone={tmpl_var name='parent_id'}">TLSA</button>
+            <button class="btn btn-default dns-record-btn formbutton-success" type="button" data-load-content="dns/dns_txt_edit.php?zone={tmpl_var name='parent_id'}">TXT</button>
         </div>
 
 </div>
