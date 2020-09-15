@@ -1491,6 +1491,10 @@ class apache2_plugin {
 			$tpl->setVar('rewrite_enabled', 0);
 		}
 
+		if($data['new']['ssl'] == 'n') {
+			$tpl->setVar('rewrite_to_https', 'n');
+		}
+
 		//$tpl->setLoop('redirects',$rewrite_rules);
 
 		/**

@@ -2,7 +2,7 @@
 $wb['users_txt'] = 'Users';
 $wb['username_txt'] = 'Benutzername';
 $wb['username_err'] = 'Der Benutzername enthält ungültige Zeichen.';
-$wb['passwort_txt'] = 'Passwort';
+$wb['password_txt'] = 'Passwort';
 $wb['modules_txt'] = 'Module';
 $wb['startmodule_txt'] = 'Startmodul';
 $wb['app_theme_txt'] = 'Design';

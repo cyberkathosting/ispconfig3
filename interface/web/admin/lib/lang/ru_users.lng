@@ -2,7 +2,7 @@
 $wb['users_txt'] = 'Users';
 $wb['username_txt'] = 'Логин';
 $wb['username_err'] = 'Ошибка в логине';
-$wb['passwort_txt'] = 'Пароль';
+$wb['password_txt'] = 'Пароль';
 $wb['modules_txt'] = 'Модуль';
 $wb['startmodule_txt'] = 'Стартовый модуль';
 $wb['app_theme_txt'] = 'Тема';

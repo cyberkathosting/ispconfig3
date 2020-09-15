@@ -1,7 +1,4 @@
-<div class='page-header'>
-	<h1><tmpl_var name="list_head_txt"> {tmpl_var name='server_name'}</h1>
-</div>
-<p><tmpl_var name="list_desc_txt"></p>
+<div class="alert alert-info"><h4 style="text-align:center"><tmpl_var name="config_for_txt"> {tmpl_var name='server_name'}</h4></div>
 
 
         <legend>UFW Firewall</legend>
@@ -53,10 +50,10 @@
                     {tmpl_var name='ufw_log_level'}
                 </select></div>
             </div>
-        
-            
+
+
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
-            
+
         <div class="clear"><div class="right">
             <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="admin/server_config_edit.php">{tmpl_var name='btn_save_txt'}</button>
             <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="admin/server_config_list.php">{tmpl_var name='btn_cancel_txt'}</button>

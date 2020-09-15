@@ -1,3 +1,8 @@
+################################################
+# ISPConfig General Apache Options
+################################################
+ServerTokens ProductOnly
+ServerSignature Off
 
 ################################################
 # ISPConfig Logfile configuration for vlogger
