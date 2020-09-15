@@ -2720,6 +2720,42 @@ class installer_base {
 		return $response;
 	}
 
+	private function make_acme_vhost($server_name, $server = 'apache') {
+		global $conf;
+
+		$use_template = 'apache_acme.vhost.master';
+		if($server === 'nginx') {
+			$use_template = 'nginx_acme.vhost.master';
+		}
+
+		$vhost_conf_dir = $conf[$server]['vhost_conf_dir'];
+		$vhost_conf_enabled_dir = $conf[$server]['vhost_conf_enabled_dir'];
+
+		$tpl = new tpl($use_template);
+		$tpl->setVar('domain', $server_name);
+
+		if($server !== 'nginx') {
+			$tpl->setVar('apache_version',getapacheversion());
+		}
+
+		wf($vhost_conf_dir.'/acme.vhost', $tpl->grab());
+
+		if(@is_link($vhost_conf_enabled_dir.'/999-acme.vhost')) {
+			unlink($vhost_conf_enabled_dir.'/999-acme.vhost');
+		}
+		if(!@is_link($vhost_conf_enabled_dir.'/999-acme.vhost')) {
+			symlink($vhost_conf_dir.'/acme.vhost', $vhost_conf_enabled_dir.'/999-acme.vhost');
+		}
+
+		if($conf[$server]['installed'] == true && $conf[$server]['init_script'] != '') {
+			if($this->is_update) {
+				system($this->getinitcommand($conf[$server]['init_script'], 'force-reload').' &> /dev/null || ' . $this->getinitcommand($conf[$server]['init_script'], 'restart').' &> /dev/null');
+			} else {
+				system($this->getinitcommand($conf[$server]['init_script'], 'restart').' &> /dev/null');
+			}
+		}
+	}
+
 	public function make_ispconfig_ssl_cert() {
 		global $conf, $autoinstall;
 
@@ -2802,13 +2838,18 @@ class installer_base {
 			$acme = explode("\n", shell_exec('which /usr/local/ispconfig/server/scripts/acme.sh /root/.acme.sh/acme.sh'));
 			$acme = reset($acme);
 
+			// first of all create the acme vhosts if not existing
+			if($conf['nginx']['installed'] == true) {
+				$this->make_acme_vhost($hostname, 'nginx');
+			} elseif($conf['apache']['installed'] == true) {
+				$this->make_acme_vhost($hostname, 'apache');
+			}
+
 			// Attempt to use Neilpang acme.sh first, as it is now the preferred LE client
 			if (is_executable($acme)) {
 
-				if($conf['nginx']['installed'] == true) {
-					exec("$acme --issue --nginx -d $hostname $renew_hook");
-				} elseif($conf['apache']['installed'] == true) {
-					exec("$acme --issue --apache -d $hostname $renew_hook");
+				if($conf['nginx']['installed'] == true || $conf['apache']['installed'] == true) {
+					exec("$acme --issue -w /usr/local/ispconfig/interface/acme -d $hostname $renew_hook");
 				}
 				// Else, it is not webserver, so we use standalone
 				else {
@@ -2840,10 +2881,8 @@ class installer_base {
 					$certonly = 'certonly --agree-tos --non-interactive --expand --rsa-key-size 4096';
 
 					// If this is a webserver
-					if($conf['nginx']['installed'] == true)
-						exec("$le_client $certonly $acme_version --nginx --email postmaster@$hostname -d $hostname $renew_hook");
-					elseif($conf['apache']['installed'] == true)
-						exec("$le_client $certonly $acme_version --apache --email postmaster@$hostname -d $hostname $renew_hook");
+					if($conf['nginx']['installed'] == true || $conf['apache']['installed'] == true)
+						exec("$le_client $certonly $acme_version --authenticator webroot --webroot-path /usr/local/ispconfig/interface/acme --email postmaster@$hostname -d $hostname $renew_hook");
 					// Else, it is not webserver, so we use standalone
 					else
 						exec("$le_client $certonly $acme_version --standalone --email postmaster@$hostname -d $hostname $hook");

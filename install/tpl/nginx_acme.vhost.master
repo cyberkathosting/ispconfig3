@@ -1,0 +1,25 @@
+server {
+        listen 80;
+		listen [::]:80;
+
+		server_name <tmpl_var name='domain'>;
+
+		root /usr/local/ispconfig/interface/acme;
+
+		autoindex off;
+		index index.html;
+		
+		## Disable .htaccess and other hidden files
+		location ~ / {
+			deny all;
+		}
+
+        ## Allow access for .well-known/acme-challenge
+		location ^~ /.well-known/acme-challenge/ {
+			access_log off;
+			log_not_found off;
+			auth_basic off;
+			root /usr/local/ispconfig/interface/acme/;
+			try_files $uri $uri/ =404;
+        }
+}

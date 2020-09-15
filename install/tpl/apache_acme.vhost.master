@@ -1,0 +1,18 @@
+<VirtualHost *:80>
+
+	ServerName <tmpl_var name='domain'>
+	
+	DocumentRoot /usr/local/ispconfig/interface/acme
+
+	<Directory /usr/local/ispconfig/interface/acme>
+		AllowOverride None
+		<tmpl_if name='apache_version' op='>' value='2.2' format='version'>
+		Require all granted
+		<tmpl_else>
+		Order allow,deny
+		Allow from all
+		</tmpl_if>
+	</Directory>
+
+</VirtualHost>
+
