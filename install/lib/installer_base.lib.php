@@ -2841,9 +2841,9 @@ class installer_base {
 
 					// If this is a webserver
 					if($conf['nginx']['installed'] == true)
-						exec("$le_client $certonly $acme_version --nginx --email postmaster@$hostname $renew_hook");
+						exec("$le_client $certonly $acme_version --nginx --email postmaster@$hostname -d $hostname $renew_hook");
 					elseif($conf['apache']['installed'] == true)
-						exec("$le_client $certonly $acme_version --apache --email postmaster@$hostname $renew_hook");
+						exec("$le_client $certonly $acme_version --apache --email postmaster@$hostname -d $hostname $renew_hook");
 					// Else, it is not webserver, so we use standalone
 					else
 						exec("$le_client $certonly $acme_version --standalone --email postmaster@$hostname -d $hostname $hook");
