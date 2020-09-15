@@ -128,6 +128,10 @@ body {
   .btn-group-justified .btn:last-of-type {
     border-right-width: 1px; }
 
+.btn {
+  margin-top: 3px;
+}
+
 #content {
   width: 78%; }
 
