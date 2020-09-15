@@ -2,7 +2,7 @@
 $wb['users_txt'] = 'Users';
 $wb['username_txt'] = 'Användarnamn';
 $wb['username_err'] = 'användarnamn_fel';
-$wb['passwort_txt'] = 'Lösenord';
+$wb['password_txt'] = 'Lösenord';
 $wb['modules_txt'] = 'Modul';
 $wb['startmodule_txt'] = 'Startmodul';
 $wb['app_theme_txt'] = 'Design';
