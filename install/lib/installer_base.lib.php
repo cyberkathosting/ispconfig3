@@ -2846,10 +2846,21 @@ class installer_base {
 			$acme = explode("\n", shell_exec('which /usr/local/ispconfig/server/scripts/acme.sh /root/.acme.sh/acme.sh'));
 			$acme = reset($acme);
 
+			$restore_conf_symlink = false;
+
+			// we only need this for apache, so use fixed conf index
+			$vhost_conf_dir = $conf['apache']['vhost_conf_dir'];
+			$vhost_conf_enabled_dir = $conf['apache']['vhost_conf_enabled_dir'];
+
 			// first of all create the acme vhosts if not existing
 			if($conf['nginx']['installed'] == true) {
 				$this->make_acme_vhost($hostname, 'nginx');
 			} elseif($conf['apache']['installed'] == true) {
+				if($this->is_update == false && @is_link($vhost_conf_enabled_dir.'/000-ispconfig.conf')) {
+					$restore_conf_symlink = true;
+					unlink($vhost_conf_enabled_dir.'/000-ispconfig.conf');
+				}
+
 				$this->make_acme_vhost($hostname, 'apache');
 			}
 
@@ -2894,6 +2905,12 @@ class installer_base {
 					// Else, it is not webserver, so we use standalone
 					else
 						exec("$le_client $certonly $acme_version --standalone --email postmaster@$hostname -d $hostname $hook");
+				}
+			}
+
+			if($restore_conf_symlink) {
+				if(!@is_link($vhost_conf_enabled_dir.'/000-ispconfig.conf')) {
+					symlink($vhost_conf_dir.'/ispconfig.conf', $vhost_conf_enabled_dir.'/000-ispconfig.conf');
 				}
 			}
 		}
