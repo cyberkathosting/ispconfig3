@@ -114,13 +114,13 @@ class dns_page_action extends tform_actions {
 		} // end if user is not admin
 
 		// Replace @ to example.com.
-		if(stristr($this->dataRecord["name"], '@')) {
-			$this->dataRecord["name"] = str_replace('@', $soa['origin'], $this->dataRecord["name"]);
+		if($this->dataRecord["name"] === '@') {
+			$this->dataRecord["name"] = $soa['origin'];
 		}
 
 		// Replace * to *.example.com.
-		if(stristr($this->dataRecord["name"], '*')) {
-			$this->dataRecord["name"] = str_replace('*', '*.' . $soa['origin'], $this->dataRecord["name"]);
+		if($this->dataRecord["name"] === '*') {
+			$this->dataRecord["name"] = '*.' . $soa['origin'];
 		}
 
 		if($this->checkDuplicate()) $app->tform->errorMessage .= $app->tform->lng("data_error_duplicate")."<br>";
