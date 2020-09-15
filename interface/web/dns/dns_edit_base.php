@@ -113,12 +113,12 @@ class dns_page_action extends tform_actions {
 			}
 		} // end if user is not admin
 
-		//* Replace @ to domain name
+		// Replace @ to example.com.
 		if(stristr($this->dataRecord["name"], '@')) {
 			$this->dataRecord["name"] = str_replace('@', $soa['origin'], $this->dataRecord["name"]);
 		}
 
-		//* Replace * to *.example.com.
+		// Replace * to *.example.com.
 		if(stristr($this->dataRecord["name"], '*')) {
 			$this->dataRecord["name"] = str_replace('*', '*.' . $soa['origin'], $this->dataRecord["name"]);
 		}
