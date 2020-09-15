@@ -42,6 +42,5 @@ lelive=/etc/letsencrypt/live/$(hostname -f); if [ -d "$lelive" ]; then
         if [ $(dpkg-query -W -f='${Status}' mariadb 2>/dev/null | grep -c "ok installed") -eq 1 ]; then service mysql restart; fi
         if [ $(dpkg-query -W -f='${Status}' nginx 2>/dev/null | grep -c "ok installed") -eq 1 ]; then service nginx restart; fi
         if [ $(dpkg-query -W -f='${Status}' apache2 2>/dev/null | grep -c "ok installed") -eq 1 ]; then service apache2 restart; fi
-    else
     fi
 else echo `/bin/date` "Your Lets Encrypt SSL certs path for your ISPConfig server FQDN is missing.$line" >> /var/log/ispconfig/ispconfig.log; fi

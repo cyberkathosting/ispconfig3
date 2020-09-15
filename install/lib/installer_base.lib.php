@@ -2738,6 +2738,14 @@ class installer_base {
 			$tpl->setVar('apache_version',getapacheversion());
 		}
 
+		$acme_dir = $conf['ispconfig_install_dir'] . '/interface/acme';
+
+		//* Create the ISPConfig installation directory
+		if(!@is_dir($acme_dir)) {
+			$command = "mkdir -p $acme_dir";
+			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+		}
+
 		wf($vhost_conf_dir.'/acme.vhost', $tpl->grab());
 
 		if(@is_link($vhost_conf_enabled_dir.'/999-acme.vhost')) {
