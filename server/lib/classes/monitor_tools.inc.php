@@ -560,6 +560,17 @@ class monitor_tools {
 				$logfile = '/var/log/cron';
 			}
 			break;
+		case 'log_letsencrypt':
+				if ($dist == 'debian') {
+					$logfile = '/var/log/letsencrypt/letsencrypt.log';
+				} elseif ($dist == 'redhat') {
+					$logfile = '/var/log/letsencrypt/letsencrypt.log';
+				} elseif ($dist == 'suse') {
+					$logfile = '/var/log/letsencrypt/letsencrypt.log';
+				} elseif ($dist == 'gentoo') {
+					$logfile = '/var/log/letsencrypt/letsencrypt.log';
+				}
+			break;
 		case 'log_freshclam':
 			if ($dist == 'debian') {
 				$logfile = '/var/log/clamav/freshclam.log';
