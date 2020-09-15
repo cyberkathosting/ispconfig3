@@ -128,7 +128,7 @@ body {
   .btn-group-justified .btn:last-of-type {
     border-right-width: 1px; }
 
-.btn {
+.dns-record-btn {
   margin-top: 3px;
 }
 
