@@ -2723,9 +2723,13 @@ class installer_base {
 	private function make_acme_vhost($server_name, $server = 'apache') {
 		global $conf;
 
-		$use_template = 'apache_acme.vhost.master';
+		$use_template = 'apache_acme.conf.master';
+		$use_symlink = '999-acme.conf';
+		$use_name = 'acme.conf';
 		if($server === 'nginx') {
 			$use_template = 'nginx_acme.vhost.master';
+			$use_symlink = '999-acme.vhost';
+			$use_name = 'acme.vhost';
 		}
 
 		$vhost_conf_dir = $conf[$server]['vhost_conf_dir'];
@@ -2746,13 +2750,13 @@ class installer_base {
 			caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 		}
 
-		wf($vhost_conf_dir.'/acme.vhost', $tpl->grab());
+		wf($vhost_conf_dir.'/' . $use_name, $tpl->grab());
 
-		if(@is_link($vhost_conf_enabled_dir.'/999-acme.vhost')) {
-			unlink($vhost_conf_enabled_dir.'/999-acme.vhost');
+		if(@is_link($vhost_conf_enabled_dir.'/' . $use_symlink)) {
+			unlink($vhost_conf_enabled_dir.'/' . $use_symlink);
 		}
-		if(!@is_link($vhost_conf_enabled_dir.'/999-acme.vhost')) {
-			symlink($vhost_conf_dir.'/acme.vhost', $vhost_conf_enabled_dir.'/999-acme.vhost');
+		if(!@is_link($vhost_conf_enabled_dir.'' . $use_symlink)) {
+			symlink($vhost_conf_dir.'/' . $use_name, $vhost_conf_enabled_dir.'/' . $use_symlink);
 		}
 
 		if($conf[$server]['installed'] == true && $conf[$server]['init_script'] != '') {

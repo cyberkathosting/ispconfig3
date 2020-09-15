@@ -1,8 +1,4 @@
-<VirtualHost *:80>
-
-	ServerName <tmpl_var name='domain'>
-	
-	DocumentRoot /usr/local/ispconfig/interface/acme
+	Alias /.well-known/acme-challenge /usr/local/ispconfig/interface/acme/.well-known/acme-challenge
 
 	<Directory /usr/local/ispconfig/interface/acme>
 		AllowOverride None
@@ -13,6 +9,3 @@
 		Allow from all
 		</tmpl_if>
 	</Directory>
-
-</VirtualHost>
-
