@@ -411,7 +411,7 @@ $form["tabs"]['address'] = array (
 					1 => array( 'event' => 'SAVE',
 					'type' => 'STRIPNL')
 			),
-			'default' => 'http://',
+			'default' => 'https://',
 			'value'  => '',
 			'separator' => '',
 			'width'  => '30',

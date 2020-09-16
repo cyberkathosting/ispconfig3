@@ -568,7 +568,7 @@ $form["tabs"]['misc'] = array (
 					1 => array( 'event' => 'SAVE',
 					'type' => 'STRIPNL')
 			),
-			'default' => 'http://www.ispconfig.org/atom',
+			'default' => 'https://www.ispconfig.org/atom',
 			'value'  => ''
 		),
 		'dashboard_atom_url_reseller' => array (
@@ -580,7 +580,7 @@ $form["tabs"]['misc'] = array (
 					1 => array( 'event' => 'SAVE',
 					'type' => 'STRIPNL')
 			),
-			'default' => 'http://www.ispconfig.org/atom',
+			'default' => 'https://www.ispconfig.org/atom',
 			'value'  => ''
 		),
 		'dashboard_atom_url_client' => array (
@@ -592,7 +592,7 @@ $form["tabs"]['misc'] = array (
 					1 => array( 'event' => 'SAVE',
 					'type' => 'STRIPNL')
 			),
-			'default' => 'http://www.ispconfig.org/atom',
+			'default' => 'https://www.ispconfig.org/atom',
 			'value'  => ''
 		),
 		'tab_change_discard' => array (

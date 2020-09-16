@@ -1,4 +1,3 @@
+Please see our GitLab issues for feature requests and bug reports.
 
-Please see issue tracker for feature requests and bug reports.
-
-http://git.ispconfig.org/ispconfig/ispconfig3/issues
+https://git.ispconfig.org/ispconfig/ispconfig3/issues

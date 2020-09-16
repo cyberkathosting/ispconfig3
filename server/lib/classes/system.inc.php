@@ -1531,7 +1531,7 @@ class system{
 	 *
 	 */
 	function get_time(){
-		$addr = 'http://www.ispconfig.org/';
+		$addr = 'https://www.ispconfig.org/';
 		$timeout = 1;
 		$url_parts = parse_url($addr);
 		$path = $url_parts['path'];

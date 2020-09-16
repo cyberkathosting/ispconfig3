@@ -96,7 +96,7 @@ echo "ChrootDir /var/www" > /etc/apache2/conf.d/mod_chroot.conf
 # Install ISPConfig
 
 cd /tmp
-wget http://www.ispconfig.org/downloads/ISPConfig-3.0.1.4-beta-2.tar.gz
+wget https://www.ispconfig.org/downloads/ISPConfig-3.0.1.4-beta-2.tar.gz
 tar xvfz ISPConfig-3.0.1.4-beta-2.tar.gz
 cd ispconfig3_install/install/
 php -q install.php
