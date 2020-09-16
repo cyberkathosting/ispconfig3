@@ -19,8 +19,8 @@ $wb['run_wday_error_format'] = 'Formato inválido para dias da semana.';
 $wb['command_error_format'] = 'Comando possui formato inválido. Por favor, observe que em alguns casos somente chamadas http/https são permitidas.';
 $wb['unknown_fieldtype_error'] = 'Um tipo de campo desconhecido foi utilizado.';
 $wb['server_id_error_empty'] = 'O servidor está em branco.';
-$wb['command_hint_txt'] = 'ex.: /var/www/clients/clientX/webY/myscript.sh ou http://www.dominio.com.br/caminho/script.php, você pode utilizar a área reservada [web_root] para substituir /var/www/clients/clientX/webY/web.';
+$wb['command_hint_txt'] = 'ex.: /var/www/clients/clientX/webY/myscript.sh ou https://www.dominio.com.br/caminho/script.php, você pode utilizar a área reservada [web_root] para substituir /var/www/clients/clientX/webY/web.';
 $wb['log_output_txt'] = 'Gravar saída do log';
-$wb['limit_cron_url_txt'] = 'Somente URL no cron. Por favor insira uma URL iniciando com http:// como um comando no cron.';
+$wb['limit_cron_url_txt'] = 'Somente URL no cron. Por favor insira uma URL iniciando com https:// como um comando no cron.';
 $wb['command_error_empty'] = 'Comando a executar está em branco.';
 ?>

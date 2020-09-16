@@ -200,7 +200,7 @@ class remoteaction_core_module {
 		/*
 		 * Get the version-number of the newest version
 		 */
-		$new_version = @file_get_contents('http://www.ispconfig.org/downloads/ispconfig3_version.txt');
+		$new_version = @file_get_contents('https://www.ispconfig.org/downloads/ispconfig3_version.txt');
 		$new_version = trim($new_version);
 
 		/*
@@ -216,7 +216,7 @@ class remoteaction_core_module {
 		exec("rm /tmp/ispconfig3_install -R");
 
 		/* get the newest version */
-		$app->system->exec_safe("wget ?", "http://www.ispconfig.org/downloads/ISPConfig-" . $new_version . ".tar.gz");
+		$app->system->exec_safe("wget ?", "https://www.ispconfig.org/downloads/ISPConfig-" . $new_version . ".tar.gz");
 
 		/* extract the files */
 		$app->system->exec_safe("tar xvfz ?", "ISPConfig-" . $new_version . ".tar.gz");

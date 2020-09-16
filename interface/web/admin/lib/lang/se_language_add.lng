@@ -4,5 +4,5 @@ $wb['language_select_txt'] = 'Välj språkbas';
 $wb['language_new_txt'] = 'Nytt språk';
 $wb['btn_save_txt'] = 'Skapa nya språkfiler';
 $wb['btn_cancel_txt'] = 'Tillbaka';
-$wb['language_new_hint_txt'] = '2 characters ISO 639-1 language-code (See http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)';
+$wb['language_new_hint_txt'] = '2 characters ISO 639-1 language-code (See https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)';
 ?>
