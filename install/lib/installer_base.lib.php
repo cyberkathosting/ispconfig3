@@ -2821,24 +2821,28 @@ class installer_base {
 		$date = new DateTime();
 
 		// Request for certs if no LE SSL folder for server fqdn exist
-		$le_live_dir = '/usr/local/ispconfig/server/scripts/' . $hostname;
-		if(!@is_dir($le_live_dir)) {
-			$le_live_dir = '/root/.acme.sh/' . $hostname;
-			if(!@is_dir($le_live_dir)) {
-				$le_live_dir = '/etc/letsencrypt/live/' . $hostname;
+
+		$acme_cert_dir = '/usr/local/ispconfig/server/scripts/' . $hostname;
+		$check_acme_file = $acme_cert_dir . '/' . $hostname . '.cer';
+		if(!@is_dir($acme_cert_dir)) {
+			$acme_cert_dir = '/root/.acme.sh/' . $hostname;
+			$check_acme_file = $acme_cert_dir . '/' . $hostname . '.cer';
+			if(!@is_dir($acme_cert_dir)) {
+				$acme_cert_dir = '/etc/letsencrypt/live/' . $hostname;
+				$check_acme_file = $acme_cert_dir . '/cert.pem';
 			}
 		}
-		if (!@is_dir($le_live_dir) && (($svr_ip4 && in_array($svr_ip4, $dns_ips)) || ($svr_ip6 && in_array($svr_ip6, $dns_ips)))) {
+		if ((!@is_dir($acme_cert_dir) || !@file_exists($check_acme_file)) && (($svr_ip4 && in_array($svr_ip4, $dns_ips)) || ($svr_ip6 && in_array($svr_ip6, $dns_ips)))) {
 
 			// This script is needed earlier to check and open http port 80 or standalone might fail
 			// Make executable and temporary symlink latest letsencrypt pre, post and renew hook script before install
-			if(file_exists(dirname(getcwd()) . '/server/scripts/letsencrypt_pre_hook.sh')) {
+			if(file_exists(dirname(getcwd()) . '/server/scripts/letsencrypt_pre_hook.sh') && !file_exists('/usr/local/bin/letsencrypt_pre_hook.sh')) {
 				symlink(dirname(getcwd()) . '/server/scripts/letsencrypt_pre_hook.sh', '/usr/local/bin/letsencrypt_pre_hook.sh');
 			}
-			if(file_exists(dirname(getcwd()) . '/server/scripts/letsencrypt_post_hook.sh')) {
+			if(file_exists(dirname(getcwd()) . '/server/scripts/letsencrypt_post_hook.sh') && !file_exists('/usr/local/bin/letsencrypt_post_hook.sh')) {
 				symlink(dirname(getcwd()) . '/server/scripts/letsencrypt_post_hook.sh', '/usr/local/bin/letsencrypt_post_hook.sh');
 			}
-			if(file_exists(dirname(getcwd()) . '/server/scripts/letsencrypt_renew_hook.sh')) {
+			if(file_exists(dirname(getcwd()) . '/server/scripts/letsencrypt_renew_hook.sh') && !file_exists('/usr/local/bin/letsencrypt_renew_hook.sh')) {
 				symlink(dirname(getcwd()) . '/server/scripts/letsencrypt_renew_hook.sh', '/usr/local/bin/letsencrypt_renew_hook.sh');
 			}
 			chown('/usr/local/bin/letsencrypt_pre_hook.sh', 'root');
@@ -2915,7 +2919,7 @@ class installer_base {
 					}
 
 					// Define LE certs name and path, then install them
-					//$acme_cert = "--cert-file $le_live_dir/cert.pem";
+					//$acme_cert = "--cert-file $acme_cert_dir/cert.pem";
 					$acme_key = "--key-file " . escapeshellarg($ssl_key_file);
 					$acme_chain = "--fullchain-file " . escapeshellarg($ssl_crt_file);
 					exec("$acme --install-cert -d $hostname $acme_key $acme_chain");
@@ -2976,7 +2980,7 @@ class installer_base {
 		}
 
 		// If the LE SSL certs for this hostname exists
-		if(!is_dir($le_live_dir) || !$issued_successfully) {
+		if(!is_dir($acme_cert_dir) || !file_exists($check_acme_file) || !$issued_successfully) {
 			// We can still use the old self-signed method
 			$ssl_pw = substr(md5(mt_rand()), 0, 6);
 			exec("openssl genrsa -des3 -passout pass:$ssl_pw -out $ssl_key_file 4096");
