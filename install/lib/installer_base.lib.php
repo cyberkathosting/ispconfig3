@@ -2908,13 +2908,13 @@ class installer_base {
 
 				if($ret == 0) {
 					// Backup existing ispserver ssl files
-					if(file_exists($ssl_crt_file)) {
+					if(file_exists($ssl_crt_file) || is_link($ssl_crt_file)) {
 						rename($ssl_crt_file, $ssl_crt_file . '-' . $date->format('YmdHis') . '.bak');
 					}
-					if(file_exists($ssl_key_file)) {
+					if(file_exists($ssl_key_file) || is_link($ssl_key_file)) {
 						rename($ssl_key_file, $ssl_key_file . '-' . $date->format('YmdHis') . '.bak');
 					}
-					if(file_exists($ssl_pem_file)) {
+					if(file_exists($ssl_pem_file) || is_link($ssl_pem_file)) {
 						rename($ssl_pem_file, $ssl_pem_file . '-' . $date->format('YmdHis') . '.bak');
 					}
 
@@ -2954,13 +2954,13 @@ class installer_base {
 
 					if($ret == 0) {
 						// Backup existing ispserver ssl files
-						if(file_exists($ssl_crt_file)) {
+						if(file_exists($ssl_crt_file) || is_link($ssl_crt_file)) {
 							rename($ssl_crt_file, $ssl_crt_file . '-' . $date->format('YmdHis') . '.bak');
 						}
-						if(file_exists($ssl_key_file)) {
+						if(file_exists($ssl_key_file) || is_link($ssl_key_file)) {
 							rename($ssl_key_file, $ssl_key_file . '-' . $date->format('YmdHis') . '.bak');
 						}
-						if(file_exists($ssl_pem_file)) {
+						if(file_exists($ssl_pem_file) || is_link($ssl_pem_file)) {
 							rename($ssl_pem_file, $ssl_pem_file . '-' . $date->format('YmdHis') . '.bak');
 						}
 
