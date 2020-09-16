@@ -2832,7 +2832,7 @@ class installer_base {
 				$check_acme_file = $acme_cert_dir . '/cert.pem';
 			}
 		}
-		if ((!@is_dir($acme_cert_dir) || !@file_exists($check_acme_file)) && (($svr_ip4 && in_array($svr_ip4, $dns_ips)) || ($svr_ip6 && in_array($svr_ip6, $dns_ips)))) {
+		if ((!@is_dir($acme_cert_dir) || !@file_exists($check_acme_file)) || !@file_exists($ssl_crt_file)) && (($svr_ip4 && in_array($svr_ip4, $dns_ips)) || ($svr_ip6 && in_array($svr_ip6, $dns_ips)))) {
 
 			// This script is needed earlier to check and open http port 80 or standalone might fail
 			// Make executable and temporary symlink latest letsencrypt pre, post and renew hook script before install
