@@ -2807,8 +2807,27 @@ class installer_base {
 			}
 		}
 
+		//* Define and check ISPConfig SSL folder */
+		$ssl_dir = $conf['ispconfig_install_dir'].'/interface/ssl';
+		if(!@is_dir($ssl_dir)) {
+			mkdir($ssl_dir, 0755, true);
+		}
+
+		$ssl_crt_file = $ssl_dir.'/ispserver.crt';
+		$ssl_csr_file = $ssl_dir.'/ispserver.csr';
+		$ssl_key_file = $ssl_dir.'/ispserver.key';
+		$ssl_pem_file = $ssl_dir.'/ispserver.pem';
+
+		$date = new DateTime();
+
 		// Request for certs if no LE SSL folder for server fqdn exist
-		$le_live_dir = '/etc/letsencrypt/live/' . $hostname;
+		$le_live_dir = '/usr/local/ispconfig/server/scripts/' . $hostname;
+		if(!@is_dir($le_live_dir)) {
+			$le_live_dir = '/root/.acme.sh/' . $hostname;
+			if(!@is_dir($le_live_dir)) {
+				$le_live_dir = '/etc/letsencrypt/live/' . $hostname;
+			}
+		}
 		if (!@is_dir($le_live_dir) && (($svr_ip4 && in_array($svr_ip4, $dns_ips)) || ($svr_ip6 && in_array($svr_ip6, $dns_ips)))) {
 
 			// This script is needed earlier to check and open http port 80 or standalone might fail
@@ -2868,30 +2887,47 @@ class installer_base {
 				$this->make_acme_vhost($hostname, 'apache');
 			}
 
+			$issued_successfully = false;
+
 			// Attempt to use Neilpang acme.sh first, as it is now the preferred LE client
 			if (is_executable($acme)) {
 
+				$out = null;
+				$ret = null;
 				if($conf['nginx']['installed'] == true || $conf['apache']['installed'] == true) {
-					exec("$acme --issue -w /usr/local/ispconfig/interface/acme -d $hostname $renew_hook");
+					exec("$acme --issue -w /usr/local/ispconfig/interface/acme -d $hostname $renew_hook", $out, $ret);
 				}
 				// Else, it is not webserver, so we use standalone
 				else {
-					exec("$acme --issue --standalone -d $hostname $hook");
+					exec("$acme --issue --standalone -d " . escapeshellarg($hostname) . " $hook", $out, $ret);
 				}
 
-				// Define LE certs name and path, then install them
-				if (!@is_dir($le_live_dir)) mkdir($le_live_dir, 0755, true);
-				$acme_cert = "--cert-file $le_live_dir/cert.pem";
-				$acme_key = "--key-file $le_live_dir/privkey.pem";
-				$acme_ca = "--ca-file $le_live_dir/chain.pem";
-				$acme_chain = "--fullchain-file $le_live_dir/fullchain.pem";
-				exec("$acme --install-cert -d $hostname $acme_cert $acme_key $acme_ca $acme_chain");
+				if($ret == 0) {
+					// Backup existing ispserver ssl files
+					if(file_exists($ssl_crt_file)) {
+						rename($ssl_crt_file, $ssl_crt_file . '-' . $date->format('YmdHis') . '.bak');
+					}
+					if(file_exists($ssl_key_file)) {
+						rename($ssl_key_file, $ssl_key_file . '-' . $date->format('YmdHis') . '.bak');
+					}
+					if(file_exists($ssl_pem_file)) {
+						rename($ssl_pem_file, $ssl_pem_file . '-' . $date->format('YmdHis') . '.bak');
+					}
 
+					// Define LE certs name and path, then install them
+					//$acme_cert = "--cert-file $le_live_dir/cert.pem";
+					$acme_key = "--key-file " . escapeshellarg($ssl_key_file);
+					$acme_chain = "--fullchain-file " . escapeshellarg($ssl_crt_file);
+					exec("$acme --install-cert -d $hostname $acme_key $acme_chain");
+					$issued_successfully = true;
+				}
 			// Else, we attempt to use the official LE certbot client certbot
 			} else {
 
 				//  But only if it is otherwise available
 				if(is_executable($le_client)) {
+					$out = null;
+					$ret = null;
 
 					// Get its version info due to be used for webroot arguement issues
 					$le_info = exec($le_client . ' --version  2>&1', $ret, $val);
@@ -2904,11 +2940,28 @@ class installer_base {
 					$certonly = 'certonly --agree-tos --non-interactive --expand --rsa-key-size 4096';
 
 					// If this is a webserver
-					if($conf['nginx']['installed'] == true || $conf['apache']['installed'] == true)
-						exec("$le_client $certonly $acme_version --authenticator webroot --webroot-path /usr/local/ispconfig/interface/acme --email postmaster@$hostname -d $hostname $renew_hook");
+					if($conf['nginx']['installed'] == true || $conf['apache']['installed'] == true) {
+						exec("$le_client $certonly $acme_version --authenticator webroot --webroot-path /usr/local/ispconfig/interface/acme --email " . escapeshellarg('postmaster@$hostname') . " -d " . escapeshellarg($hostname) . " $renew_hook", $out, $ret);
+					}
 					// Else, it is not webserver, so we use standalone
-					else
-						exec("$le_client $certonly $acme_version --standalone --email postmaster@$hostname -d $hostname $hook");
+					else {
+						exec("$le_client $certonly $acme_version --standalone --email " . escapeshellarg('postmaster@$hostname') . " -d " . escapeshellarg($hostname) . " $hook", $out, $ret);
+					}
+
+					if($ret == 0) {
+						// Backup existing ispserver ssl files
+						if(file_exists($ssl_crt_file)) {
+							rename($ssl_crt_file, $ssl_crt_file . '-' . $date->format('YmdHis') . '.bak');
+						}
+						if(file_exists($ssl_key_file)) {
+							rename($ssl_key_file, $ssl_key_file . '-' . $date->format('YmdHis') . '.bak');
+						}
+						if(file_exists($ssl_pem_file)) {
+							rename($ssl_pem_file, $ssl_pem_file . '-' . $date->format('YmdHis') . '.bak');
+						}
+
+						$issued_successfully = true;
+					}
 				}
 			}
 
@@ -2917,33 +2970,13 @@ class installer_base {
 					symlink($vhost_conf_dir.'/ispconfig.conf', $vhost_conf_enabled_dir.'/000-ispconfig.conf');
 				}
 			}
+		} elseif(($svr_ip4 && in_array($svr_ip4, $dns_ips)) || ($svr_ip6 && in_array($svr_ip6, $dns_ips))) {
+			// the directory already exists so we have to assume that it was created previously
+			$issued_successfully = true;
 		}
 
-		//* Define and check ISPConfig SSL folder */
-		$ssl_dir = $conf['ispconfig_install_dir'].'/interface/ssl';
-		if(!@is_dir($ssl_dir)) mkdir($ssl_dir, 0755, true);
-
-		$ssl_crt_file = $ssl_dir.'/ispserver.crt';
-		$ssl_csr_file = $ssl_dir.'/ispserver.csr';
-		$ssl_key_file = $ssl_dir.'/ispserver.key';
-		$ssl_pem_file = $ssl_dir.'/ispserver.pem';
-
-		$date = new DateTime();
-
 		// If the LE SSL certs for this hostname exists
-		if (is_dir($le_live_dir) && (($svr_ip4 && in_array($svr_ip4, $dns_ips)) || ($svr_ip6 && in_array($svr_ip6, $dns_ips)))) {
-
-			// Backup existing ispserver ssl files
-			if (file_exists($ssl_crt_file)) rename($ssl_crt_file, $ssl_crt_file . '-' .$date->format('YmdHis') . '.bak');
-			if (file_exists($ssl_key_file)) rename($ssl_key_file, $ssl_key_file . '-' .$date->format('YmdHis') . '.bak');
-			if (file_exists($ssl_pem_file)) rename($ssl_pem_file, $ssl_pem_file . '-' .$date->format('YmdHis') . '.bak');
-
-			// Create symlink to LE fullchain and key for ISPConfig
-			symlink($le_live_dir.'/fullchain.pem', $ssl_crt_file);
-			symlink($le_live_dir.'/privkey.pem', $ssl_key_file);
-
-		} else {
-
+		if(!is_dir($le_live_dir) || !$issued_successfully) {
 			// We can still use the old self-signed method
 			$ssl_pw = substr(md5(mt_rand()), 0, 6);
 			exec("openssl genrsa -des3 -passout pass:$ssl_pw -out $ssl_key_file 4096");
