@@ -2906,7 +2906,9 @@ class installer_base {
 					exec("$acme --issue --standalone -d " . escapeshellarg($hostname) . " $hook", $out, $ret);
 				}
 
-				if($ret == 0) {
+				if($ret == 0 || ($ret == 2 && file_exists($check_acme_file))) {
+					// acme.sh returns with 2 on issue for already existing certificate
+
 					// Backup existing ispserver ssl files
 					if(file_exists($ssl_crt_file) || is_link($ssl_crt_file)) {
 						rename($ssl_crt_file, $ssl_crt_file . '-' . $date->format('YmdHis') . '.bak');
@@ -2953,6 +2955,8 @@ class installer_base {
 					}
 
 					if($ret == 0) {
+						// certbot returns with 0 on issue for already existing certificate
+
 						// Backup existing ispserver ssl files
 						if(file_exists($ssl_crt_file) || is_link($ssl_crt_file)) {
 							rename($ssl_crt_file, $ssl_crt_file . '-' . $date->format('YmdHis') . '.bak');
