@@ -714,7 +714,7 @@ class apache2_plugin {
 				}
 
 				//* Unmount the old log directory bfore we move the log dir
-				$app->system->exec_safe('umount ?', $data['old']['document_root'].'/log');
+				$app->system->exec_safe('umount -l ?', $data['old']['document_root'].'/log');
 
 				//* Create new base directory, if it does not exist yet
 				if(!is_dir($new_dir)) $app->system->mkdirpath($new_dir);
@@ -808,7 +808,7 @@ class apache2_plugin {
 			$app->system->removeLine('/etc/fstab', $fstab_line);
 
 			//* Unmount log directory
-			$app->system->exec_safe('umount ?', $data['old']['document_root'].'/'.$old_log_folder);
+			$app->system->exec_safe('umount -l ?', $data['old']['document_root'].'/'.$old_log_folder);
 		}
 
 		//* Create the log dir if nescessary and mount it
@@ -1491,6 +1491,10 @@ class apache2_plugin {
 			$tpl->setVar('rewrite_enabled', 0);
 		}
 
+		if($data['new']['ssl'] == 'n') {
+			$tpl->setVar('rewrite_to_https', 'n');
+		}
+
 		//$tpl->setLoop('redirects',$rewrite_rules);
 
 		/**
@@ -2138,10 +2142,10 @@ class apache2_plugin {
 		if($data['old']['type'] == 'vhost' || $data['old']['type'] == 'vhostsubdomain' || $data['old']['type'] == 'vhostalias'){
 			if(is_array($log_folders) && !empty($log_folders)){
 				foreach($log_folders as $log_folder){
-					$app->system->exec_safe('umount ? 2>/dev/null', $data['old']['document_root'].'/'.$log_folder);
+					$app->system->exec_safe('umount -l ? 2>/dev/null', $data['old']['document_root'].'/'.$log_folder);
 				}
 			} else {
-				$app->system->exec_safe('umount ? 2>/dev/null', $data['old']['document_root'].'/'.$log_folder);
+				$app->system->exec_safe('umount -l ? 2>/dev/null', $data['old']['document_root'].'/'.$log_folder);
 			}
 
 			// remove letsencrypt if it exists (renew will always fail otherwise)

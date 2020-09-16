@@ -11,22 +11,22 @@ $module["startpage"]  = "monitor/show_sys_state.php?state=system";
 $module['order']    = '60';
 
 unset($items);
-$items[] = array( 'title'  => "Show Overview",
+$items[] = array( 'title'  => "Overview",
 	'target'  => 'content',
 	'link' => 'monitor/show_sys_state.php?state=system',
 	'html_id' => 'system');
 
-$items[] = array( 'title'  => "Show System-Log",
+$items[] = array( 'title'  => "System-Log",
 	'target'  => 'content',
 	'link' => 'monitor/log_list.php',
 	'html_id' => 'system_log');
 
-$items[] = array( 'title'  => 'Show Jobqueue',
+$items[] = array( 'title'  => 'Jobqueue',
 	'target'  => 'content',
 	'link' => 'monitor/datalog_list.php',
 	'html_id' => 'jobqueue');
 
-$items[] = array( 'title'  => 'Show Data Log History',
+$items[] = array( 'title'  => 'Data Log History',
 	'target'  => 'content',
 	'link' => 'monitor/dataloghistory_list.php',
 	'html_id' => 'dataloghistory');
@@ -74,7 +74,7 @@ $_SESSION['monitor']['server_name'] = $servers[0]['server_name'];
  */
 unset($items);
 
-$items[] = array( 'title'  => "Show CPU info",
+$items[] = array( 'title'  => "CPU info",
 	'target'  => 'content',
 	'link' => 'monitor/show_data.php?type=cpu_info',
 	'html_id' => 'cpu_info');
@@ -87,57 +87,57 @@ $module["nav"][] = array( 'title' => 'Hardware-Information',
  * Clear and set the Navigation-Items
  */
 unset($items);
-$items[] = array( 'title'  => "Show Overview",
+$items[] = array( 'title'  => "Overview",
 	'target'  => 'content',
 	'link' => 'monitor/show_sys_state.php?state=server',
 	'html_id' => 'server');
 
-$items[] = array( 'title'  => "Show Update State",
+$items[] = array( 'title'  => "Update State",
 	'target'  => 'content',
 	'link' => 'monitor/show_data.php?type=system_update',
 	'html_id' => 'system_update');
 
-$items[] = array( 'title'  => "Show RAID state",
+$items[] = array( 'title'  => "RAID state",
 	'target'  => 'content',
 	'link' => 'monitor/show_data.php?type=raid_state',
 	'html_id' => 'raid_state');
 
-$items[] = array( 'title'  => "Show Server load",
+$items[] = array( 'title'  => "Server load",
 	'target'  => 'content',
 	'link' => 'monitor/show_data.php?type=server_load',
 	'html_id' => 'serverload');
 
-$items[] = array( 'title'  => "Show Disk usage",
+$items[] = array( 'title'  => "Disk usage",
 	'target'  => 'content',
 	'link' => 'monitor/show_data.php?type=disk_usage',
 	'html_id' => 'disk_usage');
 
-$items[] = array( 'title'       => "Show MySQL Database size",
+$items[] = array( 'title'       => "MySQL Database size",
 	'target'      => 'content',
 	'link'        => 'monitor/show_data.php?type=database_size',
 	'html_id' => 'database_usage');
 
-$items[] = array( 'title'  => "Show Memory usage",
+$items[] = array( 'title'  => "Memory usage",
 	'target'  => 'content',
 	'link' => 'monitor/show_data.php?type=mem_usage',
 	'html_id' => 'mem_usage');
 
-$items[] = array( 'title'  => "Show Services",
+$items[] = array( 'title'  => "Services",
 	'target'  => 'content',
 	'link' => 'monitor/show_data.php?type=services',
 	'html_id' => 'services');
 
-$items[] = array( 'title'  => "Show Monit",
+$items[] = array( 'title'  => "Monit",
 	'target'  => 'content',
 	'link' => 'monitor/show_monit.php',
 	'html_id' => 'monit');
 
-$items[] = array( 'title'  => "Show OpenVz VE BeanCounter",
+$items[] = array( 'title'  => "OpenVz VE BeanCounter",
 	'target'  => 'content',
 	'link' => 'monitor/show_data.php?type=openvz_beancounter',
 	'html_id' => 'openvz_beancounter');
 
-$items[] = array( 'title'  => "Show Munin",
+$items[] = array( 'title'  => "Munin",
 	'target'  => 'content',
 	'link' => 'monitor/show_munin.php',
 	'html_id' => 'munin');
@@ -151,63 +151,68 @@ $module["nav"][] = array( 'title' => 'Server State',
  */
 unset($items);
 
-$items[] = array( 'title'  => "Show Mail-Queue",
+$items[] = array( 'title'  => "Mail-Queue",
 	'target'  => 'content',
 	'link' => 'monitor/show_data.php?type=mailq',
 	'html_id' => 'mailq');
 
-$items[] = array( 'title'  => "Show Mail-Log",
+$items[] = array( 'title'  => "Mail-Log",
 	'target'  => 'content',
 	'link' => 'monitor/show_log.php?log=log_mail',
 	'html_id' => 'log_mail');
 
-$items[] = array( 'title'  => "Show Mail warn-Log",
+$items[] = array( 'title'  => "Mail warn-Log",
 	'target'  => 'content',
 	'link' => 'monitor/show_log.php?log=log_mail_warn',
 	'html_id' => 'log_mail_warn');
 
-$items[] = array( 'title'  => "Show Mail err-Log",
+$items[] = array( 'title'  => "Mail err-Log",
 	'target'  => 'content',
 	'link' => 'monitor/show_log.php?log=log_mail_err',
 	'html_id' => 'log_mail_err');
 
-$items[] = array( 'title'  => "Show System-Log",
+$items[] = array( 'title'  => "System-Log",
 	'target'  => 'content',
 	'link' => 'monitor/show_log.php?log=log_messages',
 	'html_id' => 'log_messages');
 
-$items[] = array( 'title'  => "Show ISPC Cron-Log",
+$items[] = array( 'title'  => "ISPC Cron-Log",
 	'target'  => 'content',
 	'link' => 'monitor/show_log.php?log=log_ispc_cron',
 	'html_id' => 'log_ispc_cron');
 
-$items[] = array( 'title'  => "Show Freshclam-Log",
+$items[] = array( 'title'  => "Freshclam-Log",
 	'target'  => 'content',
 	'link' => 'monitor/show_log.php?log=log_freshclam',
 	'html_id' => 'log_freshclam');
 
-$items[] = array( 'title'  => "Show Clamav-Log",
+$items[] = array( 'title'  => "Let's Encrypt log",
+	'target'  => 'content',
+	'link' => 'monitor/show_log.php?log=log_letsencrypt',
+	'html_id' => 'log_letsencrypt');
+
+$items[] = array( 'title'  => "Clamav-Log",
 	'target'  => 'content',
 	'link' => 'monitor/show_log.php?log=log_clamav',
 	'html_id' => 'log_clamav');
 
-$items[] = array( 'title'  => "Show RKHunter-Log",
+$items[] = array( 'title'  => "RKHunter-Log",
 	'target'  => 'content',
 	'link' => 'monitor/show_data.php?type=rkhunter',
 	'html_id' => 'rkhunter');
 
-$items[] = array( 'title'  => "Show fail2ban-Log",
+$items[] = array( 'title'  => "fail2ban-Log",
 	'target'  => 'content',
 	'link' => 'monitor/show_data.php?type=fail2ban',
 	'html_id' => 'fai2ban');
 
 /*
-$items[] = array( 'title'  => "Show MongoDB-Log",
+$items[] = array( 'title'  => "MongoDB-Log",
 	'target'  => 'content',
 	'link' => 'monitor/show_data.php?type=mongodb',
 	'html_id' => 'mongodb');
 */
-$items[] = array( 'title'  => "Show IPTables",
+$items[] = array( 'title'  => "IPTables",
 	'target'  => 'content',
 	'link' => 'monitor/show_data.php?type=iptables',
 	'html_id' => 'iptables');

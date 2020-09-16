@@ -37,6 +37,10 @@ body {
 .control-label-plain:after {
     content: ""; }
 
+.inlineLabel {
+  font-weight: 400;
+}
+
 .formbutton-default {
   padding: 6px 10px;
   border-bottom-style: solid;
@@ -123,6 +127,10 @@ body {
   border-right-width: 0; }
   .btn-group-justified .btn:last-of-type {
     border-right-width: 1px; }
+
+.dns-record-btn {
+  margin-top: 3px;
+}
 
 #content {
   width: 78%; }
