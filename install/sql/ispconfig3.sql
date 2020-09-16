@@ -2088,6 +2088,7 @@ CREATE TABLE `web_domain` (
   `jailkit_chroot_app_programs` mediumtext NULL DEFAULT NULL,
   `delete_unused_jailkit` enum('n','y') NOT NULL default 'n',
   `last_jailkit_update` date NULL DEFAULT NULL,
+  `last_jailkit_hash` varchar(255) DEFAULT NULL,
   PRIMARY KEY  (`domain_id`),
   UNIQUE KEY `serverdomain` (  `server_id` , `ip_address`,  `domain` )
 ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

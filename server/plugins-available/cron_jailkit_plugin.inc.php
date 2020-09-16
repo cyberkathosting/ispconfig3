@@ -242,12 +242,22 @@ class cron_jailkit_plugin {
 			$options = array( 'allow_hardlink', );
 		}
 
-		//check if the chroot environment is created yet if not create it with a list of program sections from the config
+		$last_updated = preg_split('/[\s,]+/', $this->jailkit_config['jailkit_chroot_app_sections']
+						  .' '.$this->jailkit_config['jailkit_chroot_app_programs']
+						  .' '.$this->jailkit_config['jailkit_chroot_cron_programs']);
+		$last_updated = array_unique($last_updated, SORT_REGULAR);
+		sort($last_updated, SORT_STRING);
+		$update_hash = hash('md5', implode(' ', $last_updated));
+
+		// should move return here if $update_hash == $parent_domain['last_jailkit_hash'] ?
+
+		// check if the chroot environment is created yet if not create it with a list of program sections from the config
 		if (!is_dir($this->parent_domain['document_root'].'/etc/jailkit'))
 		{
 			$app->system->create_jailkit_chroot($this->parent_domain['document_root'], $this->jailkit_config['jailkit_chroot_app_sections'], $options);
-
 			$this->app->log("Added jailkit chroot", LOGLEVEL_DEBUG);
+
+			$this->_add_jailkit_programs($options);
 
 			$this->app->load('tpl');
 
@@ -281,16 +291,19 @@ class cron_jailkit_plugin {
 			$options[] = 'force';
 
 			$sections = $this->jailkit_config['jailkit_chroot_app_sections'];
-			$programs = $this->jailkit_config['jailkit_chroot_app_programs'];
+			$programs = $this->jailkit_config['jailkit_chroot_app_programs'] . ' '
+				  . $this->jailkit_config['jailkit_chroot_cron_programs'];
+
+			if ($update_hash == $parent_domain['last_jailkit_hash']) {
+				return;
+			}
 
 			$app->system->update_jailkit_chroot($this->parent_domain['document_root'], $sections, $programs, $options);
 		}
 
-		$this->_add_jailkit_programs($options);
-
 		// this gets last_jailkit_update out of sync with master db, but that is ok,
 		// as it is only used as a timestamp to moderate the frequency of updating on the slaves
-		$app->db->query("UPDATE `web_domain` SET `last_jailkit_update` = NOW() WHERE `document_root` = ?", $this->data['new']['dir']);
+		$app->db->query("UPDATE `web_domain` SET `last_jailkit_update` = NOW(), `last_jailkit_hash` = ? WHERE `document_root` = ?", $update_hash, $this->parent_domain['document_root']);
 	}
 
 	function _add_jailkit_programs($opts=array())
@@ -309,7 +322,7 @@ class cron_jailkit_plugin {
 	{
 		global $app;
 
-		//add the user to the chroot
+		// add the user to the chroot
 		$jailkit_chroot_userhome = $this->_get_home_dir($this->parent_domain['system_user']);
 
 		if(!is_dir($this->parent_domain['document_root'].'/etc')) mkdir($this->parent_domain['document_root'].'/etc');
@@ -381,8 +394,9 @@ class cron_jailkit_plugin {
 
 		$app->system->delete_jailkit_chroot($parent_domain['document_root']);
 
-		// might need to update master db here?  checking....
-		$app->db->query("UPDATE `web_domain` SET `last_jailkit_update` = NOW() WHERE `document_root` = ?", $parent_domain['document_root']);
+		// this gets last_jailkit_update out of sync with master db, but that is ok,
+		// as it is only used as a timestamp to moderate the frequency of updating on the slaves
+		$app->db->query("UPDATE `web_domain` SET `last_jailkit_update` = NOW(), `last_jailkit_hash` = NULL WHERE `document_root` = ?", $parent_domain['document_root']);
 	}
 
 } // end class

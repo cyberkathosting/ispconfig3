@@ -75,7 +75,7 @@ class cronjob_jailkit_maintenance extends cronjob {
 		// limit the number of jails we update at one time according to time of day
 		$num_jails_to_update = (date('H') < 6) ? 25 : 3;
 
-		$sql = "SELECT domain_id, domain, document_root, php_fpm_chroot, jailkit_chroot_app_sections, jailkit_chroot_app_programs, delete_unused_jailkit FROM web_domain WHERE type = 'vhost' AND last_jailkit_update < (NOW() - INTERVAL 24 HOUR) AND server_id = ? ORDER by last_jailkit_update LIMIT ?";
+		$sql = "SELECT domain_id, domain, document_root, php_fpm_chroot, jailkit_chroot_app_sections, jailkit_chroot_app_programs, delete_unused_jailkit, last_jailkit_hash FROM web_domain WHERE type = 'vhost' AND last_jailkit_update < (NOW() - INTERVAL 24 HOUR) AND server_id = ? ORDER by last_jailkit_update LIMIT ?";
 		$records = $app->db->queryAllRecords($sql, $conf['server_id'], $num_jails_to_update);
 
 		foreach($records as $rec) {
@@ -101,19 +101,32 @@ class cronjob_jailkit_maintenance extends cronjob {
 				if (isset($web['jailkit_chroot_app_programs']) && $web['jailkit_chroot_app_programs'] != '') {
 					$programs = $web['jailkit_chroot_app_programs'];
 				}
-				$app->system->web_folder_protection($rec['document_root'], false);
-				$app->system->update_jailkit_chroot($rec['document_root'], $sections, $programs, $update_options);
-				$app->system->web_folder_protection($rec['document_root'], true);
+				$programs .= ' '.$jailkit_config['jailkit_chroot_cron_programs'];
+
+				$last_updated = preg_split('/[\s,]+/', $sections.' '.$programs);
+				$last_updated = array_unique($last_updated, SORT_REGULAR);
+				sort($last_updated, SORT_STRING);
+				$update_hash = hash('md5', implode(' ', $last_updated));
+
+				if ($update_hash != $rec['last_jailkit_hash']) {
+					$app->system->web_folder_protection($rec['document_root'], false);
+					$app->system->update_jailkit_chroot($rec['document_root'], $sections, $programs, $update_options);
+					$app->system->web_folder_protection($rec['document_root'], true);
+					$app->db->query("UPDATE `web_domain` SET `last_jailkit_update` = NOW(), `last_jailkit_hash` = ? WHERE `document_root` = ?", $update_hash, $rec['document_root']);
+				} else {
+					$app->db->query("UPDATE `web_domain` SET `last_jailkit_update` = NOW() WHERE `document_root` = ?", $rec['document_root']);
+				}
 			} elseif ($rec['delete_unused_jailkit'] == 'y') {
 				//$app->log('Removing unused jail: '.$rec['document_root'], LOGLEVEL_DEBUG);
 				print 'Removing unused jail: '.$rec['document_root']."\n";
 				$app->system->web_folder_protection($rec['document_root'], false);
 				$app->system->delete_jailkit_chroot($rec['document_root']);
 				$app->system->web_folder_protection($rec['document_root'], true);
-			}
 
-			// might need to update master db here?  checking....
-			$app->db->query("UPDATE `web_domain` SET `last_jailkit_update` = NOW() WHERE `document_root` = ?", $rec['document_root']);
+				$app->db->query("UPDATE `web_domain` SET `last_jailkit_update` = NOW(), `last_jailkit_hash` = NULL WHERE `document_root` = ?", $rec['document_root']);
+			} else {
+				$app->db->query("UPDATE `web_domain` SET `last_jailkit_update` = NOW() WHERE `document_root` = ?", $rec['document_root']);
+			}
 		}
 
 		parent::onRunJob();
