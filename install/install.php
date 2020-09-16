@@ -536,12 +536,6 @@ if($force) {
 	$inst->configure_fail2ban();
 }
 
-if($conf['services']['web'] == true) {
-	//** Configure apps vhost
-	swriteln('Configuring Apps vhost');
-	$inst->configure_apps_vhost();
-}
-
 //** Configure ISPConfig :-)
 $install_ispconfig_interface_default = ($conf['mysql']['master_slave_setup'] == 'y')?'n':'y';
 if($install_mode == 'standard' || strtolower($inst->simple_query('Install ISPConfig Web Interface', array('y', 'n'), $install_ispconfig_interface_default,'install_ispconfig_web_interface')) == 'y') {
@@ -580,6 +574,12 @@ if($install_mode == 'standard' || strtolower($inst->simple_query('Install ISPCon
 if(!file_exists('/usr/local/ispconfig/interface/ssl/ispserver.crt')) {
     if(strtolower($inst->simple_query('Do you want to create SSL certs for your server?', array('y', 'n'), 'y')) == 'y')
         $inst->make_ispconfig_ssl_cert();
+}
+
+if($conf['services']['web'] == true) {
+	//** Configure apps vhost
+	swriteln('Configuring Apps vhost');
+	$inst->configure_apps_vhost();
 }
 
 $inst->install_ispconfig();
