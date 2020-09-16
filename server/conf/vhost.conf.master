@@ -252,7 +252,9 @@
 		SetEnv TMP <tmpl_var name='document_root'>/tmp
 		SetEnv TMPDIR <tmpl_var name='document_root'>/tmp
 		SetEnv TEMP <tmpl_var name='document_root'>/tmp
+		<tmpl_if name='custom_sendmail_path' op='!=' value='y'>
 		php_admin_value sendmail_path "/usr/sbin/sendmail -t -i -fwebmaster@<tmpl_var name='domain'>"
+		</tmpl_if>
 		php_admin_value upload_tmp_dir <tmpl_var name='document_root'>/tmp
 		php_admin_value session.save_path <tmpl_var name='document_root'>/tmp
 	# PHPIniDir <tmpl_var name='custom_php_ini_dir'>
