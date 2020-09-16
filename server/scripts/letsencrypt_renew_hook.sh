@@ -17,10 +17,9 @@ if [ -e "/usr/local/ispconfig/server/conf-custom/scripts/letsencrypt_renew_hook.
 fi
 
 hostname=$(hostname -f)
-acme=$(which /usr/local/ispconfig/server/scripts/acme.sh /root/.acme.sh/acme.sh)
-if [ -e "/usr/local/ispconfig/server/scripts/${hostname}" ] ; then
+if [ -d "/usr/local/ispconfig/server/scripts/${hostname}" ] ; then
 	lelive="/usr/local/ispconfig/server/scripts/${hostname}" ;
-elif [ -e "/root/.acme.sh/${hostname}" ] ; then
+elif [ -d "/root/.acme.sh/${hostname}" ] ; then
 	lelive="/root/.acme.sh/${hostname}" ;
 else
 	lelive="/etc/letsencrypt/live/${hostname}" ;
