@@ -2433,15 +2433,20 @@ $app->log("update_jailkit_chroot called for $home_dir with options ".print_r($op
 		}
 
 		$opts = array();
+		$jk_update_args = '';
+		$jk_cp_args = '';
 		foreach ($options as $opt) {
 			switch ($opt) {
 			case '-k':
 			case 'hardlink':
 				$opts[] = 'hardlink';
+				$jk_update_args .= ' -k';
+				$jk_cp_args .= ' -k';
 				break;
 			case '-f':
 			case 'force':
 				$opts[] = 'force';
+				$jk_cp_args .= ' -f';
 				break;
 			}
 		}
@@ -2521,14 +2526,16 @@ else { $app->log("update_jailkit_chroot: NOT searching for hardlinks in $jail_di
 			unlink($file);
 		}
 		
-		$cmd = 'jk_update --jail=?' . $skips;
+		$cmd = 'jk_update --jail=?' . $jk_update_args . $skips;
 		$this->exec_safe($cmd, $home_dir);
 $app->log('jk_update returned: '.print_r($this->_last_exec_out, true), LOGLEVEL_DEBUG);
 		foreach ($this->_last_exec_out as $line) {
 			if (substr( $line, 0, 4 ) === "skip") {
 				continue;
 			}
-			if (preg_match('@^(?: [^ ]+){6}(.+)'.preg_quote($home_dir, '@').'$@', $line, $matches)) {
+			if (preg_match('/^(WARNING|ERROR)/', $line, $matches)) {
+				$app->log("jk_update: $line", LOGLEVEL_DEBUG);
+			} elseif (preg_match('@^(?: [^ ]+){6}(.+)'.preg_quote($home_dir, '@').'$@', $line, $matches)) {
 				# remove deprecated files that jk_update failed to remove
 				if (is_file($matches[1])) {
 $app->log("update_jailkit_chroot: removing deprecated file which jk_update failed to remove:  ".$matches[1], LOGLEVEL_DEBUG);
@@ -2583,7 +2590,7 @@ $app->log("update_jailkit_chroot: removing deprecated directory which jk_update 
 					}
 					if (is_file($file)) { // file exists in root
 						$app->log("update_jailkit_chroot: previously hardlinked file still missing, running jk_cp to restore: $file", LOGLEVEL_DEBUG);
-						$cmd = 'jk_cp -j ? ' . escapeshellarg($file);
+						$cmd = 'jk_cp -j ? ' . $jk_cp_args . ' ' . escapeshellarg($file);
 						$this->exec_safe($cmd, $home_dir);
 					} else {
 						// not necessarily an error
