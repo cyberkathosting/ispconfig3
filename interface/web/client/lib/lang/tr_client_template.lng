@@ -1,4 +1,5 @@
 <?php
+$wb['ssh_chroot_notempty'] = 'No SSH chroot option selected. Select at least one option.';
 $wb['template_type_txt'] = 'Kalıp Türü';
 $wb['template_name_txt'] = 'Kalıp Adı';
 $wb['limit_client_error_notint'] = 'Müşteri sınırı bir sayı olmalıdır.';

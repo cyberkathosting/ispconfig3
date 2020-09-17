@@ -1,4 +1,5 @@
 <?php
+$wb['ssh_chroot_notempty'] = 'No SSH chroot option selected. Select at least one option.';
 $wb['limit_client_error_notint'] = 'Лимит клиентов должен быть числом.';
 $wb['limit_maildomain_txt'] = 'Макс. количество почтовых доменов';
 $wb['limit_mailbox_txt'] = 'Макс. количество почтовых ящиков';
