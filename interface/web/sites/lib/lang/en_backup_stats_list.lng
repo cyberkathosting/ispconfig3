@@ -1,6 +1,6 @@
 <?php
-$wb["list_head_txt"]       = 'Backup Stats';
-$wb["database_name_txt"]   = '';
+$wb['list_head_txt']       = 'Backup Stats';
+$wb['database_name_txt']   = '';
 $wb['active_txt']          = 'Active';
 $wb['domain_txt']          = 'Domain';
 $wb['backup_count_txt']    = 'Backup count';
