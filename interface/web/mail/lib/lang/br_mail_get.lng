@@ -15,5 +15,5 @@ $wb['source_username_error_isempty'] = 'O usuário está em branco.';
 $wb['source_password_error_isempty'] = 'A senha está em branco.';
 $wb['destination_error_isemail'] = 'Nenhum destino selecionado.';
 $wb['source_server_error_regex'] = 'O servidor POP3/IMAP é inválido.';
-$wb['error_delete_read_all_combination'] = 'Combinação ilegal nas opções. Não pode ser utilizado "Remover e-mails após recuperação" = 'não" e "Recuperar todos e-mail" = 'sim".';
+$wb['error_delete_read_all_combination'] = 'Combinação ilegal nas opções. Não pode ser utilizado "Remover e-mails após recuperação" = "não" e "Recuperar todos e-mail" = "sim".';
 ?>
