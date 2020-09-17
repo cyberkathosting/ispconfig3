@@ -1,19 +1,19 @@
 <?php
-$wb['ca_list_txt'] = 'Certifiction Authority';
-$wb['ca_domain_txt'] = 'Domain';
-$wb['ca_hostname_txt'] = 'Additional Hostnamen';
-$wb['ca_hostname_note_txt'] = '(Sepearated list with commas - empty for all hostnames)';
-$wb['ca_options_txt'] = 'Additional Options';
-$wb['ca_options_note_txt'] = 'requested by the CA (Sepearated list with commas)';
-$wb['ca_wildcard_txt'] = 'Use Wildcard SSL';
-$wb['ca_critical_txt'] = 'Strict check';
+$wb['ca_list_txt'] = 'Издатели на сертификати (CA)';
+$wb['ca_domain_txt'] = 'Домейн';
+$wb['ca_hostname_txt'] = 'Допълнителни хостове';
+$wb['ca_hostname_note_txt'] = '(ако са няколко - трябва да са разделени със запетая - оставете празно за всички хостове)';
+$wb['ca_options_txt'] = 'Допълнителни опции';
+$wb['ca_options_note_txt'] = 'Изискани от издателя (ако са няколко - трябва да са разделени със запетая)';
+$wb['ca_wildcard_txt'] = 'Използвай Wildcard SSL';
+$wb['ca_critical_txt'] = 'Стриктна проверка'; // За бъдеща употреба. Понастоящем CAA не разпознават други стойности на флага, както е описано в RFC 6844
 $wb['ttl_txt'] = 'TTL';
-$wb['active_txt'] = 'Active';
-$wb['select_txt'] = 'Select Certifiction Authority';
-$wb['no_zone_perm'] = 'You do not have the permission to add a record to this DNS zone.';
-$wb['limit_dns_record_txt'] = 'The max. number of DNS records for your account is reached.';
-$wb['ca_error_txt'] = 'No Certifiction Authority selected';
-$wb['caa_exists_error'] = 'CAA Record already exists';
-$wb['ca_option_error'] = 'Invalid format for additional options; OPTION=VALUE';
-$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['active_txt'] = 'Активно';
+$wb['select_txt'] = 'Избери издател на сертификати (CA)';
+$wb['no_zone_perm'] = 'Нямата нужните права да добавяте записи в тази DNS зона';
+$wb['limit_dns_record_txt'] = 'Достигнали сте максималния брой DNS записи за вашият акаунт.';
+$wb['ca_error_txt'] = 'Не сте посочили издател на сертификати (CA)';
+$wb['caa_exists_error'] = 'CAA Записа вече съществува';
+$wb['ca_option_error'] = 'Грешен формат за допълнителни опции; OPTION=VALUE';
+$wb['ttl_range_error'] = 'Минималния TTL е 60 секунди.';
 ?>
