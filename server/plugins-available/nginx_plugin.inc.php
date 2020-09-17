@@ -3499,11 +3499,11 @@ class nginx_plugin {
 		if (!is_dir($this->website['document_root'].'/etc/jailkit'))
 		{
 			$app->system->create_jailkit_chroot($this->website['document_root'], $this->jailkit_config['jailkit_chroot_app_sections'], $options);
-			$this->app->log("Added jailkit chroot", LOGLEVEL_DEBUG);
+			$app->log("Added jailkit chroot", LOGLEVEL_DEBUG);
 
 			$this->_add_jailkit_programs($options);
 
-			$this->app->load('tpl');
+			$app->load('tpl');
 
 			$tpl = new tpl();
 			$tpl->newTemplate("bash.bashrc.master");
@@ -3518,7 +3518,7 @@ class nginx_plugin {
 			file_put_contents($bashrc, $tpl->grab());
 			unset($tpl);
 
-			$this->app->log("Added bashrc script: ".$bashrc, LOGLEVEL_DEBUG);
+			$app->log("Added bashrc script: ".$bashrc, LOGLEVEL_DEBUG);
 
 			$tpl = new tpl();
 			$tpl->newTemplate("motd.master");
@@ -3558,10 +3558,10 @@ class nginx_plugin {
 
 		//copy over further programs and its libraries
 		$app->system->create_jailkit_programs($this->website['document_root'], $this->jailkit_config['jailkit_chroot_app_programs'], $opts);
-		$this->app->log("Added app programs to jailkit chroot", LOGLEVEL_DEBUG);
+		$app->log("Added app programs to jailkit chroot", LOGLEVEL_DEBUG);
 
 		$app->system->create_jailkit_programs($this->website['document_root'], $this->jailkit_config['jailkit_chroot_cron_programs'], $opts);
-		$this->app->log("Added cron programs to jailkit chroot", LOGLEVEL_DEBUG);
+		$app->log("Added cron programs to jailkit chroot", LOGLEVEL_DEBUG);
 	}
 
 	function _get_home_dir($username)
@@ -3589,7 +3589,7 @@ class nginx_plugin {
 		$app->system->chown($this->website['document_root'].$jailkit_chroot_userhome, $this->website['system_user']);
 		$app->system->chgrp($this->website['document_root'].$jailkit_chroot_userhome, $this->website['system_group']);
 
-		$this->app->log("Added created jailkit user home in : ".$this->website['document_root'].$jailkit_chroot_userhome, LOGLEVEL_DEBUG);
+		$app->log("Added created jailkit user home in : ".$this->website['document_root'].$jailkit_chroot_userhome, LOGLEVEL_DEBUG);
 	}
 
 	private function _delete_jailkit_if_unused($parent_domain_id) {

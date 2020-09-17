@@ -107,7 +107,6 @@ class shelluser_jailkit_plugin {
 						// load the server configuration options
 						$app->uses("getconf");
 						$this->data = $data;
-						$this->app = $app;
 						$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
 						foreach (array('jailkit_chroot_app_sections', 'jailkit_chroot_app_programs') as $section) {
 							if (isset($web[$section]) && $web[$section] != '' ) {
@@ -190,7 +189,6 @@ class shelluser_jailkit_plugin {
 						// load the server configuration options
 						$app->uses("getconf");
 						$this->data = $data;
-						$this->app = $app;
 						$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
 						foreach (array('jailkit_chroot_app_sections', 'jailkit_chroot_app_programs') as $section) {
 							if (isset($web[$section]) && $web[$section] != '' ) {
@@ -300,7 +298,7 @@ class shelluser_jailkit_plugin {
 			$options = array( 'allow_hardlink', );
 		}
 
-		$web = $this->app->db->queryOneRecord("SELECT domain, last_jailkit_hash FROM web_domain WHERE domain_id = ?", $this->data['new']["parent_domain_id"]);
+		$web = $app->db->queryOneRecord("SELECT domain, last_jailkit_hash FROM web_domain WHERE domain_id = ?", $this->data['new']["parent_domain_id"]);
 
 		$last_updated = preg_split('/[\s,]+/', $this->jailkit_config['jailkit_chroot_app_sections']
 						  .' '.$this->jailkit_config['jailkit_chroot_app_programs']
@@ -315,11 +313,11 @@ class shelluser_jailkit_plugin {
 		if (!is_dir($this->data['new']['dir'].'/etc/jailkit'))
 		{
 			$app->system->create_jailkit_chroot($this->data['new']['dir'], $this->jailkit_config['jailkit_chroot_app_sections'], $options);
-			$this->app->log("Added jailkit chroot", LOGLEVEL_DEBUG);
+			$app->log("Added jailkit chroot", LOGLEVEL_DEBUG);
 
 			$this->_add_jailkit_programs($options);
 
-			$this->app->load('tpl');
+			$app->load('tpl');
 
 			$tpl = new tpl();
 			$tpl->newTemplate("bash.bashrc.master");
@@ -334,7 +332,7 @@ class shelluser_jailkit_plugin {
 			file_put_contents($bashrc, $tpl->grab());
 			unset($tpl);
 
-			$this->app->log("Added bashrc script: ".$bashrc, LOGLEVEL_DEBUG);
+			$app->log("Added bashrc script: ".$bashrc, LOGLEVEL_DEBUG);
 
 			$tpl = new tpl();
 			$tpl->newTemplate("motd.master");
@@ -376,7 +374,7 @@ class shelluser_jailkit_plugin {
 				if(is_file($jailkit_chroot_app_program) || is_dir($jailkit_chroot_app_program)){			
 					//copy over further programs and its libraries
 					$app->system->create_jailkit_programs($this->data['new']['dir'], $jailkit_chroot_app_program, $opts);
-					$this->app->log("Added programs to jailkit chroot", LOGLEVEL_DEBUG);
+					$app->log("Added programs to jailkit chroot", LOGLEVEL_DEBUG);
 				}
 			}
 		}
@@ -425,13 +423,13 @@ class shelluser_jailkit_plugin {
 		$app->system->chown($this->data['new']['dir'].$jailkit_chroot_userhome, $this->data['new']['username']);
 		$app->system->chgrp($this->data['new']['dir'].$jailkit_chroot_userhome, $this->data['new']['pgroup']);
 
-		$this->app->log("Added created jailkit user home in : ".$this->data['new']['dir'].$jailkit_chroot_userhome, LOGLEVEL_DEBUG);
+		$app->log("Added created jailkit user home in : ".$this->data['new']['dir'].$jailkit_chroot_userhome, LOGLEVEL_DEBUG);
 
 		if(!is_dir($this->data['new']['dir'].$jailkit_chroot_puserhome)) mkdir($this->data['new']['dir'].$jailkit_chroot_puserhome, 0750, true);
 		$app->system->chown($this->data['new']['dir'].$jailkit_chroot_puserhome, $this->data['new']['puser']);
 		$app->system->chgrp($this->data['new']['dir'].$jailkit_chroot_puserhome, $this->data['new']['pgroup']);
 
-		$this->app->log("Added jailkit parent user home in : ".$this->data['new']['dir'].$jailkit_chroot_puserhome, LOGLEVEL_DEBUG);
+		$app->log("Added jailkit parent user home in : ".$this->data['new']['dir'].$jailkit_chroot_puserhome, LOGLEVEL_DEBUG);
 
 
 	}
@@ -460,13 +458,13 @@ class shelluser_jailkit_plugin {
 
 	private function _setup_ssh_rsa() {
 		global $app;
-		$this->app->log("ssh-rsa setup shelluser_jailkit", LOGLEVEL_DEBUG);
+		$app->log("ssh-rsa setup shelluser_jailkit", LOGLEVEL_DEBUG);
 		// Get the client ID, username, and the key
-		$domain_data = $this->app->db->queryOneRecord('SELECT sys_groupid FROM web_domain WHERE web_domain.domain_id = ?', $this->data['new']['parent_domain_id']);
-		$sys_group_data = $this->app->db->queryOneRecord('SELECT * FROM sys_group WHERE sys_group.groupid = ?', $domain_data['sys_groupid']);
+		$domain_data = $app->db->queryOneRecord('SELECT sys_groupid FROM web_domain WHERE web_domain.domain_id = ?', $this->data['new']['parent_domain_id']);
+		$sys_group_data = $app->db->queryOneRecord('SELECT * FROM sys_group WHERE sys_group.groupid = ?', $domain_data['sys_groupid']);
 		$id = intval($sys_group_data['client_id']);
 		$username= $sys_group_data['name'];
-		$client_data = $this->app->db->queryOneRecord('SELECT * FROM client WHERE client.client_id = ?', $id);
+		$client_data = $app->db->queryOneRecord('SELECT * FROM client WHERE client.client_id = ?', $id);
 		$userkey = $client_data['ssh_rsa'];
 		unset($domain_data);
 		unset($client_data);
@@ -487,7 +485,7 @@ class shelluser_jailkit_plugin {
 			$app->uses('functions');
 			$app->functions->generate_ssh_key($id, $username);
 			
-			$this->app->log("ssh-rsa keypair generated for ".$username, LOGLEVEL_DEBUG);
+			$app->log("ssh-rsa keypair generated for ".$username, LOGLEVEL_DEBUG);
 		};
 
 		if (!file_exists($sshkeys)){
@@ -511,7 +509,7 @@ class shelluser_jailkit_plugin {
 			// add the user's key
 			file_put_contents($sshkeys, $final_keys);
 			$app->file->remove_blank_lines($sshkeys);
-			$this->app->log("ssh-rsa authorisation keyfile created in ".$sshkeys, LOGLEVEL_DEBUG);
+			$app->log("ssh-rsa authorisation keyfile created in ".$sshkeys, LOGLEVEL_DEBUG);
 		}
 		//* Get the keys
 		$existing_keys = file($sshkeys, FILE_IGNORE_NEW_LINES);
@@ -546,7 +544,7 @@ class shelluser_jailkit_plugin {
 		// add the custom key
 		$app->system->file_put_contents($sshkeys, $final_keys);
 		$app->file->remove_blank_lines($sshkeys);
-		$this->app->log("ssh-rsa key updated in ".$sshkeys, LOGLEVEL_DEBUG);
+		$app->log("ssh-rsa key updated in ".$sshkeys, LOGLEVEL_DEBUG);
 
 		// set proper file permissions
 		$app->system->exec_safe("chown -R ?:? ?", $this->data['new']['puser'], $this->data['new']['pgroup'], $sshdir);

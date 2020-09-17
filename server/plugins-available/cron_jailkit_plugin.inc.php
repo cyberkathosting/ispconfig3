@@ -105,7 +105,6 @@ class cron_jailkit_plugin {
 				// load the server configuration options
 				$app->uses("getconf");
 				$this->data = $data;
-				$this->app = $app;
 				$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
 				foreach (array('jailkit_chroot_app_sections', 'jailkit_chroot_app_programs') as $section) {
 					if (isset($parent_domain[$section]) && $parent_domain[$section] != '' ) {
@@ -174,7 +173,6 @@ class cron_jailkit_plugin {
 				// load the server configuration options
 				$app->uses("getconf");
 				$this->data = $data;
-				$this->app = $app;
 				$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
 				foreach (array('jailkit_chroot_app_sections', 'jailkit_chroot_app_programs') as $section) {
 					if (isset($parent_domain[$section]) && $parent_domain[$section] != '' ) {
@@ -255,11 +253,11 @@ class cron_jailkit_plugin {
 		if (!is_dir($this->parent_domain['document_root'].'/etc/jailkit'))
 		{
 			$app->system->create_jailkit_chroot($this->parent_domain['document_root'], $this->jailkit_config['jailkit_chroot_app_sections'], $options);
-			$this->app->log("Added jailkit chroot", LOGLEVEL_DEBUG);
+			$app->log("Added jailkit chroot", LOGLEVEL_DEBUG);
 
 			$this->_add_jailkit_programs($options);
 
-			$this->app->load('tpl');
+			$app->load('tpl');
 
 			$tpl = new tpl();
 			$tpl->newTemplate("bash.bashrc.master");
@@ -274,7 +272,7 @@ class cron_jailkit_plugin {
 			$app->system->file_put_contents($bashrc, $tpl->grab());
 			unset($tpl);
 
-			$this->app->log('Added bashrc script: '.$bashrc, LOGLEVEL_DEBUG);
+			$app->log('Added bashrc script: '.$bashrc, LOGLEVEL_DEBUG);
 
 			$tpl = new tpl();
 			$tpl->newTemplate('motd.master');
@@ -312,10 +310,10 @@ class cron_jailkit_plugin {
 
 		//copy over further programs and its libraries
 		$app->system->create_jailkit_programs($this->parent_domain['document_root'], $this->jailkit_config['jailkit_chroot_app_programs'], $opts);
-		$this->app->log("Added app programs to jailkit chroot", LOGLEVEL_DEBUG);
+		$app->log("Added app programs to jailkit chroot", LOGLEVEL_DEBUG);
 		
 		$app->system->create_jailkit_programs($this->parent_domain['document_root'], $this->jailkit_config['jailkit_chroot_cron_programs'], $opts);
-		$this->app->log("Added cron programs to jailkit chroot", LOGLEVEL_DEBUG);
+		$app->log("Added cron programs to jailkit chroot", LOGLEVEL_DEBUG);
 	}
 
 	function _add_jailkit_user()

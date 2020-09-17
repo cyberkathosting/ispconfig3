@@ -146,7 +146,6 @@ class shelluser_base_plugin {
 				// call the ssh-rsa update function
 				$app->uses("getconf");
 				$this->data = $data;
-				$this->app = $app;
 				$this->_setup_ssh_rsa();
 
 				//* Create .bash_history file
@@ -262,7 +261,6 @@ class shelluser_base_plugin {
 					// call the ssh-rsa update function
 					$app->uses("getconf");
 					$this->data = $data;
-					$this->app = $app;
 					$this->_setup_ssh_rsa();
 
 					//* Create .bash_history file
@@ -401,13 +399,13 @@ class shelluser_base_plugin {
 
 	private function _setup_ssh_rsa() {
 		global $app;
-		$this->app->log("ssh-rsa setup shelluser_base", LOGLEVEL_DEBUG);
+		$app->log("ssh-rsa setup shelluser_base", LOGLEVEL_DEBUG);
 		// Get the client ID, username, and the key
-		$domain_data = $this->app->db->queryOneRecord('SELECT sys_groupid FROM web_domain WHERE web_domain.domain_id = ?', $this->data['new']['parent_domain_id']);
-		$sys_group_data = $this->app->db->queryOneRecord('SELECT * FROM sys_group WHERE sys_group.groupid = ?', $domain_data['sys_groupid']);
+		$domain_data = $app->db->queryOneRecord('SELECT sys_groupid FROM web_domain WHERE web_domain.domain_id = ?', $this->data['new']['parent_domain_id']);
+		$sys_group_data = $app->db->queryOneRecord('SELECT * FROM sys_group WHERE sys_group.groupid = ?', $domain_data['sys_groupid']);
 		$id = intval($sys_group_data['client_id']);
 		$username= $sys_group_data['name'];
-		$client_data = $this->app->db->queryOneRecord('SELECT * FROM client WHERE client.client_id = ?', $id);
+		$client_data = $app->db->queryOneRecord('SELECT * FROM client WHERE client.client_id = ?', $id);
 		$userkey = $client_data['ssh_rsa'];
 		unset($domain_data);
 		unset($client_data);
@@ -439,7 +437,7 @@ class shelluser_base_plugin {
 			//Generate ssh-rsa-keys
 			$app->uses('functions');
 			$app->functions->generate_ssh_key($id, $username);
-			$this->app->log("ssh-rsa keypair generated for ".$username, LOGLEVEL_DEBUG);
+			$app->log("ssh-rsa keypair generated for ".$username, LOGLEVEL_DEBUG);
 		};
 
 		if (!file_exists($sshkeys)){
@@ -462,7 +460,7 @@ class shelluser_base_plugin {
 			// add the user's key
 			$app->system->file_put_contents($sshkeys, $final_keys);
 			$app->file->remove_blank_lines($sshkeys);
-			$this->app->log("ssh-rsa authorisation keyfile created in ".$sshkeys, LOGLEVEL_DEBUG);
+			$app->log("ssh-rsa authorisation keyfile created in ".$sshkeys, LOGLEVEL_DEBUG);
 		}
 
 		//* Get the keys
@@ -498,7 +496,7 @@ class shelluser_base_plugin {
 		// add the custom key
 		$app->system->file_put_contents($sshkeys, $final_keys);
 		$app->file->remove_blank_lines($sshkeys);
-		$this->app->log("ssh-rsa key updated in ".$sshkeys, LOGLEVEL_DEBUG);
+		$app->log("ssh-rsa key updated in ".$sshkeys, LOGLEVEL_DEBUG);
 
 		// set proper file permissions
 		$app->system->exec_safe("chown -R ?:? ?", $this->data['new']['puser'], $this->data['new']['pgroup'], $sshdir);

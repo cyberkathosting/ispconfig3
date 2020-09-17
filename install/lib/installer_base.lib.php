@@ -42,7 +42,6 @@ class installer_base {
 
 	public function __construct() {
 		global $conf; //TODO: maybe $conf  should be passed to constructor
-		//$this->conf = $conf;
 	}
 
 	//: TODO  Implement the translation function and language files for the installer.

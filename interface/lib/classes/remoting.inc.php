@@ -59,11 +59,6 @@ class remoting {
 		$app->uses('remoting_lib');
 
 		$this->_methods = $methods;
-
-		/*
-        $this->app = $app;
-        $this->conf = $conf;
-		*/
 	}
 
 	//* remote login function
