@@ -398,7 +398,7 @@ class shelluser_jailkit_plugin {
 		}
 		$jailkit_chroot_puserhome = $this->_get_home_dir($this->data['new']['puser']);
 
-		if(!is_dir($this->data['new']['dir'].'/etc')) mkdir($this->data['new']['dir'].'/etc', 0755);
+		if(!is_dir($this->data['new']['dir'].'/etc')) $app->system->mkdir($this->data['new']['dir'].'/etc', 0755, true);
 		if(!is_file($this->data['new']['dir'].'/etc/passwd')) touch($this->data['new']['dir'].'/etc/passwd', 0755);
 
 		// IMPORTANT!
@@ -417,7 +417,7 @@ class shelluser_jailkit_plugin {
 			if(is_dir($this->data['old']['dir'].$jailkit_chroot_userhome_old)) {
 				$app->system->rename($this->data['old']['dir'].$jailkit_chroot_userhome_old,$this->data['new']['dir'].$jailkit_chroot_userhome);
 			} else {
-				mkdir($this->data['new']['dir'].$jailkit_chroot_userhome, 0750, true);
+				$app->system->mkdir($this->data['new']['dir'].$jailkit_chroot_userhome, 0750, true);
 			}
 		}
 		$app->system->chown($this->data['new']['dir'].$jailkit_chroot_userhome, $this->data['new']['username']);

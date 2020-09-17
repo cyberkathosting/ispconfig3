@@ -3791,7 +3791,7 @@ class apache2_plugin {
 		// add the user to the chroot
 		$jailkit_chroot_userhome = $this->_get_home_dir($this->website['system_user']);
 
-		if(!is_dir($this->website['document_root'].'/etc')) mkdir($this->website['document_root'].'/etc');
+		if(!is_dir($this->website['document_root'].'/etc')) $app->system->mkdir($this->website['document_root'].'/etc', 0755, true);
 		if(!is_file($this->website['document_root'].'/etc/passwd')) $app->system->exec_safe('touch ?', $this->website['document_root'].'/etc/passwd');
 
 		// IMPORTANT!
@@ -3800,9 +3800,11 @@ class apache2_plugin {
 		// and the user has FULL ACCESS to the root of the server!
 		$app->system->create_jailkit_user($this->website['system_user'], $this->website['document_root'], $jailkit_chroot_userhome);
 
-		$app->system->mkdir($this->website['document_root'].$jailkit_chroot_userhome, 0755, true);
-		$app->system->chown($this->website['document_root'].$jailkit_chroot_userhome, $this->website['system_user']);
-		$app->system->chgrp($this->website['document_root'].$jailkit_chroot_userhome, $this->website['system_group']);
+		if(!is_dir($this->website['document_root'].$jailkit_chroot_userhome)) {
+			$app->system->mkdir($this->website['document_root'].$jailkit_chroot_userhome, 0750, true);
+			$app->system->chown($this->website['document_root'].$jailkit_chroot_userhome, $this->website['system_user']);
+			$app->system->chgrp($this->website['document_root'].$jailkit_chroot_userhome, $this->website['system_group']);
+		}
 
 		$app->log("Added created jailkit user home in : ".$this->website['document_root'].$jailkit_chroot_userhome, LOGLEVEL_DEBUG);
 	}

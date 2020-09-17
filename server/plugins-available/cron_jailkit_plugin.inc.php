@@ -323,7 +323,7 @@ class cron_jailkit_plugin {
 		// add the user to the chroot
 		$jailkit_chroot_userhome = $this->_get_home_dir($this->parent_domain['system_user']);
 
-		if(!is_dir($this->parent_domain['document_root'].'/etc')) mkdir($this->parent_domain['document_root'].'/etc');
+		if(!is_dir($this->parent_domain['document_root'].'/etc')) $app->system->mkdir($this->parent_domain['document_root'].'/etc', 0755, true);
 		if(!is_file($this->parent_domain['document_root'].'/etc/passwd')) $app->system->exec_safe('touch ?', $this->parent_domain['document_root'].'/etc/passwd');
 
 		// IMPORTANT!
@@ -332,9 +332,11 @@ class cron_jailkit_plugin {
 		// and the user has FULL ACCESS to the root of the server!
 		$app->system->create_jailkit_user($this->parent_domain['system_user'], $this->parent_domain['document_root'], $jailkit_chroot_userhome);
 
-		$app->system->mkdir($this->parent_domain['document_root'].$jailkit_chroot_userhome, 0755, true);
-		$app->system->chown($this->parent_domain['document_root'].$jailkit_chroot_userhome, $this->parent_domain['system_user']);
-		$app->system->chgrp($this->parent_domain['document_root'].$jailkit_chroot_userhome, $this->parent_domain['system_group']);
+		if(!is_dir($this->parent_domain['document_root'].$jailkit_chroot_userhome)) {
+			$app->system->mkdir($this->parent_domain['document_root'].$jailkit_chroot_userhome, 0750, true);
+			$app->system->chown($this->parent_domain['document_root'].$jailkit_chroot_userhome, $this->parent_domain['system_user']);
+			$app->system->chgrp($this->parent_domain['document_root'].$jailkit_chroot_userhome, $this->parent_domain['system_group']);
+		}
 
 	}
 
