@@ -24,7 +24,7 @@ $wb['spf_record_exists_txt'] = 'SPF-Record already exists for hostname "{hostnam
 $wb['spf_record_exists_multiple_txt'] = 'Multiple SPF-Records exist for hostname "{hostname}". This will cause recipients to reject your mail! Delete or merge duplicate existing records and try again.';
 $wb['limit_dns_record_txt'] = 'The max. number of DNS records for your account is reached.';
 $wb['no_zone_perm'] = 'You do not have the permission to add a record to this DNS zone.';
-$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['ttl_range_error'] = 'Минималния TTL е 60 секунди.';
 $wb['name_error_regex'] = 'The hostname has the wrong format.';
 $wb['btn_edit_as_txt_record_txt'] = 'Edit as TXT record';
 ?>

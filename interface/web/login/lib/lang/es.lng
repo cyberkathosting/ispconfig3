@@ -26,10 +26,10 @@ $wb['stay_logged_in_txt'] = 'Permanecer conectado';
 $wb['theme_not_compatible'] = 'El tema elegido no es compatible con la versión actual. Por favor busca una nueva versión del tema.<br />Se ha activado el tema por defecto automáticamente.';
 $wb['user_regex_error'] = 'El nombre de usuario contiene caracteres no permitidos o tiene más de 64 caracteres.';
 $wb['username_txt'] = 'Nombre de usuario';
-$wb['pw_reset_act'] = 'You have been sent an activation link. Please visit the link to confirm your password request.';
-$wb['pw_reset_act_mail_title'] = 'Confirm ISPConfig 3 Control panel password reset';
-$wb['pw_reset_act_mail_msg'] = 'Please confirm that your want to reset your ISPConfig 3 control panel account password by visiting the following activation link: ';
-$wb['lost_password_function_wait_txt'] = 'You cannot request a new password, yet. Please wait a few minutes.';
-$wb['lost_password_function_expired_txt'] = 'This activation link has expired. Please request a new one.';
-$wb['lost_password_function_denied_txt'] = 'This activation link is not valid.';
+$wb['pw_reset_act'] = 'Se le ha eniado un enlace de activación. Por favor visite el enlace para confirmar la petición de cambio de contraseña.';
+$wb['pw_reset_act_mail_title'] = 'Confirmar restablecer la contraseña del panel de control ISPConfig 3';
+$wb['pw_reset_act_mail_msg'] = 'Por favor confirme que desea restablecer la contraseña de su panel de control ISPConfig 3 visitando el siguiente enlace de activación: ';
+$wb['lost_password_function_wait_txt'] = 'No puede solicitar una nueva contraseña todavía. Por favor, espere unos minutos.';
+$wb['lost_password_function_expired_txt'] = 'Este enlace de activación ha caducado. Por favor, solicite uno nuevo.';
+$wb['lost_password_function_denied_txt'] = 'Este enlace de activación no es válido.';
 ?>

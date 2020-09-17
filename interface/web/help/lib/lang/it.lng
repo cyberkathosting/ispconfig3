@@ -4,11 +4,11 @@ $wb['Message'] = 'Messaggi';
 $wb['Send message'] = 'Spedisci messaggio';
 $wb['View messages'] = 'Visualizza messaggi';
 $wb['Support'] = 'Supporto';
-$wb['About ISPConfig'] = 'About ISPConfig';
+$wb['About ISPConfig'] = 'Info su ISPConfig';
 $wb['Version'] = 'Versione';
-$wb['Frequently Asked Questions'] = 'Frequently Asked Questions';
+$wb['Frequently Asked Questions'] = 'Domande frequenti';
 $wb['FAQ Sections'] = 'FAQ Sezioni';
 $wb['Manage Sections'] = 'Gestisci Sezioni';
 $wb['Add a Question & Answer Pair'] = 'Aggiungi una domanda e rispondi';
-$wb['Manage Questions'] = 'Manage Questions';
+$wb['Manage Questions'] = 'Gestisci domande';
 ?>

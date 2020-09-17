@@ -6,9 +6,9 @@ $wb['View messages'] = 'Преглед на съобщенията';
 $wb['Support'] = 'Поддръжка';
 $wb['About ISPConfig'] = 'За ISPConfig';
 $wb['Version'] = 'Версия';
-$wb['Frequently Asked Questions'] = 'Често задавани въпроси';
-$wb['FAQ Sections'] = 'ЧЗВ секция';
-$wb['Manage Sections'] = 'Редактирай секциите';
-$wb['Add a Question & Answer Pair'] = 'Добави въпрос & Отговор ';
-$wb['Manage Questions'] = 'Редактирай въпроса';
+$wb['Frequently Asked Questions'] = 'Често Задавани Въпроси';
+$wb['FAQ Sections'] = 'ЧЗВ секции';
+$wb['Manage Sections'] = 'Управление секциите';
+$wb['Add a Question & Answer Pair'] = 'Добави Въпрос и Отговор';
+$wb['Manage Questions'] = 'Управление на въпросите';
 ?>

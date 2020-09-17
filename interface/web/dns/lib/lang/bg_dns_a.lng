@@ -2,16 +2,16 @@
 $wb['server_id_txt'] = 'Сървър';
 $wb['zone_txt'] = 'Зона';
 $wb['name_txt'] = 'Име на хоста';
-$wb['type_txt'] = 'тип';
-$wb['data_txt'] = 'IP-адрес';
+$wb['type_txt'] = 'Tип';
+$wb['data_txt'] = 'IP адрес';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Активен';
 $wb['limit_dns_record_txt'] = 'Максималният брой за DNS записи в твоят профил е достигнат.';
 $wb['no_zone_perm'] = 'Нямате права да добавяте записи за DNS в тази зона.';
 $wb['name_error_empty'] = 'Полето за хост име е празно.';
 $wb['name_error_regex'] = 'Избраното име на хост е в грешен формат.';
-$wb['data_error_empty'] = 'Полето за IP-адреса е празно';
-$wb['ip_error_wrong'] = 'Формата на IP-адреса е грешен';
+$wb['data_error_empty'] = 'Полето за IP адреса е празно';
+$wb['ip_error_wrong'] = 'Формата на IP адреса е грешен';
 $wb['data_error_duplicate'] = 'Duplicate A or CNAME record';
-$wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
+$wb['ttl_range_error'] = 'Минималния TTL е 60 секунди.';
 ?>
