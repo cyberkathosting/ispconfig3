@@ -2908,7 +2908,7 @@ class installer_base {
 				$out = null;
 				$ret = null;
 				if($conf['nginx']['installed'] == true || $conf['apache']['installed'] == true) {
-					exec("$acme --issue -w /usr/local/ispconfig/interface/acme -d $hostname $renew_hook", $out, $ret);
+					exec("$acme --issue -w /usr/local/ispconfig/interface/acme -d " . escapeshellarg($hostname) . " $renew_hook", $out, $ret);
 				}
 				// Else, it is not webserver, so we use standalone
 				else {
@@ -2934,7 +2934,7 @@ class installer_base {
 					//$acme_cert = "--cert-file $acme_cert_dir/cert.pem";
 					$acme_key = "--key-file " . escapeshellarg($ssl_key_file);
 					$acme_chain = "--fullchain-file " . escapeshellarg($ssl_crt_file);
-					exec("$acme --install-cert -d $hostname $acme_key $acme_chain");
+					exec("$acme --install-cert -d " . escapeshellarg($hostname) . " $acme_key $acme_chain");
 					$issued_successfully = true;
 				} else {
 					swriteln('Issuing certificate via acme.sh failed. Please check that your hostname can be verified by letsencrypt');
@@ -2959,11 +2959,11 @@ class installer_base {
 
 					// If this is a webserver
 					if($conf['nginx']['installed'] == true || $conf['apache']['installed'] == true) {
-						exec("$le_client $certonly $acme_version --authenticator webroot --webroot-path /usr/local/ispconfig/interface/acme --email " . escapeshellarg('postmaster@$hostname') . " -d " . escapeshellarg($hostname) . " $renew_hook", $out, $ret);
+						exec("$le_client $certonly $acme_version --authenticator webroot --webroot-path /usr/local/ispconfig/interface/acme --email " . escapeshellarg('postmaster@' . $hostname) . " -d " . escapeshellarg($hostname) . " $renew_hook", $out, $ret);
 					}
 					// Else, it is not webserver, so we use standalone
 					else {
-						exec("$le_client $certonly $acme_version --standalone --email " . escapeshellarg('postmaster@$hostname') . " -d " . escapeshellarg($hostname) . " $hook", $out, $ret);
+						exec("$le_client $certonly $acme_version --standalone --email " . escapeshellarg('postmaster@' . $hostname) . " -d " . escapeshellarg($hostname) . " $hook", $out, $ret);
 					}
 
 					if($ret == 0) {
