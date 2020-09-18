@@ -232,12 +232,12 @@ class cron_jailkit_plugin {
 
 		if (isset($this->jailkit_config) && isset($this->jailkit_config['jailkit_hardlinks'])) {
 			if ($this->jailkit_config['jailkit_hardlinks'] == 'yes') {
-				$options = array( 'hardlink', );
+				$options = array('hardlink');
 			} elseif ($this->jailkit_config['jailkit_hardlinks'] == 'no') {
 				$options = array();
 			}
 		} else {
-			$options = array( 'allow_hardlink', );
+			$options = array('allow_hardlink');
 		}
 
 		$last_updated = preg_split('/[\s,]+/', $this->jailkit_config['jailkit_chroot_app_sections']
@@ -311,7 +311,7 @@ class cron_jailkit_plugin {
 		//copy over further programs and its libraries
 		$app->system->create_jailkit_programs($this->parent_domain['document_root'], $this->jailkit_config['jailkit_chroot_app_programs'], $opts);
 		$app->log("Added app programs to jailkit chroot", LOGLEVEL_DEBUG);
-		
+
 		$app->system->create_jailkit_programs($this->parent_domain['document_root'], $this->jailkit_config['jailkit_chroot_cron_programs'], $opts);
 		$app->log("Added cron programs to jailkit chroot", LOGLEVEL_DEBUG);
 	}

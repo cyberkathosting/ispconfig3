@@ -59,17 +59,19 @@ class cronjob_jailkit_maintenance extends cronjob {
 		if(isset($server_config['migration_mode']) && $server_config['migration_mode'] == 'y') {
 			//$app->log('Migration mode active, not running Jailkit updates.', LOGLEVEL_DEBUG);
 			print "Migration mode active, not running Jailkit updates.\n";
+
+			return;
 		}
 
 		$jailkit_config = $app->getconf->get_server_config($conf['server_id'], 'jailkit');
 		if (isset($this->jailkit_config) && isset($this->jailkit_config['jailkit_hardlinks'])) {
 			if ($this->jailkit_config['jailkit_hardlinks'] == 'yes') {
-				$update_options = array( 'hardlink', );
+				$update_options = array('hardlink');
 			} elseif ($this->jailkit_config['jailkit_hardlinks'] == 'no') {
-				$update_optiosn = array();
+				$update_options = array();
 			}
 		} else {
-			$update_options = array( 'allow_hardlink', );
+			$update_options = array('allow_hardlink');
 		}
 
 		// limit the number of jails we update at one time according to time of day
@@ -80,7 +82,7 @@ class cronjob_jailkit_maintenance extends cronjob {
 
 		foreach($records as $rec) {
 			if (!is_dir($rec['document_root']) || !is_dir($rec['document_root'].'/etc/jailkit')) {
-				return;
+				continue;
 			}
 
 			//$app->log('Beginning jailkit maintenance for domain '.$rec['domain'].' at '.$rec['document_root'], LOGLEVEL_DEBUG);
@@ -94,12 +96,12 @@ class cronjob_jailkit_maintenance extends cronjob {
 
 			if ($shell_user_inuse || $cron_inuse || $rec['php_fpm_chroot'] == 'y' || $rec['delete_unused_jailkit'] != 'y') {
 				$sections = $jailkit_config['jailkit_chroot_app_sections'];
-				if (isset($web['jailkit_chroot_app_sections']) && $web['jailkit_chroot_app_sections'] != '') {
-					$sections = $web['jailkit_chroot_app_sections'];
+				if (isset($rec['jailkit_chroot_app_sections']) && $rec['jailkit_chroot_app_sections'] != '') {
+					$sections = $rec['jailkit_chroot_app_sections'];
 				}
 				$programs = $jailkit_config['jailkit_chroot_app_programs'];
-				if (isset($web['jailkit_chroot_app_programs']) && $web['jailkit_chroot_app_programs'] != '') {
-					$programs = $web['jailkit_chroot_app_programs'];
+				if (isset($rec['jailkit_chroot_app_programs']) && $rec['jailkit_chroot_app_programs'] != '') {
+					$programs = $rec['jailkit_chroot_app_programs'];
 				}
 				$programs .= ' '.$jailkit_config['jailkit_chroot_cron_programs'];
 
@@ -134,8 +136,6 @@ class cronjob_jailkit_maintenance extends cronjob {
 
 	/* this function is optional if it contains no custom code */
 	public function onAfterRun() {
-		global $app;
-
 		parent::onAfterRun();
 	}
 
