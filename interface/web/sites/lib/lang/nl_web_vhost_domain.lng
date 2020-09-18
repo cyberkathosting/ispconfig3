@@ -186,7 +186,6 @@ $wb['error_ipv4_change_forbidden'] = 'Het IP adres kan niet worden aangepast. Ne
 $wb['error_ipv6_change_forbidden'] = 'Het IP adres kan niet worden aangepast. Neem contact op met de administrator indien je het IPv6 adres wilt wijzigen.';
 $wb['error_domain_change_forbidden'] = 'De domeinnaam kan niet worden aangepast. Neem contact op met de administrator indien je het domein wilt wijzigen.';
 $wb['error_server_change_not_possible'] = 'De server kan niet worden aangepast.';
-?>
 $wb['jailkit_chroot_app_sections_txt'] = 'Jailkit chroot app secties';
 $wb['jailkit_chroot_app_programs_txt'] = 'Jailkit chrooted applicaties';
 $wb['jailkit_chroot_app_sections_error_empty'] = 'Jailkit chroot app sections is empty.';
