@@ -168,8 +168,8 @@ class mysql_clientdb_plugin {
 				} 
 
 				// Set the grant
-				if(!$link->query("GRANT " . $grants . " ON `".$link->escape_string($database_name)."`.* TO '".$link->escape_string($database_user)."'@'$db_host'")) $success = false;
-				$app->log("GRANT " . $grants . " ON `".$link->escape_string($database_name)."`.* TO '".$link->escape_string($database_user)."'@'$db_host' success? " . ($success ? 'yes' : 'no'), LOGLEVEL_DEBUG);
+				if(!$link->query("GRANT " . $grants . " ON `".$database_name."`.* TO '".$link->escape_string($database_user)."'@'$db_host'")) $success = false;
+				$app->log("GRANT " . $grants . " ON `".$database_name."`.* TO '".$link->escape_string($database_user)."'@'$db_host' success? " . ($success ? 'yes' : 'no'), LOGLEVEL_DEBUG);
 
 				} elseif($action == 'REVOKE') {
 				if(!$link->query("REVOKE ALL PRIVILEGES ON `".$database_name."`.* FROM '".$link->escape_string($database_user)."'@'$db_host'")) $success = false;
