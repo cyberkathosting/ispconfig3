@@ -12,7 +12,7 @@
 
 ## If you need a custom hook file, create a file with the same name in
 ## /usr/local/ispconfig/server/conf-custom/scripts/
-if [[ -e "/usr/local/ispconfig/server/conf-custom/scripts/letsencrypt_pre_hook.sh" ]] ; then
+if [ -e "/usr/local/ispconfig/server/conf-custom/scripts/letsencrypt_pre_hook.sh" ] ; then
 	. /usr/local/ispconfig/server/conf-custom/scripts/letsencrypt_pre_hook.sh && exit 0 || exit 1 ;
 fi
 

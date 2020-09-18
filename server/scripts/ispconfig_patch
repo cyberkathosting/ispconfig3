@@ -44,7 +44,7 @@ function swriteln($text = '') {
 }
 
 function simple_query($query, $answers, $default)
-{		
+{
 		$finished = false;
 		do {
 			if(is_array($answers)) {
@@ -54,25 +54,25 @@ function simple_query($query, $answers, $default)
                 swrite($query.': ');
             }
 			$input = sread();
-			
+
 			//* Stop the installation
 			if($input == 'quit') {
 				swriteln("Patch terminated by user.\n");
 				die();
 			}
-			
+
 			//* Select the default
 			if($input == '') {
 				$answer = $default;
 				$finished = true;
 			}
-			
+
             //* Set answer id valid
 			if(!is_array($answers) || in_array($input, $answers)) {
 				$answer = $input;
 				$finished = true;
 			}
-			
+
 		} while ($finished == false);
 		swriteln();
 		return $answer;
@@ -97,9 +97,9 @@ if(isset($cmd_opt['patch_id'])) {
 }
 
 echo "\n\n".str_repeat('-',80)."\n";
-echo " _____ ___________   _____              __ _       
-|_   _/  ___| ___ \ /  __ \            / _(_)      
-  | | \ `--.| |_/ / | /  \/ ___  _ __ | |_ _  __ _ 
+echo " _____ ___________   _____              __ _
+|_   _/  ___| ___ \ /  __ \            / _(_)
+  | | \ `--.| |_/ / | /  \/ ___  _ __ | |_ _  __ _
   | |  `--. \  __/  | |    / _ \| '_ \|  _| |/ _` |
  _| |_/\__/ / |     | \__/\ (_) | | | | | | | (_| |
  \___/\____/\_|      \____/\___/|_| |_|_| |_|\__, |
@@ -127,13 +127,13 @@ if($patch_id == '') {
     die();
 }
 
-$patch_data = @file_get_contents('http://ispconfig.org/downloads/patches/' . $patch_id . '.diff');
+$patch_data = @file_get_contents('https://ispconfig.org/downloads/patches/' . $patch_id . '.diff');
 if(!$patch_data) {
     swriteln("Patch with id " . $patch_id . " does not exist.\n");
     die();
 }
 
-$patch_text = @file_get_contents('http://ispconfig.org/downloads/patches/' . $patch_id . '.txt');
+$patch_text = @file_get_contents('https://ispconfig.org/downloads/patches/' . $patch_id . '.txt');
 if($patch_text) {
     if($auto) {
 		$ok = 'y';

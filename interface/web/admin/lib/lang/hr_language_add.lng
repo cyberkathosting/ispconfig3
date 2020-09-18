@@ -2,7 +2,7 @@
 $wb['list_head_txt'] = 'Dodaj novi jezik';
 $wb['language_select_txt'] = 'Izaberi bazični jezik';
 $wb['language_new_txt'] = 'Novi jezik';
-$wb['language_new_hint_txt'] = '2 znaka ISO 639-1 jezičnog-koda (Pogledaj http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)';
+$wb['language_new_hint_txt'] = '2 znaka ISO 639-1 jezičnog-koda (Pogledaj https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)';
 $wb['btn_save_txt'] = 'Kreiraj novu jezičnu datoteku';
 $wb['btn_cancel_txt'] = 'Natrag';
 ?>

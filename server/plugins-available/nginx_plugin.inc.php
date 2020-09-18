@@ -2954,6 +2954,7 @@ class nginx_plugin {
 		}
 
 		$custom_session_save_path = false;
+		$custom_sendmail_path = false;
 		if($custom_php_ini_settings != ''){
 			// Make sure we only have Unix linebreaks
 			$custom_php_ini_settings = str_replace("\r\n", "\n", $custom_php_ini_settings);
@@ -2971,6 +2972,7 @@ class nginx_plugin {
 					if($value != ''){
 						$key = trim($key);
 						if($key == 'session.save_path') $custom_session_save_path = true;
+						if($key == 'sendmail_path') $custom_sendmail_path = true;
 						switch (strtolower($value)) {
 						case '0':
 							// PHP-FPM might complain about invalid boolean value if you use 0
@@ -2993,6 +2995,7 @@ class nginx_plugin {
 		}
 
 		$tpl->setVar('custom_session_save_path', ($custom_session_save_path ? 'y' : 'n'));
+		$tpl->setVar('custom_sendmail_path', ($custom_sendmail_path ? 'y' : 'n'));
 
 		$tpl->setLoop('custom_php_ini_settings', $final_php_ini_settings);
 

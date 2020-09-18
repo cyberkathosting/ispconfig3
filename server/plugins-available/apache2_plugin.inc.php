@@ -1176,6 +1176,7 @@ class apache2_plugin {
 		//* Create custom php.ini
 		if(trim($data['new']['custom_php_ini']) != '') {
 			$has_custom_php_ini = true;
+			$custom_sendmail_path = false;
 			if(!is_dir($custom_php_ini_dir)) $app->system->mkdirpath($custom_php_ini_dir);
 
 			$php_ini_content = $this->get_master_php_ini_content($data['new']);
@@ -1198,6 +1199,13 @@ class apache2_plugin {
 						}
 					}
 				}
+			}
+
+			$custom_sendmail_path = false;
+			$line = strtok($php_ini_content, '\n');
+			while ($line !== false) {
+				if (strpos($line, 'sendmail_path') === 0) $custom_sendmail_path = true;
+				$line = strtok('\n');
 			}
 
 			$app->system->file_put_contents($custom_php_ini_dir.'/php.ini', $php_ini_content);
@@ -1244,7 +1252,7 @@ class apache2_plugin {
 		$trans = array(
 			'{DOCROOT}' => $vhost_data['web_document_root_www'],
 			'{DOCROOT_CLIENT}' => $vhost_data['web_document_root'],
-      '{DOMAIN}' => $vhost_data['domain']
+			'{DOMAIN}' => $vhost_data['domain']
 		);
 		$vhost_data['apache_directives'] = strtr($vhost_data['apache_directives'], $trans);
 
@@ -1308,6 +1316,8 @@ class apache2_plugin {
 		} else {
 			$vhost_data['seo_redirect_enabled'] = 0;
 		}
+
+		$vhost_data['custom_sendmail_path'] = (isset($custom_sendmail_path) && $custom_sendmail_path) ? 'y' : 'n';
 
 		$tpl->setVar($vhost_data);
 		$tpl->setVar('apache_version', $app->system->getapacheversion());
@@ -1489,6 +1499,10 @@ class apache2_plugin {
 			$tpl->setVar('rewrite_enabled', 1);
 		} else {
 			$tpl->setVar('rewrite_enabled', 0);
+		}
+
+		if($data['new']['ssl'] == 'n') {
+			$tpl->setVar('rewrite_to_https', 'n');
 		}
 
 		//$tpl->setLoop('redirects',$rewrite_rules);
@@ -3362,6 +3376,7 @@ class apache2_plugin {
 		}
 
 		$custom_session_save_path = false;
+		$custom_sendmail_path = false;
 		if($custom_php_ini_settings != ''){
 			// Make sure we only have Unix linebreaks
 			$custom_php_ini_settings = str_replace("\r\n", "\n", $custom_php_ini_settings);
@@ -3379,6 +3394,7 @@ class apache2_plugin {
 					if($value != ''){
 						$key = trim($key);
 						if($key == 'session.save_path') $custom_session_save_path = true;
+						if($key == 'sendmail_path') $custom_sendmail_path = true;
 						switch (strtolower($value)) {
 						case '0':
 							// PHP-FPM might complain about invalid boolean value if you use 0
@@ -3401,6 +3417,7 @@ class apache2_plugin {
 		}
 
 		$tpl->setVar('custom_session_save_path', ($custom_session_save_path ? 'y' : 'n'));
+		$tpl->setVar('custom_sendmail_path', ($custom_sendmail_path ? 'y' : 'n'));
 
 		$tpl->setLoop('custom_php_ini_settings', $final_php_ini_settings);
 

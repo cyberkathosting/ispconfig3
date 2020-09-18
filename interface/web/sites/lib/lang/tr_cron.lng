@@ -19,8 +19,8 @@ $wb['run_wday_error_format'] = 'Haftanın günü biçimi geçersiz.';
 $wb['command_error_format'] = 'Komut biçimi geçersiz. İnternet adreslerinde yalnız http/https kullanılabilir.';
 $wb['unknown_fieldtype_error'] = 'Bilinmeyen bir alan türü kullanılmış.';
 $wb['server_id_error_empty'] = 'Sunucu kodu boş olamaz.';
-$wb['command_hint_txt'] = 'Örnek: /var/www/clients/musteriX/webY/betigim.sh ya da http://www.etkialanim.com/yol/betik.php, /var/www/clients/musteriX/webY/web yerine [web_root] kodunu kullanabilirsiniz.';
+$wb['command_hint_txt'] = 'Örnek: /var/www/clients/musteriX/webY/betigim.sh ya da https://www.etkialanim.com/yol/betik.php, /var/www/clients/musteriX/webY/web yerine [web_root] kodunu kullanabilirsiniz.';
 $wb['log_output_txt'] = 'Günlük çıktısı';
-$wb['limit_cron_url_txt'] = 'Yalnız İnternet adresli zamanlanmış görev kullanılabilir. Lütfen zamanlanmış görev komutu olarak http:// ile başlayan bir İnternet adresi yazın.';
+$wb['limit_cron_url_txt'] = 'Yalnız İnternet adresli zamanlanmış görev kullanılabilir. Lütfen zamanlanmış görev komutu olarak https:// ile başlayan bir İnternet adresi yazın.';
 $wb['command_error_empty'] = 'Komut boş olamaz.';
 ?>

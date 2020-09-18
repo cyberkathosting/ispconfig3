@@ -8,7 +8,7 @@ $wb['active_txt'] = 'Attivo';
 $wb['firewall_error_unique'] = 'Esiste già un record firewall per questo server.';
 $wb['tcp_ports_error_regex'] = 'Caratteri non autorizzati nella definizine di porta tcp. Sono consentiti caratteri numerici, \\":\\" e \\",\\".';
 $wb['udp_ports_error_regex'] = 'Caratteri non autorizzati nella definizine di porta udp. ono consentiti caratteri numerici, \\":\\" e \\",\\".';
-$wb['login_as_or_logout_txt'] = 'Do you want to re-login as {UTYPE} or logout?';
-$wb['btn_reloginas_txt'] = 'Yes, re-login as %s';
-$wb['btn_nologout_txt'] = 'No, logout';
+$wb['login_as_or_logout_txt'] = 'Ri-loggarsi come {UTYPE} o uscire?';
+$wb['btn_reloginas_txt'] = 'Sì, ri-loggarsi come %s';
+$wb['btn_nologout_txt'] = 'No, esci';
 ?>

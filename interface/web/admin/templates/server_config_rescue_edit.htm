@@ -1,7 +1,4 @@
-<div class='page-header'>
-	<h1><tmpl_var name="list_head_txt"> {tmpl_var name='server_name'}</h1>
-</div>
-<p><tmpl_var name="list_desc_txt"></p>
+<div class="alert alert-info"><h4 style="text-align:center"><tmpl_var name="config_for_txt"> {tmpl_var name='server_name'}</h4></div>
 
 
         <legend>Rescue</legend>
@@ -37,9 +34,9 @@
                     {tmpl_var name='do_not_try_rescue_mail'}
                 </div>
             </div>
-        
 
-        <tmpl_var name="rescue_description_txt">
+
+        <div class="alert alert-warning"><tmpl_var name="rescue_description_txt"></div>
 
             <input type="hidden" name="id" value="{tmpl_var name='id'}">
 

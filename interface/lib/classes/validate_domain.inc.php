@@ -135,6 +135,9 @@ class validate_domain {
 					foreach($directives as $directive) {
 						$directive = trim($directive);
 						foreach($regex as $r) {
+							if(trim($r) == '') {
+								continue;
+							}
 							if(preg_match(trim($r),$directive)) {
 								$blocked = true;
 								$blocked_line .= $directive.'<br />';

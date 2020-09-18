@@ -8,5 +8,5 @@ $wb['do_ispcupdate_desc'] = 'Denne Handling udfør en ISPConfig 3 opdatering på
 $wb['action_scheduled'] = 'Handlingen er planlagt til udførelse';
 $wb['select_all_server'] = 'Alle servere';
 $wb['ispconfig_update_title'] = 'ISPConfig opdateringsinstruktioner';
-$wb['ispconfig_update_text'] = 'Log ind som root-bruger på Shell af din server og udføre kommandoen<br /><br /> <strong>ispconfig_update.sh</strong><br /><br />for at starte ISPConfig opdateringen.<br /><br /><a href=\'http://www.faqforge.com/linux/controlpanels/ispconfig3/how-to-update-ispconfig-3/\' target=\'_blank\'>Klik her for detaljerede opdateringsinstruktioner</a>';
+$wb['ispconfig_update_text'] = 'Log ind som root-bruger på Shell af din server og udføre kommandoen<br /><br /> <strong>ispconfig_update.sh</strong><br /><br />for at starte ISPConfig opdateringen.<br /><br /><a href=\'https://www.faqforge.com/linux/controlpanels/ispconfig3/how-to-update-ispconfig-3/\' target=\'_blank\'>Klik her for detaljerede opdateringsinstruktioner</a>';
 ?>

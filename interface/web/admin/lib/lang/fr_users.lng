@@ -2,7 +2,7 @@
 $wb['users_txt'] = 'Users';
 $wb['username_txt'] = 'Nom d’utilisateur';
 $wb['username_err'] = 'Le nom d’utilisateur est trop long ou contient des caractères invalides.';
-$wb['passwort_txt'] = 'Mot de passe';
+$wb['password_txt'] = 'Mot de passe';
 $wb['modules_txt'] = 'Module';
 $wb['startmodule_txt'] = 'Module de démarrage';
 $wb['app_theme_txt'] = 'Thème';

@@ -2,7 +2,7 @@
 $wb['list_head_txt'] = 'Nieuwe taal toevoegen';
 $wb['language_select_txt'] = 'Selecteer basistaal';
 $wb['language_new_txt'] = 'Nieuwe taal';
-$wb['language_new_hint_txt'] = '2 karakters ISO 639-1 taal-code (Zie http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)';
+$wb['language_new_hint_txt'] = '2 karakters ISO 639-1 taal-code (Zie https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)';
 $wb['btn_save_txt'] = 'Maak nieuwe taalbestanden aan';
 $wb['btn_cancel_txt'] = 'Terug';
 ?>

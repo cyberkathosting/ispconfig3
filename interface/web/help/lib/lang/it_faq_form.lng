@@ -1,5 +1,5 @@
 <?php
-$wb['faq_faq_txt'] = 'Frequently Asked Questions';
+$wb['faq_faq_txt'] = 'Domande frequenti';
 $wb['faq_question_txt'] = 'Domanda';
 $wb['faq_answer_txt'] = 'Risposta';
 $wb['faq_section_txt'] = 'Sezione';

@@ -12,11 +12,20 @@
 
 ## If you need a custom hook file, create a file with the same name in
 ## /usr/local/ispconfig/server/conf-custom/scripts/
-if [[ -e "/usr/local/ispconfig/server/conf-custom/scripts/letsencrypt_renew_hook.sh" ]] ; then
+if [ -e "/usr/local/ispconfig/server/conf-custom/scripts/letsencrypt_renew_hook.sh" ] ; then
 	. /usr/local/ispconfig/server/conf-custom/scripts/letsencrypt_renew_hook.sh && exit 0 || exit 1;
 fi
 
-lelive=/etc/letsencrypt/live/$(hostname -f); if [ -d "$lelive" ]; then
+hostname=$(hostname -f)
+if [ -d "/usr/local/ispconfig/server/scripts/${hostname}" ] ; then
+	lelive="/usr/local/ispconfig/server/scripts/${hostname}" ;
+elif [ -d "/root/.acme.sh/${hostname}" ] ; then
+	lelive="/root/.acme.sh/${hostname}" ;
+else
+	lelive="/etc/letsencrypt/live/${hostname}" ;
+fi
+
+if [ -d "$lelive" ]; then
     cd /usr/local/ispconfig/interface/ssl; ibak=ispserver.*.bak; ipem=ispserver.pem; icrt=ispserver.crt; ikey=ispserver.key
     if ls $ibak 1> /dev/null 2>&1; then rm $ibak; fi
     if [ -e "$ipem" ]; then mv $ipem $ipem-$(date +"%y%m%d%H%M%S").bak; cat $ikey $icrt > $ipem; chmod 600 $ipem; fi
@@ -42,6 +51,5 @@ lelive=/etc/letsencrypt/live/$(hostname -f); if [ -d "$lelive" ]; then
         if [ $(dpkg-query -W -f='${Status}' mariadb 2>/dev/null | grep -c "ok installed") -eq 1 ]; then service mysql restart; fi
         if [ $(dpkg-query -W -f='${Status}' nginx 2>/dev/null | grep -c "ok installed") -eq 1 ]; then service nginx restart; fi
         if [ $(dpkg-query -W -f='${Status}' apache2 2>/dev/null | grep -c "ok installed") -eq 1 ]; then service apache2 restart; fi
-    else
     fi
 else echo `/bin/date` "Your Lets Encrypt SSL certs path for your ISPConfig server FQDN is missing.$line" >> /var/log/ispconfig/ispconfig.log; fi
