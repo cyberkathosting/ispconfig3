@@ -954,7 +954,7 @@ class system{
 			foreach ($objects as $object) {
 				if ($recursive) {
 					if (is_dir("$path/$object") && !is_link("$path/$object")) {
-						$this->rmdir("$path/$object", $recursive); 
+						$this->rmdir("$path/$object", $recursive);
 					} else {
 						unlink ("$path/$object");
 					}
@@ -1010,25 +1010,23 @@ class system{
 	}
 
 	function remove_broken_symlinks($path, $recursive=false) {
+		global $app;
+
 		if ($path != '/') {
 			$path = rtrim($path, '/');
 		}
-global $app;
-#$app->log("remove_broken_symlinks: checking path: $path", LOGLEVEL_DEBUG);
 		if (is_dir($path)) {
-#$app->log("remove_broken_symlinks: $path is dir, running scandir", LOGLEVEL_DEBUG);
 			$objects = array_diff(scandir($path), array('.', '..'));
 			foreach ($objects as $object) {
-#$app->log("remove_broken_symlinks: scandir found $object", LOGLEVEL_DEBUG);
 				if (is_dir("$path/$object") && $recursive) {
-					$this->remove_broken_symlinks("$path/$object", $recursive); 
+					$this->remove_broken_symlinks("$path/$object", $recursive);
 				} elseif (is_link("$path/$object") && !file_exists("$path/$object")) {
-$app->log("removing broken symlink $path/$object", LOGLEVEL_DEBUG);
+					$app->log("removing broken symlink $path/$object", LOGLEVEL_DEBUG);
 					unlink ("$path/$object");
 				}
 			}
 		} elseif (is_link("$path") && !file_exists("$path")) {
-$app->log("removing broken symlink $path", LOGLEVEL_DEBUG);
+			$app->log("removing broken symlink $path", LOGLEVEL_DEBUG);
 			unlink ("$path");
 		}
 	}
@@ -2525,7 +2523,7 @@ else { $app->log("update_jailkit_chroot: NOT searching for hardlinks in $jail_di
 			$app->log("update_jailkit_chroot: removing hardlinked file: $file", LOGLEVEL_DEBUG);
 			unlink($file);
 		}
-		
+
 		$cmd = 'jk_update --jail=?' . $jk_update_args . $skips;
 		$this->exec_safe($cmd, $home_dir);
 $app->log('jk_update returned: '.print_r($this->_last_exec_out, true), LOGLEVEL_DEBUG);

@@ -59,11 +59,11 @@ class shelluser_jailkit_plugin {
 		/*
 		Register for the events
 		*/
-		
+
 		$app->plugins->registerEvent('shell_user_insert', $this->plugin_name, 'insert');
 		$app->plugins->registerEvent('shell_user_update', $this->plugin_name, 'update');
 		$app->plugins->registerEvent('shell_user_delete', $this->plugin_name, 'delete');
-		
+
 
 	}
 
@@ -72,14 +72,14 @@ class shelluser_jailkit_plugin {
 		global $app, $conf;
 
 		$app->uses('system,getconf');
-		
+
 		$security_config = $app->getconf->get_security_config('permissions');
 		if($security_config['allow_shell_user'] != 'yes') {
 			$app->log('Shell user plugin disabled by security settings.',LOGLEVEL_WARN);
 			return false;
 		}
-		
-		
+
+
 		$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $data['new']['parent_domain_id']);
 
 		if(!$app->system->is_allowed_user($data['new']['username'], false, false)
@@ -93,7 +93,7 @@ class shelluser_jailkit_plugin {
 			// Get the UID of the parent user
 			$uid = intval($app->system->getuid($data['new']['puser']));
 			if($uid > $this->min_uid) {
-			
+
 				if($app->system->is_user($data['new']['username'])) {
 
 					/**
@@ -156,13 +156,13 @@ class shelluser_jailkit_plugin {
 		global $app, $conf;
 
 		$app->uses('system,getconf');
-		
+
 		$security_config = $app->getconf->get_security_config('permissions');
 		if($security_config['allow_shell_user'] != 'yes') {
 			$app->log('Shell user plugin disabled by security settings.',LOGLEVEL_WARN);
 			return false;
 		}
-		
+
 		if(!$app->system->is_allowed_user($data['new']['username'], false, false)
 			|| !$app->system->is_allowed_user($data['new']['puser'], true, true)
 			|| !$app->system->is_allowed_group($data['new']['pgroup'], true, true)) {
@@ -176,8 +176,8 @@ class shelluser_jailkit_plugin {
 			// Get the UID of the parent user
 			$uid = intval($app->system->getuid($data['new']['puser']));
 			if($uid > $this->min_uid) {
-			
-			
+
+
 				if($app->system->is_user($data['new']['username'])) {
 
 					/**
@@ -234,7 +234,7 @@ class shelluser_jailkit_plugin {
 		global $app, $conf;
 
 		$app->uses('system,getconf');
-		
+
 		$security_config = $app->getconf->get_security_config('permissions');
 		if($security_config['allow_shell_user'] != 'yes') {
 			$app->log('Shell user plugin disabled by security settings.',LOGLEVEL_WARN);
@@ -256,19 +256,19 @@ class shelluser_jailkit_plugin {
 			$jailkit_chroot_userhome = $this->_get_home_dir($data['old']['username']);
 
 			$app->system->web_folder_protection($web['document_root'], false);
-			
+
 			$userid = intval($app->system->getuid($data['old']['username']));
 			$command = 'killall -u ? ; ';
 			$command .= 'userdel -f ? &> /dev/null';
 			$app->system->exec_safe($command, $data['old']['username'], $data['old']['username']);
-			
+
 			// Remove the jailed user from passwd and shadow file inside the jail
 			$app->system->removeLine($data['old']['dir'].'/etc/passwd', $data['old']['username'].':');
 			$app->system->removeLine($data['old']['dir'].'/etc/shadow', $data['old']['username'].':');
 
 			if(@is_dir($data['old']['dir'].$jailkit_chroot_userhome)) {
 				$this->_delete_homedir($data['old']['dir'].$jailkit_chroot_userhome,$userid,$data['old']['parent_domain_id']);
-				
+
 				$app->log("Jailkit Plugin -> delete chroot home:".$data['old']['dir'].$jailkit_chroot_userhome, LOGLEVEL_DEBUG);
 			}
 
@@ -290,12 +290,12 @@ class shelluser_jailkit_plugin {
 
 		if (isset($this->jailkit_config) && isset($this->jailkit_config['jailkit_hardlinks'])) {
 			if ($this->jailkit_config['jailkit_hardlinks'] == 'yes') {
-				$options = array( 'hardlink', );
+				$options = array('hardlink');
 			} elseif ($this->jailkit_config['jailkit_hardlinks'] == 'no') {
 				$options = array();
 			}
 		} else {
-			$options = array( 'allow_hardlink', );
+			$options = array('allow_hardlink');
 		}
 
 		$web = $app->db->queryOneRecord("SELECT domain, last_jailkit_hash FROM web_domain WHERE domain_id = ?", $this->data['new']["parent_domain_id"]);
@@ -371,7 +371,7 @@ class shelluser_jailkit_plugin {
 		if(is_array($jailkit_chroot_app_programs) && !empty($jailkit_chroot_app_programs)){
 			foreach($jailkit_chroot_app_programs as $jailkit_chroot_app_program){
 				$jailkit_chroot_app_program = trim($jailkit_chroot_app_program);
-				if(is_file($jailkit_chroot_app_program) || is_dir($jailkit_chroot_app_program)){			
+				if(is_file($jailkit_chroot_app_program) || is_dir($jailkit_chroot_app_program)){
 					//copy over further programs and its libraries
 					$app->system->create_jailkit_programs($this->data['new']['dir'], $jailkit_chroot_app_program, $opts);
 					$app->log("Added programs to jailkit chroot", LOGLEVEL_DEBUG);
@@ -409,7 +409,7 @@ class shelluser_jailkit_plugin {
 
 		$shell = '/usr/sbin/jk_chrootsh';
 		if($this->data['new']['active'] != 'y') $shell = '/bin/false';
-		
+
 		$app->system->usermod($this->data['new']['username'], 0, 0, $this->data['new']['dir'].'/.'.$jailkit_chroot_userhome, $shell);
 		$app->system->usermod($this->data['new']['puser'], 0, 0, $this->data['new']['dir'].'/.'.$jailkit_chroot_puserhome, '/usr/sbin/jk_chrootsh');
 
@@ -484,7 +484,7 @@ class shelluser_jailkit_plugin {
 			//Generate ssh-rsa-keys
 			$app->uses('functions');
 			$app->functions->generate_ssh_key($id, $username);
-			
+
 			$app->log("ssh-rsa keypair generated for ".$username, LOGLEVEL_DEBUG);
 		};
 
@@ -552,17 +552,17 @@ class shelluser_jailkit_plugin {
 		$app->system->exec_safe("chmod 600 ?", $sshkeys);
 
 	}
-	
+
 	private function _delete_homedir($homedir,$userid,$parent_domain_id) {
 		global $app, $conf;
-		
+
 		// check if we have to delete the dir
 				$check = $app->db->queryOneRecord('SELECT shell_user_id FROM `shell_user` WHERE `dir` = ?', $homedir);
-				
+
 				if(!$check && is_dir($homedir)) {
 					$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $parent_domain_id);
 					$app->system->web_folder_protection($web['document_root'], false);
-					
+
 					// delete dir
 					if(substr($homedir, -1) !== '/') $homedir .= '/';
 					$files = array('.bash_logout', '.bash_history', '.bashrc', '.profile');
@@ -589,10 +589,10 @@ class shelluser_jailkit_plugin {
 					}
 					unset($files);
 					unset($dirs);
-					
+
 					$app->system->web_folder_protection($web['document_root'], true);
 				}
-	
+
 	}
 
 	private function _delete_jailkit_if_unused($parent_domain_id) {

@@ -845,12 +845,12 @@ class apache2_plugin {
 
 			if (isset($jailkit_config['jailkit_hardlinks'])) {
 				if ($jailkit_config['jailkit_hardlinks'] == 'yes') {
-					$options = array( 'hardlink', );
+					$options = array('hardlink');
 				} elseif ($jailkit_config['jailkit_hardlinks'] == 'no') {
 					$options = array();
 				}
 			} else {
-				$options = array( 'allow_hardlink', );
+				$options = array('allow_hardlink');
 			}
 
 			$options[] = 'force';
@@ -1249,6 +1249,7 @@ class apache2_plugin {
 		//* Create custom php.ini
 		if(trim($data['new']['custom_php_ini']) != '') {
 			$has_custom_php_ini = true;
+			$custom_sendmail_path = false;
 			if(!is_dir($custom_php_ini_dir)) $app->system->mkdirpath($custom_php_ini_dir);
 
 			$php_ini_content = $this->get_master_php_ini_content($data['new']);
@@ -1271,6 +1272,13 @@ class apache2_plugin {
 						}
 					}
 				}
+			}
+
+			$custom_sendmail_path = false;
+			$line = strtok($php_ini_content, '\n');
+			while ($line !== false) {
+				if (strpos($line, 'sendmail_path') === 0) $custom_sendmail_path = true;
+				$line = strtok('\n');
 			}
 
 			$app->system->file_put_contents($custom_php_ini_dir.'/php.ini', $php_ini_content);
@@ -1317,7 +1325,7 @@ class apache2_plugin {
 		$trans = array(
 			'{DOCROOT}' => $vhost_data['web_document_root_www'],
 			'{DOCROOT_CLIENT}' => $vhost_data['web_document_root'],
-      '{DOMAIN}' => $vhost_data['domain']
+			'{DOMAIN}' => $vhost_data['domain']
 		);
 		$vhost_data['apache_directives'] = strtr($vhost_data['apache_directives'], $trans);
 
@@ -1382,6 +1390,8 @@ class apache2_plugin {
 			$vhost_data['seo_redirect_enabled'] = 0;
 		}
 
+		$vhost_data['custom_sendmail_path'] = (isset($custom_sendmail_path) && $custom_sendmail_path) ? 'y' : 'n';
+
 		$tpl->setVar($vhost_data);
 		$tpl->setVar('apache_version', $app->system->getapacheversion());
 
@@ -1405,13 +1415,13 @@ class apache2_plugin {
 
 			switch($data['new']['subdomain']) {
 			case 'www':
-				$rewrite_rules[] = array( 'rewrite_domain'  => '^'.$this->_rewrite_quote($data['new']['domain']),
+				$rewrite_rules[] = array('rewrite_domain'  => '^'.$this->_rewrite_quote($data['new']['domain']),
 					'rewrite_type'   => ($data['new']['redirect_type'] == 'no')?'':'['.$data['new']['redirect_type'].']',
 					'rewrite_target'  => $rewrite_target,
 					'rewrite_target_ssl' => $rewrite_target_ssl,
 					'rewrite_is_url'    => ($this->_is_url($rewrite_target) ? 'y' : 'n'),
 					'rewrite_add_path' => (substr($rewrite_target, -1) == '/' ? 'y' : 'n'));
-				$rewrite_rules[] = array( 'rewrite_domain'  => '^' . $this->_rewrite_quote('www.'.$data['new']['domain']),
+				$rewrite_rules[] = array('rewrite_domain'  => '^' . $this->_rewrite_quote('www.'.$data['new']['domain']),
 					'rewrite_type'   => ($data['new']['redirect_type'] == 'no')?'':'['.$data['new']['redirect_type'].']',
 					'rewrite_target'  => $rewrite_target,
 					'rewrite_target_ssl' => $rewrite_target_ssl,
@@ -3439,6 +3449,7 @@ class apache2_plugin {
 		}
 
 		$custom_session_save_path = false;
+		$custom_sendmail_path = false;
 		if($custom_php_ini_settings != ''){
 			// Make sure we only have Unix linebreaks
 			$custom_php_ini_settings = str_replace("\r\n", "\n", $custom_php_ini_settings);
@@ -3456,6 +3467,7 @@ class apache2_plugin {
 					if($value != ''){
 						$key = trim($key);
 						if($key == 'session.save_path') $custom_session_save_path = true;
+						if($key == 'sendmail_path') $custom_sendmail_path = true;
 						switch (strtolower($value)) {
 						case '0':
 							// PHP-FPM might complain about invalid boolean value if you use 0
@@ -3478,6 +3490,7 @@ class apache2_plugin {
 		}
 
 		$tpl->setVar('custom_session_save_path', ($custom_session_save_path ? 'y' : 'n'));
+		$tpl->setVar('custom_sendmail_path', ($custom_sendmail_path ? 'y' : 'n'));
 
 		$tpl->setLoop('custom_php_ini_settings', $final_php_ini_settings);
 
@@ -3700,12 +3713,12 @@ class apache2_plugin {
 
 		if (isset($this->jailkit_config) && isset($this->jailkit_config['jailkit_hardlinks'])) {
 			if ($this->jailkit_config['jailkit_hardlinks'] == 'yes') {
-				$options = array( 'hardlink', );
+				$options = array( 'hardlink');
 			} elseif ($this->jailkit_config['jailkit_hardlinks'] == 'no') {
 				$options = array();
 			}
 		} else {
-			$options = array( 'allow_hardlink', );
+			$options = array( 'allow_hardlink');
 		}
 
 		// should move return here if $this->website['new_jailkit_hash'] == $this->website['last_jailkit_hash'] ?

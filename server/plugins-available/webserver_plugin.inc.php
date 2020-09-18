@@ -226,12 +226,12 @@ class webserver_plugin {
 
 					if (isset($new['jailkit_hardlinks'])) {
 						if ($new['jailkit_hardlinks'] == 'yes') {
-							$options = array( 'hardlink', );
+							$options = array('hardlink');
 						} elseif ($new['jailkit_hardlinks'] == 'no') {
 							$options = array();
 						}
 					} else {
-						$options = array( 'allow_hardlink', );
+						$options = array('allow_hardlink');
 					}
 
 					$options[] = 'force';
