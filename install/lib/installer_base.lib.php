@@ -33,7 +33,6 @@ class installer_base {
 	var $wb = array();
 	var $language = 'en';
 	var $db;
-	public $conf;
 	public $install_ispconfig_interface = true;
 	public $is_update = false; // true if it is an update, falsi if it is a new install
 	public $min_php = '5.3.3'; // minimal php-version for update / install
