@@ -30,30 +30,30 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /*
 	ISPConfig 3 updater.
-	
+
 	-------------------------------------------------------------------------------------
 	- Interactive update
 	-------------------------------------------------------------------------------------
 	run:
-	
+
 	php update.php
-	
+
 	-------------------------------------------------------------------------------------
 	- Noninteractive (autoupdate) mode
 	-------------------------------------------------------------------------------------
-	
+
 	The autoupdate mode can read the updater questions from a .ini style file or from
-	a php config file. Examples for both file types are in the docs folder. 
+	a php config file. Examples for both file types are in the docs folder.
 	See autoinstall.ini.sample and autoinstall.conf_sample.php.
-	
+
 	run:
-	
+
 	php update.php --autoinstall=autoinstall.ini
-	
+
 	or
-	
+
 	php update.php --autoinstall=autoinstall.conf.php
-	
+
 */
 
 error_reporting(E_ALL|E_STRICT);
@@ -263,7 +263,7 @@ if($conf['mysql']['master_slave_setup'] == 'y') {
 	do {
 		$tmp_mysql_server_host = $inst->free_query('MySQL master server hostname', $conf['mysql']['master_host'],'mysql_master_hostname');
 		$tmp_mysql_server_port = $inst->free_query('MySQL master server port', $conf['mysql']['master_port'],'mysql_master_port');
-		$tmp_mysql_server_admin_user = $inst->free_query('MySQL master server root username', $conf['mysql']['master_admin_user'],'mysql_master_root_user');	 
+		$tmp_mysql_server_admin_user = $inst->free_query('MySQL master server root username', $conf['mysql']['master_admin_user'],'mysql_master_root_user');
 		$tmp_mysql_server_admin_password = $inst->free_query('MySQL master server root password', $conf['mysql']['master_admin_password'],'mysql_master_root_password');
 		$tmp_mysql_server_database = $inst->free_query('MySQL master server database name', $conf['mysql']['master_database'],'mysql_master_database');
 
@@ -474,7 +474,7 @@ if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'sel
 				$inst->configure_apps_vhost();
 			} else swriteln('Skipping config of Apps vhost');
 		}
-	
+
 		//* Configure Jailkit
 		if($inst->reconfigure_app('Jailkit', $reconfigure_services_answer)) {
 			swriteln('Configuring Jailkit');
@@ -540,6 +540,8 @@ if ($inst->install_ispconfig_interface) {
 if(!file_exists('/usr/local/ispconfig/interface/ssl/ispserver.crt')) {
     if(strtolower($inst->simple_query('Do you want to create SSL certs for your server?', array('y', 'n'), 'y')) == 'y')
         $inst->make_ispconfig_ssl_cert();
+} else {
+	swriteln('Certificate exists. Not creating a new one.');
 }
 
 $inst->install_ispconfig();
