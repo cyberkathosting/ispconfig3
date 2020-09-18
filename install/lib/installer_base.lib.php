@@ -2822,6 +2822,8 @@ class installer_base {
 
 		// Request for certs if no LE SSL folder for server fqdn exist
 
+		swriteln('Checking / creating certificate for ' . $hostname);
+
 		$acme_cert_dir = '/usr/local/ispconfig/server/scripts/' . $hostname;
 		$check_acme_file = $acme_cert_dir . '/' . $hostname . '.cer';
 		if(!@is_dir($acme_cert_dir)) {
@@ -2832,6 +2834,13 @@ class installer_base {
 				$check_acme_file = $acme_cert_dir . '/cert.pem';
 			}
 		}
+
+		swriteln('Using certificate path ' . $acme_cert_dir);
+		if(!(($svr_ip4 && in_array($svr_ip4, $dns_ips)) || ($svr_ip6 && in_array($svr_ip6, $dns_ips)))) {
+			swriteln('Server\'s public ip(s) (' . $svr_ip4 . ($svr_ip6 ? ', ' . $svr_ip6 : '') . ') not found in A/AAAA records for ' . $hostname . ': ' . implode(', ', $dns_ips));
+		}
+
+
 		if ((!@is_dir($acme_cert_dir) || !@file_exists($check_acme_file) || !@file_exists($ssl_crt_file) || md5_file($check_acme_file) != md5_file($ssl_crt_file)) && (($svr_ip4 && in_array($svr_ip4, $dns_ips)) || ($svr_ip6 && in_array($svr_ip6, $dns_ips)))) {
 
 			// This script is needed earlier to check and open http port 80 or standalone might fail
@@ -2881,8 +2890,10 @@ class installer_base {
 
 			// first of all create the acme vhosts if not existing
 			if($conf['nginx']['installed'] == true) {
+				swriteln('Using nginx for certificate validation');
 				$this->make_acme_vhost($hostname, 'nginx');
 			} elseif($conf['apache']['installed'] == true) {
+				swriteln('Using apache for certificate validation');
 				if($this->is_update == false && @is_link($vhost_conf_enabled_dir.'/000-ispconfig.conf')) {
 					$restore_conf_symlink = true;
 					unlink($vhost_conf_enabled_dir.'/000-ispconfig.conf');
@@ -2909,6 +2920,7 @@ class installer_base {
 				if($ret == 0 || ($ret == 2 && file_exists($check_acme_file))) {
 					// acme.sh returns with 2 on issue for already existing certificate
 
+
 					// Backup existing ispserver ssl files
 					if(file_exists($ssl_crt_file) || is_link($ssl_crt_file)) {
 						rename($ssl_crt_file, $ssl_crt_file . '-' . $date->format('YmdHis') . '.bak');
@@ -2926,6 +2938,8 @@ class installer_base {
 					$acme_chain = "--fullchain-file " . escapeshellarg($ssl_crt_file);
 					exec("$acme --install-cert -d $hostname $acme_key $acme_chain");
 					$issued_successfully = true;
+				} else {
+					swriteln('Issuing certificate via acme.sh failed. Please check that your hostname can be verified by letsencrypt');
 				}
 			// Else, we attempt to use the official LE certbot client certbot
 			} else {
@@ -2969,7 +2983,11 @@ class installer_base {
 						}
 
 						$issued_successfully = true;
+					} else {
+						swriteln('Issuing certificate via certbot failed. Please check log files and make sure that your hostname can be verified by letsencrypt');
 					}
+				} else {
+					swriteln('Did not find any valid acme client (acme.sh or certbot)');
 				}
 			}
 
@@ -2985,6 +3003,12 @@ class installer_base {
 
 		// If the LE SSL certs for this hostname exists
 		if(!is_dir($acme_cert_dir) || !file_exists($check_acme_file) || !$issued_successfully) {
+			if(!$issued_successfully) {
+				swriteln('Could not issue letsencrypt certificate, falling back to self-signed.');
+			} else {
+				swriteln('Issuing certificate seems to have succeeded but ' . $check_acme_file . ' seems to be missing. Falling back to self-signed.');
+			}
+
 			// We can still use the old self-signed method
 			$ssl_pw = substr(md5(mt_rand()), 0, 6);
 			exec("openssl genrsa -des3 -passout pass:$ssl_pw -out $ssl_key_file 4096");
