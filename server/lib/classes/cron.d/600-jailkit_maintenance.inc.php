@@ -53,15 +53,7 @@ class cronjob_jailkit_maintenance extends cronjob {
 	public function onRunJob() {
 		global $app, $conf;
 
-		$app->uses('system,getconf');
-
 		$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
-		if(isset($server_config['migration_mode']) && $server_config['migration_mode'] == 'y') {
-			//$app->log('Migration mode active, not running Jailkit updates.', LOGLEVEL_DEBUG);
-			print "Migration mode active, not running Jailkit updates.\n";
-
-			return;
-		}
 
 		$jailkit_config = $app->getconf->get_server_config($conf['server_id'], 'jailkit');
 		if (isset($this->jailkit_config) && isset($this->jailkit_config['jailkit_hardlinks'])) {
@@ -77,7 +69,7 @@ class cronjob_jailkit_maintenance extends cronjob {
 		// limit the number of jails we update at one time according to time of day
 		$num_jails_to_update = (date('H') < 6) ? 25 : 3;
 
-		$sql = "SELECT domain_id, domain, document_root, php_fpm_chroot, jailkit_chroot_app_sections, jailkit_chroot_app_programs, delete_unused_jailkit, last_jailkit_hash FROM web_domain WHERE type = 'vhost' AND last_jailkit_update < (NOW() - INTERVAL 24 HOUR) AND server_id = ? ORDER by last_jailkit_update LIMIT ?";
+		$sql = "SELECT domain_id, domain, document_root, php_fpm_chroot, jailkit_chroot_app_sections, jailkit_chroot_app_programs, delete_unused_jailkit, last_jailkit_hash FROM web_domain WHERE type = 'vhost' AND (last_jailkit_update IS NULL OR last_jailkit_update < (NOW() - INTERVAL 24 HOUR)) AND server_id = ? ORDER by last_jailkit_update LIMIT ?";
 		$records = $app->db->queryAllRecords($sql, $conf['server_id'], $num_jails_to_update);
 
 		foreach($records as $rec) {
