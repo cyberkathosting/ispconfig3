@@ -3713,12 +3713,12 @@ class apache2_plugin {
 
 		if (isset($this->jailkit_config) && isset($this->jailkit_config['jailkit_hardlinks'])) {
 			if ($this->jailkit_config['jailkit_hardlinks'] == 'yes') {
-				$options = array( 'hardlink');
+				$options = array('hardlink');
 			} elseif ($this->jailkit_config['jailkit_hardlinks'] == 'no') {
 				$options = array();
 			}
 		} else {
-			$options = array( 'allow_hardlink');
+			$options = array('allow_hardlink');
 		}
 
 		// should move return here if $this->website['new_jailkit_hash'] == $this->website['last_jailkit_hash'] ?
