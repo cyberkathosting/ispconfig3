@@ -1,4 +1,5 @@
 <?php
+$wb['ssh_chroot_notempty'] = 'No SSH chroot option selected. Select at least one option.';
 $wb['limit_client_error_notint'] = 'Batasan Klien bukan angka.';
 $wb['limit_maildomain_txt'] = 'Jumlah maks domain email';
 $wb['limit_mailbox_txt'] = 'Jumlah maks mailbox';
