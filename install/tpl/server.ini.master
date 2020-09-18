@@ -146,6 +146,7 @@ jailkit_chroot_app_sections=basicshell editors extendedshell netutils ssh sftp s
 jailkit_chroot_app_programs=/usr/bin/groups /usr/bin/id /usr/bin/dircolors /usr/bin/lesspipe /usr/bin/basename /usr/bin/dirname /usr/bin/nano /usr/bin/pico /usr/bin/mysql /usr/bin/mysqldump /usr/bin/git /usr/bin/git-receive-pack /usr/bin/git-upload-pack /usr/bin/unzip /usr/bin/zip /bin/tar /bin/rm /usr/bin/patch /usr/bin/which /usr/lib/x86_64-linux-gnu/libmemcached.so.11 /usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2 /usr/lib/x86_64-linux-gnu/libMagickWand-6.Q16.so.2 /opt/php-5.6.8/bin/php /opt/php-5.6.8/include /opt/php-5.6.8/lib
 jailkit_chroot_cron_programs=/usr/bin/php /usr/bin/perl /usr/share/perl /usr/share/php
 jailkit_chroot_authorized_keys_template=/root/.ssh/authorized_keys
+jailkit_hardlinks=allow
 
 [vlogger]
 config_dir=/etc

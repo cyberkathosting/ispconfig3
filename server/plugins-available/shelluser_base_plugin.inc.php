@@ -146,7 +146,6 @@ class shelluser_base_plugin {
 				// call the ssh-rsa update function
 				$app->uses("getconf");
 				$this->data = $data;
-				$this->app = $app;
 				$this->_setup_ssh_rsa();
 
 				//* Create .bash_history file
@@ -233,7 +232,6 @@ class shelluser_base_plugin {
 					$app->system->web_folder_protection($web['document_root'], false);
 
 					if($homedir != $homedir_old){
-						$app->system->web_folder_protection($web['document_root'], false);
 						// Rename dir, in case the new directory exists already.
 						if(is_dir($homedir)) {
 							$app->log("New Homedir exists, renaming it to ".$homedir.'_bak', LOGLEVEL_DEBUG);
@@ -245,10 +243,8 @@ class shelluser_base_plugin {
 						$app->file->mkdirs($homedir, '0750');
 						$app->system->chown($homedir,$data['new']['puser']);
 						$app->system->chgrp($homedir,$data['new']['pgroup']);
-						$app->system->web_folder_protection($web['document_root'], true);
 					} else {
 						if(!is_dir($homedir)){
-							$app->system->web_folder_protection($web['document_root'], false);
 							if(!is_dir($data['new']['dir'].'/home')){
 								$app->file->mkdirs($data['new']['dir'].'/home', '0755');
 								$app->system->chown($data['new']['dir'].'/home','root');
@@ -257,7 +253,6 @@ class shelluser_base_plugin {
 							$app->file->mkdirs($homedir, '0750');
 							$app->system->chown($homedir,$data['new']['puser']);
 							$app->system->chgrp($homedir,$data['new']['pgroup']);
-							$app->system->web_folder_protection($web['document_root'], true);
 						}
 					}
 					$app->system->usermod($data['old']['username'], 0, $app->system->getgid($data['new']['pgroup']), $homedir, $data['new']['shell'], $data['new']['password'], $data['new']['username']);
@@ -266,7 +261,6 @@ class shelluser_base_plugin {
 					// call the ssh-rsa update function
 					$app->uses("getconf");
 					$this->data = $data;
-					$this->app = $app;
 					$this->_setup_ssh_rsa();
 
 					//* Create .bash_history file
@@ -361,7 +355,7 @@ class shelluser_base_plugin {
 
 				// We delete only non jailkit users, jailkit users will be deleted by the jailkit plugin.
 				if ($data['old']['chroot'] != "jailkit") {
-					// if this web uses PHP-FPM, that PPH-FPM service must be stopped before we can delete this user
+					// if this web uses PHP-FPM, that PHP-FPM service must be stopped before we can delete this user
 					if($web['php'] == 'php-fpm'){
 						if($web['server_php_id'] != 0){
 							$default_php_fpm = false;
@@ -405,13 +399,13 @@ class shelluser_base_plugin {
 
 	private function _setup_ssh_rsa() {
 		global $app;
-		$this->app->log("ssh-rsa setup shelluser_base", LOGLEVEL_DEBUG);
+		$app->log("ssh-rsa setup shelluser_base", LOGLEVEL_DEBUG);
 		// Get the client ID, username, and the key
-		$domain_data = $this->app->db->queryOneRecord('SELECT sys_groupid FROM web_domain WHERE web_domain.domain_id = ?', $this->data['new']['parent_domain_id']);
-		$sys_group_data = $this->app->db->queryOneRecord('SELECT * FROM sys_group WHERE sys_group.groupid = ?', $domain_data['sys_groupid']);
+		$domain_data = $app->db->queryOneRecord('SELECT sys_groupid FROM web_domain WHERE web_domain.domain_id = ?', $this->data['new']['parent_domain_id']);
+		$sys_group_data = $app->db->queryOneRecord('SELECT * FROM sys_group WHERE sys_group.groupid = ?', $domain_data['sys_groupid']);
 		$id = intval($sys_group_data['client_id']);
 		$username= $sys_group_data['name'];
-		$client_data = $this->app->db->queryOneRecord('SELECT * FROM client WHERE client.client_id = ?', $id);
+		$client_data = $app->db->queryOneRecord('SELECT * FROM client WHERE client.client_id = ?', $id);
 		$userkey = $client_data['ssh_rsa'];
 		unset($domain_data);
 		unset($client_data);
@@ -443,7 +437,7 @@ class shelluser_base_plugin {
 			//Generate ssh-rsa-keys
 			$app->uses('functions');
 			$app->functions->generate_ssh_key($id, $username);
-			$this->app->log("ssh-rsa keypair generated for ".$username, LOGLEVEL_DEBUG);
+			$app->log("ssh-rsa keypair generated for ".$username, LOGLEVEL_DEBUG);
 		};
 
 		if (!file_exists($sshkeys)){
@@ -466,7 +460,7 @@ class shelluser_base_plugin {
 			// add the user's key
 			$app->system->file_put_contents($sshkeys, $final_keys);
 			$app->file->remove_blank_lines($sshkeys);
-			$this->app->log("ssh-rsa authorisation keyfile created in ".$sshkeys, LOGLEVEL_DEBUG);
+			$app->log("ssh-rsa authorisation keyfile created in ".$sshkeys, LOGLEVEL_DEBUG);
 		}
 
 		//* Get the keys
@@ -502,7 +496,7 @@ class shelluser_base_plugin {
 		// add the custom key
 		$app->system->file_put_contents($sshkeys, $final_keys);
 		$app->file->remove_blank_lines($sshkeys);
-		$this->app->log("ssh-rsa key updated in ".$sshkeys, LOGLEVEL_DEBUG);
+		$app->log("ssh-rsa key updated in ".$sshkeys, LOGLEVEL_DEBUG);
 
 		// set proper file permissions
 		$app->system->exec_safe("chown -R ?:? ?", $this->data['new']['puser'], $this->data['new']['pgroup'], $sshdir);

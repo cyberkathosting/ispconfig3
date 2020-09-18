@@ -1041,7 +1041,37 @@ if($_SESSION["s"]["user"]["typ"] == 'admin'
 				'value' => '',
 				'width' => '4',
 				'maxlength' => '4'
-			)
+			),
+			'jailkit_chroot_app_sections' => array(
+				'datatype' => 'TEXT',
+				'formtype' => 'TEXT',
+				'default' => '',
+				'validators' => array(  0 => array ('type' => 'REGEX',
+								'regex' => '/^[a-zA-Z0-9\-\_\ ]*$/',
+								'errmsg'=> 'jailkit_chroot_app_sections_error_regex'),
+				),
+				'value' => '',
+				'width' => '40',
+				'maxlength' => '1000'
+			),
+			'jailkit_chroot_app_programs' => array(
+				'datatype' => 'TEXT',
+				'formtype' => 'TEXT',
+				'default' => '',
+				'validators' => array(  0 => array('type' => 'REGEX',
+								'regex' => '/^[a-zA-Z0-9\.\-\_\/\ ]*$/',
+								'errmsg'=> 'jailkit_chroot_app_programs_error_regex'),
+				),
+				'value' => '',
+				'width' => '40',
+				'maxlength' => '1000'
+			),
+			'delete_unused_jailkit' => array (
+				'datatype' => 'VARCHAR',
+				'formtype' => 'CHECKBOX',
+				'default' => 'n',
+				'value' => array(0 => 'n', 1 => 'y')
+			),
 			//#################################
 			// END Datatable fields
 			//#################################

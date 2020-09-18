@@ -33,7 +33,6 @@ class installer_base {
 	var $wb = array();
 	var $language = 'en';
 	var $db;
-	public $conf;
 	public $install_ispconfig_interface = true;
 	public $is_update = false; // true if it is an update, falsi if it is a new install
 	public $min_php = '5.3.3'; // minimal php-version for update / install
@@ -42,7 +41,6 @@ class installer_base {
 
 	public function __construct() {
 		global $conf; //TODO: maybe $conf  should be passed to constructor
-		//$this->conf = $conf;
 	}
 
 	//: TODO  Implement the translation function and language files for the installer.
