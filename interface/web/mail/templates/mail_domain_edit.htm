@@ -134,7 +134,9 @@
 			dkim_selector : dkim_selector,
 			type : "create_dkim" 
 		}, function(data) {
-			var dns=data['dkim_selector'] + '._domainkey.' + data['domain'] + '. 3600	TXT	v=DKIM1; t=s; p=' + data['dns_record'];
+                        var dkim_txt = 'v=DKIM1; t=s; p=' + data['dns_record'].replace(/(\r\n|\n|\r)/gm, "");
+			var dns=data['dkim_selector'] + '._domainkey.' + data['domain'] + '. 3600   IN	TXT	' + dkim_txt.match(new RegExp('.{1,' + '200' + '}', 'g')).map(chunk =>  '"' + chunk + '"').join('');
+                        
 			$("#dkim_selector").val(data.dkim_selector);
 			$("#dkim_public").val(data.dkim_public);
 			$("#dkim_private").val(data.dkim_private);
