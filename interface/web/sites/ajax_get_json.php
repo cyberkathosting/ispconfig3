@@ -92,6 +92,7 @@ if($type == 'getserverphp'){
 		$sql_where .= ")";
 	}
 
+	$php_records = array();
 	if($php_type == 'php-fpm' || ($php_type == 'hhvm' && $server_type == 'nginx')){
 		$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ? AND active = 'y'".$sql_where, $server_id);
 	} elseif($php_type == 'fast-cgi'){

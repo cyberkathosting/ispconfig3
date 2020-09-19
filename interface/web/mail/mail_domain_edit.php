@@ -219,7 +219,13 @@ class page_action extends tform_actions {
 		$sql = "SELECT domain, dkim_private, dkim_public, dkim_selector FROM mail_domain WHERE domain_id = ?";
 		$rec = $app->db->queryOneRecord($sql, $app->functions->intval($_GET['id']));
 		$dns_key = str_replace(array('-----BEGIN PUBLIC KEY-----','-----END PUBLIC KEY-----',"\r","\n"),'',$rec['dkim_public']);
-		$dns_record = $rec['dkim_selector'] . '._domainkey.' . $rec['domain'] . '. 3600   TXT   v=DKIM1; t=s; p=' . $dns_key;
+                
+                $keyparts = str_split('v=DKIM1; t=s; p=' . $dns_key, 200);
+                array_walk($keyparts, function(&$value, $key) { $value = '"'.$value.'"'; } );
+                $dkim_txt = implode('', $keyparts);
+
+		$dns_record = $rec['dkim_selector'] . '._domainkey.' . $rec['domain'] . '. 3600  IN  TXT   '.$dkim_txt;
+                
 		$app->tpl->setVar('dkim_selector', $rec['dkim_selector'], true);
 		$app->tpl->setVar('dkim_private', $rec['dkim_private'], true);
 		$app->tpl->setVar('dkim_public', $rec['dkim_public'], true);

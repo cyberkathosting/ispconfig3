@@ -56,6 +56,7 @@ class webserver_plugin {
 		global $app;
 
 		$app->plugins->registerAction('server_plugins_loaded', $this->plugin_name, 'check_phpini_changes');
+		$app->plugins->registerEvent('server_update', $this->plugin_name, 'server_update');
 	}
 
 	/**
@@ -164,6 +165,87 @@ class webserver_plugin {
 		unset($processed);
 	}
 
+
+	/*
+	 * Checks for changes to jailkit settings in server config and schedules affected jails to be updated.
+	 */
+	function server_update($event_name, $data) {
+		global $app, $conf;
+
+		// load the server configuration options
+		$app->uses('ini_parser,system');
+
+		$old = $app->ini_parser->parse_ini_string($data['old']['config']);
+		$new = $app->ini_parser->parse_ini_string($data['new']['config']);
+		if (is_array($old) && is_array($new) && isset($old['jailkit']) && isset($new['jailkit'])) {
+			$old = $old['jailkit'];
+			$new = $new['jailkit'];
+		} else {
+			$app->log('server_update: could not parse jailkit section of server config.', LOGLEVEL_WARN);
+			return;
+		}
+
+		$hardlink_mode_changed = (boolean)(($old['jailkit_hardlinks'] != $new['jailkit_hardlinks']) && $new['jailkit_hardlinks'] != 'allow');
+
+		if (($old['jailkit_chroot_app_sections'] != $new['jailkit_chroot_app_sections']) ||
+		    ($old['jailkit_chroot_app_programs'] != $new['jailkit_chroot_app_programs']) ||
+		    ($old['jailkit_chroot_cron_programs'] != $new['jailkit_chroot_cron_programs']) ||
+		    ($hardlink_mode_changed && $new['jailkit_hardlinks'] != 'allow'))
+		{
+			$app->log('Jailkit config has changed, scheduling affected chroot jails to be updated.', LOGLEVEL_DEBUG);
+
+			$web_domains = $app->db->queryAllRecords("SELECT * FROM web_domain WHERE type = 'vhost' AND server_id = ?", $conf['server_id']);
+
+			foreach ($web_domains as $web) {
+				// we could check (php_fpm_chroot == y || jailkit shell user exists || jailkit cron exists),
+				// but will just shortcut the db checks to see if jailkit was setup previously:
+				if (!is_dir($web['document_root'].'/etc/jailkit')) {
+					continue;
+				}
+
+				if ($hardlink_mode_changed ||
+				    // chroot cron programs changed
+				    ($old['jailkit_chroot_cron_programs'] != $new['jailkit_chroot_cron_programs']) ||
+				    // jailkit sections changed and website does not overwrite
+				    (($old['jailkit_chroot_app_sections'] != $new['jailkit_chroot_app_sections']) &&
+				     (!(isset($web['jailkit_chroot_app_sections']) && $web['jailkit_chroot_app_sections'] != '' ))) ||
+				    // jailkit apps changed and website does not overwrite
+				    (($old['jailkit_chroot_app_programs'] != $new['jailkit_chroot_app_programs']) &&
+				     (!(isset($web['jailkit_chroot_app_programs']) && $web['jailkit_chroot_app_programs'] != '' ))))
+				{
+
+					$sections = $new['jailkit_chroot_app_sections'];
+					if (isset($web['jailkit_chroot_app_sections']) && $web['jailkit_chroot_app_sections'] != '' ) {
+						$sections = $web['jailkit_chroot_app_sections'];
+					}
+
+					$programs = $new['jailkit_chroot_app_programs'];
+					if (isset($web['jailkit_chroot_app_sections']) && $web['jailkit_chroot_app_sections'] != '' ) {
+						$programs = $web['jailkit_chroot_app_sections'];
+					}
+
+					if (isset($new['jailkit_hardlinks'])) {
+						if ($new['jailkit_hardlinks'] == 'yes') {
+							$options = array('hardlink');
+						} elseif ($new['jailkit_hardlinks'] == 'no') {
+							$options = array();
+						}
+					} else {
+						$options = array('allow_hardlink');
+					}
+
+					$options[] = 'force';
+
+					// we could add a server config setting to allow updating these immediately:
+					//   $app->system->update_jailkit_chroot($new['document_root'], $sections, $programs, $options);
+					//
+					// but to mitigate disk contention, will just queue "update needed"
+					// for jailkit maintenance cronjob via last_jailkit_update timestamp
+					$app->db->query("UPDATE `web_domain` SET `last_jailkit_update` = FROM_UNIXTIME(0) WHERE `document_root` = ?", $web['document_root']);
+				}
+			}
+		}
+	}
 }
 
 ?>

@@ -201,8 +201,11 @@ class cronjob_goaccess extends cronjob {
 							$cust_lang = 'en_UK.UTF-8';
 							break;
 						case 'br':
-							$cust_lang = 'pt_PT.UTF-8';
+							$cust_lang = 'pt_BR.UTF-8';
 							break;
+                                                case 'pt':
+                                                        $cust_lang = 'pt_BR.UTF-8';
+                                                        break;
 						case 'ca':
 							$cust_lang = 'en_US.UTF-8';
 							break;

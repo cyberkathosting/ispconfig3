@@ -1,4 +1,5 @@
 <?php
+$wb['ssh_chroot_notempty'] = 'No SSH chroot option selected. Select at least one option.';
 $wb['limit_client_error_notint'] = 'La limite de sous clients doit être un nombre.';
 $wb['limit_maildomain_txt'] = 'Nombre maximal de domaines d’e-mails';
 $wb['limit_mailbox_txt'] = 'Nombre maximal de boîtes aux lettres';
