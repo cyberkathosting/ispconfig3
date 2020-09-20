@@ -112,13 +112,13 @@ class cronjob_monitor_hd_quota extends cronjob {
 				$groupname = $s[0];
 				if (substr($groupname, 0, 6) == 'client') {
 					if (isset($data['group'][$groupname])) {
-						$data['group'][$groupname]['used'] += $s[1];
-						$data['group'][$groupname]['soft'] += $s[2];
-						$data['group'][$groupname]['hard'] += $s[3];
+						$data['group'][$groupname]['used'] += $s[2];
+						$data['group'][$groupname]['soft'] += $s[3];
+						$data['group'][$groupname]['hard'] += $s[4];
 					} else {
-						$data['group'][$groupname]['used'] = $s[1];
-						$data['group'][$groupname]['soft'] = $s[2];
-						$data['group'][$groupname]['hard'] = $s[3];
+						$data['group'][$groupname]['used'] = $s[2];
+						$data['group'][$groupname]['soft'] = $s[3];
+						$data['group'][$groupname]['hard'] = $s[4];
 					}
 				}
 			}
