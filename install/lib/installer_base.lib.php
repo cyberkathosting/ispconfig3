@@ -2718,7 +2718,7 @@ class installer_base {
 		return $response;
 	}
 
-	private function make_acme_vhost($server_name, $server = 'apache') {
+	private function make_acme_vhost($server_name, $server = 'apache', $restart = true) {
 		global $conf;
 
 		$use_template = 'apache_acme.conf.master';
@@ -2756,12 +2756,13 @@ class installer_base {
 		if(!@is_link($vhost_conf_enabled_dir.'' . $use_symlink)) {
 			symlink($vhost_conf_dir.'/' . $use_name, $vhost_conf_enabled_dir.'/' . $use_symlink);
 		}
-
-		if($conf[$server]['installed'] == true && $conf[$server]['init_script'] != '') {
-			if($this->is_update) {
-				system($this->getinitcommand($conf[$server]['init_script'], 'force-reload').' &> /dev/null || ' . $this->getinitcommand($conf[$server]['init_script'], 'restart').' &> /dev/null');
-			} else {
-				system($this->getinitcommand($conf[$server]['init_script'], 'restart').' &> /dev/null');
+		if($restart === true) {
+			if($conf[$server]['installed'] == true && $conf[$server]['init_script'] != '') {
+				if($this->is_update) {
+					system($this->getinitcommand($conf[$server]['init_script'], 'force-reload').' &> /dev/null || ' . $this->getinitcommand($conf[$server]['init_script'], 'restart').' &> /dev/null');
+				} else {
+					system($this->getinitcommand($conf[$server]['init_script'], 'restart').' &> /dev/null');
+				}
 			}
 		}
 	}
@@ -2994,9 +2995,14 @@ class installer_base {
 					symlink($vhost_conf_dir.'/ispconfig.conf', $vhost_conf_enabled_dir.'/000-ispconfig.conf');
 				}
 			}
-		} elseif(($svr_ip4 && in_array($svr_ip4, $dns_ips)) || ($svr_ip6 && in_array($svr_ip6, $dns_ips))) {
-			// the directory already exists so we have to assume that it was created previously
-			$issued_successfully = true;
+		} else {
+			if($conf['apache']['installed'] == true) {
+				$this->make_acme_vhost($hostname, 'apache', false); // we need this config file but we don't want apache to be restarted at this point
+			}
+			if(($svr_ip4 && in_array($svr_ip4, $dns_ips)) || ($svr_ip6 && in_array($svr_ip6, $dns_ips))) {
+				// the directory already exists so we have to assume that it was created previously
+				$issued_successfully = true;
+			}
 		}
 
 		// If the LE SSL certs for this hostname exists
