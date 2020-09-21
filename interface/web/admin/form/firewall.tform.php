@@ -89,7 +89,7 @@ $form["tabs"]['firewall'] = array (
 			'formtype' => 'TEXT',
 			'validators' => array (  0 => array ( 'type' => 'REGEX',
 					'regex' => '/^[0-9\,\:]{0,255}$/',
-					'errmsg'=> 'tcp_ports_error_regex'),
+					'errmsg'=> 'udp_ports_error_regex'),
 			),
 			'default' => '53,3306',
 			'value'  => '',
