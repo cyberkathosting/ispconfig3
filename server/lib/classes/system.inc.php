@@ -941,6 +941,32 @@ class system{
                 return $return_var == 0 ? true : false;
         }
 
+	function rmdir($path, $recursive=false) {
+		// Disallow operating on root directory
+		if(realpath($path) == '/') {
+			$app->log("rmdir: afraid I might delete root: $path", LOGLEVEL_WARN);
+			return false;
+		}
+
+		$path = rtrim($path, '/');
+		if (is_dir($path) && !is_link($path)) {
+			$objects = array_diff(scandir($path), array('.', '..'));
+			foreach ($objects as $object) {
+				if ($recursive) {
+					if (is_dir("$path/$object") && !is_link("$path/$object")) {
+						$this->rmdir("$path/$object", $recursive);
+					} else {
+						unlink ("$path/$object");
+					}
+				} else {
+					$app->log("rmdir: invoked non-recursive, not removing $path (expect rmdir failure)", LOGLEVEL_DEBUG);
+				}
+			}
+			return rmdir($path);
+		}
+		return false;
+	}
+
 	function touch($file, $allow_symlink = false){
 		global $app;
 		if($allow_symlink == false && @file_exists($file) && $this->checkpath($file) == false) {
@@ -981,6 +1007,28 @@ class system{
 		//if(strstr($to,'/etc/letsencrypt/archive/')) $to = str_replace('/etc/letsencrypt/archive/','/etc/letsencrypt/live/',$to);
 
 		return symlink($cfrom, $to);
+	}
+
+	function remove_broken_symlinks($path, $recursive=false) {
+		global $app;
+
+		if ($path != '/') {
+			$path = rtrim($path, '/');
+		}
+		if (is_dir($path)) {
+			$objects = array_diff(scandir($path), array('.', '..'));
+			foreach ($objects as $object) {
+				if (is_dir("$path/$object") && $recursive) {
+					$this->remove_broken_symlinks("$path/$object", $recursive);
+				} elseif (is_link("$path/$object") && !file_exists("$path/$object")) {
+					$app->log("removing broken symlink $path/$object", LOGLEVEL_DEBUG);
+					unlink ("$path/$object");
+				}
+			}
+		} elseif (is_link("$path") && !file_exists("$path")) {
+			$app->log("removing broken symlink $path", LOGLEVEL_DEBUG);
+			unlink ("$path");
+		}
 	}
 
 	function checkpath($path) {
@@ -2201,6 +2249,12 @@ class system{
 	}
 
 	public function create_jailkit_user($username, $home_dir, $user_home_dir, $shell = '/bin/bash', $p_user = null, $p_user_home_dir = null) {
+		// Disallow operating on root directory
+		if(realpath($home_dir) == '/') {
+			$app->log("create_jailkit_user: invalid home_dir: $home_dir", LOGLEVEL_WARN);
+			return false;
+		}
+
 		// Check if USERHOMEDIR already exists
 		if(!is_dir($home_dir . '/.' . $user_home_dir)) {
 			$this->mkdirpath($home_dir . '/.' . $user_home_dir, 0755, $username);
@@ -2223,24 +2277,17 @@ class system{
 		return true;
 	}
 
-	public function create_jailkit_programs($home_dir, $programs = array()) {
-		if(empty($programs)) {
-			return true;
-		} elseif(is_string($programs)) {
-			$programs = preg_split('/[\s,]+/', $programs);
-		}
-		$program_args = '';
-		foreach($programs as $prog) {
-			$program_args .= ' ' . escapeshellarg($prog);
+	public function create_jailkit_chroot($home_dir, $app_sections = array(), $options = array()) {
+		// Disallow operating on root directory
+		if(realpath($home_dir) == '/') {
+			$app->log("create_jailkit_chroot: invalid home_dir: $home_dir", LOGLEVEL_WARN);
+			return false;
 		}
 
-		$cmd = 'jk_cp -j ?' . $program_args;
-		$this->exec_safe($cmd, $home_dir);
-
-		return true;
-	}
-
-	public function create_jailkit_chroot($home_dir, $app_sections = array()) {
+		if(!is_dir($home_dir)) {
+			$app->log("create_jailkit_chroot: jail directory does not exist: $home_dir", LOGLEVEL_WARN);
+			return false;
+		}
 		if(empty($app_sections)) {
 			return true;
 		} elseif(is_string($app_sections)) {
@@ -2251,31 +2298,395 @@ class system{
 		$this->chown($home_dir, 'root');
 		$this->chgrp($home_dir, 'root');
 
-		$app_args = '';
+		$program_args = '';
+		foreach ($options as $opt) {
+			switch ($opt) {
+			case '-k':
+			case 'hardlink':
+				$program_args .= ' -k';
+				break;
+			case '-f':
+			case 'force':
+				$program_args .= ' -f';
+				break;
+			}
+		}
+		# /etc/jailkit/jk_init.ini is the default path, probably not needed?
+		$program_args .= ' -c /etc/jailkit/jk_init.ini -j ?';
 		foreach($app_sections as $app_section) {
-			$app_args .= ' ' . escapeshellarg($app_section);
+			# should check that section exists with jk_init --list ?
+			$program_args .= ' ' . escapeshellarg($app_section);
 		}
 
 		// Initialize the chroot into the specified directory with the specified applications
-		$cmd = 'jk_init -f -c /etc/jailkit/jk_init.ini -j ?' . $app_args;
+		$cmd = 'jk_init' . $program_args;
 		$this->exec_safe($cmd, $home_dir);
 
-		// Create the temp directory
+		// Create the tmp and /var/run directories
 		if(!is_dir($home_dir . '/tmp')) {
-			$this->mkdirpath($home_dir . '/tmp', 0777);
+			$this->mkdirpath($home_dir . '/tmp', 0770);
 		} else {
-			$this->chmod($home_dir . '/tmp', 0777, true);
+			$this->chmod($home_dir . '/tmp', 0770, true);
+		}
+		if(!is_dir($home_dir . '/var/run')) {
+			$this->mkdirpath($home_dir . '/var/run', 0755);
+		} else {
+			$this->chmod($home_dir . '/var/run', 0755, true);
+		}
+		if(!is_dir($home_dir . '/var/tmp')) {
+			$this->mkdirpath($home_dir . '/var/tmp', 0770);
+		} else {
+			$this->chmod($home_dir . '/var/tmp', 0770, true);
+		}
+
+		// Fix permissions of the root directory
+		$this->chmod($home_dir . '/bin', 0755, true);  // was chmod g-w $CHROOT_HOMEDIR/bin
+
+		return true;
+	}
+
+	public function create_jailkit_programs($home_dir, $programs = array(), $options = array()) {
+		// Disallow operating on root directory
+		if(realpath($home_dir) == '/') {
+			$app->log("create_jailkit_programs: invalid home_dir: $home_dir", LOGLEVEL_WARN);
+			return false;
+		}
+
+		if(!is_dir($home_dir)) {
+			$app->log("create_jailkit_programs: jail directory does not exist: $home_dir", LOGLEVEL_WARN);
+			return false;
+		}
+		if(empty($programs)) {
+			return true;
+		} elseif(is_string($programs)) {
+			$programs = preg_split('/[\s,]+/', $programs);
+		}
+
+		# prohibit ill-advised copying paths known to be sensitive/problematic
+		# (easy to bypass if needed, eg. use /./etc)
+		$blacklisted_paths_regex = array(
+			'@^/$@',
+			'@^/proc(/.*)?$@',
+			'@^/sys(/.*)?$@',
+			'@^/etc/?$@',
+			'@^/dev/?$@',
+			'@^/tmp/?$@',
+			'@^/run/?$@',
+			'@^/boot/?$@',
+			'@^/var(/?|/backups?/?)?$@',
+		);
+
+		$program_args = '';
+		foreach ($options as $opt) {
+			switch ($opt) {
+			case '-k':
+			case 'hardlink':
+				$program_args .= ' -k';
+				break;
+			case '-f':
+			case 'force':
+				$program_args .= ' -f';
+				break;
+			}
+		}
+		$program_args .= ' -j ?';
+
+		$bad_paths = array();
+		foreach($programs as $prog) {
+			foreach ($blacklisted_paths_regex as $re) {
+				if (preg_match($re, $prog, $matches)) {
+					$bad_paths[] = $matches[0];
+				}
+			}
+			if (count($bad_paths) > 0) {
+				$app->log("Prohibited path not added to jail $home_dir: " . implode(", ", $bad_paths), LOGLEVEL_WARN);
+			} else {
+				$program_args .= ' ' . escapeshellarg($prog);
+			}
+		}
+
+		if (count($programs) > count($bad_paths)) {
+			$cmd = 'jk_cp' . $program_args;
+			$this->exec_safe($cmd, $home_dir);
+		}
+
+		return true;
+	}
+
+	public function update_jailkit_chroot($home_dir, $sections = array(), $programs = array(), $options = array()) {
+		global $app;
+
+$app->log("update_jailkit_chroot called for $home_dir with options ".print_r($options, true), LOGLEVEL_DEBUG);
+		$app->uses('ini_parser');
+
+		// Disallow operating on root directory
+		if(realpath($home_dir) == '/') {
+			$app->log("update_jailkit_chroot: invalid home_dir: $home_dir", LOGLEVEL_WARN);
+			return false;
+		}
+
+		if(!is_dir($home_dir)) {
+			$app->log("update_jailkit_chroot: jail directory does not exist: $home_dir", LOGLEVEL_WARN);
+			return false;
+		}
+
+		$opts = array();
+		$jk_update_args = '';
+		$jk_cp_args = '';
+		foreach ($options as $opt) {
+			switch ($opt) {
+			case '-k':
+			case 'hardlink':
+				$opts[] = 'hardlink';
+				$jk_update_args .= ' -k';
+				$jk_cp_args .= ' -k';
+				break;
+			case '-f':
+			case 'force':
+				$opts[] = 'force';
+				$jk_cp_args .= ' -f';
+				break;
+			}
+		}
+
+		// Change ownership of the chroot directory to root
+		$this->chown($home_dir, 'root');
+		$this->chgrp($home_dir, 'root');
+
+		$jailkit_directories = array(
+			'bin',
+			'dev',
+			'etc',
+			'lib',
+			'lib32',
+			'lib64',
+			'opt',
+			'sys',
+			'usr',
+			'var',
+		);
+
+		$skips = '';
+		$multiple_links = array();
+		foreach ($jailkit_directories as $dir) {
+			$root_dir = '/'.$dir;
+			$jail_dir = rtrim($home_dir, '/') . '/'.$dir;
+
+			if (!is_dir($jail_dir)) {
+				$skips .= " --skip=/$dir";
+				continue;
+			}
+
+			// if directory exists in jail but not in root, remove it
+			if (is_dir($jail_dir) && !is_dir($root_dir)) {
+				$this->rmdir($jail_dir, true);
+				$skips .= " --skip=/$dir";
+				continue;
+			}
+
+			$this->remove_broken_symlinks($jail_dir, true);
+
+			// save list of hardlinked files
+			if (!(in_array('hardlink', $opts) || in_array('allow_hardlink', $options))) {
+$app->log("update_jailkit_chroot: searching for hardlinks in $jail_dir", LOGLEVEL_DEBUG);
+                                $find_multiple_links = function ( $path ) use ( &$find_multiple_links ) {
+					$found = array();
+					if (is_dir($path) && !is_link($path)) {
+						$objects = array_diff(scandir($path), array('.', '..'));
+						foreach ($objects as $object) {
+							$ret = $find_multiple_links( "$path/$object" );
+							if (count($ret) > 0) {
+								$found = array_merge($found, $ret);
+							}
+						}
+					} elseif (is_file($path)) {
+						$stat = lstat($path);
+						if ($stat['nlink'] > 1) {
+							$found[$path] = $path;
+						}
+					}
+					return $found;
+				};
+
+				$ret = $find_multiple_links($jail_dir);
+				if (count($ret) > 0) {
+					$multiple_links = array_merge($multiple_links, $ret);
+				}
+
+				// remove broken symlinks a second time after hardlink cleanup
+				$this->remove_broken_symlinks($jail_dir, true);
+			}
+else { $app->log("update_jailkit_chroot: NOT searching for hardlinks in $jail_dir, options: ".print_r($options, true), LOGLEVEL_DEBUG); }
+		}
+
+		foreach ($multiple_links as $file) {
+			$app->log("update_jailkit_chroot: removing hardlinked file: $file", LOGLEVEL_DEBUG);
+			unlink($file);
+		}
+
+		$cmd = 'jk_update --jail=?' . $jk_update_args . $skips;
+		$this->exec_safe($cmd, $home_dir);
+$app->log('jk_update returned: '.print_r($this->_last_exec_out, true), LOGLEVEL_DEBUG);
+		foreach ($this->_last_exec_out as $line) {
+			if (substr( $line, 0, 4 ) === "skip") {
+				continue;
+			}
+			if (preg_match('/^(WARNING|ERROR)/', $line, $matches)) {
+				$app->log("jk_update: $line", LOGLEVEL_DEBUG);
+			} elseif (preg_match('@^(?: [^ ]+){6}(.+)'.preg_quote($home_dir, '@').'$@', $line, $matches)) {
+				# remove deprecated files that jk_update failed to remove
+				if (is_file($matches[1])) {
+$app->log("update_jailkit_chroot: removing deprecated file which jk_update failed to remove:  ".$matches[1], LOGLEVEL_DEBUG);
+					unlink($matches[1]);
+				} elseif (is_dir($matches[1])) {
+$app->log("update_jailkit_chroot: removing deprecated directory which jk_update failed to remove:  ".$matches[1], LOGLEVEL_DEBUG);
+					$this->rmdir($matches[1], true);
+				}
+               			# unhandled error
+				//$app->log("jk_update error for jail $home_dir:  ".$matches[1], LOGLEVEL_DEBUG);
+				// at least for 3.2 beta, lets gather some of this info:
+				$app->log("jk_update error for jail $home_dir, feel free to pass to ispconfig developers:  ".print_r( $matches, true), LOGLEVEL_DEBUG);
+			}
+		}
+
+		// reinstall jailkit sections and programs
+		if(!(empty($sections) && empty($programs))) {
+			$this->create_jailkit_chroot($home_dir, $sections, $opts);
+			$this->create_jailkit_programs($home_dir, $programs, $opts);
+		}
+
+		// Create the tmp and /var/run directories
+		if(!is_dir($home_dir . '/tmp')) {
+			$this->mkdirpath($home_dir . '/tmp', 0770);
+		} else {
+			$this->chmod($home_dir . '/tmp', 0770, true);
+		}
+		if(!is_dir($home_dir . '/var/run')) {
+			$this->mkdirpath($home_dir . '/var/run', 0755);
+		} else {
+			$this->chmod($home_dir . '/var/run', 0755, true);
+		}
+		if(!is_dir($home_dir . '/var/tmp')) {
+			$this->mkdirpath($home_dir . '/var/tmp', 0770);
+		} else {
+			$this->chmod($home_dir . '/var/tmp', 0770, true);
+		}
+
+		// TODO: Set /usr/bin/php symlink to php version of the website.
+		//
+		// Currently server_php does not have a field for the cli path;
+		// we can guess/determing according to OS-specific conventions or add that field.
+		// Then symlink /usr/bin/php (or correct OS-specific path) to that location.
+
+		// search for any hardlinked files which are now missing
+		if (!(in_array('hardlink', $opts) || in_array('allow_hardlink', $options))) {
+			foreach ($multiple_links as $file) {
+				if (!is_file($file)) {
+					// strip $home_dir from $file
+					if (substr($file, 0, strlen(rtrim($home_dir, '/'))) == rtrim($home_dir, '/')) {
+						$file = substr($file, strlen(rtrim($home_dir, '/')));
+					}
+					if (is_file($file)) { // file exists in root
+						$app->log("update_jailkit_chroot: previously hardlinked file still missing, running jk_cp to restore: $file", LOGLEVEL_DEBUG);
+						$cmd = 'jk_cp -j ? ' . $jk_cp_args . ' ' . escapeshellarg($file);
+						$this->exec_safe($cmd, $home_dir);
+					} else {
+						// not necessarily an error
+						$app->log("update_jailkit_chroot: previously hardlinked file was not restored and is no longer present in system: $file", LOGLEVEL_DEBUG);
+					}
+				}
+			}
 		}
 
 		// Fix permissions of the root firectory
 		$this->chmod($home_dir . '/bin', 0755, true);  // was chmod g-w $CHROOT_HOMEDIR/bin
 
-		// mysql needs the socket in the chrooted environment
-		$this->mkdirpath($home_dir . '/var/run/mysqld');
+		// remove non-existent jails from /etc/jailkit/jk_socketd.ini
+		if (is_file('/etc/jailkit/jk_socketd.ini')) {
+			$rewrite = false;
+			$jk_socketd_ini = $app->ini_parser->parse_ini_file('/etc/jailkit/jk_socketd.ini');
+			foreach ($jk_socketd_ini as $log => $settings) {
+				$jail = preg_replace('@/dev/log$@', '', $log);
+				if ($jail != $log && !is_dir($jail)) {
+					unset($jk_socketd_ini[$log]);
+					$rewrite=true;
+				}
+			}
+			if ($rewrite) {
+				$app->log('update_jailkit_chroot: writing /etc/jailkit/jk_socketd.ini', LOGLEVEL_DEBUG);
+				$app->ini_parse->write_ini_file($jk_socketd_ini, '/etc/jailkit/jk_socketd.ini');
+			}
+		}
 
-		// ln /var/run/mysqld/mysqld.sock $CHROOT_HOMEDIR/var/run/mysqld/mysqld.sock
-		if(!file_exists("/var/run/mysqld/mysqld.sock")) {
-			$this->exec_safe('ln ? ?', '/var/run/mysqld/mysqld.sock', $home_dir . '/var/run/mysqld/mysqld.sock');
+		return true;
+	}
+
+	public function delete_jailkit_chroot($home_dir) {
+		global $app;
+
+		$app->uses('ini_parser');
+
+		// Disallow operating on root directory
+		if(realpath($home_dir) == '/') {
+			$app->log("delete_jailkit_chroot: invalid home_dir: $home_dir", LOGLEVEL_WARN);
+			return false;
+		}
+
+		if(!is_dir($home_dir)) {
+			$app->log("delete_jailkit_chroot: jail directory does not exist: $home_dir", LOGLEVEL_DEBUG);
+			return false;
+		}
+
+		$jailkit_directories = array(
+			'bin',
+			'dev',
+			'etc',
+			'lib',
+			'lib32',
+			'lib64',
+			'opt',
+			'sys',
+			'usr',
+			'var',
+			'run',		# not used by jailkit, but added for cleanup
+		);
+
+		$removed = '';
+		foreach ($jailkit_directories as $dir) {
+			$jail_dir = rtrim($home_dir, '/') . '/'.$dir;
+
+			if (is_link($jail_dir)) {
+				unlink($jail_dir);
+				$removed .= ' /'.$dir;
+			} elseif (is_dir($jail_dir)) {
+				$this->rmdir($jail_dir, true);
+				$removed .= ' /'.$dir;
+			}
+
+		}
+
+		$app->log("delete_jailkit_chroot: removed from jail $home_dir: $removed", LOGLEVEL_DEBUG);
+
+		// remove /home if empty
+		$home = rtrim($home_dir, '/') . '/home';
+		@rmdir($home);  # ok to fail if non-empty
+
+		// otherwise archive under /private
+		$private = rtrim($home_dir, '/') . '/private';
+		if (is_dir($home) && is_dir($private)) {
+			$archive = $private.'/home-'.date('c');
+			rename($home, $archive);
+		}
+
+		// remove $home_dir from /etc/jailkit/jk_socketd.ini
+		if (is_file('/etc/jailkit/jk_socketd.ini')) {
+			$jk_socketd_ini = $app->ini_parser->parse_ini_file('/etc/jailkit/jk_socketd.ini');
+			$log = $home . '/dev/log';
+			if (isset($jk_socketd_ini[$log])) {
+				unset($jk_socketd_ini[$log]);
+				$app->log('delete_jailkit_chroot: writing /etc/jailkit/jk_socketd.ini', LOGLEVEL_DEBUG);
+				$app->ini_parse->write_ini_file($jk_socketd_ini, '/etc/jailkit/jk_socketd.ini');
+			}
 		}
 
 		return true;

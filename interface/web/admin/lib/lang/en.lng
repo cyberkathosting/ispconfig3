@@ -1,7 +1,7 @@
 <?php
 //Errors
-$wb[1001] = "Username or password is empty.";
-$wb[1002] = "Username or password is wrong.";
+$wb[1001] = 'Username or password is empty.';
+$wb[1002] = 'Username or password is wrong.';
 
 $wb['Groups'] = 'Groups';
 $wb['groups_description'] = 'Form to edit systemuser groups.';

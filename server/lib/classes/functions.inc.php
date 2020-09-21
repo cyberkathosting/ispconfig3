@@ -118,6 +118,26 @@ class functions {
 		return $out;
 	}
 
+	public function array_unset_by_value($array, $value) {
+		if (!is_array($array)) {
+			return $array;
+		}
+		if (is_array($value)) {
+			foreach ($array as $key => $val){
+				if (in_array($val, $value)) {
+					unset($array[$key]);
+				}
+			}
+		} else {
+			foreach ($array as $key => $val){
+				if ($val == $value) {
+					unset($array[$key]);
+				}
+			}
+		}
+		return $array;
+	}
+
 	public function currency_format($number, $view = '') {
 		global $app;
 		if($view != '') $number_format_decimals = (int)$app->lng('number_format_decimals_'.$view);

@@ -76,7 +76,7 @@ class cron_jailkit_plugin {
 		}
 
 		//* get data from web
-		$parent_domain = $app->db->queryOneRecord("SELECT `domain_id`, `system_user`, `system_group`, `document_root`, `domain` FROM `web_domain` WHERE `domain_id` = ?", $data["new"]["parent_domain_id"]);
+		$parent_domain = $app->db->queryOneRecord("SELECT * FROM `web_domain` WHERE `domain_id` = ?", $data["new"]["parent_domain_id"]);
 		if(!$parent_domain["domain_id"]) {
 			$app->log("Parent domain not found", LOGLEVEL_WARN);
 			return 0;
@@ -105,8 +105,12 @@ class cron_jailkit_plugin {
 				// load the server configuration options
 				$app->uses("getconf");
 				$this->data = $data;
-				$this->app = $app;
 				$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
+				foreach (array('jailkit_chroot_app_sections', 'jailkit_chroot_app_programs') as $section) {
+					if (isset($parent_domain[$section]) && $parent_domain[$section] != '' ) {
+						$this->jailkit_config[$section] = $parent_domain[$section];
+					}
+				}
 
 				$this->_update_website_security_level();
 
@@ -141,7 +145,7 @@ class cron_jailkit_plugin {
 			return 0;
 		}
 		//* get data from web
-		$parent_domain = $app->db->queryOneRecord("SELECT `domain_id`, `system_user`, `system_group`, `document_root`, `domain` FROM `web_domain` WHERE `domain_id` = ?", $data["new"]["parent_domain_id"]);
+		$parent_domain = $app->db->queryOneRecord("SELECT * FROM `web_domain` WHERE `domain_id` = ?", $data["new"]["parent_domain_id"]);
 		if(!$parent_domain["domain_id"]) {
 			$app->log("Parent domain not found", LOGLEVEL_WARN);
 			return 0;
@@ -167,29 +171,25 @@ class cron_jailkit_plugin {
 			{
 				$app->log("Jailkit Plugin (Cron) -> setting up jail", LOGLEVEL_DEBUG);
 				// load the server configuration options
-				/*
 				$app->uses("getconf");
 				$this->data = $data;
-				$this->app = $app;
 				$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
-                $this->parent_domain = $parent_domain;
-
-				$this->_setup_jailkit_chroot();
-				$this->_add_jailkit_user();
-				*/
-				$app->uses("getconf");
-				$this->data = $data;
-				$this->app = $app;
-				$this->jailkit_config = $app->getconf->get_server_config($conf["server_id"], 'jailkit');
+				foreach (array('jailkit_chroot_app_sections', 'jailkit_chroot_app_programs') as $section) {
+					if (isset($parent_domain[$section]) && $parent_domain[$section] != '' ) {
+						$this->jailkit_config[$section] = $parent_domain[$section];
+					}
+				}
 
 				$this->_update_website_security_level();
 
 				$app->system->web_folder_protection($parent_domain['document_root'], false);
 
 				$this->_setup_jailkit_chroot();
+
 				$this->_add_jailkit_user();
 
 				$this->_update_website_security_level();
+
 				$app->system->web_folder_protection($parent_domain['document_root'], true);
 			}
 
@@ -205,22 +205,59 @@ class cron_jailkit_plugin {
 	function delete($event_name, $data) {
 		global $app, $conf;
 
-		//* nothing to do here!
+		if($data["old"]["parent_domain_id"] == '') {
+			$app->log("Parent domain not set", LOGLEVEL_WARN);
+			return 0;
+		}
 
+		$app->uses('system');
+
+		if ($data['old']['type'] == "chrooted")
+		{
+			$parent_domain = $app->db->queryOneRecord("SELECT * FROM `web_domain` WHERE `domain_id` = ?", $data['old']['parent_domain_id']);
+
+			// should copy some _delete_homedir() functionality from shelluser_jailkit_plugin ?
+
+			if (isset($parent_domain['delete_unused_jailkit']) && $parent_domain['delete_unused_jailkit'] == 'y') {
+				$app->system->web_folder_protection($parent_domain['document_root'], false);
+				$this->_delete_jailkit_if_unused($parent_domain['domain_id']);
+				$app->system->web_folder_protection($parent_domain['document_root'], true);
+			}
+		}
 	}
 
 	function _setup_jailkit_chroot()
 	{
 		global $app;
 
-		//check if the chroot environment is created yet if not create it with a list of program sections from the config
+		if (isset($this->jailkit_config) && isset($this->jailkit_config['jailkit_hardlinks'])) {
+			if ($this->jailkit_config['jailkit_hardlinks'] == 'yes') {
+				$options = array('hardlink');
+			} elseif ($this->jailkit_config['jailkit_hardlinks'] == 'no') {
+				$options = array();
+			}
+		} else {
+			$options = array('allow_hardlink');
+		}
+
+		$last_updated = preg_split('/[\s,]+/', $this->jailkit_config['jailkit_chroot_app_sections']
+						  .' '.$this->jailkit_config['jailkit_chroot_app_programs']
+						  .' '.$this->jailkit_config['jailkit_chroot_cron_programs']);
+		$last_updated = array_unique($last_updated, SORT_REGULAR);
+		sort($last_updated, SORT_STRING);
+		$update_hash = hash('md5', implode(' ', $last_updated));
+
+		// should move return here if $update_hash == $parent_domain['last_jailkit_hash'] ?
+
+		// check if the chroot environment is created yet if not create it with a list of program sections from the config
 		if (!is_dir($this->parent_domain['document_root'].'/etc/jailkit'))
 		{
-			$app->system->create_jailkit_chroot($this->parent_domain['document_root'], $this->jailkit_config['jailkit_chroot_app_sections']);
+			$app->system->create_jailkit_chroot($this->parent_domain['document_root'], $this->jailkit_config['jailkit_chroot_app_sections'], $options);
+			$app->log("Added jailkit chroot", LOGLEVEL_DEBUG);
 
-			$this->app->log("Added jailkit chroot", LOGLEVEL_DEBUG);
+			$this->_add_jailkit_programs($options);
 
-			$this->app->load('tpl');
+			$app->load('tpl');
 
 			$tpl = new tpl();
 			$tpl->newTemplate("bash.bashrc.master");
@@ -235,7 +272,7 @@ class cron_jailkit_plugin {
 			$app->system->file_put_contents($bashrc, $tpl->grab());
 			unset($tpl);
 
-			$this->app->log('Added bashrc script: '.$bashrc, LOGLEVEL_DEBUG);
+			$app->log('Added bashrc script: '.$bashrc, LOGLEVEL_DEBUG);
 
 			$tpl = new tpl();
 			$tpl->newTemplate('motd.master');
@@ -247,30 +284,46 @@ class cron_jailkit_plugin {
 
 			$app->system->file_put_contents($motd, $tpl->grab());
 
+		} else {
+			// force update existing jails
+			$options[] = 'force';
+
+			$sections = $this->jailkit_config['jailkit_chroot_app_sections'];
+			$programs = $this->jailkit_config['jailkit_chroot_app_programs'] . ' '
+				  . $this->jailkit_config['jailkit_chroot_cron_programs'];
+
+			if ($update_hash == $parent_domain['last_jailkit_hash']) {
+				return;
+			}
+
+			$app->system->update_jailkit_chroot($this->parent_domain['document_root'], $sections, $programs, $options);
 		}
-		$this->_add_jailkit_programs();
+
+		// this gets last_jailkit_update out of sync with master db, but that is ok,
+		// as it is only used as a timestamp to moderate the frequency of updating on the slaves
+		$app->db->query("UPDATE `web_domain` SET `last_jailkit_update` = NOW(), `last_jailkit_hash` = ? WHERE `document_root` = ?", $update_hash, $this->parent_domain['document_root']);
 	}
 
-	function _add_jailkit_programs()
+	function _add_jailkit_programs($opts=array())
 	{
 		global $app;
 
 		//copy over further programs and its libraries
-		$app->system->create_jailkit_programs($this->parent_domain['document_root'], $this->jailkit_config['jailkit_chroot_app_programs']);
-		$this->app->log("Added app programs to jailkit chroot", LOGLEVEL_DEBUG);
-		
-		$app->system->create_jailkit_programs($this->parent_domain['document_root'], $this->jailkit_config['jailkit_chroot_cron_programs']);
-		$this->app->log("Added cron programs to jailkit chroot", LOGLEVEL_DEBUG);
+		$app->system->create_jailkit_programs($this->parent_domain['document_root'], $this->jailkit_config['jailkit_chroot_app_programs'], $opts);
+		$app->log("Added app programs to jailkit chroot", LOGLEVEL_DEBUG);
+
+		$app->system->create_jailkit_programs($this->parent_domain['document_root'], $this->jailkit_config['jailkit_chroot_cron_programs'], $opts);
+		$app->log("Added cron programs to jailkit chroot", LOGLEVEL_DEBUG);
 	}
 
 	function _add_jailkit_user()
 	{
 		global $app;
 
-		//add the user to the chroot
+		// add the user to the chroot
 		$jailkit_chroot_userhome = $this->_get_home_dir($this->parent_domain['system_user']);
 
-		if(!is_dir($this->parent_domain['document_root'].'/etc')) mkdir($this->parent_domain['document_root'].'/etc');
+		if(!is_dir($this->parent_domain['document_root'].'/etc')) $app->system->mkdir($this->parent_domain['document_root'].'/etc', 0755, true);
 		if(!is_file($this->parent_domain['document_root'].'/etc/passwd')) $app->system->exec_safe('touch ?', $this->parent_domain['document_root'].'/etc/passwd');
 
 		// IMPORTANT!
@@ -279,9 +332,11 @@ class cron_jailkit_plugin {
 		// and the user has FULL ACCESS to the root of the server!
 		$app->system->create_jailkit_user($this->parent_domain['system_user'], $this->parent_domain['document_root'], $jailkit_chroot_userhome);
 
-		$app->system->mkdir($this->parent_domain['document_root'].$jailkit_chroot_userhome, 0755, true);
-		$app->system->chown($this->parent_domain['document_root'].$jailkit_chroot_userhome, $this->parent_domain['system_user']);
-		$app->system->chgrp($this->parent_domain['document_root'].$jailkit_chroot_userhome, $this->parent_domain['system_group']);
+		if(!is_dir($this->parent_domain['document_root'].$jailkit_chroot_userhome)) {
+			$app->system->mkdir($this->parent_domain['document_root'].$jailkit_chroot_userhome, 0750, true);
+			$app->system->chown($this->parent_domain['document_root'].$jailkit_chroot_userhome, $this->parent_domain['system_user']);
+			$app->system->chgrp($this->parent_domain['document_root'].$jailkit_chroot_userhome, $this->parent_domain['system_group']);
+		}
 
 	}
 
@@ -309,6 +364,39 @@ class cron_jailkit_plugin {
 			$app->system->chgrp($web["document_root"], 'root');
 			$app->system->web_folder_protection($web["document_root"], true);
 		}
+	}
+
+	private function _delete_jailkit_if_unused($parent_domain_id) {
+		global $app, $conf;
+
+		// get jail directory
+		$parent_domain = $app->db->queryOneRecord("SELECT * FROM `web_domain` WHERE `domain_id` = ? OR `parent_domain_id` = ? AND `document_root` IS NOT NULL", $parent_domain_id, $parent_domain_id);
+		if (!is_dir($parent_domain['document_root'])) {
+			return;
+		}
+
+		// chroot is used by php-fpm
+		if (isset($parent_domain['php_fpm_chroot']) && $parent_domain['php_fpm_chroot'] == 'y') {
+			return;
+		}
+
+		// check for any shell_user using this jail
+		$inuse = $app->db->queryOneRecord('SELECT shell_user_id FROM `shell_user` WHERE `parent_domain_id` = ? AND `chroot` = ?', $parent_domain_id, 'jailkit');
+		if($inuse) {
+			return;
+		}
+
+		// check for any cron job using this jail
+		$inuse = $app->db->queryOneRecord('SELECT id FROM `cron` WHERE `parent_domain_id` = ? AND `type` = ?', $parent_domain_id, 'chrooted');
+		if($inuse) {
+			return;
+		}
+
+		$app->system->delete_jailkit_chroot($parent_domain['document_root']);
+
+		// this gets last_jailkit_update out of sync with master db, but that is ok,
+		// as it is only used as a timestamp to moderate the frequency of updating on the slaves
+		$app->db->query("UPDATE `web_domain` SET `last_jailkit_update` = NOW(), `last_jailkit_hash` = NULL WHERE `document_root` = ?", $parent_domain['document_root']);
 	}
 
 } // end class

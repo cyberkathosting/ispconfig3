@@ -17,7 +17,12 @@
             <div class="form-group">
                 <label for="jailkit_chroot_authorized_keys_template" class="col-sm-3 control-label">{tmpl_var name='jailkit_chroot_authorized_keys_template_txt'}</label>
                 <div class="col-sm-9"><input type="text" name="jailkit_chroot_authorized_keys_template" id="jailkit_chroot_authorized_keys_template" value="{tmpl_var name='jailkit_chroot_authorized_keys_template'}" class="form-control" /></div></div>
-
+	<div class="form-group">
+		<label class="col-sm-3 control-label">{tmpl_var name='jailkit_hardlinks_txt'}</label>
+		<div class="col-sm-9"><select name="jailkit_hardlinks" id="jailkit_hardlinks" class="form-control">
+			<a href="#" data-toggle="tooltip" title="{tmpl_var name='tooltip_jailkit_hardlinks_txt'}">{tmpl_var name="jailkit_hardlinks"}</a>
+		</select></div>
+	</div>
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
 

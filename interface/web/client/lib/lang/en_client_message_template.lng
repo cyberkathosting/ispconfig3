@@ -1,8 +1,8 @@
 <?php
-$wb["template_type_txt"] = 'Email type';
-$wb["template_name_txt"] = 'Template name';
-$wb["subject_txt"] = 'Subject';
-$wb["message_txt"] = 'Message';
+$wb['template_type_txt'] = 'Email type';
+$wb['template_name_txt'] = 'Template name';
+$wb['subject_txt'] = 'Subject';
+$wb['message_txt'] = 'Message';
 $wb['Email template'] = 'Email template';
 $wb['Settings'] = 'Setting';
 $wb['variables_txt'] = 'Variables';

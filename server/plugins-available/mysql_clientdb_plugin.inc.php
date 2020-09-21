@@ -137,7 +137,7 @@ class mysql_clientdb_plugin {
 			if($user_access_mode == 'r') $grants = 'SELECT';
 			elseif($user_access_mode == 'rd') $grants = 'SELECT, DELETE, ALTER, DROP';
 
-			$database_name = str_replace('_', '\\_', $link->escape_string($database_name));
+			$database_name = $link->escape_string($database_name);
 
 			if($action == 'GRANT') {
 				if($user_access_mode == 'r' || $user_access_mode == 'rd') {
@@ -168,8 +168,8 @@ class mysql_clientdb_plugin {
 				} 
 
 				// Set the grant
-				if(!$link->query("GRANT " . $grants . " ON `".$link->escape_string($database_name)."`.* TO '".$link->escape_string($database_user)."'@'$db_host'")) $success = false;
-				$app->log("GRANT " . $grants . " ON `".$link->escape_string($database_name)."`.* TO '".$link->escape_string($database_user)."'@'$db_host' success? " . ($success ? 'yes' : 'no'), LOGLEVEL_DEBUG);
+				if(!$link->query("GRANT " . $grants . " ON `".$database_name."`.* TO '".$link->escape_string($database_user)."'@'$db_host'")) $success = false;
+				$app->log("GRANT " . $grants . " ON `".$database_name."`.* TO '".$link->escape_string($database_user)."'@'$db_host' success? " . ($success ? 'yes' : 'no'), LOGLEVEL_DEBUG);
 
 				} elseif($action == 'REVOKE') {
 				if(!$link->query("REVOKE ALL PRIVILEGES ON `".$database_name."`.* FROM '".$link->escape_string($database_user)."'@'$db_host'")) $success = false;

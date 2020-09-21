@@ -54,10 +54,10 @@ $wb['installation_error_txt'] = 'Install error';
 $wb['installation_success_txt'] = 'Installed';
 $wb['installation_remove_txt'] = 'Removal planned';
 $wb['packagelist_update_finished_txt'] = 'APS Packagelist update finished.';
-$wb["limit_aps_txt"] = 'The max. number of APS instances for your account is reached.';
-$wb["generate_password_txt"] = 'Generate Password';
-$wb["repeat_password_txt"] = 'Repeat Password';
-$wb["password_mismatch_txt"] = 'The passwords do not match.';
-$wb["password_match_txt"] = 'The passwords do match.';
-$wb["password_strength_txt"] = "Password strength";
+$wb['limit_aps_txt'] = 'The max. number of APS instances for your account is reached.';
+$wb['generate_password_txt'] = 'Generate Password';
+$wb['repeat_password_txt'] = 'Repeat Password';
+$wb['password_mismatch_txt'] = 'The passwords do not match.';
+$wb['password_match_txt'] = 'The passwords do match.';
+$wb['password_strength_txt'] = 'Password strength';
 ?>
