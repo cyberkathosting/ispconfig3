@@ -561,13 +561,30 @@ class monitor_tools {
 			}
 			break;
 		case 'log_letsencrypt':
-				if(file_exists('/root/.acme.sh/acme.sh') && file_exists('/root/.acme.sh/acme.sh.log')) {
-					$logfile = '/root/.acme.sh/acme.sh.log';
-				} elseif(file_exists('/usr/local/ispconfig/server/scripts/acme.sh') && file_exists('/usr/local/ispconfig/server/scripts/acme.sh.log')) {
-					$logfile = '/usr/local/ispconfig/server/scripts/acme.sh.log';
-				} else {
-					$logfile = '/var/log/letsencrypt/letsencrypt.log';
+				$check_files = [];
+				if(file_exists($conf['ispconfig_log_dir'].'/acme.log')) {
+					$check_files[] = $conf['ispconfig_log_dir'].'/acme.log';
 				}
+				if(file_exists('/root/.acme.sh/acme.sh') && file_exists('/root/.acme.sh/acme.sh.log')) {
+					$check_files[] = '/root/.acme.sh/acme.sh.log';
+				}
+				if(file_exists('/usr/local/ispconfig/server/scripts/acme.sh') && file_exists('/usr/local/ispconfig/server/scripts/acme.sh.log')) {
+					$check_files[] = '/usr/local/ispconfig/server/scripts/acme.sh.log';
+				}
+				if(file_exists('/var/log/letsencrypt/letsencrypt.log')) {
+					$check_files = '/var/log/letsencrypt/letsencrypt.log';
+				}
+				$logfile = '';
+				$newest = 0;
+
+				foreach($check_files as $file) {
+					$mtime = filemtime($file);
+					if($mtime > $newest) {
+						$newest = $mtime;
+						$logfile = $file;
+					}
+				}
+				unset($check_files);
 			break;
 		case 'log_freshclam':
 			if ($dist == 'debian') {
