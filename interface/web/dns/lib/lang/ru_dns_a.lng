@@ -12,6 +12,6 @@ $wb['name_error_empty'] = 'Имя пустое.';
 $wb['name_error_regex'] = 'Имя узла имеет неправильный формат.';
 $wb['data_error_empty'] = 'IP-адрес пустой';
 $wb['ip_error_wrong'] = 'Неправильный формат IP-адреса';
-$wb['data_error_duplicate'] = 'Duplicate A or CNAME record';
+$wb['data_error_duplicate'] = 'Duplicate A, ALIAS or CNAME record';
 $wb['ttl_range_error'] = 'Мин. время <b>TTL</b> 60 секунд.';
 ?>
