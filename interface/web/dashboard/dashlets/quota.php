@@ -11,7 +11,7 @@ class dashlet_quota {
 				return;
 		}
 
-		$modules = $_SESSION['s']['user']['modules'];
+		$modules = explode(',', $_SESSION['s']['user']['modules']);
 		if (!in_array($modules, 'sites')) {
 			return '';
 		}

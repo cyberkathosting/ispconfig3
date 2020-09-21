@@ -561,13 +561,11 @@ class monitor_tools {
 			}
 			break;
 		case 'log_letsencrypt':
-				if ($dist == 'debian') {
-					$logfile = '/var/log/letsencrypt/letsencrypt.log';
-				} elseif ($dist == 'redhat') {
-					$logfile = '/var/log/letsencrypt/letsencrypt.log';
-				} elseif ($dist == 'suse') {
-					$logfile = '/var/log/letsencrypt/letsencrypt.log';
-				} elseif ($dist == 'gentoo') {
+				if(file_exists('/root/.acme.sh/acme.sh') && file_exists('/root/.acme.sh/acme.sh.log')) {
+					$logfile = '/root/.acme.sh/acme.sh.log';
+				} elseif(file_exists('/usr/local/ispconfig/server/scripts/acme.sh') && file_exists('/usr/local/ispconfig/server/scripts/acme.sh.log')) {
+					$logfile = '/usr/local/ispconfig/server/scripts/acme.sh.log';
+				} else {
 					$logfile = '/var/log/letsencrypt/letsencrypt.log';
 				}
 			break;

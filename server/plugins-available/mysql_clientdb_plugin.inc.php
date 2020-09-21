@@ -137,7 +137,7 @@ class mysql_clientdb_plugin {
 			if($user_access_mode == 'r') $grants = 'SELECT';
 			elseif($user_access_mode == 'rd') $grants = 'SELECT, DELETE, ALTER, DROP';
 
-			$database_name = str_replace('_', '\\_', $link->escape_string($database_name));
+			$database_name = $link->escape_string($database_name);
 
 			if($action == 'GRANT') {
 				if($user_access_mode == 'r' || $user_access_mode == 'rd') {
