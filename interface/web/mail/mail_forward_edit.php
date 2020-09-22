@@ -123,13 +123,14 @@ class page_action extends tform_actions {
 		if(trim($this->dataRecord['destination']) == '') {
 			$app->tform->errorMessage .= $app->tform->lng('destination_error_empty') . '<br />';
 		} else {
-			$targets = preg_split('/\s*[,;]\s*/', trim($this->dataRecord['destination']));
+			$targets = preg_split('/[,;\s]+/', trim($this->dataRecord['destination']));
 			foreach($targets as $target) {
 				if(!$target || filter_var($target, FILTER_VALIDATE_EMAIL) === false) {
 					$app->tform->errorMessage .= $app->tform->lng('destination_error_isemail') . '<br />';
 					break;
 				}
 			}
+			$this->dataRecord['destination'] = implode(', ', $targets);
 		}
 
 		//* Check if there is no active mailbox with this address
