@@ -6,6 +6,6 @@ $wb['tcp_port_help_txt'] = 'Separate dalla virgola';
 $wb['udp_port_help_txt'] = 'Separate dalle virgola';
 $wb['active_txt'] = 'Attivo';
 $wb['firewall_error_unique'] = 'Esiste già  un record firewall per questo server.';
-$wb['tcp_ports_error_regex'] = 'Carattere non ammesso nella definizione di tcp port. Caratteri ammessi sono numeri, : e ,.';
-$wb['udp_ports_error_regex'] = 'Carattere non ammesso nella definizione di udp port. Caratteri ammessi sono numeri, : and ,.';
+$wb['tcp_ports_error_regex'] = 'Carattere non ammesso nella definizione di TCP port. Caratteri ammessi sono numeri, : e ,.';
+$wb['udp_ports_error_regex'] = 'Carattere non ammesso nella definizione di UDP port. Caratteri ammessi sono numeri, : and ,.';
 ?>
