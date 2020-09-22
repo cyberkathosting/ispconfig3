@@ -2553,7 +2553,7 @@ class installer_base {
 			}
 
 			// comment out the listen directive if port is 80 or 443
-			if($conf['web']['apps_vhost_ip'] == 80 or $conf['web']['apps_vhost_ip'] == 443) {
+			if($conf['web']['apps_vhost_port'] == 80 or $conf['web']['apps_vhost_port'] == 443) {
 				$tpl->setVar('vhost_port_listen','#');
 			} else {
 				$tpl->setVar('vhost_port_listen','');
