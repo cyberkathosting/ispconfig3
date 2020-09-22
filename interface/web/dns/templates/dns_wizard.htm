@@ -3,7 +3,16 @@
 </div>
 
 <tmpl_if name="error">
-    <div id="errorMsg"><h3><tmpl_var name="error_txt"></h3><ol><tmpl_var name="error"></ol></div>
+	<div class='alert alert-danger clear'>
+		<div class='alert-label'><strong>
+				<tmpl_var name="error_txt">
+			</strong></div>
+		<div class='alert-content'>
+			<ul style="list-style-type:none">
+				<tmpl_var name="error">
+			</ul>
+		</div>
+	</div>
 </tmpl_if>
 
 
@@ -96,11 +105,11 @@
 					<label for="dkim" class="col-sm-3 control-label">{tmpl_var name='dnssec_txt'}</label>
                     <div class="col-sm-9"><input type="checkbox" name="dnssec" value="Y"></div></div>
             </tmpl_if>
-			
-        
-            
+
+
+
         <input type="hidden" name="create" value="0" />
-            
+
         <div class="clear"><div class="right">
             <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" name="btn_create" onclick="document.pageForm.create.value=1; ISPConfig.submitForm('pageForm','dns/dns_wizard.php');">{tmpl_var name='btn_save_txt'}</button>
             <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="dns/dns_soa_list.php">{tmpl_var name='btn_cancel_txt'}</button>
@@ -118,7 +127,7 @@
         fillSearchFieldWith: 'fill_text',
         searchFieldWatermark: '',
         resultBoxPosition: ''
-    });	
+    });
 </script>
 <script language="JavaScript" type="text/javascript">
     jQuery('#ipv6').ispconfigSearch({
