@@ -122,3 +122,9 @@
 {/tmpl_if}
 
 </VirtualHost>
+
+<tmpl_if name='apache_version' op='>=' value='2.3.3' format='version'>
+<IfModule mod_ssl.c>
+  <tmpl_var name="ssl_comment">SSLStaplingCache shmcb:/var/run/ocsp(128000)
+</IfModule>
+</tmpl_if>
