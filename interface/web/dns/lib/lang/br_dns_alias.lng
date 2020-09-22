@@ -12,5 +12,6 @@ $wb['name_error_empty'] = 'O nome do host está em branco.';
 $wb['name_error_regex'] = 'O nome do host possui formato inválido (somente nomes canônicos são suportados).';
 $wb['data_error_empty'] = 'O alvo do host está em branco.';
 $wb['data_error_regex'] = 'O formato do alvo do host é inválido.';
+$wb['data_error_duplicate'] = 'Duplicate A, AAAA, ALIAS, CNAME, or DNAME record';
 $wb['ttl_range_error'] = 'O TTL mínimo são 60 segundos.';
 ?>
