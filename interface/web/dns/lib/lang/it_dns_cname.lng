@@ -12,6 +12,6 @@ $wb['name_error_empty'] = 'Nome Host vuoto.';
 $wb['name_error_regex'] = 'Formato errato per Nome Host.';
 $wb['data_error_empty'] = 'Target nome host vuoto';
 $wb['data_error_regex'] = 'Target nome host formato errato';
-$wb['data_error_duplicate'] = 'Duplicate A, AAAA, CNAME, or DNAME record';
+$wb['data_error_duplicate'] = 'Duplicate A, AAAA, ALIAS, CNAME, or DNAME record';
 $wb['ttl_range_error'] = 'TTL time minimo 60 secondi.';
 ?>

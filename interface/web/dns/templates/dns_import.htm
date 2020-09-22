@@ -59,13 +59,17 @@
 				</div>
 			</tmpl_if>
 			<tmpl_if name="error">
-				<div id="errorMsg">
-					<h3>
-						<tmpl_var name="error_txt">
-					</h3>
-					<ol>
-						<tmpl_var name="error">
-					</ol>
+				<div class='alert alert-danger clear'>
+					<div class='alert-label'>
+						<strong>
+							<tmpl_var name="error_txt">
+						</strong>
+					</div>
+					<div class='alert-content'>
+						<ul style="list-style-type:none">
+							<tmpl_var name="error">
+						</ul>
+					</div>
 				</div>
 			</tmpl_if>
 

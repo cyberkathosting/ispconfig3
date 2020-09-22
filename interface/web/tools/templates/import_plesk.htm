@@ -27,7 +27,7 @@
                 <label class="col-sm-3 control-label">Maildir content backup file (on this server, optional)</label>
                 <div class="col-sm-9"><input class="form-control" type="text" id="mailcontent" value="{tmpl_var name='mailcontent'}" name="mailcontent" /></div>
             </div>
-                
+
             <div class="form-group">
                 <label class="col-sm-3 control-label">Import all data (that can be imported)</label>
                 <div class="col-sm-9"><input class="form-control" type="checkbox" id="start" value="1" name="start" checked/></div>
@@ -36,17 +36,26 @@
                 <label class="col-sm-3 control-label">Import database contents (make sure the database user has the rights to do so)</label>
                 <div class="col-sm-9"><input class="form-control" type="checkbox" id="dbdata" value="1" name="dbdata" checked/></div>
             </div>
-        
+
 
         <tmpl_if name="msg">
             <div id="OKMsg"><p><tmpl_var name="msg"></p></div>
         </tmpl_if>
         <tmpl_if name="error">
-            <div id="errorMsg"><h3><tmpl_var name="error_txt"></h3><ol><tmpl_var name="error"></ol></div>
+          <div class='alert alert-danger clear'>
+            <div class='alert-label'>
+              <strong><tmpl_var name="error_txt"></strong>
+              </div>
+            <div class='alert-content'>
+              <ul style="list-style-type:none">
+                <tmpl_var name="error">
+              </ul>
+            </div>
+          </div>
         </tmpl_if>
 
         <input type="hidden" name="id" value="{tmpl_var name='id'}">
-            
+
         <div class="clear"><div class="right">
             <button class="btn btn-default formbutton-success" type="button" value="Import" data-submit-form="pageForm" data-form-action="tools/import_plesk.php">Start</button>
             <button class="btn btn-default formbutton-default" type="button" value="Cancel" data-load-content="tools/index.php">Cancel</button>

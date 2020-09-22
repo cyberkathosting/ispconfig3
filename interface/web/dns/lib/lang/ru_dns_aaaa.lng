@@ -11,7 +11,7 @@ $wb['no_zone_perm'] = 'У Вас нет прав добавлять эту за�
 $wb['name_error_empty'] = 'Имя пустое.';
 $wb['name_error_regex'] = 'Неправильный формат имени хоста.';
 $wb['data_error_empty'] = 'Пустой IP-адрес';
-$wb['data_error_duplicate'] = 'Duplicate AAAA or CNAME record';
+$wb['data_error_duplicate'] = 'Duplicate AAAA, ALIAS or CNAME record';
 $wb['ip_error_wrong'] = 'Неправильный формат IP-адреса';
 $wb['ttl_range_error'] = 'Мин. время <b>TTL</b> 60 секунд.';
 ?>

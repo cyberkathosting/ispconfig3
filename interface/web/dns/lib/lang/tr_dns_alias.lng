@@ -12,5 +12,6 @@ $wb['name_error_empty'] = 'Sunucu adı boş olamaz.';
 $wb['name_error_regex'] = 'Sunucu adının biçimi geçersiz.';
 $wb['data_error_empty'] = 'Hedef sunucu adı boş olamaz';
 $wb['data_error_regex'] = 'Hedef sunucu adı biçimi geçersiz';
+$wb['data_error_duplicate'] = 'Duplicate A, AAAA, ALIAS, CNAME, or DNAME record';
 $wb['ttl_range_error'] = 'En düşük TTL süresi 60 saniyedir.';
 ?>
