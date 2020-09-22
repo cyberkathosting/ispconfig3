@@ -120,6 +120,19 @@ class page_action extends tform_actions {
 		unset($this->dataRecord["email_local_part"]);
 		unset($this->dataRecord["email_domain"]);
 
+		if(trim($this->dataRecord['destination']) == '') {
+			$app->tform->errorMessage .= $app->tform->lng('destination_error_empty') . '<br />';
+		} else {
+			$targets = preg_split('/[,;\s]+/', trim($this->dataRecord['destination']));
+			foreach($targets as $target) {
+				if(!$target || filter_var($target, FILTER_VALIDATE_EMAIL) === false) {
+					$app->tform->errorMessage .= $app->tform->lng('destination_error_isemail') . '<br />';
+					break;
+				}
+			}
+			$this->dataRecord['destination'] = implode(', ', $targets);
+		}
+
 		//* Check if there is no active mailbox with this address
 		$tmp = $app->db->queryOneRecord("SELECT count(mailuser_id) as number FROM mail_user WHERE postfix = 'y' AND email = ?", $this->dataRecord["source"]);
 		if($tmp['number'] > 0) $app->tform->errorMessage .= $app->tform->lng("duplicate_mailbox_txt")."<br>";
