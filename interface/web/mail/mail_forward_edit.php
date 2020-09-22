@@ -126,7 +126,8 @@ class page_action extends tform_actions {
 			$targets = preg_split('/\s*[,;]\s*/', trim($this->dataRecord['destination']));
 			foreach($targets as $target) {
 				if(!$target || filter_var($target, FILTER_VALIDATE_EMAIL) === false) {
-					$app->tform->errorMessage .= $app->tform->lng('destination_error_isemail') . '<br />'
+					$app->tform->errorMessage .= $app->tform->lng('destination_error_isemail') . '<br />';
+					break;
 				}
 			}
 		}
