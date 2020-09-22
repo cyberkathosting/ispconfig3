@@ -1169,6 +1169,9 @@ class installer_base {
 		    $postconf_commands = array_merge($postconf_commands, array_filter(explode("\n", $content)));
 		}
 
+		// Remove comment lines, these would give fatal errors when passed to postconf.
+		$postconf_commands = array_filter($postconf_commands, function($line) { return preg_match('/^[^#]/', $line); });
+
 		//* These postconf commands will be executed on installation only
 		if($this->is_update == false) {
 			$postconf_commands = array_merge($postconf_commands, array(
