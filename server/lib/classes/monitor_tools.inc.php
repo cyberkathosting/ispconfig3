@@ -561,7 +561,7 @@ class monitor_tools {
 			}
 			break;
 		case 'log_letsencrypt':
-				$check_files = [];
+				$check_files = array();
 				if(file_exists($conf['ispconfig_log_dir'].'/acme.log')) {
 					$check_files[] = $conf['ispconfig_log_dir'].'/acme.log';
 				}
@@ -572,7 +572,7 @@ class monitor_tools {
 					$check_files[] = '/usr/local/ispconfig/server/scripts/acme.sh.log';
 				}
 				if(file_exists('/var/log/letsencrypt/letsencrypt.log')) {
-					$check_files = '/var/log/letsencrypt/letsencrypt.log';
+					$check_files[] = '/var/log/letsencrypt/letsencrypt.log';
 				}
 				$logfile = '';
 				$newest = 0;
