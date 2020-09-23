@@ -1,5 +1,5 @@
 server {
-        listen {apps_vhost_port} {ssl_on};
+        listen {apps_vhost_ip}{apps_vhost_port} {ssl_on};
         listen [::]:{apps_vhost_port} {ssl_on} ipv6only=on;
 
         {ssl_comment}ssl_protocols TLSv1.2;
