@@ -2527,13 +2527,17 @@ else { $app->log("update_jailkit_chroot: NOT searching for hardlinks in $jail_di
 		$cmd = 'jk_update --jail=?' . $jk_update_args . $skips;
 		$this->exec_safe($cmd, $home_dir);
 $app->log('jk_update returned: '.print_r($this->_last_exec_out, true), LOGLEVEL_DEBUG);
+		# handle jk_update output
 		foreach ($this->_last_exec_out as $line) {
+			# jk_update sample output:
+			# skip /var/www/clients/client1/web1/opt/
 			if (substr( $line, 0, 4 ) === "skip") {
 				continue;
 			}
-			if (preg_match('/^(WARNING|ERROR)/', $line, $matches)) {
-				$app->log("jk_update: $line", LOGLEVEL_DEBUG);
-			} elseif (preg_match('@^(?: [^ ]+){6}(.+)'.preg_quote($home_dir, '@').'$@', $line, $matches)) {
+
+			# jk_update sample output:
+			# ERROR: failed to remove deprecated directory /var/www/clients/client1/web10/usr/lib/x86_64-linux-gnu/libGeoIP.so.1.6.9
+			if (preg_match('@^(?:[^ ]+){6}(?:.+)('.preg_quote($home_dir, '@').'.+)@', $line, $matches)) {
 				# remove deprecated files that jk_update failed to remove
 				if (is_file($matches[1])) {
 $app->log("update_jailkit_chroot: removing deprecated file which jk_update failed to remove:  ".$matches[1], LOGLEVEL_DEBUG);
@@ -2541,11 +2545,19 @@ $app->log("update_jailkit_chroot: removing deprecated file which jk_update faile
 				} elseif (is_dir($matches[1])) {
 $app->log("update_jailkit_chroot: removing deprecated directory which jk_update failed to remove:  ".$matches[1], LOGLEVEL_DEBUG);
 					$this->rmdir($matches[1], true);
+				} else {
+					# unhandled error
+					//$app->log("jk_update error for jail $home_dir:  ".$matches[1], LOGLEVEL_DEBUG);
+					// at least for 3.2 beta, lets gather some of this info:
+					$app->log("jk_update error for jail $home_dir, feel free to pass to ispconfig developers:  ".print_r( $matches, true), LOGLEVEL_DEBUG);
 				}
-               			# unhandled error
-				//$app->log("jk_update error for jail $home_dir:  ".$matches[1], LOGLEVEL_DEBUG);
-				// at least for 3.2 beta, lets gather some of this info:
-				$app->log("jk_update error for jail $home_dir, feel free to pass to ispconfig developers:  ".print_r( $matches, true), LOGLEVEL_DEBUG);
+
+			# any other ERROR or WARNING
+			# sample so far:
+			# ERROR: /usr/bin/nano does not exist
+			# WARNING: section [whatever] does not exist in /etc/jailkit/jk_init.ini
+			} elseif (preg_match('/^(WARNING|ERROR)/', $line, $matches)) {
+				$app->log("jk_update: $line", LOGLEVEL_DEBUG);
 			}
 		}
 

@@ -1,21 +1,34 @@
 <div class='page-header'>
-	<h1><tmpl_var name="do_osupdate_caption"></h1>
+	<h1>
+		<tmpl_var name="do_osupdate_caption">
+	</h1>
 </div>
-<p><tmpl_var name="do_osupdate_desc"></p>
+<div class="panel" style="padding:20px;">
+	<div class="pnl_formsarea">
+		<div class="alert alert-warning">
+			<p>
+				<tmpl_var name="do_osupdate_desc">
+			</p>
+		</div>
+		<div class="form-group">
+			<label for="server_select" class="col-sm-3 control-label">{tmpl_var name='select_server_txt'}</label>
+			<div class="col-sm-9"><select name="server_select" id="server" class="form-control" onchange="$('#OKMsg').hide(); ">
+					{tmpl_var name='server_option'}
+				</select></div>
+		</div>
 
+		<tmpl_if name="msg">
+			<div id="OKMsg">
+				<p>
+					<tmpl_var name="msg">
+				</p>
+			</div>
+		</tmpl_if>
 
-            <div class="form-group">
-                <label for="server_select" class="col-sm-3 control-label">{tmpl_var name='select_server_txt'}</label>
-                <div class="col-sm-9"><select name="server_select" id="server" class="form-control" onchange="$('#OKMsg').hide(); ">
-                    {tmpl_var name='server_option'}
-                </select></div>
-            </div>
-        
-            
-        <tmpl_if name="msg">
-            <div id="OKMsg"><p><tmpl_var name="msg"></p></div>
-        </tmpl_if>
-            
-        <div class="clear"><div class="right">
-            <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_do_txt'}" data-submit-form="pageForm" data-form-action="admin/remote_action_osupdate.php">{tmpl_var name='btn_do_txt'}</button>
-        </div></div>
+		<div class="clear">
+			<div class="right">
+				<button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_do_txt'}" data-submit-form="pageForm" data-form-action="admin/remote_action_osupdate.php">{tmpl_var name='btn_do_txt'}</button>
+			</div>
+		</div>
+	</div>
+</div>

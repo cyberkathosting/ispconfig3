@@ -1,14 +1,17 @@
 <tmpl_if name="config_error_msg">
-<div style="background: #ffdfdf; border: 1px solid #df7d7d; border-width: 1px 0; margin: 1.5em 0 1.5em 0; padding: 7px;">
-                <p style="font-face:bold">{tmpl_var name='configuration_error_txt'}</p>
-				<div>
-				<div style="float:left;width:150px;">{tmpl_var name='config_error_tstamp'} :&nbsp;</div><div style="padding-left:150px;">{tmpl_var name='config_error_msg'}</div>
-				</div>
-</div>
+<div class="alert alert-danger">
+    <p>
+      <tmpl_var name="configuration_error_txt">
+        <div>
+          <div style="float:left;width:150px;">{tmpl_var name='config_error_tstamp'} :&nbsp;</div>
+          <div style="padding-left:150px;">{tmpl_var name='config_error_msg'}</div>
+        </div>
+    </p>
+  </div>
 </tmpl_if>
 
 
-        
+
             <div class="form-group">
                 <label for="redirect_type" class="col-sm-3 control-label">{tmpl_var name='redirect_type_txt'}</label>
                 <div class="col-sm-9"><select name="redirect_type" id="redirect_type" class="form-control">
@@ -48,14 +51,14 @@
     var webId = jQuery('input[name="id"]').val();
     var serverId;
     getServerId(webId);
-		
+
     function getServerId(webId){
         jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {web_id : webId, type : "getserverid"}, function(data) {
             serverId = data.serverid;
             adjustForm(serverId);
         });
     }
-		
+
     function adjustForm(serverId){
         jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {server_id : serverId, type : "getservertype"}, function(data) {
             var selected = jQuery('#redirect_type').val();
@@ -77,7 +80,7 @@
                 jQuery('#redirect_type option[value="redirect"]').attr('disabled','disabled');
                 jQuery('#redirect_type option[value="permanent"]').attr('disabled','disabled');
 				//jQuery('#redirect_type option[value="proxy"]').attr('disabled','disabled');
-					
+
                 jQuery('#redirect_type option[value="last"]').hide();
                 jQuery('#redirect_type option[value="break"]').hide();
                 jQuery('#redirect_type option[value="redirect"]').hide();
@@ -88,5 +91,5 @@
             }
         });
     }
-			
+
 </script>
