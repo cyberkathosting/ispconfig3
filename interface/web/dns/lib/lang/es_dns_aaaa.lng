@@ -1,7 +1,7 @@
 <?php
 $wb['active_txt'] = 'Habilitado';
 $wb['data_error_empty'] = 'Dirección IP vacía';
-$wb['data_error_duplicate'] = 'Duplicate AAAA or CNAME record';
+$wb['data_error_duplicate'] = 'Duplicate AAAA, ALIAS or CNAME record';
 $wb['data_txt'] = 'Dirección IPv6';
 $wb['ip_error_wrong'] = 'La dirección IP tiene un formato incorrecto';
 $wb['limit_dns_record_txt'] = 'Ha alcanzado el número máx. de registros DNS permitidos para su cuenta.';

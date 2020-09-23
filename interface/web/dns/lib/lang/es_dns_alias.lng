@@ -9,6 +9,7 @@ $wb['name_error_regex'] = 'El nombre del host tiene un formato incorrecto.';
 $wb['name_txt'] = 'Nombre del host';
 $wb['no_zone_perm'] = 'Usted no tiene permisos para agregar un registro a esta zona DNS.';
 $wb['server_id_txt'] = 'Servidor';
+$wb['data_error_duplicate'] = 'Duplicate A, AAAA, ALIAS, CNAME, or DNAME record';
 $wb['ttl_range_error'] = 'El tiempo mín. de TTL es 60 segundos.';
 $wb['ttl_txt'] = 'TTL';
 $wb['type_txt'] = 'tipo';
