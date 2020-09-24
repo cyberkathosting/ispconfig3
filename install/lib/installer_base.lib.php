@@ -2721,8 +2721,14 @@ class installer_base {
 		return $response;
 	}
 
-	private function make_acme_vhost($server_name, $server = 'apache', $restart = true) {
+	private function make_acme_vhost($server = 'apache') {
 		global $conf;
+
+		if($conf['hostname'] !== 'localhost' && $conf['hostname'] !== '') {
+			$server_name = $conf['hostname'];
+		} else {
+			$server_name = exec('hostname -f');
+		}
 
 		$use_template = 'apache_acme.conf.master';
 		$use_symlink = '999-acme.conf';
@@ -2758,15 +2764,6 @@ class installer_base {
 		}
 		if(!@is_link($vhost_conf_enabled_dir.'' . $use_symlink)) {
 			symlink($vhost_conf_dir.'/' . $use_name, $vhost_conf_enabled_dir.'/' . $use_symlink);
-		}
-		if($restart === true) {
-			if($conf[$server]['installed'] == true && $conf[$server]['init_script'] != '') {
-				if($this->is_update) {
-					system($this->getinitcommand($conf[$server]['init_script'], 'force-reload').' &> /dev/null || ' . $this->getinitcommand($conf[$server]['init_script'], 'restart').' &> /dev/null');
-				} else {
-					system($this->getinitcommand($conf[$server]['init_script'], 'restart').' &> /dev/null');
-				}
-			}
 		}
 	}
 
@@ -2899,15 +2896,22 @@ class installer_base {
 			// first of all create the acme vhosts if not existing
 			if($conf['nginx']['installed'] == true) {
 				swriteln('Using nginx for certificate validation');
-				$this->make_acme_vhost($hostname, 'nginx');
+				$server = 'nginx';
 			} elseif($conf['apache']['installed'] == true) {
 				swriteln('Using apache for certificate validation');
 				if($this->is_update == false && @is_link($vhost_conf_enabled_dir.'/000-ispconfig.conf')) {
 					$restore_conf_symlink = true;
 					unlink($vhost_conf_enabled_dir.'/000-ispconfig.conf');
 				}
+				$server = 'apache';
+			}
 
-				$this->make_acme_vhost($hostname, 'apache');
+			if($conf[$server]['installed'] == true && $conf[$server]['init_script'] != '') {
+				if($this->is_update) {
+					system($this->getinitcommand($conf[$server]['init_script'], 'force-reload').' &> /dev/null || ' . $this->getinitcommand($conf[$server]['init_script'], 'restart').' &> /dev/null');
+				} else {
+					system($this->getinitcommand($conf[$server]['init_script'], 'restart').' &> /dev/null');
+				}
 			}
 
 			$issued_successfully = false;
@@ -3005,9 +3009,6 @@ class installer_base {
 				}
 			}
 		} else {
-			if($conf['apache']['installed'] == true) {
-				$this->make_acme_vhost($hostname, 'apache', false); // we need this config file but we don't want apache to be restarted at this point
-			}
 			if($ip_address_match) {
 				// the directory already exists so we have to assume that it was created previously
 				$issued_successfully = true;
