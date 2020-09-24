@@ -2944,6 +2944,8 @@ class installer_base {
 						rename($ssl_pem_file, $ssl_pem_file . '-' . $date->format('YmdHis') . '.bak');
 					}
 
+					$check_acme_file = $ssl_crt_file;
+
 					// Define LE certs name and path, then install them
 					//$acme_cert = "--cert-file $acme_cert_dir/cert.pem";
 					$acme_key = "--key-file " . escapeshellarg($ssl_key_file);
