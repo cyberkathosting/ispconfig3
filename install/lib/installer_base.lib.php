@@ -2721,7 +2721,7 @@ class installer_base {
 		return $response;
 	}
 
-	private function make_acme_vhost($server = 'apache') {
+	public function make_acme_vhost($server = 'apache') {
 		global $conf;
 
 		if($conf['hostname'] !== 'localhost' && $conf['hostname'] !== '') {
