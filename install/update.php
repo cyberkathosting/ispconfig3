@@ -519,6 +519,7 @@ if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'sel
 //** Configure ISPConfig
 swriteln('Updating ISPConfig');
 
+$issue_tried = false;
 if ($inst->install_ispconfig_interface) {
 	//** Customise the port ISPConfig runs on
 	$ispconfig_port_number = get_ispconfig_port_number();
@@ -533,13 +534,15 @@ if ($inst->install_ispconfig_interface) {
 	// $ispconfig_ssl_default = (is_ispconfig_ssl_enabled() == true)?'y':'n';
 	if(strtolower($inst->simple_query('Create new ISPConfig SSL certificate', array('yes', 'no'), 'no','create_new_ispconfig_ssl_cert')) == 'yes') {
 		$inst->make_ispconfig_ssl_cert();
+		$issue_tried = true;
 	}
 }
 
 // Create SSL certs for non-webserver(s)?
 if(!file_exists('/usr/local/ispconfig/interface/ssl/ispserver.crt')) {
-    if(strtolower($inst->simple_query('Do you want to create SSL certs for your server?', array('y', 'n'), 'y')) == 'y')
+    if(!$issue_tried && strtolower($inst->simple_query('Do you want to create SSL certs for your server?', array('y', 'n'), 'y')) == 'y') {
         $inst->make_ispconfig_ssl_cert();
+	}
 } else {
 	swriteln('Certificate exists. Not creating a new one.');
 }
