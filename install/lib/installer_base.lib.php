@@ -2835,12 +2835,18 @@ class installer_base {
 		}
 
 		swriteln('Using certificate path ' . $acme_cert_dir);
+		$ip_address_match = false;
 		if(!(($svr_ip4 && in_array($svr_ip4, $dns_ips)) || ($svr_ip6 && in_array($svr_ip6, $dns_ips)))) {
 			swriteln('Server\'s public ip(s) (' . $svr_ip4 . ($svr_ip6 ? ', ' . $svr_ip6 : '') . ') not found in A/AAAA records for ' . $hostname . ': ' . implode(', ', $dns_ips));
+			if(strtolower($inst->simple_query('Ignore DNS check and continue to request certificate?', array('y', 'n') , 'n','ignore_hostname_dns')) == 'y') {
+				$ip_address_match = true;
+			}
+		} else {
+			$ip_address_match = true;
 		}
 
 
-		if ((!@is_dir($acme_cert_dir) || !@file_exists($check_acme_file) || !@file_exists($ssl_crt_file) || md5_file($check_acme_file) != md5_file($ssl_crt_file)) && (($svr_ip4 && in_array($svr_ip4, $dns_ips)) || ($svr_ip6 && in_array($svr_ip6, $dns_ips)))) {
+		if ((!@is_dir($acme_cert_dir) || !@file_exists($check_acme_file) || !@file_exists($ssl_crt_file) || md5_file($check_acme_file) != md5_file($ssl_crt_file)) && $ip_address_match == true) {
 
 			// This script is needed earlier to check and open http port 80 or standalone might fail
 			// Make executable and temporary symlink latest letsencrypt pre, post and renew hook script before install
@@ -3003,7 +3009,7 @@ class installer_base {
 				}
 			}
 		} else {
-			if(($svr_ip4 && in_array($svr_ip4, $dns_ips)) || ($svr_ip6 && in_array($svr_ip6, $dns_ips))) {
+			if($ip_address_match) {
 				// the directory already exists so we have to assume that it was created previously
 				$issued_successfully = true;
 			}
