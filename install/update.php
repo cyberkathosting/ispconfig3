@@ -519,6 +519,14 @@ if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'sel
 //** Configure ISPConfig
 swriteln('Updating ISPConfig');
 
+// create acme vhost
+if($conf['nginx']['installed'] == true) {
+	$inst->make_acme_vhost('nginx'); // we need this config file but we don't want nginx to be restarted at this point
+}
+if($conf['apache']['installed'] == true) {
+	$inst->make_acme_vhost('apache'); // we need this config file but we don't want apache to be restarted at this point
+}
+
 if ($inst->install_ispconfig_interface) {
 	//** Customise the port ISPConfig runs on
 	$ispconfig_port_number = get_ispconfig_port_number();
