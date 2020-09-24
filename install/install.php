@@ -536,6 +536,14 @@ if($force) {
 	$inst->configure_fail2ban();
 }
 
+// create acme vhost
+if($conf['nginx']['installed'] == true) {
+	$inst->make_acme_vhost('nginx'); // we need this config file but we don't want nginx to be restarted at this point
+}
+if($conf['apache']['installed'] == true) {
+	$inst->make_acme_vhost('apache'); // we need this config file but we don't want apache to be restarted at this point
+}
+
 //** Configure ISPConfig :-)
 $install_ispconfig_interface_default = ($conf['mysql']['master_slave_setup'] == 'y')?'n':'y';
 if($install_mode == 'standard' || strtolower($inst->simple_query('Install ISPConfig Web Interface', array('y', 'n'), $install_ispconfig_interface_default,'install_ispconfig_web_interface')) == 'y') {
@@ -572,8 +580,9 @@ if($install_mode == 'standard' || strtolower($inst->simple_query('Install ISPCon
 
 // Create SSL certs for non-webserver(s)?
 if(!file_exists('/usr/local/ispconfig/interface/ssl/ispserver.crt')) {
-    if(strtolower($inst->simple_query('Do you want to create SSL certs for your server?', array('y', 'n'), 'y')) == 'y')
+    if(strtolower($inst->simple_query('Do you want to create SSL certs for your server?', array('y', 'n'), 'y')) == 'y') {
         $inst->make_ispconfig_ssl_cert();
+	}
 } else {
 	swriteln('Certificate exists. Not creating a new one.');
 }
