@@ -11,7 +11,7 @@ $wb['no_zone_perm'] = 'Non hai il permesso di aggiungere record a questa zona DN
 $wb['name_error_empty'] = 'Nome Host vuoto.';
 $wb['name_error_regex'] = 'Formato errato per Nome Host.';
 $wb['data_error_empty'] = 'Indirizzo Ip vuoto';
-$wb['data_error_duplicate'] = 'Duplicate AAAA or CNAME record';
+$wb['data_error_duplicate'] = 'Duplicate AAAA, ALIAS or CNAME record';
 $wb['ttl_range_error'] = 'TTL time minimo 60 secondi.';
 $wb['ip_error_wrong'] = 'IP-Address format invalid';
 ?>

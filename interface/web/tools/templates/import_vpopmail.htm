@@ -4,7 +4,7 @@
 <p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_language_import">
-  
+
     <div class="pnl_formsarea">
         <legend>{tmpl_var name="legend_txt"}</legend>
             <div class="form-group">
@@ -34,14 +34,23 @@
                 <div class="col-sm-9"><input class="form-control" type="text" id="local_server_id" value="{tmpl_var name='local_server_id'}" name="local_server_id" /></div>
             </div>
     </div>
-	 
+
     <tmpl_if name="msg">
         <div id="OKMsg"><p><tmpl_var name="msg"></p></div>
     </tmpl_if>
     <tmpl_if name="error">
-        <div id="errorMsg"><h3><tmpl_var name="error_txt"></h3><ol><tmpl_var name="error"></ol></div>
+			<div class='alert alert-danger clear'>
+				<div class='alert-label'>
+					<strong><tmpl_var name="error_txt"></strong>
+					</div>
+				<div class='alert-content'>
+					<ul style="list-style-type:none">
+						<tmpl_var name="error">
+					</ul>
+				</div>
+			</div>
     </tmpl_if>
-	
+
     <input type="hidden" name="remote_session_id" value="{tmpl_var name='remote_session_id'}">
         <div class="clear"><div class="right">
             <button class="btn btn-default formbutton-success" type="button" value="Import" data-submit-form="pageForm" data-form-action="tools/import_vpopmail.php">{tmpl_var name="btn_start_txt"}</button>

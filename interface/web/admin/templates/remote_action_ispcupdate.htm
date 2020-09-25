@@ -6,14 +6,18 @@
 -->
 
 <div class='page-header'>
-	<h1><tmpl_var name="ispconfig_update_title"></h1>
+	<h1>
+		<tmpl_var name="ispconfig_update_title">
+	</h1>
 </div>
-<p style="margin-top:50px; font-size:14px;"><tmpl_var name="ispconfig_update_text"></p>
-
-<div class="panel panel_language_add">
-  
-    <div class="pnl_formsarea">
-        <!--
+<div class="panel" style="padding:20px;">
+	<div class="pnl_formsarea">
+		<p style="font-size:14px;">
+			<tmpl_var name="ispconfig_update_text">
+		</p>
+	</div>
+</div>
+<!--
           <legend>{tmpl_var name='do_ispcupdate_caption'}</legend>
             <div class="form-group">
               <label for="server_select" class="col-sm-3 control-label">{tmpl_var name='select_server_txt'}</label>
@@ -21,17 +25,17 @@
                                               {tmpl_var name='server_option'}
                                       </select></div>
             </div>
-          
-      
+
+
               <tmpl_if name="msg">
               <div id="OKMsg"><p><tmpl_var name="msg"></p></div>
         </tmpl_if>
-      
-      
+
+
                 <div class="clear"><div class="right">
             <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_do_txt'}" data-submit-form="pageForm" data-form-action="admin/remote_action_ispcupdate.php">{tmpl_var name='btn_do_txt'}</button>
           </div></div>
         -->
-    </div>
-  
+</div>
+
 </div>

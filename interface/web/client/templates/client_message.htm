@@ -5,7 +5,16 @@
                 <div id="OKMsg"><p><tmpl_var name="okmsg"></p></div>
             </tmpl_if>
             <tmpl_if name="error">
-                <div id="errorMsg"><h3><tmpl_var name="error_txt"></h3><ol><tmpl_var name="error"></ol></div>
+							<div class='alert alert-danger clear'>
+								<div class='alert-label'>
+									<strong><tmpl_var name="error_txt"></strong>
+									</div>
+								<div class='alert-content'>
+									<ul style="list-style-type:none">
+										<tmpl_var name="error">
+									</ul>
+								</div>
+							</div>
             </tmpl_if>
             <div class="form-group">
                 <label for="sender" class="col-sm-3 control-label">{tmpl_var name='sender_txt'}</label>
@@ -24,7 +33,7 @@
                 <div class="col-sm-9"><textarea class="form-control" name="message" id="message" rows="10">{tmpl_var name='message'}</textarea></div>
 				<div class="col-sm-3 col-text"></div><div class="col-sm-9 col-text">{tmpl_var name='variables_txt'}: {tmpl_var name="message_variables"} <br />{tmpl_var name='variables_description_txt'}</div>
             </div>
-        
+
         <div class="clear"><div class="right">
             <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_send_txt'}" data-submit-form="pageForm" data-form-action="client/client_message.php">{tmpl_var name='btn_send_txt'}</button>
             <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="client/client_list.php">{tmpl_var name='btn_cancel_txt'}</button>

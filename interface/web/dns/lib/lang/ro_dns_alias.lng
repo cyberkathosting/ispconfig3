@@ -12,5 +12,6 @@ $wb['name_error_empty'] = 'Hostname tinta este vid';
 $wb['name_error_regex'] = 'Hostname in format gresit';
 $wb['data_error_empty'] = 'Hostname tinta este vid';
 $wb['data_error_regex'] = 'Hostname tinta format invalid';
+$wb['data_error_duplicate'] = 'Duplicate A, AAAA, ALIAS, CNAME, or DNAME record';
 $wb['ttl_range_error'] = 'Min. TTL time is 60 seconds.';
 ?>

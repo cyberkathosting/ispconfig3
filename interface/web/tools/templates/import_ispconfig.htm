@@ -4,7 +4,6 @@
 <p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_language_import" style="padding:20px;">
-  
     <div class="pnl_formsarea">
         <legend>{tmpl_var name="legend_txt"}</legend>
             <div class="form-group">
@@ -19,7 +18,7 @@
                 <label class="col-sm-3 control-label">Remote password</label>
                 <div class="col-sm-9"><input class="form-control" type="text" id="remote_password" value="{tmpl_var name='remote_password'}" name="remote_password" /></div>
             </div>
-        
+
     </div>
     <tmpl_if name="connected">
         <div class="pnl_formsarea">
@@ -66,17 +65,26 @@
                     <label class="col-sm-3 control-label">{tmpl_var name="import_aliasdomain_txt"}</label>
                     <div class="col-sm-9"><input class="form-control" type="checkbox" id="import_aliasdomain" value="1" name="import_aliasdomain" checked="checked" /></div>
                 </div>
-            
+
         </div>
     </tmpl_if>
-	 
+
     <tmpl_if name="msg">
         <div id="OKMsg"><p><tmpl_var name="msg"></p></div>
     </tmpl_if>
     <tmpl_if name="error">
-        <div id="errorMsg"><h3><tmpl_var name="error_txt"></h3><ol><tmpl_var name="error"></ol></div>
+			<div class='alert alert-danger clear'>
+				<div class='alert-label'>
+					<strong><tmpl_var name="error_txt"></strong>
+					</div>
+				<div class='alert-content'>
+					<ul style="list-style-type:none">
+						<tmpl_var name="error">
+					</ul>
+				</div>
+			</div>
     </tmpl_if>
-	
+
     <input type="hidden" name="remote_session_id" value="{tmpl_var name='remote_session_id'}">
     <input type="hidden" name="connected" value="{tmpl_var name='connected'}">
     <tmpl_if name="connected">

@@ -449,7 +449,7 @@ class powerdns_plugin {
 
 	function notifySlave($data) {
 		global $app;
-		
+
 		$pdns_control = $this->find_pdns_control();
 		if ( $pdns_control != false ) {
 			$app->system->exec_safe($pdns_control . ' notify ?', rtrim($data["new"]["origin"],"."));
@@ -458,7 +458,7 @@ class powerdns_plugin {
 
 	function fetchFromMaster($data) {
 		global $app;
-		
+
 		$pdns_control = $this->find_pdns_control();
 		if ( $pdns_control != false ) {
 			$app->system->exec_safe($pdns_control . ' retrieve ?', rtrim($data["new"]["origin"],"."));
@@ -502,7 +502,7 @@ class powerdns_plugin {
 		}
 
 		// If DNSSEC is wanted, enable it
-		if ($data['new']['dnssec_wanted'] === 'Y' && $data['old']['dnssec_wanted'] === 'N') {
+		if ($data['new']['dnssec_wanted'] === 'Y' && (is_null($data['old']['dnssec_wanted']) || $data['old']['dnssec_wanted'] === 'N')) {
 			$this->soa_dnssec_create($data);
 		}
 	}

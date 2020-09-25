@@ -1,30 +1,39 @@
 <div class='page-header'>
-	<h1><tmpl_var name="list_head_txt"></h1>
+	<h1>
+		<tmpl_var name="list_head_txt">
+	</h1>
 </div>
-<p><tmpl_var name="list_desc_txt"></p>
 
 <div class="panel panel_language_complete">
+	<div class="alert alert-info">
+		<p>
+			<tmpl_var name="list_desc_txt">
+		</p>
+	</div>
+	<tmpl_if name="msg">
+		<div id="OKMsg">
+			<tmpl_var name="msg">
+		</div>
+	</tmpl_if>
+	<tmpl_if name="error">
+		<div id="errorMsg">
+			<tmpl_var name="error">
+		</div>
+	</tmpl_if>
 
-    <tmpl_if name="msg">
-        <div id="OKMsg"><tmpl_var name="msg"></div>
-    </tmpl_if>
-    <tmpl_if name="error">
-        <div id="errorMsg"><tmpl_var name="error"></div>
-    </tmpl_if>
-
-    <div class="pnl_formsarea">
-        <div class="form-group">
-             <label for="lng_select" class="col-sm-3 control-label">{tmpl_var name='language_select_txt'}</label>
-            <div class="col-sm-9">
-                <select name="lng_select" id="language" class="form-control flags">{tmpl_var name='language_option'}</select>
-            </div>
-        </div>
-		<div class="clear">
-            <div class="right">
-			    <button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="admin/language_complete.php">{tmpl_var name='btn_save_txt'}</button>
-			    <button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="admin/language_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+	<div class="pnl_formsarea">
+		<div class="form-group">
+			<label for="lng_select" class="col-sm-3 control-label">{tmpl_var name='language_select_txt'}</label>
+			<div class="col-sm-9">
+				<select name="lng_select" id="language" class="form-control flags">{tmpl_var name='language_option'}</select>
 			</div>
-        </div>       
-    </div>
+		</div>
+		<div class="clear">
+			<div class="right">
+				<button class="btn btn-default formbutton-success" type="button" value="{tmpl_var name='btn_save_txt'}" data-submit-form="pageForm" data-form-action="admin/language_complete.php">{tmpl_var name='btn_save_txt'}</button>
+				<button class="btn btn-default formbutton-default" type="button" value="{tmpl_var name='btn_cancel_txt'}" data-load-content="admin/language_list.php">{tmpl_var name='btn_cancel_txt'}</button>
+			</div>
+		</div>
+	</div>
 
 </div>
