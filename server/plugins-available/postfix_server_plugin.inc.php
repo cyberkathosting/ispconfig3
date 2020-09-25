@@ -326,7 +326,7 @@ class postfix_server_plugin {
 			}
 			$new_options[] = $value;
 		}
-		if (defined($configure_lmtp) && $configure_lmtp) {
+		if (defined($configure_lmtp) && $configure_lmtp && $mail_config['content_filter'] == 'amavisd') {
 			for ($i = 0; isset($new_options[$i]); $i++) {
 				if ($new_options[$i] == 'reject_unlisted_recipient') {
 					array_splice($new_options, $i+1, 0, array("check_recipient_access proxy:mysql:${quoted_postfix_config_dir}/mysql-verify_recipients.cf"));
