@@ -3043,7 +3043,7 @@ class installer_base {
 		exec("cat $ssl_key_file $ssl_crt_file > $ssl_pem_file; chmod 600 $ssl_pem_file");
 
 		// Extend LE SSL certs to postfix
-		if ($conf['postfix']['installed'] == true && strtolower($this->simple_query('Symlink ISPConfig SSL certs to Postfix?', array('y', 'n'), 'y')) == 'y') {
+		if ($conf['postfix']['installed'] == true && strtolower($this->simple_query('Symlink ISPConfig SSL certs to Postfix?', array('y', 'n'), 'y','ispconfig_postfix_ssl_symlink')) == 'y') {
 
 			// Define folder, file(s)
 			$cf = $conf['postfix'];
@@ -3062,7 +3062,7 @@ class installer_base {
 		}
 
 		// Extend LE SSL certs to pureftpd
-		if ($conf['pureftpd']['installed'] == true && strtolower($this->simple_query('Symlink ISPConfig SSL certs to Pure-FTPd? Creating dhparam file may take some time.', array('y', 'n'), 'y')) == 'y') {
+		if ($conf['pureftpd']['installed'] == true && strtolower($this->simple_query('Symlink ISPConfig SSL certs to Pure-FTPd? Creating dhparam file may take some time.', array('y', 'n'), 'y','ispconfig_pureftpd_ssl_symlink')) == 'y') {
 
 			// Define folder, file(s)
 			$pureftpd_dir = '/etc/ssl/private';
