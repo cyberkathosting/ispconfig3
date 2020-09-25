@@ -2721,8 +2721,14 @@ class installer_base {
 		return $response;
 	}
 
-	private function make_acme_vhost($server_name, $server = 'apache', $restart = true) {
+	public function make_acme_vhost($server = 'apache') {
 		global $conf;
+
+		if($conf['hostname'] !== 'localhost' && $conf['hostname'] !== '') {
+			$server_name = $conf['hostname'];
+		} else {
+			$server_name = exec('hostname -f');
+		}
 
 		$use_template = 'apache_acme.conf.master';
 		$use_symlink = '999-acme.conf';
@@ -2758,15 +2764,6 @@ class installer_base {
 		}
 		if(!@is_link($vhost_conf_enabled_dir.'' . $use_symlink)) {
 			symlink($vhost_conf_dir.'/' . $use_name, $vhost_conf_enabled_dir.'/' . $use_symlink);
-		}
-		if($restart === true) {
-			if($conf[$server]['installed'] == true && $conf[$server]['init_script'] != '') {
-				if($this->is_update) {
-					system($this->getinitcommand($conf[$server]['init_script'], 'force-reload').' &> /dev/null || ' . $this->getinitcommand($conf[$server]['init_script'], 'restart').' &> /dev/null');
-				} else {
-					system($this->getinitcommand($conf[$server]['init_script'], 'restart').' &> /dev/null');
-				}
-			}
 		}
 	}
 
@@ -2838,12 +2835,18 @@ class installer_base {
 		}
 
 		swriteln('Using certificate path ' . $acme_cert_dir);
+		$ip_address_match = false;
 		if(!(($svr_ip4 && in_array($svr_ip4, $dns_ips)) || ($svr_ip6 && in_array($svr_ip6, $dns_ips)))) {
 			swriteln('Server\'s public ip(s) (' . $svr_ip4 . ($svr_ip6 ? ', ' . $svr_ip6 : '') . ') not found in A/AAAA records for ' . $hostname . ': ' . implode(', ', $dns_ips));
+			if(strtolower($inst->simple_query('Ignore DNS check and continue to request certificate?', array('y', 'n') , 'n','ignore_hostname_dns')) == 'y') {
+				$ip_address_match = true;
+			}
+		} else {
+			$ip_address_match = true;
 		}
 
 
-		if ((!@is_dir($acme_cert_dir) || !@file_exists($check_acme_file) || !@file_exists($ssl_crt_file) || md5_file($check_acme_file) != md5_file($ssl_crt_file)) && (($svr_ip4 && in_array($svr_ip4, $dns_ips)) || ($svr_ip6 && in_array($svr_ip6, $dns_ips)))) {
+		if ((!@is_dir($acme_cert_dir) || !@file_exists($check_acme_file) || !@file_exists($ssl_crt_file) || md5_file($check_acme_file) != md5_file($ssl_crt_file)) && $ip_address_match == true) {
 
 			// This script is needed earlier to check and open http port 80 or standalone might fail
 			// Make executable and temporary symlink latest letsencrypt pre, post and renew hook script before install
@@ -2893,15 +2896,22 @@ class installer_base {
 			// first of all create the acme vhosts if not existing
 			if($conf['nginx']['installed'] == true) {
 				swriteln('Using nginx for certificate validation');
-				$this->make_acme_vhost($hostname, 'nginx');
+				$server = 'nginx';
 			} elseif($conf['apache']['installed'] == true) {
 				swriteln('Using apache for certificate validation');
 				if($this->is_update == false && @is_link($vhost_conf_enabled_dir.'/000-ispconfig.conf')) {
 					$restore_conf_symlink = true;
 					unlink($vhost_conf_enabled_dir.'/000-ispconfig.conf');
 				}
+				$server = 'apache';
+			}
 
-				$this->make_acme_vhost($hostname, 'apache');
+			if($conf[$server]['installed'] == true && $conf[$server]['init_script'] != '') {
+				if($this->is_update) {
+					system($this->getinitcommand($conf[$server]['init_script'], 'force-reload').' &> /dev/null || ' . $this->getinitcommand($conf[$server]['init_script'], 'restart').' &> /dev/null');
+				} else {
+					system($this->getinitcommand($conf[$server]['init_script'], 'restart').' &> /dev/null');
+				}
 			}
 
 			$issued_successfully = false;
@@ -2933,6 +2943,8 @@ class installer_base {
 					if(file_exists($ssl_pem_file) || is_link($ssl_pem_file)) {
 						rename($ssl_pem_file, $ssl_pem_file . '-' . $date->format('YmdHis') . '.bak');
 					}
+
+					$check_acme_file = $ssl_crt_file;
 
 					// Define LE certs name and path, then install them
 					//$acme_cert = "--cert-file $acme_cert_dir/cert.pem";
@@ -2999,10 +3011,7 @@ class installer_base {
 				}
 			}
 		} else {
-			if($conf['apache']['installed'] == true) {
-				$this->make_acme_vhost($hostname, 'apache', false); // we need this config file but we don't want apache to be restarted at this point
-			}
-			if(($svr_ip4 && in_array($svr_ip4, $dns_ips)) || ($svr_ip6 && in_array($svr_ip6, $dns_ips))) {
+			if($ip_address_match) {
 				// the directory already exists so we have to assume that it was created previously
 				$issued_successfully = true;
 			}
