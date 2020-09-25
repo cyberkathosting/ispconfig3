@@ -5,11 +5,13 @@
 ######################################################
 
 {vhost_port_listen} Listen {vhost_port}
-NameVirtualHost *:{vhost_port}
+<tmpl_if name='apache_version' op='<' value='2.4' format='version'>
+  NameVirtualHost *:{vhost_port}
+</tmpl_if>
 
 <VirtualHost _default_:{vhost_port}>
   ServerAdmin webmaster@localhost
-  
+
   <IfModule mod_fcgid.c>
     DocumentRoot /var/www/ispconfig/
     SuexecUserGroup ispconfig ispconfig
@@ -25,7 +27,7 @@ NameVirtualHost *:{vhost_port}
     </Directory>
     DirectoryIndex index.php
   </IfModule>
-  
+
   <IfModule mod_php5.c>
     DocumentRoot /usr/local/ispconfig/interface/web/
     AddType application/x-httpd-php .php
@@ -37,11 +39,11 @@ NameVirtualHost *:{vhost_port}
 	  php_value magic_quotes_gpc        0
     </Directory>
   </IfModule>
-  
+
   # ErrorLog /var/log/apache2/error.log
   # CustomLog /var/log/apache2/access.log combined
   ServerSignature Off
-  
+
   <IfModule mod_security2.c>
     SecRuleEngine Off
   </IfModule>
@@ -64,4 +66,3 @@ NameVirtualHost *:{vhost_port}
     Order Deny,Allow
     Deny from all
 </Directory>
-
