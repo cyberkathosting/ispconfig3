@@ -12,6 +12,10 @@ http_server=apache
 ispconfig_port=8080
 ispconfig_use_ssl=y
 ispconfig_admin_password=admin
+create_ssl_server_certs=y
+ignore_hostname_dns=n
+ispconfig_postfix_ssl_symlink=y
+ispconfig_pureftpd_ssl_symlink=y
 
 [ssl_cert]
 ssl_cert_country=AU
@@ -51,6 +55,10 @@ reconfigure_services=yes
 ispconfig_port=8080
 create_new_ispconfig_ssl_cert=no
 reconfigure_crontab=yes
+create_ssl_server_certs=y
+ignore_hostname_dns=n
+ispconfig_postfix_ssl_symlink=y
+ispconfig_pureftpd_ssl_symlink=y
 
 ; These are for service-detection (defaulting to old behaviour where alle changes were automatically accepted)
 svc_detect_change_mail_server=yes
