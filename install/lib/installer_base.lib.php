@@ -2838,7 +2838,7 @@ class installer_base {
 		$ip_address_match = false;
 		if(!(($svr_ip4 && in_array($svr_ip4, $dns_ips)) || ($svr_ip6 && in_array($svr_ip6, $dns_ips)))) {
 			swriteln('Server\'s public ip(s) (' . $svr_ip4 . ($svr_ip6 ? ', ' . $svr_ip6 : '') . ') not found in A/AAAA records for ' . $hostname . ': ' . implode(', ', $dns_ips));
-			if(strtolower($inst->simple_query('Ignore DNS check and continue to request certificate?', array('y', 'n') , 'n','ignore_hostname_dns')) == 'y') {
+			if(strtolower($this->simple_query('Ignore DNS check and continue to request certificate?', array('y', 'n') , 'n','ignore_hostname_dns')) == 'y') {
 				$ip_address_match = true;
 			}
 		} else {
