@@ -391,6 +391,9 @@ class installer_base {
 			}
 		}
 
+		// preserve needed values in $conf  (should just array_merge $tpl_ini_array into $conf?)
+		$conf['mail']['content_filter'] = $tpl_ini_array['mail']['content_filter'];
+
 		$server_ini_content = array_to_ini($tpl_ini_array);
 
 		$mail_server_enabled = ($conf['services']['mail'])?1:0;
@@ -1475,7 +1478,7 @@ class installer_base {
 			}
 			$new_options[] = $value;
 		}
-		if ($configure_lmtp) {
+		if ($configure_lmtp && $conf['mail']['content_filter'] === 'amavisd') {
 			for ($i = 0; isset($new_options[$i]); $i++) {
 				if ($new_options[$i] == 'reject_unlisted_recipient') {
 					array_splice($new_options, $i+1, 0, array("check_recipient_access proxy:mysql:${quoted_config_dir}/mysql-verify_recipients.cf"));
@@ -2838,7 +2841,7 @@ class installer_base {
 		$ip_address_match = false;
 		if(!(($svr_ip4 && in_array($svr_ip4, $dns_ips)) || ($svr_ip6 && in_array($svr_ip6, $dns_ips)))) {
 			swriteln('Server\'s public ip(s) (' . $svr_ip4 . ($svr_ip6 ? ', ' . $svr_ip6 : '') . ') not found in A/AAAA records for ' . $hostname . ': ' . implode(', ', $dns_ips));
-			if(strtolower($inst->simple_query('Ignore DNS check and continue to request certificate?', array('y', 'n') , 'n','ignore_hostname_dns')) == 'y') {
+			if(strtolower($this->simple_query('Ignore DNS check and continue to request certificate?', array('y', 'n') , 'n','ignore_hostname_dns')) == 'y') {
 				$ip_address_match = true;
 			}
 		} else {
