@@ -88,7 +88,7 @@ class page_action extends tform_actions {
 			if($this->dataRecord['active'] === 'y' && $this->dataRecord['update_sites'] === 'y') {
 				if($this->dataRecord['type'] === 'php') {
 					$rlike = $this->dataRecord['directive_snippets_id'].'|,'.$this->dataRecord['directive_snippets_id'].'|'.$this->dataRecord['directive_snippets_id'].',';
-					$affected_snippets = $app->db->queryAllRecords('SELECT directive_snippets_id FROM directive_snippets WHERE required_php_snippets RLIKE(?) AND type = ?', $rlike, 'apache');
+					$affected_snippets = $app->db->queryAllRecords('SELECT directive_snippets_id FROM directive_snippets WHERE required_php_snippets REGEXP (?) AND type = ?', $rlike, 'apache');
 					if(is_array($affected_snippets) && !empty($affected_snippets)) {
 						foreach($affected_snippets as $snippet) {
 							$sql_in[] = $snippet['directive_snippets_id'];
