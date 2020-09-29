@@ -49,79 +49,32 @@ $app->uses('tpl,tform,tform_actions');
 
 class page_action extends tform_actions {
 
-	function onShow() {
-		global $app, $conf;
-
-		if($this->id > 0){
-			$record = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ?", $this->id);
-			if($record['master_directive_snippets_id'] > 0){
-				unset($app->tform->formDef["tabs"]['directive_snippets']['fields']['name'], $app->tform->formDef["tabs"]['directive_snippets']['fields']['type'], $app->tform->formDef["tabs"]['directive_snippets']['fields']['snippet'], $app->tform->formDef["tabs"]['directive_snippets']['fields']['required_php_snippets']);
-			}
-			unset($record);
-		}
-
-		parent::onShow();
-	}
-
-	function onShowEnd() {
-		global $app;
-
-		$is_master = false;
-		if($this->id > 0){
-			if($this->dataRecord['master_directive_snippets_id'] > 0){
-				$is_master = true;
-				$app->tpl->setVar("name", $this->dataRecord['name'], true);
-				$app->tpl->setVar("type", $this->dataRecord['type'], true);
-				$app->tpl->setVar("snippet", $this->dataRecord['snippet'], true);
-			}
-		}
-
-		$app->tpl->setVar("is_master", $is_master);
-
-		parent::onShowEnd();
-	}
 
 	public function onAfterUpdate() {
 		global $app, $conf;
 
-		if(isset($this->dataRecord['update_sites']) && $this->dataRecord['update_sites'] === 'y') {
-			if($this->dataRecord['active'] === 'y' && $this->dataRecord['update_sites'] === 'y') {
-				if($this->dataRecord['type'] === 'php') {
-					$rlike = $this->dataRecord['directive_snippets_id'].'|,'.$this->dataRecord['directive_snippets_id'].'|'.$this->dataRecord['directive_snippets_id'].',';
-					$affected_snippets = $app->db->queryAllRecords('SELECT directive_snippets_id FROM directive_snippets WHERE required_php_snippets REGEXP ? AND type = ?', $rlike, 'apache');
-					if(is_array($affected_snippets) && !empty($affected_snippets)) {
-						foreach($affected_snippets as $snippet) {
-							$sql_in[] = $snippet['directive_snippets_id'];
-						}
-						$affected_sites = $app->db->queryAllRecords('SELECT domain_id FROM web_domain WHERE server_id = ? AND directive_snippets_id IN ?', $conf['server_id'], $sql_in);
+		if(isset($this->dataRecord['update_sites']) && $this->dataRecord['update_sites'] === 'y' && $this->dataRecord['active'] === 'y') {
+			if($this->dataRecord['type'] === 'php') {
+				$rlike = $this->dataRecord['directive_snippets_id'].'|,'.$this->dataRecord['directive_snippets_id'].'|'.$this->dataRecord['directive_snippets_id'].',';
+				$affected_snippets = $app->db->queryAllRecords('SELECT directive_snippets_id FROM directive_snippets WHERE required_php_snippets REGEXP ? AND type = ?', $rlike, 'apache');
+				if(is_array($affected_snippets) && !empty($affected_snippets)) {
+					foreach($affected_snippets as $snippet) {
+						$sql_in[] = $snippet['directive_snippets_id'];
 					}
-				} elseif($this->dataRecord['type'] === 'apache') {
-					$affected_sites = $app->db->queryAllRecords('SELECT domain_id FROM web_domain WHERE server_id = ? AND directive_snippets_id = ?', $conf['server_id'], $this->dataRecord['directive_snippets_id']);
+					$affected_sites = $app->db->queryAllRecords('SELECT domain_id FROM web_domain WHERE server_id = ? AND directive_snippets_id IN ?', $conf['server_id'], $sql_in);
 				}
+			} elseif($this->dataRecord['type'] === 'apache' || $this->dataRecord['type'] === 'nginx') {
+				$affected_sites = $app->db->queryAllRecords('SELECT domain_id FROM web_domain WHERE server_id = ? AND directive_snippets_id = ?', $conf['server_id'], $this->dataRecord['directive_snippets_id']);
+			}
 
-				if(is_array($affected_sites) && !empty($affected_sites)) {
-					foreach($affected_sites as $site) {
-						$website = $app->db->queryOneRecord('SELECT * FROM web_domain WHERE domain_id = ?', $site['domain_id']);
-						$app->db->datalogUpdate('web_domain', $website, 'domain_id', $site['domain_id'], true);
-					}
+			if(is_array($affected_sites) && !empty($affected_sites)) {
+				foreach($affected_sites as $site) {
+					$website = $app->db->queryOneRecord('SELECT * FROM web_domain WHERE domain_id = ?', $site['domain_id']);
+					$app->db->datalogUpdate('web_domain', $website, 'domain_id', $site['domain_id'], true);
 				}
 			}
 		}
 	}
-
-	public function onSubmit() {
-		global $app;
-
-		if($this->id > 0){
-			$record = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ?", $this->id);
-			if($record['master_directive_snippets_id'] > 0){
-				unset($app->tform->formDef["tabs"]['directive_snippets']['fields']['name'], $app->tform->formDef["tabs"]['directive_snippets']['fields']['type'], $app->tform->formDef["tabs"]['directive_snippets']['fields']['snippet'], $app->tform->formDef["tabs"]['directive_snippets']['fields']['required_php_snippets']);
-			}
-		}
-
-		parent::onSubmit();
-	}
-
 }
 
 $page = new page_action;

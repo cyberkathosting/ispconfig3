@@ -2800,7 +2800,7 @@ class nginx_plugin {
 						foreach($required_php_snippets as $required_php_snippet){
 							$required_php_snippet = intval($required_php_snippet);
 							if($required_php_snippet > 0){
-								$php_snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE ".($snippet['master_directive_snippets_id'] > 0 ? 'master_' : '')."directive_snippets_id = ? AND type = 'php' AND active = 'y'", $required_php_snippet);
+								$php_snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'php' AND active = 'y'", $required_php_snippet);
 								$php_snippet['snippet'] = trim($php_snippet['snippet']);
 								if($php_snippet['snippet'] != ''){
 									$custom_php_ini_settings .= "\n".$php_snippet['snippet'];
@@ -2987,7 +2987,7 @@ class nginx_plugin {
 					foreach($required_php_snippets as $required_php_snippet){
 						$required_php_snippet = intval($required_php_snippet);
 						if($required_php_snippet > 0){
-							$php_snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE ".($snippet['master_directive_snippets_id'] > 0 ? 'master_' : '')."directive_snippets_id = ? AND type = 'php' AND active = 'y'", $required_php_snippet);
+							$php_snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'php' AND active = 'y'", $required_php_snippet);
 							$php_snippet['snippet'] = trim($php_snippet['snippet']);
 							if($php_snippet['snippet'] != ''){
 								$custom_php_ini_settings .= "\n".$php_snippet['snippet'];

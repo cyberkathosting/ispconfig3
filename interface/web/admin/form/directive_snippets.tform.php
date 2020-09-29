@@ -66,7 +66,7 @@ $form["tabs"]['directive_snippets'] = array (
 		'name' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
-			'validators' => array (  
+			'validators' => array (
 				0 => array ( 'type' => 'NOTEMPTY', 'errmsg'=> 'directive_snippets_name_empty'),
 				1 => array ( 'type' => 'CUSTOM', 'class' => 'validate_server_directive_snippets', 'function' => 'validate_snippet'),
 			),
@@ -121,7 +121,7 @@ $form["tabs"]['directive_snippets'] = array (
 			'formtype' => 'CHECKBOXARRAY',
 			'default' => '',
 			'datasource' => array (  'type' => 'SQL',
-				'querystring' => "SELECT directive_snippets_id,name FROM directive_snippets WHERE type = 'php' AND active = 'y' AND master_directive_snippets_id = 0 ORDER BY name",
+				'querystring' => "SELECT directive_snippets_id,name FROM directive_snippets WHERE type = 'php' AND active = 'y' ORDER BY name",
 				'keyfield' => 'directive_snippets_id',
 				'valuefield' => 'name'
 			),

@@ -420,18 +420,6 @@
 	function reloadDirectiveSnippets() {
         jQuery.getJSON('sites/ajax_get_json.php'+ '?' + Math.round(new Date().getTime()), {server_id : serverId, type : "getdirectivesnippet"}, function(data) {
             var options = '<option value="0">-</option>';
-			options += "<optgroup label=\"{tmpl_var name='select_master_directive_snippet_txt'}\">";
-			for (var i = 0, len = data['m_snippets'].length; i < len; i++) {
-				var isSelected = '';
-
-				 if ($('#directive_snippets_id').val() == i + 1) {
-					 isSelected = 'selected="selected"';
-				 }
-
-				 options += '<option ' + isSelected + ' value="' + data['m_snippets'][i]['directive_snippets_id'] + '">' + data['m_snippets'][i]['name'] + '</option>';
-			}
-			options += '</optgroup>';
-
 			options += "<optgroup label=\"{tmpl_var name='select_directive_snippet_txt'}\">";
 			for (var i = 0, len = data['snippets'].length; i < len; i++) {
 				var isSelected = '';

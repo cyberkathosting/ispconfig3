@@ -419,17 +419,8 @@ class page_action extends tform_actions {
 			if($sites_config['reseller_can_use_options']) {
 				// Directive Snippets
 				$php_directive_snippets_txt = '';
-				$php_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'php' AND active = 'y' AND master_directive_snippets_id > 0 ORDER BY name");
-				if(is_array($php_directive_snippets) && !empty($php_directive_snippets)){
-					$php_directive_snippets_txt .= $app->tform->wordbook["select_master_directive_snippet_txt"].'<br>';
-					foreach($php_directive_snippets as $php_directive_snippet){
-						$php_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $php_directive_snippet['snippet'] . PHP_EOL;
-						$php_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$php_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($php_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-					}
-					$php_directive_snippets_txt .= '<br><br>';
-				}
 
-				$php_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'php' AND active = 'y' AND master_directive_snippets_id = 0 ORDER BY name");
+				$php_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'php' AND active = 'y' ORDER BY name");
 				if(is_array($php_directive_snippets) && !empty($php_directive_snippets)){
 					$php_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
 					foreach($php_directive_snippets as $php_directive_snippet){
@@ -442,17 +433,7 @@ class page_action extends tform_actions {
 
 				if($server_type == 'apache'){
 					$apache_directive_snippets_txt = '';
-					$apache_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'apache' AND active = 'y' AND master_directive_snippets_id > 0 ORDER BY name");
-					if(is_array($apache_directive_snippets) && !empty($apache_directive_snippets)){
-						$apache_directive_snippets_txt .= $app->tform->wordbook["select_master_directive_snippet_txt"].'<br>';
-						foreach($apache_directive_snippets as $apache_directive_snippet){
-							$apache_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $apache_directive_snippet['snippet'] . PHP_EOL;
-							$apache_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$apache_directive_snippet['name'].']<pre class="addPlaceholderContent" style="display:none;">'.htmlentities($apache_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-						}
-						$apache_directive_snippets_txt .= '<br><br>';
-					}
-
-					$apache_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'apache' AND active = 'y' AND master_directive_snippets_id = 0 ORDER BY name");
+					$apache_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'apache' AND active = 'y' ORDER BY name");
 					if(is_array($apache_directive_snippets) && !empty($apache_directive_snippets)){
 						$apache_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
 						foreach($apache_directive_snippets as $apache_directive_snippet){
@@ -466,17 +447,7 @@ class page_action extends tform_actions {
 
 				if($server_type == 'nginx'){
 					$nginx_directive_snippets_txt = '';
-					$nginx_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'nginx' AND active = 'y' AND master_directive_snippets_id > 0 ORDER BY name");
-					if(is_array($nginx_directive_snippets) && !empty($nginx_directive_snippets)){
-						$nginx_directive_snippets_txt .= $app->tform->wordbook["select_master_directive_snippet_txt"].'<br>';
-						foreach($nginx_directive_snippets as $nginx_directive_snippet){
-							$nginx_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $nginx_directive_snippet['snippet'] . PHP_EOL;
-							$nginx_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($nginx_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($nginx_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-						}
-						$nginx_directive_snippets_txt .= '<br><br>';
-					}
-
-					$nginx_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'nginx' AND active = 'y' AND master_directive_snippets_id = 0 ORDER BY name");
+					$nginx_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'nginx' AND active = 'y' ORDER BY name");
 					if(is_array($nginx_directive_snippets) && !empty($nginx_directive_snippets)){
 						$nginx_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
 						foreach($nginx_directive_snippets as $nginx_directive_snippet){
@@ -489,17 +460,7 @@ class page_action extends tform_actions {
 				}
 
 				$proxy_directive_snippets_txt = '';
-				$proxy_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'proxy' AND active = 'y' AND master_directive_snippets_id > 0 ORDER BY name");
-				if(is_array($proxy_directive_snippets) && !empty($proxy_directive_snippets)){
-					$proxy_directive_snippets_txt .= $app->tform->wordbook["select_master_directive_snippet_txt"].'<br>';
-					foreach($proxy_directive_snippets as $proxy_directive_snippet){
-						$proxy_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $proxy_directive_snippet['snippet'] . PHP_EOL;
-						$proxy_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($proxy_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($proxy_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-					}
-					$proxy_directive_snippets_txt .= '<br><br>';
-				}
-
-				$proxy_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'proxy' AND active = 'y' AND master_directive_snippets_id = 0 ORDER BY name");
+				$proxy_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'proxy' AND active = 'y' ORDER BY name");
 				if(is_array($proxy_directive_snippets) && !empty($proxy_directive_snippets)){
 					$proxy_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
 					foreach($proxy_directive_snippets as $proxy_directive_snippet){
@@ -633,17 +594,7 @@ class page_action extends tform_actions {
 
 			// Directive Snippets
 			$php_directive_snippets_txt = '';
-			$php_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'php' AND active = 'y' AND master_directive_snippets_id > 0 ORDER BY name");
-			if(is_array($php_directive_snippets) && !empty($php_directive_snippets)){
-				$php_directive_snippets_txt .= $app->tform->wordbook["select_master_directive_snippet_txt"].'<br>';
-				foreach($php_directive_snippets as $php_directive_snippet){
-					$php_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $php_directive_snippet['snippet'] . PHP_EOL;
-					$php_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($php_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($php_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				}
-				$php_directive_snippets_txt .= '<br><br>';
-			}
-
-			$php_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'php' AND active = 'y' AND master_directive_snippets_id = 0 ORDER BY name");
+			$php_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'php' AND active = 'y' ORDER BY name");
 			if(is_array($php_directive_snippets) && !empty($php_directive_snippets)){
 				$php_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
 				foreach($php_directive_snippets as $php_directive_snippet){
@@ -656,17 +607,7 @@ class page_action extends tform_actions {
 
 			if($server_type == 'apache'){
 				$apache_directive_snippets_txt = '';
-				$apache_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'apache' AND active = 'y' AND master_directive_snippets_id > 0 ORDER BY name");
-				if(is_array($apache_directive_snippets) && !empty($apache_directive_snippets)){
-					$apache_directive_snippets_txt .= $app->tform->wordbook["select_master_directive_snippet_txt"].'<br>';
-					foreach($apache_directive_snippets as $apache_directive_snippet){
-						$apache_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $apache_directive_snippet['snippet'] . PHP_EOL;
-						$apache_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($apache_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($apache_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-					}
-					$apache_directive_snippets_txt .= '<br><br>';
-				}
-
-				$apache_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'apache' AND active = 'y' AND master_directive_snippets_id = 0 ORDER BY name");
+				$apache_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'apache' AND active = 'y' ORDER BY name");
 				if(is_array($apache_directive_snippets) && !empty($apache_directive_snippets)){
 					$apache_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
 					foreach($apache_directive_snippets as $apache_directive_snippet){
@@ -680,17 +621,7 @@ class page_action extends tform_actions {
 
 			if($server_type == 'nginx'){
 				$nginx_directive_snippets_txt = '';
-				$nginx_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'nginx' AND active = 'y' AND master_directive_snippets_id > 0 ORDER BY name");
-				if(is_array($nginx_directive_snippets) && !empty($nginx_directive_snippets)){
-					$nginx_directive_snippets_txt .= $app->tform->wordbook["select_master_directive_snippet_txt"].'<br>';
-					foreach($nginx_directive_snippets as $nginx_directive_snippet){
-						$nginx_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $nginx_directive_snippet['snippet'] . PHP_EOL;
-						$nginx_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($nginx_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($nginx_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-					}
-					$nginx_directive_snippets_txt .= '<br><br>';
-				}
-
-				$nginx_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'nginx' AND active = 'y' AND master_directive_snippets_id = 0 ORDER BY name");
+				$nginx_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'nginx' AND active = 'y' ORDER BY name");
 				if(is_array($nginx_directive_snippets) && !empty($nginx_directive_snippets)){
 					$nginx_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
 					foreach($nginx_directive_snippets as $nginx_directive_snippet){
@@ -703,17 +634,7 @@ class page_action extends tform_actions {
 			}
 
 			$proxy_directive_snippets_txt = '';
-			$proxy_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'proxy' AND active = 'y' AND master_directive_snippets_id > 0 ORDER BY name");
-			if(is_array($proxy_directive_snippets) && !empty($proxy_directive_snippets)){
-				$proxy_directive_snippets_txt .= $app->tform->wordbook["select_master_directive_snippet_txt"].'<br>';
-				foreach($proxy_directive_snippets as $proxy_directive_snippet){
-					$proxy_directive_snippet['snippet'] = PHP_EOL . PHP_EOL . $proxy_directive_snippet['snippet'] . PHP_EOL;
-					$proxy_directive_snippets_txt .= '<a href="javascript:void(0);" class="addPlaceholderContent">['.$app->functions->htmlentities($proxy_directive_snippet['name']).']<pre class="addPlaceholderContent" style="display:none;">'.$app->functions->htmlentities($proxy_directive_snippet['snippet']).'</pre></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				}
-				$proxy_directive_snippets_txt .= '<br><br>';
-			}
-
-			$proxy_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'proxy' AND active = 'y' AND master_directive_snippets_id = 0 ORDER BY name");
+			$proxy_directive_snippets = $app->db->queryAllRecords("SELECT * FROM directive_snippets WHERE type = 'proxy' AND active = 'y' ORDER BY name");
 			if(is_array($proxy_directive_snippets) && !empty($proxy_directive_snippets)){
 				$proxy_directive_snippets_txt .= $app->tform->wordbook["select_directive_snippet_txt"].'<br>';
 				foreach($proxy_directive_snippets as $proxy_directive_snippet){
@@ -845,20 +766,11 @@ class page_action extends tform_actions {
 		$server_type = $app->getconf->get_server_config($server_id, 'web');
 		$server_type = $server_type['server_type'];
 
-		$m_directive_snippets = $app->db->queryAllRecords("SELECT directive_snippets_id, name FROM directive_snippets WHERE customer_viewable = 'y' AND active = 'y' AND master_directive_snippets_id > 0 AND type = ? ORDER BY name ASC", $server_type);
-		if(is_array($m_directive_snippets) && !empty($m_directive_snippets)){
-			$directive_snippets_id_select .= '<optgroup label="'.$app->tform->wordbook["select_master_directive_snippet_txt"].'">';
-			foreach($m_directive_snippets as $m_directive_snippet){
-				$directive_snippets_id_select .= '<option value="'.$m_directive_snippet['directive_snippets_id'].'"'.($this->dataRecord['directive_snippets_id'] == $m_directive_snippet['directive_snippets_id']? ' selected="selected"' : '').'>'.$app->functions->htmlentities($m_directive_snippet['name']).'</option>';
-			}
-			$directive_snippets_id_select .= '</optgroup>';
-		}
-
 		// it does not make sense to display those for admins as they are NOT applied to vhosts anyway!
 		/*if($is_admin) {
-			$directive_snippets = $app->db->queryAllRecords("SELECT directive_snippets_id, name FROM directive_snippets WHERE active = 'y' AND master_directive_snippets_id = 0 AND type = ? ORDER BY name ASC", $server_type);
+			$directive_snippets = $app->db->queryAllRecords("SELECT directive_snippets_id, name FROM directive_snippets WHERE active = 'y' AND type = ? ORDER BY name ASC", $server_type);
 		} else {*/
-			$directive_snippets = $app->db->queryAllRecords("SELECT directive_snippets_id, name FROM directive_snippets WHERE customer_viewable = 'y' AND active = 'y' AND master_directive_snippets_id = 0 AND type = ? ORDER BY name ASC", $server_type);
+			$directive_snippets = $app->db->queryAllRecords("SELECT directive_snippets_id, name FROM directive_snippets WHERE customer_viewable = 'y' AND active = 'y' AND type = ? ORDER BY name ASC", $server_type);
 		//}
 		if(is_array($directive_snippets) && !empty($directive_snippets)){
 			$directive_snippets_id_select .= '<optgroup label="'.$app->tform->wordbook["select_directive_snippet_txt"].'">';
@@ -880,8 +792,7 @@ class page_action extends tform_actions {
 			$this->dataRecord['folder_directive_snippets'] = trim($this->dataRecord['folder_directive_snippets']);
 		}
 
-		$master_directive_snippets = $app->db->queryAllRecords("SELECT directive_snippets_id, name FROM directive_snippets WHERE customer_viewable = 'y' AND active = 'y' AND snippet LIKE '%{FOLDER}%' AND master_directive_snippets_id > 0 AND type = ? ORDER BY name ASC", $server_type);
-		$c_directive_snippets = $app->db->queryAllRecords("SELECT directive_snippets_id, name FROM directive_snippets WHERE customer_viewable = 'y' AND active = 'y' AND snippet LIKE '%{FOLDER}%' AND master_directive_snippets_id = 0 AND type = ? ORDER BY name ASC", $server_type);
+		$c_directive_snippets = $app->db->queryAllRecords("SELECT directive_snippets_id, name FROM directive_snippets WHERE customer_viewable = 'y' AND active = 'y' AND snippet LIKE '%{FOLDER}%' AND type = ? ORDER BY name ASC", $server_type);
 
 		$folder_directive_snippets = array();
 		$this->dataRecord['folder_directive_snippets'] = str_replace("\r\n", "\n", $this->dataRecord['folder_directive_snippets']);
@@ -898,14 +809,6 @@ class page_action extends tform_actions {
 			if(trim($folder_directive_snippets_lines[$i]) != ''){
 				list($folder_directive_snippets[$i]['folder_directive_snippets_folder'], $selected_snippet) = explode(':', trim($folder_directive_snippets_lines[$i]));
 				$folder_directive_snippets[$i]['folder_directive_snippets_id'] = '<option value="0">-</option>';
-				if(is_array($master_directive_snippets) && !empty($master_directive_snippets)){
-					$folder_directive_snippets[$i]['folder_directive_snippets_id'] .= '<optgroup label="'.$app->tform->wordbook["select_master_directive_snippet_txt"].'">';
-					foreach($master_directive_snippets as $master_directive_snippet){
-						$folder_directive_snippets[$i]['folder_directive_snippets_id'] .= '<option value="'.$master_directive_snippet['directive_snippets_id'].'"'.($master_directive_snippet['directive_snippets_id'] == $selected_snippet ? ' selected="selected"' : '').'>'.$master_directive_snippet['name'].'</option>';
-					}
-					$folder_directive_snippets[$i]['folder_directive_snippets_id'] .= '</optgroup>';
-				}
-
 				if(is_array($c_directive_snippets) && !empty($c_directive_snippets)){
 					$folder_directive_snippets[$i]['folder_directive_snippets_id'] .= '<optgroup label="'.$app->tform->wordbook["select_directive_snippet_txt"].'">';
 					foreach($c_directive_snippets as $c_directive_snippet){
@@ -916,14 +819,6 @@ class page_action extends tform_actions {
 			} else {
 				$folder_directive_snippets[$i]['folder_directive_snippets_folder'] = '';
 				$folder_directive_snippets[$i]['folder_directive_snippets_id'] = '<option value="0">-</option>';
-				if(is_array($master_directive_snippets) && !empty($master_directive_snippets)){
-					$folder_directive_snippets[$i]['folder_directive_snippets_id'] .= '<optgroup label="'.$app->tform->wordbook["select_master_directive_snippet_txt"].'">';
-					foreach($master_directive_snippets as $master_directive_snippet){
-						$folder_directive_snippets[$i]['folder_directive_snippets_id'] .= '<option value="'.$master_directive_snippet['directive_snippets_id'].'">'.$master_directive_snippet['name'].'</option>';
-					}
-					$folder_directive_snippets[$i]['folder_directive_snippets_id'] .= '</optgroup>';
-				}
-
 				if(is_array($c_directive_snippets) && !empty($c_directive_snippets)){
 					$folder_directive_snippets[$i]['folder_directive_snippets_id'] .= '<optgroup label="'.$app->tform->wordbook["select_directive_snippet_txt"].'">';
 					foreach($c_directive_snippets as $c_directive_snippet){
