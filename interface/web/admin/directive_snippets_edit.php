@@ -51,7 +51,7 @@ class page_action extends tform_actions {
 
 	function onShow() {
 		global $app, $conf;
-		
+
 		if($this->id > 0){
 			$record = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ?", $this->id);
 			if($record['master_directive_snippets_id'] > 0){
@@ -59,13 +59,13 @@ class page_action extends tform_actions {
 			}
 			unset($record);
 		}
-		
+
 		parent::onShow();
 	}
-	
+
 	function onShowEnd() {
-		global $app, $conf;
-		
+		global $app;
+
 		$is_master = false;
 		if($this->id > 0){
 			if($this->dataRecord['master_directive_snippets_id'] > 0){
@@ -77,53 +77,52 @@ class page_action extends tform_actions {
 		}
 
 		$app->tpl->setVar("is_master", $is_master);
-		
+
 		parent::onShowEnd();
 	}
-	
-	function onSubmit() {
+
+	public function onAfterUpdate() {
 		global $app, $conf;
+
+		if(isset($this->dataRecord['update_sites']) && $this->dataRecord['update_sites'] === 'y') {
+			if($this->dataRecord['active'] == 'y' && $this->dataRecord['update_sites'] == 'y') {
+				if($this->dataRecord['type'] == 'php') {
+					$rlike = $this->dataRecord['directive_snippets_id'].'|,'.$this->dataRecord['directive_snippets_id'].'|'.$this->dataRecord['directive_snippets_id'].',';
+					$affected_snippets = $app->db->queryAllRecords('SELECT directive_snippets_id FROM directive_snippets WHERE required_php_snippets RLIKE(?) AND type = ?', $rlike, 'apache');
+					if(is_array($affected_snippets) && !empty($affected_snippets)) {
+						foreach($affected_snippets as $snippet) {
+							$sql_in[] = $snippet['directive_snippets_id'];
+						}
+						$affected_sites = $app->db->queryAllRecords('SELECT domain_id FROM web_domain WHERE server_id = ? AND directive_snippets_id IN ?', $conf['server_id'], $sql_in);
+					}
+				} elseif($this->dataRecord['type'] == 'apache') {
+					$affected_sites = $app->db->queryAllRecords('SELECT domain_id FROM web_domain WHERE server_id = ? AND directive_snippets_id = ?', $conf['server_id'], $this->dataRecord['directive_snippets_id']);
+				}
+
+				if(is_array($affected_sites) && !empty($affected_sites)) {
+					foreach($affected_sites as $site) {
+						$website = $app->db->queryOneRecord('SELECT * FROM web_domain WHERE domain_id = ?', $site['domain_id']);
+						$app->db->datalogUpdate('web_domain', $website, 'domain_id', $site['domain_id'], true);
+					}
+				}
+			}
+		}
+	}
+
+	public function onSubmit() {
+		global $app;
 
 		if($this->id > 0){
 			$record = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ?", $this->id);
 			if($record['master_directive_snippets_id'] > 0){
 				unset($app->tform->formDef["tabs"]['directive_snippets']['fields']['name'], $app->tform->formDef["tabs"]['directive_snippets']['fields']['type'], $app->tform->formDef["tabs"]['directive_snippets']['fields']['snippet'], $app->tform->formDef["tabs"]['directive_snippets']['fields']['required_php_snippets']);
 			}
-	
-			if(isset($this->dataRecord['update_sites'])) {
-				parent::onSubmit();
-			} else {
-				$app->db->query('UPDATE directive_snippets SET name = ?, type = ?, snippet = ?, customer_viewable = ?, required_php_snippets = ?, active = ? WHERE directive_snippets_id = ?', $this->dataRecord['name'], $this->dataRecord['type'], $this->dataRecord['snippet'], $this->dataRecord['customer_viewable'], implode(',', $this->dataRecord['required_php_snippets']), $this->dataRecord['active'], $this->id);
-
-	            if($_REQUEST["next_tab"] == '') {
-    	            $list_name = $_SESSION["s"]["form"]["return_to"];
-                	if($list_name != '' && $_SESSION["s"]["list"][$list_name]["parent_name"] != $app->tform->formDef["name"]) {
-                    	$redirect = "Location: ".$_SESSION["s"]["list"][$list_name]["parent_script"]."?id=".$_SESSION["s"]["list"][$list_name]["parent_id"]."&next_tab=".$_SESSION["s"]["list"][$list_name]["parent_tab"];
-	                    $_SESSION["s"]["form"]["return_to"] = '';
-    	                session_write_close();
-        	            header($redirect);
-                	} elseif (isset($_SESSION["s"]["form"]["return_to_url"]) && $_SESSION["s"]["form"]["return_to_url"] != '') {
-	                    $redirect = $_SESSION["s"]["form"]["return_to_url"];
-    	                $_SESSION["s"]["form"]["return_to_url"] = '';
-        	            session_write_close();
-            	        header("Location: ".$redirect);
-                	    exit;
-                	} else {
-                    	header("Location: ".$app->tform->formDef['list_default']);
-                	}
-                	exit;
-				}
-			}
-
-			unset($record);
 		}
 
 		parent::onSubmit();
 	}
-	
+
 }
 
 $page = new page_action;
 $page->onLoad();
-
-?>

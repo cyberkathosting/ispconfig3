@@ -854,11 +854,12 @@ class page_action extends tform_actions {
 			$directive_snippets_id_select .= '</optgroup>';
 		}
 
-		if($is_admin) {
+		// it does not make sense to display those for admins as they are NOT applied to vhosts anyway!
+		/*if($is_admin) {
 			$directive_snippets = $app->db->queryAllRecords("SELECT directive_snippets_id, name FROM directive_snippets WHERE active = 'y' AND master_directive_snippets_id = 0 AND type = ? ORDER BY name ASC", $server_type);
-		} else {
+		} else {*/
 			$directive_snippets = $app->db->queryAllRecords("SELECT directive_snippets_id, name FROM directive_snippets WHERE customer_viewable = 'y' AND active = 'y' AND master_directive_snippets_id = 0 AND type = ? ORDER BY name ASC", $server_type);
-		}
+		//}
 		if(is_array($directive_snippets) && !empty($directive_snippets)){
 			$directive_snippets_id_select .= '<optgroup label="'.$app->tform->wordbook["select_directive_snippet_txt"].'">';
 			foreach($directive_snippets as $directive_snippet){
