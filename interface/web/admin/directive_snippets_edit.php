@@ -85,8 +85,8 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		if(isset($this->dataRecord['update_sites']) && $this->dataRecord['update_sites'] === 'y') {
-			if($this->dataRecord['active'] == 'y' && $this->dataRecord['update_sites'] == 'y') {
-				if($this->dataRecord['type'] == 'php') {
+			if($this->dataRecord['active'] === 'y' && $this->dataRecord['update_sites'] === 'y') {
+				if($this->dataRecord['type'] === 'php') {
 					$rlike = $this->dataRecord['directive_snippets_id'].'|,'.$this->dataRecord['directive_snippets_id'].'|'.$this->dataRecord['directive_snippets_id'].',';
 					$affected_snippets = $app->db->queryAllRecords('SELECT directive_snippets_id FROM directive_snippets WHERE required_php_snippets RLIKE(?) AND type = ?', $rlike, 'apache');
 					if(is_array($affected_snippets) && !empty($affected_snippets)) {
@@ -95,7 +95,7 @@ class page_action extends tform_actions {
 						}
 						$affected_sites = $app->db->queryAllRecords('SELECT domain_id FROM web_domain WHERE server_id = ? AND directive_snippets_id IN ?', $conf['server_id'], $sql_in);
 					}
-				} elseif($this->dataRecord['type'] == 'apache') {
+				} elseif($this->dataRecord['type'] === 'apache') {
 					$affected_sites = $app->db->queryAllRecords('SELECT domain_id FROM web_domain WHERE server_id = ? AND directive_snippets_id = ?', $conf['server_id'], $this->dataRecord['directive_snippets_id']);
 				}
 
