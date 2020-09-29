@@ -65,7 +65,7 @@ class page_action extends tform_actions {
 		}
 
 		if(!empty($affected_sites)) {
-			$app->error($app->lng('error_delete_snippet_active_sites'));
+			$app->error($app->tform->lng('error_delete_snippet_active_sites'));
 		}
 	}
 }

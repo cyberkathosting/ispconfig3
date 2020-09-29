@@ -76,12 +76,12 @@ class page_action extends tform_actions {
 		if($this->dataRecord['active'] !== 'y' && $oldRecord['active'] === 'y') {
 			$affected_sites = $this->getAffectedSites();
 			if(!empty($affected_sites)) {
-				$app->tform->errorMessage .= $app->lng('error_disable_snippet_active_sites');
+				$app->tform->errorMessage .= $app->tform->lng('error_disable_snippet_active_sites');
 			}
 		} elseif($this->dataRecord['customer_viewable'] !== 'y' && $oldRecord['customer_viewable'] === 'y') {
 			$affected_sites = $this->getAffectedSites();
 			if(!empty($affected_sites)) {
-				$app->tform->errorMessage .= $app->lng('error_hide_snippet_active_sites');
+				$app->tform->errorMessage .= $app->tform->lng('error_hide_snippet_active_sites');
 			}
 		}
 	}
