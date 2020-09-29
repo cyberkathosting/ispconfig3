@@ -65,8 +65,7 @@ class web_module {
 		'aps_package_delete',
 		'aps_setting_insert',
 		'aps_setting_update',
-		'aps_setting_delete',
-		'directive_snippets_update'
+		'aps_setting_delete'
 	);
 
 	//* This function is called during ispconfig installation to determine
@@ -117,7 +116,6 @@ class web_module {
 		$app->modules->registerTableHook('aps_instances_settings', 'web_module', 'process');
 		$app->modules->registerTableHook('aps_packages', 'web_module', 'process');
 		$app->modules->registerTableHook('aps_settings', 'web_module', 'process');
-		$app->modules->registerTableHook('directive_snippets', 'web_module', 'process');
 
 		// Register service
 		$app->services->registerService('httpd', 'web_module', 'restartHttpd');
@@ -189,11 +187,6 @@ class web_module {
 			if($action == 'u') $app->plugins->raiseEvent('aps_setting_update', $data);
 			if($action == 'd') $app->plugins->raiseEvent('aps_setting_delete', $data);
 			break;
-		case 'directive_snippets':
-			if($action == 'i') $app->plugins->raiseEvent('directive_snippets_insert', $data);
-			if($action == 'u') $app->plugins->raiseEvent('directive_snippets_update', $data);
-			if($action == 'd') $app->plugins->raiseEvent('directive_snippets_delete', $data);
-			break;
 		} // end switch
 	} // end function
 
@@ -229,7 +222,7 @@ class web_module {
 		} else {
 			$cmd = $app->system->getinitcommand($daemon, 'reload');
 		}
-		
+
 		if($web_config['server_type'] == 'nginx'){
 			$app->log("Checking nginx configuration...", LOGLEVEL_DEBUG);
 			exec('nginx -t 2>&1', $retval['output'], $retval['retval']);
@@ -240,16 +233,16 @@ class web_module {
 				return $retval;
 			}
 		}
-		
+
 		exec($cmd.' 2>&1', $retval['output'], $retval['retval']);
-		
+
 		// if restart failed despite successful syntax check => try again
 		if($web_config['server_type'] == 'nginx' && $retval['retval'] > 0){
 			sleep(2);
 			exec($cmd.' 2>&1', $retval['output'], $retval['retval']);
 		}
 		$app->log("Restarting httpd: $cmd", LOGLEVEL_DEBUG);
-		
+
 		// nginx: do a syntax check because on some distributions, the init script always returns 0 - even if the syntax is not ok (how stupid is that?)
 		//if($web_config['server_type'] == 'nginx' && $retval['retval'] == 0){
 			//exec('nginx -t 2>&1', $retval['output'], $retval['retval']);
@@ -272,7 +265,7 @@ class web_module {
 		} else {
 			$path_parts = pathinfo($init_script);
 			$initcommand = $app->system->getinitcommand($path_parts['basename'], $action, $path_parts['dirname']);
-			
+
 			if($action == 'reload' && $init_script == $conf['init_scripts'].'/'.$web_config['php_fpm_init_script']) {
 				// we have to do a workaround because of buggy ubuntu fpm reload handling
 				// @see: https://bugs.launchpad.net/ubuntu/+source/php5/+bug/1242376
@@ -289,7 +282,7 @@ class web_module {
 					}
                                         */
 					unset($tmp);
-				}	
+				}
 			}
 			/*
 			if($action == 'reload') {
