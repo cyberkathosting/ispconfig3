@@ -1247,13 +1247,16 @@ class apache2_plugin {
 		}
 
 		//* Create custom php.ini
-		if(trim($data['new']['custom_php_ini']) != '') {
+		# Because of custom default PHP directives from snippet
+		# php.ini custom values order os: 1. general settings 2. Directive Snippets settings 3. custom php.ini settings defined in domain settings
+		if(trim($data['new']['custom_php_ini']) != '' || $data['new']['directive_snippets_id'] > "0") {
 			$has_custom_php_ini = true;
 			$custom_sendmail_path = false;
 			if(!is_dir($custom_php_ini_dir)) $app->system->mkdirpath($custom_php_ini_dir);
 
 			$php_ini_content = $this->get_master_php_ini_content($data['new']);
-			$php_ini_content .= str_replace("\r", '', trim($data['new']['custom_php_ini']));
+
+			$php_ini_content .= "\n".str_replace("\r", '', trim($data['new']['custom_php_ini']));
 
 			if(intval($data['new']['directive_snippets_id']) > 0){
 				$snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'apache' AND active = 'y' AND customer_viewable = 'y'", intval($data['new']['directive_snippets_id']));
@@ -1266,6 +1269,7 @@ class apache2_plugin {
 								$php_snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'php' AND active = 'y'", $required_php_snippet);
 								$php_snippet['snippet'] = trim($php_snippet['snippet']);
 								if($php_snippet['snippet'] != ''){
+									$php_snippet['snippet'] = str_replace("\r", '', $php_snippet['snippet']);
 									$php_ini_content .= "\n".$php_snippet['snippet'];
 								}
 							}
