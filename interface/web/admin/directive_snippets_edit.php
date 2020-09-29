@@ -49,23 +49,48 @@ $app->uses('tpl,tform,tform_actions');
 
 class page_action extends tform_actions {
 
-
-	public function onAfterUpdate() {
+	private function getAffectedSites() {
 		global $app, $conf;
 
-		if(isset($this->dataRecord['update_sites']) && $this->dataRecord['update_sites'] === 'y' && $this->dataRecord['active'] === 'y') {
-			if($this->dataRecord['type'] === 'php') {
-				$rlike = $this->dataRecord['id'].'|,'.$this->dataRecord['id'].'|'.$this->dataRecord['id'].',';
-				$affected_snippets = $app->db->queryAllRecords('SELECT directive_snippets_id FROM directive_snippets WHERE required_php_snippets REGEXP ? AND type = ?', $rlike, 'apache');
-				if(is_array($affected_snippets) && !empty($affected_snippets)) {
-					foreach($affected_snippets as $snippet) {
-						$sql_in[] = $snippet['directive_snippets_id'];
-					}
-					$affected_sites = $app->db->queryAllRecords('SELECT domain_id FROM web_domain WHERE server_id = ? AND directive_snippets_id IN ?', $conf['server_id'], $sql_in);
+		if($this->dataRecord['type'] === 'php') {
+			$rlike = $this->dataRecord['id'].'|,'.$this->dataRecord['id'].'|'.$this->dataRecord['id'].',';
+			$affected_snippets = $app->db->queryAllRecords('SELECT directive_snippets_id FROM directive_snippets WHERE required_php_snippets REGEXP ? AND type = ?', $rlike, 'apache');
+			if(is_array($affected_snippets) && !empty($affected_snippets)) {
+				foreach($affected_snippets as $snippet) {
+					$sql_in[] = $snippet['directive_snippets_id'];
 				}
-			} elseif($this->dataRecord['type'] === 'apache' || $this->dataRecord['type'] === 'nginx') {
-				$affected_sites = $app->db->queryAllRecords('SELECT domain_id FROM web_domain WHERE server_id = ? AND directive_snippets_id = ?', $conf['server_id'], $this->dataRecord['id']);
+				$affected_sites = $app->db->queryAllRecords('SELECT domain_id FROM web_domain WHERE server_id = ? AND directive_snippets_id IN ?', $conf['server_id'], $sql_in);
 			}
+		} elseif($this->dataRecord['type'] === 'apache' || $this->dataRecord['type'] === 'nginx') {
+			$affected_sites = $app->db->queryAllRecords('SELECT domain_id FROM web_domain WHERE server_id = ? AND directive_snippets_id = ?', $conf['server_id'], $this->dataRecord['id']);
+		}
+
+		return $affected_sites;
+	}
+
+	public function onBeforeUpdate() {
+		global $app;
+
+		$oldRecord = $app->tform->getDataRecord($this->id);
+
+		if($this->dataRecord['active'] !== 'y' && $oldRecord['active'] === 'y') {
+			$affected_sites = $this->getAffectedSites();
+			if(!empty($affected_sites)) {
+				$app->tform->errorMessage .= $app->lng('error_disable_snippet_active_sites');
+			}
+		} elseif($this->dataRecord['customer_viewable'] !== 'y' && $oldRecord['customer_viewable'] === 'y') {
+			$affected_sites = $this->getAffectedSites();
+			if(!empty($affected_sites)) {
+				$app->tform->errorMessage .= $app->lng('error_hide_snippet_active_sites');
+			}
+		}
+	}
+
+	public function onAfterUpdate() {
+		global $app;
+
+		if(isset($this->dataRecord['update_sites']) && $this->dataRecord['update_sites'] === 'y' && $this->dataRecord['active'] === 'y') {
+			$affected_sites = $this->getAffectedSites();
 
 			if(is_array($affected_sites) && !empty($affected_sites)) {
 				foreach($affected_sites as $site) {

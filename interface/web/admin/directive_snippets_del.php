@@ -45,7 +45,31 @@ require_once '../../lib/app.inc.php';
 //* Check permissions for module
 $app->auth->check_module_permissions('admin');
 
-$app->uses("tform_actions");
-$app->tform_actions->onDelete();
+$app->load("tform_actions");
 
-?>
+class page_action extends tform_actions {
+	function onBeforeDelete() {
+		global $app, $conf;
+
+		if($this->dataRecord['type'] === 'php') {
+			$rlike = $this->dataRecord['directive_snippets_id'].'|,'.$this->dataRecord['directive_snippets_id'].'|'.$this->dataRecord['directive_snippets_id'].',';
+			$affected_snippets = $app->db->queryAllRecords('SELECT directive_snippets_id FROM directive_snippets WHERE required_php_snippets REGEXP ? AND type = ?', $rlike, 'apache');
+			if(is_array($affected_snippets) && !empty($affected_snippets)) {
+				foreach($affected_snippets as $snippet) {
+					$sql_in[] = $snippet['directive_snippets_id'];
+				}
+				$affected_sites = $app->db->queryAllRecords('SELECT domain_id FROM web_domain WHERE server_id = ? AND directive_snippets_id IN ?', $conf['server_id'], $sql_in);
+			}
+		} elseif($this->dataRecord['type'] === 'apache' || $this->dataRecord['type'] === 'nginx') {
+			$affected_sites = $app->db->queryAllRecords('SELECT domain_id FROM web_domain WHERE server_id = ? AND directive_snippets_id = ?', $conf['server_id'], $this->dataRecord['directive_snippets_id']);
+		}
+
+		if(!empty($affected_sites)) {
+			$app->error($app->lng('error_delete_snippet_active_sites'));
+		}
+	}
+}
+
+$page = new page_action();
+$page->onDelete();
+
