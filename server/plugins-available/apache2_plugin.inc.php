@@ -1256,6 +1256,8 @@ class apache2_plugin {
 
 			$php_ini_content = $this->get_master_php_ini_content($data['new']);
 
+			$php_ini_content .= "\n".str_replace("\r", '', trim($data['new']['custom_php_ini']));
+
 			if(intval($data['new']['directive_snippets_id']) > 0){
 				$snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'apache' AND active = 'y' AND customer_viewable = 'y'", intval($data['new']['directive_snippets_id']));
 				if(isset($snippet['required_php_snippets']) && trim($snippet['required_php_snippets']) != ''){
@@ -1275,7 +1277,6 @@ class apache2_plugin {
 					}
 				}
 			}
-			$php_ini_content .= "\n".str_replace("\r", '', trim($data['new']['custom_php_ini']));
 
 			$custom_sendmail_path = false;
 			$line = strtok($php_ini_content, '\n');
