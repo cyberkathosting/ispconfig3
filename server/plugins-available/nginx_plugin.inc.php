@@ -90,35 +90,6 @@ class nginx_plugin {
 
 		$app->plugins->registerEvent('web_folder_update', $this->plugin_name, 'web_folder_update');
 		$app->plugins->registerEvent('web_folder_delete', $this->plugin_name, 'web_folder_delete');
-
-		$app->plugins->registerEvent('directive_snippets_update', $this->plugin_name, 'directive_snippets');
-	}
-
-	function directive_snippets($event_name, $data) {
-		global $app, $conf;
-
-		$snippet = $data['new'];
-
-		if($snippet['active'] == 'y' && $snippet['update_sites'] == 'y') {
-			if($snippet['type'] == 'php') {
-				$rlike = $snippet['directive_snippets_id'].'|,'.$snippet['directive_snippets_id'].'|'.$snippet['directive_snippets_id'].',';
-				$affected_snippets = $app->db->queryAllRecords('SELECT directive_snippets_id FROM directive_snippets WHERE required_php_snippets RLIKE(?) AND type = ?', $rlike, 'nginx');
-				if(is_array($affected_snippets) && !empty($affected_snippets)) {
-					foreach($affected_snippets as $snippet) $sql_in[] = $snippet['directive_snippets_id'];
-					$affected_sites = $app->db->queryAllRecords('SELECT domain_id FROM web_domain WHERE server_id = ? AND directive_snippets_id IN ?', $conf['server_id'], $sql_in);
-				}
-			}
-			if($snippet['type'] == 'nginx') $affected_sites = $app->db->queryAllRecords('SELECT domain_id FROM web_domain WHERE server_id = ? AND directive_snippets_id = ?', $conf['server_id'], $snippet['directive_snippets_id']);
-
-			if(is_array($affected_sites) && !empty($affected_sites)) {
-				foreach($affected_sites as $site) {
-					$website = $app->db->queryOneRecord('SELECT * FROM web_domain WHERE domain_id = ?', $site['domain_id']);
-					$new_data['old'] = $website;
-					$new_data['new'] = $website;
-					$this->update('web_domain_update', $new_data);
-				}
-			}
-		}
 	}
 
 	// Handle the creation of SSL certificates
@@ -2829,7 +2800,7 @@ class nginx_plugin {
 						foreach($required_php_snippets as $required_php_snippet){
 							$required_php_snippet = intval($required_php_snippet);
 							if($required_php_snippet > 0){
-								$php_snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE ".($snippet['master_directive_snippets_id'] > 0 ? 'master_' : '')."directive_snippets_id = ? AND type = 'php' AND active = 'y'", $required_php_snippet);
+								$php_snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'php' AND active = 'y'", $required_php_snippet);
 								$php_snippet['snippet'] = trim($php_snippet['snippet']);
 								if($php_snippet['snippet'] != ''){
 									$custom_php_ini_settings .= "\n".$php_snippet['snippet'];
@@ -3016,7 +2987,7 @@ class nginx_plugin {
 					foreach($required_php_snippets as $required_php_snippet){
 						$required_php_snippet = intval($required_php_snippet);
 						if($required_php_snippet > 0){
-							$php_snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE ".($snippet['master_directive_snippets_id'] > 0 ? 'master_' : '')."directive_snippets_id = ? AND type = 'php' AND active = 'y'", $required_php_snippet);
+							$php_snippet = $app->db->queryOneRecord("SELECT * FROM directive_snippets WHERE directive_snippets_id = ? AND type = 'php' AND active = 'y'", $required_php_snippet);
 							$php_snippet['snippet'] = trim($php_snippet['snippet']);
 							if($php_snippet['snippet'] != ''){
 								$custom_php_ini_settings .= "\n".$php_snippet['snippet'];

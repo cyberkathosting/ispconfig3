@@ -57,8 +57,6 @@ class list_action extends listform_actions {
 		//* Alternating datarow colors
 		$this->DataRowColor = ($this->DataRowColor == '#FFFFFF') ? '#EEEEEE' : '#FFFFFF';
 		$rec['bgcolor'] = $this->DataRowColor;
-		
-		$rec['is_master'] = $rec['master_directive_snippets_id'];
 
 		//* substitute value for select fields
 		if(is_array($app->listform->listDef['item']) && count($app->listform->listDef['item']) > 0) {
@@ -79,15 +77,8 @@ class list_action extends listform_actions {
 		$rec['id'] = $rec[$this->idx_key];
 		return $rec;
 	}
-	
+
 }
 $list = new list_action;
 $list->SQLOrderBy = 'ORDER BY directive_snippets.name';
 $list->onLoad();
-
-//$app->listform_actions->SQLExtWhere = 'master_directive_snippets_id = 0';
-/*
-$app->listform_actions->SQLOrderBy = 'ORDER BY directive_snippets.name';
-$app->listform_actions->onLoad();
-*/
-?>

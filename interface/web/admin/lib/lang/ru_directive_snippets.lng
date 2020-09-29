@@ -10,4 +10,6 @@ $wb['variables_txt'] = 'Переменные:';
 $wb['customer_viewable_txt'] = 'Видимый клиентам';
 $wb['required_php_snippets_txt'] = 'Обязательная PHP-заготовка';
 $wb['update_sites_txt'] = 'Update sites using this snippet';
-?>
+$wb['error_hide_snippet_active_sites'] = 'You cannot hide this snippet from customers as it is currently used by existing websites.';
+$wb['error_disable_snippet_active_sites'] = 'You cannot disable this snippet as it is currently used by existing websites.';
+$wb['error_delete_snippet_active_sites'] = 'You cannot delete this snippet as it is currently used by existing websites.';

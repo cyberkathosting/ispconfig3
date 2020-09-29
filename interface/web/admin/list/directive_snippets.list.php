@@ -74,7 +74,7 @@ $liste["item"][] = array( 'field'  => "type",
 	'suffix' => "",
 	'width'  => "",
 	'value'  => array('apache' => 'Apache', 'nginx' => 'nginx', 'php' => 'PHP', 'proxy' => 'Proxy'));
-	
+
 $liste["item"][] = array( 'field'  => "customer_viewable",
 	'datatype' => "VARCHAR",
 	'formtype' => "SELECT",
@@ -83,14 +83,3 @@ $liste["item"][] = array( 'field'  => "customer_viewable",
 	'suffix' => "",
 	'width'  => "",
 	'value'  => array('y' => $app->lng('yes_txt'), 'n' => $app->lng('no_txt')));
-	
-$liste["item"][] = array( 'field'  => "master_directive_snippets_id",
-	'datatype' => "BOOLEAN",
-	'formtype' => "SELECT",
-	'op'  => "IS",
-	'prefix' => "",
-	'suffix' => "",
-	'width'  => "",
-	'value'  => array(0 => $app->lng('select_directive_snippet_txt'), 1 => $app->lng('select_master_directive_snippet_txt')));
-
-?>
