@@ -519,6 +519,7 @@ if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'sel
 //** Configure ISPConfig
 swriteln('Updating ISPConfig');
 
+$issue_asked = false;
 $issue_tried = false;
 // create acme vhost
 if($conf['nginx']['installed'] == true) {
@@ -544,15 +545,18 @@ if ($inst->install_ispconfig_interface) {
 		$inst->make_ispconfig_ssl_cert();
 		$issue_tried = true;
 	}
+	$issue_asked = true;
 }
 
 // Create SSL certs for non-webserver(s)?
-if(!file_exists('/usr/local/ispconfig/interface/ssl/ispserver.crt')) {
-    if(!$issue_tried && strtolower($inst->simple_query('Do you want to create SSL certs for your server?', array('y', 'n'), 'y','create_ssl_server_certs')) == 'y') {
-        $inst->make_ispconfig_ssl_cert();
-	}
-} else {
-	swriteln('Certificate exists. Not creating a new one.');
+if(!$issue_asked) {
+    if(!file_exists('/usr/local/ispconfig/interface/ssl/ispserver.crt')) {
+        if(!$issue_tried && strtolower($inst->simple_query('Do you want to create SSL certs for your server?', array('y', 'n'), 'y','create_ssl_server_certs')) == 'y') {
+            $inst->make_ispconfig_ssl_cert();
+	    }
+    } else {
+        swriteln('Certificate exists. Not creating a new one.');
+    }
 }
 
 $inst->install_ispconfig();
