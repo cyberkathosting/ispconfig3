@@ -11,3 +11,6 @@
 #{stress_adaptive} smtpd_soft_error_limit = ${stress?{2}:{5}}
 #{stress_adaptive} smtpd_timeout = ${stress?{10}:{60}}s
 
+# validate DANE
+smtp_dns_support_level = dnssec
+smtp_tls_security_level = dane
