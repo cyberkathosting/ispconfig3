@@ -1289,7 +1289,13 @@ class backup
         self::prepare_backup_dir($server_id, $web_domain);
         $web_backup_dir = $backup_dir . '/web' . $web_id;
 
-        $backup_excludes = array(escapeshellarg('./backup\*'));
+	# default exclusions
+	$backup_excludes = array(
+		escapeshellarg('./backup\*'),
+		'./bin', './dev', './etc', './lib', './lib32', './lib64', './opt', './sys', './usr', './var', './proc', './run', './tmp',
+		'./log',
+		);
+
         $b_excludes = explode(',', trim($web_domain['backup_excludes']));
         if (is_array($b_excludes) && !empty($b_excludes)) {
             foreach ($b_excludes as $b_exclude) {
