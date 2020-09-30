@@ -691,11 +691,11 @@ class backup
      * @see backup_plugin::mount_backup_dir()
      * @author Ramil Valitov <ramilvalitov@gmail.com>
      */
-    protected static function clearBackups($server_id, $web_id, $max_backup_copies, $backup_dir)
+    protected static function clearBackups($server_id, $web_id, $max_backup_copies, $backup_dir, $prefix_list=null)
     {
         global $app;
 
-        $files = self::get_files($backup_dir);
+        $files = self::get_files($backup_dir, $prefix_list);
         usort($files, function ($a, $b) use ($backup_dir) {
             $time_a = filemtime($backup_dir . '/' . $a);
             $time_b = filemtime($backup_dir . '/' . $b);
@@ -1214,7 +1214,11 @@ class backup
 
                 //* Remove old backups
                 self::backups_garbage_collection($server_id, 'mysql', $domain_id);
-                self::clearBackups($server_id, $domain_id, intval($rec['backup_copies']), $db_backup_dir);
+                $prefix_list = array(
+                            'db_'.escapeshellarg($db_name).'_',
+                            'manual-db_'.escapeshellarg($db_name).'_',
+                        );
+                self::clearBackups($server_id, $domain_id, intval($rec['backup_copies']), $db_backup_dir, $prefix_list);
             } else {
                 $app->log('Failed to process mysql backup format ' . $backup_format_db . ' for database ' . $rec['database_name'], LOGLEVEL_ERROR);
             }
@@ -1324,7 +1328,11 @@ class backup
             $app->log('Backup of web files for domain ' . $web_domain['domain'] . ' failed using path ' . $web_path . ' failed.', LOGLEVEL_ERROR);
         }
 
-        self::clearBackups($server_id, $web_id, intval($web_domain['backup_copies']), $web_backup_dir);
+	$prefix_list = array(
+		    'web',
+		    'manual-web',
+		);
+        self::clearBackups($server_id, $web_id, intval($web_domain['backup_copies']), $web_backup_dir, $prefix_list);
         return true;
     }
 
