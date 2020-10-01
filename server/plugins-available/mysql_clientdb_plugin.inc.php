@@ -162,10 +162,11 @@ class mysql_clientdb_plugin {
 					}
 				}
 				
+				$app->log("PASSWORD SET FOR '".$link->escape_string($database_user)."'@'$db_host' success? " . ($success ? 'yes' : 'no'), LOGLEVEL_DEBUG);
+				
 				if($success == true){
 					$link->query("FLUSH PRIVILEGES");
-					$app->log("PASSWORD SET FOR '".$link->escape_string($database_user)."'@'$db_host' success? " . ($success ? 'yes' : 'no'), LOGLEVEL_DEBUG);
-				} 
+				}
 
 				// Set the grant
 				if(!$link->query("GRANT " . $grants . " ON `".$database_name."`.* TO '".$link->escape_string($database_user)."'@'$db_host'")) $success = false;
