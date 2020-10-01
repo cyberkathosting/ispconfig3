@@ -11,3 +11,4 @@
 #{stress_adaptive} smtpd_soft_error_limit = ${stress?2}${stress:5}
 #{stress_adaptive} smtpd_timeout = ${stress?10}${stress:60}s
 
+smtpd_forbidden_commands = CONNECT,GET,POST,USER,PASS
