@@ -1,6 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Репозитории';
-$wb['active_txt'] = 'Активно';
-$wb['repo_name_txt'] = 'Репозиторий';
-$wb['repo_url_txt'] = 'URL';
-?>

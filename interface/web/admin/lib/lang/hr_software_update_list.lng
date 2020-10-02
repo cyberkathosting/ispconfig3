@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Softverske nadogradnje';
-$wb['server_select_txt'] = 'Izaberi server';
-$wb['installed_txt'] = 'Akcija';
-$wb['update_title_txt'] = 'Nadogradi';
-$wb['version_txt'] = 'Verzija';
-$wb['action_txt'] = 'Akcija';
-$wb['no_updates_txt'] = 'Nema nadogradnji';
-?>

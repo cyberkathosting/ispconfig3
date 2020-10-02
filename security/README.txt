@@ -1,7 +1,7 @@
 
 Description for security_settings.ini values.
 
-The option "superadmin" means that a setting is only available to the admin user with userid 1 in the interface. 
+The option "superadmin" means that a setting is only available to the admin user with userid 1 in the interface.
 If there are other amdins, then they cant access this setting.
 
 -----------------------------------------------------------
@@ -57,14 +57,6 @@ Setting:     admin_allow_osupdate
 Options:     yes/no/superadmin
 Description: Disables System > OS update
 
-Setting:     admin_allow_software_packages
-Options:     yes/no/superadmin
-Description: Disables System > Apps & Addons > Packages and Update
-
-Setting:     admin_allow_software_repo
-Options:     yes/no/superadmin
-Description: Disables System > Apps & Addons > Repo
-
 Setting:     remote_api_allowed
 Options:     yes/no
 Description: Disables the remote API
@@ -80,13 +72,13 @@ Description: Enables the Intrusion Detection System
 Setting:     ids_log_level
 Options:     1 (number, default = 1)
 Description: IDS score that triggers the log in /usr/local/ispconfig/interface/temp/ids.log
-             This log can be used to feed the whitelist. 
-			 
+             This log can be used to feed the whitelist.
+
 			 Example:
-			 
+
 			 cat /usr/local/ispconfig/interface/temp/ids.log >> /usr/local/ispconfig/security/ids.whitelist
 			 rm -f /usr/local/ispconfig/interface/temp/ids.log
-			 
+
 			 If you want to use a custom whitelist, then store it as /usr/local/ispconfig/security/ids.whitelist.custom
 
 Setting:     ids_warn_level
@@ -95,7 +87,7 @@ Description: When the IDS score exceeds this level, a error message is logged in
 
 Setting:     ids_block_level
 Options:     100 (number, default = 100)
-Description: When the IDS score exceeds this level, a error message is shown to the user and further processing is blocked. A score of 100 will most likely never be reached. 
+Description: When the IDS score exceeds this level, a error message is shown to the user and further processing is blocked. A score of 100 will most likely never be reached.
              We have choosen such a high score as default until we have more complete whitelists for this new feature.
 
 Setting:     sql_scan_enabled
@@ -135,5 +127,3 @@ Description: Warn by email when /etc/shadow has been changed.
 Setting:     warn_group_change
 Options:     yes/no
 Description: Warn by email when /etc/group has been changed.
-
-

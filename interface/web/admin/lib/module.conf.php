@@ -95,30 +95,6 @@ $module['nav'][] = array(   'title'     => 'Interface',
 // cleanup
 unset($items);
 
-
-$items[] = array(   'title'  => 'Repositories',
-	'target'  => 'content',
-	'link' => 'admin/software_repo_list.php',
-	'html_id'   => 'software_repo_list');
-
-$items[] = array(   'title'  => 'Packages',
-	'target'  => 'content',
-	'link' => 'admin/software_package_list.php',
-	'html_id'   => 'software_package_list');
-
-$items[] = array(   'title'  => 'Updates',
-	'target'  => 'content',
-	'link' => 'admin/software_update_list.php',
-	'html_id'   => 'software_update_list');
-
-$module['nav'][] = array(   'title'     => 'Software',
-	'open'  => 1,
-	'items' => $items);
-
-
-// cleanup
-unset($items);
-
 $items[] = array(   'title'  => 'Languages',
 	'target'  => 'content',
 	'link' => 'admin/language_list.php',

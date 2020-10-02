@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Ъпдейт на софтуера';
-$wb['installed_txt'] = 'Действие';
-$wb['update_title_txt'] = 'Ъпдейт';
-$wb['version_txt'] = 'Версия';
-$wb['action_txt'] = 'Действие';
-$wb['server_select_txt'] = 'Избери сървър';
-$wb['no_updates_txt'] = 'No updates available';
-?>

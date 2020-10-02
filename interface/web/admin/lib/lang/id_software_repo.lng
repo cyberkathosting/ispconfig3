@@ -1,8 +1,0 @@
-<?php
-$wb['repo_name_txt'] = 'Repositori';
-$wb['repo_url_txt'] = 'URL';
-$wb['repo_username_txt'] = 'Pengguna (opsional)';
-$wb['repo_password_txt'] = 'Sandi (opsional)';
-$wb['active_txt'] = 'Aktif';
-$wb['Software Repository which may contain addons or updates'] = 'Software Repository which may contain addons or updates';
-?>

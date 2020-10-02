@@ -1,6 +1,0 @@
-<?php
-$wb['package_title_txt'] = 'Paket Başlığı';
-$wb['package_key_txt'] = 'Paket Anahtarı';
-$wb['Software Package'] = 'Yazılım Paketi';
-$wb['Modify software package details'] = 'Yazılım paketi bilgilerini düzenle';
-?>
