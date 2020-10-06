@@ -18,6 +18,10 @@ $wb['web_folder_error_regex'] = 'Dossier invalide. Ne saisissez pas de ./ (slash
 $wb['type_txt'] = 'Type';
 $wb['parent_domain_id_txt'] = 'Site Web parent';
 $wb['redirect_type_txt'] = 'Type de redirection';
+$wb['r_redirect_txt'] = 'R (Temporary redirect)';
+$wb['l_redirect_txt'] = 'L (Last redirect rule)';
+$wb['r_l_redirect_txt'] = 'R,L (Temporary redirect + last rule)';
+$wb['r_301_l_redirect_txt'] = 'R=301,L (Permanent redirect + last rule)';
 $wb['redirect_path_txt'] = 'Chemin de redirection';
 $wb['active_txt'] = 'Actif';
 $wb['document_root_txt'] = 'Dossier racine';
