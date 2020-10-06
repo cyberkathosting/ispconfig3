@@ -2,12 +2,12 @@
                 <label for="username" class="col-sm-3 control-label">{tmpl_var name='username_txt'}</label>
                 <div class="col-sm-9"><input type="text" name="username" id="username" value="{tmpl_var name='username'}" class="form-control" /></div></div>
                 <div class="form-group">
-                          <label for="password" class="col-sm-3 control-label">{tmpl_var name='password_txt'}</label>
+                          <label for="passwort" class="col-sm-3 control-label">{tmpl_var name='password_txt'}</label>
                           <div class="col-sm-9">
           				<div class="input-group">
-          					<input type="password" name="password" id="password" value="{tmpl_var name='password'}" title="{tmpl_var name='password_click_to_set_txt'}" class="form-control" autocomplete="off" onkeyup="pass_check(this.value);checkPassMatch('password','repeat_password');" />
+          					<input type="password" name="passwort" id="passwort" value="{tmpl_var name='passwort'}" title="{tmpl_var name='password_click_to_set_txt'}" class="form-control" autocomplete="off" onkeyup="pass_check(this.value);checkPassMatch('passwort','repeat_password');" />
           					<span class="input-group-btn">
-          						<button class="btn btn-default" type="button" onclick="generatePassword('password','repeat_password');">{tmpl_var name='generate_password_txt'}</button>
+          						<button class="btn btn-default" type="button" onclick="generatePassword('passwort','repeat_password');">{tmpl_var name='generate_password_txt'}</button>
           					</span>
           				</div>
           				</div>
