@@ -91,13 +91,13 @@ class postfix_server_plugin {
 			if (!empty($mail_config['relayhost_user']) || !empty($mail_config['relayhost_password'])) {
 				$content .= "\n".$mail_config['relayhost'].'   '.$mail_config['relayhost_user'].':'.$mail_config['relayhost_password'];
 			}
-			
+
 			if (preg_replace('/^(#[^\n]*|\s+)(:?\n+|)/m','',$content) != '') {
 				exec("postconf -e 'smtp_sasl_auth_enable = yes'");
 			} else {
 				exec("postconf -e 'smtp_sasl_auth_enable = no'");
 			}
-			
+
 			$app->system->exec_safe("postconf -e ?", 'relayhost = '.$mail_config['relayhost']);
 			file_put_contents('/etc/postfix/sasl_passwd', $content);
 			chmod('/etc/postfix/sasl_passwd', 0600);
@@ -281,7 +281,7 @@ class postfix_server_plugin {
 				exec("postconf -X 'smtpd_timeout'");
 			}
 		}
-		
+
 		if($app->system->is_installed('dovecot')) {
 			$virtual_transport = 'dovecot';
 			$configure_lmtp = false;
@@ -347,7 +347,7 @@ class postfix_server_plugin {
 			if($mail_config['content_filter'] == 'rspamd'){
 				exec("postconf -X 'receive_override_options'");
 				exec("postconf -X 'content_filter'");
-				
+
 				exec("postconf -e 'smtpd_milters = inet:localhost:11332'");
 				exec("postconf -e 'non_smtpd_milters = inet:localhost:11332'");
 				exec("postconf -e 'milter_protocol = 6'");
@@ -355,7 +355,7 @@ class postfix_server_plugin {
 				exec("postconf -e 'milter_default_action = accept'");
 
 				exec("postconf -e 'smtpd_sender_restrictions = ${raslm} permit_mynetworks, ${rslm} permit_sasl_authenticated, reject_non_fqdn_sender, check_sender_access proxy:mysql:/etc/postfix/mysql-virtual_sender.cf'");
-				
+
 				$new_options = array();
 				$options = preg_split("/,\s*/", exec("postconf -h smtpd_recipient_restrictions"));
 				foreach ($options as $key => $value) {
@@ -367,7 +367,7 @@ class postfix_server_plugin {
 					$new_options[] = $value;
 				}
 				exec("postconf -e 'smtpd_recipient_restrictions = ".implode(", ", $new_options)."'");
-				
+
 				// get all domains that have dkim enabled
 				if ( substr($mail_config['dkim_path'], strlen($mail_config['dkim_path'])-1) == '/' ) {
 					$mail_config['dkim_path'] = substr($mail_config['dkim_path'], 0, strlen($mail_config['dkim_path'])-1);
@@ -384,10 +384,11 @@ class postfix_server_plugin {
 				unset($dkim_domains);
 			} else {
 				exec("postconf -X 'smtpd_milters'");
+				exec("postconf -X 'non_smtpd_milters'");
 				exec("postconf -X 'milter_protocol'");
 				exec("postconf -X 'milter_mail_macros'");
 				exec("postconf -X 'milter_default_action'");
-				
+
 				exec("postconf -e 'receive_override_options = no_address_mappings'");
 				exec("postconf -e 'content_filter = " . ($configure_lmtp ? "lmtp" : "amavis" ) . ":[127.0.0.1]:10024'");
 
@@ -395,7 +396,7 @@ class postfix_server_plugin {
 				exec("postconf -e 'smtpd_sender_restrictions = ${raslm} check_sender_access regexp:/etc/postfix/tag_as_originating.re, permit_mynetworks, ${rslm} permit_sasl_authenticated, reject_non_fqdn_sender, check_sender_access regexp:/etc/postfix/tag_as_foreign.re, check_sender_access proxy:mysql:/etc/postfix/mysql-virtual_sender.cf'");
 			}
 		}
-		
+
 		if($mail_config['content_filter'] == 'rspamd' && ($mail_config['rspamd_password'] != $old_ini_data['mail']['rspamd_password'] || $mail_config['content_filter'] != $old_ini_data['mail']['content_filter'])) {
 			$app->load('tpl');
 
@@ -404,7 +405,7 @@ class postfix_server_plugin {
 			if($crypted_password) {
 				$rspamd_password = $crypted_password;
 			}
-			
+
 			$tpl = new tpl();
 			$tpl->newTemplate('rspamd_worker-controller.inc.master');
 			$tpl->setVar('rspamd_password', $rspamd_password);
