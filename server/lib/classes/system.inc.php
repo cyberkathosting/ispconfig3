@@ -2094,7 +2094,8 @@ class system{
 			$app->log("Could not check OpenSSL version, openssl not found.", LOGLEVEL_DEBUG);
                         return '1.0.1';
                 }
-                exec($cmd, $output, $return_var);
+
+		exec($cmd, $output, $return_var);
                 if($return_var != 0 || !$output[0]) {
 			$app->log("Could not check OpenSSL version, openssl did not return any data.", LOGLEVEL_WARN);
                         return '1.0.1';
@@ -2106,7 +2107,31 @@ class system{
 			return '1.0.1';
                 }
 
-        }
+	}
+
+	function getnginxversion($get_minor = false) {
+		global $app;
+
+		if($this->is_installed('nginx')) $cmd = 'nginx -v 2>&1';
+		else {
+                        $app->log("Could not check Nginx version, nginx not found.", LOGLEVEL_DEBUG);
+                        return false;
+                }
+
+		exec($cmd, $output, $return_var);
+
+		if($return_var != 0 || !$output[0]) {
+                        $app->log("Could not check Nginx version, nginx did not return any data.", LOGLEVEL_WARN);
+                        return false;
+		}
+
+		if(preg_match('/nginx version: nginx\/\s*(\d+)(\.(\d+)(\.(\d+))*)?(\D|$)/i', $output[0], $matches)) {
+			return $matches[1] . (isset($matches[3]) ? '.' . $matches[3] : '') . (isset($matches[5]) && $get_minor == true ? '.' . $matches[5] : '');
+                } else {
+                        $app->log("Could not check Nginx version, did not find version string in nginx output.", LOGLEVEL_WARN);
+                        return false;
+                }
+	}
 
 	function getapacheversion($get_minor = false) {
 		global $app;
