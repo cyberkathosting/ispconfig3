@@ -1621,6 +1621,10 @@ class nginx_plugin {
 		// set logging variable
 		$vhost_data['logging'] = $web_config['logging'];
 
+		$app->log("Found OpenSSL version: " . $app->system->getopensslversion($get_minor = true), LOGLEVEL_DEBUG);
+
+		$vhost_data['openssl_version'] = $app->system->getopensslversion($get_minor = true);
+		
 		$tpl->setVar($vhost_data);
 
 		$server_alias = array();
