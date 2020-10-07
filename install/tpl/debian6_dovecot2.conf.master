@@ -66,10 +66,12 @@ service imap-login {
 }
 protocol imap {
   mail_plugins = quota imap_quota
+  auth_verbose = yes
 }
 protocol pop3 {
   pop3_uidl_format = %08Xu%08Xv
   mail_plugins = quota
+  auth_verbose = yes
 }
 protocol lda {
   postmaster_address = webmaster@localhost
