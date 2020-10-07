@@ -197,6 +197,7 @@ $wb['enable_ip_wildcard_txt'] = 'IP Adressen Wildcard (*) aktivieren';
 $wb['web_folder_protection_txt'] = 'Webverzeichnis unveränderlich machen (erweiterte Attribute)';
 $wb['overtraffic_notify_admin_txt'] = 'Überschreiten des Datentransfer Limits an den Administrator senden';
 $wb['overtraffic_notify_client_txt'] = 'Überschreiten des Datentransfer Limits an den Kunden senden';
+$wb['overtraffic_disable_web_txt'] = 'Disable websites that exceed traffic limit';
 $wb['rbl_error_regex'] = 'Bitte geben Sie gültige RBL-Hostnamen an.';
 $wb['overquota_notify_admin_txt'] = 'Quota-Warnungen an den Administrator senden';
 $wb['overquota_notify_client_txt'] = 'Quota-Warnungen an den Kunden senden';

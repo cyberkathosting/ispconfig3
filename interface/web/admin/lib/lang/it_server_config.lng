@@ -179,6 +179,7 @@ $wb['enable_ip_wildcard_txt'] = 'Abilita  IP wildcard (*)';
 $wb['web_folder_protection_txt'] = 'Imposta cartelle sito in moaniera non modificabile (attributi estesi)';
 $wb['overtraffic_notify_admin_txt'] = 'Trasmetti notifiche superamento traffico ad admin';
 $wb['overtraffic_notify_client_txt'] = 'Trasmetti notifiche superamento traffico al cliente';
+$wb['overtraffic_disable_web_txt'] = 'Disable websites that exceed traffic limit';
 $wb['rbl_error_regex'] = 'Per cortesia specificare nomi host RBL validi.';
 $wb['overquota_notify_admin_txt'] = 'Trasmetti allarmi quota ad admin';
 $wb['overquota_notify_client_txt'] = 'Trasmetti allarmi quota al cliente';

@@ -228,6 +228,7 @@ $wb['php_open_basedir_error_regex'] = 'El open_basedir para PHP es inválido.';
 $wb['php_open_basedir_txt'] = 'open_basedir para PHP';
 $wb['php_settings_txt'] = 'Opciones de PHP';
 $wb['pop3_imap_daemon_txt'] = 'Servicio POP3/IMAP';
+$wb['overtraffic_disable_web_txt'] = 'Disable websites that exceed traffic limit';
 $wb['rbl_error_regex'] = 'Por favor especifique nombres de host RBL válidos.';
 $wb['realtime_blackhole_list_note_txt'] = '(Separe las listas RBL con una coma)';
 $wb['realtime_blackhole_list_txt'] = 'Lista de filtrado en tiempo real';

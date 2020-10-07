@@ -198,6 +198,7 @@ $wb['enable_ip_wildcard_txt'] = 'IP Genel Karakteri (*) Kullanılsın';
 $wb['web_folder_protection_txt'] = 'Web klasörleri ayarlanamasın (genişletilmiş öznitelikler)';
 $wb['overtraffic_notify_admin_txt'] = 'Trafik Aşımı Bildirimi Yöneticiye Gönderilsin';
 $wb['overtraffic_notify_client_txt'] = 'Trafik Aşımı Bildirimi Müşteriye Gönderilsin';
+$wb['overtraffic_disable_web_txt'] = 'Disable websites that exceed traffic limit';
 $wb['rbl_error_regex'] = 'Lütfen geçerli RBL sunucu adları yazın.';
 $wb['overquota_notify_admin_txt'] = 'Kota Uyarıları Yöneticiye Gönderilsin';
 $wb['overquota_notify_client_txt'] = 'Kota Uyarıları Müşteriye Gönderilsin';
