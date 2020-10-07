@@ -62,7 +62,7 @@
                     <td><input class="form-control" type="text" name="search_aux" value="{tmpl_var name='search_aux'}" /></td>
                     <td><input class="form-control" type="text" name="search_ttl" value="{tmpl_var name='search_ttl'}" /></td>
                     <td class="text-right">
-                        <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="return ISPConfig.changeTab('dns_records','dns/dns_soa_edit.php');"><span class="icon icon-filter"></span></button>
+                        <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="return ISPConfig.changeTab('dns_records','dns/dns_soa_edit.php');" data-form-action="dns/dns_a_list.php"><span class="icon icon-filter"></span></button>
                     </td>
                 </tr>
             </thead>
