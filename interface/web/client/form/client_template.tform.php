@@ -339,6 +339,13 @@ $form["tabs"]['limits'] = array (
 			'maxlength' => '10',
 			'rows'  => '',
 			'cols'  => ''
+		),
+		'limit_mail_backup' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'valuelimit' => 'client:limit_mail_backup',
+			'value'  => array(0 => 'n', 1 => 'y')
 		),/*
         'default_xmppserver' => array (
             'datatype' => 'INTEGER',

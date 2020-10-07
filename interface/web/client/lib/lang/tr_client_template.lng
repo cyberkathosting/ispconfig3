@@ -3,6 +3,7 @@ $wb['ssh_chroot_notempty'] = 'No SSH chroot option selected. Select at least one
 $wb['template_type_txt'] = 'Kalıp Türü';
 $wb['template_name_txt'] = 'Kalıp Adı';
 $wb['limit_client_error_notint'] = 'Müşteri sınırı bir sayı olmalıdır.';
+$wb['limit_mail_backup_txt'] = 'E-mail backup function available';
 $wb['default_mailserver_txt'] = 'Varsayılan E-posta Sunucusu';
 $wb['limit_maildomain_txt'] = 'En Fazla E-posta Etki Alanı Sayısı';
 $wb['limit_mailbox_txt'] = 'En Fazla E-posta Kutusu Sayısı';
