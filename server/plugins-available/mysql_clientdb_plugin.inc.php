@@ -153,17 +153,17 @@ class mysql_clientdb_plugin {
 				// mariadb or mysql < 5.7
 				if($this->getDatabaseType($link) == 'mariadb' || version_compare($this->getDatabaseVersion($link), '5.7', '<')) {
 					$query = sprintf("SET PASSWORD FOR '%s'@'%s' = '%s'",
-						$link->escape_string($data['new']['database_user']),
+						$link->escape_string($database_user),
 						$db_host,
-						$link->escape_string($data['new']['database_password']));
+						$link->escape_string($database_password));
 					if(!$link->query($query)) $success = false;
 				}
 				// mysql >= 5.7
 				else {
 					$query = sprintf("ALTER USER IF EXISTS '%s'@'%s' IDENTIFIED WITH mysql_native_password AS '%s'",
-						$link->escape_string($data['new']['database_user']),
+						$link->escape_string($database_user),
 						$db_host,
-						$link->escape_string($data['new']['database_password']));
+						$link->escape_string($database_password));
 					if(!$link->query($query)) $success = false;
 				}
 				
@@ -190,17 +190,17 @@ class mysql_clientdb_plugin {
 					// mariadb or mysql < 5.7
 					if($this->getDatabaseType($link) == 'mariadb' || version_compare($this->getDatabaseVersion($link), '5.7', '<')) {
 						$query = sprintf("SET PASSWORD FOR '%s'@'%s' = '%s'",
-							$link->escape_string($data['new']['database_user']),
+							$link->escape_string($database_user),
 							$db_host,
-							$link->escape_string($data['new']['database_password']));
+							$link->escape_string($database_password));
 						if(!$link->query($query)) $success = false;
 					}
 					// mysql >= 5.7
 					else {
 						$query = sprintf("ALTER USER IF EXISTS '%s'@'%s' IDENTIFIED WITH mysql_native_password AS '%s'",
-							$link->escape_string($data['new']['database_user']),
+							$link->escape_string($database_user),
 							$db_host,
-							$link->escape_string($data['new']['database_password']));
+							$link->escape_string($database_password));
 						if(!$link->query($query)) $success = false;
 					}
 					if($success == true) $link->query("FLUSH PRIVILEGES");
