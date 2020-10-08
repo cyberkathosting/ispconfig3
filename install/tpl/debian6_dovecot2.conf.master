@@ -88,7 +88,7 @@ protocol lmtp {
 #2.3+         group = vmail
 #2.3+         mode = 0660
 #2.3+     }
-#2.3+
+#2.3+ 
 #2.3+     unix_listener stats-writer {
 #2.3+         user = vmail
 #2.3+         group = vmail
