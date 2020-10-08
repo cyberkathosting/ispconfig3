@@ -39,7 +39,7 @@ class installer extends installer_base {
 		$configure_lmtp = false;
 
 		// use lmtp if installed
-		if($configure_lmtp = is_file('/usr/lib/dovecot/lmtp')) {
+		if($configure_lmtp = (is_file('/usr/lib/dovecot/lmtp') || is_file('/usr/libexec/dovecot/lmtp'))) {
 			$virtual_transport = 'lmtp:unix:private/dovecot-lmtp';
 		}
 
@@ -168,7 +168,7 @@ class installer extends installer_base {
 		}
 
 		//* dovecot-managesieved
-		if(is_file('/usr/lib/dovecot/managesieve')) {
+		if(is_file('/usr/lib/dovecot/managesieve') || is_file('/usr/libexec/dovecot/managesieve')) {
 			$dovecot_protocols .= ' sieve';
 		}
 

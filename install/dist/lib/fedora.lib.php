@@ -381,6 +381,11 @@ class installer_dist extends installer_base {
 
 		$configure_lmtp = false;
 
+		// use lmtp if installed
+		if($configure_lmtp = (is_file('/usr/lib/dovecot/lmtp') || is_file('/usr/libexec/dovecot/lmtp'))) {
+			$virtual_transport = 'lmtp:unix:private/dovecot-lmtp';
+		}
+
 		// check if virtual_transport must be changed
 		if ($this->is_update) {
 			$tmp = $this->db->queryOneRecord("SELECT * FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . ".server", $conf['server_id']);
