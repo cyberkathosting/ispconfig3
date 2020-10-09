@@ -150,16 +150,21 @@ class mysql_clientdb_plugin {
 				$link->query("CREATE USER '".$link->escape_string($database_user)."'@'$db_host'");
 				$app->log("CREATE USER '".$link->escape_string($database_user)."'@'$db_host'", LOGLEVEL_DEBUG);
 
-				// set the password
-				// MySQL < 5.7 and MariadB 10
-				if(!$link->query("UPDATE mysql.user SET `Password` = '".$link->escape_string($database_password)."' WHERE `Host` = '".$db_host."' AND `User` = '".$link->escape_string($database_user)."'")) {
-					if($this->getDatabaseType($link) == 'mysql' && $this->getDatabaseVersion($link, true) >= 8) {
-						// for MySQL >= 8, we set authentication plugin to old mode to ensure that older additional php versions can still connect to the database
-						if(!$link->query("UPDATE mysql.user SET `authentication_string` = '".$link->escape_string($database_password)."', `plugin` = 'mysql_native_password' WHERE `Host` = '".$db_host."' AND `User` = '".$link->escape_string($database_user)."'")) $success = false;
-					} else {
-						// MySQL 5.7, the Password field has been renamed to authentication_string
-						if(!$link->query("UPDATE mysql.user SET `authentication_string` = '".$link->escape_string($database_password)."' WHERE `Host` = '".$db_host."' AND `User` = '".$link->escape_string($database_user)."'")) $success = false;
-					}
+				// mariadb or mysql < 5.7
+				if($this->getDatabaseType($link) == 'mariadb' || version_compare($this->getDatabaseVersion($link), '5.7', '<')) {
+					$query = sprintf("SET PASSWORD FOR '%s'@'%s' = '%s'",
+						$link->escape_string($database_user),
+						$db_host,
+						$link->escape_string($database_password));
+					if(!$link->query($query)) $success = false;
+				}
+				// mysql >= 5.7
+				else {
+					$query = sprintf("ALTER USER IF EXISTS '%s'@'%s' IDENTIFIED WITH mysql_native_password AS '%s'",
+						$link->escape_string($database_user),
+						$db_host,
+						$link->escape_string($database_password));
+					if(!$link->query($query)) $success = false;
 				}
 				
 				$app->log("PASSWORD SET FOR '".$link->escape_string($database_user)."'@'$db_host' success? " . ($success ? 'yes' : 'no'), LOGLEVEL_DEBUG);
@@ -182,15 +187,21 @@ class mysql_clientdb_plugin {
 				//if(!$link->query("SET PASSWORD FOR '".$link->escape_string($database_user)."'@'$db_host' = '".$link->escape_string($database_password)."'")) $success = false;
 				// SET PASSWORD for already hashed passwords is not supported by latest MySQL 5.7 anymore, so we have to set the hashed password directly
 				if(trim($database_password) != '') {
-					// MySQL < 5.7 and MariadB 10
-					if(!$link->query("UPDATE mysql.user SET `Password` = '".$link->escape_string($database_password)."' WHERE `Host` = '".$db_host."' AND `User` = '".$link->escape_string($database_user)."'")) {
-						if($this->getDatabaseType($link) == 'mysql' && $this->getDatabaseVersion($link, true) >= 8) {
-							// for MySQL >= 8, we set authentication plugin to old mode to ensure that older additional php versions can still connect to the database
-							if(!$link->query("UPDATE mysql.user SET `authentication_string` = '".$link->escape_string($database_password)."', `plugin` = 'mysql_native_password' WHERE `Host` = '".$db_host."' AND `User` = '".$link->escape_string($database_user)."'")) $success = false;
-						} else {
-							// MySQL 5.7, the Password field has been renamed to authentication_string
-							if(!$link->query("UPDATE mysql.user SET `authentication_string` = '".$link->escape_string($database_password)."' WHERE `Host` = '".$db_host."' AND `User` = '".$link->escape_string($database_user)."'")) $success = false;
-						}
+					// mariadb or mysql < 5.7
+					if($this->getDatabaseType($link) == 'mariadb' || version_compare($this->getDatabaseVersion($link), '5.7', '<')) {
+						$query = sprintf("SET PASSWORD FOR '%s'@'%s' = '%s'",
+							$link->escape_string($database_user),
+							$db_host,
+							$link->escape_string($database_password));
+						if(!$link->query($query)) $success = false;
+					}
+					// mysql >= 5.7
+					else {
+						$query = sprintf("ALTER USER IF EXISTS '%s'@'%s' IDENTIFIED WITH mysql_native_password AS '%s'",
+							$link->escape_string($database_user),
+							$db_host,
+							$link->escape_string($database_password));
+						if(!$link->query($query)) $success = false;
 					}
 					if($success == true) $link->query("FLUSH PRIVILEGES");
 				}
