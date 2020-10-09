@@ -774,6 +774,15 @@ class installer_base {
 			chmod($config_dir.$configfile.'~',0600);
 		}
 
+		exec('postconf -h recipient_delimiter 2>/dev/null', $out);
+		if (strlen($out[0]) > 0) {
+			$recipient_delimiter = $this->db->escape( str_replace('%', '%%', $out[0]) );
+			$addr_no_extension = "CONCAT(SUBSTRING_INDEX('%u', '${recipient_delimiter}', 1), '@%d')";
+		} else {
+			$addr_no_extension = "'%s'";
+		}
+		unset($out);
+
 		//* Replace variables in config file template
 		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', 'tpl/'.$configfile.'.master');
 		$content = str_replace('{mysql_server_ispconfig_user}', $conf['mysql']['ispconfig_user'], $content);
@@ -781,6 +790,7 @@ class installer_base {
 		$content = str_replace('{mysql_server_database}', $conf['mysql']['database'], $content);
 		$content = str_replace('{mysql_server_ip}', $conf['mysql']['ip'], $content);
 		$content = str_replace('{server_id}', $conf['server_id'], $content);
+		$content = str_replace('{address_without_extension}', $addr_no_extension, $content);
 		wf($full_file_name, $content);
 
 		//* Changing mode and group of the new created config file
