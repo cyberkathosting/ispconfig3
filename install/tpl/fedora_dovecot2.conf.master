@@ -76,15 +76,13 @@ protocol lmtp {
   mail_plugins = quota sieve
 }
 
-mail_plugins = $mail_plugins quota
-
 #2.3+ service stats {
 #2.3+     unix_listener stats-reader {
 #2.3+         user = vmail
 #2.3+         group = vmail
 #2.3+         mode = 0660
 #2.3+     }
-#2.3+
+#2.3+ 
 #2.3+     unix_listener stats-writer {
 #2.3+         user = vmail
 #2.3+         group = vmail
