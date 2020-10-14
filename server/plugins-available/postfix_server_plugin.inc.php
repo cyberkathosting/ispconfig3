@@ -288,7 +288,7 @@ class postfix_server_plugin {
 			$dovecot_protocols = 'imap pop3';
 
 			//* dovecot-lmtpd
-			if( ($configure_lmtp = is_file('/usr/lib/dovecot/lmtp')) ||
+			if( ($configure_lmtp = (is_file('/usr/lib/dovecot/lmtp') || is_file('/usr/libexec/dovecot/lmtp'))) ||
 			    ($mail_config["mailbox_virtual_uidgid_maps"] == 'y') )
 			{
 				$virtual_transport = 'lmtp:unix:private/dovecot-lmtp';
@@ -296,7 +296,7 @@ class postfix_server_plugin {
 			}
 
 			//* dovecot-managesieved
-			if(is_file('/usr/lib/dovecot/managesieve')) {
+			if(is_file('/usr/lib/dovecot/managesieve') || is_file('/usr/libexec/dovecot/managesieve')) {
 				$dovecot_protocols .= ' sieve';
 			}
 

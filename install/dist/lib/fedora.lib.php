@@ -163,7 +163,18 @@ class installer_dist extends installer_base {
 		$stress_adaptive_placeholder = '#{stress_adaptive} ';
 		$stress_adaptive = (isset($server_ini_array['mail']['stress_adaptive']) && ($server_ini_array['mail']['stress_adaptive'] == 'y')) ? '' : $stress_adaptive_placeholder;
 
+		$reject_unknown_client_hostname='';
+		if (isset($server_ini_array['mail']['reject_unknown']) && ($server_ini_array['mail']['reject_unknown'] == 'client' || $server_ini_array['mail']['reject_unknown'] == 'client_helo')) {
+			$reject_unknown_client_hostname=',reject_unknown_client_hostname';
+		}
+		$reject_unknown_helo_hostname='';
+		if ((!isset($server_ini_array['mail']['reject_unknown'])) || $server_ini_array['mail']['reject_unknown'] == 'helo' || $server_ini_array['mail']['reject_unknown'] == 'client_helo') {
+			$reject_unknown_helo_hostname=',reject_unknown_helo_hostname';
+		}
+
 		unset($server_ini_array);
+
+		$myhostname = str_replace('.','\.',$conf['hostname']);
 
 		$postconf_placeholders = array('{config_dir}' => $config_dir,
 			'{vmail_mailbox_base}' => $cf['vmail_mailbox_base'],
@@ -173,7 +184,10 @@ class installer_dist extends installer_base {
 			'{greylisting}' => $greylisting,
 			'{reject_slm}' => $reject_sender_login_mismatch,
 			'{reject_aslm}' => $reject_authenticated_sender_login_mismatch,
+			'{myhostname}' => $myhostname,
 			$stress_adaptive_placeholder => $stress_adaptive,
+			'{reject_unknown_client_hostname}' => $reject_unknown_client_hostname,
+			'{reject_unknown_helo_hostname}' => $reject_unknown_helo_hostname,
 		);
 
 		$postconf_tpl = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/fedora_postfix.conf.master', 'tpl/fedora_postfix.conf.master');
@@ -380,6 +394,11 @@ class installer_dist extends installer_base {
 		$virtual_transport = 'dovecot';
 
 		$configure_lmtp = false;
+
+		// use lmtp if installed
+		if($configure_lmtp = (is_file('/usr/lib/dovecot/lmtp') || is_file('/usr/libexec/dovecot/lmtp'))) {
+			$virtual_transport = 'lmtp:unix:private/dovecot-lmtp';
+		}
 
 		// check if virtual_transport must be changed
 		if ($this->is_update) {
