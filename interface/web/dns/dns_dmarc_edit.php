@@ -94,7 +94,7 @@ class page_action extends tform_actions {
 			$this->id = 1;
 			$old_data = strtolower($rec['data']);
 			$app->tpl->setVar("data", $old_data, true);
-            if ($rec['active'] == 'Y') $app->tpl->setVar("active", "CHECKED"); else $app->tpl->setVar("active", "UNCHECKED");
+      //if ($rec['active'] == 'Y') $app->tpl->setVar("active", "CHECKED"); else $app->tpl->setVar("active", "UNCHECKED");
 			$dmarc_rua = '';
 			$dmarc_ruf = '';
 			$dmac_rf = '';
@@ -120,13 +120,13 @@ class page_action extends tform_actions {
 				if (preg_match("/^pct=/", $part)) $dmarc_pct = str_replace('pct=', '', $part);
 				if (preg_match("/^ri=/", $part)) $dmarc_ri = str_replace('ri=', '', $part);
 			}
-		} 
+		}
 
 		//set html-values
 		$app->tpl->setVar('domain', $domain_name, true);
 
 		//create dmarc-policy-list
-		$dmarc_policy_value = array( 
+		$dmarc_policy_value = array(
 			'none' => 'dmarc_policy_none_txt',
 			'quarantine' => 'dmarc_policy_quarantine_txt',
 			'reject' => 'dmarc_policy_reject_txt',
@@ -152,7 +152,7 @@ class page_action extends tform_actions {
 		unset($temp);
 
 		//create dmarc-adkim-list
-		$dmarc_adkim_value = array( 
+		$dmarc_adkim_value = array(
 			'r' => 'dmarc_adkim_r_txt',
 			's' => 'dmarc_adkim_s_txt',
 		);
@@ -164,7 +164,7 @@ class page_action extends tform_actions {
 		$app->tpl->setVar('dmarc_adkim', $dmarc_adkim_list);
 
 		//create dmarc-aspf-list
-		$dmarc_aspf_value = array( 
+		$dmarc_aspf_value = array(
 			'r' => 'dmarc_aspf_r_txt',
 			's' => 'dmarc_aspf_s_txt',
 		);
@@ -183,7 +183,7 @@ class page_action extends tform_actions {
 		$app->tpl->setVar("dmarc_ri", $dmarc_ri, true);
 
 		//create dmarc-sp-list
-		$dmarc_sp_value = array( 
+		$dmarc_sp_value = array(
 			'same' => 'dmarc_sp_same_txt',
 			'none' => 'dmarc_sp_none_txt',
 			'quarantine' => 'dmarc_sp_quarantine_txt',
@@ -251,7 +251,7 @@ class page_action extends tform_actions {
 		$this->dataRecord['dmarc_pct'] = $app->functions->intval($this->dataRecord['dmarc_pct']);
 		if ($this->dataRecord['dmarc_pct'] < 0) $this->dataRecord['dmarc_pct'] = 0;
 		if ($this->dataRecord['dmarc_pct'] > 100) $this->dataRecord['dmarc_pct'] = 100;
-		
+
 		//create dmarc-record
 		$dmarc_record[] = 'p='.$this->dataRecord['dmarc_policy'];
 
@@ -270,7 +270,7 @@ class page_action extends tform_actions {
 			unset ($dmarc_rua);
 			unset($temp);
 		}
-		
+
 		if (!empty($this->dataRecord['dmarc_ruf'])) {
 			$dmarc_ruf = explode(' ', $this->dataRecord['dmarc_ruf']);
 			$dmarc_ruf = array_filter($dmarc_ruf);
@@ -286,7 +286,7 @@ class page_action extends tform_actions {
 			unset ($dmarc_ruf);
 			unset($temp);
 		}
-		
+
 		$fo_rec = array();
 		if (isset($this->dataRecord['dmarc_fo0'])) $fo_rec[] = '0';
 		if (isset($this->dataRecord['dmarc_fo1'])) $fo_rec[] = '1';
@@ -328,7 +328,7 @@ class page_action extends tform_actions {
 
 		$this->dataRecord['name'] = '_dmarc.' . $soa['origin'];
 		if (isset($this->dataRecord['active'])) $this->dataRecord['active'] = 'Y';
-		
+
 		// Set the server ID of the rr record to the same server ID as the parent record.
 		$this->dataRecord["server_id"] = $soa["server_id"];
 
