@@ -105,7 +105,7 @@ class remoting_server extends remoting {
 		$affected_rows = $this->deleteQuery('../admin/form/server_ip.tform.php', $ip_id);
 		return $affected_rows;
 	}
-	
+
 	/**
 	 Gets the server configuration
 	 @param int session id
@@ -141,7 +141,7 @@ class remoting_server extends remoting {
 					return false;
 			}
 	}
-	
+
 	/**
 	 Set a value in the server configuration
 	 @param int session id
@@ -169,7 +169,7 @@ class remoting_server extends remoting {
 				return false;
 			}
 	}
-	
+
 	/**
 		Gets a list of all servers
 		@param int session_id
@@ -191,7 +191,7 @@ class remoting_server extends remoting {
 			return false;
 		}
 	}
-        
+
 	/**
 	    Gets the server_id by server_name
 	    @param int session_id
@@ -213,7 +213,7 @@ class remoting_server extends remoting {
 			return false;
 		}
 	}
-	
+
 	/**
 	    Gets the functions of a server by server_id
 	    @param int session_id
@@ -227,7 +227,7 @@ class remoting_server extends remoting {
         	throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
             return false;
 		}
-		if (!empty($session_id) && !empty($server_id)) { 
+		if (!empty($session_id) && !empty($server_id)) {
 			$sql = "SELECT mail_server, web_server, dns_server, file_server, db_server, vserver_server, proxy_server, firewall_server, mirror_server_id FROM server WHERE server_id  = ?";
 			$all = $app->db->queryOneRecord($sql, $server_id);
 			return $all;
@@ -257,7 +257,7 @@ class remoting_server extends remoting {
 		}
 	}
 
-	public function server_get_php_versions($session_id, $server_id, $php)
+	public function server_get_php_versions($session_id, $server_id, $php, $get_full_data = false)
 	{
 		global $app;
 		if(!$this->checkPerm($session_id, 'server_get')) {
@@ -272,15 +272,23 @@ class remoting_server extends remoting {
 			if ($php === 'php-fpm' || ($php === 'hhvm' && $server_type === 'nginx')) {
 				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fpm_init_script != '' AND php_fpm_ini_dir != '' AND php_fpm_pool_dir != '' AND server_id = ? AND (client_id = 0)", $server_id);
 				foreach ($php_records as $php_record) {
-					$php_version = $php_record['name'].':'.$php_record['php_fpm_init_script'].':'.$php_record['php_fpm_ini_dir'].':'.$php_record['php_fpm_pool_dir'];
-					$php_versions[] = $php_version;
+					if($get_full_data) {
+						$php_versions[] = $php_record;
+					} else {
+						$php_version = $php_record['name'].':'.$php_record['php_fpm_init_script'].':'.$php_record['php_fpm_ini_dir'].':'.$php_record['php_fpm_pool_dir'];
+						$php_versions[] = $php_version;
+					}
 				}
 			}
 			if ($php === 'fast-cgi') {
 				$php_records = $app->db->queryAllRecords("SELECT * FROM server_php WHERE php_fastcgi_binary != '' AND php_fastcgi_ini_dir != '' AND server_id = ? AND (client_id = 0)", $server_id);
 				foreach ($php_records as $php_record) {
-					$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];
-					$php_versions[] = $php_version;
+					if($get_full_data) {
+						$php_versions[] = $php_record;
+					} else {
+						$php_version = $php_record['name'].':'.$php_record['php_fastcgi_binary'].':'.$php_record['php_fastcgi_ini_dir'];
+						$php_versions[] = $php_version;
+					}
 				}
 			}
 			return $php_versions;
