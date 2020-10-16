@@ -2369,6 +2369,9 @@ class system{
 		# /etc/jailkit/jk_init.ini is the default path, probably not needed?
 		$program_args .= ' -c /etc/jailkit/jk_init.ini -j ?';
 		foreach($app_sections as $app_section) {
+			if ($app_section == '') {
+				continue;
+			}
 			# should check that section exists with jk_init --list ?
 			$program_args .= ' ' . escapeshellarg($app_section);
 		}
@@ -2448,6 +2451,9 @@ class system{
 
 		$bad_paths = array();
 		foreach($programs as $prog) {
+			if ($prog == '') {
+				continue;
+			}
 			foreach ($blacklisted_paths_regex as $re) {
 				if (preg_match($re, $prog, $matches)) {
 					$bad_paths[] = $matches[0];
