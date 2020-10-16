@@ -96,6 +96,9 @@ $conf['web']['apps_vhost_servername'] = '';
 $conf['web']['apps_vhost_user'] = 'ispapps';
 $conf['web']['apps_vhost_group'] = 'ispapps';
 
+//* AWStats settings
+$conf['awstats']['pl'] = '/usr/share/awstats/wwwroot/cgi-bin/awstats.pl';
+
 //* Fastcgi
 $conf['fastcgi']['fastcgi_phpini_path'] = '/etc/';
 $conf['fastcgi']['fastcgi_starter_path'] = '/var/www/php-fcgi-scripts/[system_user]/';
