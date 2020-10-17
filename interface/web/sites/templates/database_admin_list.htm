@@ -4,12 +4,12 @@
 
 
         <p class="fieldset-legend">{tmpl_var name="toolsarea_head_txt"}</p>
-            
-                <button class="btn btn-default formbutton-success" type="button" data-load-content="sites/database_edit.php">{tmpl_var name="add_new_record_txt"}</button>
-            
-        
 
-    
+                <button class="btn btn-default formbutton-success" type="button" data-load-content="sites/database_edit.php">{tmpl_var name="add_new_record_txt"}</button>
+
+
+
+
         <p class="fieldset-legend"><tmpl_var name="list_head_txt"></p>
             <div class="table-wrapper marginTop15">
 <table class="table">
@@ -67,7 +67,7 @@
                     </tmpl_loop>
                     <tmpl_unless name="records">
                         <tr class="tbl_row_noresults tbl_row_<tmpl_if name='__EVEN__'}even<tmpl_else>uneven</tmpl_if>">
-                            <td colspan="9">{tmpl_var name='globalsearch_noresults_text_txt'}</td>
+                            <td colspan="8">{tmpl_var name='globalsearch_noresults_text_txt'}</td>
                         </tr>
                     </tmpl_unless>
                 </tbody>
