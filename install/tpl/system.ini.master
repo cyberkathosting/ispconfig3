@@ -4,6 +4,9 @@
 
 [client]
 
+[help]
+show_support_messages=n
+
 [dns]
 
 [mail]

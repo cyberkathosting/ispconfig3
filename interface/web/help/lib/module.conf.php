@@ -25,27 +25,30 @@ $module['tab_width'] = '';
 
 
 //*** Menu Definition *****************************************
+// read web config
+$app->uses('getconf');
+$global_config = $app->getconf->get_global_config('help');
+if($global_config['show_support_messages'] == 'y') {
+	//* make sure that the items array is empty
+	$items = array();
 
-//* make sure that the items array is empty
-$items = array();
-
-//* Add a menu item with the label 'Send message'
-$items[] = array( 'title'   => 'Send message',
+	//* Add a menu item with the label 'Send message'
+	$items[] = array( 'title'   => 'Send message',
 	'target'  => 'content',
 	'link'    => 'help/support_message_edit.php',
 	'html_id' => 'help_message_send');
 
-//* Add a menu item with the label 'View messages'
-$items[] = array( 'title'   => 'View messages',
+	//* Add a menu item with the label 'View messages'
+	$items[] = array( 'title'   => 'View messages',
 	'target'  => 'content',
 	'link'    => 'help/support_message_list.php',
 	'html_id' => 'help_message_list');
 
-
-//* Add the menu items defined above to a menu section labeled 'Support'
-$module['nav'][] = array( 'title' => 'Support',
+	//* Add the menu items defined above to a menu section labeled 'Support'
+	$module['nav'][] = array( 'title' => 'Support',
 	'open'  => 1,
 	'items' => $items);
+}
 
 //* the FAQ menu section
 $itemsfaq = array();
