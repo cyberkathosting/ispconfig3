@@ -65,8 +65,7 @@ if($_SESSION['s']['user']['typ'] == 'admin') {
 		'open' => 1,
 		'items' => $itemsfaq);
 }
-else
-	{ //* the user
+else { //* the user
 	$sql = "SELECT * FROM help_faq_sections";
 	$res = $app->db->queryAllRecords($sql);
 	//* all the content sections
@@ -80,7 +79,7 @@ else
 		$module['nav'][] = array(  'title' => 'FAQ',
 			'open' => 1,
 			'items' => $itemsfaq);
-	}
+		}
 }
 //* -- end of the FAQ menu section
 
@@ -101,9 +100,5 @@ if($_SESSION['s']['user']['typ'] == 'admin') {
 	$module['nav'][] = array( 'title' => 'About ISPConfig',
 		'open'  => 1,
 		'items' => $items);
-
 }
-
-
-
 ?>
