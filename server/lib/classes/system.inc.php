@@ -2523,6 +2523,10 @@ $app->log("update_jailkit_chroot called for $home_dir with options ".print_r($op
 				break;
 			default:
 				if (preg_match('@^skip[ =]/?(.+)$@', $opt, $matches) ) {
+					if (in_array($matches[1], $jailkit_directories)) {
+						$app->log("update_jailkit_chroot: skipping update of jailkit directory $home_dir/".$matches[1]
+							. "; if this is in use as a web folder, it is insecure and should be fixed.", LOGLEVEL_WARN);
+					}
 					$jailkit_directories = $app->functions->array_unset_by_value($jailkit_directories, $matches[1]);
 					$skips .= ' --skip=/'.escapeshellarg($matches[1]);
 				}
@@ -2740,6 +2744,10 @@ $app->log("delete_jailkit_chroot called for $home_dir with options ".print_r($op
 			switch ($opt) {
 			default:
 				if (preg_match('@^skip[ =]/?(.+)$@', $opt, $matches) ) {
+					if (in_array($matches[1], $jailkit_directories)) {
+						$app->log("delete_jailkit_chroot: skipping removal of jailkit directory .$home_dir/".$matches[1]
+							. "; if this is in use as a web folder, it is insecure and should be fixed.", LOGLEVEL_WARN);
+					}
 					$jailkit_directories = $app->functions->array_unset_by_value($jailkit_directories, $matches[1]);
 				}
 				break;
