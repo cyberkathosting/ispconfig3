@@ -176,7 +176,7 @@ server {
             index index.html index.php;
             auth_basic "Members Only";
             auth_basic_user_file <tmpl_var name='stats_auth_passwd_file'>;
-            add_header Content-Security-Policy "default-src * 'self' 'unsafe-inline';";
+            add_header Content-Security-Policy "default-src * 'self' 'unsafe-inline' 'unsafe-eval' data:;";
         }
 
         location ^~ /awstats-icon {

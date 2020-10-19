@@ -739,7 +739,7 @@ class backup
         $server_config = $app->getconf->get_server_config($server_id, 'server');
         $backup_dir = trim($server_config['backup_dir']);
         $sql = "SELECT * FROM web_backup WHERE server_id = ?";
-        $sql_domains = "SELECT domain_id,system_user,system_group,backup_interval FROM web_domain WHERE server_id = ? AND (type = 'vhost' OR type = 'vhostsubdomain' OR type = 'vhostalias')";
+        $sql_domains = "SELECT domain_id,document_root,system_user,system_group,backup_interval FROM web_domain WHERE server_id = ? AND (type = 'vhost' OR type = 'vhostsubdomain' OR type = 'vhostalias')";
         array_push($args, $server_id);
         array_push($args_domains, $server_id);
         if (!empty($backup_type)) {

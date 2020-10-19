@@ -1031,6 +1031,61 @@ class system{
 		}
 	}
 
+	function remove_recursive_symlinks($path, $chroot_basedir='', $recursive=false) {
+		global $app;
+
+		if ($path != '/') {
+			$path = rtrim($path, '/');
+		}
+		if (strlen($chroot_basedir) > 0) {
+			if (!is_dir($chroot_basedir)) {
+				$app->log("remove_recursive_symlink: invalid chroot basedir: $chroot_basedir", LOGLEVEL_DEBUG);
+				return false;
+			}
+			if (!(substr($path, 0, strlen($chroot_basedir)) === $chroot_basedir)) {
+				$app->log("remove_recursive_symlink: path $path is not below chroot basedir $chroot_basedir", LOGLEVEL_DEBUG);
+				return false;
+			}
+			if ($chroot_basedir != '/') {
+				$chroot_basedir = rtrim($chroot_basedir, '/');
+			}
+		}
+		if (is_dir($path)) {
+			$objects = array_diff(scandir($path), array('.', '..'));
+			foreach ($objects as $object) {
+				if (is_dir("$path/$object") && $recursive) {
+					$this->remove_recursive_symlinks("$path/$object", $chroot_basedir, $recursive);
+				} elseif (is_link("$path/$object")) {
+					$realpath = realpath("$path/$object");
+					if (strlen($chroot_basedir) > 0 ) {
+						$root_path = substr("$path/$object", strlen($chroot_basedir));
+						if ($root_path && $realpath == $root_path) {
+							$app->log("removing recursive symlink $path/$object", LOGLEVEL_DEBUG);
+							unlink ("$path/$object");
+						}
+					}
+					if ($realpath = "" || $realpath == "$path/$object") {
+						$app->log("removing recursive symlink $path/$object", LOGLEVEL_DEBUG);
+						unlink ("$path/$object");
+					}
+				}
+			}
+		} elseif (is_link("$path")) {
+			$realpath = realpath($path);
+			if (strlen($chroot_basedir) > 0 ) {
+				$root_path = substr($path, strlen($chroot_basedir));
+				if ($root_path && $realpath == $root_path) {
+					$app->log("removing recursive symlink $path", LOGLEVEL_DEBUG);
+					unlink ($path);
+				}
+			}
+			if ($realpath = "" || $realpath == $path) {
+				$app->log("removing recursive symlink $path", LOGLEVEL_DEBUG);
+				unlink ($path);
+			}
+		}
+	}
+
 	function checkpath($path) {
 		$path = trim($path);
 		//* We allow only absolute paths
@@ -2531,6 +2586,7 @@ $app->log("update_jailkit_chroot called for $home_dir with options ".print_r($op
 			}
 
 			$this->remove_broken_symlinks($jail_dir, true);
+			$this->remove_recursive_symlinks($jail_dir, $home_dir, true);
 
 			// save list of hardlinked files
 			if (!(in_array('hardlink', $opts) || in_array('allow_hardlink', $options))) {
@@ -2577,18 +2633,22 @@ $app->log('jk_update returned: '.print_r($this->_last_exec_out, true), LOGLEVEL_
 		foreach ($this->_last_exec_out as $line) {
 			# jk_update sample output:
 			# skip /var/www/clients/client1/web1/opt/
-			if (substr( $line, 0, 4 ) === "skip") {
+			# removing outdated file /var/www/clients/client15/web19/usr/bin/host
+			# removing deprecated directory /var/www/clients/client15/web19/usr/lib/x86_64-linux-gnu/libtasn1.so.6.5.3
+			# Creating symlink /var/www/clients/client15/web19/lib/x86_64-linux-gnu/libicudata.so.65 to libicudata.so.65.1
+			# Copying /usr/bin/mysql to /var/www/clients/client15/web19/usr/bin/mysql
+			if (preg_match('@^(skip|removing (outdated|deprecated)|Creating|Copying)@', $line)) {
 				continue;
 			}
 
 			# jk_update sample output:
 			# ERROR: failed to remove deprecated directory /var/www/clients/client1/web10/usr/lib/x86_64-linux-gnu/libGeoIP.so.1.6.9
-			if (preg_match('@^(?:[^ ]+){6}(?:.+)('.preg_quote($home_dir, '@').'.+)@', $line, $matches)) {
+			if (preg_match('@^(?:[^ ]+ ){6}(?:.+)('.preg_quote($home_dir, '@').'.+)@', $line, $matches)) {
 				# remove deprecated files that jk_update failed to remove
-				if (is_file($matches[1])) {
+				if (is_file($matches[1]) || is_link($matches[1])) {
 $app->log("update_jailkit_chroot: removing deprecated file which jk_update failed to remove:  ".$matches[1], LOGLEVEL_DEBUG);
 					unlink($matches[1]);
-				} elseif (is_dir($matches[1])) {
+				} elseif (is_dir($matches[1]) && !is_link($matches[1])) {
 $app->log("update_jailkit_chroot: removing deprecated directory which jk_update failed to remove:  ".$matches[1], LOGLEVEL_DEBUG);
 					$this->rmdir($matches[1], true);
 				} else {
