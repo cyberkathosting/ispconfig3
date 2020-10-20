@@ -1621,7 +1621,7 @@ class nginx_plugin {
 		// set logging variable
 		$vhost_data['logging'] = $web_config['logging'];
 
-                // check if OpenSSL and Nginx supports TLS 1.3
+                // Provide TLS 1.3 support if Nginx is >= 1.13.0 and when it was linked against OpenSSL(>=1.1.1) at build time.
 		$output = $app->system->exec_safe('nginx -V 2>&1');
 
 		if(preg_match('/built with OpenSSL\s*(\d+)(\.(\d+)(\.(\d+))*)?(\D|$)/i', $output[0], $matches)) {
