@@ -198,3 +198,4 @@ $wb['tooltip_jailkit_chroot_app_sections_txt'] = 'When empty, uses Jailkit chroo
 $wb['tooltip_jailkit_chroot_app_programs_txt'] = 'When empty, uses Jailkit chroot applications from Server Config';
 $wb['delete_unused_jailkit_txt'] = 'Delete unused jailkit chroot';
 $wb['tooltip_delete_unused_jailkit_txt'] = 'Delete the jailkit chroot environment when there are no shell users or cron jobs which require it.';
+$wb['ssl_options_not_for_le_txt'] = 'You have Let\'s Encrypt certificates enabled for this website. Please be aware that all options on this page apply to non-Let\'s Encrypt certificates only. Remember to uncheck Let\'s Encrypt on the main tab if you want to switch to a different certificate.';
