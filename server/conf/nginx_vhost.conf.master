@@ -19,7 +19,7 @@ server {
 </tmpl_if>
 </tmpl_if>
 
-<tmpl_if name='tls13_available' op='>=' value='1.1.1' format='version'>
+<tmpl_if name='tls1.3_supported' op='==' value='y'>
 <tmpl_var name="ssl_protocols">
 	ssl_protocols TLSv1.3 TLSv1.2;
 <tmpl_else>
