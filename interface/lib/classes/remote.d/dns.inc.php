@@ -249,7 +249,7 @@ class remoting_dns extends remoting {
 			return false;
 		}
 
-		if(!preg_match('/^[a-z0-9][a-z0-9\-]+[a-z0-9](\.[a-z]{2,4})+$/i', $origin)){
+		if(!preg_match('/^[\w\.\-]{2,64}\.[a-zA-Z0-9\-]{2,63}$/', $origin)){
 			throw new SoapFault('no_domain_found', 'Invalid domain name.');
 			return false;
 		}
