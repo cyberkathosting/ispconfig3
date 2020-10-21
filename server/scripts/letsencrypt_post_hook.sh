@@ -28,7 +28,7 @@ if which yum &> /dev/null 2>&1 ; then
         firewall-cmd --zone=public --permanent --remove-service=http
         firewall-cmd --reload
     # If using UFW
-    else; if [ rpm -q ufw ]; then ufw --force enable && ufw deny http; fi
+    elif [ rpm -q ufw ]; then ufw --force enable && ufw deny http
     fi
 # For Debian, Ubuntu or derivatives
 elif apt-get -v >/dev/null 2>&1 ; then
@@ -36,7 +36,7 @@ elif apt-get -v >/dev/null 2>&1 ; then
     if [ $(dpkg-query -W -f='${Status}' nginx 2>/dev/null | grep -c "ok installed") -eq 1 ]; then service nginx start
     elif [ $(dpkg-query -W -f='${Status}' apache2 2>/dev/null | grep -c "ok installed") -eq 1 ]; then service apache2 start
     # If using UFW
-    else; if [ $(dpkg-query -W -f='${Status}' ufw 2>/dev/null | grep -c "ok installed") -eq 1 ]; then ufw --force enable && ufw deny http; fi
+    elif [ $(dpkg-query -W -f='${Status}' ufw 2>/dev/null | grep -c "ok installed") -eq 1 ]; then ufw --force enable && ufw deny http
     fi
 # Try iptables as a final attempt
 else
