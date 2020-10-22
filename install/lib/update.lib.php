@@ -476,11 +476,9 @@ function checkAndRenameCustomTemplates($default_prompt='no') {
 	$found_templates = array();
 	foreach ($template_directories as $dir) {
 		if (!is_dir($dir)) { continue; }
-		$output = array();
-		exec("find $dir -maxdepth 1 -name \*.master", $output);
-		foreach ($output as $f) {
-			if (is_file(trim($f))) {
-				$found_templates[] = trim($f);
+		foreach (glob("$dir/*.master") as $f) {
+			if (is_file($f)) {
+				$found_templates[] = $f;
 			}
 		}
 	}
