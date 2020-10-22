@@ -18,6 +18,10 @@ $wb['web_folder_error_regex'] = 'Неверный ввод папки. Пожа�
 $wb['type_txt'] = 'Тип';
 $wb['parent_domain_id_txt'] = 'Родительский Web-сайт';
 $wb['redirect_type_txt'] = 'Тип редиректа';
+$wb['r_redirect_txt'] = 'R (Temporary redirect)';
+$wb['l_redirect_txt'] = 'L (Last redirect rule)';
+$wb['r_l_redirect_txt'] = 'R,L (Temporary redirect + last rule)';
+$wb['r_301_l_redirect_txt'] = 'R=301,L (Permanent redirect + last rule)';
 $wb['redirect_path_txt'] = 'Путь редиректа';
 $wb['active_txt'] = 'Активно';
 $wb['document_root_txt'] = 'Documentroot';
