@@ -488,7 +488,7 @@ class monitor_tools {
 		return $res;
 	}
 
-	public function _getLogData($log) {
+	public function _getLogData($log, $max_lines = 100) {
 		global $conf;
 
 		$dist = '';
@@ -645,7 +645,7 @@ class monitor_tools {
 			} else {
 				$log = '';
 				if (is_readable($logfile)) {
-					$fd = popen('tail -n 100 ' . escapeshellarg($logfile), 'r');
+					$fd = popen('tail -n '.intval($max_lines).' ' . escapeshellarg($logfile), 'r');
 					if ($fd) {
 						while (!feof($fd)) {
 							$log .= fgets($fd, 4096);
