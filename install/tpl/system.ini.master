@@ -4,9 +4,6 @@
 
 [client]
 
-[help]
-show_support_messages=n
-
 [dns]
 
 [mail]
@@ -59,6 +56,7 @@ tab_change_discard=n
 tab_change_warning=n
 use_loadindicator=y
 use_combobox=y
+show_support_messages=y
 maintenance_mode=n
 maintenance_mode_exclude_ips=
 admin_dashlets_left=

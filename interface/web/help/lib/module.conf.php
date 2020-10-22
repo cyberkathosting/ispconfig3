@@ -27,7 +27,7 @@ $module['tab_width'] = '';
 //*** Menu Definition *****************************************
 // read web config
 $app->uses('getconf');
-$global_config = $app->getconf->get_global_config('help');
+$global_config = $app->getconf->get_global_config('misc');
 if($global_config['show_support_messages'] == 'y') {
 	//* make sure that the items array is empty
 	$items = array();
