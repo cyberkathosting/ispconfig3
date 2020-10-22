@@ -110,36 +110,40 @@ class postfix_server_plugin {
 		}
 
 		if($mail_config['realtime_blackhole_list'] != $old_ini_data['mail']['realtime_blackhole_list']) {
-			$rbl_updated = false;
-			$rbl_hosts = trim(preg_replace('/\s+/', '', $mail_config['realtime_blackhole_list']));
-			if($rbl_hosts != ''){
-				$rbl_hosts = explode(",", $rbl_hosts);
-			}
+			# reject_rbl_client is now in smtpd_client_restrictions, remove here:
 			$options = preg_split("/,\s*/", exec("postconf -h smtpd_recipient_restrictions"));
 			$new_options = array();
 			foreach ($options as $key => $value) {
 				$value = trim($value);
 				if ($value == '') continue;
-				if (!preg_match('/reject_rbl_client/', $value)) {
-					$new_options[] = $value;
-				} else {
-					if(is_array($rbl_hosts) && !empty($rbl_hosts) && !$rbl_updated){
-						$rbl_updated = true;
-						foreach ($rbl_hosts as $key2 => $value2) {
-							$value2 = trim($value2);
-							if($value2 != '') $new_options[] = "reject_rbl_client ".$value2;
-						}
-					}
-				}
-			}
-			//* first time add rbl-list
-			if (!$rbl_updated && is_array($rbl_hosts) && !empty($rbl_hosts)) {
-				foreach ($rbl_hosts as $key => $value) {
-					$value = trim($value);
-					if($value != '') $new_options[] = "reject_rbl_client ".$value;
-				}
+				if (preg_match('/^reject_rbl_client/', $value)) continue;
+				$new_options[] = $value;
 			}
 			$app->system->exec_safe("postconf -e ?", 'smtpd_recipient_restrictions = '.implode(", ", $new_options));
+
+			$rbl_options = array();
+			$rbl_hosts = trim(preg_replace('/\s+/', '', $mail_config['realtime_blackhole_list']));
+			if($rbl_hosts != ''){
+				$rbl_hosts = explode(",", $rbl_hosts);
+				foreach ($rbl_hosts as $key => $value) {
+					$value = trim($value);
+					if($value != '') $rbl_options[] = "reject_rbl_client ".$value;
+				}
+			}
+
+			$options = preg_split("/,\s*/", exec("postconf -h smtpd_client_restrictions"));
+			$new_options = array();
+			foreach ($options as $key => $value) {
+				$value = trim($value);
+				if ($value == '') continue;
+				if (preg_match('/^reject_rbl_client/', $value)) continue;
+				$new_options[] = $value;
+				if (preg_match('/^permit_mynetworks/', $value)) {
+					$new_options = array_merge($new_options, $rbl_options);
+					$rbl_options = array(); // so we don't ever array_merge twice
+				}
+			}
+			$app->system->exec_safe("postconf -e ?", 'smtpd_client_restrictions = '.implode(", ", $new_options));
 		}
 
 		if ($mail_config['reject_sender_login_mismatch'] != $old_ini_data['mail']['reject_sender_login_mismatch']) {
