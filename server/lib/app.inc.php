@@ -88,18 +88,18 @@ class app {
 			trigger_error('Undefined property ' . $name . ' of class app', E_USER_WARNING);
 		}
 	}
-	
+
 	function setCaller($caller) {
 		$this->_calling_script = $caller;
 	}
-	
+
 	function getCaller() {
 		return $this->_calling_script;
 	}
-	
+
 	function forceErrorExit($errmsg = 'undefined') {
 		global $conf;
-		
+
 		if($this->_calling_script == 'server') {
 			@unlink($conf['temppath'] . $conf['fs_div'] . '.ispconfig_lock');
 		}
@@ -202,9 +202,14 @@ class app {
 		} // if
 
 		if(isset($conf['admin_notify_priority']) && $priority >= $conf['admin_notify_priority'] && $conf['admin_mail'] != '') {
+			if($conf['hostname'] != 'localhost' && $conf['hostname'] != '') {
+				$hostname = $conf['hostname'];
+			} else {
+				$hostname = exec('hostname -f');
+			}
 			// send notification to admin
-			$mailBody = $log_msg;
-			$mailSubject = substr($log_msg, 0, 50).'...';
+			$mailBody         = $hostname . " - " . $log_msg;
+			$mailSubject      = substr("[" . $hostname . "]" . " " . $log_msg, 0, 70).'...';
 			$mailHeaders      = "MIME-Version: 1.0" . "\n";
 			$mailHeaders     .= "Content-type: text/plain; charset=utf-8" . "\n";
 			$mailHeaders     .= "Content-Transfer-Encoding: 8bit" . "\n";
