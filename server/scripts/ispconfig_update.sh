@@ -20,7 +20,7 @@ then
     then
         cp -p ${n} ${n}.exec
         chmod +x ${n}.exec
-        exec ${n}.exec
+        exec ${n}.exec "$@"
     else
         # clean up tmp .exec file
         if [ "$(basename ${0})" == "ispconfig_update.sh.exec" ]; then
@@ -31,7 +31,7 @@ then
             -d disable_classes= \
             -d disable_functions= \
             -d open_basedir= \
-            /usr/local/ispconfig/server/scripts/ispconfig_update.php
+            /usr/local/ispconfig/server/scripts/ispconfig_update.php "$@"
 
     fi
 fi
