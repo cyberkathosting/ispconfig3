@@ -46,4 +46,5 @@ $wb['database_user_missing_txt'] = 'Пожалуйста, выберите по�
 $wb['limit_database_quota_txt'] = 'Квота базы данных';
 $wb['limit_database_quota_error_notint'] = 'Лимит квоты базы данных должен быть числом.';
 $wb['limit_database_quota_free_txt'] = 'Макс. доступная квота базы данных.';
+$wb['limit_database_quota_not_0_txt']= 'Database quota can not be 0';
 ?>
