@@ -42,7 +42,7 @@ class server_services_plugin {
 	var $courier_plugins = array('maildrop_plugin');
 	var $dovecot_plugins = array('maildeliver_plugin');
 
-	var $web_plugins = array('aps_plugin', 'cron_plugin', 'cron_jailkit_plugin', 'ftpuser_base_plugin', 'shelluser_base_plugin', 'shelluser_jailkit_plugin', 'webserver_plugin');
+	var $web_plugins = array('cron_plugin', 'cron_jailkit_plugin', 'ftpuser_base_plugin', 'shelluser_base_plugin', 'shelluser_jailkit_plugin', 'webserver_plugin');
 	var $apache_plugins = array('apache2_plugin');
 	var $nginx_plugins = array('nginx_plugin', 'nginx_reverseproxy_plugin');
 
