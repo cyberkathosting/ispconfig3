@@ -227,6 +227,8 @@ foreach ( $csv as $record ) {
 			'autoresponder_start_date' => date( 'Y-m-d H:i:s' ),
 			'autoresponder_end_date' => date( '2024-m-d H:i:s' ),
 			'autoresponder_text' => $record['autoresponder_text'],
+			'purge_trash_days' => 0,
+			'purge_junk_days' => 0,
 			'move_junk' => ( preg_match( '/^y/i', $record['move_junk'] ) ? 'y' : 'n' ),
 			'custom_mailfilter' => "",
 			'postfix' => 'y',
