@@ -18,6 +18,10 @@ $wb['web_folder_error_regex'] = 'Ungültige Ordnerangabe. Bitte geben Sie keinen
 $wb['type_txt'] = 'Typ';
 $wb['parent_domain_id_txt'] = 'Hauptwebseite';
 $wb['redirect_type_txt'] = 'Weiterleitungstyp';
+$wb['r_redirect_txt'] = 'R (Temporary redirect)';
+$wb['l_redirect_txt'] = 'L (Last redirect rule)';
+$wb['r_l_redirect_txt'] = 'R,L (Temporary redirect + last rule)';
+$wb['r_301_l_redirect_txt'] = 'R=301,L (Permanent redirect + last rule)';
 $wb['redirect_path_txt'] = 'Weiterleitungsziel';
 $wb['active_txt'] = 'Aktiv';
 $wb['document_root_txt'] = 'Documentroot';

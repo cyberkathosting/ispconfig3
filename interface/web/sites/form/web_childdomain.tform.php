@@ -119,7 +119,7 @@ $form["tabs"]['domain'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => 'y',
-			'value'  => array('' => 'no_redirect_txt', 'no' => 'no_flag_txt', 'R' => 'R', 'L' => 'L', 'R,L' => 'R,L', 'R=301,L' => 'R=301,L', 'last' => 'last', 'break' => 'break', 'redirect' => 'redirect', 'permanent' => 'permanent', 'proxy' => 'proxy')
+			'value'  => array('' => 'no_redirect_txt', 'no' => 'no_flag_txt', 'R' => 'r_redirect_txt', 'L' => 'l_redirect_txt', 'R,L' => 'r_l_redirect_txt', 'R=301,L' => 'r_301_l_redirect_txt', 'last' => 'last', 'break' => 'break', 'redirect' => 'redirect', 'permanent' => 'permanent', 'proxy' => 'proxy')
 		),
 		'redirect_path' => array (
 			'datatype' => 'VARCHAR',
