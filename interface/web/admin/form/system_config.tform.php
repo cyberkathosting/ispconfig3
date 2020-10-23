@@ -238,7 +238,7 @@ $form["tabs"]['sites'] = array (
 		'ssh_authentication' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
-			'default' => 'ssh_authentication_password_key',
+			'default' => '',
 			'value'  => array('' => 'ssh_authentication_password_key', 'password' => 'ssh_authentication_password', 'key' => 'ssh_authentication_key')
 		)
 		//#################################
