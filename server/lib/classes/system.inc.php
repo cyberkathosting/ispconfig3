@@ -2415,6 +2415,9 @@ class system{
 		# /etc/jailkit/jk_init.ini is the default path, probably not needed?
 		$program_args .= ' -c /etc/jailkit/jk_init.ini -j ?';
 		foreach($app_sections as $app_section) {
+			if ($app_section == '') {
+				continue;
+			}
 			# should check that section exists with jk_init --list ?
 			$program_args .= ' ' . escapeshellarg($app_section);
 		}
@@ -2494,6 +2497,9 @@ class system{
 
 		$bad_paths = array();
 		foreach($programs as $prog) {
+			if ($prog == '') {
+				continue;
+			}
 			foreach ($blacklisted_paths_regex as $re) {
 				if (preg_match($re, $prog, $matches)) {
 					$bad_paths[] = $matches[0];
@@ -2531,29 +2537,6 @@ $app->log("update_jailkit_chroot called for $home_dir with options ".print_r($op
 			return false;
 		}
 
-		$opts = array();
-		$jk_update_args = '';
-		$jk_cp_args = '';
-		foreach ($options as $opt) {
-			switch ($opt) {
-			case '-k':
-			case 'hardlink':
-				$opts[] = 'hardlink';
-				$jk_update_args .= ' -k';
-				$jk_cp_args .= ' -k';
-				break;
-			case '-f':
-			case 'force':
-				$opts[] = 'force';
-				$jk_cp_args .= ' -f';
-				break;
-			}
-		}
-
-		// Change ownership of the chroot directory to root
-		$this->chown($home_dir, 'root');
-		$this->chgrp($home_dir, 'root');
-
 		$jailkit_directories = array(
 			'bin',
 			'dev',
@@ -2567,7 +2550,40 @@ $app->log("update_jailkit_chroot called for $home_dir with options ".print_r($op
 			'var',
 		);
 
+		$opts = array();
+		$jk_update_args = '';
+		$jk_cp_args = '';
 		$skips = '';
+		foreach ($options as $opt) {
+			switch ($opt) {
+			case '-k':
+			case 'hardlink':
+				$opts[] = 'hardlink';
+				$jk_update_args .= ' -k';
+				$jk_cp_args .= ' -k';
+				break;
+			case '-f':
+			case 'force':
+				$opts[] = 'force';
+				$jk_cp_args .= ' -f';
+				break;
+			default:
+				if (preg_match('@^skip[ =]/?(.+)$@', $opt, $matches) ) {
+					if (in_array($matches[1], $jailkit_directories)) {
+						$app->log("update_jailkit_chroot: skipping update of jailkit directory $home_dir/".$matches[1]
+							. "; if this is in use as a web folder, it is insecure and should be fixed.", LOGLEVEL_WARN);
+					}
+					$jailkit_directories = $app->functions->array_unset_by_value($jailkit_directories, $matches[1]);
+					$skips .= ' --skip=/'.escapeshellarg($matches[1]);
+				}
+				break;
+			}
+		}
+
+		// Change ownership of the chroot directory to root
+		$this->chown($home_dir, 'root');
+		$this->chgrp($home_dir, 'root');
+
 		$multiple_links = array();
 		foreach ($jailkit_directories as $dir) {
 			$root_dir = '/'.$dir;
@@ -2739,9 +2755,10 @@ $app->log("update_jailkit_chroot: removing deprecated directory which jk_update 
 		return true;
 	}
 
-	public function delete_jailkit_chroot($home_dir) {
+	public function delete_jailkit_chroot($home_dir, $options = array()) {
 		global $app;
 
+$app->log("delete_jailkit_chroot called for $home_dir with options ".print_r($options, true), LOGLEVEL_DEBUG);
 		$app->uses('ini_parser');
 
 		// Disallow operating on root directory
@@ -2768,6 +2785,21 @@ $app->log("update_jailkit_chroot: removing deprecated directory which jk_update 
 			'var',
 			'run',		# not used by jailkit, but added for cleanup
 		);
+
+		foreach ($options as $opt) {
+			switch ($opt) {
+			default:
+				if (preg_match('@^skip[ =]/?(.+)$@', $opt, $matches) ) {
+					$matches[1] = ltrim($matches[1], '/');
+					if (in_array($matches[1], $jailkit_directories)) {
+						$app->log("delete_jailkit_chroot: skipping removal of jailkit directory .$home_dir/".$matches[1]
+							. "; if this is in use as a web folder, it is insecure and should be fixed.", LOGLEVEL_WARN);
+					}
+					$jailkit_directories = $app->functions->array_unset_by_value($jailkit_directories, $matches[1]);
+				}
+				break;
+			}
+		}
 
 		$removed = '';
 		foreach ($jailkit_directories as $dir) {
