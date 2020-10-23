@@ -86,6 +86,9 @@ class cronjob_quota_notify extends cronjob {
 							$app->dbmaster->datalogUpdate('web_domain', array("traffic_quota_lock" => 'y', "active" => 'n'), 'domain_id', $rec['domain_id']);
 							$app->log('Traffic quota for '.$rec['domain'].' exceeded. Disabling website.', LOGLEVEL_DEBUG);
 						}
+						else {
+							$app->log('Traffic quota for '.$rec['domain'].' exceeded.', LOGLEVEL_DEBUG);
+						}
 						//* Send traffic notifications
 						if($rec['traffic_quota_lock'] != 'y' && ($web_config['overtraffic_notify_admin'] == 'y' || $web_config['overtraffic_notify_client'] == 'y')) {
 
@@ -111,7 +114,12 @@ class cronjob_quota_notify extends cronjob {
 								}
 							}
 
-							$this->_tools->send_notification_email('web_traffic_notification', $placeholders, $recipients);
+							if ($web_config['overtraffic_disable_web'] == 'y') {
+								$this->_tools->send_notification_email('web_traffic_notification', $placeholders, $recipients);
+							}
+							else {
+								$this->_tools->send_notification_email('web_traffic_notification_warn', $placeholders, $recipients);
+							}
 						}
 
 					} else {
