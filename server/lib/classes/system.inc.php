@@ -2744,6 +2744,7 @@ $app->log("delete_jailkit_chroot called for $home_dir with options ".print_r($op
 			switch ($opt) {
 			default:
 				if (preg_match('@^skip[ =]/?(.+)$@', $opt, $matches) ) {
+					$matches[1] = ltrim($matches[1], '/');
 					if (in_array($matches[1], $jailkit_directories)) {
 						$app->log("delete_jailkit_chroot: skipping removal of jailkit directory .$home_dir/".$matches[1]
 							. "; if this is in use as a web folder, it is insecure and should be fixed.", LOGLEVEL_WARN);
