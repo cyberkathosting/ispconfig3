@@ -9,6 +9,8 @@ NameVirtualHost *:<tmpl_var name="vhost_port">
 <VirtualHost _default_:<tmpl_var name="vhost_port">>
   ServerAdmin webmaster@localhost
 
+  Alias /mail /var/www/ispconfig/mail
+
   <Directory /var/www/ispconfig/>
     <FilesMatch "\.ph(p3?|tml)$">
       SetHandler None
