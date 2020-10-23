@@ -12,6 +12,8 @@
 <VirtualHost _default_:{vhost_port}>
   ServerAdmin webmaster@localhost
 
+  Alias /mail /var/www/ispconfig/mail
+  
   <IfModule mod_fcgid.c>
     DocumentRoot /var/www/ispconfig/
     SuexecUserGroup ispconfig ispconfig
