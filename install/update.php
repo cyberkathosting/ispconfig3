@@ -370,6 +370,8 @@ $reconfigure_services_answer = $inst->simple_query('Reconfigure Services?', arra
 
 if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'selected') {
 
+	checkAndRenameCustomTemplates();
+
 	if($conf['services']['mail']) {
 
 		//** Configure postfix
@@ -483,10 +485,10 @@ if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'sel
 
 	}
 
-    if($conf['services']['xmpp'] && $inst->reconfigure_app('XMPP', $reconfigure_services_answer)) {
-        //** Configure Metronome XMPP
-        $inst->configure_xmpp('dont-create-certs');
-    }
+	if($conf['services']['xmpp'] && $inst->reconfigure_app('XMPP', $reconfigure_services_answer)) {
+		//** Configure Metronome XMPP
+	$inst->configure_xmpp('dont-create-certs');
+	}
 
 	if($conf['services']['firewall'] && $inst->reconfigure_app('Firewall', $reconfigure_services_answer)) {
 		if($conf['ufw']['installed'] == true) {

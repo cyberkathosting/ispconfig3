@@ -459,4 +459,49 @@ function check_service_config_state($servicename, $detected_value) {
 	} else return $current_state;
 }
 
+/**
+ * Check for existing conf-custom templates and offer to rename them.
+ */
+function checkAndRenameCustomTemplates($default_prompt='no') {
+	global $inst;
+	$ret = true;
+
+	$default_prompt = ($default_prompt == 'yes') ? 'yes' : 'no';
+
+	$template_directories = array(
+		'/usr/local/ispconfig/server/conf-custom',
+		'/usr/local/ispconfig/server/conf-custom/install',
+	);
+
+	$found_templates = array();
+	foreach ($template_directories as $dir) {
+		if (!is_dir($dir)) { continue; }
+		foreach (glob("$dir/*.master") as $f) {
+			if (is_file($f)) {
+				$found_templates[] = $f;
+			}
+		}
+	}
+
+	if (count($found_templates) > 0) {
+		echo "The following custom templates were found:\n\n";
+		echo implode("\n", $found_templates) . "\n\n";
+
+		$answer = $inst->simple_query('Do you want to rename these conf-custom templates now so the default templates are used?', array('yes', 'no'), $default_prompt, 'rename_custom_templates');
+		if (strtolower($answer) == 'yes') {
+			$date=date('-Y-m-d_H-i');
+			foreach ($found_templates as $f) {
+				if (!rename($f, $f.$date)) {
+					echo "Error renaming template $f\n";
+					$ret = false;
+				}
+			}
+		} else {
+			$ret = null;
+		}
+	}
+
+	return $ret;
+}
+
 ?>
