@@ -88,9 +88,9 @@ class page_action extends tform_actions {
 		$dmarc_sp = 'same';
 
 		//* check for an existing dmarc-record
-		$sql = "SELECT data, active FROM dns_rr WHERE data LIKE 'v=DMARC1%' AND zone = ? AND name = ? AND " . $app->tform->getAuthSQL('r');
-		$rec = $app->db->queryOneRecord($sql, $zone, '_dmarc.'.$domain_name.'.');
-		if ( isset($rec) && !empty($rec) ) {
+		$sql = "SELECT data, active FROM dns_rr WHERE data LIKE 'v=DMARC1%' AND zone = ? AND name LIKE ? AND " . $app->tform->getAuthSQL('r') . " ORDER BY (name = ?) DESC";
+		$rec = $app->db->queryOneRecord($sql, $zone, '_dmarc%', '_dmarc.'.$domain_name.'.');
+		if (isset($rec) && !empty($rec) ) {
 			$this->id = 1;
 			$old_data = strtolower($rec['data']);
 			$app->tpl->setVar("data", $old_data, true);

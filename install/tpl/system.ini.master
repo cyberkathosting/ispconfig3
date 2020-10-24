@@ -36,6 +36,7 @@ reseller_can_use_options=n
 web_php_options=no,fast-cgi,mod,php-fpm
 show_aps_menu=n
 client_protection=y
+ssh_authentication=
 
 
 [tools]
@@ -71,4 +72,3 @@ session_timeout=0
 session_allow_endless=0
 min_password_length=8
 min_password_strength=3
-ssh_authentication=

@@ -286,7 +286,7 @@ class shelluser_jailkit_plugin {
 
 	function _setup_jailkit_chroot()
 	{
-		global $app;
+		global $app, $conf;
 
 		if (isset($this->jailkit_config) && isset($this->jailkit_config['jailkit_hardlinks'])) {
 			if ($this->jailkit_config['jailkit_hardlinks'] == 'yes') {
@@ -354,6 +354,11 @@ class shelluser_jailkit_plugin {
 
 			if ($update_hash == $web['last_jailkit_hash']) {
 				return;
+			}
+
+			$records = $app->db->queryAllRecords('SELECT web_folder FROM `web_domain` WHERE `parent_domain_id` = ? AND `document_root` = ? AND web_folder != \'\' AND web_folder IS NOT NULL AND `server_id` = ?', $this->data['new']['parent_domain_id'], $this->data['new']['dir'], $conf['server_id']);
+			foreach ($records as $record) {
+				$options[] = 'skip='.$record['web_folder'];
 			}
 
 			$app->system->update_jailkit_chroot($this->data['new']['dir'], $sections, $programs, $options);
@@ -621,7 +626,13 @@ class shelluser_jailkit_plugin {
 			return;
 		}
 
-		$app->system->delete_jailkit_chroot($parent_domain['document_root']);
+		$options = array();
+		$records = $app->db->queryAllRecords('SELECT web_folder FROM `web_domain` WHERE `parent_domain_id` = ? AND `document_root` = ? AND web_folder != \'\' AND web_folder IS NOT NULL AND `server_id` = ?', $parent_domain_id, $parent_domain['document_root'], $conf['server_id']);
+		foreach ($records as $record) {
+			$options[] = 'skip='.$record['web_folder'];
+		}
+
+		$app->system->delete_jailkit_chroot($parent_domain['document_root'], $options);
 
 		// this gets last_jailkit_update out of sync with master db, but that is ok,
 		// as it is only used as a timestamp to moderate the frequency of updating on the slaves

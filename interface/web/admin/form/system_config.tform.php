@@ -235,6 +235,12 @@ $form["tabs"]['sites'] = array (
 			'separator' => ',',
 			'value'  => array('no' => 'Disabled', 'fast-cgi' => 'Fast-CGI', 'cgi' => 'CGI', 'mod' => 'Mod-PHP', 'suphp' => 'SuPHP', 'php-fpm' => 'PHP-FPM', 'hhvm' => 'HHVM')
 		),
+		'ssh_authentication' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'SELECT',
+			'default' => '',
+			'value'  => array('' => 'ssh_authentication_password_key', 'password' => 'ssh_authentication_password', 'key' => 'ssh_authentication_key')
+		)
 		//#################################
 		// END Datatable fields
 		//#################################
@@ -772,12 +778,6 @@ $form["tabs"]['misc'] = array (
 			'formtype' => 'SELECT',
 			'default' => '',
 			'value'  => array('' => 'None', '1' => 'strength_1', '2' => 'strength_2', '3' => 'strength_3', '4' => 'strength_4', '5' => 'strength_5')
-		),
-		'ssh_authentication' => array(
-			'datatype' => 'VARCHAR',
-			'formtype' => 'SELECT',
-			'default' => '',
-			'value'  => array('' => 'ssh_authentication_password_key', 'password' => 'ssh_authentication_password', 'key' => 'ssh_authentication_key')
 		)
 		//#################################
 		// END Datatable fields
