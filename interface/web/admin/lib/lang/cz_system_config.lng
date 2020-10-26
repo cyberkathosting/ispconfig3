@@ -100,4 +100,7 @@ $wb['btn_cancel_txt'] = 'Zrušit';
 $wb['web_php_options_txt'] = 'PHP Handler (Apache only)';
 $wb['client_protection_txt'] = 'Client protection';
 $wb['show_support_messages_txt'] = 'Show message function in help module';
+$wb['show_aps_menu_txt'] = 'Show APS menu';
+$wb['show_aps_menu_note_txt'] = 'APS will be removed from the panel in the near future.';
+$wb['show_aps_menu_note_url_txt'] = 'Click here for more information.';
 ?>

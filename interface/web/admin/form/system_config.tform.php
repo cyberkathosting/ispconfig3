@@ -184,6 +184,12 @@ $form["tabs"]['sites'] = array (
 			'default' => 'n',
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
+		'show_aps_menu' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value'  => array(0 => 'n', 1 => 'y')
+		),
 		'default_webserver' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'SELECT',
