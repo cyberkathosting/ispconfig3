@@ -46,7 +46,6 @@ class remoting_dns extends remoting {
 		global $app, $conf;
 		if(!$this->checkPerm($session_id, 'dns_templatezone_add')) {
 			throw new SoapFault('permission_denied', 'You do not have the permissions to access this function.');
-			return false;
 		}
 
 		$client = $app->db->queryOneRecord("SELECT default_dnsserver FROM client WHERE client_id = ?", $client_id);
