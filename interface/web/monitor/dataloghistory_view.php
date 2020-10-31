@@ -79,6 +79,15 @@ if (!empty($value)) {
 			case 'web_database_user':
 				$file = 'sites/database_user_edit.php';
 			break;
+                       case 'ftp_user':
+                               $file = 'sites/ftp_user_edit.php';
+                       break;
+                       case 'shell_user':
+                               $file = 'sites/shell_user_edit.php';
+                       break;
+                       case 'dns_soa':
+                               $file = 'dns/dns_soa_edit.php';
+                       break;
 
 			// TODO Add a link per content type
 			default:
