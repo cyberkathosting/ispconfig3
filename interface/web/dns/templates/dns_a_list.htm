@@ -1,3 +1,14 @@
+<tmpl_if name="config_error_msg">
+  <div class="alert alert-danger">
+    <p>
+      <tmpl_var name="configuration_error_txt">
+        <div>
+          <div style="float:left;width:150px;">{tmpl_var name='config_error_tstamp'} :&nbsp;</div>
+          <div style="padding-left:150px;">{tmpl_var name='config_error_msg'}</div>
+        </div>
+    </p>
+  </div>
+</tmpl_if>
 <div class="pnl_toolsarea">
         <tmpl_if name='datalog_changes_count' op='>' value='0'>
             <div class="systemmonitor-state state-info">
