@@ -829,6 +829,7 @@ class monitor_tools {
 
 		//* get mail headers, subject and body
 		$mailHeaders = '';
+		$mailFrom = '';
 		$mailBody = '';
 		$mailSubject = '';
 		$inHeader = true;
@@ -842,6 +843,16 @@ class monitor_tools {
 				$parts = explode(':', $lines[$l], 2);
 				if(strtolower($parts[0]) == 'subject') {
 					$mailSubject = trim($parts[1]);
+					continue;
+				}
+				if(strtolower($parts[0]) == 'From') {
+					$mailFrom = trim($parts[1]);
+					continue;
+				}
+				if(strtolower($parts[0]) == 'Cc') {
+					if (! in_array(trim($parts[1]), $recipients)) {
+						$recipients[] = trim($parts[1]);
+					}
 					continue;
 				}
 				unset($parts);
@@ -858,7 +869,7 @@ class monitor_tools {
 		$mailBody = strtr($mailBody, $placeholders);
 
 		for($r = 0; $r < count($recipients); $r++) {
-			$app->functions->mail($recipients[$r], $mailSubject, $mailBody, $mailHeaders);
+			$app->functions->mail($recipients[$r], $mailSubject, $mailBody, $mailFrom);
 		}
 
 		unset($mailSubject);
