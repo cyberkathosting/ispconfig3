@@ -193,7 +193,7 @@ comment = common php directories and libraries
 #  do not add all of /etc/php/ or any of the fpm directories
 #  or the php config (which includes custom php snippets) from *all*
 #  sites which use fpm will be copied to *every* jailkit
-paths = /usr/bin/php, /usr/lib/php/, /usr/share/php/, /usr/share/zoneinfo/, /etc/localtime
+paths = /usr/bin/php, /usr/lib/php/, /usr/share/php/, /usr/share/zoneinfo/
 includesections = env, logbasics, netbasics
 
 [php5_6]
