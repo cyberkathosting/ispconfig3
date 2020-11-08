@@ -185,7 +185,7 @@ paths = env
 [php]
 comment = default php version and libraries
 paths = /usr/bin/php
-includesections = php_common, php5_6, php7_0, php7_1, php7_2, php7_3, php7_4
+includesections = php_common
 
 [php_common]
 comment = common php directories and libraries
@@ -194,7 +194,7 @@ comment = common php directories and libraries
 #  or the php config (which includes custom php snippets) from *all*
 #  sites which use fpm will be copied to *every* jailkit
 paths = /usr/bin/php, /usr/lib/php/, /usr/share/php/, /usr/share/zoneinfo/, /etc/localtime
-includesections = env
+includesections = env, logbasics, netbasics
 
 [php5_6]
 comment = php version 5.6
