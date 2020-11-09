@@ -812,7 +812,7 @@ class monitor_tools {
 	}
 
 	public function send_notification_email($template, $placeholders, $recipients) {
-		global $conf;
+		global $app, $conf;
 
 		if(!is_array($recipients) || count($recipients) < 1) return false;
 		if(!is_array($placeholders)) $placeholders = array();
