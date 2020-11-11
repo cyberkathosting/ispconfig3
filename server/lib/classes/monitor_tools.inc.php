@@ -865,17 +865,13 @@ class monitor_tools {
 
 		//* Replace placeholders
 		$mailHeaders = strtr($mailHeaders, $placeholders);
+		$mailFrom = strtr($mailFrom, $placeholders);
 		$mailSubject = strtr($mailSubject, $placeholders);
 		$mailBody = strtr($mailBody, $placeholders);
 
 		for($r = 0; $r < count($recipients); $r++) {
 			$app->functions->mail($recipients[$r], $mailSubject, $mailBody, $mailFrom);
 		}
-
-		unset($mailSubject);
-		unset($mailHeaders);
-		unset($mailBody);
-		unset($lines);
 
 		return true;
 	}
