@@ -824,8 +824,7 @@ class ispcmail {
 				else $rec_string .= $recip;
 			}
 			$to = $this->_encodeHeader($rec_string, $this->mail_charset);
-			//$result = mail($to, $subject, $this->body, implode($this->_crlf, $headers));
-			$result = mail($to, $enc_subject, $this->body, implode($this->_crlf, $headers));
+			$result = mail($to, $enc_subject, $this->body, implode($this->_crlf, $headers), "-f $this->_mail_sender");
 		}
 
 		// Reset the subject in case mail is resent
