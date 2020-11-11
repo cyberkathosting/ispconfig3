@@ -82,6 +82,7 @@ class mail_plugin {
 		//* get the config
 		$app->uses('getconf,system');
 		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
+		$global_mail_config = $app->getconf->get_global_config('mail');
 
 		// convert to lower case - it could cause problems if some directory above has upper case name
 		//  $data['new']['maildir'] = strtolower($data['new']['maildir']);
@@ -218,20 +219,30 @@ class mail_plugin {
 			$lines = file($conf['rootpath'].'/conf/mail/welcome_email_en.txt');
 		}
 
+		$placeholders = array(
+			'{domain}' => "$domain",
+			'{email}' => $data["new"]["email"],
+			'{admin_mail}' => ($global_mail_config['admin_mail'] != '' ? $global_mail_config['admin_mail'] : 'root'),
+			'{admin_name}' => ($global_mail_config['admin_name'] != '' ? $global_mail_config['admin_name'] : ''),
+		);
+
 		//* Get from address
 		$parts = explode(':', trim($lines[0]));
 		unset($parts[0]);
 		$welcome_mail_from  = implode(':', $parts);
 		unset($lines[0]);
+		$welcome_mail_from = strtr($welcome_mail_from, $placeholders);
 
 		//* Get subject
 		$parts = explode(':', trim($lines[1]));
 		unset($parts[0]);
 		$welcome_mail_subject  = implode(':', $parts);
 		unset($lines[1]);
+		$welcome_mail_subject = strtr($welcome_mail_subject, $placeholders);
 
 		//* Get message
 		$welcome_mail_message = trim(implode($lines));
+		$welcome_mail_message = strtr($welcome_mail_message, $placeholders);
 		unset($tmp);
 
 		$mailHeaders      = "MIME-Version: 1.0" . "\n";
@@ -247,8 +258,14 @@ class mail_plugin {
 		$mailTarget       = $data["new"]["email"];
 		$mailSubject      = "=?utf-8?B?".base64_encode($welcome_mail_subject)."?=";
 
-		//* Send the welcome email only on the "master" mail server to avoid duplicate emails
-		if($conf['mirror_server_id'] == 0) mail($mailTarget, $mailSubject, $welcome_mail_message, $mailHeaders);
+		$additionalParameters = '';
+		if (preg_match('/\b([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63})\b/i', $welcome_mail_from, $matches)) {
+			$additionalParameters = '-f '.$matches[1];
+		}
+
+		// Send the welcome email only on a "master" mail server to avoid duplicate emails
+		// (bypass the normal ispcmail class when creating mail accounts)
+		if($conf['mirror_server_id'] == 0) mail($mailTarget, $mailSubject, $welcome_mail_message, $mailHeaders, $additionalParameters);
 
 	}
 
