@@ -193,7 +193,7 @@ class postfix_server_plugin {
 					}
 				}
 				if ($i == count($new_options)) {
-					$new_options[] = array('reject_unknown_client_hostname');
+					$new_options[] = 'reject_unknown_client_hostname';
 				}
 
 				$app->system->exec_safe("postconf -e ?", 'smtpd_client_restrictions = '.implode(", ", $new_options));
@@ -231,7 +231,7 @@ class postfix_server_plugin {
 					}
 				}
 				if ($i == count($new_options)) {
-					$new_options[] = array('reject_unknown_helo_hostname');
+					$new_options[] = 'reject_unknown_helo_hostname';
 				}
 
 				$app->system->exec_safe("postconf -e ?", 'smtpd_helo_restrictions = '.implode(", ", $new_options));
