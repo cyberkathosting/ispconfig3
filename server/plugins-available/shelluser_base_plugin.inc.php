@@ -97,10 +97,10 @@ class shelluser_base_plugin {
 		}
 
 		if(is_file($data['new']['dir']) || is_link($data['new']['dir'])) {
-			$app->log('Shell user dir must not be existing file or symlink.', LOVLEVEL_WARN);
+			$app->log('Shell user dir must not be existing file or symlink.', LOGLEVEL_WARN);
 			return false;
 		} elseif(!$app->system->is_allowed_path($data['new']['dir'])) {
-			$app->log('Shell user dir is not an allowed path: ' . $data['new']['dir'], LOVLEVEL_WARN);
+			$app->log('Shell user dir is not an allowed path: ' . $data['new']['dir'], LOGLEVEL_WARN);
 			return false;
 		}
 
@@ -216,10 +216,10 @@ class shelluser_base_plugin {
 		}
 
 		if(is_file($data['new']['dir']) || is_link($data['new']['dir'])) {
-			$app->log('Shell user dir must not be existing file or symlink.', LOVLEVEL_WARN);
+			$app->log('Shell user dir must not be existing file or symlink.', LOGLEVEL_WARN);
 			return false;
 		} elseif(!$app->system->is_allowed_path($data['new']['dir'])) {
-			$app->log('Shell user dir is not an allowed path: ' . $data['new']['dir'], LOVLEVEL_WARN);
+			$app->log('Shell user dir is not an allowed path: ' . $data['new']['dir'], LOGLEVEL_WARN);
 			return false;
 		}
 
@@ -317,6 +317,14 @@ class shelluser_base_plugin {
 		$security_config = $app->getconf->get_security_config('permissions');
 		if($security_config['allow_shell_user'] != 'yes') {
 			$app->log('Shell user plugin disabled by security settings.',LOGLEVEL_WARN);
+			return false;
+		}
+
+		if(is_file($data['old']['dir']) || is_link($data['old']['dir'])) {
+			$app->log('Shell user dir must not be existing file or symlink.', LOGLEVEL_WARN);
+			return false;
+		} elseif(!$app->system->is_allowed_path($data['old']['dir'])) {
+			$app->log('Shell user dir is not an allowed path: ' . $data['old']['dir'], LOGLEVEL_WARN);
 			return false;
 		}
 
