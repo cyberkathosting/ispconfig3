@@ -141,6 +141,8 @@ class tform_actions {
 				$app->tform->datalogSave('UPDATE', $this->id, $this->oldDataRecord, $new_data_record);
 				unset($new_data_record);
 				unset($old_data_record);
+
+				$this->onAfterDatalogSave();
 			}
 
 			if($_REQUEST["next_tab"] == '') {
@@ -222,6 +224,7 @@ class tform_actions {
 				$new_data_record = $app->tform->getDataRecord($this->id);
 				$app->tform->datalogSave('INSERT', $this->id, array(), $new_data_record);
 				unset($new_data_record);
+				$this->onAfterDatalogSave(true);
 			}
 
 
@@ -264,21 +267,19 @@ class tform_actions {
 	}
 
 	function onBeforeUpdate() {
-		global $app, $conf;
 	}
 
 	function onBeforeInsert() {
-		global $app, $conf;
 	}
 
 	function onAfterUpdate() {
-		global $app, $conf;
 	}
 
 	function onAfterInsert() {
-		global $app, $conf;
 	}
 
+	function onAfterDatalogSave($insert = false) {
+	}
 
 	/**
 	 * Function called on data insert or update error
@@ -297,7 +298,7 @@ class tform_actions {
 	 */
 	function onDelete() {
 		global $app, $conf, $list_def_file, $tform_def_file;
-		
+
 		// Check CSRF Token
 		$app->auth->csrf_token_check('GET');
 
