@@ -96,6 +96,14 @@ class shelluser_base_plugin {
 			return false;
 		}
 
+		if(is_file($data['new']['dir']) || is_link($data['new']['dir'])) {
+			$app->log('Shell user dir must not be existing file or symlink.', LOVLEVEL_WARN);
+			return false;
+		} elseif(!$app->system->is_allowed_path($data['new']['dir'])) {
+			$app->log('Shell user dir is not an allowed path: ' . $data['new']['dir'], LOVLEVEL_WARN);
+			return false;
+		}
+
 		if($data['new']['active'] != 'y' || $data['new']['chroot'] == "jailkit") $data['new']['shell'] = '/bin/false';
 
 		if($app->system->is_user($data['new']['puser'])) {
@@ -204,6 +212,14 @@ class shelluser_base_plugin {
 			|| !$app->system->is_allowed_user($data['new']['puser'], true, true)
 			|| !$app->system->is_allowed_group($data['new']['pgroup'], true, true)) {
 			$app->log('Shell user must not be root or in group root.',LOGLEVEL_WARN);
+			return false;
+		}
+
+		if(is_file($data['new']['dir']) || is_link($data['new']['dir'])) {
+			$app->log('Shell user dir must not be existing file or symlink.', LOVLEVEL_WARN);
+			return false;
+		} elseif(!$app->system->is_allowed_path($data['new']['dir'])) {
+			$app->log('Shell user dir is not an allowed path: ' . $data['new']['dir'], LOVLEVEL_WARN);
 			return false;
 		}
 

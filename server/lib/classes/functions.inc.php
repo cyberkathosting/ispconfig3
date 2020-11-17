@@ -356,6 +356,34 @@ class functions {
 		}
 	}
 
+
+	/**
+	 * Normalize a path and strip duplicate slashes from it
+	 *
+	 * This will also remove all /../ from the path, reducing the preceding path elements
+	 *
+	 * @param string $path
+	 * @return string
+	 */
+	public function normalize_path($path) {
+		$path = preg_replace('~[/]{2,}~', '/', $path);
+		$parts = explode('/', $path);
+		$return_parts = array();
+
+		foreach($parts as $current_part) {
+			if($current_part === '..') {
+				if(!empty($return_parts) && end($return_parts) !== '') {
+					array_pop($return_parts);
+				}
+			} else {
+				$return_parts[] = $current_part;
+			}
+		}
+
+		return implode('/', $return_parts);
+	}
+
+
 	/** IDN converter wrapper.
 	 * all converter classes should be placed in ISPC_CLASS_PATH.'/idn/'
 	 */
@@ -435,10 +463,10 @@ class functions {
 		}
 		return implode("\n", $domains);
 	}
-	
+
 	public function generate_ssh_key($client_id, $username = ''){
 		global $app;
-		
+
 		// generate the SSH key pair for the client
 		$id_rsa_file = '/tmp/'.uniqid('',true);
 		$id_rsa_pub_file = $id_rsa_file.'.pub';

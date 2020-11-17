@@ -2300,6 +2300,36 @@ class system{
 		return true;
 	}
 
+	public function is_allowed_path($path) {
+		global $app;
+
+		$path = $app->functions->normalize_path($path);
+		if(file_exists($path)) {
+			$path = realpath($path);
+		}
+
+		$blacklisted_paths_regex = array(
+			'@^/$@',
+			'@^/proc(/.*)?$@',
+			'@^/sys(/.*)?$@',
+			'@^/etc(/.*)$@',
+			'@^/dev(/.*)$@',
+			'@^/tmp(/.*)$@',
+			'@^/run(/.*)$@',
+			'@^/boot(/.*)$@',
+			'@^/root(/.*)$@',
+			'@^/var(/?|/backups?(/.*)?)?$@',
+		);
+
+		foreach($blacklisted_paths_regex as $regex) {
+			if(preg_match($regex, $path)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	public function last_exec_out() {
 		return $this->_last_exec_out;
 	}
