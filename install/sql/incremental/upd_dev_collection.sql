@@ -1,6 +1,6 @@
 
 -- we need those to fix some installations failing in 0089 and 0090
-ALTER TABLE web_domain ROW_FORMAT=DYNAMIC;
+ALTER TABLE `web_domain` ROW_FORMAT=DYNAMIC;
 ALTER IGNORE TABLE `web_domain` ADD COLUMN `proxy_protocol` ENUM('n','y') NOT NULL DEFAULT 'n' AFTER `log_retention`;
 ALTER IGNORE TABLE `web_domain` ADD  `backup_format_web` VARCHAR( 255 ) NOT NULL default 'default' AFTER `backup_copies`;
 ALTER IGNORE TABLE `web_domain` ADD  `backup_format_db` VARCHAR( 255 ) NOT NULL default 'gzip' AFTER `backup_format_web`;
