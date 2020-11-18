@@ -211,7 +211,7 @@ class page_action extends tform_actions {
 					unset($global_config);
 					unset($dbname_prefix);
 				}
-				
+
 				//* ensure that quota value is not 0 when quota is set for client
 				if($client['limit_database_quota'] > 0 && isset($_POST["database_quota"]) && $_POST["database_quota"] == 0) {
 					$app->tform->errorMessage .= $app->tform->lng("limit_database_quota_not_0_txt")."<br>";
@@ -364,7 +364,11 @@ class page_action extends tform_actions {
 			$server_config = $app->getconf->get_server_config($tmp['server_id'], 'server');
 
 			// Add default remote_ips from Main Configuration.
-			$remote_ips = explode(",", $global_config['default_remote_dbserver']);
+			if(empty($global_config['default_remote_dbserver'])) {
+				$remote_ips = array();
+			} else {
+				$remote_ips = explode(",", $global_config['default_remote_dbserver']);
+			}
 			if (!in_array($server_config['ip_address'], $default_remote_db)) { $remote_ips[] = $server_config['ip_address']; }
 
 			if($server_config['ip_address']!='') {
@@ -449,7 +453,12 @@ class page_action extends tform_actions {
 			$server_config = $app->getconf->get_server_config($tmp['server_id'], 'server');
 
 			// Add default remote_ips from Main Configuration.
-			$remote_ips = explode(",", $global_config['default_remote_dbserver']);
+			if(empty($global_config['default_remote_dbserver'])) {
+				$remote_ips = array();
+			} else {
+				$remote_ips = explode(",", $global_config['default_remote_dbserver']);
+			}
+			
 			if (!in_array($server_config['ip_address'], $default_remote_db)) { $remote_ips[] = $server_config['ip_address']; }
 
 			if($server_config['ip_address']!='') {
