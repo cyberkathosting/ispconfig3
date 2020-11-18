@@ -662,6 +662,8 @@ if ($backup_available) {
 			$missing_utils = unserialize($mon['data']);
 			if(!$missing_utils) {
 				$missing_utils = array();
+			} else {
+				$missing_utils = $missing_utils['missing_utils'];
 			}
 		}
 	} else {
