@@ -493,7 +493,7 @@ class installer_base {
 						0,
 						?,
 						?,
-						"y",
+						"n",
 						"80,443"
 					)', $conf['server_id'], $ip_type, $line);
 					$server_ip_id = $this->dbmaster->insertID();
@@ -512,7 +512,7 @@ class installer_base {
 						0,
 						?,
 						?,
-						"y",
+						"n",
 						"80,443"
 					)', $server_ip_id, $conf['server_id'], $ip_type, $line);
 				} else {
@@ -530,7 +530,7 @@ class installer_base {
 						0,
 						?,
 						?,
-						"y",
+						"n",
 						"80,443"
 					)', $conf['server_id'], $ip_type, $line);
 				}
