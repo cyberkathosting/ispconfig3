@@ -9,12 +9,11 @@ $wb['port_txt'] = 'Porta';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Ativo';
 $wb['aux_txt'] = 'Prioridade';
-$wb['limit_dns_record_txt'] = 'O limite de registros dns para esta conta foi alcançado.';
-$wb['no_zone_perm'] = 'Você não tem permissão para adicionar registros dns nesta zona.';
-$wb['name_error_empty'] = 'O nome do host está em branco.';
+$wb['limit_dns_record_txt'] = 'O limite de registros DNS para esta conta foi alcançado.';
+$wb['no_zone_perm'] = 'Você não tem permissão para adicionar registros DNS nesta zona.';
+$wb['name_error_empty'] = 'O nome do host está vazio.';
 $wb['name_error_regex'] = 'O nome do host possui formato inválido (somente nomes canônicos são suportados).';
-$wb['data_error_empty'] = 'Registro SVR está em branco.';
-$wb['data_error_regex'] = 'Registro SVR possui formato inválido.';
+$wb['data_error_empty'] = 'Registro SRV está vazio.';
+$wb['data_error_regex'] = 'Registro SRV possui formato inválido.';
 $wb['srv_error_regex'] = 'O formato do registro SVR é inválido. O registro SVR deve conter 3 cadeias de texto separados por espaços.';
 $wb['ttl_range_error'] = 'O TTL mínimo são 60 segundos.';
-?>

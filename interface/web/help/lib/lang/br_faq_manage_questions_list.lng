@@ -6,4 +6,3 @@ $wb['faq_edit_txt'] = 'Editar';
 $wb['faq_sections_txt'] = 'Seção';
 $wb['faq_faq_questions_txt'] = 'Questões Frequentes';
 $wb['faq_new_question_txt'] = 'Adicionar novo par questão/resposta';
-?>

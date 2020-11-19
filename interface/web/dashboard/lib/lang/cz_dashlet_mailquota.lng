@@ -5,4 +5,3 @@ $wb['name_txt'] = 'Jméno';
 $wb['used_txt'] = 'Využité místo';
 $wb['quota_txt'] = 'Kvóta';
 $wb['no_email_accounts_txt'] = 'Nenalezeny žádné e-mailové účty.';
-?>

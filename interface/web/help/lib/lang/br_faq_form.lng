@@ -3,4 +3,3 @@ $wb['faq_faq_txt'] = 'Questões Frequentes';
 $wb['faq_question_txt'] = 'Questão';
 $wb['faq_answer_txt'] = 'Resposta';
 $wb['faq_section_txt'] = 'Seção';
-?>

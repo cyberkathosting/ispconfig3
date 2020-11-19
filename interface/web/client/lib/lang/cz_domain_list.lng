@@ -3,4 +3,3 @@ $wb['list_head_txt'] = 'Domény';
 $wb['add_new_record_txt'] = 'Vytvořit doménu';
 $wb['domain_txt'] = 'Doména';
 $wb['user_txt'] = 'Klient';
-?>

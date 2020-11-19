@@ -4,4 +4,3 @@ $wb['server_id_txt'] = 'Servidor';
 $wb['source_ip_txt'] = 'Endereço de origem';
 $wb['destination_ip_txt'] = 'Endereço de destino';
 $wb['active_txt'] = 'Ativo';
-?>

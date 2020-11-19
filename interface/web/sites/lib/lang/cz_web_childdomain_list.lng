@@ -15,4 +15,3 @@ $wb['add_new_aliasdomain_txt'] = 'Vytvořit přezdívku domény';
 $wb['aliasdomain_list_head_txt'] = 'Přezdívky domén';
 $wb['subdomain_list_head_txt'] = 'Subdomény';
 $wb['domain_error_acme_invalid'] = 'Domain name acme.invalid not permitted.';
-?>

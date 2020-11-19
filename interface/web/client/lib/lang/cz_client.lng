@@ -1,6 +1,6 @@
 <?php
 $wb['limit_maildomain_txt'] = 'Max. počet e-mailových domén';
-$wb['limit_mailbox_txt'] = 'Max. počet mailboxů';
+$wb['limit_mailbox_txt'] = 'Max. počet e-mailových schránek';
 $wb['limit_mailalias_txt'] = 'Max. počet e-mailových aliasů';
 $wb['limit_mailaliasdomain_txt'] = 'Max. počet doménových přezdívek';
 $wb['limit_mailforward_txt'] = 'Max. počet e-mailových předavačů';
@@ -139,12 +139,12 @@ $wb['email_error_isemail'] = 'Zadejte prosím platnou e-mailovou adresu.';
 $wb['customer_no_error_unique'] = 'Zákaznické číslo musí být jedinečné (nebo prázdné).';
 $wb['paypal_email_error_isemail'] = 'Zadejte prosím platnou PayPal e-mail addresu.';
 $wb['paypal_email_txt'] = 'PayPal e-mail';
-$wb['err_msg_master_tpl_set'] = 'Nelze nastavit vlastní limity, pokud chtete nastavit vlatní limity musí být \\"hlavní šablona\\" nastavena na volbu \\"Custom\\".';
+$wb['err_msg_master_tpl_set'] = 'Nelze nastavit vlastní limity, pokud chtete nastavit vlatní limity musí být \"hlavní šablona\" nastavena na volbu \"Custom\".';
 $wb['aps_limits_txt'] = 'APS limity instalátoru';
 $wb['limit_aps_txt'] = 'Max. počet APS instalací';
 $wb['limit_aps_error_notint'] = 'Limit pro APS instalace musí být číslo.';
 $wb['default_slave_dnsserver_txt'] = 'Výchozí sekundární DNS server';
-$wb['locked_txt'] = 'Locked (disables everything except DNS)';
+$wb['locked_txt'] = 'Zamčeno (zakáže všechny weby atd.)';
 $wb['canceled_txt'] = 'Zrušeno (zakáže přihlášení klienta)';
 $wb['gender_txt'] = 'Oslovení';
 $wb['gender_m_txt'] = 'Pan';
@@ -200,6 +200,5 @@ $wb['limit_database_user_txt'] = 'Max. počet databázových uživatelů';
 $wb['limit_database_user_error_notint'] = 'Limit databázové kvóty musí být číslo.';
 $wb['password_click_to_set_txt'] = 'Pro nastavení klikni zde';
 $wb['limit_dns_record_error_notint'] = 'Limit DNS záznamů musí být číslo.';
-$wb['Address'] = 'Address';
+$wb['Address'] = 'Adresa';
 $wb['Limits'] = 'Limity';
-?>

@@ -4,4 +4,3 @@ $wb['server_id_txt'] = 'Server';
 $wb['source_ip_txt'] = 'Zdrojová IP adresa';
 $wb['destination_ip_txt'] = 'Cílová IP adresa';
 $wb['active_txt'] = 'Aktivní';
-?>

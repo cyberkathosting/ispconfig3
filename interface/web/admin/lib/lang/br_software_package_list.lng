@@ -10,4 +10,3 @@ $wb['package_id_txt'] = 'ID local do APP';
 $wb['no_packages_txt'] = 'Nenhum pacote disponível.';
 $wb['edit_txt'] = 'Editar';
 $wb['delete_txt'] = 'Remover';
-?>

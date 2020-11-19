@@ -4,4 +4,3 @@ $wb['repo_url_txt'] = 'URL';
 $wb['repo_username_txt'] = 'Usário (opcional)';
 $wb['repo_password_txt'] = 'Senha (opcional)';
 $wb['active_txt'] = 'Ativo';
-?>

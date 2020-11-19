@@ -1,22 +1,21 @@
 <?php
-$wb['mailinglist_txt'] = 'Lista de e-mail';
+$wb['mailinglist_txt'] = 'Lista de email';
 $wb['limit_mailmailinglist_txt'] = 'O limite foi alcançado.';
-$wb['domain_error_empty'] = 'O domínio está em branco.';
-$wb['listname_error_empty'] = 'O nome da lista está em branco.';
+$wb['domain_error_empty'] = 'O domínio está vazio.';
+$wb['listname_error_empty'] = 'O nome da lista está vazio.';
 $wb['domain_error_regex'] = 'O domínio é inválido.';
-$wb['email_in_use_txt'] = 'O e-mail já está em uso.';
+$wb['email_in_use_txt'] = 'O email já está em uso.';
 $wb['no_domain_perm'] = 'Você não tem permissão para este domínio.';
 $wb['password_strength_txt'] = 'Dificuldade da senha';
 $wb['server_id_txt'] = 'Servidor';
 $wb['domain_txt'] = 'Domínio';
 $wb['listname_txt'] = 'Lista';
 $wb['client_txt'] = 'Cliente';
-$wb['email_txt'] = 'e-Mail';
+$wb['email_txt'] = 'eMail';
 $wb['password_txt'] = 'Senha';
 $wb['generate_password_txt'] = 'Gerar Senha';
 $wb['repeat_password_txt'] = 'Repetir Senha';
 $wb['password_mismatch_txt'] = 'As senhas não coincidem.';
 $wb['password_match_txt'] = 'As senhas coincidem.';
-$wb['listname_error_unique'] = 'Já existe uma lista de e-mails idêntica para este servidor. Por favor escolha um nome diferente.';
-$wb['email_error_isemail'] = 'Endereço de e-mail é inválido.';
-?>
+$wb['listname_error_unique'] = 'Já existe uma lista de emails idêntica para este servidor. Por favor escolha um nome diferente.';
+$wb['email_error_isemail'] = 'Endereço de email é inválido.';

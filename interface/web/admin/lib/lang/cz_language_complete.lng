@@ -4,4 +4,3 @@ $wb['list_desc_txt'] = 'Sloučit vybraný jazykový soubor s hlavním anglickým
 $wb['language_select_txt'] = 'Vybrat jazyk k doplnění';
 $wb['btn_save_txt'] = 'Sloučit / doplnit jazykový soubor';
 $wb['btn_cancel_txt'] = 'Zrušit';
-?>

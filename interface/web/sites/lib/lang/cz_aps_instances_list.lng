@@ -8,4 +8,3 @@ $wb['install_location_txt'] = 'Umístění instalace';
 $wb['pkg_delete_confirmation'] = 'Opravdu chcete smazat tuto instalaci ?';
 $wb['filter_txt'] = 'Hledat';
 $wb['delete_txt'] = 'Smazat';
-?>

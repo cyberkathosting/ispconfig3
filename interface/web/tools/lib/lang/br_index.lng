@@ -1,4 +1,3 @@
 <?php
 $wb['page_head_txt'] = 'Ferramentas do ISPConfig';
-$wb['page_desc_txt'] = 'Alterar configurações de usuário';
-?>
+$wb['page_desc_txt'] = 'Modificar configurações de usuário';

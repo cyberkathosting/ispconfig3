@@ -5,7 +5,7 @@ $wb['netmask_txt'] = 'Maska';
 $wb['gateway_txt'] = 'Brána';
 $wb['nameservers_txt'] = 'Jmenné servery';
 $wb['module_txt'] = 'Modul serveru';
-$wb['maildir_path_txt'] = 'Cesta k mail adresáři';
+$wb['maildir_path_txt'] = 'Cesta k e-mail adresáři';
 $wb['homedir_path_txt'] = 'Cesta k domácímu adresáři';
 $wb['mailuser_uid_txt'] = 'E-mail uživatel UID';
 $wb['mailuser_gid_txt'] = 'E-mail uživatel GID';
@@ -17,4 +17,3 @@ $wb['relayhost_password_txt'] = 'Relayhost heslo';
 $wb['mailbox_size_limit_txt'] = 'Limit velikosti e-mailové schránky';
 $wb['message_size_limit_txt'] = 'Limit velikosti zprávy';
 $wb['hostname_txt'] = 'Název hostitele';
-?>

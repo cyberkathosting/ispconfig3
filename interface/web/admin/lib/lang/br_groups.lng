@@ -2,4 +2,3 @@
 $wb['description_txt'] = 'Descrição';
 $wb['name_txt'] = 'Grupo';
 $wb['name_err'] = 'O grupo deve conter no mínimo 1 e no máximo 30 caracteres.';
-?>

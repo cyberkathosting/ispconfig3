@@ -1,8 +1,8 @@
 <?php
-$wb['users_txt'] = 'Users';
+$wb['users_txt'] = 'Usuários';
 $wb['username_txt'] = 'Usuário';
 $wb['username_err'] = 'O nome do usuário é muito longo ou contém caracteres inválidos.';
-$wb['username_empty'] = 'O nome do usuário está em branco.';
+$wb['username_empty'] = 'O nome do usuário está vazio.';
 $wb['username_unique'] = 'Já existe um usuário com este nome.';
 $wb['password_txt'] = 'Senha';
 $wb['password_strength_txt'] = 'Dificuldade da senha';
@@ -19,7 +19,7 @@ $wb['strasse_txt'] = 'Endereço';
 $wb['ort_txt'] = 'Cidade';
 $wb['plz_txt'] = 'CEP';
 $wb['land_txt'] = 'País';
-$wb['email_txt'] = 'e-Mail';
+$wb['email_txt'] = 'eMail';
 $wb['url_txt'] = 'URL';
 $wb['telefon_txt'] = 'Telefone';
 $wb['fax_txt'] = 'Fax';
@@ -30,8 +30,11 @@ $wb['generate_password_txt'] = 'Gerar Senha';
 $wb['repeat_password_txt'] = 'Repetir Senha';
 $wb['password_mismatch_txt'] = 'As senhas não coincidem.';
 $wb['password_match_txt'] = 'As senhas coincidem.';
-$wb['username_error_collision'] = 'O nome de usuário não pode conter a palavra "web" ou "web" seguida de um número."';
+$wb['username_error_collision'] = 'O nome de usuário não pode conter a palavra "web" ou "web" seguida de um número.';
 $wb['client_not_admin_err'] = 'Um usuário que pertence a um cliente não pode ser configurado para: admin.';
 $wb['lost_password_function_txt'] = 'Função de senha esquecida disponível';
 $wb['no_user_insert'] = 'Os usuários do Painel de Controle (ISPC) do tipo -user- são adicionados e atualizados automaticamente quando você adiciona um cliente ou revenda.';
-?>
+$wb['startmodule_empty'] = 'O módulo inicial está vazio.';
+$wb['startmodule_regex'] = 'Caracteres inválidos no módulo inicial.';
+$wb['app_theme_empty'] = 'Tema está vazio.';
+$wb['app_theme_regex'] = 'Caracteres inválidos no tema.';

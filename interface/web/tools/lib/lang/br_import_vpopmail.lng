@@ -1,8 +1,6 @@
 <?php
-$wb['head_txt'] = 'Importar configurações de e-mail do vpopmail';
-$wb['legend_txt'] = 'Detalhes da conexão remota do servidor de banco de dados';
+$wb['head_txt'] = 'Importar configurações de email do vpopmail';
+$wb['legend_txt'] = 'Detalhes da conexão remota do servidor do Banco de Dados';
 $wb['btn_start_txt'] = 'Iniciar Importação';
 $wb['btn_connect_txt'] = 'Conectar ao servidor remoto';
 $wb['btn_cancel_txt'] = 'Cancelar';
-
-?>

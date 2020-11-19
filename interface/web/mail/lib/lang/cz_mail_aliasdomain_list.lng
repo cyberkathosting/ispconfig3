@@ -4,4 +4,3 @@ $wb['active_txt'] = 'Aktivní';
 $wb['source_txt'] = 'Zdroj';
 $wb['destination_txt'] = 'Cíl';
 $wb['add_new_record_txt'] = 'Vytvořit doménovou přezdívku';
-?>

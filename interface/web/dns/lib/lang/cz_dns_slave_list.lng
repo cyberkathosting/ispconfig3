@@ -6,4 +6,3 @@ $wb['origin_txt'] = 'Zóna';
 $wb['ns_txt'] = 'NS';
 $wb['add_new_record_txt'] = 'Vytvořit sekundární DNS zónu';
 $wb['eg_domain_tld'] = 'např. domena.cz';
-?>

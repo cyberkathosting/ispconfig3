@@ -1,8 +1,8 @@
 <?php
 $wb['config_txt'] = 'Konfigurace';
 $wb['server_name_txt'] = 'Název serveru';
-$wb['mail_server_txt'] = 'Mail server';
-$wb['web_server_txt'] = 'Web server';
+$wb['mail_server_txt'] = 'Poštovní server';
+$wb['web_server_txt'] = 'Webový Server';
 $wb['dns_server_txt'] = 'DNS server';
 $wb['file_server_txt'] = 'Souborový server';
 $wb['db_server_txt'] = 'DB server';
@@ -13,4 +13,3 @@ $wb['- None -'] = '- Žádný -';
 $wb['proxy_server_txt'] = 'Proxy-Server';
 $wb['firewall_server_txt'] = 'Firewall-Server';
 $wb['xmpp_server_txt'] = 'XMPP Server';
-?>

@@ -1,6 +1,6 @@
 <?php
 $wb['server_id_txt'] = 'Server';
-$wb['zone_txt'] = 'Zone';
+$wb['zone_txt'] = 'Zóna';
 $wb['name_txt'] = 'Service-Descriptor';
 $wb['type_txt'] = 'Typ';
 $wb['data_txt'] = 'TLSA-Data';
@@ -13,4 +13,3 @@ $wb['name_error_regex'] = 'The hostname has the wrong format. Correct: _&lt;port
 $wb['data_error_empty'] = 'TLSA-Data empty';
 $wb['data_error_regex'] = 'TLSA dataformat is wrong. Correct: n n n HASH';
 $wb['ttl_range_error'] = 'Min. TTL doba je 60 sekund.';
-?>

@@ -6,4 +6,3 @@ $wb['btn_save_txt'] = 'Importar arquivo de idioma selecionado';
 $wb['language_overwrite_txt'] = 'Sobrescrever arquivo, se existir.';
 $wb['btn_cancel_txt'] = 'Voltar';
 $wb['ignore_version_txt'] = 'Ignorar verificação da versão do ISPConfig';
-?>

@@ -1,17 +1,18 @@
 <?php
 $wb['server_id_txt'] = 'Servidor';
 $wb['client_id_txt'] = 'Cliente';
-$wb['name_txt'] = 'Nome da versão do php';
+$wb['name_txt'] = 'Nome da versão PHP';
 $wb['Name'] = 'Nome';
 $wb['FastCGI Settings'] = 'Configurações FastCGI';
 $wb['PHP-FPM Settings'] = 'Configurações PHP-FPM';
-$wb['Additional PHP Versions'] = 'Versões adicionais do php';
-$wb['Form to edit additional PHP versions'] = 'Editar verões adicionais do php';
-$wb['server_php_name_error_empty'] = 'O campo nome está em branco.';
+$wb['Additional PHP Versions'] = 'Versões adicionais PHP';
+$wb['Form to edit additional PHP versions'] = 'Editar verões adicionais PHP';
+$wb['server_php_name_error_empty'] = 'O campo nome está vazio.';
 $wb['php_fastcgi_binary_txt'] = 'Caminho do binário do FastCGI';
-$wb['php_fastcgi_ini_dir_txt'] = 'Diretório do php.ini';
-$wb['php_fpm_init_script_txt'] = 'Caminho do script de inicialização do php-fpm';
-$wb['php_fpm_ini_dir_txt'] = 'Caminho do diretório do php.ini';
-$wb['php_fpm_pool_dir_txt'] = 'Caminho do diretório pool do php-fpm';
+$wb['php_fastcgi_ini_dir_txt'] = 'Diretório PHP.ini';
+$wb['php_fpm_init_script_txt'] = 'Caminho do script de inicialização PHP-FPM';
+$wb['php_fpm_ini_dir_txt'] = 'Caminho do diretório PHP.ini';
+$wb['php_fpm_pool_dir_txt'] = 'Caminho do diretório da pool PHP-FPM';
 $wb['active_txt'] = 'Ativo';
-?>
+$wb['php_in_use_error'] = 'Esta versão PHP está em uso.';
+$wb['php_name_in_use_error'] = 'O nome não pode ser modificado.';

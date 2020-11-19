@@ -7,4 +7,3 @@ $wb['confirm_client_delete_txt'] = 'Jste si jisti, že chcete smazat tohoto klie
 $wb['list_head_txt'] = 'Delete Client';
 $wb['table_txt'] = 'Table';
 $wb['data_txt'] = 'Data';
-?>

@@ -4,7 +4,7 @@ $wb['username_txt'] = 'Uživatelské jméno';
 $wb['username_err'] = 'Uživatelské jméno je příliš dlouhé nebo obsahuje neplatné znaky.';
 $wb['username_empty'] = 'Uživatelské jméno je prázdné.';
 $wb['username_unique'] = 'Toto uživatelské jméno již existuje.';
-$wb['password_txt'] = 'Heslo';
+$wb['password_txt'] = 'Password';
 $wb['password_strength_txt'] = 'Bezpečnost hesla';
 $wb['modules_txt'] = 'Modul';
 $wb['startmodule_txt'] = 'Výchozí modul';
@@ -34,4 +34,7 @@ $wb['username_error_collision'] = 'Uživatelské jméno nesmí být web nebo web
 $wb['client_not_admin_err'] = 'A user that belongs to a client can not be set to type: admin';
 $wb['lost_password_function_txt'] = 'Forgot password function is available';
 $wb['no_user_insert'] = 'CP-Users of type -user- get added and updated automatically when you add a client or reseller.';
-?>
+$wb['startmodule_empty'] = 'Startmodule empty.';
+$wb['startmodule_regex'] = 'Invalid chars in Startmodule.';
+$wb['app_theme_empty'] = 'App theme empty.';
+$wb['app_theme_regex'] = 'Invalid chars in App theme.';
