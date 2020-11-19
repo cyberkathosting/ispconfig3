@@ -120,4 +120,4 @@ $wb['available_php_directive_snippets_txt'] = 'Diretivas de trecho de código PH
 $wb['available_apache_directive_snippets_txt'] = 'Diretivas de trecho de código do Apache disponíveis:';
 $wb['available_nginx_directive_snippets_txt'] = 'Diretivas de trecho de código nginx disponíveis:';
 $wb['Domain'] = 'Alias de domínio';
-$wb['ssl_letsencrypt_exclude_txt'] = 'Sem certificado Let \\'s Encrypt';
+$wb['ssl_letsencrypt_exclude_txt'] = 'Sem certificado Let \'s Encrypt';
