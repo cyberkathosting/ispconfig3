@@ -74,6 +74,7 @@ class cronjob_jailkit_maintenance extends cronjob {
 
 		foreach($records as $rec) {
 			if (!is_dir($rec['document_root']) || !is_dir($rec['document_root'].'/etc/jailkit')) {
+				$app->db->query("UPDATE `web_domain` SET `last_jailkit_update` = NOW() WHERE `document_root` = ?", $rec['document_root']);
 				continue;
 			}
 

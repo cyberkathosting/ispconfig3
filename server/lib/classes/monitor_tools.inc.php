@@ -812,7 +812,7 @@ class monitor_tools {
 	}
 
 	public function send_notification_email($template, $placeholders, $recipients) {
-		global $conf;
+		global $app, $conf;
 
 		if(!is_array($recipients) || count($recipients) < 1) return false;
 		if(!is_array($placeholders)) $placeholders = array();
@@ -829,6 +829,7 @@ class monitor_tools {
 
 		//* get mail headers, subject and body
 		$mailHeaders = '';
+		$mailFrom = '';
 		$mailBody = '';
 		$mailSubject = '';
 		$inHeader = true;
@@ -844,6 +845,16 @@ class monitor_tools {
 					$mailSubject = trim($parts[1]);
 					continue;
 				}
+				if(strtolower($parts[0]) == 'From') {
+					$mailFrom = trim($parts[1]);
+					continue;
+				}
+				if(strtolower($parts[0]) == 'Cc') {
+					if (! in_array(trim($parts[1]), $recipients)) {
+						$recipients[] = trim($parts[1]);
+					}
+					continue;
+				}
 				unset($parts);
 				$mailHeaders .= trim($lines[$l]) . "\n";
 			} else {
@@ -854,17 +865,13 @@ class monitor_tools {
 
 		//* Replace placeholders
 		$mailHeaders = strtr($mailHeaders, $placeholders);
+		$mailFrom = strtr($mailFrom, $placeholders);
 		$mailSubject = strtr($mailSubject, $placeholders);
 		$mailBody = strtr($mailBody, $placeholders);
 
 		for($r = 0; $r < count($recipients); $r++) {
-			$app->functions->mail($recipients[$r], $mailSubject, $mailBody, $mailHeaders);
+			$app->functions->mail($recipients[$r], $mailSubject, $mailBody, $mailFrom);
 		}
-
-		unset($mailSubject);
-		unset($mailHeaders);
-		unset($mailBody);
-		unset($lines);
 
 		return true;
 	}

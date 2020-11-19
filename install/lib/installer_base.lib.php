@@ -493,7 +493,7 @@ class installer_base {
 						0,
 						?,
 						?,
-						"y",
+						"n",
 						"80,443"
 					)', $conf['server_id'], $ip_type, $line);
 					$server_ip_id = $this->dbmaster->insertID();
@@ -512,7 +512,7 @@ class installer_base {
 						0,
 						?,
 						?,
-						"y",
+						"n",
 						"80,443"
 					)', $server_ip_id, $conf['server_id'], $ip_type, $line);
 				} else {
@@ -530,7 +530,7 @@ class installer_base {
 						0,
 						?,
 						?,
-						"y",
+						"n",
 						"80,443"
 					)', $conf['server_id'], $ip_type, $line);
 				}
@@ -663,6 +663,14 @@ class installer_base {
 					echo $query ."\n";
 				}
 				if(!$this->dbmaster->query($query, $value['db'] . '.web_domain', $value['user'], $host)) {
+					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
+				}
+
+				$query = "GRANT SELECT ON ?? TO ?@?";
+				if ($verbose){
+					echo $query ."\n";
+				}
+				if(!$this->dbmaster->query($query, $value['db'] . '.web_database', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
