@@ -11,4 +11,3 @@ $wb['customer_no_txt'] = 'Zákaznické číslo';
 $wb['locked_txt'] = 'Zamčené';
 $wb['yes_txt'] = 'Ano';
 $wb['no_txt'] = 'Ne';
-?>

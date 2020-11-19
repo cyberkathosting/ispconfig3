@@ -7,4 +7,3 @@ $wb['this_year_txt'] = 'Este ano';
 $wb['last_year_txt'] = 'Último ano';
 $wb['sum_txt'] = 'Soma (Download + Upload)';
 $wb['in_out_txt'] = 'DOWN/UP';
-?>

@@ -12,5 +12,4 @@ $wb['answer_to_support_request_txt'] = 'You have got a reply to your support req
 $wb['answer_to_support_request_sent_txt'] = 'Your reply to the support request has been sent. Please don\'t reply to this email.';
 $wb['support_request_sent_txt'] = 'Your support request has been sent. Please don\'t reply to this email.';
 $wb['recipient_or_sender_email_address_not_valid_txt'] = 'Zprávu nelze odeslat, protože e-mailová adresa příjemce a/nebo odesílatele není platná.';
-$wb['subject_is_empty'] = 'The subject can not be empty.';
-?>
+$wb['subject_is_empty'] = 'Předmět nemůže být prázdný.';

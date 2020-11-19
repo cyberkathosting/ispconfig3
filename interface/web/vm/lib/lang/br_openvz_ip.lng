@@ -6,4 +6,3 @@ $wb['reserved_txt'] = 'Reservado';
 $wb['ip_error_wrong'] = 'Por favor, insira um endereço IPv4 válido.';
 $wb['ip_error_unique'] = 'O endereço IP já existe.';
 $wb['IP address'] = 'Endereço IP';
-?>

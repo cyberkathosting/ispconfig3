@@ -6,11 +6,10 @@ $wb['type_txt'] = 'Tipo';
 $wb['data_txt'] = 'Dados TLSA';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Ativo';
-$wb['limit_dns_record_txt'] = 'O limite de registros dns para esta conta foi alcançado.';
-$wb['no_zone_perm'] = 'Você não tem permissão para adicionar registros dns nesta zona.';
-$wb['name_error_empty'] = 'O nome do host está em branco.';
-$wb['name_error_regex'] = 'O nome do host possui formato inválido (somente nomes canônicos são suportados). Correto: _&lt;port&gt;._(tcp|udp).&lt;hostname&gt;';
-$wb['data_error_empty'] = 'Dados TLSA está em branco.';
+$wb['limit_dns_record_txt'] = 'O limite de registros DNS para esta conta foi alcançado.';
+$wb['no_zone_perm'] = 'Você não tem permissão para adicionar registros DNS nesta zona.';
+$wb['name_error_empty'] = 'O nome do host está vazio.';
+$wb['name_error_regex'] = 'O nome do host possui formato inválido (somente nomes canônicos são suportados). Correto: porta(tcp|udp);hostname;';
+$wb['data_error_empty'] = 'Dados TLSA está vazio.';
 $wb['data_error_regex'] = 'Formato dos dados TLSA inválido. Correto: n n n HASH';
 $wb['ttl_range_error'] = 'O TTL mínimo são 60 segundos.';
-?>

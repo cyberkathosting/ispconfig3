@@ -1,5 +1,4 @@
 <?php
-$wb['list_head_txt'] = 'E-mailové šablony';
+$wb['list_head_txt'] = 'Poštovní šablony';
 $wb['template_type_txt'] = 'Zpráva pro';
 $wb['template_name_txt'] = 'Název šablony';
-?>

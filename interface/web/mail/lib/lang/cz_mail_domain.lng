@@ -20,4 +20,3 @@ $wb['dkim_selector_error'] = 'Neplatný DKIM selektor. Používejte pouze malá 
 $wb['policy_txt'] = 'Spamový filtr';
 $wb['no_policy'] = '- nepovoleno -';
 $wb['error_not_allowed_server_id'] = 'Zvolený server není povolen pro tento účet.';
-?>

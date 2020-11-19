@@ -10,4 +10,3 @@ $wb['disablesmtp_txt'] = 'SMTP (odesílání)';
 $wb['disabledeliver_txt'] = 'INBOX';
 $wb['disableimap_txt'] = 'IMAP';
 $wb['disablepop3_txt'] = 'POP3';
-?>

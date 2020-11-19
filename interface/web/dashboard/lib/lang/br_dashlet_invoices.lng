@@ -15,4 +15,3 @@ $wb['invoice_type_invoice_txt'] = 'Fatura';
 $wb['invoice_type_proforma_txt'] = 'Proforma';
 $wb['invoice_type_refund_txt'] = 'Reembolso';
 $wb['invoice_type_reminder_txt'] = 'Lembrar';
-?>

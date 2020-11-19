@@ -1,6 +1,6 @@
 <?php
 $wb['limit_maildomain_txt'] = 'Max. počet e-mailových domén';
-$wb['limit_mailbox_txt'] = 'Max. počet mailboxů';
+$wb['limit_mailbox_txt'] = 'Max. počet e-mailových schránek';
 $wb['limit_mailalias_txt'] = 'Max. počet e-mailových aliasů';
 $wb['limit_mailforward_txt'] = 'Max. počet e-mailových předávání';
 $wb['limit_mailcatchall_txt'] = 'Max. počet e-mailových košů';
@@ -156,7 +156,7 @@ $wb['added_date_txt'] = 'Datum vytvoření účtu';
 $wb['limit_domainmodule_error_notint'] = 'Domainmodule limit must be a number.';
 $wb['limit_domainmodule_txt'] = 'Domainmodule Limit';
 $wb['client_limits_txt'] = 'Klientské limity';
-$wb['err_msg_master_tpl_set'] = 'Nelze nastavit vlastní limity, pokud chtete nastavit vlatní limity musí být \\"hlavní šablona\\" nastavena na volbu \\"Custom\\".';
+$wb['err_msg_master_tpl_set'] = 'Nelze nastavit vlastní limity, pokud chtete nastavit vlatní limity musí být \"hlavní šablona\" nastavena na volbu \"Custom\".';
 $wb['contact_firstname_txt'] = 'Kontakt křestní jméno';
 $wb['limit_backup_txt'] = 'Funkce zálohování (volitelné)';
 $wb['limit_client_error_positive_or_unlimited'] = 'The number of clients must be > 0 or -1 (unlimited)';
@@ -203,7 +203,6 @@ $wb['limit_database_user_error_notint'] = 'Limit databázové kvóty musí být 
 $wb['limit_database_quota_txt'] = 'Databázové kvóty';
 $wb['limit_database_quota_error_notint'] = 'Limit databázové kvóty musí být číslo.';
 $wb['password_click_to_set_txt'] = 'Pro nastavení klikni zde';
-$wb['Reseller'] = 'Reseller';
-$wb['Address'] = 'Address';
+$wb['Reseller'] = 'Prodejce';
+$wb['Address'] = 'Adresa';
 $wb['Limits'] = 'Limity';
-?>

@@ -1,7 +1,6 @@
 <?php
-$wb['list_head_txt'] = 'ISPConfig log';
+$wb['list_head_txt'] = 'ISPConfig protokol';
 $wb['tstamp_txt'] = 'Datum';
 $wb['server_id_txt'] = 'Server';
-$wb['loglevel_txt'] = 'Logovací úroveň';
+$wb['loglevel_txt'] = 'Úroveň protokolu';
 $wb['message_txt'] = 'Zpráva';
-?>

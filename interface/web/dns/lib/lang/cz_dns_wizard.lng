@@ -42,4 +42,3 @@ $wb['error_no_server_id'] = 'No server provided.';
 $wb['error_not_allowed_server_id'] = 'Vybraný server není pro tento účet povolen.';
 $wb['dnssec_txt'] = 'Podepsat zónu (DNSSEC)';
 $wb['limit_dns_zone_txt'] = 'The max. number of DNS zones for your account is reached.';
-?>

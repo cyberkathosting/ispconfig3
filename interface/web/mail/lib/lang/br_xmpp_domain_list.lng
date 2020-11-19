@@ -1,7 +1,6 @@
 <?php
-$wb['list_head_txt'] = 'Domínios xmpp';
+$wb['list_head_txt'] = 'Domínios XMPP';
 $wb['server_id_txt'] = 'Servidor';
 $wb['domain_txt'] = 'Domínio';
 $wb['add_new_record_txt'] = 'Adicionar novo domínio';
 $wb['active_txt'] = 'Ativo';
-?>

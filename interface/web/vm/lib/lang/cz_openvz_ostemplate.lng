@@ -8,4 +8,3 @@ $wb['description_txt'] = 'Popis';
 $wb['template_name_error_empty'] = 'Template name is empty.';
 $wb['template_file_error_empty'] = 'Template filename is empty.';
 $wb['Template'] = 'Šablona';
-?>

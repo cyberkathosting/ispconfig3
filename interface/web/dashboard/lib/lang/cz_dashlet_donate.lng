@@ -4,4 +4,3 @@ $wb['donate2_txt'] = 'Výše daru může být 5 EUR nebo více, částku si zvol
 $wb['hide_btn_txt'] = 'Skrýt';
 $wb['donate_btn_txt'] = 'Podpořit ISPConfig a získat manuál';
 $wb['more_btn_txt'] = 'Více';
-?>

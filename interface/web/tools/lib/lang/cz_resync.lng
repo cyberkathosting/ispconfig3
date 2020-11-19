@@ -50,4 +50,3 @@ $wb['resync_mailtransport_txt'] = 'E-Mail Transport';
 $wb['resync_mailrelay_txt'] = 'E-Mail Relay';
 $wb['do_mailtransport_txt'] = 'Resynced Mailtransport';
 $wb['do_mailrelay_txt'] = 'Resynced Mailrelay';
-?>

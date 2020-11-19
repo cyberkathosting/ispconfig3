@@ -5,4 +5,3 @@ $wb['version_txt'] = 'Versão';
 $wb['category_txt'] = 'Categoria';
 $wb['status_txt'] = 'Desbloqueado';
 $wb['filter_txt'] = 'Pesquisar';
-?>

@@ -4,4 +4,3 @@ $wb['list_desc_txt'] = '';
 $wb['add_new_record_txt'] = 'Vytvořit uživatele';
 $wb['parent_remote_userid_txt'] = 'ID';
 $wb['username_txt'] = 'Uživatel';
-?>
