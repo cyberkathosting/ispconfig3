@@ -2091,7 +2091,7 @@ CREATE TABLE `web_domain` (
   `last_jailkit_hash` varchar(255) DEFAULT NULL,
   PRIMARY KEY  (`domain_id`),
   UNIQUE KEY `serverdomain` (  `server_id` , `ip_address`,  `domain` )
-) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB ROW_FORMAT=DYNAMIC DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
