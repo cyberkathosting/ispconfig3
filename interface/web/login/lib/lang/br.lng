@@ -1,13 +1,13 @@
 <?php
-$wb['error_user_password_empty'] = 'Usuário ou senha está em branco.';
-$wb['error_user_password_incorrect'] = 'Usuário ou senha incorretos.';
+$wb['error_user_password_empty'] = 'Usuário ou senha está vazio.';
+$wb['error_user_password_incorrect'] = 'Usuário e/ou senha incorreto.';
 $wb['error_user_blocked'] = 'O usuário está bloqueado.';
 $wb['error_user_too_many_logins'] = 'Várias tentativas de acesso incorretas, faça uma nova tentativa dentro de 15 minutos.';
-$wb['pass_reset_txt'] = 'Uma nova senha foi gerada e será enviada para você no e-mail informado abaixo, caso o mesmo esteja cadastrado no sistema nas suas configurações de cliente.';
-$wb['pw_reset'] = 'Senha redefinida! Ela será enviada para você no e-mail cadastrado no sistema.';
-$wb['pw_error'] = 'Nome do usuário ou e-mail não coincidem.';
-$wb['pw_error_noinput'] = 'Favor informar nome do usuário e e-mail válidos.';
-$wb['pw_reset_error_smtp_connection'] = 'There was a connection problem when trying to send an email pertaining to your password reset request.';
+$wb['pass_reset_txt'] = 'Uma nova senha foi gerada e será enviada para você no email informado abaixo, caso o mesmo esteja cadastrado no sistema nas suas configurações de cliente.';
+$wb['pw_reset'] = 'Senha redefinida! Ela será enviada para você no email cadastrado no sistema.';
+$wb['pw_error'] = 'Nome do usuário ou email não coincidem.';
+$wb['pw_error_noinput'] = 'Favor informar nome do usuário e email válidos.';
+$wb['pw_reset_error_smtp_connection'] = 'Ocorreu um problema de conexão ao tentar enviar um email referente à sua solicitação de redefinição de senha.';
 $wb['pw_reset_mail_msg'] = 'A senha para esta conta no ISPConfig foi redefinida. A nova senha é: ';
 $wb['pw_reset_mail_title'] = 'A senha para esta conta no ISPConfig foi redefinida.';
 $wb['user_regex_error'] = 'O nome do usuário contém menos de 1 ou mais de 64 caracteres ou contém caracteres inválidos.';
@@ -23,7 +23,7 @@ $wb['pw_button_txt'] = 'Reenviar senha';
 $wb['email_txt'] = 'E-mail';
 $wb['theme_not_compatible'] = 'O tema escolhido não é compatível com a versão atual do ISPConfig. Por favor, procure por uma nova versão deste tema, compatível com ISPConfig.<br />O tema padrão foi configurado automaticamente.';
 $wb['back_txt'] = 'Voltar';
-$wb['email_error'] = 'O e-mail contém caracteres não permitidos ou formato é inválido.';
+$wb['email_error'] = 'O email contém caracteres não permitidos ou formato é inválido.';
 $wb['stay_logged_in_txt'] = 'Manter-me conectado';
 $wb['lost_password_function_disabled_txt'] = 'Função "redefinir senha" indisponível para este usuário.';
 $wb['pw_reset_act'] = 'Você receberá um link de ativação. Por favor, acesse o link de ativação para confirmar sua nova senha.';
@@ -32,4 +32,3 @@ $wb['pw_reset_act_mail_msg'] = 'Por favor, confirme se você deseja reiniciar su
 $wb['lost_password_function_wait_txt'] = 'Você não pode requisitar uma nova senha ainda. Por favor, aguarde alguns minutos.';
 $wb['lost_password_function_expired_txt'] = 'Este link de ativação expirou. Por favor, faça uma nova requisição.';
 $wb['lost_password_function_denied_txt'] = 'Este link de ativação não é válido.';
-?>

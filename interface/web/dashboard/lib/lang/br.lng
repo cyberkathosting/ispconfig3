@@ -1,4 +1,3 @@
 <?php
 $wb['welcome_user_txt'] = 'Bem-vindo %s';
 $wb['available_modules_txt'] = 'Módulos disponíveis';
-?>

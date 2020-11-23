@@ -1,5 +1,5 @@
 <?php
-$wb['web_folder_id_txt'] = 'Pasta';
+$wb['web_folder_id_txt'] = 'Pasta Web';
 $wb['username_txt'] = 'Usuário';
 $wb['password_txt'] = 'Senha';
 $wb['active_txt'] = 'Ativo';
@@ -11,4 +11,4 @@ $wb['password_mismatch_txt'] = 'As senhas não coincidem.';
 $wb['password_match_txt'] = 'As senhas coincidem.';
 $wb['no_folder_perm'] = 'Você não tem permissão para esta pasta.';
 $wb['error_user_exists_already_txt'] = 'Já existe um registro igual para este usuário.';
-?>
+$wb['Web folder user'] = 'Usuários de pasta Web';

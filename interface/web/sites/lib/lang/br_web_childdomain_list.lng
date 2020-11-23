@@ -6,7 +6,7 @@ $wb['parent_domain_id_txt'] = 'Site';
 $wb['domain_txt'] = 'Subdomínio';
 $wb['add_new_subdomain_txt'] = 'Adicionar novo subdomínio';
 $wb['add_new_aliasdomain_txt'] = 'Adicionar novo alias de domínio';
-$wb['domain_error_empty'] = 'O domínio está em branco.';
+$wb['domain_error_empty'] = 'O domínio está vazio.';
 $wb['domain_error_unique'] = 'O domínio deve ser exclusivo.';
 $wb['domain_error_regex'] = 'O domínio é inválido.';
 $wb['domain_error_acme_invalid'] = 'Domínio genérico inválido não permitido.';
@@ -15,4 +15,3 @@ $wb['no_flag_txt'] = 'Sem marcas';
 $wb['none_txt'] = 'Nenhum';
 $wb['aliasdomain_list_head_txt'] = 'Alias de domínios';
 $wb['subdomain_list_head_txt'] = 'Subdomínios';
-?>

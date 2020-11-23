@@ -5,4 +5,3 @@ $wb['price_txt'] = 'Preço';
 $wb['setup_fee_txt'] = 'Taxa criada';
 $wb['no_products_txt'] = 'Nenhum produto encontrado.';
 $wb['order_txt'] = 'Ordem';
-?>

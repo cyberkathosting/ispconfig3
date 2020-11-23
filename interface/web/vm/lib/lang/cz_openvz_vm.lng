@@ -42,4 +42,3 @@ $wb['bootorder_txt'] = 'Boot order priority';
 $wb['bootorder_error_notpositive'] = 'Only positive integers are allowed for Boot order priority';
 $wb['hostname_txt'] = 'Název hostitele';
 $wb['hostname_error_empty'] = 'Název hostitele je prázdný';
-?>

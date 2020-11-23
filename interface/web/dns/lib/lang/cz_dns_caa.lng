@@ -16,4 +16,3 @@ $wb['ca_error_txt'] = 'Nebyla vybrána žádná certifikační autorita';
 $wb['caa_exists_error'] = 'CAA záznam již existuje';
 $wb['ca_option_error'] = 'Neplatný formát pro další možnosti; OPTION=VALUE';
 $wb['ttl_range_error'] = 'Min. TTL čas je 60 sekund.';
-?>

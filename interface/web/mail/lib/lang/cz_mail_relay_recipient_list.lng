@@ -6,4 +6,3 @@ $wb['source_txt'] = 'Adresa adresáta';
 $wb['recipient_txt'] = 'Příjemce (adresát)';
 $wb['add_new_record_txt'] = 'Vytvořit relay adresáta';
 $wb['access_txt'] = 'Přístup';
-?>

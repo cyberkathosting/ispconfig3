@@ -1,17 +1,16 @@
 <?php
-$wb['email_txt'] = 'e-Mail';
+$wb['email_txt'] = 'eMail';
 $wb['spam_rewrite_score_int_txt'] = 'Pontuação de reescrita';
 $wb['spam_redirect_score_int_txt'] = 'Redirecionar pontuação';
 $wb['spam_delete_score_int_txt'] = 'Remover pontuação';
 $wb['spam_rewrite_subject_txt'] = 'Reescrever assunto';
-$wb['spam_redirect_maildir_txt'] = 'Redirecionar conta de e-mail';
+$wb['spam_redirect_maildir_txt'] = 'Redirecionar conta de email';
 $wb['active_txt'] = 'Ativo';
-$wb['spam_rewrite_txt'] = 'Reescrever assunto do e-mail acima desta pontuação.';
-$wb['spam_redirect_txt'] = 'Redirecionar e-mail acima desta pontuação para a conta de e-mail selecionada.';
-$wb['spam_delete_txt'] = 'Remover e-mail acima desta pontuação.';
+$wb['spam_rewrite_txt'] = 'Reescrever assunto do email acima desta pontuação.';
+$wb['spam_redirect_txt'] = 'Redirecionar email acima desta pontuação para a conta de email selecionada.';
+$wb['spam_delete_txt'] = 'Remover email acima desta pontuação.';
 $wb['disable_txt'] = 'Dica: Para desabilitar uma opção de filtragem, configure a pontuação para 0.00';
-$wb['email_error_isemail'] = 'Endereço de e-mail é inválido.';
-$wb['email_error_unique'] = 'Já existe um filtro anti-spam igual para este endereço de e-mail.';
-$wb['spam_redirect_maildir_purge_txt'] = 'Remover diretório de e-mail após';
+$wb['email_error_isemail'] = 'Endereço de email é inválido.';
+$wb['email_error_unique'] = 'Já existe um filtro anti-spam igual para este endereço de email.';
+$wb['spam_redirect_maildir_purge_txt'] = 'Remover diretório de email após';
 $wb['days_txt'] = 'dias.';
-?>

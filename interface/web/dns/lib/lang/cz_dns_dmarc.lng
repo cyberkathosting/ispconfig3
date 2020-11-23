@@ -47,4 +47,3 @@ $wb['record_exists_txt'] = 'DNS záznam již existuje';
 $wb['limit_dns_record_txt'] = 'Byl dosažen max. počet DNS záznamů pro váš účet.';
 $wb['no_zone_perm'] = 'Nemáte oprávnění přidat záznam do této zóny DNS.';
 $wb['ttl_range_error'] = 'Min. TTL doba je 60 sekund.';
-?>

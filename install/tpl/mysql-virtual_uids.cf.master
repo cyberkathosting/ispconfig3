@@ -2,4 +2,5 @@ user = {mysql_server_ispconfig_user}
 password = {mysql_server_ispconfig_password}
 dbname = {mysql_server_database}
 hosts = {mysql_server_ip}
-query = select uid from mail_user where email = '%s' and postfix = 'y' and server_id = {server_id}
+query = SELECT uid FROM mail_user WHERE email = '%s' AND postfix = 'y' AND server_id = {server_id}
+           AND EXISTS (SELECT domain_id FROM mail_domain WHERE domain = SUBSTRING_INDEX('%s', '@', -1) AND active = 'y' AND server_id = {server_id})

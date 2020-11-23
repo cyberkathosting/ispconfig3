@@ -1,8 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Contas de usuários xmpp';
+$wb['list_head_txt'] = 'Contas de usuários XMPP';
 $wb['jid_txt'] = 'ID do Jabber';
 $wb['is_domain_admin_txt'] = 'Administrador do domínio';
 $wb['is_muc_admin_txt'] = 'Administrador MUC';
 $wb['add_new_record_txt'] = 'Adicionar novo usuário';
 $wb['active_txt'] = 'Ativo';
-?>

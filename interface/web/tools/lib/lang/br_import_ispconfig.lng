@@ -1,23 +1,23 @@
 <?php
-$wb['head_txt'] = 'Importar configuração de e-mail do ISPConfig 3';
+$wb['head_txt'] = 'Importar configuração de email do ISPConfig 3';
 $wb['legend_txt'] = 'Detalhes da conexão remota do servidor';
-$wb['legend2_txt'] = 'Importar domínio de e-mail';
+$wb['legend2_txt'] = 'Importar domínio de email';
 $wb['resync_sites_txt'] = 'Sincronizar sites';
-$wb['resync_ftp_txt'] = 'Sincronizar usuários ftp';
-$wb['resync_shell_txt'] = 'Sincronizar usuários do shell';
-$wb['resync_cron_txt'] = 'Sincronizar tarefas no cron';
-$wb['resync_db_txt'] = 'Sincronizar configurações do cliente de banco de dados';
-$wb['resync_mailbox_txt'] = 'Sincronizar contas de e-mail';
-$wb['resync_dns_txt'] = 'Sincronizar registros dns';
+$wb['resync_ftp_txt'] = 'Sincronizar usuários FTP';
+$wb['resync_shell_txt'] = 'Sincronizar usuários Shell';
+$wb['resync_cron_txt'] = 'Sincronizar tarefas no Cron';
+$wb['resync_db_txt'] = 'Sincronizar configurações do cliente do Banco de Dados';
+$wb['resync_mailbox_txt'] = 'Sincronizar contas de email';
+$wb['resync_dns_txt'] = 'Sincronizar registros DNS';
 $wb['btn_start_txt'] = 'Iniciar importação';
 $wb['btn_connect_txt'] = 'Conectar ao servidor remoto';
 $wb['btn_cancel_txt'] = 'Cancelar';
 $wb['client_group_id_txt'] = 'Cliente local';
-$wb['mail_domain_txt'] = 'Domínio de e-mail remoto';
-$wb['import_mailbox_txt'] = 'Importar contas de e-mail';
+$wb['mail_domain_txt'] = 'Domínio de email remoto';
+$wb['import_mailbox_txt'] = 'Importar contas de email';
 $wb['import_aliasdomain_txt'] = 'Importar alias de domínios';
-$wb['import_alias_txt'] = 'Importar alias de e-mail';
-$wb['import_forward_txt'] = 'Importar encaminhamentos de e-mail';
-$wb['import_user_filter_txt'] = 'Importar filtros de e-mail';
+$wb['import_alias_txt'] = 'Importar alias de email';
+$wb['import_forward_txt'] = 'Importar encaminhamentos de email';
+$wb['import_user_filter_txt'] = 'Importar filtros de email';
 $wb['import_spamfilter_txt'] = 'Importar filtros anti-spam';
-?>
+$wb['local_server_txt'] = 'Servidor de emails local';

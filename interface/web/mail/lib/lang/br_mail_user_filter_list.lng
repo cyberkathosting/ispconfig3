@@ -4,4 +4,3 @@ $wb['add_new_record_txt'] = 'Adicionar novo filtro';
 $wb['page_txt'] = 'Página';
 $wb['page_of_txt'] = 'de';
 $wb['delete_confirmation'] = 'Você tem certeza que deseja remover este filtro?';
-?>

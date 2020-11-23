@@ -6,4 +6,3 @@ $wb['client_id_txt'] = 'Klient';
 $wb['name_txt'] = 'Verze PHP';
 $wb['active_txt'] = 'Aktivní';
 $wb['usage_txt'] = 'Usage count';
-?>

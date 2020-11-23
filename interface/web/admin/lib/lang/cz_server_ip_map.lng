@@ -11,4 +11,3 @@ $wb['source_ip_empty'] = 'Zdrojová IP adresa je prázdná.';
 $wb['server_empty_error'] = 'The Server is empty.';
 $wb['duplicate_mapping_error'] = 'Mapování již existuje.';
 $wb['ip_mapping_error'] = 'Source IP can not be an IP of the Rewrite-Server';
-?>

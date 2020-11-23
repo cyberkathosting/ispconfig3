@@ -1,10 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Lista negra';
+$wb['list_head_txt'] = 'Lista de Bloqueios';
 $wb['active_txt'] = 'Ativo';
 $wb['server_id_txt'] = 'Servidor';
-$wb['source_txt'] = 'Endereço de e-mail';
+$wb['source_txt'] = 'Endereço de email';
 $wb['type_txt'] = 'Tipo';
 $wb['recipient_txt'] = 'Destinatário';
 $wb['add_new_record_txt'] = 'Adicionar novo registro';
 $wb['access_txt'] = 'acesso';
-?>

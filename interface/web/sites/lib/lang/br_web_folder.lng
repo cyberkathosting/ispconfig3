@@ -5,4 +5,4 @@ $wb['path_txt'] = 'Caminho';
 $wb['active_txt'] = 'Ativo';
 $wb['path_error_regex'] = 'Caminho da pasta é inválido.';
 $wb['error_folder_already_protected_txt'] = 'Já existe esta pasta.';
-?>
+$wb['Web Folder'] = 'Pastas Web';

@@ -30,4 +30,3 @@ $wb['limit_domain_txt'] = 'Počet domén';
 $wb['limit_mailquota_txt'] = 'Přiřazená e-mailová kvóta';
 $wb['limit_web_quota_txt'] = 'Přiřazená webová kvóta';
 $wb['limit_database_quota_txt'] = 'Přiřazená databázová kvóta';
-?>

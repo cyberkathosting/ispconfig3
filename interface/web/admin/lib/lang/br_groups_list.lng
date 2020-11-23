@@ -3,5 +3,4 @@ $wb['list_head_txt'] = 'Grupos';
 $wb['description_txt'] = 'Descrição';
 $wb['name_txt'] = 'Grupo';
 $wb['add_new_record_txt'] = 'Adicionar novo grupo';
-$wb['warning_txt'] = '<b>ALERTA:</b> Não editar ou alterar qualquer configuração de usuário aqui. Use o módulo de clientes e revendas para isso. Editar ou alterar usuários ou grupos aqui pode causar perda de dados!';
-?>
+$wb['warning_txt'] = '<b>ALERTA:</b> Não editar ou modificar qualquer configuração de usuário aqui. Use o módulo de clientes e revendas para isso. Editar ou modificar usuários ou grupos aqui pode causar perda de dados!';

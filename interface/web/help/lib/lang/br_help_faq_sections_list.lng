@@ -5,4 +5,3 @@ $wb['faq_edit_txt'] = 'Editar';
 $wb['faq_sections_txt'] = 'Seções';
 $wb['faq_faq_sections_txt'] = 'Seções FAQ';
 $wb['faq_new_section_txt'] = 'Adicionar nova seção';
-?>

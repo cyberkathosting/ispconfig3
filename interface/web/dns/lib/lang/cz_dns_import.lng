@@ -22,4 +22,3 @@ $wb['ignore_record_not_class_in'] = 'Ignoring DNS record, not class IN.';
 $wb['ignore_record_unknown_type'] = 'Ignoring DNS record, unknown type.';
 $wb['ignore_record_invalid_owner'] = 'Ignoring DNS record, not able to validate owner name.';
 $wb['zone_file_import_fail'] = 'The zone file did not import.';
-?>

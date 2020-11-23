@@ -1,8 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Verificações de cabeçalho e corpo de e-mail - Postfix';
+$wb['list_head_txt'] = 'Verificações de cabeçalho e corpo de email - Postfix';
 $wb['active_txt'] = 'Ativo';
 $wb['server_id_txt'] = 'Servidor';
 $wb['pattern_txt'] = 'Padrão';
 $wb['action_txt'] = 'Ação';
 $wb['add_new_record_txt'] = 'Adicionar novo filtro';
-?>
