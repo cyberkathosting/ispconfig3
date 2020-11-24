@@ -399,7 +399,7 @@ class tform_base {
 				$tmp_key = $limit_parts[2];
 				$allowed = $allowed = explode(',',$tmp_conf[$tmp_key]);
 			}
-			
+
 			if($formtype == 'CHECKBOX') {
 				if(strstr($limit,'force_')) {
 					// Force the checkbox field to be ticked and enabled
@@ -957,6 +957,9 @@ class tform_base {
 					break;
 				case 'STRIPNL':
 					$returnval = str_replace(array("\n","\r"),'', $returnval);
+					break;
+				case 'NORMALIZEPATH':
+					$returnval = $app->functions->normalize_path($returnval);
 					break;
 				default:
 					$this->errorMessage .= "Unknown Filter: ".$filter['type'];

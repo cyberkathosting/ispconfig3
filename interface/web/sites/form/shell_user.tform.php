@@ -232,6 +232,12 @@ if($_SESSION["s"]["user"]["typ"] == 'admin') {
 			'dir' => array (
 				'datatype' => 'VARCHAR',
 				'formtype' => 'TEXT',
+				'filters' => array(
+										0 => array (
+														'event' => 'SAVE',
+														'type' => 'NORMALIZEPATH'
+										)
+				),
 				'validators' => array ( 0 => array ( 	'type' => 'NOTEMPTY',
 														'errmsg'=> 'directory_error_empty'),
 										1 => array ( 	'type' => 'REGEX',
