@@ -2300,6 +2300,36 @@ class system{
 		return true;
 	}
 
+	public function is_allowed_path($path) {
+		global $app;
+
+		$path = $app->functions->normalize_path($path);
+		if(file_exists($path)) {
+			$path = realpath($path);
+		}
+
+		$blacklisted_paths_regex = array(
+			'@^/$@',
+			'@^/proc(/.*)?$@',
+			'@^/sys(/.*)?$@',
+			'@^/etc(/.*)?$@',
+			'@^/dev(/.*)?$@',
+			'@^/tmp(/.*)?$@',
+			'@^/run(/.*)?$@',
+			'@^/boot(/.*)?$@',
+			'@^/root(/.*)?$@',
+			'@^/var(/?|/backups?(/.*)?)?$@',
+		);
+
+		foreach($blacklisted_paths_regex as $regex) {
+			if(preg_match($regex, $path)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	public function last_exec_out() {
 		return $this->_last_exec_out;
 	}
@@ -2350,6 +2380,8 @@ class system{
 	}
 
 	public function create_jailkit_user($username, $home_dir, $user_home_dir, $shell = '/bin/bash', $p_user = null, $p_user_home_dir = null) {
+		global $app;
+
 		// Disallow operating on root directory
 		if(realpath($home_dir) == '/') {
 			$app->log("create_jailkit_user: invalid home_dir: $home_dir", LOGLEVEL_WARN);
@@ -2379,6 +2411,8 @@ class system{
 	}
 
 	public function create_jailkit_chroot($home_dir, $app_sections = array(), $options = array()) {
+		global $app;
+
 		// Disallow operating on root directory
 		if(realpath($home_dir) == '/') {
 			$app->log("create_jailkit_chroot: invalid home_dir: $home_dir", LOGLEVEL_WARN);
@@ -2450,6 +2484,8 @@ class system{
 	}
 
 	public function create_jailkit_programs($home_dir, $programs = array(), $options = array()) {
+		global $app;
+
 		// Disallow operating on root directory
 		if(realpath($home_dir) == '/') {
 			$app->log("create_jailkit_programs: invalid home_dir: $home_dir", LOGLEVEL_WARN);
