@@ -721,7 +721,7 @@ class backup
     }
 
     /**
-     * Garbage collection: deletes records from database about files that do not exist and deletes untracked files.
+     * Garbage collection: deletes records from database about files that do not exist and deletes untracked files and cleans up backup download directories.
      * The backup directory must be mounted before calling this method.
      * @param int $server_id
      * @param string|null $backup_type if defined then process only backups of this type
@@ -740,25 +740,32 @@ class backup
         $backup_dir = trim($server_config['backup_dir']);
         $sql = "SELECT * FROM web_backup WHERE server_id = ?";
         $sql_domains = "SELECT domain_id,document_root,system_user,system_group,backup_interval FROM web_domain WHERE server_id = ? AND (type = 'vhost' OR type = 'vhostsubdomain' OR type = 'vhostalias')";
+        $sql_domains_with_backups = "SELECT domain_id,document_root,system_user,system_group,backup_interval FROM web_domain WHERE domain_id in (SELECT * FROM web_backup WHERE server_id = ?" . ((!empty($backup_type)) ? " AND backup_type = ?" : "") . ") AND (type = 'vhost' OR type = 'vhostsubdomain' OR type = 'vhostalias')";
         array_push($args, $server_id);
         array_push($args_domains, $server_id);
+        array_push($args_domains_with_backups, $server_id);
         if (!empty($backup_type)) {
             $sql .= " AND backup_type = ?";
             array_push($args, $backup_type);
+            array_push($args_domains_with_backups, $backup_type);
         }
         if (!empty($domain_id)) {
             $sql .= " AND parent_domain_id = ?";
             $sql_domains .= " AND domain_id = ?";
+            $sql_domains_with_backups .= " AND domain_id = ?";
             array_push($args, $domain_id);
             array_push($args_domains, $domain_id);
+            array_push($args_domains_with_backups, $domain_id);
         }
         array_unshift($args, $sql);
         array_unshift($args_domains, $sql_domains);
+        array_unshift($args_domains_with_backups, $sql_domains);
 
         $db_list = array($app->db);
         if ($app->db->dbHost != $app->dbmaster->dbHost)
             array_push($db_list, $app->dbmaster);
 
+	// Cleanup web_backup entries for non-existent backup files
         foreach ($db_list as $db) {
             $backups = call_user_func_array(array($db, "queryAllRecords"), $args);
             foreach ($backups as $backup) {
@@ -771,27 +778,42 @@ class backup
             }
         }
 
-        foreach ($db_list as $db) {
-            $domains = call_user_func_array(array($db, "queryAllRecords"), $args_domains);
-            foreach ($domains as $rec) {
-                $domain_id = $rec['domain_id'];
-                $domain_backup_dir = $backup_dir . '/web' . $domain_id;
-                $files = self::get_files($domain_backup_dir);
+	// Cleanup backup files with missing web_backup entries (runs on all servers)
+        $domains = $app->dbmaster->queryAllRecords($args_domains_with_backups);
+        foreach ($domains as $rec) {
+            $domain_id = $rec['domain_id'];
+            $domain_backup_dir = $backup_dir . '/web' . $domain_id;
+            $files = self::get_files($domain_backup_dir);
 
-                //Delete files that are in backup directory, but do not exist in database
-                if (!empty($files)) {
-                    $sql = "SELECT backup_id,filename FROM web_backup WHERE server_id = ? AND parent_domain_id = ?";
+            if (!empty($files)) {
+                // leave out server_id here, in case backup storage is shared between servers
+                $sql = "SELECT backup_id, filename FROM web_backup WHERE parent_domain_id = ?";
+                foreach ($db_list as $db) {
+                    $backup_record_exists = false;
                     $backups = $db->queryAllRecords($sql, $server_id, $domain_id);
                     foreach ($backups as $backup) {
-                        if (!in_array($backup['filename'],$files)) {
-                            $backup_file = $backup_dir . '/web' . $domain_id . '/' . $backup['filename'];
-                            $app->log('Backup file ' . $backup_file . ' is not contained in database, deleting this file from disk', LOGLEVEL_DEBUG);
-                            @unlink($backup_file);
+                        if (in_array($backup['filename'],$files)) {
+                            $backup_record_exists = true;
                         }
                     }
+                    if (!$backup_record_exists) {
+                        $backup_file = $backup_dir . '/web' . $domain_id . '/' . $backup['filename'];
+                        $app->log('Backup file ' . $backup_file . ' is not contained in database, deleting this file from disk', LOGLEVEL_DEBUG);
+                        @unlink($backup_file);
+                    }
                 }
+            }
+        }
 
-                //Remove backupdir symlink and create as directory instead
+	// This cleanup only runs on web servers
+        $domains = $app->db->queryAllRecords($args_domains);
+        foreach ($domains as $rec) {
+            $domain_id = $rec['domain_id'];
+            $domain_backup_dir = $backup_dir . '/web' . $domain_id;
+            $files = self::get_files($domain_backup_dir);
+
+            // Remove backupdir symlink and create as directory instead
+            if (is_link($backup_download_dir) || !is_dir($backup_download_dir)) {
                 $web_path = $rec['document_root'];
                 $app->system->web_folder_protection($web_path, false);
 
@@ -806,23 +828,23 @@ class backup
                 }
 
                 $app->system->web_folder_protection($web_path, true);
+            }
 
-                // delete old files from backup download dir (/var/www/example.com/backup)
-                if (is_dir($backup_download_dir)) {
-                    $dir_handle = dir($backup_download_dir);
-                    $now = time();
-                    while (false !== ($entry = $dir_handle->read())) {
-                        $full_filename = $backup_download_dir . '/' . $entry;
-                        if ($entry != '.' && $entry != '..' && is_file($full_filename)) {
-                            // delete files older than 3 days
-                            if ($now - filemtime($full_filename) >= 60 * 60 * 24 * 3) {
-                                $app->log('Backup file ' . $full_filename . ' is too old, deleting this file from disk', LOGLEVEL_DEBUG);
-                                @unlink($full_filename);
-                            }
+            // delete old files from backup download dir (/var/www/example.com/backup)
+            if (is_dir($backup_download_dir)) {
+                $dir_handle = dir($backup_download_dir);
+                $now = time();
+                while (false !== ($entry = $dir_handle->read())) {
+                    $full_filename = $backup_download_dir . '/' . $entry;
+                    if ($entry != '.' && $entry != '..' && is_file($full_filename)) {
+                        // delete files older than 3 days
+                        if ($now - filemtime($full_filename) >= 60 * 60 * 24 * 3) {
+                            $app->log('Backup file ' . $full_filename . ' is too old, deleting this file from disk', LOGLEVEL_DEBUG);
+                            @unlink($full_filename);
                         }
                     }
-                    $dir_handle->close();
                 }
+                $dir_handle->close();
             }
         }
     }
@@ -1419,7 +1441,7 @@ class backup
                 $ok = self::make_web_backup($rec, $backup_job);
                 break;
             case 'mysql':
-				$rec['server_id'] = $server_id;
+                $rec['server_id'] = $server_id;
                 $ok = self::make_database_backup($rec, $backup_job);
                 break;
             default:
@@ -1460,7 +1482,7 @@ class backup
             }
         }
 
-		$sql = "SELECT DISTINCT d.*, db.server_id as `server_id` FROM web_database as db INNER JOIN web_domain as d ON (d.domain_id = db.parent_domain_id) WHERE db.server_id = ? AND db.active = 'y' AND d.backup_interval != 'none' AND d.backup_interval != ''";
+	$sql = "SELECT DISTINCT d.*, db.server_id as `server_id` FROM web_database as db INNER JOIN web_domain as d ON (d.domain_id = db.parent_domain_id) WHERE db.server_id = ? AND db.active = 'y' AND d.backup_interval != 'none' AND d.backup_interval != ''";
         $databases = $app->dbmaster->queryAllRecords($sql, $server_id);
 
         foreach ($databases as $database) {
