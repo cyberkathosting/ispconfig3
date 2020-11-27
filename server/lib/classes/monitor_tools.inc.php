@@ -845,11 +845,11 @@ class monitor_tools {
 					$mailSubject = trim($parts[1]);
 					continue;
 				}
-				if(strtolower($parts[0]) == 'From') {
+				if(strtolower($parts[0]) == 'from') {
 					$mailFrom = trim($parts[1]);
 					continue;
 				}
-				if(strtolower($parts[0]) == 'Cc') {
+				if(strtolower($parts[0]) == 'cc') {
 					if (! in_array(trim($parts[1]), $recipients)) {
 						$recipients[] = trim($parts[1]);
 					}
