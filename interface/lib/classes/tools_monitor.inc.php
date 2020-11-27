@@ -568,7 +568,7 @@ class tools_monitor {
 
 		if(isset($record['data'])) {
 			$data = unserialize($record['data']);
-			$html = nl2br($data['output']);
+                       $html = '<pre>' . htmlspecialchars($data['output']) . '</pre>';
 		} else {
 			$html = '<p>'.$app->lng("no_data_mailq_txt").'</p>';
 		}
