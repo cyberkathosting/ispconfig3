@@ -290,6 +290,11 @@ class monitor_tools {
 			$distver = '11';
 			$distid = 'fedora9';
 			$distbaseid = 'fedora';
+		} elseif(stristr($content, 'Fedora release 33 (Thirty Three)')) {
+			$distname = 'Fedora';
+			$distver = '33';
+			$distid = 'fedora33';
+			$distbaseid = 'fedora';
 		} elseif(stristr($content, 'CentOS release 5.2 (Final)')) {
 			$distname = 'CentOS';
 			$distver = '5.2';
