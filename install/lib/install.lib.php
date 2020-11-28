@@ -308,7 +308,13 @@ function get_distname() {
 			$distid = 'fedora9';
 			$distbaseid = 'fedora';
 			swriteln("Operating System: Fedora 11 or compatible\n");
-		}  elseif(stristr($content, 'Fedora release 33 (Thirty Three)')) {
+		} elseif(stristr($content, 'Fedora release 32 (Thirty Two)')) {
+			$distname = 'Fedora';
+			$distver = '32';
+			$distid = 'fedora32';
+			$distbaseid = 'fedora';
+			swriteln("Operating System: Fedora 32 or compatible\n");
+		} elseif(stristr($content, 'Fedora release 33 (Thirty Three)')) {
 			$distname = 'Fedora';
 			$distver = '33';
 			$distid = 'fedora33';

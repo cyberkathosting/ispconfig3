@@ -28,11 +28,11 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-//***  Fedora 33 default settings
+//***  Fedora 32 default settings
 
 //* Main
 $conf['language'] = 'en';
-$conf['distname'] = 'fedora33';
+$conf['distname'] = 'fedora32';
 $conf['hostname'] = 'server1.domain.tld'; // Full hostname
 $conf['ispconfig_install_dir'] = '/usr/local/ispconfig';
 $conf['ispconfig_config_dir'] = '/usr/local/ispconfig';
