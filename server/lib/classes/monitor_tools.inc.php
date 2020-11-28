@@ -664,7 +664,6 @@ class monitor_tools {
 
 	private function _getOutputFromExecCommand ($command) {
 		$log = '';
-		echo $command;
 		$fd = popen($command, 'r');
 		if ($fd) {
 			$n = 0;
