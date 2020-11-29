@@ -208,12 +208,12 @@ $conf['nginx']['vhost_conf_dir'] = '/etc/nginx/sites-available';
 $conf['nginx']['vhost_conf_enabled_dir'] = '/etc/nginx/sites-enabled';
 $conf['nginx']['init_script'] = 'nginx';
 $conf['nginx']['vhost_port'] = '8080';
-$conf['nginx']['cgi_socket'] = '/var/run/fcgiwrap.socket';
+$conf['nginx']['cgi_socket'] = '/run/fcgiwrap.sock';
 $conf['nginx']['php_fpm_init_script'] = 'php-fpm';
 $conf['nginx']['php_fpm_ini_path'] = '/etc/php.ini';
 $conf['nginx']['php_fpm_pool_dir'] = '/etc/php-fpm.d';
 $conf['nginx']['php_fpm_start_port'] = 9010;
-$conf['nginx']['php_fpm_socket_dir'] = '/var/lib/php-fpm';
+$conf['nginx']['php_fpm_socket_dir'] = '/run/php-fpm';
 
 //* vlogger
 $conf['vlogger']['config_dir'] = '/etc';
