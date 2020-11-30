@@ -1426,6 +1426,7 @@ CREATE TABLE `server_php` (
   `php_fpm_init_script` varchar(255) DEFAULT NULL,
   `php_fpm_ini_dir` varchar(255) DEFAULT NULL,
   `php_fpm_pool_dir` varchar(255) DEFAULT NULL,
+  `php_fpm_socket_dir` varchar(255) DEFAULT NULL,
   `active` enum('n','y') NOT NULL DEFAULT 'y',
   PRIMARY KEY (`server_php_id`)
 ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
