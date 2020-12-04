@@ -102,34 +102,42 @@ server {
         location = /error/400.html {
             <tmpl_var name='web_document_root_www_proxy'>
             internal;
+            auth_basic off;
         }
         location = /error/401.html {
             <tmpl_var name='web_document_root_www_proxy'>
             internal;
+            auth_basic off;
         }
         location = /error/403.html {
             <tmpl_var name='web_document_root_www_proxy'>
             internal;
+            auth_basic off;
         }
         location = /error/404.html {
             <tmpl_var name='web_document_root_www_proxy'>
             internal;
+            auth_basic off;
         }
         location = /error/405.html {
             <tmpl_var name='web_document_root_www_proxy'>
             internal;
+            auth_basic off;
         }
         location = /error/500.html {
             <tmpl_var name='web_document_root_www_proxy'>
             internal;
+            auth_basic off;
         }
         location = /error/502.html {
             <tmpl_var name='web_document_root_www_proxy'>
             internal;
+            auth_basic off;
         }
         location = /error/503.html {
             <tmpl_var name='web_document_root_www_proxy'>
             internal;
+            auth_basic off;
         }
 </tmpl_if>
 
