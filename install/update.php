@@ -361,8 +361,12 @@ if($conf['mysql']['master_slave_setup'] == 'y') {
 if($conf['apache']['installed'] == true){
 	if(!is_file($conf['apache']['vhost_conf_dir'].'/ispconfig.vhost')) $inst->install_ispconfig_interface = false;
 }
-if($conf['nginx']['installed'] == true){
+elseif($conf['nginx']['installed'] == true){
 	if(!is_file($conf['nginx']['vhost_conf_dir'].'/ispconfig.vhost')) $inst->install_ispconfig_interface = false;
+}
+else {
+	// If neither webserver is installed then this can't be the server that hosts the ispconfig interface.
+	$inst->install_ispconfig_interface = false;
 }
 
 //** Shall the services be reconfigured during update
