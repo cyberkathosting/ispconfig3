@@ -460,7 +460,7 @@ class monitor_tools {
 		/* Monitor MySQL Server */
 		$data['mysqlserver'] = -1; // unknown - not needed
 		if ($services['db_server'] == 1) {
-			if ($this->_checkTcp('localhost', 3306)) {
+                       if ($this->_checkTcp($conf['db_host'], $conf['db_port'])) {
 				$data['mysqlserver'] = 1;
 			} else {
 				$data['mysqlserver'] = 0;
