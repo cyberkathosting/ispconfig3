@@ -284,11 +284,22 @@ body {
   height: 20px;
   background-color: #ababab;
   font-weight: bold;
+  position: relative;
 }
 
 .progress-bar-danger, .progress-bar-warning, .progress-bar-success {
     text-align: center;
     color: white;
+    display: list-item;
+}
+
+.progress span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 2;
+  color: white;
 }
 
 p.fieldset-legend {
