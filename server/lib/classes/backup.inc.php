@@ -1315,7 +1315,6 @@ class backup
 	$backup_excludes = array(
 		escapeshellarg('./backup\*'),
 		'./bin', './dev', './etc', './lib', './lib32', './lib64', './opt', './sys', './usr', './var', './proc', './run', './tmp',
-		'./log',
 		);
 
         $b_excludes = explode(',', trim($web_domain['backup_excludes']));
