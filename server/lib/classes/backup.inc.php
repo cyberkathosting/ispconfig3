@@ -736,11 +736,12 @@ class backup
         //First check that all records in database have related files and delete records without files on disk
         $args = array();
         $args_domains = array();
+        $args_domains_with_backups = array();
         $server_config = $app->getconf->get_server_config($server_id, 'server');
         $backup_dir = trim($server_config['backup_dir']);
         $sql = "SELECT * FROM web_backup WHERE server_id = ?";
         $sql_domains = "SELECT domain_id,document_root,system_user,system_group,backup_interval FROM web_domain WHERE server_id = ? AND (type = 'vhost' OR type = 'vhostsubdomain' OR type = 'vhostalias')";
-        $sql_domains_with_backups = "SELECT domain_id,document_root,system_user,system_group,backup_interval FROM web_domain WHERE domain_id in (SELECT * FROM web_backup WHERE server_id = ?" . ((!empty($backup_type)) ? " AND backup_type = ?" : "") . ") AND (type = 'vhost' OR type = 'vhostsubdomain' OR type = 'vhostalias')";
+        $sql_domains_with_backups = "SELECT domain_id,document_root,system_user,system_group,backup_interval FROM web_domain WHERE domain_id in (SELECT parent_domain_id FROM web_backup WHERE server_id = ?" . ((!empty($backup_type)) ? " AND backup_type = ?" : "") . ") AND (type = 'vhost' OR type = 'vhostsubdomain' OR type = 'vhostalias')";
         array_push($args, $server_id);
         array_push($args_domains, $server_id);
         array_push($args_domains_with_backups, $server_id);
@@ -759,7 +760,7 @@ class backup
         }
         array_unshift($args, $sql);
         array_unshift($args_domains, $sql_domains);
-        array_unshift($args_domains_with_backups, $sql_domains);
+        array_unshift($args_domains_with_backups, $sql_domains_with_backups);
 
         $db_list = array($app->db);
         if ($app->db->dbHost != $app->dbmaster->dbHost)
@@ -779,7 +780,7 @@ class backup
         }
 
 	// Cleanup backup files with missing web_backup entries (runs on all servers)
-        $domains = $app->dbmaster->queryAllRecords($args_domains_with_backups);
+        $domains = call_user_func_array(array($app->dbmaster, "queryAllRecords"), $args_domains_with_backups);
         foreach ($domains as $rec) {
             $domain_id = $rec['domain_id'];
             $domain_backup_dir = $backup_dir . '/web' . $domain_id;
@@ -788,29 +789,29 @@ class backup
             if (!empty($files)) {
                 // leave out server_id here, in case backup storage is shared between servers
                 $sql = "SELECT backup_id, filename FROM web_backup WHERE parent_domain_id = ?";
+		$untracked_backup_files = array();
                 foreach ($db_list as $db) {
-                    $backup_record_exists = false;
-                    $backups = $db->queryAllRecords($sql, $server_id, $domain_id);
+                    $backups = $db->queryAllRecords($sql, $domain_id);
                     foreach ($backups as $backup) {
-                        if (in_array($backup['filename'],$files)) {
-                            $backup_record_exists = true;
+                        if (!in_array($backup['filename'],$files)) {
+                            $untracked_backup_files[] = $backup['filename'];
                         }
                     }
-                    if (!$backup_record_exists) {
-                        $backup_file = $backup_dir . '/web' . $domain_id . '/' . $backup['filename'];
-                        $app->log('Backup file ' . $backup_file . ' is not contained in database, deleting this file from disk', LOGLEVEL_DEBUG);
-                        @unlink($backup_file);
-                    }
+                }
+		array_unique( $untracked_backup_files );
+		foreach ($untracked_backup_files as $f) {
+                    $backup_file = $backup_dir . '/web' . $domain_id . '/' . $f;
+                    $app->log('Backup file ' . $backup_file . ' is not contained in database, deleting this file from disk', LOGLEVEL_DEBUG);
+                    @unlink($backup_file);
                 }
             }
         }
 
 	// This cleanup only runs on web servers
-        $domains = $app->db->queryAllRecords($args_domains);
+        $domains = call_user_func_array(array($app->db, "queryAllRecords"), $args_domains);
         foreach ($domains as $rec) {
             $domain_id = $rec['domain_id'];
             $domain_backup_dir = $backup_dir . '/web' . $domain_id;
-            $files = self::get_files($domain_backup_dir);
 
             // Remove backupdir symlink and create as directory instead
             if (is_link($backup_download_dir) || !is_dir($backup_download_dir)) {
@@ -836,7 +837,7 @@ class backup
                 $now = time();
                 while (false !== ($entry = $dir_handle->read())) {
                     $full_filename = $backup_download_dir . '/' . $entry;
-                    if ($entry != '.' && $entry != '..' && is_file($full_filename)) {
+                    if ($entry != '.' && $entry != '..' && is_file($full_filename) && ! is_link($full_filename)) {
                         // delete files older than 3 days
                         if ($now - filemtime($full_filename) >= 60 * 60 * 24 * 3) {
                             $app->log('Backup file ' . $full_filename . ' is too old, deleting this file from disk', LOGLEVEL_DEBUG);
@@ -919,16 +920,24 @@ class backup
      * Generates excludes list for compressors
      * @param string[] $backup_excludes
      * @param string $arg
+     * @param string $pre
+     * @param string $post
      * @return string
      * @author Ramil Valitov <ramilvalitov@gmail.com>
      */
-    protected static function generateExcludeList($backup_excludes, $arg)
+    protected static function generateExcludeList($backup_excludes, $arg, $pre='', $post='')
     {
-        $excludes = implode(" " . $arg, $backup_excludes);
-        if (!empty($excludes)) {
-            $excludes = $arg . $excludes;
+        $excludes = "";
+        foreach ($backup_excludes as $ex) {
+	    # pass through escapeshellarg if not already done
+            if ( preg_match( "/^'.+'$/", $ex ) ) {
+                $excludes .= "${arg}${pre}${ex}${post} ";
+            } else {
+                $excludes .= "${arg}" . escapeshellarg("${pre}${ex}${post}") . " ";
+            }
         }
-        return $excludes;
+
+        return trim( $excludes );
     }
 
     /**
@@ -987,12 +996,14 @@ class backup
                 if (!empty($password)) {
                     $zip_options .= ' --password ' . escapeshellarg($password);
                 }
+                $excludes = self::generateExcludeList($backup_excludes, '-x ');
+                $excludes .= " " . self::generateExcludeList($backup_excludes, '-x ', '', '/*');
                 if ($backup_mode == 'user_zip') {
                     //Standard casual behaviour of ISPConfig
-                    $app->system->exec_safe($find_user_files . ' | zip ' . $zip_options . ' -b ? ' . $excludes . ' --symlinks ? -@', $web_path, $web_user, $web_group, $http_server_user, $backup_tmp, $web_backup_dir . '/' . $web_backup_file);
+                    $app->system->exec_safe($find_user_files . ' | zip ' . $zip_options . ' -b ? --symlinks ? -@ ' . $excludes, $web_path, $web_user, $web_group, $http_server_user, $backup_tmp, $web_backup_dir . '/' . $web_backup_file);
                 } else {
-                    //Use cd to have a correct directory structure inside the archive, extra options to zip hidden (dot) files
-                    $app->system->exec_safe('cd ? && zip ' . $zip_options . ' -b ? ' . $excludes . ' --symlinks -r ? * .* -x "../*"', $web_path, $backup_tmp, $web_backup_dir . '/' . $web_backup_file);
+                    //Use cd to have a correct directory structure inside the archive, zip  current directory "." to include hidden (dot) files
+                    $app->system->exec_safe('cd ? && zip ' . $zip_options . ' -b ? --symlinks -r ? . ' . $excludes, $web_path, $backup_tmp, $web_backup_dir . '/' . $web_backup_file);
                 }
                 $exit_code = $app->system->last_exec_retcode();
                 // zip can return 12(due to harmless warnings) and still create valid backups
@@ -1237,8 +1248,8 @@ class backup
                 //* Remove old backups
                 self::backups_garbage_collection($server_id, 'mysql', $domain_id);
                 $prefix_list = array(
-                            'db_'.escapeshellarg($db_name).'_',
-                            'manual-db_'.escapeshellarg($db_name).'_',
+                            "db_${db_name}_",
+                            "manual-db_${db_name}_",
                         );
                 self::clearBackups($server_id, $domain_id, intval($rec['backup_copies']), $db_backup_dir, $prefix_list);
             } else {
@@ -1313,7 +1324,7 @@ class backup
 
 	# default exclusions
 	$backup_excludes = array(
-		escapeshellarg('./backup\*'),
+		'./backup*',
 		'./bin', './dev', './etc', './lib', './lib32', './lib64', './opt', './sys', './usr', './var', './proc', './run', './tmp',
 		);
 
