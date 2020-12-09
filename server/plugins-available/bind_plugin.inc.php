@@ -286,6 +286,7 @@ class bind_plugin {
 
 			$records = $app->db->queryAllRecords("SELECT * FROM dns_rr WHERE zone = ? AND active = 'Y'", $zone['id']);
 			if(is_array($records) && !empty($records)){
+				$caa_add_rec = -1;
 				for($i=0;$i<sizeof($records);$i++){
 					if($records[$i]['ttl'] == 0) $records[$i]['ttl'] = '';
 					if($records[$i]['name'] == '') $records[$i]['name'] = '@';
@@ -301,7 +302,21 @@ class bind_plugin {
 						$records[$i]['data'] = implode(' ', $temp);
 						$data_new = str_replace(array('"', ' '), '', $records[$i]['data']);
 						$hex = unpack('H*', $data_new);
-						$hex[1] = '0005'.strtoupper($hex[1]);
+						if ($temp[1] == 'issuewild') {
+							$hex[1] = '0009'.strtoupper($hex[1]);
+							if ($caa_add_rec == -1) {
+								// add issue ";" if only issuewild recordsa
+								$caa_add_rec = array_push($records, $records[$i]);
+								$records[$caa_add_rec-1]['data'] = "\# 8 000569737375653B";
+							}
+						} else {
+							$hex[1] = '0005'.strtoupper($hex[1]);
+							if ($caa_add_rec > 0) {
+								// remove previously added issue ";" 
+								array_pop($records);
+							}
+							$caa_add_rec = -2;
+						}
 						$length = strlen($hex[1])/2;
 						$data_new = "\# $length $hex[1]";
 						$records[$i]['data'] = $data_new;
