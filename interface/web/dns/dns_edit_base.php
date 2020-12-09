@@ -117,6 +117,9 @@ class dns_page_action extends tform_actions {
 		if($this->dataRecord["name"] === '@') {
 			$this->dataRecord["name"] = $soa['origin'];
 		}
+		if($this->dataRecord["data"] === '@') {
+			$this->dataRecord["data"] = $soa['origin'];
+		}
 
 		// Replace * to *.example.com.
 		if($this->dataRecord["name"] === '*') {
