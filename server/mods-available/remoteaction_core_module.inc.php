@@ -179,7 +179,7 @@ class remoteaction_core_module {
 		//TODO : change this when distribution information has been integrated into server record
 		if(file_exists('/etc/gentoo-release')) {
 			exec("glsa-check -f --nocolor affected");
-		}elseif(file_exists('/etc/redhat-release')) {
+		} elseif(file_exists('/etc/redhat-release')) {
 			exec("dnf -y update");
 		}
 		else {
