@@ -213,7 +213,7 @@ $items[] = array(   'title'   => 'Database quota',
 	'link'    => 'sites/database_quota_stats.php',
 	'html_id' => 'databse_quota_stats');
 
-if($app->auth->get_client_limit($userid, 'backup') == 'y') {
+if($app->auth->get_client_limit($userid, 'backup') != 'n') {
         $items[] = array (
                 'title'   => 'Backup Stats',
                 'target'  => 'content',
