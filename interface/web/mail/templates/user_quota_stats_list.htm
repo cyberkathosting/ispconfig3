@@ -58,11 +58,11 @@
                     <td><a href="#" data-load-content="mail/mail_user_edit.php?id={tmpl_var name='id'}">{tmpl_var
                             name="quota"}</a></td>
                     <td colspan="2">
-                        {tmpl_if name="progressbar" op="!=" value="-1"}<div class="progress" style="height: 20px">
+                        {tmpl_if name="quota" op="!=" value="0"}<div class="progress" style="height: 20px">
                             <div class='progress-bar-striped progress-bar-{tmpl_if name="percentage_sort" op="<" value="50"}success{tmpl_elseif name="percentage_sort" op="<" value="75"}warning{tmpl_else}danger{/tmpl_if}'
-                                role="progressbar" style="width: {tmpl_var name=" progressbar"}%;"
+                                role="progressbar" style="width: {tmpl_var name="progressbar"}%;"
                                 aria-valuenow="{tmpl_var name=" percentage"}" aria-valuemin="0" aria-valuemax="100">
-                                {tmpl_var name="percentage"}</div>
+                                <span>{tmpl_var name="percentage"}</span</div>
                         </div>{/tmpl_if}
                     </td>
 
