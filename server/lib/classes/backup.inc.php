@@ -734,33 +734,30 @@ class backup
         global $app;
 
         //First check that all records in database have related files and delete records without files on disk
-        $args = array();
-        $args_domains = array();
-        $args_domains_with_backups = array();
+        $args_sql = array();
+        $args_sql_domains = array();
+        $args_sql_domains_with_backups = array();
         $server_config = $app->getconf->get_server_config($server_id, 'server');
         $backup_dir = trim($server_config['backup_dir']);
         $sql = "SELECT * FROM web_backup WHERE server_id = ?";
         $sql_domains = "SELECT domain_id,document_root,system_user,system_group,backup_interval FROM web_domain WHERE server_id = ? AND (type = 'vhost' OR type = 'vhostsubdomain' OR type = 'vhostalias')";
         $sql_domains_with_backups = "SELECT domain_id,document_root,system_user,system_group,backup_interval FROM web_domain WHERE domain_id in (SELECT parent_domain_id FROM web_backup WHERE server_id = ?" . ((!empty($backup_type)) ? " AND backup_type = ?" : "") . ") AND (type = 'vhost' OR type = 'vhostsubdomain' OR type = 'vhostalias')";
-        array_push($args, $server_id);
-        array_push($args_domains, $server_id);
-        array_push($args_domains_with_backups, $server_id);
+        array_push($args_sql, $server_id);
+        array_push($args_sql_domains, $server_id);
+        array_push($args_sql_domains_with_backups, $server_id);
         if (!empty($backup_type)) {
             $sql .= " AND backup_type = ?";
-            array_push($args, $backup_type);
-            array_push($args_domains_with_backups, $backup_type);
+            array_push($args_sql, $backup_type);
+            array_push($args_sql_domains_with_backups, $backup_type);
         }
         if (!empty($domain_id)) {
             $sql .= " AND parent_domain_id = ?";
             $sql_domains .= " AND domain_id = ?";
             $sql_domains_with_backups .= " AND domain_id = ?";
-            array_push($args, $domain_id);
-            array_push($args_domains, $domain_id);
-            array_push($args_domains_with_backups, $domain_id);
+            array_push($args_sql, $domain_id);
+            array_push($args_sql_domains, $domain_id);
+            array_push($args_sql_domains_with_backups, $domain_id);
         }
-        array_unshift($args, $sql);
-        array_unshift($args_domains, $sql_domains);
-        array_unshift($args_domains_with_backups, $sql_domains_with_backups);
 
         $db_list = array($app->db);
         if ($app->db->dbHost != $app->dbmaster->dbHost)
@@ -768,7 +765,7 @@ class backup
 
 	// Cleanup web_backup entries for non-existent backup files
         foreach ($db_list as $db) {
-            $backups = call_user_func_array(array($db, "queryAllRecords"), $args);
+            $backups = $app->db->queryAllRecords($sql, true, $args_sql);
             foreach ($backups as $backup) {
                 $backup_file = $backup_dir . '/web' . $backup['parent_domain_id'] . '/' . $backup['filename'];
                 if (!is_file($backup_file)) {
@@ -780,7 +777,7 @@ class backup
         }
 
 	// Cleanup backup files with missing web_backup entries (runs on all servers)
-        $domains = call_user_func_array(array($app->dbmaster, "queryAllRecords"), $args_domains_with_backups);
+        $domains = $app->dbmaster->queryAllRecords($sql_domains_with_backups, true, $args_sql_domains_with_backups);
         foreach ($domains as $rec) {
             $domain_id = $rec['domain_id'];
             $domain_backup_dir = $backup_dir . '/web' . $domain_id;
@@ -808,7 +805,7 @@ class backup
         }
 
 	// This cleanup only runs on web servers
-        $domains = call_user_func_array(array($app->db, "queryAllRecords"), $args_domains);
+        $domains = $app->db->queryAllRecords($sql_domains, true, $args_sql_domains);
         foreach ($domains as $rec) {
             $domain_id = $rec['domain_id'];
             $domain_backup_dir = $backup_dir . '/web' . $domain_id;
