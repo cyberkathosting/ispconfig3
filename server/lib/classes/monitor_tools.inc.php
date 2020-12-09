@@ -650,7 +650,7 @@ class monitor_tools {
 					$log = 'Unable to read ' . $logfile;
 				}
 			}
-		}else{
+		} else {
 			if($journalmatch != ''){
 				$log = $this->_getOutputFromExecCommand('journalctl -n 100 --no-pager ' . escapeshellcmd($journalmatch));
 			}else{
