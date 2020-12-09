@@ -290,7 +290,7 @@ body {
 .progress-bar-danger, .progress-bar-warning, .progress-bar-success {
     text-align: center;
     color: white;
-    display: list-item;
+    height: 100%;
 }
 
 .progress span {
