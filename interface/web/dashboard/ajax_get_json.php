@@ -196,7 +196,8 @@ function _search($module, $section, $additional_sql = '', $params = ''){
 			if(is_file($lng_file)) include $lng_file;
 
 			// Get the real result count, without LIMIT.
-			$sql_real_rows = preg_replace(array('/\*/', "/ LIMIT.*$/"), array('COUNT(*) as c', ''), $sql);
+			$sql_real_rows = "SELECT COUNT(*) as `c` FROM ?? WHERE ".$where_clause.$authsql.$order_clause;
+
 			$result_count = $app->db->queryOneRecord($sql_real_rows, $db_table);
 
 			$result_array['cheader'] = array('title' => $category_title,
