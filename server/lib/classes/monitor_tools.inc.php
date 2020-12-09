@@ -460,7 +460,7 @@ class monitor_tools {
 		/* Monitor MySQL Server */
 		$data['mysqlserver'] = -1; // unknown - not needed
 		if ($services['db_server'] == 1) {
-			if ($this->_checkTcp('localhost', 3306)) {
+                       if ($this->_checkTcp($conf['db_host'], $conf['db_port'])) {
 				$data['mysqlserver'] = 1;
 			} else {
 				$data['mysqlserver'] = 0;
@@ -845,11 +845,11 @@ class monitor_tools {
 					$mailSubject = trim($parts[1]);
 					continue;
 				}
-				if(strtolower($parts[0]) == 'From') {
+				if(strtolower($parts[0]) == 'from') {
 					$mailFrom = trim($parts[1]);
 					continue;
 				}
-				if(strtolower($parts[0]) == 'Cc') {
+				if(strtolower($parts[0]) == 'cc') {
 					if (! in_array(trim($parts[1]), $recipients)) {
 						$recipients[] = trim($parts[1]);
 					}
