@@ -503,6 +503,7 @@ class monitor_tools {
 
 		$dist = '';
 		$logfile = '';
+		$journalmatch = '';
 
 		if (@is_file('/etc/debian_version')) {
 			$dist = 'debian';
@@ -552,7 +553,7 @@ class monitor_tools {
 			if ($dist == 'debian') {
 				$logfile = '/var/log/syslog';
 			} elseif ($dist == 'redhat') {
-				$logfile = '/var/log/messages';
+				$journalmatch = ' ';
 			} elseif ($dist == 'suse') {
 				$logfile = '/var/log/messages';
 			} elseif ($dist == 'gentoo') {
@@ -653,24 +654,37 @@ class monitor_tools {
 			if (stristr($logfile, ';') or substr($logfile, 0, 9) != '/var/log/' or stristr($logfile, '..')) {
 				$log = 'Logfile path error.';
 			} else {
-				$log = '';
 				if (is_readable($logfile)) {
-					$fd = popen('tail -n '.intval($max_lines).' ' . escapeshellarg($logfile), 'r');
-					if ($fd) {
-						while (!feof($fd)) {
-							$log .= fgets($fd, 4096);
-							$n++;
-							if ($n > 1000)
-								break;
-						}
-						fclose($fd);
-					}
+					$log = $this->_getOutputFromExecCommand('tail -n '.intval($max_lines).' ' . escapeshellarg($logfile));
 				} else {
 					$log = 'Unable to read ' . $logfile;
 				}
 			}
+		} else {
+			if($journalmatch != ''){
+				$log = $this->_getOutputFromExecCommand('journalctl -n '.intval($max_lines).' --no-pager ' . escapeshellcmd($journalmatch));
+			}else{
+				$log = 'Unable to read logfile';
+			}
+
 		}
 
+		return $log;
+	}
+
+	private function _getOutputFromExecCommand ($command) {
+		$log = '';
+		$fd = popen($command, 'r');
+		if ($fd) {
+			$n = 0;
+			while (!feof($fd)) {
+				$log .= fgets($fd, 4096);
+				$n++;
+				if ($n > 1000)
+					break;
+			}
+			fclose($fd);
+		}
 		return $log;
 	}
 
