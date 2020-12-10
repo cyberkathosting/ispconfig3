@@ -1496,7 +1496,7 @@ class installer_base {
 		foreach ($options as $value) {
 			$value = trim($value);
 			if ($value == '') continue;
-			if (preg_match("|check_recipient_access\s+proxy:mysql:${quoted_config_dir}/mysql-verify_recipients.cf|", $value)) {
+			if (preg_match("|check_recipient_access\s+proxy:mysql:${config_dir}/mysql-verify_recipients.cf|", $value)) {
 				continue;
 			}
 			$new_options[] = $value;
@@ -1504,7 +1504,7 @@ class installer_base {
 		if ($configure_lmtp && $conf['mail']['content_filter'] === 'amavisd') {
 			for ($i = 0; isset($new_options[$i]); $i++) {
 				if ($new_options[$i] == 'reject_unlisted_recipient') {
-					array_splice($new_options, $i+1, 0, array("check_recipient_access proxy:mysql:${quoted_config_dir}/mysql-verify_recipients.cf"));
+					array_splice($new_options, $i+1, 0, array("check_recipient_access proxy:mysql:${config_dir}/mysql-verify_recipients.cf"));
 					break;
 				}
 			}
