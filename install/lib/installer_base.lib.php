@@ -192,7 +192,7 @@ class installer_base {
 		// if(is_installed('vlogger')) $conf['vlogger']['installed'] = true;
 		// ISPConfig ships with vlogger, so it is always installed.
 		$conf['vlogger']['installed'] = true;
-		if(is_installed('cron') || is_installed('anacron')) $conf['cron']['installed'] = true;
+		if(is_installed('crontab')) $conf['cron']['installed'] = true;
 
 		if (($conf['apache']['installed'] && is_file($conf['apache']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")) || ($conf['nginx']['installed'] && is_file($conf['nginx']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost"))) $this->ispconfig_interface_installed = true;
 	}

@@ -6,4 +6,6 @@ $wb['last_month_txt'] = 'Vorige maand';
 $wb['this_year_txt'] = 'Dit jaar';
 $wb['last_year_txt'] = 'Vorig jaar';
 $wb['sum_txt'] = 'Som';
+$wb['percentage_txt'] = 'In gebruik %';
+$wb['quota_txt'] = 'Quota';
 ?>

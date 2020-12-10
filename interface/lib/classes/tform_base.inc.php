@@ -560,7 +560,13 @@ class tform_base {
 									if(trim($tvl) == trim($k)) $checked = ' CHECKED';
 								}
 								// $out .= "<label for=\"".$key."[]\" class=\"inlineLabel\"><input name=\"".$key."[]\" id=\"".$key."[]\" value=\"$k\" type=\"checkbox\" $checked /> $v</label>\r\n";
-								$out .= "<label for=\"".$key.$elementNo."\" class=\"inlineLabel\"><input name=\"".$key."[]\" id=\"".$key.$elementNo."\" value=\"$k\" type=\"checkbox\" $checked /> $v</label><br/>\r\n";
+								$out .= "<label for=\"".$key.$elementNo."\" class=\"inlineLabel\"><input name=\"".$key."[]\" id=\"".$key.$elementNo."\" value=\"$k\" type=\"checkbox\" $checked /> $v</label>";
+								if (isset($field['render_inline']) && $field['render_inline'] == 'n') {
+									$out .= "<br/>\r\n";
+								}
+								else {
+									$out .= "&nbsp;\r\n";
+								}
 								$elementNo++;
 							}
 						}
@@ -697,7 +703,13 @@ class tform_base {
 								if(trim($tvl) == trim($k)) $checked = ' CHECKED';
 							}
 							// $out .= "<label for=\"".$key."[]\" class=\"inlineLabel\"><input name=\"".$key."[]\" id=\"".$key."[]\" value=\"$k\" type=\"checkbox\" $checked /> $v</label>\r\n";
-							$out .= "<label for=\"".$key.$elementNo."\" class=\"inlineLabel\"><input name=\"".$key."[]\" id=\"".$key.$elementNo."\" value=\"$k\" type=\"checkbox\" $checked /> $v</label> &nbsp;\r\n";
+							$out .= "<label for=\"".$key.$elementNo."\" class=\"inlineLabel\"><input name=\"".$key."[]\" id=\"".$key.$elementNo."\" value=\"$k\" type=\"checkbox\" $checked /> $v</label>";
+							if (isset($field['render_inline']) && $field['render_inline'] == 'n') {
+								$out .= "<br/>\r\n";
+							}
+							else {
+								$out .= "&nbsp;\r\n";
+							}
 							$elementNo++;
 						}
 					}

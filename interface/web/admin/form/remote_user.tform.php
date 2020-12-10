@@ -146,6 +146,7 @@ $form["tabs"]['remote_user'] = array (
 			'separator' => ';',
 			'width'  => '',
 			'maxlength' => '',
+			'render_inline' => 'n',
 			'rows'  => '5',
 			'cols'  => '30'
 		)

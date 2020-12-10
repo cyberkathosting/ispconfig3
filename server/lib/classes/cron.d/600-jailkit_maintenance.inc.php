@@ -69,7 +69,7 @@ class cronjob_jailkit_maintenance extends cronjob {
 		// limit the number of jails we update at one time according to time of day
 		$num_jails_to_update = (date('H') < 6) ? 25 : 3;
 
-		$sql = "SELECT domain_id, domain, document_root, php_fpm_chroot, jailkit_chroot_app_sections, jailkit_chroot_app_programs, delete_unused_jailkit, last_jailkit_hash FROM web_domain WHERE type = 'vhost' AND (last_jailkit_update IS NULL OR last_jailkit_update < (NOW() - INTERVAL 24 HOUR)) AND server_id = ? ORDER by last_jailkit_update LIMIT ?";
+		$sql = "SELECT domain_id, domain, document_root, system_user, system_group, php_fpm_chroot, jailkit_chroot_app_sections, jailkit_chroot_app_programs, delete_unused_jailkit, last_jailkit_hash FROM web_domain WHERE type = 'vhost' AND (last_jailkit_update IS NULL OR last_jailkit_update < (NOW() - INTERVAL 24 HOUR)) AND server_id = ? ORDER by last_jailkit_update LIMIT ?";
 		$records = $app->db->queryAllRecords($sql, $conf['server_id'], $num_jails_to_update);
 
 		foreach($records as $rec) {
@@ -110,6 +110,17 @@ class cronjob_jailkit_maintenance extends cronjob {
 				$last_updated = array_unique($last_updated, SORT_REGULAR);
 				sort($last_updated, SORT_STRING);
 				$update_hash = hash('md5', implode(' ', $last_updated));
+
+				if (is_file( $rec['document_root']."/bin/bash" )) {
+					# test that /bin/bash functions in the jail
+print "chroot --userspec ".$rec['system_user'].":".$rec['system_group']." ".$rec['document_root']." /bin/bash -c true 2>/dev/null\n";
+					if (! $app->system->exec_safe("chroot --userspec ?:? ? /bin/bash -c true 2>/dev/null", $rec['system_user'], $rec['system_group'], $rec['document_root'])) {
+print "/bin/bash test failed, forcing update\n";
+						$options[] = 'force';
+						# bogus hash will not match, triggering an update
+						$update_hash = 'force_update'.time();
+					}
+				}
 
 				if ($update_hash != $rec['last_jailkit_hash']) {
 					$app->system->web_folder_protection($rec['document_root'], false);
