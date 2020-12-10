@@ -1,4 +1,5 @@
 .DS_Store
+.idea
 /nbproject/private/
 .phplint-cache
 *.swp
