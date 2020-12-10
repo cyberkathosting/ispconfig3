@@ -341,7 +341,7 @@ if($_POST['create'] == 1) {
 	$section = '';
 	$vars = array();
 	$vars['xfer']='';
-	$vars['dnssec_wanted']='';
+	$vars['dnssec_wanted']='N';
 	$vars['dnssec_algo']='ECDSAP256SHA256';
 	$dns_rr = array();
 	foreach($tpl_rows as $row) {
