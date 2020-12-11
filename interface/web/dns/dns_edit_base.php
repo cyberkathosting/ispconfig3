@@ -104,7 +104,7 @@ class dns_page_action extends tform_actions {
 			$client_group_id = intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT limit_dns_record FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
-			// Check if the user may add another mailbox.
+			// Check if the user may add another record.
 			if($this->id == 0 && $client["limit_dns_record"] >= 0) {
 				$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM dns_rr WHERE sys_groupid = ?", $client_group_id);
 				if($tmp["number"] >= $client["limit_dns_record"]) {

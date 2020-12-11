@@ -229,6 +229,20 @@ $form["tabs"]['php_fpm'] = array(
 			'width' => '40',
 			'maxlength' => '255'
 		),
+		'php_fpm_socket_dir' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
+			'default' => '',
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
 		//#################################
 		// END Datatable fields
 		//#################################
