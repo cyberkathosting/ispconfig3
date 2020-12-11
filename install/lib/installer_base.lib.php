@@ -1458,7 +1458,7 @@ class installer_base {
 		}
 
 		$config_dir = $conf['postfix']['config_dir'];
-		$quoted_config_dir = preg_quote($config_dir, '/');
+		$quoted_config_dir = preg_quote($config_dir, '|');
 		$postfix_version = `postconf -d mail_version 2>/dev/null`;
 		$postfix_version = preg_replace( '/mail_version\s*=\s*(.*)\s*/', '$1', $postfix_version );
 
@@ -1496,7 +1496,7 @@ class installer_base {
 		foreach ($options as $value) {
 			$value = trim($value);
 			if ($value == '') continue;
-			if (preg_match("|check_recipient_access\s+proxy:mysql:${config_dir}/mysql-verify_recipients.cf|", $value)) {
+			if (preg_match("|check_recipient_access\s+proxy:mysql:${quoted_config_dir}/mysql-verify_recipients.cf|", $value)) {
 				continue;
 			}
 			$new_options[] = $value;
