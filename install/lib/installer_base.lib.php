@@ -1458,7 +1458,7 @@ class installer_base {
 		}
 
 		$config_dir = $conf['postfix']['config_dir'];
-		$quoted_config_dir = preg_quote($config_dir, '/');
+		$quoted_config_dir = preg_quote($config_dir, '|');
 		$postfix_version = `postconf -d mail_version 2>/dev/null`;
 		$postfix_version = preg_replace( '/mail_version\s*=\s*(.*)\s*/', '$1', $postfix_version );
 
