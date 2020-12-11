@@ -1496,7 +1496,7 @@ class installer_base {
 		foreach ($options as $value) {
 			$value = trim($value);
 			if ($value == '') continue;
-			if (preg_match("|check_recipient_access\s+proxy:mysql:${config_dir}/mysql-verify_recipients.cf|", $value)) {
+			if (preg_match("|check_recipient_access\s+proxy:mysql:${quoted_config_dir}/mysql-verify_recipients.cf|", $value)) {
 				continue;
 			}
 			$new_options[] = $value;
