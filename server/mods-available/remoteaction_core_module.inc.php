@@ -180,9 +180,7 @@ class remoteaction_core_module {
 		if(file_exists('/etc/gentoo-release')) {
 			exec("glsa-check -f --nocolor affected");
 		} elseif(file_exists('/etc/redhat-release')) {
-			exec("dnf -y update");
-		} elseif(file_exists('/etc/redhat-release')) {
-			exec("dnf -y update");
+			exec("which dnf &> /dev/null && dnf -y update || yum -y update");
 		} else {
 			exec("apt-get update");
 			exec("apt-get -y upgrade");
