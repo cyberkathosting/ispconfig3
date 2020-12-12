@@ -289,6 +289,11 @@ class software_update_plugin {
 			$app->log('Execeuted Debian / Ubuntu update', LOGLEVEL_DEBUG);
 		}
 
+		//** Redhat, CentOS, Fedora
+		if(file_exists('/etc/redhat-release')) {
+			exec("dnf -y update");
+		}
+
 		//** Gentoo Linux
 		if(file_exists('/etc/gentoo-release')) {
 			exec("glsa-check -f --nocolor affected");

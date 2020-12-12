@@ -181,8 +181,9 @@ class remoteaction_core_module {
 			exec("glsa-check -f --nocolor affected");
 		} elseif(file_exists('/etc/redhat-release')) {
 			exec("dnf -y update");
-		}
-		else {
+		} elseif(file_exists('/etc/redhat-release')) {
+			exec("dnf -y update");
+		} else {
 			exec("apt-get update");
 			exec("apt-get -y upgrade");
 		}
