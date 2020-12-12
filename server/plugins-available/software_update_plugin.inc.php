@@ -291,7 +291,7 @@ class software_update_plugin {
 
 		//** Redhat, CentOS, Fedora
 		if(file_exists('/etc/redhat-release')) {
-			exec("dnf -y update");
+			exec("which dnf &> /dev/null && dnf -y update || yum -y update");
 		}
 
 		//** Gentoo Linux
