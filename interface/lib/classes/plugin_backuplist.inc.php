@@ -58,7 +58,7 @@ class plugin_backuplist extends plugin_base {
 		if ($tmp['number'] == 0) {
 			if($action_type === 'backup_database') {
 				// get all server ids of databases for this domain
-				$sql = 'SELECT distinct(`server_id`) FROM `web_database` WHERE `parent_domain_id` = ?';
+				$sql = 'SELECT DISTINCT `server_id` FROM `web_database` WHERE `parent_domain_id` = ?';
 				$result = $app->db->query($sql, $domain_id);
 				while(($cur = $result->get())) {
 					$server_id = $cur['server_id'];
