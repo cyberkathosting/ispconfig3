@@ -100,12 +100,21 @@ class backup
      * @param string $web_user
      * @author Ramil Valitov <ramilvalitov@gmail.com>
      */
-    protected static function restoreFileOwnership($web_document_root, $web_user)
+    protected static function restoreFileOwnership($web_document_root, $web_user, $web_group)
     {
         global $app;
 
+        $blacklist = array('bin', 'dev', 'etc', 'home', 'lib', 'lib32', 'lib64', 'log', 'opt', 'proc', 'net', 'run', 'sbin', 'ssl', 'srv', 'sys', 'usr', 'var');
+
+	$find_excludes = '-not -path "." -and -not -path "./web/stats/*"';
+
+	foreach ( $blacklist as $dir ) {
+		$find_excludes .= ' -and -not -path "./'.$dir.'" -and -not -path "./'.$dir.'/*"';
+	}
+
         $app->log('Restoring permissions for ' . $web_document_root, LOGLEVEL_DEBUG);
-        $app->system->exec_safe('cd ? && find . -not -path "./web/stats/*" -and -not -path "./log" -and -not -path "./log/*" -and -not -path "./ssl" -and -not -path "./ssl/*" -and -not -path "." -exec chown ?:? {} \;', $web_document_root, $web_user, $web_user);
+        $app->system->exec_safe('cd ? && find . '.$find_excludes.' -exec chown ?:? {} \;', $web_document_root, $web_user, $web_group);
+
     }
 
     /**
@@ -290,7 +299,7 @@ class backup
                              */
                             $success = ($retval == 0 || $retval == 50);
                             if ($success) {
-                                self::restoreFileOwnership($web_root, $web_user);
+                                self::restoreFileOwnership($web_root, $web_user, $web_group);
                             }
                             break;
                         case 'rar':
