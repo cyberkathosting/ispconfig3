@@ -1631,16 +1631,14 @@ class nginx_plugin {
 		// set logging variable
 		$vhost_data['logging'] = $web_config['logging'];
 
-                // Provide TLS 1.3 support if Nginx version is >= 1.13.0 and when it was linked against OpenSSL(>=1.1.1) at build time.
-		$output = $app->system->exec_safe('nginx -V 2>&1');
-
-		if(preg_match('/built with OpenSSL\s*(\d+)(\.(\d+)(\.(\d+))*)?(\D|$)/i', $output[0], $matches)) {
-                        $nginx_openssl_ver = $matches[1] . (isset($matches[3]) ? '.' . $matches[3] : '') . (isset($matches[5]) ? '.' . $matches[5] : '');
-		}
-
-		if((version_compare($app->system->getnginxversion(true), '1.13.0', '>=') && version_compare($nginx_openssl_ver, '1.1.1', '>='))) {
+		// Provide TLS 1.3 support if Nginx version is >= 1.13.0 and when it was linked against OpenSSL(>=1.1.1) at build time and when it was linked against OpenSSL(>=1.1.1) at runtime.
+		$nginx_openssl_build_ver = $app->system->exec_safe('nginx -V 2>&1 | grep \'built with OpenSSL\' | sed \'s/.*built\([a-zA-Z ]*\)OpenSSL \([0-9.]*\).*/\2/\'');
+		$nginx_openssl_running_ver = $app->system->exec_safe('nginx -V 2>&1 | grep \'running with OpenSSL\' | sed \'s/.*running\([a-zA-Z ]*\)OpenSSL \([0-9.]*\).*/\2/\'');
+		if(version_compare($app->system->getnginxversion(true), '1.13.0', '>=')
+			&& version_compare($nginx_openssl_build_ver, '1.1.1', '>=')
+			&& (empty($nginx_openssl_running_ver) || version_compare($nginx_openssl_running_ver, '1.1.1', '>='))) {
 			$app->log('Enable TLS 1.3 for: '.$domain, LOGLEVEL_DEBUG);
-			$vhost_data['tls1.3_supported'] = 'y';
+			$vhost_data['tls13_supported'] = "y";
 		}
 
 		$tpl->setVar($vhost_data);
