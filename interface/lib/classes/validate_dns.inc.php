@@ -306,7 +306,7 @@ class validate_dns {
 			foreach($field_value_array as $field_value) {
 				// Check if the IP is valid without range
 				$subnet = '';
-				$ip = $field_value;
+				$ip = trim($field_value);
 				if(strpos($ip, '/') !== false) {
 					list($ip, $subnet) = explode('/', $ip, 2);
 					$ip = trim($ip);
