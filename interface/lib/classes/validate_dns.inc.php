@@ -305,10 +305,12 @@ class validate_dns {
 			// Check if it's a valid input
 			foreach($field_value_array as $field_value) {
 				// Check if the IP is valid without range
-				$ip = strstr($field_value, '/', true) ?: $field_value;
-				if (strpos($field_value, '/') !== false) {
-					$subnet = strstr($field_value, '/', false);
-					$subnet = ltrim($subnet, "/");
+				$subnet = '';
+				$ip = $field_value;
+				if(strpos($ip, '/') !== false) {
+					list($ip, $subnet) = explode('/', $ip, 2);
+					$ip = trim($ip);
+					$subnet = intval($subnet);
 				}
 				if(function_exists('filter_var')) {
 						if(!filter_var($ip, FILTER_VALIDATE_IP)) {
