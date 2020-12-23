@@ -310,7 +310,6 @@ class validate_dns {
 				if(strpos($ip, '/') !== false) {
 					list($ip, $subnet) = explode('/', $ip, 2);
 					$ip = trim($ip);
-					$subnet = intval($subnet);
 				}
 				if(function_exists('filter_var')) {
 						if(!filter_var($ip, FILTER_VALIDATE_IP)) {
@@ -320,7 +319,11 @@ class validate_dns {
 				} else $this->errorMessage .= "function filter_var missing <br />\r\n";
 				// Check if the range is valid
 				if ($subnet !== '') {
-					if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+					if (!is_numeric($subnet)) {
+						$errmsg = $validator['errmsg'];
+						$errorMessage .= $app->tform->lng($errmsg)."<br />\r\n";
+					}
+					elseif (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
 						if ($subnet < 1 || $subnet > 128) {
 							$errmsg = $validator['errmsg'];
 							$errorMessage .= $app->tform->lng($errmsg)."<br />\r\n";
