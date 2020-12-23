@@ -14,6 +14,7 @@ $wb['domain_txt'] = 'Domain';
 $wb['type_txt'] = 'Typ';
 $wb['parent_domain_id_txt'] = 'Zugehörige Webseite';
 $wb['web_folder_error_regex'] = 'Ungültige Verzeichnisangabe, bitte keinen / eingeben.';
+$wb['web_folder_error_empty'] = 'Web folder cannot be empty.  Use /web/ to make the same as the Parent Website';
 $wb['redirect_type_txt'] = 'Weiterleitungstyp';
 $wb['r_redirect_txt'] = 'R (Temporary redirect)';
 $wb['l_redirect_txt'] = 'L (Last redirect rule)';

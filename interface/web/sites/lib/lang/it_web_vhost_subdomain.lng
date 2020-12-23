@@ -20,6 +20,7 @@ $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Dominio';
 $wb['host_txt'] = 'Nome Host';
 $wb['web_folder_error_regex'] = 'Cartella inserita non valida. Per favore non inserire uno slash.';
+$wb['web_folder_error_empty'] = 'Web folder cannot be empty.  Use /web/ to make the same as the Parent Website';
 $wb['type_txt'] = 'Tipo';
 $wb['redirect_type_txt'] = 'Tipo reinderizzamento';
 $wb['r_redirect_txt'] = 'R (Temporary redirect)';
@@ -132,4 +133,3 @@ $wb['http_port_txt'] = 'HTTP Port';
 $wb['https_port_txt'] = 'HTTPS Port';
 $wb['http_port_error_regex'] = 'HTTP Port invalid.';
 $wb['https_port_error_regex'] = 'HTTPS Port invalid.';
-?>
