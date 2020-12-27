@@ -208,7 +208,7 @@ class bind_plugin {
 
 		//* Check for available entropy
 		if (file_get_contents('/proc/sys/kernel/random/entropy_avail') < 200) {
-			$app->log('DNSSEC ERROR: We are low on entropy. This could cause server script to fail. Please consider installing package haveged.', LOGLEVEL_ERR);
+			$app->log('DNSSEC ERROR: We are low on entropy. This could cause server script to fail. Please consider installing package haveged.', LOGLEVEL_ERROR);
 			echo "DNSSEC ERROR: We are low on entropy. This could cause server script to fail. Please consider installing package haveged.\n";
 			return false;
 		}
@@ -219,7 +219,7 @@ class bind_plugin {
 		$app->system->exec_safe('cd ?; named-checkzone ? ? | egrep -ho \'[0-9]{10}\'', $dns_config['bind_zonefiles_dir'], $domain, $dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain);
 		$retState = $app->system->last_exec_retcode();
 		if ($retState != 0) {
-			$app->log('DNSSEC Error: Error in Zonefile for '.$domain, LOGLEVEL_ERR);
+			$app->log('DNSSEC Error: Error in Zonefile for '.$domain, LOGLEVEL_ERROR);
 			return false;
 		}
 
