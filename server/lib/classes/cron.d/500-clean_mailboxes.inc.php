@@ -53,10 +53,11 @@ class cronjob_clean_mailboxes extends cronjob {
 	public function onRunJob() {
 		global $app, $conf;
 
-		$trash_names=array('Trash', 'Papierkorb', 'Deleted Items', 'Deleted Messages', 'INBOX.Trash', 'INBOX.Papierkorb', 'INBOX.Deleted Messages');
+		$trash_names=array('Trash', 'Papierkorb', 'Deleted Items', 'Deleted Messages', 'INBOX.Trash', 'INBOX.Papierkorb', 'INBOX.Deleted Messages', 'Corbeille');
 		$junk_names=array('Junk', 'Junk Email', 'SPAM', 'INBOX.SPAM');
 
-		$purge_cmd = 'doveadm expunge -u ? mailbox ? sentbefore ';
+		$expunge_cmd = 'doveadm expunge -u ? mailbox ? sentbefore ';
+		$purge_cmd = 'doveadm purge -u ?';
 		$recalc_cmd = 'doveadm quota recalc -u ?';
 
 		$server_id = intval($conf['server_id']);
@@ -67,17 +68,18 @@ class cronjob_clean_mailboxes extends cronjob {
 				if($email['purge_trash_days'] > 0) {
 					foreach($trash_names as $trash) {
 						if(is_dir($email['maildir'].'/Maildir/.'.$trash)) {
-							$app->system->exec_safe($purge_cmd.intval($email['purge_trash_days']).'d', $email['email'], $trash);
+							$app->system->exec_safe($expunge_cmd.intval($email['purge_trash_days']).'d', $email['email'], $trash);
 						}
 					}
 				}
 				if($email['purge_junk_days'] > 0) {
 					foreach($junk_names as $junk) {
 						if(is_dir($email['maildir'].'/Maildir/.'.$junk)) {
-							$app->system->exec_safe($purge_cmd.intval($email['purge_junk_days']).'d', $email['email'], $junk);
+							$app->system->exec_safe($expunge_cmd.intval($email['purge_junk_days']).'d', $email['email'], $junk);
 						}
 					}
 				}
+				$app->system->exec_safe($purge_cmd, $email['email']);
 				$app->system->exec_safe($recalc_cmd, $email['email']);
 			}
 		}

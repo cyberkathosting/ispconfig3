@@ -2,6 +2,7 @@
 stages:
   - syntax
   - syntax_diff
+  - test
 
 #
 ### Stage syntax
@@ -49,3 +50,16 @@ syntax_diff:lint:
 #    - echo "For more information http://www.icosaedro.it/phplint/"
 #    - vendor/bin/phplint
 
+
+test:install:
+  stage: test
+  image: jerob/docker-ispconfig
+  only:
+    - schedules
+    - web
+  script:
+    - $CI_PROJECT_DIR/helper_scripts/test_install_docker.sh
+    - apt-get update
+    - apt-get --yes install curl
+    - curl --insecure https://127.0.0.1:8080/login/
+    - ps xaf

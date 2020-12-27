@@ -283,33 +283,57 @@ class validate_dns {
 		}
 		return $new_serial;
 	}
-	
-	function validate_xfer($field_name, $field_value, $validator) {
+
+	function validate_ip($field_name, $field_value, $validator) {
 		global $app;
-		
+
 		$errorMessage = '';
-		
+
 		if($validator['allowempty'] != 'y') $validator['allowempty'] = 'n';
 		if($validator['allowempty'] == 'y' && $field_value == '') {
 			//* Do nothing
 		} elseif ($field_value == 'any') {
 			//* Do nothing
 		} else {
-			//* Check if its a IPv4 or IPv6 address
+			//* Check if its a IPv4 or IPv6 address/range
 			if(isset($validator['separator']) && $validator['separator'] != '') {
 				//* When the field may contain several IP addresses, split them by the char defined as separator
 				$field_value_array = explode($validator['separator'], $field_value);
 			} else {
 				$field_value_array[] = $field_value;
 			}
+			// Check if it's a valid input
 			foreach($field_value_array as $field_value) {
-				$field_value = trim($field_value);
+				// Check if the IP is valid without range
+				$subnet = '';
+				$ip = trim($field_value);
+				if(strpos($ip, '/') !== false) {
+					list($ip, $subnet) = explode('/', $ip, 2);
+					$ip = trim($ip);
+				}
 				if(function_exists('filter_var')) {
-						if(!filter_var($field_value, FILTER_VALIDATE_IP)) {
+						if(!filter_var($ip, FILTER_VALIDATE_IP)) {
 						$errmsg = $validator['errmsg'];
 						$errorMessage .= $app->tform->lng($errmsg)."<br />\r\n";
 					}
 				} else $this->errorMessage .= "function filter_var missing <br />\r\n";
+				// Check if the range is valid
+				if ($subnet !== '') {
+					if (!is_numeric($subnet)) {
+						$errmsg = $validator['errmsg'];
+						$errorMessage .= $app->tform->lng($errmsg)."<br />\r\n";
+					}
+					elseif (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+						if ($subnet < 1 || $subnet > 128) {
+							$errmsg = $validator['errmsg'];
+							$errorMessage .= $app->tform->lng($errmsg)."<br />\r\n";
+						}
+					}
+					elseif ($subnet < 1 || $subnet > 32) {
+						$errmsg = $validator['errmsg'];
+						$errorMessage .= $app->tform->lng($errmsg)."<br />\r\n";
+					}
+				}
 			}
 		}
 		return $errorMessage;
