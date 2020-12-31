@@ -417,12 +417,6 @@ class bind_plugin {
 		if(is_file($zone_file_name.'.err')) unlink($zone_file_name.'.err');
 		$app->log("Deleting BIND domain file: ".$zone_file_name, LOGLEVEL_DEBUG);
 
- 		//* DNSSEC-Implementation
- 		if($data['old']['dnssec_initialized'] == 'Y' && file_exists('/usr/local/ispconfig/server/scripts/dnssec-delete.sh')) {
-			//delete keys
-			$app->system->exec_safe('/usr/local/ispconfig/server/scripts/dnssec-delete.sh ?', $data['old']['origin']);
-		}
-
 		//* Reload bind nameserver
 		$app->services->restartServiceDelayed('bind', 'reload');
 
