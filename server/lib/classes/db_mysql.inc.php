@@ -171,14 +171,10 @@ class db
 					} elseif(is_null($sValue) || (is_string($sValue) && (strcmp($sValue, '#NULL#') == 0))) {
 						$sTxt = 'NULL';
 					} elseif(is_array($sValue)) {
-						if(isset($sValue['SQL'])) {
-							$sTxt = $sValue['SQL'];
-						} else {
-							$sTxt = '';
-							foreach($sValue as $sVal) $sTxt .= ',\'' . $this->escape($sVal) . '\'';
-							$sTxt = '(' . substr($sTxt, 1) . ')';
-							if($sTxt == '()') $sTxt = '(0)';
-						}
+						$sTxt = '';
+						foreach($sValue as $sVal) $sTxt .= ',\'' . $this->escape($sVal) . '\'';
+						$sTxt = '(' . substr($sTxt, 1) . ')';
+						if($sTxt == '()') $sTxt = '(0)';
 					} else {
 						$sTxt = '\'' . $this->escape($sValue) . '\'';
 					}
@@ -258,7 +254,7 @@ class db
 
 	private function _query($sQuery = '') {
 		global $app;
-		
+
 		$aArgs = func_get_args();
 
 		if ($sQuery == '') {
@@ -354,7 +350,7 @@ class db
 	 * @return array result row or NULL if none found
 	 */
 	public function queryOneRecord($sQuery = '') {
-		
+
 		$aArgs = func_get_args();
 		if(!empty($aArgs)) {
 			$sQuery = array_shift($aArgs);
@@ -363,7 +359,7 @@ class db
 		}
 		array_unshift($aArgs, $sQuery);
 		}
-  
+
 		$oResult = call_user_func_array([&$this, 'query'], $aArgs);
 		if(!$oResult) return null;
 
@@ -750,7 +746,7 @@ class db
 			foreach($insert_data as $key => $val) {
 				$key_str .= '??,';
 				$params[] = $key;
-				
+
 				$val_str .= '?,';
 				$v_params[] = $val;
 			}
@@ -764,7 +760,7 @@ class db
 			$this->query("INSERT INTO ?? $insert_data_str", $tablename);
 			$app->log("deprecated use of passing values to datalogInsert() - table " . $tablename, 1);
 		}
-		
+
 		$old_rec = array();
 		$index_value = $this->insertID();
 		if(!$index_value && isset($insert_data[$index_field])) {
@@ -1140,7 +1136,7 @@ class db
 			return $version[0];
 		}
 	}
-	
+
 	/**
 	 * Get a mysql password hash
 	 *
@@ -1148,11 +1144,11 @@ class db
 	 * @param string   cleartext password
 	 * @return string  Password hash
 	 */
-	
+
 	public function getPasswordHash($password) {
-		
+
 		$password_type = 'password';
-		
+
 		/* Disabled until caching_sha2_password is implemented
 		if($this->getDatabaseType() == 'mysql' && $this->getDatabaseVersion(true) >= 8) {
 			// we are in MySQL 8 mode
@@ -1162,16 +1158,16 @@ class db
 			}
 		}
 		*/
-		
+
 		if($password_type == 'caching_sha2_password') {
 			/*
-				caching_sha2_password hashing needs to be implemented, have not 
+				caching_sha2_password hashing needs to be implemented, have not
 				found valid PHP implementation for the new password hash type.
 			*/
 		} else {
 			$password_hash = '*'.strtoupper(sha1(sha1($password, true)));
 		}
-		
+
 		return $password_hash;
 	}
 
