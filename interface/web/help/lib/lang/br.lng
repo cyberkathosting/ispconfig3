@@ -11,4 +11,3 @@ $wb['FAQ Sections'] = 'Seções FAQ';
 $wb['Manage Sections'] = 'Gerenciar seções';
 $wb['Add a Question & Answer Pair'] = 'Adicionar novo par questão/resposta';
 $wb['Manage Questions'] = 'Gerenciar questões';
-?>

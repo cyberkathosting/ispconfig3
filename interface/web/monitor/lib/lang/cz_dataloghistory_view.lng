@@ -2,7 +2,7 @@
 $wb['i'] = 'Vložit';
 $wb['u'] = 'Aktualizace';
 $wb['d'] = 'Odstranit';
-$wb['list_head_txt'] = 'Záznam historie datového logu';
+$wb['list_head_txt'] = 'Záznam historie datového protokolu';
 $wb['id_txt'] = 'ID';
 $wb['timestamp_txt'] = 'Časové razítko';
 $wb['table_txt'] = 'Tabulka';
@@ -23,4 +23,4 @@ $wb['new_txt'] = 'Nový';
 $wb['btn_cancel_txt'] = 'Zpět';
 $wb['undo_txt'] = 'Vrátit akci';
 $wb['undo_confirmation_txt'] = 'Opravdu chcete tuto akci vrátit zpět ?';
-?>
+$wb['username_txt'] = 'Username';

@@ -43,7 +43,7 @@ $liste["paging_tpl"]  = "templates/paging.tpl.htm";
 $liste["auth"]    = "yes";
 
 // mark columns for php sorting (no real mySQL columns)
-$liste["phpsort"] = array('used', 'soft', 'hard', 'files');
+$liste["phpsort"] = array('system_user_sort', 'used', 'soft', 'hard', 'files', 'percentage');
 
 
 /*****************************************************

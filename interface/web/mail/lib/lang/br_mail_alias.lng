@@ -1,17 +1,16 @@
 <?php
-$wb['email_txt'] = 'Alias de e-mail';
+$wb['email_txt'] = 'Alias de email';
 $wb['destination_txt'] = 'Destino';
 $wb['active_txt'] = 'Ativo';
-$wb['email_error_isemail'] = 'Endereço de e-mail é inválido.';
-$wb['email_error_unique'] = 'Endereço de e-mail duplicado.';
+$wb['email_error_isemail'] = 'Endereço de email é inválido.';
+$wb['email_error_unique'] = 'Endereço de email duplicado.';
 $wb['no_domain_perm'] = 'Você não tem permissão para este domínio.';
-$wb['destination_error_isemail'] = 'Endereço de e-mail de destino é inválido.';
-$wb['limit_mailalias_txt'] = 'O limite de alias de e-mail para esta conta foi alcançado.';
-$wb['duplicate_mailbox_txt'] = 'Já existe um endereço de e-mail idêntico.';
+$wb['destination_error_isemail'] = 'Endereço de email de destino é inválido.';
+$wb['limit_mailalias_txt'] = 'O limite de alias de email para esta conta foi alcançado.';
+$wb['duplicate_mailbox_txt'] = 'Já existe um endereço de email idêntico.';
 $wb['domain_txt'] = 'Domínio';
-$wb['duplicate_email_alias_txt'] = 'Este alias de e-mail já existe.';
+$wb['duplicate_email_alias_txt'] = 'Este alias de email já existe.';
 $wb['source_txt'] = 'Alias';
 $wb['send_as_txt'] = 'Enviar como';
-$wb['send_as_exp'] = 'Permitir o destino enviar e-mails usando este alias como origem';
+$wb['send_as_exp'] = 'Permitir o destino enviar emails usando este alias como origem';
 $wb['greylisting_txt'] = 'Habilitar greylist';
-?>

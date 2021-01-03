@@ -4,4 +4,11 @@ dbname = {mysql_server_database}
 hosts = {mysql_server_ip}
 query = SELECT destination FROM mail_forwarding WHERE source = '%s' AND active = 'y' AND allow_send_as = 'y' AND server_id = {server_id}
         UNION
-        SELECT email FROM mail_user WHERE email = '%s' AND disablesmtp = 'n' AND server_id = {server_id};
+        SELECT email FROM mail_user WHERE email = '%s' AND disablesmtp = 'n' AND server_id = {server_id}
+           AND EXISTS (SELECT domain_id FROM mail_domain WHERE domain = SUBSTRING_INDEX('%s', '@', -1) AND active = 'y' AND server_id = {server_id})
+        UNION
+        SELECT login FROM mail_user WHERE email = '%s' AND disablesmtp = 'n' AND server_id = {server_id}
+           AND EXISTS (SELECT domain_id FROM mail_domain WHERE domain = SUBSTRING_INDEX(email, '@', -1) AND active = 'y' AND server_id = {server_id})
+        UNION
+        SELECT cc FROM mail_user WHERE email = '%s' AND disablesmtp = 'n' AND disabledeliver = 'y' AND server_id = {server_id}
+           AND EXISTS (SELECT domain_id FROM mail_domain WHERE domain = SUBSTRING_INDEX(email, '@', -1) AND active = 'y' AND server_id = {server_id})

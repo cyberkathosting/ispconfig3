@@ -65,7 +65,7 @@ class cronjob_monitor_letsencrypt_log extends cronjob {
 		$type = 'log_letsencrypt';
 
 		/* Get the data of the log */
-		$data = $this->_tools->_getLogData($type);
+		$data = $this->_tools->_getLogData($type, 500);
 
 		/*
 		 * actually this info has no state.

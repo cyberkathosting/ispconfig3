@@ -1,6 +1,6 @@
 <?php
-$wb['1001'] = 'Uživatelské jméno nebo heslo je prázdné.';
-$wb['1002'] = 'Uživatelské jméno nebo heslo je nesprávné.';
+$wb['0'] = 'Uživatelské jméno nebo heslo je prázdné.';
+$wb['1'] = 'Uživatelské jméno nebo heslo je nesprávné.';
 $wb['Groups'] = 'Skupiny';
 $wb['groups_description'] = 'Úprava skupin systémových uživatelů.';
 $wb['Servers'] = 'Servery';
@@ -20,12 +20,12 @@ $wb['Server Services'] = 'Služby serveru';
 $wb['Services'] = 'Služby';
 $wb['Server Config'] = 'Konfigurace serveru';
 $wb['Server'] = 'Server';
-$wb['Mail'] = 'E-mail';
+$wb['Mail'] = 'Pošta';
 $wb['Getmail'] = 'Getmail';
 $wb['Web'] = 'Web';
 $wb['FastCGI'] = 'FastCGI';
 $wb['Jailkit'] = 'Jailkit';
-$wb['Rescue'] = 'Zachrána';
+$wb['Rescue'] = 'Monitorování služeb ';
 $wb['Server IP addresses'] = 'IP adresy serveru';
 $wb['Additional PHP Versions'] = 'Další verze PHP';
 $wb['Firewall'] = 'Firewall';
@@ -49,4 +49,5 @@ $wb['Do ISPConfig-Update'] = 'Aktualizovat ISPConfig';
 $wb['Directive Snippets'] = 'Šablony částí prog. kódu';
 $wb['Sites'] = 'Stránky';
 $wb['DNS'] = 'DNS';
-?>
+$wb['2'] = 'Uživatelské jméno nebo heslo je prázdné.';
+$wb['3'] = 'Uživatelské jméno nebo heslo je nesprávné.';

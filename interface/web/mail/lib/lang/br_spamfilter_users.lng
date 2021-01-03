@@ -2,12 +2,11 @@
 $wb['server_id_txt'] = 'Servidor';
 $wb['priority_txt'] = 'Prioridade';
 $wb['policy_id_txt'] = 'Política';
-$wb['email_txt'] = 'e-Mail (padrão)';
+$wb['email_txt'] = 'eMail (padrão)';
 $wb['fullname_txt'] = 'Nome';
 $wb['local_txt'] = 'Local';
-$wb['email_error_notempty'] = 'Endereço de e-mail está em branco.';
-$wb['fullname_error_notempty'] = 'Nome está em branco.';
+$wb['email_error_notempty'] = 'Endereço de email está vazio.';
+$wb['fullname_error_notempty'] = 'Nome está vazio.';
 $wb['10 - highest'] = '10 - alta';
 $wb['5 - medium'] = '5 - média';
 $wb['1 - lowest'] = '1 - baixa';
-?>

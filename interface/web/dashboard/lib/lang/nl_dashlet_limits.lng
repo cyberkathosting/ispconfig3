@@ -30,4 +30,5 @@ $wb['limit_domain_txt'] = 'Aantal domeinen';
 $wb['limit_mailquota_txt'] = 'Assigned mailbox quota';
 $wb['limit_web_quota_txt'] = 'Assigned web quota';
 $wb['limit_database_quota_txt'] = 'Assigned database quota';
+$wb['unlimited_txt'] = 'Ongelimiteerd';
 ?>

@@ -9,4 +9,3 @@ $wb['action_scheduled'] = 'A ação foi agendada.';
 $wb['select_all_server'] = 'Todos os servidores';
 $wb['ispconfig_update_title'] = 'Instruções de atualização do ISPConfig';
 $wb['ispconfig_update_text'] = 'Acesse com o usuário root no shell do servidor e execute o comando<br /><br /> <strong>ispconfig_update.sh</strong><br /><br />para iniciar a atualização do ISPConfig.<br /><br /><a href=\'https://www.faqforge.com/linux/controlpanels/ispconfig3/how-to-update-ispconfig-3/\' target=\'_blank\'>Clique aqui para instruções detalhadas</a>';
-?>

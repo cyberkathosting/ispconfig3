@@ -6,4 +6,3 @@ $wb['active_txt'] = 'Aktivní';
 $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Doména';
 $wb['add_new_record_txt'] = 'Vytvořit webovou stránku';
-?>

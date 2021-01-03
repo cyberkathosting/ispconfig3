@@ -5,4 +5,3 @@ $wb['name_txt'] = 'Název části prog. kódu';
 $wb['type_txt'] = 'Verze';
 $wb['add_new_record_txt'] = 'Add Directive Snippet';
 $wb['customer_viewable_txt'] = 'Dostupná volba pro klienta';
-?>

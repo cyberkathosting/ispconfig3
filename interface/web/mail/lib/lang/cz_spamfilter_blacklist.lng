@@ -9,4 +9,3 @@ $wb['limit_spamfilter_wblist_txt'] = 'Byl dosažen maximální počet záznamů 
 $wb['10 - highest'] = '10 - nejvyšší';
 $wb['5 - medium'] = '5 - střední';
 $wb['1 - lowest'] = '1 - nejnižší';
-?>

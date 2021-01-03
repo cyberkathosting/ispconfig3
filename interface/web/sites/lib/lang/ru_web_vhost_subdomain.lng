@@ -20,6 +20,7 @@ $wb['server_id_txt'] = 'Сервер';
 $wb['domain_txt'] = 'Домен';
 $wb['host_txt'] = 'Хост';
 $wb['web_folder_error_regex'] = 'Неверный ввод папки. Пожалуйста, не вводите слеш.';
+$wb['web_folder_error_empty'] = 'Web folder cannot be empty.  Use /web/ to make the same as the Parent Website';
 $wb['type_txt'] = 'Тип';
 $wb['redirect_type_txt'] = 'Тип редиректа';
 $wb['r_redirect_txt'] = 'R (Temporary redirect)';
@@ -132,4 +133,3 @@ $wb['http_port_txt'] = 'Порт HTTP';
 $wb['https_port_txt'] = 'Порт HTTPS';
 $wb['http_port_error_regex'] = 'Некорректный порт HTTP.';
 $wb['https_port_error_regex'] = 'Некорректный порт HTTPS.';
-?>

@@ -9,7 +9,9 @@ $wb['generate_password_txt'] = 'Gerar Senha';
 $wb['repeat_password_txt'] = 'Repetir Senha';
 $wb['password_mismatch_txt'] = 'As senhas não coincidem.';
 $wb['password_match_txt'] = 'As senhas coincidem.';
-$wb['language_txt'] = 'Idioma';
 $wb['startmodule_txt'] = 'Módulo Inicial';
 $wb['app_theme_txt'] = 'Tema';
-?>
+$wb['startmodule_empty'] = 'Módulo inicial está vazio.';
+$wb['startmodule_regex'] = 'Caracteres inválidos no módulo inicial.';
+$wb['app_theme_empty'] = 'Tema está vazio.';
+$wb['app_theme_regex'] = 'Caracteres inválidos no tema.';

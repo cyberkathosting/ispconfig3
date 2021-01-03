@@ -6,8 +6,7 @@ $wb['autoresponder_txt'] = 'Ativo';
 $wb['autoresponder_start_date_txt'] = 'Iniciar em';
 $wb['autoresponder_start_date_isfuture'] = 'O campo "Iniciar em" não pode ser menor que data atual.';
 $wb['autoresponder_end_date_txt'] = 'Terminar em';
-$wb['autoresponder_end_date_isgreater'] = 'End date must be later than start date.';
+$wb['autoresponder_end_date_isgreater'] = 'O campo "Terminar em" deve ser maior que a data "Iniciar em".';
 $wb['autoresponder_active'] = 'Habilitar auto-resposta';
 $wb['now_txt'] = 'Agora';
 $wb['autoresponder_subject_txt'] = 'Assunto';
-?>

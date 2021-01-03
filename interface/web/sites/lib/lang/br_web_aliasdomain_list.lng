@@ -5,10 +5,9 @@ $wb['server_id_txt'] = 'Servidor';
 $wb['parent_domain_id_txt'] = 'Site';
 $wb['domain_txt'] = 'Alias de Domínio';
 $wb['add_new_record_txt'] = 'Adicionar novo alias de domínio';
-$wb['domain_error_empty'] = 'O domínio está em branco.';
+$wb['domain_error_empty'] = 'O domínio está vazio.';
 $wb['domain_error_unique'] = 'O domínio deve ser exclusivo.';
 $wb['domain_error_regex'] = 'O domínio é inválido.';
 $wb['no_redirect_txt'] = 'Sem redirecionamento';
 $wb['no_flag_txt'] = 'Sem marcas';
 $wb['none_txt'] = 'Nenhum';
-?>

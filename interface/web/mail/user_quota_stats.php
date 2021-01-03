@@ -60,16 +60,10 @@ class list_action extends listform_actions {
 			$rec['percentage_sort'] = round(100 * $rec['used'] / $rec['quota']);
 			$rec['quota'] = round($rec['quota'] / 1048576, 4).' MB';
 		}
-
-
+		$rec['progressbar'] = $rec['percentage_sort'] > 100 ? 100 : $rec['percentage_sort'];
+		
 		$rec['used_sort'] = $rec['used'];
-/*
-		if($rec['used'] < 1544000) {
-			$rec['used'] = round($rec['used'] / 1024, 4).' KB';
-		} else {
-			$rec['used'] = round($rec['used'] / 1048576, 4).' MB';
-		}
-*/
+
 		$rec['used']=$app->functions->formatBytes($rec['used']);
 		if ($rec['used'] == 'NAN') $rec['used']='0 KB';
 

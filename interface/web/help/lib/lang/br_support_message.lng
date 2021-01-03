@@ -7,10 +7,9 @@ $wb['tstamp_txt'] = 'Data/Hora';
 $wb['reply_txt'] = 'Responder';
 $wb['date_txt'] = 'Data';
 $wb['support_request_subject_txt'] = 'Requisição de Suporte';
-$wb['support_request_txt'] = 'Você recebeu uma requisição de suporte. Por favor, não responda este e-mail, mas processe a requisição dentro do ISPConfig.';
-$wb['answer_to_support_request_txt'] = 'Você recebeu uma resposta à sua requisição de suporte. Por favor, não responda este e-mail, mas processe a mensagem dentro do ISPConfig.';
-$wb['answer_to_support_request_sent_txt'] = 'Sua resposta à requisição de suporte foi enviada. Por favor, não responda este e-mail.';
-$wb['support_request_sent_txt'] = 'Sua requisição de suporte foi enviada. Por favor, não responda este e-mail.';
-$wb['recipient_or_sender_email_address_not_valid_txt'] = 'A mensagem não pôde ser enviada porque o remetente e/ou destinatário são e-mails inválidos.';
-$wb['subject_is_empty'] = 'O assunto está em branco.';
-?>
+$wb['support_request_txt'] = 'Você recebeu uma requisição de suporte. Por favor, não responda este email, mas processe a requisição dentro do ISPConfig.';
+$wb['answer_to_support_request_txt'] = 'Você recebeu uma resposta à sua requisição de suporte. Por favor, não responda este email, mas processe a mensagem dentro do ISPConfig.';
+$wb['answer_to_support_request_sent_txt'] = 'Sua resposta à requisição de suporte foi enviada. Por favor, não responda este email.';
+$wb['support_request_sent_txt'] = 'Sua requisição de suporte foi enviada. Por favor, não responda este email.';
+$wb['recipient_or_sender_email_address_not_valid_txt'] = 'A mensagem não pôde ser enviada porque o remetente e/ou destinatário são emails inválidos.';
+$wb['subject_is_empty'] = 'O assunto está vazio.';

@@ -162,7 +162,7 @@ class letsencrypt {
 			$webroot_args = "$cmd --webroot-path /usr/local/ispconfig/interface/acme";
 		}
 
-		$cmd = $letsencrypt . " certonly -n --text --agree-tos --expand --authenticator webroot --server $acme_version --rsa-key-size 4096 --email postmaster@$domain $cmd --webroot-path /usr/local/ispconfig/interface/acme";
+		$cmd = $letsencrypt . " certonly -n --text --agree-tos --expand --authenticator webroot --server $acme_version --rsa-key-size 4096 --email postmaster@$domain $webroot_args";
 
 		return $cmd;
 	}

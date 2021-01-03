@@ -2,7 +2,7 @@
 $wb['ssh_chroot_notempty'] = 'No SSH chroot option selected. Select at least one option.';
 $wb['limit_client_error_notint'] = 'Klientský limit není číslo.';
 $wb['limit_maildomain_txt'] = 'Max. počet e-mailových domén';
-$wb['limit_mailbox_txt'] = 'Max. počet mailboxů';
+$wb['limit_mailbox_txt'] = 'Max. počet e-mailových schránek';
 $wb['limit_mailalias_txt'] = 'Max. e-mailových aliasů';
 $wb['limit_mailaliasdomain_txt'] = 'Max. počet doménových přezdívek';
 $wb['limit_mailforward_txt'] = 'Max. počet e-mailových předávání';
@@ -122,4 +122,3 @@ $wb['web_servers_txt'] = 'Webové servery';
 $wb['db_servers_txt'] = 'Databázové servery';
 $wb['mail_servers_txt'] = 'E-mailové servery';
 $wb['Limits'] = 'Limity';
-?>

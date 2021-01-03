@@ -56,7 +56,20 @@ class list_action extends listform_actions {
 				$rec['used'] = $rec['used'][1];
 			}
 		}
+		/**
+		 * progres bar variables
+		 * soft value consists of null / array and raw value bug ?
+		 */
+		$soft = is_array($rec['soft']) || $rec['soft'] === null ? 0 : $rec['soft']; 
+		$rec['percentage'] = $soft != 0 ? round(($rec['used']/$soft)*100) : '-1';
+		$rec['progressbar'] = $rec['percentage'] > 100 ? 100 : $rec['percentage'];
 		$rec['used_sort'] = $rec['used'];
+		/**
+		 * Get digits from system_user for numeric sort
+		 */
+		preg_match('/(?P<digits>\d+)/',$rec['system_user'],$system_user_digits);
+		$rec['system_user_sort'] = $system_user_digits['digits'];
+		
 		if (!is_numeric($rec['soft'])) $rec['soft']=$rec['soft'][1];
 		if (!is_numeric($rec['hard'])) $rec['hard']=$rec['hard'][1];
 		if (!is_numeric($rec['files'])) $rec['files']=$rec['files'][1];

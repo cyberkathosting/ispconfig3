@@ -1,8 +1,7 @@
 <?php
-$wb['list_head_txt'] = 'Pasta';
+$wb['list_head_txt'] = 'Pastas Web';
 $wb['active_txt'] = 'Ativo';
 $wb['server_id_txt'] = 'Servidor';
 $wb['parent_domain_id_txt'] = 'Site';
 $wb['path_txt'] = 'Caminho';
 $wb['add_new_record_txt'] = 'Adicionar nova pasta';
-?>

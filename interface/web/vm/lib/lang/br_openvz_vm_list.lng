@@ -7,4 +7,3 @@ $wb['template_id_txt'] = 'Gabarito';
 $wb['hostname_txt'] = 'Nome do host';
 $wb['ip_address_txt'] = 'Endereço IP';
 $wb['veid_txt'] = 'VEID';
-?>

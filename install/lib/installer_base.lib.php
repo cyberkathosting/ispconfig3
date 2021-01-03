@@ -192,7 +192,7 @@ class installer_base {
 		// if(is_installed('vlogger')) $conf['vlogger']['installed'] = true;
 		// ISPConfig ships with vlogger, so it is always installed.
 		$conf['vlogger']['installed'] = true;
-		if(is_installed('cron') || is_installed('anacron')) $conf['cron']['installed'] = true;
+		if(is_installed('crontab')) $conf['cron']['installed'] = true;
 
 		if (($conf['apache']['installed'] && is_file($conf['apache']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost")) || ($conf['nginx']['installed'] && is_file($conf['nginx']["vhost_conf_enabled_dir"]."/000-ispconfig.vhost"))) $this->ispconfig_interface_installed = true;
 	}
@@ -493,7 +493,7 @@ class installer_base {
 						0,
 						?,
 						?,
-						"y",
+						"n",
 						"80,443"
 					)', $conf['server_id'], $ip_type, $line);
 					$server_ip_id = $this->dbmaster->insertID();
@@ -512,7 +512,7 @@ class installer_base {
 						0,
 						?,
 						?,
-						"y",
+						"n",
 						"80,443"
 					)', $server_ip_id, $conf['server_id'], $ip_type, $line);
 				} else {
@@ -530,7 +530,7 @@ class installer_base {
 						0,
 						?,
 						?,
-						"y",
+						"n",
 						"80,443"
 					)', $conf['server_id'], $ip_type, $line);
 				}
@@ -663,6 +663,14 @@ class installer_base {
 					echo $query ."\n";
 				}
 				if(!$this->dbmaster->query($query, $value['db'] . '.web_domain', $value['user'], $host)) {
+					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
+				}
+
+				$query = "GRANT SELECT ON ?? TO ?@?";
+				if ($verbose){
+					echo $query ."\n";
+				}
+				if(!$this->dbmaster->query($query, $value['db'] . '.web_database', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
 
@@ -1450,7 +1458,7 @@ class installer_base {
 		}
 
 		$config_dir = $conf['postfix']['config_dir'];
-		$quoted_config_dir = preg_quote($config_dir, '/');
+		$quoted_config_dir = preg_quote($config_dir, '|');
 		$postfix_version = `postconf -d mail_version 2>/dev/null`;
 		$postfix_version = preg_replace( '/mail_version\s*=\s*(.*)\s*/', '$1', $postfix_version );
 
@@ -1496,7 +1504,7 @@ class installer_base {
 		if ($configure_lmtp && $conf['mail']['content_filter'] === 'amavisd') {
 			for ($i = 0; isset($new_options[$i]); $i++) {
 				if ($new_options[$i] == 'reject_unlisted_recipient') {
-					array_splice($new_options, $i+1, 0, array("check_recipient_access proxy:mysql:${quoted_config_dir}/mysql-verify_recipients.cf"));
+					array_splice($new_options, $i+1, 0, array("check_recipient_access proxy:mysql:${config_dir}/mysql-verify_recipients.cf"));
 					break;
 				}
 			}

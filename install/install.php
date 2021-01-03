@@ -172,6 +172,11 @@ if(is_dir('/usr/local/ispconfig')) {
 //** Detect the installed applications
 $inst->find_installed_apps();
 
+//* crontab required by ISPConfig
+if(!$conf['cron']['installed']) {
+	die("crontab not found; please install a compatible cron daemon before ISPConfig\n\n");
+}
+
 //** Select the language and set default timezone
 $conf['language'] = $inst->simple_query('Select language', array('en', 'de'), 'en','language');
 $conf['timezone'] = get_system_timezone();
@@ -607,10 +612,7 @@ $inst->configure_dbserver();
 
 //* Configure ISPConfig
 swriteln('Installing ISPConfig crontab');
-if($conf['cron']['installed']) {
-	swriteln('Installing ISPConfig crontab');
-	$inst->install_crontab();
-} else swriteln('[ERROR] Cron not found');
+$inst->install_crontab();
 
 swriteln('Detect IP addresses');
 $inst->detect_ips();

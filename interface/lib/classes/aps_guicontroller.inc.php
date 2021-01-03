@@ -53,7 +53,7 @@ class ApsGUIController extends ApsBase
 		if (substr($domain, 0, 4) == 'www.') $domain = substr($domain, 4);
 		return $domain;
 	}
-	
+
 
 	/**
 	 * Reads in a package metadata file and registers it's namespaces
@@ -220,7 +220,7 @@ class ApsGUIController extends ApsBase
 			$params[] = $client_id;
 		}
 		$params[] = $id;
-		
+
 		$result = $app->db->queryOneRecord('SELECT id FROM aps_instances WHERE '.$sql_ext.' id = ?', true, $params);
 		if(!$result) return false;
 
@@ -229,18 +229,18 @@ class ApsGUIController extends ApsBase
 
 	public function createDatabaseForPackageInstance(&$settings, $websrv) {
 		global $app;
-	
+
 		$app->uses('tools_sites');
-	
+
 		$global_config = $app->getconf->get_global_config('sites');
-	
+
 		$tmp = array();
 		$tmp['parent_domain_id'] = $websrv['domain_id'];
 		$tmp['sys_groupid'] = $websrv['sys_groupid'];
 		$dbname_prefix = $app->tools_sites->replacePrefix($global_config['dbname_prefix'], $tmp);
 		$dbuser_prefix = $app->tools_sites->replacePrefix($global_config['dbuser_prefix'], $tmp);
 		unset($tmp);
-	
+
 		// get information if the webserver is a db server, too
 		$web_server = $app->db->queryOneRecord("SELECT server_id,server_name,db_server FROM server WHERE server_id  = ?", $websrv['server_id']);
 		if($web_server['db_server'] == 1) {
@@ -276,14 +276,14 @@ class ApsGUIController extends ApsBase
 				* although this does not present any error message to the user.
 				*/
 				return false;
-	
+
 				/*$mysql_db_server_id = $websrv['server_id'];
 				 $settings['main_database_host'] = 'localhost';
 				$mysql_db_remote_access = 'n';
 				$mysql_db_remote_ips = '';*/
 			}
 		}
-		
+
 		if (empty($settings['main_database_name'])) {
 			//* Find a free db name for the app
 			for($n = 1; $n <= 1000; $n++) {
@@ -302,7 +302,7 @@ class ApsGUIController extends ApsBase
 			}
 			$settings['main_database_login'] = $mysql_db_user;
 		}
-		
+
 		//* Create the mysql database user if not existing
 		$tmp = $app->db->queryOneRecord("SELECT database_user_id FROM web_database_user WHERE database_user = ?", $settings['main_database_login']);
 		if(!$tmp) {
@@ -320,7 +320,7 @@ class ApsGUIController extends ApsBase
 			$mysql_db_user_id = $app->db->datalogInsert('web_database_user', $insert_data, 'database_user_id');
 		}
 		else $mysql_db_user_id = $tmp['database_user_id'];
-		
+
 		//* Create the mysql database if not existing
 		$tmp = $app->db->queryOneRecord("SELECT count(database_id) as number FROM web_database WHERE database_name = ?", $settings['main_database_name']);
 		if($tmp['number'] == 0) {
@@ -340,17 +340,15 @@ class ApsGUIController extends ApsBase
 								 "remote_access" => $mysql_db_remote_access,
 								 "remote_ips" => $mysql_db_remote_ips,
 								 "backup_copies" => $websrv['backup_copies'],
-								 "backup_format_web" => $websrv['backup_format_web'],
-								 "backup_format_db" => $websrv['backup_format_db'],
-								 "active" => 'y', 
+								 "active" => 'y',
 								 "backup_interval" => $websrv['backup_interval']
 								 );
 			$app->db->datalogInsert('web_database', $insert_data, 'database_id');
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Creates a new database record for the package instance and
 	 * an install task
@@ -398,7 +396,7 @@ class ApsGUIController extends ApsBase
 			// mysql-database-name is updated inside if not set already
 			if (!$this->createDatabaseForPackageInstance($settings, $websrv)) return false;
 		}
-		
+
 		//* Insert new package instance
 		$insert_data = array(
 			"sys_userid" => $websrv['sys_userid'],
@@ -428,7 +426,7 @@ class ApsGUIController extends ApsBase
 
 		//* Set package status to install afetr we inserted the settings
 		$app->db->datalogUpdate('aps_instances', array("instance_status" => INSTANCE_INSTALL), 'id', $InstanceID);
-		
+
 		return $InstanceID;
 	}
 
@@ -446,7 +444,7 @@ class ApsGUIController extends ApsBase
 			$sql = "SELECT web_database.database_id as database_id, web_database.database_user_id as `database_user_id` FROM aps_instances_settings, web_database WHERE aps_instances_settings.value = web_database.database_name AND aps_instances_settings.name = 'main_database_name' AND aps_instances_settings.instance_id = ? LIMIT 0,1";
 			$tmp = $app->db->queryOneRecord($sql, $instanceid);
 			if($tmp['database_id'] > 0) $app->db->datalogDelete('web_database', 'database_id', $tmp['database_id']);
-	
+
 			$database_user = $tmp['database_user_id'];
 			$tmp = $app->db->queryOneRecord("SELECT COUNT(*) as `cnt` FROM `web_database` WHERE `database_user_id` = ? OR `database_ro_user_id` = ?", $database_user, $database_user);
 			if($tmp['cnt'] < 1) $app->db->datalogDelete('web_database_user', 'database_user_id', $database_user);
@@ -685,7 +683,7 @@ class ApsGUIController extends ApsBase
 			if (isset($postinput['main_database_host'])) $input['main_database_host'] = $postinput['main_database_host'];
 			if (isset($postinput['main_database_name'])) $input['main_database_name'] = $postinput['main_database_name'];
 			if (isset($postinput['main_database_login'])) $input['main_database_login'] = $postinput['main_database_login'];
-			
+
 			if(isset($postinput['main_database_password']))
 			{
 				if($postinput['main_database_password'] == '') $error[] = $app->lng('error_no_database_pw');

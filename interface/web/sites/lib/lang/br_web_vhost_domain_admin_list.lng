@@ -11,4 +11,3 @@ $wb['add_new_aliasdomain_txt'] = 'Adicionar novo alias de domínio';
 $wb['domain_list_head_txt'] = 'Sites';
 $wb['aliasdomain_list_head_txt'] = 'Alias de domínio (vhost)';
 $wb['subdomain_list_head_txt'] = 'Subdomínios (vhost)';
-?>

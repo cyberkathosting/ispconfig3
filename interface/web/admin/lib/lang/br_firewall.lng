@@ -5,7 +5,6 @@ $wb['udp_port_txt'] = 'Portas UDP abertas';
 $wb['tcp_port_help_txt'] = 'Separado por vírgula';
 $wb['udp_port_help_txt'] = 'Separado por vírgula';
 $wb['active_txt'] = 'Ativo';
-$wb['firewall_error_unique'] = 'Já existe uma regra de firewall idêntica para este servidor.';
-$wb['tcp_ports_error_regex'] = 'Caractere não permitido para configuração de porta tcp: Caracteres permitidos são números, ":" e ",".';
-$wb['udp_ports_error_regex'] = 'Caractere não permitido para configuração de porta udp: Caracteres permitidos são números, ":" e ",".';
-?>
+$wb['firewall_error_unique'] = 'Já existe uma regra de Firewall idêntica para este servidor.';
+$wb['tcp_ports_error_regex'] = 'Caractere não permitido para configuração de porta TCP: Caracteres permitidos são números, ":" e ",".';
+$wb['udp_ports_error_regex'] = 'Caractere não permitido para configuração de porta UDP: Caracteres permitidos são números, ":" e ",".';

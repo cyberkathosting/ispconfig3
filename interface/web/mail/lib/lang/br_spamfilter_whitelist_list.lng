@@ -1,9 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Filtros anti-spam - Lista Branca';
+$wb['list_head_txt'] = 'Filtros anti-spam - Lista de Permissões';
 $wb['active_txt'] = 'Ativo';
 $wb['server_id_txt'] = 'Servidor';
 $wb['priority_txt'] = 'Prioridade';
 $wb['rid_txt'] = 'Usuário';
-$wb['email_txt'] = 'Lista Branca de e-mails';
+$wb['email_txt'] = 'Lista de Permissões de emails';
 $wb['add_new_record_txt'] = 'Adicionar registro';
-?>

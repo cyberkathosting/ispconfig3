@@ -33,4 +33,3 @@ $wb['directory_error_regex'] = 'Neplatný adresář';
 $wb['shell_error_regex'] = 'Invalid shell';
 $wb['invalid_username_txt'] = 'Invalid Username';
 $wb['directory_error_notinweb'] = 'The directory has to be inside the web root.';
-?>

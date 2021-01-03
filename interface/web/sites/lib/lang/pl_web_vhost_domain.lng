@@ -99,6 +99,7 @@ $wb['hd_quota_error_regex'] = 'Limit dysku jest nieprawidłowy.';
 $wb['traffic_quota_error_regex'] = 'Limit transferu jest nieprawidłowy.';
 $wb['ssl_key_txt'] = 'Klucz SSL';
 $wb['web_folder_error_regex'] = 'Wprowadzono nieprawidłowy katalog. Proszę nie wpisywać znaku slash [ / ]';
+$wb['web_folder_error_empty'] = 'Web folder cannot be empty.  Use /web/ to make the same as the Parent Website';
 $wb['domain_error_autosub'] = 'Istnieje już subdomena z tymi ustawieniami.';
 $wb['perl_txt'] = 'Perl';
 $wb['server_php_id_txt'] = 'Wersja PHP';

@@ -6,4 +6,3 @@ $wb['circle_name_txt'] = 'Nome do círculo';
 $wb['client_ids_txt'] = 'Clientes/Revendas';
 $wb['description_txt'] = 'Descrição';
 $wb['active_txt'] = 'Ativo';
-?>

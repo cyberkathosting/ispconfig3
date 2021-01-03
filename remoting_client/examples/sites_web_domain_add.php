@@ -53,6 +53,7 @@ try {
 		'allow_override' => 'All',
 		'apache_directives' => '',
 		'php_open_basedir' => '/',
+		'pm' => 'ondemand',
 		'pm_max_requests' => 0,
 		'pm_process_idle_timeout' => 10,
 		'custom_php_ini' => '',

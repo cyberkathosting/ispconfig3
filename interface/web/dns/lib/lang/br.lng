@@ -1,24 +1,34 @@
 <?php
-
 $wb['DNS'] = 'DNS';
 $wb['Zones'] = 'Zonas';
-$wb['DNS A'] = 'A';
-$wb['DNS ALIAS'] = 'ALIAS';
-$wb['DNS CNAME'] = 'CNAME';
-$wb['DNS hinfo'] = 'HINFO';
-$wb['DNS mx'] = 'MX';
-$wb['DNS ns'] = 'NS';
-$wb['DNS ptr'] = 'PTR';
-$wb['DNS RP'] = 'RP';
+$wb['DNS A'] = 'Registro A';
+$wb['DNS ALIAS'] = 'Registro ALIAS';
+$wb['DNS CNAME'] = 'Registro CNAME';
+$wb['DNS hinfo'] = 'Registro HINFO';
+$wb['DNS mx'] = 'Registro MX';
+$wb['DNS ns'] = 'Registro NS';
+$wb['DNS ptr'] = 'Registro PTR';
+$wb['DNS RP'] = 'Registro RP';
 $wb['DNS Zone'] = 'ZONA';
 $wb['Records'] = 'Registros';
-$wb['DNS SRV'] = 'SRV';
+$wb['DNS SRV'] = 'Registro SRV';
 $wb['DNS TXT Record'] = 'Registro TXT';
-$wb['DNS TXT'] = 'TXT';
+$wb['DNS TXT'] = 'Registro TXT';
 $wb['DNS Wizard'] = 'Assistente DNS';
-$wb['Add DNS Zone'] = 'Adicionar zona dns';
+$wb['Add DNS Zone'] = 'Adicionar zona DNS';
 $wb['Templates'] = 'Gabaritos';
 $wb['Secondary DNS'] = 'DNS secundário';
 $wb['Secondary Zones'] = 'Zonas secundárias';
 $wb['Import Zone File'] = 'Importar arquivo de zona';
-?>
+$wb['DNS CAA Record'] = 'Registro CAA';
+$wb['DNS DS Record'] = 'Registro DS';
+$wb['DNS DKIM Record'] = 'Registro DKIM';
+$wb['DNS DMARC Record'] = 'Registro DMARC';
+$wb['DNS tlsa'] = 'Registro TLSA';
+$wb['Zone settings'] = 'Configurações da Zona';
+$wb['DNS AAAA'] = 'Registro AAAA';
+$wb['DNS NAPTR'] = 'Registro NAPTR';
+$wb['DNS SPF Record'] = 'Registro SPF';
+$wb['DNS LOC Record'] = 'Registro LOC';
+$wb['DNS DNAME'] = 'Registro DNAME';
+$wb['DNS SSHFP Record'] = 'Registro SSHFP';

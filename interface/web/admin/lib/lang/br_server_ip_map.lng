@@ -1,14 +1,13 @@
 <?php
-$wb['server_ip_map_title'] = 'IPv4 Address mapping';
-$wb['server_ip_map_desc'] = 'Form to map IPv4-addresses for Web-Server';
-$wb['server_id_txt'] = 'Servidor para mapeamento IP';
+$wb['server_ip_map_title'] = 'Mapeamento de endereço IPv4';
+$wb['server_ip_map_desc'] = 'Forma para mapear endereços IPv4 para servidor Web';
+$wb['server_id_txt'] = 'Reescrever no servidor';
 $wb['source_txt'] = 'Endereço IP de origem';
 $wb['destination_txt'] = 'Endereço IP de destino';
 $wb['active_txt'] = 'Ativo';
 $wb['ip_error_wrong'] = 'O endereço IP de destino é inválido.';
-$wb['destination_ip_empty'] = 'O endereço IP de destino está em branco.';
-$wb['source_ip_empty'] = 'O endereço IP de origem está em branco.';
-$wb['server_empty_error'] = 'O servidor está em branco.';
+$wb['destination_ip_empty'] = 'O endereço IP de destino está vazio.';
+$wb['source_ip_empty'] = 'O endereço IP de origem está vazio.';
+$wb['server_empty_error'] = 'O servidor está vazio.';
 $wb['duplicate_mapping_error'] = 'Este mapeamento IP já existe.';
-$wb['ip_mapping_error'] = 'Endereço IP de origem não pode ser o mesmo IP do servidor para o mapeamento.';
-?>
+$wb['ip_mapping_error'] = 'Endereço IP de origem não pode ser o IP do servidor a ser reescrito ';
