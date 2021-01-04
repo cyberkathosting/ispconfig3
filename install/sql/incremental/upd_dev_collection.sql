@@ -1,0 +1,1 @@
+ALTER TABLE remote_user MODIFY remote_password VARCHAR(200) NOT NULL DEFAULT '';
