@@ -157,6 +157,34 @@ class installer_base {
 		else return true;
 	}
 
+	public function crypt_password($cleartext_password, $charset = 'UTF-8') {
+		if($charset != 'UTF-8') {
+			$cleartext_password = mb_convert_encoding($cleartext_password, $charset, 'UTF-8');
+		}
+
+		if(defined('CRYPT_SHA512') && CRYPT_SHA512 == 1) {
+			$salt = '$6$rounds=5000$';
+			$salt_length = 16;
+		} elseif(defined('CRYPT_SHA256') && CRYPT_SHA256 == 1) {
+			$salt = '$5$rounds=5000$';
+			$salt_length = 16;
+		} else {
+			$salt = '$1$';
+			$salt_length = 12;
+		}
+
+		if(function_exists('openssl_random_pseudo_bytes')) {
+			$salt .= substr(bin2hex(openssl_random_pseudo_bytes($salt_length)), 0, $salt_length);
+		} else {
+			$base64_alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789./';
+			for($n = 0; $n < $salt_length; $n++) {
+				$salt .= $base64_alphabet[mt_rand(0, 63)];
+			}
+		}
+		$salt .= "$";
+		return crypt($cleartext_password, $salt);
+	}
+
 	//** Detect installed applications
 	public function find_installed_apps() {
 		global $conf;
@@ -3415,8 +3443,8 @@ class installer_base {
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 		if ($this->install_ispconfig_interface == true && isset($conf['interface_password']) && $conf['interface_password']!='admin') {
-			$sql = "UPDATE sys_user SET passwort = md5(?) WHERE username = 'admin';";
-			$this->db->query($sql, $conf['interface_password']);
+			$sql = "UPDATE sys_user SET passwort = ? WHERE username = 'admin';";
+			$this->db->query($sql, $this->crypt_password($conf['interface_password']));
 		}
 
 		if($conf['apache']['installed'] == true && $this->install_ispconfig_interface == true){
@@ -3560,6 +3588,7 @@ class installer_base {
 			if(!is_dir($conf['ispconfig_log_dir'])) mkdir($conf['ispconfig_log_dir'], 0755);
 			touch($conf['ispconfig_log_dir'].'/ispconfig.log');
 		}
+		chmod($conf['ispconfig_log_dir'].'/ispconfig.log', 0600);
 
 		//* Create the ispconfig auth log file and set uid/gid
 		if(!is_file($conf['ispconfig_log_dir'].'/auth.log')) {
