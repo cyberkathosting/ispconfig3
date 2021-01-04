@@ -128,19 +128,22 @@ class remoting {
 			$app->db->query($sql, $remote_session,$remote_userid,$remote_functions,$tstamp);
 			return $remote_session;
 		} else {
-			$sql = "SELECT * FROM remote_user WHERE remote_username = ? and remote_password = ?";
-			$remote_user = $app->db->queryOneRecord($sql, $username, $app->auth->crypt_password($password));
-			if(!$remote_user) {
-				// fallback to md5
-				$sql = "SELECT * FROM remote_user WHERE remote_username = ? and remote_password = ?";
-				$remote_user = $app->db->queryOneRecord($sql, $username, md5($password));
-				if($remote_user) {
+			$sql = "SELECT * FROM remote_user WHERE remote_username = ?";
+			$remote_user = $app->db->queryOneRecord($sql, $username);
+			if($remote_user) {
+				if(substr($remote_user['remote_password'], 0, 1) === '$') {
+					if(crypt(stripslashes($password), $remote_user['remote_password']) != $remote_user['remote_password']) {
+						$remote_user = null;
+					}
+				} elseif(md5($password) == $remote_user['remote_password']) {
 					// update hash algo
 					$sql = 'UPDATE `remote_user` SET `remote_password` = ? WHERE `remote_username` = ?';
 					$app->db->query($sql, $app->auth->crypt_password($password), $username);
+				} else {
+					$remote_user = null;
 				}
 			}
-			if($remote_user['remote_userid'] > 0) {
+			if($remote_user && $remote_user['remote_userid'] > 0) {
 				if (trim($remote_user['remote_ips']) != '') {
 					$allowed_ips = explode(',',$remote_user['remote_ips']);
 					foreach($allowed_ips as $i => $allowed) {
