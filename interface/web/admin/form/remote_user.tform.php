@@ -109,7 +109,7 @@ $form["tabs"]['remote_user'] = array (
 					'errmsg' => 'weak_password_txt'
 				)
 			),
-			'encryption' => 'MD5',
+			'encryption' => 'CRYPT',
 			'default' => '',
 			'value'  => '',
 			'width'  => '30',
@@ -124,11 +124,11 @@ $form["tabs"]['remote_user'] = array (
 		'remote_ips' => array (
 			'datatype'  => 'TEXT',
 			'formtype'  => 'TEXT',
-			'validators'  => array (  
+			'validators'  => array (
 				0 => array (
-					'type' => 'CUSTOM', 
-					'class' => 'validate_remote_user', 
-					'function' => 'valid_remote_ip', 
+					'type' => 'CUSTOM',
+					'class' => 'validate_remote_user',
+					'function' => 'valid_remote_ip',
 					'errmsg' => 'remote_user_error_ips'),
 			),
 			'default' => '',
