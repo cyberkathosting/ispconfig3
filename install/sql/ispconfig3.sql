@@ -1325,7 +1325,7 @@ CREATE TABLE `remote_user` (
   `sys_perm_group` varchar(5) default NULL,
   `sys_perm_other` varchar(5) default NULL,
   `remote_username` varchar(64) NOT NULL DEFAULT '',
-  `remote_password` varchar(64) NOT NULL DEFAULT '',
+  `remote_password` varchar(200) NOT NULL DEFAULT '',
   `remote_access` enum('y','n') NOT NULL DEFAULT 'y',
   `remote_ips` TEXT,
   `remote_functions` text,
