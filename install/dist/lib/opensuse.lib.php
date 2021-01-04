@@ -1369,6 +1369,7 @@ class installer_dist extends installer_base {
 		//* Create the ispconfig log directory
 		if(!is_dir($conf['ispconfig_log_dir'])) mkdir($conf['ispconfig_log_dir']);
 		if(!is_file($conf['ispconfig_log_dir'].'/ispconfig.log')) exec('touch '.$conf['ispconfig_log_dir'].'/ispconfig.log');
+		chmod($conf['ispconfig_log_dir'].'/ispconfig.log', 0600);
 
 		if(is_user('getmail')) {
 			exec('mv /usr/local/ispconfig/server/scripts/run-getmail.sh /usr/local/bin/run-getmail.sh');

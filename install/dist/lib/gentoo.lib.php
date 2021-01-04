@@ -1252,6 +1252,7 @@ class installer extends installer_base
 		if (!is_file($conf['ispconfig_log_dir'].'/ispconfig.log')) {
 			touch($conf['ispconfig_log_dir'].'/ispconfig.log');
 		}
+		chmod($conf['ispconfig_log_dir'].'/ispconfig.log', 0600);
 
 		//* Create the ispconfig auth log file and set uid/gid
 		if(!is_file($conf['ispconfig_log_dir'].'/auth.log')) {
