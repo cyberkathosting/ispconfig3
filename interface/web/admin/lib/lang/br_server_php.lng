@@ -17,3 +17,4 @@ $wb['php_fpm_socket_dir_txt'] = 'PHP-FPM socket directory';
 $wb['active_txt'] = 'Ativo';
 $wb['php_in_use_error'] = 'Esta versão PHP está em uso.';
 $wb['php_name_in_use_error'] = 'O nome não pode ser modificado.';
+?>
