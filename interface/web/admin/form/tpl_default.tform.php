@@ -60,7 +60,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 $form["title"]   = "tpl_default_head_txt";
-$form["description"]  = "tpl_default_desc_txt";
+//$form["description"]  = "tpl_default_desc_txt";
 $form["name"]   = "tpl_default";
 $form["action"]  = "tpl_default.php";
 $form["db_table"] = "sys_theme";
