@@ -59,6 +59,7 @@ overquota_notify_client=y
 overquota_notify_freq=7
 overquota_notify_onok=n
 sendmail_path=/usr/sbin/sendmail
+rspamd_url=
 
 [getmail]
 getmail_config_dir=/etc/getmail
