@@ -157,6 +157,34 @@ class installer_base {
 		else return true;
 	}
 
+	public function crypt_password($cleartext_password, $charset = 'UTF-8') {
+		if($charset != 'UTF-8') {
+			$cleartext_password = mb_convert_encoding($cleartext_password, $charset, 'UTF-8');
+		}
+
+		if(defined('CRYPT_SHA512') && CRYPT_SHA512 == 1) {
+			$salt = '$6$rounds=5000$';
+			$salt_length = 16;
+		} elseif(defined('CRYPT_SHA256') && CRYPT_SHA256 == 1) {
+			$salt = '$5$rounds=5000$';
+			$salt_length = 16;
+		} else {
+			$salt = '$1$';
+			$salt_length = 12;
+		}
+
+		if(function_exists('openssl_random_pseudo_bytes')) {
+			$salt .= substr(bin2hex(openssl_random_pseudo_bytes($salt_length)), 0, $salt_length);
+		} else {
+			$base64_alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789./';
+			for($n = 0; $n < $salt_length; $n++) {
+				$salt .= $base64_alphabet[mt_rand(0, 63)];
+			}
+		}
+		$salt .= "$";
+		return crypt($cleartext_password, $salt);
+	}
+
 	//** Detect installed applications
 	public function find_installed_apps() {
 		global $conf;
@@ -2871,8 +2899,13 @@ class installer_base {
 			$ip_address_match = true;
 		}
 
+		// Get subject and issuer of ispserver.crt to check if it is self-signed cert
+		if (file_exists($ssl_crt_file)) {
+			$crt_subject = exec("openssl x509 -in ".escapeshellarg($ssl_crt_file)." -inform PEM -noout -subject");
+			$crt_issuer = exec("openssl x509 -in ".escapeshellarg($ssl_crt_file)." -inform PEM -noout -issuer");
+		}
 
-		if ((!@is_dir($acme_cert_dir) || !@file_exists($check_acme_file) || !@file_exists($ssl_crt_file) || md5_file($check_acme_file) != md5_file($ssl_crt_file)) && $ip_address_match == true) {
+		if ((@file_exists($ssl_crt_file) && ($crt_subject == $crt_issuer)) || (!@is_dir($acme_cert_dir) || !@file_exists($check_acme_file) || !@file_exists($ssl_crt_file) || md5_file($check_acme_file) != md5_file($ssl_crt_file)) && $ip_address_match == true) {
 
 			// This script is needed earlier to check and open http port 80 or standalone might fail
 			// Make executable and temporary symlink latest letsencrypt pre, post and renew hook script before install
@@ -2942,6 +2975,14 @@ class installer_base {
 
 			$issued_successfully = false;
 
+			// Backup existing ispserver ssl files
+			if(file_exists($ssl_crt_file) || is_link($ssl_crt_file))
+				rename($ssl_crt_file, $ssl_crt_file.'-temporary.bak');
+			if(file_exists($ssl_key_file) || is_link($ssl_key_file))
+				rename($ssl_key_file, $ssl_key_file.'-temporary.bak');
+			if(file_exists($ssl_pem_file) || is_link($ssl_pem_file))
+				rename($ssl_pem_file, $ssl_pem_file.'-temporary.bak');
+
 			// Attempt to use Neilpang acme.sh first, as it is now the preferred LE client
 			if (is_executable($acme)) {
 
@@ -2958,18 +2999,6 @@ class installer_base {
 				if($ret == 0 || ($ret == 2 && file_exists($check_acme_file))) {
 					// acme.sh returns with 2 on issue for already existing certificate
 
-
-					// Backup existing ispserver ssl files
-					if(file_exists($ssl_crt_file) || is_link($ssl_crt_file)) {
-						rename($ssl_crt_file, $ssl_crt_file . '-' . $date->format('YmdHis') . '.bak');
-					}
-					if(file_exists($ssl_key_file) || is_link($ssl_key_file)) {
-						rename($ssl_key_file, $ssl_key_file . '-' . $date->format('YmdHis') . '.bak');
-					}
-					if(file_exists($ssl_pem_file) || is_link($ssl_pem_file)) {
-						rename($ssl_pem_file, $ssl_pem_file . '-' . $date->format('YmdHis') . '.bak');
-					}
-
 					$check_acme_file = $ssl_crt_file;
 
 					// Define LE certs name and path, then install them
@@ -2978,8 +3007,26 @@ class installer_base {
 					$acme_chain = "--fullchain-file " . escapeshellarg($ssl_crt_file);
 					exec("$acme --install-cert -d " . escapeshellarg($hostname) . " $acme_key $acme_chain");
 					$issued_successfully = true;
+
+					// Make temporary backup of self-signed certs permanent
+					if(file_exists($ssl_crt_file.'-temporary.bak') || is_link($ssl_crt_file.'-temporary.bak'))
+						rename($ssl_crt_file.'-temporary.bak', $ssl_crt_file.'-'.$date->format('YmdHis').'.bak');
+					if(file_exists($ssl_key_file.'-temporary.bak') || is_link($ssl_key_file.'-temporary.bak'))
+						rename($ssl_key_file.'-temporary.bak', $ssl_key_file.'-'.$date->format('YmdHis').'.bak');
+					if(file_exists($ssl_pem_file.'-temporary.bak') || is_link($ssl_pem_file.'-temporary.bak'))
+						rename($ssl_pem_file.'-temporary.bak', $ssl_pem_file.'-'.$date->format('YmdHis').'.bak');
+
 				} else {
 					swriteln('Issuing certificate via acme.sh failed. Please check that your hostname can be verified by letsencrypt');
+
+					// Restore temporary backup of self-signed certs
+					if(file_exists($ssl_crt_file.'-temporary.bak') || is_link($ssl_crt_file.'-temporary.bak'))
+						rename($ssl_crt_file.'-temporary.bak', $ssl_crt_file);
+					if(file_exists($ssl_key_file.'-temporary.bak') || is_link($ssl_key_file.'-temporary.bak'))
+						rename($ssl_key_file.'-temporary.bak', $ssl_key_file);
+					if(file_exists($ssl_pem_file.'-temporary.bak') || is_link($ssl_pem_file.'-temporary.bak'))
+						rename($ssl_pem_file.'-temporary.bak', $ssl_pem_file);
+
 				}
 			// Else, we attempt to use the official LE certbot client certbot
 			} else {
@@ -3011,24 +3058,31 @@ class installer_base {
 					if($ret == 0) {
 						// certbot returns with 0 on issue for already existing certificate
 
-						// Backup existing ispserver ssl files
-						if(file_exists($ssl_crt_file) || is_link($ssl_crt_file)) {
-							rename($ssl_crt_file, $ssl_crt_file . '-' . $date->format('YmdHis') . '.bak');
-						}
-						if(file_exists($ssl_key_file) || is_link($ssl_key_file)) {
-							rename($ssl_key_file, $ssl_key_file . '-' . $date->format('YmdHis') . '.bak');
-						}
-						if(file_exists($ssl_pem_file) || is_link($ssl_pem_file)) {
-							rename($ssl_pem_file, $ssl_pem_file . '-' . $date->format('YmdHis') . '.bak');
-						}
-
 						$acme_cert_dir = '/etc/letsencrypt/live/' . $hostname;
 						symlink($acme_cert_dir . '/fullchain.pem', $ssl_crt_file);
 						symlink($acme_cert_dir . '/privkey.pem', $ssl_key_file);
 
 						$issued_successfully = true;
+
+						// Make temporary backup of self-signed certs permanent
+						if(file_exists($ssl_crt_file.'-temporary.bak') || is_link($ssl_crt_file.'-temporary.bak'))
+							rename($ssl_crt_file.'-temporary.bak', $ssl_crt_file.'-'.$date->format('YmdHis').'.bak');
+						if(file_exists($ssl_key_file.'-temporary.bak') || is_link($ssl_key_file.'-temporary.bak'))
+							rename($ssl_key_file.'-temporary.bak', $ssl_key_file.'-'.$date->format('YmdHis').'.bak');
+						if(file_exists($ssl_pem_file.'-temporary.bak') || is_link($ssl_pem_file.'-temporary.bak'))
+							rename($ssl_pem_file.'-temporary.bak', $ssl_pem_file.'-'.$date->format('YmdHis').'.bak');
+
 					} else {
 						swriteln('Issuing certificate via certbot failed. Please check log files and make sure that your hostname can be verified by letsencrypt');
+
+						// Restore temporary backup of self-signed certs
+						if(file_exists($ssl_crt_file.'-temporary.bak') || is_link($ssl_crt_file.'-temporary.bak'))
+							rename($ssl_crt_file.'-temporary.bak', $ssl_crt_file);
+						if(file_exists($ssl_key_file.'-temporary.bak') || is_link($ssl_key_file.'-temporary.bak'))
+							rename($ssl_key_file.'-temporary.bak', $ssl_key_file);
+						if(file_exists($ssl_pem_file.'-temporary.bak') || is_link($ssl_pem_file.'-temporary.bak'))
+							rename($ssl_pem_file.'-temporary.bak', $ssl_pem_file);
+						
 					}
 				} else {
 					swriteln('Did not find any valid acme client (acme.sh or certbot)');
@@ -3415,8 +3469,8 @@ class installer_base {
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 		if ($this->install_ispconfig_interface == true && isset($conf['interface_password']) && $conf['interface_password']!='admin') {
-			$sql = "UPDATE sys_user SET passwort = md5(?) WHERE username = 'admin';";
-			$this->db->query($sql, $conf['interface_password']);
+			$sql = "UPDATE sys_user SET passwort = ? WHERE username = 'admin';";
+			$this->db->query($sql, $this->crypt_password($conf['interface_password']));
 		}
 
 		if($conf['apache']['installed'] == true && $this->install_ispconfig_interface == true){
@@ -3560,6 +3614,7 @@ class installer_base {
 			if(!is_dir($conf['ispconfig_log_dir'])) mkdir($conf['ispconfig_log_dir'], 0755);
 			touch($conf['ispconfig_log_dir'].'/ispconfig.log');
 		}
+		chmod($conf['ispconfig_log_dir'].'/ispconfig.log', 0600);
 
 		//* Create the ispconfig auth log file and set uid/gid
 		if(!is_file($conf['ispconfig_log_dir'].'/auth.log')) {

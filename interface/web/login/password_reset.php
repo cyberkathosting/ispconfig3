@@ -47,7 +47,7 @@ include ISPC_ROOT_PATH.'/web/login/lib/lang/'.$app->functions->check_language($c
 $app->tpl->setVar($wb);
 $continue = true;
 
-if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '' && $_POST['username'] != 'admin') {
+if(isset($_POST['username']) && is_string($_POST['username']) && $_POST['username'] != '' && isset($_POST['email']) && is_string($_POST['email']) && $_POST['email'] != '' && $_POST['username'] != 'admin') {
 	if(!preg_match("/^[\w\.\-\_]{1,64}$/", $_POST['username'])) {
 		$app->tpl->setVar("error", $wb['user_regex_error']);
 		$continue = false;
@@ -60,11 +60,13 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 	$username = $_POST['username'];
 	$email = $_POST['email'];
 
-	$client = $app->db->queryOneRecord("SELECT client.*, sys_user.lost_password_function, sys_user.lost_password_hash, IF(sys_user.lost_password_reqtime IS NOT NULL AND DATE_SUB(NOW(), INTERVAL 15 MINUTE) < sys_user.lost_password_reqtime, 1, 0) as `lost_password_wait` FROM client,sys_user WHERE client.username = ? AND client.email = ? AND client.client_id = sys_user.client_id", $username, $email);
+	if($continue) {
+		$client = $app->db->queryOneRecord("SELECT client.*, sys_user.lost_password_function, sys_user.lost_password_hash, IF(sys_user.lost_password_reqtime IS NOT NULL AND DATE_SUB(NOW(), INTERVAL 15 MINUTE) < sys_user.lost_password_reqtime, 1, 0) as `lost_password_wait` FROM client,sys_user WHERE client.username = ? AND client.email = ? AND client.client_id = sys_user.client_id", $username, $email);
+	}
 
-	if($client['lost_password_function'] == 0) {
+	if($client && $client['lost_password_function'] == 0) {
 		$app->tpl->setVar("error", $wb['lost_password_function_disabled_txt']);
-	} elseif($client['lost_password_wait'] == 1) {
+	} elseif($client && $client['lost_password_wait'] == 1) {
 		$app->tpl->setVar("error", $wb['lost_password_function_wait_txt']);
 	} elseif ($continue) {
 		if($client['client_id'] > 0) {
@@ -111,7 +113,7 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 		$app->tpl->setVar("error", $wb['user_regex_error']);
 		$continue = false;
 	}
-	
+
 	$username = $_GET['username'];
 	$hash = $_GET['hash'];
 
@@ -127,7 +129,7 @@ if(isset($_POST['username']) && $_POST['username'] != '' && $_POST['email'] != '
 		if($client['client_id'] > 0) {
 			$server_config_array = $app->getconf->get_global_config();
 			$min_password_length = $app->auth->get_min_password_length();
-			
+
 			$new_password = $app->auth->get_random_password($min_password_length, true);
 			$new_password_encrypted = $app->auth->crypt_password($new_password);
 
