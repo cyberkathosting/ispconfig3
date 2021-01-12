@@ -20,7 +20,7 @@ Development branch: [![pipeline status](https://git.ispconfig.org/ispconfig/ispc
 - POP3/IMAP: Dovecot
 - Spamfilter: Rspamd and Amavis
 - FTP: PureFTPD
-- DNS: Bind, PowerDNS
+- DNS: BIND9 and PowerDNS
 - Database: MariaDB and MySQL
 
 ## Supported operating systems
