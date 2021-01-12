@@ -34,7 +34,7 @@ class installer_base {
 	var $language = 'en';
 	var $db;
 	public $install_ispconfig_interface = true;
-	public $is_update = false; // true if it is an update, falsi if it is a new install
+	public $is_update = false; // true if it is an update, false if it is a new install
 	public $min_php = '5.4'; // minimal php-version for update / install
 	protected $mailman_group = 'list';
 
