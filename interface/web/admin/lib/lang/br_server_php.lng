@@ -13,6 +13,8 @@ $wb['php_fastcgi_ini_dir_txt'] = 'Diretório PHP.ini';
 $wb['php_fpm_init_script_txt'] = 'Caminho do script de inicialização PHP-FPM';
 $wb['php_fpm_ini_dir_txt'] = 'Caminho do diretório PHP.ini';
 $wb['php_fpm_pool_dir_txt'] = 'Caminho do diretório da pool PHP-FPM';
+$wb['php_fpm_socket_dir_txt'] = 'PHP-FPM socket directory';
 $wb['active_txt'] = 'Ativo';
 $wb['php_in_use_error'] = 'Esta versão PHP está em uso.';
 $wb['php_name_in_use_error'] = 'O nome não pode ser modificado.';
+?>

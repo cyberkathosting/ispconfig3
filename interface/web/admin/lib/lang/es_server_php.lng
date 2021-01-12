@@ -13,5 +13,8 @@ $wb['php_fpm_init_script_txt'] = 'Ruta al archivo de arranque de PHP-FPM';
 $wb['php_fpm_pool_dir_txt'] = 'Ruta al directorio de procesos de PHP-FPM';
 $wb['server_id_txt'] = 'Servidor';
 $wb['server_php_name_error_empty'] = 'El campo Nombre no puede estar vacío.';
+$wb['php_fpm_socket_dir_txt'] = 'PHP-FPM socket directory';
 $wb['active_txt'] = 'Active';
+$wb['php_in_use_error'] = 'This PHP-Version is in use.';
+$wb['php_name_in_use_error'] = 'The name can not be changed.';
 ?>
