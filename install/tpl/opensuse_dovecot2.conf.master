@@ -104,7 +104,7 @@ plugin {
   quota_status_overquota = "552 5.2.2 Mailbox is full"
 }
 
-imap_capability=+SEPCIAL-USE XLIST
+imap_capability=+SPECIAL-USE XLIST
 namespace inbox {
   inbox = yes
   separator = .
