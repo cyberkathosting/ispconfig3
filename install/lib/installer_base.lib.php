@@ -35,7 +35,6 @@ class installer_base {
 	var $db;
 	public $install_ispconfig_interface = true;
 	public $is_update = false; // true if it is an update, falsi if it is a new install
-	public $min_php = '5.4'; // minimal php-version for update / install
 	protected $mailman_group = 'list';
 
 
@@ -149,12 +148,6 @@ class installer_base {
 				exec('chattr -i ' . escapeshellarg($path));
 			}
 		}
-	}
-
-	//** Detect PHP-Version
-	public function get_php_version() {
-		if(version_compare(PHP_VERSION, $this->min_php, '<')) return false;
-		else return true;
 	}
 
 	public function crypt_password($cleartext_password, $charset = 'UTF-8') {
