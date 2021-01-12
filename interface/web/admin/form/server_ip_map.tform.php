@@ -29,7 +29,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 $form["title"]    = "server_ip_map_title";
-$form["description"]  = "server_ip_map_desc";
+//$form["description"]  = "server_ip_map_desc";
 $form["name"]    = "server_ip_map";
 $form["action"]   = "server_ip_map_edit.php";
 $form["db_table"]  = "server_ip_map";
@@ -59,7 +59,7 @@ $form["tabs"]['server_ip_map'] = array (
 		'source_ip' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
-			'validators' => array (  
+			'validators' => array (
 				0 => array ( 'type' => 'NOTEMPTY', 'errmsg'=> 'source_ip_empty'),
 			),
 			'default' => '',
@@ -68,7 +68,7 @@ $form["tabs"]['server_ip_map'] = array (
 		'destination_ip' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
-			'validators' => array (  
+			'validators' => array (
 				0 => array ( 'type' => 'ISIPV4', 'errmsg'=> 'ip_error_wrong'),
 				1 => array ( 'type' => 'NOTEMPTY', 'errmsg'=> 'destination_ip_empty'),
             ),

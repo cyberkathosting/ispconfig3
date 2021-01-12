@@ -34,7 +34,7 @@
  */
 
 $form["title"] = "server_config";
-$form["description"] = "";
+//$form["description"] = "";
 $form["name"] = "server_config";
 $form["action"] = "server_config_edit.php";
 $form["db_table"] = "server";

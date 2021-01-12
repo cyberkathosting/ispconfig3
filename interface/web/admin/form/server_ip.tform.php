@@ -65,7 +65,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 $form["title"]    = "server_ip_edit_title";
-$form["description"]  = "server_ip_edit_desc";
+//$form["description"]  = "server_ip_edit_desc";
 $form["name"]    = "server_ip";
 $form["action"]   = "server_ip_edit.php";
 $form["db_table"]  = "server_ip";
