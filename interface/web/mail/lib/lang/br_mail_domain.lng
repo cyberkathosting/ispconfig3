@@ -20,3 +20,6 @@ $wb['no_policy'] = '-desabilitado-';
 $wb['error_not_allowed_server_id'] = 'O servidor selecionado não é permitido para esta conta.';
 $wb['dkim_selector_txt'] = 'Seletor DKIM';
 $wb['dkim_selector_error'] = 'Seletor DKIM é inválido. Utilize apenas caracteres alfanuméricos em minúsculas (a-z ou 0-9) e no máximo 63 caracteres.';
+$wb['relayhost_txt'] = 'Relayhost';
+$wb['relayhost_user_txt'] = 'Relayhost User';
+$wb['relayhost_password_txt'] = 'Relayhost Password';

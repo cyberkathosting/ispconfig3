@@ -20,4 +20,6 @@ $wb['dkim_settings_txt'] = 'DomainKeys Identified Mail (DKIM)';
 $wb['policy_txt'] = 'Спамфилтър';
 $wb['no_policy'] = '- не е разрешен -';
 $wb['error_not_allowed_server_id'] = 'Chosen server is not allowed for this account.';
-?>
+$wb['relayhost_txt'] = 'Relayhost';
+$wb['relayhost_user_txt'] = 'Relayhost User';
+$wb['relayhost_password_txt'] = 'Relayhost Password';
