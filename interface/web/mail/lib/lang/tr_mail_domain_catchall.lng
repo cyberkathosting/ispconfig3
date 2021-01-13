@@ -9,4 +9,5 @@ $wb['limit_mailcatchall_txt'] = 'Hesabınıza ekleyebileceğiniz en fazla tümü
 $wb['domain_txt'] = 'Etki Alanı';
 $wb['source_txt'] = 'Kaynak';
 $wb['destination_error_isemail'] = 'Hedef e-posta adresi geçersiz.';
-?>
+$wb['send_as_txt'] = 'Gönderen';
+$wb['send_as_exp'] = 'Allow destination to send from email addresses in this domain';

@@ -9,4 +9,5 @@ $wb['limit_mailcatchall_txt'] = 'Max. antal af e-mail catchall konti for din kon
 $wb['source_txt'] = 'Kilde';
 $wb['destination_error_isemail'] = 'Destinationen er ikke en gyldig e-mail adresse.';
 $wb['greylisting_txt'] = 'Enable greylisting';
-?>
+$wb['send_as_txt'] = 'Send as';
+$wb['send_as_exp'] = 'Allow destination to send from email addresses in this domain';
