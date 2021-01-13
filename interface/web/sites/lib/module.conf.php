@@ -198,11 +198,12 @@ $items[] = array(   'title'   => 'Web traffic',
 	'link'    => 'sites/web_sites_stats.php',
 	'html_id' => 'websites_stats');
 
-$items[] = array(   'title'   => 'FTP traffic',
-	'target'  => 'content',
-	'link'    => 'sites/ftp_sites_stats.php',
-	'html_id' => 'ftpsites_stats');
-
+if($app->auth->get_client_limit($userid, 'ftp_user') != 0) {
+	$items[] = array(   'title'   => 'FTP traffic',
+		'target'  => 'content',
+		'link'    => 'sites/ftp_sites_stats.php',
+		'html_id' => 'ftpsites_stats');
+}
 $items[] = array(   'title'   => 'Website quota (Harddisk)',
 	'target'  => 'content',
 	'link'    => 'sites/user_quota_stats.php',

@@ -882,9 +882,8 @@ function get_apps_vhost_port_number() {
 }
 
 /*
-* Get the port number of the ISPConfig controlpanel vhost
-*/
-
+ * Check if SSL is anabled in the ISPConfig controlpanel vhost.
+ */
 function is_ispconfig_ssl_enabled() {
 	global $conf;
 	$ispconfig_vhost_file = $conf['apache']['vhost_conf_dir'].'/ispconfig.vhost';

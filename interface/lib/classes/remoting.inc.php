@@ -124,7 +124,7 @@ class remoting {
 			$remote_functions = '';
 			$tstamp = time() + $this->session_timeout;
 			$sql = 'INSERT INTO remote_session (remote_session,remote_userid,remote_functions,client_login,tstamp'
-				.') VALUES (?, ?, ?, 1, $tstamp)';
+				.') VALUES (?, ?, ?, 1, ?)';
 			$app->db->query($sql, $remote_session,$remote_userid,$remote_functions,$tstamp);
 			return $remote_session;
 		} else {

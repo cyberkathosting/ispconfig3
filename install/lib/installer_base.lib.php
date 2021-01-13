@@ -650,7 +650,7 @@ class installer_base {
 				$query = "GRANT SELECT, INSERT ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
-				}
+				
 				if(!$this->dbmaster->query($query, $value['db'] . '.sys_log', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}

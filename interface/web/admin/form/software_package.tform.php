@@ -60,7 +60,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 $form["title"]    = "Software Package";
-$form["description"]  = "Modify software package details";
+//$form["description"]  = "Modify software package details";
 $form["name"]    = "software_package";
 $form["action"]   = "software_package_edit.php";
 $form["db_table"]  = "software_package";

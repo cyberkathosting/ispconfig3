@@ -60,7 +60,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 $form["title"]    = "Additional PHP Versions";
-$form["description"]  = "Form to edit additional PHP versions";
+//$form["description"]  = "Form to edit additional PHP versions";
 $form["name"]    = "server_php";
 $form["action"]   = "server_php_edit.php";
 $form["db_table"]  = "server_php";
