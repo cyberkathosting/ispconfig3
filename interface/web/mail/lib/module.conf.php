@@ -61,6 +61,20 @@ if($app->auth->get_client_limit($userid, 'mailcatchall') != 0)
 		'html_id' => 'mail_domain_catchall_list');
 }
 
+if(! $app->auth->is_admin())
+{
+	$items[] = array(   'title'  => 'Email Whitelist',
+		'target'  => 'content',
+		'link'     => 'mail/mail_whitelist_list.php',
+		'html_id' => 'mail_whitelist_list');
+
+
+	$items[] = array(   'title'  => 'Email Blacklist',
+		'target'  => 'content',
+		'link'     => 'mail/mail_blacklist_list.php',
+		'html_id' => 'mail_blacklist_list');
+}
+
 if($app->auth->get_client_limit($userid, 'mailrouting') != 0)
 {
 	$items[] = array( 'title'  => 'Email Routing',
@@ -110,8 +124,8 @@ if($app->auth->get_client_limit($userid, 'spamfilter_wblist') != 0)
 		'html_id' => 'spamfilter_blacklist_list');
 }
 
-if($app->auth->is_admin()) {
-
+if($app->auth->is_admin())
+{
 	$items[] = array(  'title'  => 'User / Domain',
 		'target'  => 'content',
 		'link'     => 'mail/spamfilter_users_list.php',
@@ -191,7 +205,9 @@ $items[] = array( 'title'  => 'Mailbox traffic',
 	'target'  => 'content',
 	'link' => 'mail/mail_user_stats.php',
 	'html_id' => 'mail_user_stats');
-if($app->auth->get_client_limit($userid, 'backup') == 'y') {
+
+if($app->auth->get_client_limit($userid, 'backup') == 'y')
+{
         $items[] = array (
             'title'   => 'Backup Stats',
             'target'  => 'content',
@@ -206,8 +222,8 @@ $module['nav'][] = array( 'title' => 'Statistics',
 
 //**** Global filters menu
 $items = array();
-if($_SESSION['s']['user']['typ'] == 'admin') {
-
+if($app->auth->is_admin())
+{
 	$items[] = array(   'title'  => 'Postfix Whitelist',
 		'target'  => 'content',
 		'link'     => 'mail/mail_whitelist_list.php',

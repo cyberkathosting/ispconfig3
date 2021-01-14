@@ -78,17 +78,32 @@ $liste["item"][] = array( 'field'  => "source",
 	'op'  => "like",
 	'prefix' => "%",
 	'suffix' => "%",
+	'datasource' => array (  'type' => 'SQL',
+		'querystring' => 'SELECT access_id,source FROM mail_access WHERE {AUTHSQL} ORDER BY source',
+		'keyfield'=> 'access_id',
+		'valuefield'=> 'source'
+	),
 	'width'  => "",
 	'value'  => "");
 
-$liste["item"][] = array( 'field'  => "type",
-	'datatype' => "VARCHAR",
-	'formtype' => "SELECT",
-	'op'  => "=",
-	'prefix' => "",
-	'suffix' => "",
-	'width'  => "",
-	'value'  => array('recipient' => 'recipient_txt', 'sender' => 'sender_txt', 'client' => 'client_txt'));
-
+if ($app->auth->is_admin()) {
+	$liste["item"][] = array( 'field'  => "type",
+		'datatype' => "VARCHAR",
+		'formtype' => "SELECT",
+		'op'  => "=",
+		'prefix' => "",
+		'suffix' => "",
+		'width'  => "",
+		'value'  => array('recipient' => 'recipient_txt', 'sender' => 'sender_txt', 'client' => 'client_txt'));
+} else {
+	$liste["item"][] = array( 'field'  => "type",
+		'datatype' => "VARCHAR",
+		'formtype' => "SELECT",
+		'op'  => "=",
+		'prefix' => "",
+		'suffix' => "",
+		'width'  => "",
+		'value'  => array('recipient' => 'recipient_txt', 'sender' => 'sender_txt'));
+}
 
 ?>

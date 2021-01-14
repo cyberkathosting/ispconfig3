@@ -50,19 +50,11 @@ $app->load('tform_actions');
 
 class page_action extends tform_actions {
 
-	function onShowNew() {
-		global $app, $conf;
-
-		if($_SESSION["s"]["user"]["typ"] != 'admin') die('This function needs admin privileges');
-		
-		parent::onShowNew();
-	}
+	protected $client_allowed_types = array( 'recipient', 'sender' );
 
 	function onBeforeUpdate() {
 		global $app, $conf;
 
-		if($_SESSION["s"]["user"]["typ"] != 'admin') die('This function needs admin privileges');
-		
 		//* Check if the server has been changed
 		// We do this only for the admin or reseller users, as normal clients can not change the server ID anyway
 		$rec = $app->db->queryOneRecord("SELECT server_id from mail_access WHERE access_id = ?", $this->id);
@@ -77,7 +69,26 @@ class page_action extends tform_actions {
 	function onSubmit() {
 		global $app, $conf;
 
-		if($_SESSION["s"]["user"]["typ"] != 'admin') die('This function needs admin privileges');
+		// Non-admin checks
+		if($_SESSION["s"]["user"]["typ"] != 'admin') {
+			// Non-admin can only use type 'sender' or 'recipient' and address must belong to the client's domains
+			if(! in_array($this->dataRecord["type"], $this->client_allowed_types)) {
+				$app->tform->errorMessage .= $app->lng('Whitelist type requires admin permissions');
+			}
+			// address must be valid email
+			if(! filter_var( $this->dataRecord["source"], FILTER_VALIDATE_EMAIL )) {
+				$app->tform->errorMessage .= $app->lng('Invalid address: must be a valid email address');
+			}
+			$tmp = explode('@', $this->dataRecord["source"]);
+			$domain = trim( array_pop($tmp) );
+			$AUTHSQL = $app->tform->getAuthSQL('r');
+			$rec = $app->db->queryOneRecord("SELECT domain_id from mail_domain WHERE ${AUTHSQL} AND domain = ?", $domain);
+			// address must belong to the client's domains
+			if(! (is_array($rec) && isset($rec['domain_id']) && is_numeric($rec['domain_id']))) {
+				$app->tform->errorMessage .= $app->lng('Invalid address: you have no permission for this domain.');
+			}
+			unset($rec);
+		}
 
 		if(substr($this->dataRecord['source'], 0, 1) === '@') $this->dataRecord['source'] = substr($this->dataRecord['source'], 1);
 
