@@ -119,7 +119,7 @@ $form["tabs"]['whitelist'] = array (
 );
 
 if (! $app->auth->is_admin()) {
-	$form["tabs"]['whitelist']['fields']['type']['value'] = array('recipient' => 'Recipient', 'sender' => 'Sender');
+	$form['tabs']['whitelist']['fields']['type']['value'] = array('recipient' => 'Recipient', 'sender' => 'Sender');
 }
 
 

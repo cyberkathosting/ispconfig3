@@ -86,24 +86,19 @@ $liste["item"][] = array( 'field'  => "source",
 	'width'  => "",
 	'value'  => "");
 
+
 if ($app->auth->is_admin()) {
-	$liste["item"][] = array( 'field'  => "type",
-		'datatype' => "VARCHAR",
-		'formtype' => "SELECT",
-		'op'  => "=",
-		'prefix' => "",
-		'suffix' => "",
-		'width'  => "",
-		'value'  => array('recipient' => 'recipient_txt', 'sender' => 'sender_txt', 'client' => 'client_txt'));
+	$type_values[] = array('recipient' => 'Recipient', 'sender' => 'Sender', 'client' => 'Client');
 } else {
-	$liste["item"][] = array( 'field'  => "type",
-		'datatype' => "VARCHAR",
-		'formtype' => "SELECT",
-		'op'  => "=",
-		'prefix' => "",
-		'suffix' => "",
-		'width'  => "",
-		'value'  => array('recipient' => 'recipient_txt', 'sender' => 'sender_txt'));
+	$type_values[] = array('recipient' => 'Recipient', 'sender' => 'Sender');
 }
+$liste["item"][] = array( 'field'  => "type",
+	'datatype' => "VARCHAR",
+	'formtype' => "SELECT",
+	'op'  => "=",
+	'prefix' => "",
+	'suffix' => "",
+	'width'  => "",
+	'value'  => $type_values);
 
 ?>

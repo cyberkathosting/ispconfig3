@@ -112,5 +112,8 @@ $form["tabs"]['blacklist'] = array (
 	)
 );
 
+if (! $app->auth->is_admin()) {
+	$form['tabs']['blacklist']['fields']['type']['value'] = array('recipient' => 'Recipient', 'sender' => 'Sender');
+}
 
 ?>
