@@ -6,4 +6,4 @@ $wb['recipient_txt'] = 'Mottagare';
 $wb['source_error_notempty'] = 'Adressen är tom.';
 $wb['type_txt'] = 'Typ';
 $wb['limit_mailfilter_txt'] = 'Maximala antalet epostfilter för ditt konto är uppnått.';
-?>
+$wb['limit_mail_wblist_txt'] = 'The max. number of email white / blacklist for your account is reached.';

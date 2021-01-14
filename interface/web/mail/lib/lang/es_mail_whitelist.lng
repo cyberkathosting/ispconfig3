@@ -6,4 +6,4 @@ $wb['active_txt'] = 'Habilitado';
 $wb['source_error_notempty'] = 'La dirección está vacía.';
 $wb['type_txt'] = 'Tipo';
 $wb['limit_mailfilter_txt'] = 'Ha alcanzado en su cuenta el número máx. de filtros de correo.';
-?>
+$wb['limit_mail_wblist_txt'] = 'The max. number of email white / blacklist for your account is reached.';

@@ -6,4 +6,4 @@ $wb['active_txt'] = 'Attivo';
 $wb['source_error_notempty'] = 'Address  vuoto.';
 $wb['type_txt'] = 'Type';
 $wb['limit_mailfilter_txt'] = 'The max. number of email filters raggiunto per il tuo account.';
-?>
+$wb['limit_mail_wblist_txt'] = 'The max. number of email white / blacklist for your account is reached.';

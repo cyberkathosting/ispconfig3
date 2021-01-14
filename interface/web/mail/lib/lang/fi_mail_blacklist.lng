@@ -6,4 +6,4 @@ $wb['active_txt'] = 'Käytössä';
 $wb['source_error_notempty'] = 'Estetty osoite on tyhjä';
 $wb['type_txt'] = 'Tyyppi';
 $wb['limit_mailfilter_txt'] = 'Käyttäjätunnuksella on jo sallittu määrä suodattimia.';
-?>
+$wb['limit_mail_wblist_txt'] = 'The max. number of email white / blacklist for your account is reached.';

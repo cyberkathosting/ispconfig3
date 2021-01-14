@@ -6,3 +6,4 @@ $wb['active_txt'] = 'Ativo';
 $wb['source_error_notempty'] = 'Destinatário está vazio.';
 $wb['type_txt'] = 'Tipo';
 $wb['limit_mailfilter_txt'] = 'O limite de filtros de email para esta conta foi alcançado.';
+$wb['limit_mail_wblist_txt'] = 'The max. number of email white / blacklist for your account is reached.';

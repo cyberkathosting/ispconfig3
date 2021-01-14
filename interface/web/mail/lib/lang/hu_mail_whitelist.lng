@@ -6,4 +6,4 @@ $wb['active_txt'] = 'Aktív';
 $wb['source_error_notempty'] = 'Cím mező üres.';
 $wb['type_txt'] = 'Típus';
 $wb['limit_mailfilter_txt'] = 'Nincs több szűrő lehetőség.';
-?>
+$wb['limit_mail_wblist_txt'] = 'The max. number of email white / blacklist for your account is reached.';
