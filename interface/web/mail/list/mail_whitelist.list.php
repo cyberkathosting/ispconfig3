@@ -88,9 +88,9 @@ $liste["item"][] = array( 'field'  => "source",
 
 
 if ($app->auth->is_admin()) {
-	$type_values[] = array('recipient' => 'Recipient', 'sender' => 'Sender', 'client' => 'Client');
+	$type_values = array('recipient' => 'Recipient', 'sender' => 'Sender', 'client' => 'Client');
 } else {
-	$type_values[] = array('recipient' => 'Recipient', 'sender' => 'Sender');
+	$type_values = array('recipient' => 'Recipient', 'sender' => 'Sender');
 }
 $liste["item"][] = array( 'field'  => "type",
 	'datatype' => "VARCHAR",
