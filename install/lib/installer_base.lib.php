@@ -1798,9 +1798,10 @@ class installer_base {
 			if ($mail_config['reject_sender_login_mismatch'] == 'y') {
 				array_splice($new_options, 0, 0, array('reject_authenticated_sender_login_mismatch'));
 
+				// insert before permit_sasl_authenticated
 				for ($i = 0; isset($new_options[$i]); $i++) {
-					if ($new_options[$i] == 'permit_mynetworks') {
-						array_splice($new_options, $i+1, 0, array('reject_sender_login_mismatch'));
+					if ($new_options[$i] == 'permit_sasl_authenticated') {
+						array_splice($new_options, $i, 0, array('reject_sender_login_mismatch'));
 						break;
 					}
 				}
