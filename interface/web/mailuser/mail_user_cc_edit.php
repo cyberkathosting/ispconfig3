@@ -75,7 +75,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		$rec = $app->tform->getDataRecord($this->id);
-		$app->tpl->setVar("email", $rec['email'], true);
+		$app->tpl->setVar("email", $app->functions->idn_decode($rec['email']), true);
 
 		parent::onShowEnd();
 	}

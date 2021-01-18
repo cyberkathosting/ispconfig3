@@ -5,7 +5,7 @@ require_once '../../lib/app.inc.php';
 //* Check permissions for module
 $app->auth->check_module_permissions('mailuser');
 
-$app->uses('tpl');
+$app->uses('tpl, functions');
 
 $app->tpl->newTemplate('form.tpl.htm');
 $app->tpl->setInclude('content_tpl', 'templates/index.htm');
@@ -28,8 +28,10 @@ if($rec['quota'] == 0) {
 
 if($rec['cc'] == '') $rec['cc'] = $wb['none_txt'];
 
-$app->tpl->setVar($rec);
+$rec['email'] = $app->functions->idn_decode($rec['email']);
+$rec['login'] = $app->functions->idn_decode($rec['login']);
 
+$app->tpl->setVar($rec);
 $sql2 = "SELECT * FROM server WHERE server_id = ?";
 $rec2 = $app->db->queryOneRecord($sql2, $rec['server_id']);
 

@@ -112,7 +112,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		$rec = $app->tform->getDataRecord($this->id);
-		$app->tpl->setVar("email", $rec['email'], true);
+		$app->tpl->setVar("email", $app->functions->idn_decode($rec['email']), true);
 
 		// Get the spamfilter policys for the user
 		$tmp_user = $app->db->queryOneRecord("SELECT policy_id FROM spamfilter_users WHERE email = ?", $rec['email']);
