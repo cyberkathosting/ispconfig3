@@ -34,7 +34,7 @@ class installer_base {
 	var $language = 'en';
 	var $db;
 	public $install_ispconfig_interface = true;
-	public $is_update = false; // true if it is an update, falsi if it is a new install
+	public $is_update = false; // true if it is an update, false if it is a new install
 	protected $mailman_group = 'list';
 
 
@@ -650,7 +650,7 @@ class installer_base {
 				$query = "GRANT SELECT, INSERT ON ?? TO ?@?";
 				if ($verbose){
 					echo $query ."\n";
-				
+				}
 				if(!$this->dbmaster->query($query, $value['db'] . '.sys_log', $value['user'], $host)) {
 					$this->warning('Unable to set rights of user in master database: '.$value['db']."\n Query: ".$query."\n Error: ".$this->dbmaster->errorMessage);
 				}
