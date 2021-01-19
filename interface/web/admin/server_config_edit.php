@@ -57,7 +57,7 @@ class page_action extends tform_actions {
 		
 		// get the config
 		$app->uses('getconf');
-		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
+		$web_config = $app->getconf->get_server_config($this->id, 'web');
 		
 		if($web_config['server_type'] == 'nginx'){
 			unset($app->tform->formDef["tabs"]["fastcgi"]);
