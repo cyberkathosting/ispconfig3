@@ -159,7 +159,13 @@ class postfix_server_plugin {
 			}
 
 			if ($mail_config['reject_sender_login_mismatch'] == 'y') {
-				array_splice($new_options, 0, 0, array('reject_authenticated_sender_login_mismatch'));
+				// insert before permit_mynetworks
+				for ($i = 0; isset($new_options[$i]); $i++) {
+					if ($new_options[$i] == 'permit_mynetworks') {
+						array_splice($new_options, $i, 0, array('reject_authenticated_sender_login_mismatch'));
+						break;
+					}
+				}
 
 				// insert before permit_sasl_authenticated
 				for ($i = 0; isset($new_options[$i]); $i++) {

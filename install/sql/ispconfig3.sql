@@ -822,7 +822,7 @@ CREATE TABLE `mail_access` (
   `type` set('recipient','sender','client') NOT NULL DEFAULT 'recipient',
   `active` enum('n','y') NOT NULL default 'y',
   PRIMARY KEY  (`access_id`),
-  KEY `server_id` (`server_id`,`source`)
+  UNIQUE KEY `unique_source` (`server_id`,`source`,`type`)
 ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
