@@ -98,7 +98,7 @@ $form["tabs"]['blacklist'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => 'y',
-			'value'  => array('recipient' => 'Recipient', 'sender' => 'Sender', 'client' => 'Client')
+			'value'  => array('recipient' => 'recipient_txt', 'sender' => 'sender_txt', 'client' => 'client_txt')
 		),
 		'active' => array (
 			'datatype' => 'VARCHAR',

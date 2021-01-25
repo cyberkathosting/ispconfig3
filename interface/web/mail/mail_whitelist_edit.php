@@ -118,8 +118,13 @@ class page_action extends tform_actions {
 			}
 		}
 
-
 		if(substr($this->dataRecord['source'], 0, 1) === '@') $this->dataRecord['source'] = substr($this->dataRecord['source'], 1);
+
+		$rec = $app->db->queryOneRecord("SELECT access_id from mail_access WHERE server_id = ? AND source = ? and type = ?", $this->dataRecord["server_id"], $this->dataRecord["source"], $this->dataRecord["type"]);
+		if(is_array($rec) && isset($rec['access_id'])) {
+			$app->tform->errorMessage .= $app->tform->wordbook["mail_access_unique"]."<br>";
+		}
+		unset($rec);
 
 		parent::onSubmit();
 	}
