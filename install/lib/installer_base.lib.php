@@ -43,6 +43,15 @@ class installer_base {
 		global $conf; //TODO: maybe $conf  should be passed to constructor
 	}
 
+	private function install_acme() {
+		$install_cmd = 'wget -O -  https://get.acme.sh | sh';
+		$ret = null;
+		$val = 0;
+		exec($install_cmd . ' 2>&1', $ret, $val);
+
+		return ($val == 0 ? true : false);
+	}
+
 	//: TODO  Implement the translation function and language files for the installer.
 	public function lng($text) {
 		return $text;
@@ -2946,6 +2955,21 @@ class installer_base {
 			$acme = explode("\n", shell_exec('which /usr/local/ispconfig/server/scripts/acme.sh /root/.acme.sh/acme.sh'));
 			$acme = reset($acme);
 
+			if((!$acme || !is_executable($acme)) && (!$le_client || !is_executable($le_client))) {
+				$success = $this->install_acme();
+				if(!$success) {
+					swriteln('Failed installing acme.sh. Will not be able to issue certificate during install.');
+				} else {
+					$acme = explode("\n", shell_exec('which /usr/local/ispconfig/server/scripts/acme.sh /root/.acme.sh/acme.sh'));
+					$acme = reset($acme);
+					if($acme && is_executable($acme)) {
+						swriteln('Installed acme.sh and using it for certificate creation during install.');
+					} else {
+						swriteln('Failed installing acme.sh. Will not be able to issue certificate during install.');
+					}
+				}
+			}
+
 			$restore_conf_symlink = false;
 
 			// we only need this for apache, so use fixed conf index
@@ -2976,15 +3000,21 @@ class installer_base {
 			$issued_successfully = false;
 
 			// Backup existing ispserver ssl files
-			if(file_exists($ssl_crt_file) || is_link($ssl_crt_file))
-				rename($ssl_crt_file, $ssl_crt_file.'-temporary.bak');
-			if(file_exists($ssl_key_file) || is_link($ssl_key_file))
-				rename($ssl_key_file, $ssl_key_file.'-temporary.bak');
-			if(file_exists($ssl_pem_file) || is_link($ssl_pem_file))
-				rename($ssl_pem_file, $ssl_pem_file.'-temporary.bak');
+			if(file_exists($ssl_crt_file) || is_link($ssl_crt_file)) {
+				rename($ssl_crt_file, $ssl_crt_file . '-temporary.bak');
+			}
+			if(file_exists($ssl_key_file) || is_link($ssl_key_file)) {
+				rename($ssl_key_file, $ssl_key_file . '-temporary.bak');
+			}
+			if(file_exists($ssl_pem_file) || is_link($ssl_pem_file)) {
+				rename($ssl_pem_file, $ssl_pem_file . '-temporary.bak');
+			}
 
 			// Attempt to use Neilpang acme.sh first, as it is now the preferred LE client
 			if (is_executable($acme)) {
+				$acme_cert_dir = dirname($acme) . '/' . $hostname;
+
+				swriteln('acme.sh is installed, overriding certificate path to use ' . $acme_cert_dir);
 
 				$out = null;
 				$ret = null;
@@ -3082,7 +3112,7 @@ class installer_base {
 							rename($ssl_key_file.'-temporary.bak', $ssl_key_file);
 						if(file_exists($ssl_pem_file.'-temporary.bak') || is_link($ssl_pem_file.'-temporary.bak'))
 							rename($ssl_pem_file.'-temporary.bak', $ssl_pem_file);
-						
+
 					}
 				} else {
 					swriteln('Did not find any valid acme client (acme.sh or certbot)');
