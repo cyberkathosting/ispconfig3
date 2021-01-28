@@ -153,6 +153,7 @@ if(isset($_POST['username']) && is_string($_POST['username']) && $_POST['usernam
 
 			if($send_result !== false) {
 				$app->tpl->setVar("msg", $wb['pw_reset']);
+				$app->tpl->setInclude('content_tpl', 'templates/index.htm');
 			} else {
 				$app->tpl->setVar("error", $wb['pw_reset_error_smtp_connection']);
 			}
