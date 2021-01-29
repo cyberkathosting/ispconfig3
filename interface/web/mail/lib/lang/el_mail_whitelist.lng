@@ -6,4 +6,7 @@ $wb['active_txt'] = 'Ενεργή';
 $wb['source_error_notempty'] = 'Η διεύθυνση είναι κενή';
 $wb['type_txt'] = 'Τύπος';
 $wb['limit_mailfilter_txt'] = 'Έχετε φτάσει το μέγιστο πλήθος των φίλτρων email για τον λογαριασμό σας.';
-?>
+$wb['limit_mail_wblist_txt'] = 'The max. number of email white / blacklist for your account is reached.';
+$wb['mail_access_unique'] = 'Whitelist Address already in use.';
+$wb['client_txt'] = 'Client';
+$wb['sender_txt'] = 'Sender';

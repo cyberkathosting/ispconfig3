@@ -9,4 +9,5 @@ $wb['limit_mailcatchall_txt'] = 'Iskorišten ja maksimalan broj email catchall r
 $wb['source_txt'] = 'Source';
 $wb['destination_error_isemail'] = 'Destination is no valid email address.';
 $wb['greylisting_txt'] = 'Enable greylisting';
-?>
+$wb['send_as_txt'] = 'Send as';
+$wb['send_as_exp'] = 'Allow destination to send from email addresses in this domain';

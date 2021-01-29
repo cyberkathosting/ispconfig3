@@ -41,6 +41,7 @@ try {
 		'limit_mailforward' => -1,
 		'limit_mailcatchall' => -1,
 		'limit_mailrouting' => 0,
+		'limit_mail_wblist' => 0,
 		'limit_mailfilter' => -1,
 		'limit_fetchmail' => -1,
 		'limit_mailquota' => -1,

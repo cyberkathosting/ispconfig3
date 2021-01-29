@@ -47,6 +47,10 @@ class dashlet_limits
             'db_table' => 'mail_transport',
             'db_where' => "");
 
+        $limits[] = array('field' => 'limit_mail_wblist',
+            'db_table' => 'mail_access',
+            'db_where' => "");
+
         $limits[] = array('field' => 'limit_mailfilter',
             'db_table' => 'mail_user_filter',
             'db_where' => "");
