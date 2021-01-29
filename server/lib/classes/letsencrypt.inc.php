@@ -399,11 +399,13 @@ class letsencrypt {
 		$this->certbot_use_certcommand = false;
 		$letsencrypt_cmd = '';
 		$allow_return_codes = null;
+		$old_umask = umask(0022);  # work around acme.sh permission bug, see #6015
 		if($use_acme) {
 			$letsencrypt_cmd = $this->get_acme_command($temp_domains, $key_file, $bundle_file, $crt_file, $server_type);
 			$allow_return_codes = array(2);
 		} else {
 			$letsencrypt_cmd = $this->get_certbot_command($temp_domains);
+			umask($old_umask);
 		}
 
 		$success = false;
@@ -420,6 +422,7 @@ class letsencrypt {
 		}
 
 		if($use_acme === true) {
+			umask($old_umask);
 			if(!$success) {
 				$app->log('Let\'s Encrypt SSL Cert for: ' . $domain . ' could not be issued.', LOGLEVEL_WARN);
 				$app->log($letsencrypt_cmd, LOGLEVEL_WARN);

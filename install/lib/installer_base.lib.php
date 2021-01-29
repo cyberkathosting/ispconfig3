@@ -3023,6 +3023,9 @@ class installer_base {
 
 				swriteln('acme.sh is installed, overriding certificate path to use ' . $acme_cert_dir);
 
+				# acme.sh does not set umask, resulting in incorrect permissions (ispconfig issue #6015)
+				$old_umask = umask(0022);
+
 				$out = null;
 				$ret = null;
 				if($conf['nginx']['installed'] == true || $conf['apache']['installed'] == true) {
@@ -3044,6 +3047,7 @@ class installer_base {
 					$acme_chain = "--fullchain-file " . escapeshellarg($ssl_crt_file);
 					exec("$acme --install-cert -d " . escapeshellarg($hostname) . " $acme_key $acme_chain");
 					$issued_successfully = true;
+					umask($old_umask);
 
 					// Make temporary backup of self-signed certs permanent
 					if(file_exists($ssl_crt_file.'-temporary.bak') || is_link($ssl_crt_file.'-temporary.bak'))
@@ -3055,6 +3059,8 @@ class installer_base {
 
 				} else {
 					swriteln('Issuing certificate via acme.sh failed. Please check that your hostname can be verified by letsencrypt');
+
+					umask($old_umask);
 
 					// Restore temporary backup of self-signed certs
 					if(file_exists($ssl_crt_file.'-temporary.bak') || is_link($ssl_crt_file.'-temporary.bak'))
