@@ -317,10 +317,14 @@ class letsencrypt {
 		if($this->get_acme_script()) {
 			$use_acme = true;
 		} elseif(!$this->get_certbot_script()) {
+			$app->log("Unable to find Let's Encrypt client, installing acme.sh.", LOGLEVEL_DEBUG);
 			// acme and le missing
 			$this->install_acme();
 			if($this->get_acme_script()) {
 				$use_acme = true;
+			} else {
+				$app->log("Unable to install acme.sh.  Cannot proceed, no Let's Encrypt client found.", LOGLEVEL_WARN);
+				return false;
 			}
 		}
 
