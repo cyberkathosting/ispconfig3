@@ -319,6 +319,9 @@ class letsencrypt {
 		} elseif(!$this->get_certbot_script()) {
 			// acme and le missing
 			$this->install_acme();
+			if($this->get_acme_script()) {
+				$use_acme = true;
+			}
 		}
 
 		$tmp = $app->letsencrypt->get_website_certificate_paths($data);
