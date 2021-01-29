@@ -20,3 +20,6 @@ $wb['dkim_selector_error'] = 'Neplatný DKIM selektor. Používejte pouze malá 
 $wb['policy_txt'] = 'Spamový filtr';
 $wb['no_policy'] = '- nepovoleno -';
 $wb['error_not_allowed_server_id'] = 'Zvolený server není povolen pro tento účet.';
+$wb['relayhost_txt'] = 'Relayhost';
+$wb['relayhost_user_txt'] = 'Relayhost User';
+$wb['relayhost_password_txt'] = 'Relayhost Password';
