@@ -159,11 +159,18 @@ class postfix_server_plugin {
 			}
 
 			if ($mail_config['reject_sender_login_mismatch'] == 'y') {
-				array_splice($new_options, 0, 0, array('reject_authenticated_sender_login_mismatch'));
-
+				// insert before permit_mynetworks
 				for ($i = 0; isset($new_options[$i]); $i++) {
 					if ($new_options[$i] == 'permit_mynetworks') {
-						array_splice($new_options, $i+1, 0, array('reject_sender_login_mismatch'));
+						array_splice($new_options, $i, 0, array('reject_authenticated_sender_login_mismatch'));
+						break;
+					}
+				}
+
+				// insert before permit_sasl_authenticated
+				for ($i = 0; isset($new_options[$i]); $i++) {
+					if ($new_options[$i] == 'permit_sasl_authenticated') {
+						array_splice($new_options, $i, 0, array('reject_sender_login_mismatch'));
 						break;
 					}
 				}
@@ -358,7 +365,8 @@ class postfix_server_plugin {
 				exec("postconf -e 'milter_mail_macros = i {mail_addr} {client_addr} {client_name} {auth_authen}'");
 				exec("postconf -e 'milter_default_action = accept'");
 
-				exec("postconf -e 'smtpd_sender_restrictions = ${raslm} permit_mynetworks, ${rslm} permit_sasl_authenticated, reject_non_fqdn_sender, check_sender_access proxy:mysql:/etc/postfix/mysql-virtual_sender.cf'");
+				exec("postconf -e 'smtpd_sender_restrictions = ${raslm} permit_mynetworks, check_sender_access proxy:mysql:/etc/postfix/mysql-virtual_sender.cf, ${rslm} permit_sasl_authenticated, reject_non_fqdn_sender, reject_unlisted_sender'");
+
 
 				$new_options = array();
 				$options = preg_split("/,\s*/", exec("postconf -h smtpd_recipient_restrictions"));
@@ -397,7 +405,7 @@ class postfix_server_plugin {
 				exec("postconf -e 'content_filter = " . ($configure_lmtp ? "lmtp" : "amavis" ) . ":[127.0.0.1]:10024'");
 
 				// fixme: should read this from conf templates
-				exec("postconf -e 'smtpd_sender_restrictions = ${raslm} check_sender_access regexp:/etc/postfix/tag_as_originating.re, permit_mynetworks, ${rslm} permit_sasl_authenticated, reject_non_fqdn_sender, check_sender_access regexp:/etc/postfix/tag_as_foreign.re, check_sender_access proxy:mysql:/etc/postfix/mysql-virtual_sender.cf'");
+				exec("postconf -e 'smtpd_sender_restrictions = ${raslm} check_sender_access regexp:/etc/postfix/tag_as_originating.re, permit_mynetworks, check_sender_access proxy:mysql:/etc/postfix/mysql-virtual_sender.cf, ${rslm} permit_sasl_authenticated, reject_non_fqdn_sender, reject_unlisted_sender, check_sender_access regexp:/etc/postfix/tag_as_foreign.re'");
 			}
 		}
 

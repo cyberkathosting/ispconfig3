@@ -125,6 +125,12 @@ $form["tabs"]['catchall'] = array (
 			'default' => '',
 			'value'  => array('alias' => 'Alias', 'forward'=>'Forward', 'catchall'=>'Catchall')
 		),
+		'allow_send_as' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value'  => array(1 => 'y', 0 => 'n')
+		),
 		'active' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',

@@ -178,6 +178,7 @@ CREATE TABLE `client` (
   `limit_mailforward` int(11) NOT NULL DEFAULT '-1',
   `limit_mailcatchall` int(11) NOT NULL DEFAULT '-1',
   `limit_mailrouting` int(11) NOT NULL DEFAULT '0',
+  `limit_mail_wblist` int(11) NOT NULL DEFAULT '0',
   `limit_mailfilter` int(11) NOT NULL DEFAULT '-1',
   `limit_fetchmail` int(11) NOT NULL DEFAULT '-1',
   `limit_mailquota` int(11) NOT NULL DEFAULT '-1',
@@ -309,6 +310,7 @@ CREATE TABLE `client_template` (
   `limit_mailforward` int(11) NOT NULL default '-1',
   `limit_mailcatchall` int(11) NOT NULL default '-1',
   `limit_mailrouting` int(11) NOT NULL default '0',
+  `limit_mail_wblist` int(11) NOT NULL default '0',
   `limit_mailfilter` int(11) NOT NULL default '-1',
   `limit_fetchmail` int(11) NOT NULL default '-1',
   `limit_mailquota` int(11) NOT NULL default '-1',
@@ -820,7 +822,7 @@ CREATE TABLE `mail_access` (
   `type` set('recipient','sender','client') NOT NULL DEFAULT 'recipient',
   `active` enum('n','y') NOT NULL default 'y',
   PRIMARY KEY  (`access_id`),
-  KEY `server_id` (`server_id`,`source`)
+  UNIQUE KEY `unique_source` (`server_id`,`source`,`type`)
 ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -882,6 +884,9 @@ CREATE TABLE `mail_domain` (
   `dkim_selector` varchar(63) NOT NULL DEFAULT 'default',
   `dkim_private` mediumtext NULL,
   `dkim_public` mediumtext NULL,
+  `relay_host` varchar(255) NOT NULL DEFAULT '',
+  `relay_user` varchar(255) NOT NULL DEFAULT '',
+  `relay_pass` varchar(255) NOT NULL DEFAULT '',
   `active` enum('n','y') NOT NULL DEFAULT 'n',
   PRIMARY KEY  (`domain_id`),
   KEY `server_id` (`server_id`,`domain`),

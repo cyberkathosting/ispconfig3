@@ -6,3 +6,7 @@ $wb['active_txt'] = 'Aktivní';
 $wb['source_error_notempty'] = 'Adresa je prázdná.';
 $wb['type_txt'] = 'Typ';
 $wb['limit_mailfilter_txt'] = 'Byl dosažen maximální počet e-mail filtrů pro Váš účet.';
+$wb['limit_mail_wblist_txt'] = 'The max. number of email white / blacklist for your account is reached.';
+$wb['mail_access_unique'] = 'Blacklist Address already in use.';
+$wb['client_txt'] = 'Client';
+$wb['sender_txt'] = 'Sender';

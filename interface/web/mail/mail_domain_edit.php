@@ -215,6 +215,13 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("edit_disabled", 0);
 		}
 
+		// load relayhost-values
+		$sql = "SELECT relay_host, relay_user, relay_pass FROM mail_domain WHERE domain_id = ?";
+		$rec = $app->db->queryOneRecord($sql, $app->functions->intval($_GET['id']));
+		$app->tpl->setVar('relay_host', $rec['relay_host'], true);
+		$app->tpl->setVar('relay_user', $rec['relay_user'], true);
+		$app->tpl->setVar('relay_pass', $rec['relay_pass'], true);
+
 		// load dkim-values
 		$sql = "SELECT domain, dkim_private, dkim_public, dkim_selector FROM mail_domain WHERE domain_id = ?";
 		$rec = $app->db->queryOneRecord($sql, $app->functions->intval($_GET['id']));

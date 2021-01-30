@@ -112,6 +112,8 @@ $wb['limit_mailquota_error_notint'] = 'El límite de cuota de correo debe ser un
 $wb['limit_mailquota_txt'] = 'Cuota de buzones de correo';
 $wb['limit_mailrouting_error_notint'] = 'El límite de enrutadores de correo debe ser un número.';
 $wb['limit_mailrouting_txt'] = 'Cantidad máx. de enrutadores de correos';
+$wb['limit_mail_wblist_error_notint'] = 'The email white / blacklist limit must be a number.';
+$wb['limit_mail_wblist_txt'] = 'Max. number of email white / blacklist entries';
 $wb['limit_openvz_vm_error_notint'] = 'El límite del servidor virtual debe ser un número.';
 $wb['limit_openvz_vm_template_id_txt'] = 'Forzar plantilla de servidor virtual';
 $wb['limit_openvz_vm_txt'] = 'Cantidad máx. de servidores virtuales';
@@ -206,4 +208,3 @@ $wb['password_click_to_set_txt'] = 'Click to set';
 $wb['Reseller'] = 'Reseller';
 $wb['Address'] = 'Address';
 $wb['Limits'] = 'Limits';
-?>
