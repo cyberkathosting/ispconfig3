@@ -79,7 +79,7 @@ server {
 </tmpl_if>
 </tmpl_loop>
 <tmpl_if name='use_proxy' op='!=' value='y'>
-        index index.html index.htm index.php index.cgi index.pl index.xhtml;
+        index index.html index.htm index.php index.cgi index.pl index.xhtml standard_index.html;
 
 <tmpl_if name='ssi' op='==' value='y'>
         location ~ \.shtml$ {
