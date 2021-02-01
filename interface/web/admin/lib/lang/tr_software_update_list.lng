@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Yazılım Güncellemeleri';
-$wb['server_select_txt'] = 'Sunucu Seçin';
-$wb['installed_txt'] = 'İşlem';
-$wb['update_title_txt'] = 'Güncelleme';
-$wb['version_txt'] = 'Sürüm';
-$wb['action_txt'] = 'İşlem';
-$wb['no_updates_txt'] = 'Henüz bir güncelleme yok';
-?>

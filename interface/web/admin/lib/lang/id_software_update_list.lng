@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Pemutakhiran Perangkat Lunak';
-$wb['server_select_txt'] = 'Pilih server';
-$wb['installed_txt'] = 'Tindakan';
-$wb['update_title_txt'] = 'Mutakhirkan';
-$wb['version_txt'] = 'Versi';
-$wb['action_txt'] = 'Tindakan';
-$wb['no_updates_txt'] = 'No updates available';
-?>

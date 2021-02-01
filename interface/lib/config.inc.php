@@ -128,10 +128,6 @@ $conf['log_file'] = $conf['ispconfig_log_dir'].'/ispconfig.log';
 $conf['log_priority'] = 0; // 0 = Debug, 1 = Warning, 2 = Error
 
 
-//** Allow software package installations
-$conf['software_updates_enabled'] = false;
-
-
 //** Themes
 $conf['theme'] = 'default';
 $conf['html_content_encoding'] = 'utf-8'; // example: utf-8, iso-8859-1, ...

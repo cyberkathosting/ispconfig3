@@ -1,6 +1,0 @@
-<?php
-$wb['head_txt'] = 'Install software package';
-$wb['install_key_txt'] = 'Enter install key';
-$wb['btn_save_txt'] = 'Start Installation';
-$wb['btn_cancel_txt'] = 'Cancel';
-?>

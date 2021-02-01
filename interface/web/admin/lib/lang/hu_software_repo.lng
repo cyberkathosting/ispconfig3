@@ -1,8 +1,0 @@
-<?php
-$wb['repo_name_txt'] = 'Repository';
-$wb['repo_url_txt'] = 'Cím';
-$wb['repo_username_txt'] = 'Felhasználó (opcionális)';
-$wb['repo_password_txt'] = 'Jelszó (opcionális)';
-$wb['active_txt'] = 'Aktív';
-$wb['Software Repository which may contain addons or updates'] = 'Software Repository which may contain addons or updates';
-?>

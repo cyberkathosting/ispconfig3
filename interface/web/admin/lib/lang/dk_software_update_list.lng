@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Software opdateringer';
-$wb['server_select_txt'] = 'Vælg server';
-$wb['installed_txt'] = 'Handling';
-$wb['update_title_txt'] = 'Opdater';
-$wb['version_txt'] = 'Version';
-$wb['action_txt'] = 'Handling';
-$wb['no_updates_txt'] = 'Ingen opdateringer tilgængelig';
-?>

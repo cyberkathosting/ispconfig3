@@ -1,6 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Хранилище';
-$wb['active_txt'] = 'Активен';
-$wb['repo_name_txt'] = 'Хранилище';
-$wb['repo_url_txt'] = 'URL';
-?>

@@ -33,11 +33,11 @@ if( !empty($_SERVER['DOCUMENT_ROOT']) ) {
 	Header("Pragma: no-cache");
 	Header("Cache-Control: no-store, no-cache, max-age=0, must-revalidate");
 	Header("Content-Type: text/html; charset=utf-8");
-	
+
 	//** Set a few php.ini values
 	ini_set('register_globals',0);
 	ini_set('magic_quotes_gpc', 0);
-	
+
 	if (isset($_REQUEST['GLOBALS']) || isset($_FILES['GLOBALS']) || isset($_REQUEST['s']) || isset($_REQUEST['s_old']) || isset($_REQUEST['conf'])) {
 		die('Internal Error: var override attempt detected');
 		exit;
@@ -127,8 +127,8 @@ $conf['init_scripts'] = '/etc/init.d';
 $conf['interface_modules_enabled'] = 'dashboard,mail,sites,dns,tools,help';
 
 //** Demo mode
-/* The demo mode is an option to restrict certain actions in the interface like 
-*  changing the password of users with sys_userid < 3 etc. to be 
+/* The demo mode is an option to restrict certain actions in the interface like
+*  changing the password of users with sys_userid < 3 etc. to be
 *  able to run the ISPConfig interface as online demo. It does not
 *  affect the server part. The demo mode should be always set to false
 *  on every normal installation
@@ -139,10 +139,6 @@ $conf['demo_mode'] = false;
 //** Logging
 $conf['log_file'] = $conf['ispconfig_log_dir'].$conf['fs_div'].'ispconfig.log';
 $conf['log_priority'] = {ispconfig_log_priority}; // 0 = Debug, 1 = Warning, 2 = Error
-
-
-//** Allow software package installations
-$conf['software_updates_enabled'] = false;
 
 
 //** Themes

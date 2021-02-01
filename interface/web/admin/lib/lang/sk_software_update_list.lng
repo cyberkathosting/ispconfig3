@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Aktualizácia softvéru';
-$wb['server_select_txt'] = 'Vyberte server';
-$wb['installed_txt'] = 'Akcia';
-$wb['update_title_txt'] = 'Aktualizácia ';
-$wb['version_txt'] = 'Verzia';
-$wb['action_txt'] = 'Akcia';
-$wb['no_updates_txt'] = 'No updates available';
-?>

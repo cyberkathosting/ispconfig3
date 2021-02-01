@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Ohjelmapäivitykset';
-$wb['installed_txt'] = 'Toiminto';
-$wb['update_title_txt'] = 'Päivitä';
-$wb['version_txt'] = 'Versio';
-$wb['action_txt'] = 'Toiminto';
-$wb['server_select_txt'] = 'Valitse palvelin';
-$wb['no_updates_txt'] = 'No updates available';
-?>
