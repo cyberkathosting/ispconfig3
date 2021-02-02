@@ -1,8 +1,0 @@
-<?php
-$wb['repo_name_txt'] = 'Depo';
-$wb['repo_url_txt'] = 'İnternet Adresi';
-$wb['repo_username_txt'] = 'Kullanıcı Adı (isteğe bağlı)';
-$wb['repo_password_txt'] = 'Parola (isteğe bağlı)';
-$wb['active_txt'] = 'Etkin';
-$wb['Software Repository which may contain addons or updates'] = 'Eklenti ya da güncellemeleri içeren yazılım deposu';
-?>

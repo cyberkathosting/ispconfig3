@@ -12,8 +12,6 @@ admin_allow_del_cpuser=superadmin
 admin_allow_cpuser_group=superadmin
 admin_allow_firewall_config=superadmin
 admin_allow_osupdate=superadmin
-admin_allow_software_packages=superadmin
-admin_allow_software_repo=superadmin
 remote_api_allowed=yes
 password_reset_allowed=yes
 session_regenerate_id=yes
@@ -44,4 +42,3 @@ warn_new_admin=yes
 warn_passwd_change=no
 warn_shadow_change=no
 warn_group_change=no
-

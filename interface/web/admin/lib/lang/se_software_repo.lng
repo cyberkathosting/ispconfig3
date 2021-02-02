@@ -1,8 +1,0 @@
-<?php
-$wb['repo_name_txt'] = 'Bibliotek';
-$wb['repo_url_txt'] = 'URL';
-$wb['repo_username_txt'] = 'Användare (Frivilligt)';
-$wb['repo_password_txt'] = 'Lösenord (Frivilligt)';
-$wb['active_txt'] = 'Aktiv';
-$wb['Software Repository which may contain addons or updates'] = 'Pragarmvarubibliotek som kan innehålla uppdateringar eller tillägg';
-?>

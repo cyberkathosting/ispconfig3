@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'ソフトウェアの更新';
-$wb['server_select_txt'] = 'サーバーを選択してください';
-$wb['installed_txt'] = '操作';
-$wb['update_title_txt'] = '更新';
-$wb['version_txt'] = 'バージョン';
-$wb['action_txt'] = '操作';
-$wb['no_updates_txt'] = 'No updates available';
-?>

@@ -1,8 +1,0 @@
-<?php
-$wb['repo_name_txt'] = 'Ohjelmapakettien varasto';
-$wb['repo_url_txt'] = 'Varaston internetosoite';
-$wb['repo_username_txt'] = 'Käyttäjätunnus (valinnainen)';
-$wb['repo_password_txt'] = 'Salasana (valinnnainen)';
-$wb['active_txt'] = 'Käytössä';
-$wb['Software Repository which may contain addons or updates'] = 'Software Repository which may contain addons or updates';
-?>

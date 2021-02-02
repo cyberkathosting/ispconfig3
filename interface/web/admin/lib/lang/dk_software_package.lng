@@ -1,6 +1,0 @@
-<?php
-$wb['package_title_txt'] = 'Pakke Titel';
-$wb['package_key_txt'] = 'Pakke Nøgle';
-$wb['Software Package'] = 'Software Pakke';
-$wb['Modify software package details'] = 'Ændre software pakke detaljer';
-?>
