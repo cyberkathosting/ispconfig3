@@ -225,3 +225,8 @@ includesections = php_common
 comment = php version 7.4
 paths = /usr/bin/php7.4, /usr/lib/php/7.4/, /usr/lib/php/20190902/, /usr/share/php/7.4/, /etc/php/7.4/cli/, /etc/php/7.4/mods-available/
 includesections = php_common
+
+[php8_0]
+comment = php version 8.0
+paths = /usr/bin/php8.0, /usr/lib/php/8.0/, /usr/lib/php/20200930/, /usr/share/php/8.0/, /etc/php/8.0/cli/, /etc/php/8.0/mods-available/
+includesections = php_common
