@@ -114,7 +114,8 @@ class cronjob_jailkit_maintenance extends cronjob {
 				if (is_file( $rec['document_root']."/bin/bash" )) {
 					# test that /bin/bash functions in the jail
 print "chroot --userspec ".$rec['system_user'].":".$rec['system_group']." ".$rec['document_root']." /bin/bash -c true 2>/dev/null\n";
-					if (! $app->system->exec_safe("chroot --userspec ?:? ? /bin/bash -c true 2>/dev/null", $rec['system_user'], $rec['system_group'], $rec['document_root'])) {
+					$app->system->exec_safe("chroot --userspec ?:? ? /bin/bash -c true 2>/dev/null", $rec['system_user'], $rec['system_group'], $rec['document_root']);
+					if ($app->system->last_exec_retcode()) {  # return 0 means success
 print "/bin/bash test failed, forcing update\n";
 						$options[] = 'force';
 						# bogus hash will not match, triggering an update
