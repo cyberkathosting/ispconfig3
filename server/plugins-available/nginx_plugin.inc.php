@@ -626,15 +626,15 @@ class nginx_plugin {
 		$last_updated = array_unique($last_updated, SORT_REGULAR);
 		sort($last_updated, SORT_STRING);
 		$update_hash = hash('md5', implode(' ', $last_updated));
+		$check_for_jailkit_updates=false;
 
 		// Create jailkit chroot when enabling php_fpm_chroot
-		if($data['new']['php_fpm_chroot'] == 'y' && $data['old']['php_fpm_chroot'] != 'y') {
+		if($data['new']['php_fpm_chroot'] == 'y' && $data['old']['php_fpm_chroot'] != 'y' && $data['new']['php'] != 'no') {
 			$website = $app->db->queryOneRecord('SELECT * FROM web_domain WHERE domain_id = ?', $data['new']['domain_id']);
 			$this->website = array_merge($website, $data['new'], array('new_jailkit_hash' => $update_hash));
 			$this->jailkit_config = $jailkit_config;
 			$this->_setup_jailkit_chroot();
 			$this->_add_jailkit_user();
-			$check_for_jailkit_updates=false;
 		// else delete if unused
 		} elseif ($data['new']['delete_unused_jailkit'] == 'y' && $data['new']['php_fpm_chroot'] != 'y') {
 			$check_for_jailkit_updates=false;
