@@ -798,7 +798,8 @@ class apache2_plugin {
 			$this->_setup_jailkit_chroot();
 			$this->_add_jailkit_user();
 		// else delete if unused
-		} elseif ($data['new']['delete_unused_jailkit'] == 'y' && $data['new']['php_fpm_chroot'] != 'y') {
+		} elseif (($data['new']['delete_unused_jailkit'] == 'y' && $data['new']['php_fpm_chroot'] != 'y') ||
+			($data['new']['delete_unused_jailkit'] == 'y' && $data['new']['php'] == 'no')) {
 			$check_for_jailkit_updates=false;
 			$this->_delete_jailkit_if_unused($data['new']['domain_id']);
 			if(is_dir($data['new']['document_root'].'/etc/jailkit')) {
@@ -3820,7 +3821,7 @@ class apache2_plugin {
 		}
 
 		// chroot is used by php-fpm
-		if (isset($parent_domain['php_fpm_chroot']) && $parent_domain['php_fpm_chroot'] == 'y') {
+		if (isset($parent_domain['php_fpm_chroot']) && $parent_domain['php_fpm_chroot'] == 'y' && $parent_domain['php'] != 'no') {
 			return;
 		}
 
