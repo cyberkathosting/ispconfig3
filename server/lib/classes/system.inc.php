@@ -2412,6 +2412,7 @@ class system{
 
 	public function create_jailkit_chroot($home_dir, $app_sections = array(), $options = array()) {
 		global $app;
+$app->log("create_jailkit_chroot: called for home_dir $home_dir with options: " . print_r($options, true), LOGLEVEL_DEBUG);
 
 		// Disallow operating on root directory
 		if(realpath($home_dir) == '/') {
@@ -2427,6 +2428,9 @@ class system{
 			return true;
 		} elseif(is_string($app_sections)) {
 			$app_sections = preg_split('/[\s,]+/', $app_sections);
+		}
+		if(! is_array($options)) {
+			$options = (is_string($options) ? preg_split('/[\s,]+/', $options) : array());
 		}
 
 		// Change ownership of the chroot directory to root
@@ -2485,6 +2489,7 @@ class system{
 
 	public function create_jailkit_programs($home_dir, $programs = array(), $options = array()) {
 		global $app;
+$app->log("create_jailkit_programs: called for home_dir $home_dir with options: " . print_r($options, true), LOGLEVEL_DEBUG);
 
 		// Disallow operating on root directory
 		if(realpath($home_dir) == '/') {
@@ -2500,6 +2505,9 @@ class system{
 			return true;
 		} elseif(is_string($programs)) {
 			$programs = preg_split('/[\s,]+/', $programs);
+		}
+		if(! is_array($options)) {
+			$options = (is_string($options) ? preg_split('/[\s,]+/', $options) : array());
 		}
 
 		# prohibit ill-advised copying paths known to be sensitive/problematic
