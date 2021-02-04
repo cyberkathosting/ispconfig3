@@ -1,3 +1,4 @@
+# Do not change this file, as changes will be overwritten by any ISPConfig update. Put your custom settings in /etc/dovecot/conf.d/99-custom-config.conf
 listen = *,[::]
 protocols = imap pop3
 auth_mechanisms = plain login
@@ -86,7 +87,7 @@ protocol lmtp {
 #2.3+         group = vmail
 #2.3+         mode = 0660
 #2.3+     }
-#2.3+ 
+#2.3+
 #2.3+     unix_listener stats-writer {
 #2.3+         user = vmail
 #2.3+         group = vmail
@@ -108,3 +109,4 @@ plugin {
   quota_status_nouser = DUNNO
   quota_status_overquota = "552 5.2.2 Mailbox is full"
 }
+!include_try conf.d/99-custom-config.conf

@@ -1182,6 +1182,12 @@ class installer_base {
 		    $content = strtr($content, $postconf_placeholders);
 		    $postconf_commands = array_merge($postconf_commands, array_filter(explode("\n", $content)));
 		}
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/postfix_custom.conf.master')) {
+			$configfile = 'postfix_custom.conf';
+			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master');
+			$content = strtr($content, $postconf_placeholders);
+			$postconf_commands = array_merge($postconf_commands, array_filter(explode("\n", $content)));
+		}
 
 		// Remove comment lines, these would give fatal errors when passed to postconf.
 		$postconf_commands = array_filter($postconf_commands, function($line) { return preg_match('/^[^#]/', $line); });
