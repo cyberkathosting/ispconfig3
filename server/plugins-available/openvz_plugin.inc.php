@@ -123,7 +123,7 @@ class openvz_plugin {
 
 		//* new diskspace for ploop-containers requieres "vzctl set"
 		if($data['new']['diskspace'] != $data['old']['diskspace']) {
-			escapeshell("vzctl set ? --diskspace ? --save", $veid, $data['new']['diskspace']."G");
+			$app->system->exec_safe("vzctl set ? --diskspace ? --save", $veid, $data['new']['diskspace']."G");
 		}
 
 		//* Apply config changes to the VM
