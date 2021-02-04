@@ -149,8 +149,8 @@ paths_w_setuid = /bin/ping
 #paths = /usr/bin/X11/xterm, /usr/share/terminfo, /etc/terminfo
 #devices = /dev/pts/0, /dev/pts/1, /dev/pts/2, /dev/pts/3, /dev/pts/4, /dev/ptyb4, /dev/ptya4, /dev/tty, /dev/tty0, /dev/tty4
 
-+# coreutils from:
-+# (echo -ne '\n[coreutils]\ncomment = non-sbin progs from coreutils\npaths = '; dpkg --listfiles coreutils | grep -E '^/bin/|/usr/bin/' | xargs -n1 -i@ echo -n "@, " | sed -e 's/, *$/\n/g' -e 's|/usr/bin/||g' -e 's|/bin/||g') >> /etc/jailkit/jk_init.ini
+# coreutils from:
+# (echo -ne '\n[coreutils]\ncomment = non-sbin progs from coreutils\npaths = '; dpkg --listfiles coreutils | grep -E '^/bin/|/usr/bin/' | xargs -n1 -i@ echo -n "@, " | sed -e 's/, *$/\n/g' -e 's|/usr/bin/||g' -e 's|/bin/||g') >> /etc/jailkit/jk_init.ini
 
 [coreutils]
 comment = non-sbin progs from coreutils
@@ -224,4 +224,9 @@ includesections = php_common
 [php7_4]
 comment = php version 7.4
 paths = /usr/bin/php7.4, /usr/lib/php/7.4/, /usr/lib/php/20190902/, /usr/share/php/7.4/, /etc/php/7.4/cli/, /etc/php/7.4/mods-available/
+includesections = php_common
+
+[php8_0]
+comment = php version 8.0
+paths = /usr/bin/php8.0, /usr/lib/php/8.0/, /usr/lib/php/20200930/, /usr/share/php/8.0/, /etc/php/8.0/cli/, /etc/php/8.0/mods-available/
 includesections = php_common
