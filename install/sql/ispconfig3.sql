@@ -2408,7 +2408,7 @@ INSERT INTO `country` (`iso`, `name`, `printable_name`, `iso3`, `numcode`, `eu`)
 ('UG', 'UGANDA', 'Uganda', 'UGA', 800, 'n'),
 ('UA', 'UKRAINE', 'Ukraine', 'UKR', 804, 'n'),
 ('AE', 'UNITED ARAB EMIRATES', 'United Arab Emirates', 'ARE', 784, 'n'),
-('GB', 'UNITED KINGDOM', 'United Kingdom', 'GBR', 826, 'y'),
+('GB', 'UNITED KINGDOM', 'United Kingdom', 'GBR', 826, 'n'),
 ('US', 'UNITED STATES', 'United States', 'USA', 840, 'n'),
 ('UM', 'UNITED STATES MINOR OUTLYING ISLANDS', 'United States Minor Outlying Islands', NULL, NULL, 'n'),
 ('UY', 'URUGUAY', 'Uruguay', 'URY', 858, 'n'),
