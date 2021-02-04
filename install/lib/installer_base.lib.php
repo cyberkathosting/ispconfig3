@@ -1182,8 +1182,8 @@ class installer_base {
 		    $content = strtr($content, $postconf_placeholders);
 		    $postconf_commands = array_merge($postconf_commands, array_filter(explode("\n", $content)));
 		}
-		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/postfix_custom.conf.master')) {
-			$configfile = 'postfix_custom.conf';
+		$configfile = 'postfix_custom.conf';
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/' . $configfile . '.master')) {
 			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master');
 			$content = strtr($content, $postconf_placeholders);
 			$postconf_commands = array_merge($postconf_commands, array_filter(explode("\n", $content)));
