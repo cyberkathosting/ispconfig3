@@ -109,4 +109,4 @@ plugin {
   quota_status_nouser = DUNNO
   quota_status_overquota = "552 5.2.2 Mailbox is full"
 }
-!include_try conf.d/99-custom-config.conf
+!include_try conf.d/99-ispconfig-custom-config.conf

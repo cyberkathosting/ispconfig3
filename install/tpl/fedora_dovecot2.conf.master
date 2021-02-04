@@ -126,4 +126,4 @@ namespace inbox {
     special_use = \Trash
   }
 }
-!include_try conf.d/99-custom-config.conf
+!include_try conf.d/99-ispconfig-custom-config.conf
