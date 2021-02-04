@@ -2,8 +2,8 @@ user = {mysql_server_ispconfig_user}
 password = {mysql_server_ispconfig_password}
 dbname = {mysql_server_database}
 hosts = {mysql_server_ip}
-query = SELECT email FROM mail_user WHERE email = '%s' AND forward_in_lda = 'n' AND disabledeliver = 'n' AND postfix = 'y' AND server_id = {server_id}
+query = SELECT email FROM mail_user WHERE email = '%s' AND forward_in_lda = 'n' AND disabledeliver = 'n' AND disablesmtp = 'n' AND server_id = {server_id}
            AND EXISTS (SELECT domain_id FROM mail_domain WHERE domain = SUBSTRING_INDEX('%s', '@', -1) AND active = 'y' AND server_id = {server_id})
         UNION
-        SELECT cc AS email FROM mail_user WHERE email = '%s' AND cc != '' AND (forward_in_lda = 'n' OR disabledeliver = 'y') AND postfix = 'y' AND server_id = {server_id}
+        SELECT cc AS email FROM mail_user WHERE email = '%s' AND cc != '' AND (forward_in_lda = 'n' OR disabledeliver = 'y') AND disablesmtp = 'n' AND server_id = {server_id}
            AND EXISTS (SELECT domain_id FROM mail_domain WHERE domain = SUBSTRING_INDEX('%s', '@', -1) AND active = 'y' AND server_id = {server_id})
