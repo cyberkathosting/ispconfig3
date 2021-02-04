@@ -16,3 +16,6 @@ DROP TABLE 'software_package';
 DROP TABLE 'software_repo';
 DROP TABLE 'software_update';
 DROP TABLE 'software_update_inst';
+
+-- Brexit
+UPDATE `country` SET `eu` = 'n' WHERE `iso` = 'GB';
