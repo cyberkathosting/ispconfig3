@@ -4,8 +4,8 @@ ISPConfig is a open source project and community contributions are very welcome.
 This document is under development and will be continuously improved.
 
 # Issues
-* Before opening a new issue, use the search function to check if there isn't a bug report / feature request already
-* If you are reporting a bug, please share your OS and PHP (CLI) version
+* Before opening a new issue, use the search function to check if there isn't a bug report / feature request already.
+* If you are reporting a bug, please share your OS and PHP (CLI) version.
 * If you want to report several bugs or request several features, open a separate issue for each one of them.
 
 # Branches
@@ -21,7 +21,7 @@ You can group multiple issues in a single merge request if they have the same sp
 * Open a issue for the bug you want to fix / the feature you want to implement
 * After opening the issue, commit your changes to your branch
 * Note the issue # in every commit
-* Update the documentation (New devs will not have access to this. Please sent an email to docs@ispconfig.org)
+* Update the documentation (New devs will not have access to this. Please send a email to docs@ispconfig.org)
 * Add translations for every language
 * Use a short title
 * Write a clear description - for example, when updating the contributing guidelines with issue #6049: \
