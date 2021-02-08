@@ -54,7 +54,7 @@ address_verify_negative_refresh_time=60s
 # needed for postfix < 3.3 when using reject_unverified_recipient (lmtp):
 enable_original_recipient = yes
 sender_dependent_relayhost_maps = proxy:mysql:{config_dir}/mysql-virtual_sender-relayhost.cf
-smtp_sasl_password_maps = proxy:mysql:{config_dir}/mysql-virtual_sender-relayauth.cf, hash:{config_dir}/sasl_passwd
+smtp_sasl_password_maps = proxy:mysql:{config_dir}/mysql-virtual_sender-relayauth.cf, texthash:{config_dir}/sasl_passwd
 smtp_sender_dependent_authentication = yes
 smtp_sasl_auth_enable = yes
 smtp_sasl_security_options = noanonymous, noplaintext
