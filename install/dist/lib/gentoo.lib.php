@@ -160,6 +160,7 @@ class installer extends installer_base
 		touch($config_dir.'/mime_header_checks');
 		touch($config_dir.'/nested_header_checks');
 		touch($config_dir.'/body_checks');
+		touch($config_dir.'/sasl_passwd');
 
 		//* Create auxillary postfix conf files
 		$configfile = 'helo_access';

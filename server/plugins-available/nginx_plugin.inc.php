@@ -626,17 +626,18 @@ class nginx_plugin {
 		$last_updated = array_unique($last_updated, SORT_REGULAR);
 		sort($last_updated, SORT_STRING);
 		$update_hash = hash('md5', implode(' ', $last_updated));
+		$check_for_jailkit_updates=false;
 
 		// Create jailkit chroot when enabling php_fpm_chroot
-		if($data['new']['php_fpm_chroot'] == 'y' && $data['old']['php_fpm_chroot'] != 'y') {
+		if($data['new']['php_fpm_chroot'] == 'y' && $data['old']['php_fpm_chroot'] != 'y' && $data['new']['php'] != 'no') {
 			$website = $app->db->queryOneRecord('SELECT * FROM web_domain WHERE domain_id = ?', $data['new']['domain_id']);
 			$this->website = array_merge($website, $data['new'], array('new_jailkit_hash' => $update_hash));
 			$this->jailkit_config = $jailkit_config;
 			$this->_setup_jailkit_chroot();
 			$this->_add_jailkit_user();
-			$check_for_jailkit_updates=false;
 		// else delete if unused
-		} elseif ($data['new']['delete_unused_jailkit'] == 'y' && $data['new']['php_fpm_chroot'] != 'y') {
+		} elseif (($data['new']['delete_unused_jailkit'] == 'y' && $data['new']['php_fpm_chroot'] != 'y') ||
+			($data['new']['delete_unused_jailkit'] == 'y' && $data['new']['php'] == 'no')) {
 			$check_for_jailkit_updates=false;
 			$this->_delete_jailkit_if_unused($data['new']['domain_id']);
 			if(is_dir($data['new']['document_root'].'/etc/jailkit')) {
@@ -791,10 +792,12 @@ class nginx_plugin {
 				$app->system->exec_safe('chmod -R a+r ?', $error_page_path);
 			}
 
-			//* Copy the web skeleton files only when there is no index.ph or index.html file yet
-			if(!file_exists($data['new']['document_root'].'/'.$web_folder.'/index.html') && !file_exists($data['new']['document_root'].'/'.$web_folder.'/index.php')) {
+			//* Copy the web skeleton files only when there is no index.php, standard_index.html or index.html file yet
+			if(!file_exists($data['new']['document_root'].'/'.$web_folder.'/index.html') && !file_exists($data['new']['document_root'].'/'.$web_folder.'/index.php') && !file_exists($data['new']['document_root'].'/'.$web_folder.'/standard_index.html')) {
 				if (file_exists($conf['rootpath'] . '/conf-custom/index/standard_index.html_'.substr($conf['language'], 0, 2))) {
-					if(!file_exists($data['new']['document_root'].'/' . $web_folder . '/index.html')) $app->system->exec_safe('cp ? ?', $conf['rootpath'] . '/conf-custom/index/standard_index.html_'.substr($conf['language'], 0, 2), $data['new']['document_root'].'/' . $web_folder . '/index.html');
+					if(!file_exists($data['new']['document_root'] . '/' . $web_folder . '/standard_index.html')) {
+						$app->system->exec_safe('cp ? ?', $conf['rootpath'] . '/conf-custom/index/standard_index.html_' . substr($conf['language'], 0, 2), $data['new']['document_root'] . '/' . $web_folder . '/standard_index.html');
+					}
 
 					if(is_file($conf['rootpath'] . '/conf-custom/index/favicon.ico')) {
 						if(!file_exists($data['new']['document_root'].'/' . $web_folder . '/favicon.ico')) $app->system->exec_safe('cp ? ?', $conf['rootpath'] . '/conf-custom/index/favicon.ico', $data['new']['document_root'].'/' . $web_folder . '/');
@@ -804,13 +807,13 @@ class nginx_plugin {
 					}
 				} else {
 					if (file_exists($conf['rootpath'] . '/conf-custom/index/standard_index.html')) {
-						if(!file_exists($data['new']['document_root'].'/' . $web_folder . '/index.html')) $app->system->exec_safe('cp ? ?', $conf['rootpath'] . '/conf-custom/index/standard_index.html', $data['new']['document_root'].'/' . $web_folder . '/index.html');
+						if(!file_exists($data['new']['document_root'].'/' . $web_folder . '/standard_index.html')) $app->system->exec_safe('cp ? ?', $conf['rootpath'] . '/conf-custom/index/standard_index.html', $data['new']['document_root'].'/' . $web_folder . '/standard_index.html');
 					} else {
-						if(!file_exists($data['new']['document_root'].'/' . $web_folder . '/index.html')) $app->system->exec_safe('cp ? ?', $conf['rootpath'] . '/conf/index/standard_index.html_'.substr($conf['language'], 0, 2), $data['new']['document_root'].'/' . $web_folder . '/index.html');
-						if(is_file($conf['rootpath'] . '/conf/index/favicon.ico')){
+						if(!file_exists($data['new']['document_root'].'/' . $web_folder . '/standard_index.html')) $app->system->exec_safe('cp ? ?', $conf['rootpath'] . '/conf/index/standard_index.html_'.substr($conf['language'], 0, 2), $data['new']['document_root'].'/' . $web_folder . '/standard_index.html');
+						if(is_file($conf['rootpath'] . '/conf/index/favicon.ico')) {
 							if(!file_exists($data['new']['document_root'].'/' . $web_folder . '/favicon.ico')) $app->system->exec_safe('cp ? ?', $conf['rootpath'] . '/conf/index/favicon.ico', $data['new']['document_root'].'/' . $web_folder . '/');
 						}
-						if(is_file($conf['rootpath'] . '/conf/index/robots.txt')){
+						if(is_file($conf['rootpath'] . '/conf/index/robots.txt')) {
 							if(!file_exists($data['new']['document_root'].'/' . $web_folder . '/robots.txt')) $app->system->exec_safe('cp ? ?', $conf['rootpath'] . '/conf/index/robots.txt', $data['new']['document_root'].'/' . $web_folder . '/');
 						}
 					}
@@ -3597,7 +3600,7 @@ class nginx_plugin {
 		}
 
 		// chroot is used by php-fpm
-		if (isset($parent_domain['php_fpm_chroot']) && $parent_domain['php_fpm_chroot'] == 'y') {
+		if (isset($parent_domain['php_fpm_chroot']) && $parent_domain['php_fpm_chroot'] == 'y' && $parent_domain['php'] != 'no') {
 			return;
 		}
 

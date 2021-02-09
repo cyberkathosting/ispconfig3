@@ -1193,6 +1193,7 @@ class installer_base {
 		touch($config_dir.'/mime_header_checks');
 		touch($config_dir.'/nested_header_checks');
 		touch($config_dir.'/body_checks');
+		touch($config_dir.'/sasl_passwd');
 
 		//* Create the mailman files
 		if(!is_dir('/var/lib/mailman/data')) exec('mkdir -p /var/lib/mailman/data');

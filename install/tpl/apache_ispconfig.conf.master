@@ -3,6 +3,7 @@
 ################################################
 ServerTokens ProductOnly
 ServerSignature Off
+DirectoryIndex index.html index.cgi index.pl index.php index.xhtml index.htm standard_index.html
 
 ################################################
 # ISPConfig Logfile configuration for vlogger

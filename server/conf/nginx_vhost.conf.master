@@ -15,7 +15,7 @@ server {
         listen <tmpl_var name='ip_address'>:<tmpl_var name='https_port'> ssl http2;
 <tmpl_if name='use_proxy_protocol' op='==' value='y'>
 <tmpl_if name='proxy_protocol_https' op='>' value='0'>
-        listen <tmpl_var name='ip_address'>:<tmpl_var name='proxy_protocol_https'> ssl proxy_protocol;
+        listen <tmpl_var name='ip_address'>:<tmpl_var name='proxy_protocol_https'> ssl http2 proxy_protocol;
 </tmpl_if>
 </tmpl_if>
 
@@ -79,7 +79,7 @@ server {
 </tmpl_if>
 </tmpl_loop>
 <tmpl_if name='use_proxy' op='!=' value='y'>
-        index index.html index.htm index.php index.cgi index.pl index.xhtml;
+        index index.html index.htm index.php index.cgi index.pl index.xhtml standard_index.html;
 
 <tmpl_if name='ssi' op='==' value='y'>
         location ~ \.shtml$ {
