@@ -1,0 +1,8 @@
+# Domain whitelist via valid SPF policy AND valid DKIM policy
+# (Prefer to spf_whitelist or dkim_whitelist for domains that use both SPF and DKIM.)
+
+comodo.com
+geotrust.com
+geotrusteurope.com
+letsencrypt.org
+
