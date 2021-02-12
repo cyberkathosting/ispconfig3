@@ -4,6 +4,6 @@ $wb['username_txt'] = 'Username';
 $wb['client_id_txt'] = 'Client ID';
 $wb['active_txt'] = 'Active';
 $wb['add_new_record_txt'] = 'Add new user';
-$wb['warning_txt'] = '<b>WARNING:</b> Do not edit or modify any client user settings here. Use the client- and reseller settings in the client module instead. Modifying or changing client users or groups here may cause data loss!' \n Use this page only to create a new admin user, or to modify an existing admin user.;
+$wb['warning_txt'] = '<b>WARNING:</b> Do not edit or modify any client user settings here. Use the client- and reseller settings in the client module instead. Modifying or changing client users or groups here may cause data loss!';
 $wb['groups_txt'] = 'Groups';
 ?>
