@@ -137,6 +137,7 @@ class letsencrypt {
 			return false;
 		}
 
+		$primary_domain = $domains[0];
 		$matches = array();
 		$ret = null;
 		$val = 0;
@@ -158,11 +159,13 @@ class letsencrypt {
 				$webroot_map[$domains[$i]] = '/usr/local/ispconfig/interface/acme';
 			}
 			$webroot_args = "--webroot-map " . escapeshellarg(str_replace(array("\r", "\n"), '', json_encode($webroot_map)));
+			$cert_selection_command = "--cert-name $primary_domain";
 		} else {
 			$webroot_args = "$cmd --webroot-path /usr/local/ispconfig/interface/acme";
+			$cert_selection_command = "--expand";
 		}
 
-		$cmd = $letsencrypt . " certonly -n --text --agree-tos --expand --authenticator webroot --server $acme_version --rsa-key-size 4096 --email postmaster@$domain $webroot_args";
+		$cmd = $letsencrypt . " certonly -n --text --agree-tos $cert_selection_command --authenticator webroot --server $acme_version --rsa-key-size 4096 --email postmaster@$primary_domain $webroot_args";
 
 		return $cmd;
 	}
