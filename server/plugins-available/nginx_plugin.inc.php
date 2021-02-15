@@ -819,7 +819,11 @@ class nginx_plugin {
 					}
 				}
 			}
-			$app->system->exec_safe('chmod -R a+r ?', $data['new']['document_root'].'/' . $web_folder . '/');
+			// Set the a+r mod to the web_folder.
+			// Skip this for vhostalias if the web_folder is "web". In this case, everything is setup already from the vhost setup
+			if ($data['new']['type'] != 'vhostalias' || $web_folder != "web") {
+				$app->system->exec_safe('chmod -R a+r ?', $data['new']['document_root'].'/' . $web_folder . '/');
+			}
 
 			//** Copy the error documents on update when the error document checkbox has been activated and was deactivated before
 		} elseif ($this->action == 'update' && ($data['new']['type'] == 'vhost' || $data['new']['type'] == 'vhostsubdomain' || $data['new']['type'] == 'vhostalias') && $data['old']['errordocs'] == 0 && $data['new']['errordocs'] == 1) {
@@ -874,7 +878,10 @@ class nginx_plugin {
 
 		if($this->action == 'insert' || $data["new"]["system_user"] != $data["old"]["system_user"]) {
 			// Chown and chmod the directories below the document root
-			$app->system->exec_safe('chown -R ?:? ?', $username, $groupname, $data['new']['document_root'].'/' . $web_folder);
+			// Skip this for vhostalias if the web_folder is "web". In this case, everything is setup already from the vhost setup
+			if ($data['new']['type'] != 'vhostalias' || $web_folder != "web") {
+				$app->system->exec_safe( 'chown -R ?:? ?', $username, $groupname, $data['new']['document_root'] . '/' . $web_folder );
+			}
 			// The document root itself has to be owned by root in normal level and by the web owner in security level 20
 			if($web_config['security_level'] == 20) {
 				$app->system->exec_safe('chown ?:? ?', $username, $groupname, $data['new']['document_root'].'/' . $web_folder);
