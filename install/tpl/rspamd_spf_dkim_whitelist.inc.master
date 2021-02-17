@@ -4,5 +4,6 @@
 comodo.com
 geotrust.com
 geotrusteurope.com
-letsencrypt.org
+# letsencrypt is in rspamd's default spf_dkim_whitelist, only needed if strict:
+#letsencrypt.org both:1.0
 

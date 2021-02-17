@@ -1814,6 +1814,7 @@ class installer_base {
 			$mail_config['dkim_path'] = substr($mail_config['dkim_path'], 0, strlen($mail_config['dkim_path'])-1);
 		}
 		$dkim_domains = $this->db->queryAllRecords('SELECT `dkim_selector`, `domain` FROM ?? WHERE `dkim` = ? ORDER BY `domain` ASC', $conf['mysql']['database'] . '.mail_domain', 'y');
+		# should move maps to local.d/maps.d/ ?
 		$fpp = fopen('/etc/rspamd/local.d/dkim_domains.map', 'w');
 		$fps = fopen('/etc/rspamd/local.d/dkim_selectors.map', 'w');
 		foreach($dkim_domains as $dkim_domain) {
@@ -1824,19 +1825,28 @@ class installer_base {
 		fclose($fps);
 		unset($dkim_domains);
 
+		# local.d templates with template tags
 		$tpl = new tpl();
-		$tpl->newTemplate('rspamd_users.conf.master');
+		$tpl->newTemplate('rspamd_dkim_signing.conf.master');
+		$tpl->setVar('dkim_path', $mail_config['dkim_path']);
+		wf('/etc/rspamd/local.d/dkim_signing.conf', $tpl->grab());
 
-		$whitelist_ips = array();
-		$ips = $this->db->queryAllRecords("SELECT * FROM server_ip WHERE server_id = ?", $conf['server_id']);
+		$tpl = new tpl();
+		$tpl->newTemplate('rspamd_options.inc.master');
+
+echo "\nDEBUGGING local_addrs LOOP\n\n";
+sleep(1);
+		$local_addrs = array();
+		$ips = $this->db->queryAllRecords('SELECT `ip_address`, `ip_type` FROM ?? WHERE `server_id` = ?', $conf['mysql']['database'].'.server_ip', $conf['server_id']);
 		if(is_array($ips) && !empty($ips)){
 			foreach($ips as $ip){
-				$whitelist_ips[] = array('ip' => $ip['ip_address']);
+				$local_addrs[] = array('quoted_ip' => "\"".$ip['ip_address']."\",\n");
 			}
 		}
-		$tpl->setLoop('whitelist_ips', $whitelist_ips);
-		wf('/etc/rspamd/local.d/users.conf', $tpl->grab());
+		$tpl->setLoop('local_addrs', $local_addrs);
+		wf('/etc/rspamd/local.d/options.inc', $tpl->grab());
 
+		# local.d templates without template tags
 		$local_d = array(
 			'groups.conf',
 			'antivirus.conf',
@@ -1845,10 +1855,10 @@ class installer_base {
 			'mx_check.conf',
 			'redis.conf',
 			'milter_headers.conf',
-			'options.inc',
 			'neural.conf',
 			'neural_group.conf',
-			'group.conf',
+			'users.conf',
+			'groups.conf',
 		);
 		foreach ($local_d as $f) {
 			if(file_exists($conf['ispconfig_install_dir']."/server/conf-custom/install/rspamd_${f}.master")) {
@@ -1858,6 +1868,7 @@ class installer_base {
 			}
 		}
 
+		# override.d templates without template tags
 		$override_d = array(
 			'rbl_group.conf',
 			'surbl_group.conf',
@@ -1866,10 +1877,11 @@ class installer_base {
 			if(file_exists($conf['ispconfig_install_dir']."/server/conf-custom/install/rspamd_${f}.master")) {
 				exec('cp '.$conf['ispconfig_install_dir']."/server/conf-custom/install/rspamd_${f}.master /etc/rspamd/override.d/${f}");
 			} else {
-				exec("cp tpl/rspamd_{f}.master /etc/rspamd/override.d/${f}");
+				exec("cp tpl/rspamd_${f}.master /etc/rspamd/override.d/${f}");
 			}
 		}
 
+		# local.d/maps.d templates without template tags
 		$maps_d = array(
 			'dkim_whitelist.inc',
 			'dmarc_whitelist.inc',
@@ -1884,10 +1896,6 @@ class installer_base {
 			}
 		}
 
-		$tpl = new tpl();
-		$tpl->newTemplate('rspamd_dkim_signing.conf.master');
-		$tpl->setVar('dkim_path', $mail_config['dkim_path']);
-		wf('/etc/rspamd/local.d/dkim_signing.conf', $tpl->grab());
 
 		exec('chmod a+r /etc/rspamd/local.d/* /etc/rspamd/local.d/maps.d/* /etc/rspamd/override.d/*');
 
