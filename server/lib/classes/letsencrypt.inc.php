@@ -152,13 +152,15 @@ class letsencrypt {
 			$acme_version = 'https://acme-v01.api.letsencrypt.org/directory';
 		}
 		if (version_compare($letsencrypt_version, '0.30', '>=')) {
-			$app->log("LE version is " . $letsencrypt_version . ", so using certificates command", LOGLEVEL_DEBUG);
+			$app->log("LE version is " . $letsencrypt_version . ", so using certificates command and --cert-name instead of --expand", LOGLEVEL_DEBUG);
 			$this->certbot_use_certcommand = true;
 			$webroot_map = array();
 			for($i = 0; $i < count($domains); $i++) {
 				$webroot_map[$domains[$i]] = '/usr/local/ispconfig/interface/acme';
 			}
 			$webroot_args = "--webroot-map " . escapeshellarg(str_replace(array("\r", "\n"), '', json_encode($webroot_map)));
+			// --cert-name might be working with earlier versions of certbot, but there is no safe version since when
+			// Sot for safety reasons we add it to the 0.30 version check as it is documented to work as expected in this version
 			$cert_selection_command = "--cert-name $primary_domain";
 		} else {
 			$webroot_args = "$cmd --webroot-path /usr/local/ispconfig/interface/acme";
