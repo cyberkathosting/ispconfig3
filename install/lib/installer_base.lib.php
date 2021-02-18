@@ -1834,8 +1834,6 @@ class installer_base {
 		$tpl = new tpl();
 		$tpl->newTemplate('rspamd_options.inc.master');
 
-echo "\nDEBUGGING local_addrs LOOP\n\n";
-sleep(1);
 		$local_addrs = array();
 		$ips = $this->db->queryAllRecords('SELECT `ip_address`, `ip_type` FROM ?? WHERE `server_id` = ?', $conf['mysql']['database'].'.server_ip', $conf['server_id']);
 		if(is_array($ips) && !empty($ips)){
@@ -1890,9 +1888,9 @@ sleep(1);
 		);
 		foreach ($maps_d as $f) {
 			if(file_exists($conf['ispconfig_install_dir']."/server/conf-custom/install/rspamd_${f}.master")) {
-				exec('cp '.$conf['ispconfig_install_dir']."/server/conf-custom/install/rspamd_${f}.master /etc/rspamd/local.d/maps.d/");
+				exec('cp '.$conf['ispconfig_install_dir']."/server/conf-custom/install/rspamd_${f}.master /etc/rspamd/local.d/maps.d/${f}");
 			} else {
-				exec("cp tpl/rspamd_${f}.master /etc/rspamd/local.d/maps.d/");
+				exec("cp tpl/rspamd_${f}.master /etc/rspamd/local.d/maps.d/${f}");
 			}
 		}
 

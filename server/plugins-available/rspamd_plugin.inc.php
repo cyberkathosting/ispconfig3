@@ -459,17 +459,17 @@ class rspamd_plugin {
 
 		if(is_dir('/etc/rspamd')) {
 			$tpl = new tpl();
-			$tpl->newTemplate('rspamd_users.conf.master');
+			$tpl->newTemplate('rspamd_options.inc.master');
 
-			$whitelist_ips = array();
-			$ips = $app->db->queryAllRecords("SELECT * FROM server_ip WHERE server_id = ?", $conf['server_id']);
+			$local_addrs = array();
+			$ips = $app->db->queryAllRecords('SELECT `ip_address`, `ip_type` FROM ?? WHERE `server_id` = ?', $conf['mysql']['database'].'.server_ip', $conf['server_id']);
 			if(is_array($ips) && !empty($ips)){
 				foreach($ips as $ip){
-					$whitelist_ips[] = array('ip' => $ip['ip_address']);
+					$local_addrs[] = array('quoted_ip' => "\"".$ip['ip_address']."\",\n");
 				}
 			}
-			$tpl->setLoop('whitelist_ips', $whitelist_ips);
-			$app->system->file_put_contents('/etc/rspamd/local.d/users.conf', $tpl->grab());
+			$tpl->setLoop('local_addrs', $local_addrs);
+			$app->system->file_put_contents('/etc/rspamd/local.d/options.inc', $tpl->grab());
 
 			if($mail_config['content_filter'] == 'rspamd'){
 				$app->services->restartServiceDelayed('rspamd', 'reload');
