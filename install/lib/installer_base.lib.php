@@ -2687,10 +2687,6 @@ class installer_base {
 			$content = str_replace('{use_tcp}', $use_tcp, $content);
 			$content = str_replace('{use_socket}', $use_socket, $content);
 
-			// SSL in apps vhost is off by default. Might change later.
-			$content = str_replace('{ssl_on}', '', $content);
-			$content = str_replace('{ssl_comment}', '#', $content);
-
 			// Fix socket path on PHP 7 systems
 			if(file_exists('/var/run/php/php7.0-fpm.sock'))	$content = str_replace('/var/run/php5-fpm.sock', '/var/run/php/php7.0-fpm.sock', $content);
 			if(file_exists('/var/run/php/php7.1-fpm.sock'))	$content = str_replace('/var/run/php5-fpm.sock', '/var/run/php/php7.1-fpm.sock', $content);
