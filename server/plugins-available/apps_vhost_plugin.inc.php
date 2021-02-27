@@ -251,7 +251,7 @@ class apps_vhost_plugin {
 			file_put_contents("$vhost_conf_dir/apps.vhost", $content);
 
 			// enabled / disable apps-vhost
-			$vhost_symlink = $web_config['vhost_conf_enabled_dir'].'/000-apps.vhost';
+			$vhost_symlink = $vhost_conf_enabled_dir . '/000-apps.vhost';
 			if(is_link($vhost_symlink) && $web_config['apps_vhost_enabled'] == 'n') {
 				$app->system->unlink($vhost_symlink);
 			}
