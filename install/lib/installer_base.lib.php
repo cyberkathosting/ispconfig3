@@ -1182,6 +1182,12 @@ class installer_base {
 		    $content = strtr($content, $postconf_placeholders);
 		    $postconf_commands = array_merge($postconf_commands, array_filter(explode("\n", $content)));
 		}
+		$configfile = 'postfix_custom.conf';
+		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/' . $configfile . '.master')) {
+			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master');
+			$content = strtr($content, $postconf_placeholders);
+			$postconf_commands = array_merge($postconf_commands, array_filter(explode("\n", $content)));
+		}
 
 		// Remove comment lines, these would give fatal errors when passed to postconf.
 		$postconf_commands = array_filter($postconf_commands, function($line) { return preg_match('/^[^#]/', $line); });
@@ -1534,6 +1540,10 @@ class installer_base {
 				copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/debian_dovecot2.conf.master', $config_dir.'/'.$configfile);
 			} else {
 				copy('tpl/debian_dovecot2.conf.master', $config_dir.'/'.$configfile);
+			}
+			// Copy custom config file
+			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/dovecot_custom.conf.master')) {
+				copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/dovecot_custom.conf.master', $config_dir.'/conf.d/99-ispconfig-custom-config.conf');
 			}
 			replaceLine($config_dir.'/'.$configfile, 'postmaster_address = postmaster@example.com', 'postmaster_address = postmaster@'.$conf['hostname'], 1, 0);
 			replaceLine($config_dir.'/'.$configfile, 'postmaster_address = webmaster@localhost', 'postmaster_address = postmaster@'.$conf['hostname'], 1, 0);
