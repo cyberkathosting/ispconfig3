@@ -206,16 +206,14 @@ class apps_vhost_plugin {
 				$use_socket = '#';
 			}
 
-                        /* Check if SSL should be enabled: */
-                        if(is_file('/usr/local/ispconfig/interface/ssl/ispserver.crt') && is_file('/usr/local/ispconfig/interface/ssl/ispserver.key')) {
+            /* Check if SSL should be enabled: */
+            if(is_file('/usr/local/ispconfig/interface/ssl/ispserver.crt') && is_file('/usr/local/ispconfig/interface/ssl/ispserver.key')) {
 				$content = str_replace('{ssl_comment}', '', $content);
 				$content = str_replace('{ssl_on}', 'ssl', $content);
-                                $content = str_replace('{vhost_port}', $web_config['apps_vhost_port'], $content);
-                        } else {
+            } else {
 				$content = str_replace('{ssl_comment}', '#', $content);
 				$content = preg_replace('/(\s)\{ssl_on\}/', '', $content);
-				$content = str_replace('{vhost_port}', $web_config['apps_vhost_port'], $content);
-                        }
+			}
 	 
 			$content = str_replace('{use_tcp}', $use_tcp, $content);
 			$content = str_replace('{use_socket}', $use_socket, $content);
@@ -253,7 +251,7 @@ class apps_vhost_plugin {
 			file_put_contents("$vhost_conf_dir/apps.vhost", $content);
 
 			// enabled / disable apps-vhost
-			$vhost_symlink = $web_config['vhost_conf_enabled_dir'].'/000-apps.vhost';
+			$vhost_symlink = $vhost_conf_enabled_dir . '/000-apps.vhost';
 			if(is_link($vhost_symlink) && $web_config['apps_vhost_enabled'] == 'n') {
 				$app->system->unlink($vhost_symlink);
 			}
