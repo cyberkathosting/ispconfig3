@@ -2553,7 +2553,7 @@ class installer_base {
 			$tpl->setVar('apps_vhost_dir',$conf['web']['website_basedir'].'/apps');
 			$tpl->setVar('apps_vhost_basedir',$conf['web']['website_basedir']);
 			$tpl->setVar('apps_vhost_servername',$apps_vhost_servername);
-			if(is_file($install_dir.'/interface/ssl/ispserver.crt') && is_file($install_dir.'/interface/ssl/ispserver.key')) {
+			if(is_file($conf['ispconfig_install_dir'].'/interface/ssl/ispserver.crt') && is_file($conf['ispconfig_install_dir'].'/interface/ssl/ispserver.key')) {
 				$tpl->setVar('ssl_comment','');
 			} else {
 				$tpl->setVar('ssl_comment','#');
@@ -2636,6 +2636,15 @@ class installer_base {
 			// Dont just copy over the virtualhost template but add some custom settings
 			$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/nginx_apps.vhost.master', 'tpl/nginx_apps.vhost.master');
 
+			// Enable SSL if a cert is in place.
+			if(is_file($conf['ispconfig_install_dir'].'/interface/ssl/ispserver.crt') && is_file($conf['ispconfig_install_dir'].'/interface/ssl/ispserver.key')) {
+				$content = str_replace('{ssl_on}', 'ssl', $content);
+				$content = str_replace('{ssl_comment}', '', $content);
+			} else {
+				$content = str_replace('{ssl_on}', '', $content);
+				$content = str_replace('{ssl_comment}', '#', $content);
+			}
+
 			if($conf['web']['apps_vhost_ip'] == '_default_'){
 				$apps_vhost_ip = '';
 			} else {
@@ -2677,10 +2686,6 @@ class installer_base {
 			}
 			$content = str_replace('{use_tcp}', $use_tcp, $content);
 			$content = str_replace('{use_socket}', $use_socket, $content);
-
-			// SSL in apps vhost is off by default. Might change later.
-			$content = str_replace('{ssl_on}', '', $content);
-			$content = str_replace('{ssl_comment}', '#', $content);
 
 			// Fix socket path on PHP 7 systems
 			if(file_exists('/var/run/php/php7.0-fpm.sock'))	$content = str_replace('/var/run/php5-fpm.sock', '/var/run/php/php7.0-fpm.sock', $content);

@@ -7,7 +7,7 @@ server {
         {ssl_comment}ssl_certificate_key /usr/local/ispconfig/interface/ssl/ispserver.key;
 
         # redirect to https if accessed with http
-        {ssl_comment}error_page 497 https://$host:{vhost_port}$request_uri;
+        {ssl_comment}error_page 497 https://$host:{apps_vhost_port}$request_uri;
 
         server_name {apps_vhost_servername};
 
