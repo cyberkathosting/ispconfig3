@@ -5,7 +5,7 @@ require_once '../../lib/app.inc.php';
 //* Check permissions for module
 $app->auth->check_module_permissions('mailuser');
 
-$app->uses('tpl, functions');
+$app->uses('tpl');
 
 $app->tpl->newTemplate('form.tpl.htm');
 $app->tpl->setInclude('content_tpl', 'templates/index.htm');
