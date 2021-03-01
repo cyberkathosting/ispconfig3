@@ -820,8 +820,8 @@ class nginx_plugin {
 				}
 			}
 			// Set the a+r mod to the web_folder.
-			// Skip this for vhostalias if the web_folder is "web". In this case, everything is setup already from the vhost setup
-			if ($data['new']['type'] != 'vhostalias' || $web_folder != 'web') {
+			// Skip this for types where the target vhost already exists if the web_folder is "web". In this case, everything is setup already from the vhost setup
+			if ( ( $data['new']['type'] != 'vhostalias' && $data['new']['type'] != 'vhostsubdomain' ) || $web_folder != 'web') {
 				$app->system->exec_safe('chmod -R a+r ?', $data['new']['document_root'].'/' . $web_folder . '/');
 			}
 
@@ -878,8 +878,8 @@ class nginx_plugin {
 
 		if($this->action == 'insert' || $data["new"]["system_user"] != $data["old"]["system_user"]) {
 			// Chown and chmod the directories below the document root
-			// Skip this for vhostalias if the web_folder is "web". In this case, everything is setup already from the vhost setup
-			if ($data['new']['type'] != 'vhostalias' || $web_folder != 'web') {
+			// Skip this for types where the target vhost already exists if the web_folder is "web". In this case, everything is setup already from the vhost setup
+			if ( ( $data['new']['type'] != 'vhostalias' && $data['new']['type'] != 'vhostsubdomain' ) || $web_folder != 'web') {
 				$app->system->exec_safe( 'chown -R ?:? ?', $username, $groupname, $data['new']['document_root'] . '/' . $web_folder );
 			}
 			// The document root itself has to be owned by root in normal level and by the web owner in security level 20
