@@ -146,7 +146,6 @@ include_once 'dist/conf/'.$dist['confid'].'.conf.php';
 //** Installer Interface
 //****************************************************************************************************
 $inst = new installer();
-if (!$inst->get_php_version()) die('ISPConfig requires PHP '.$inst->min_php."\n");
 $retval=shell_exec("which which");
 if (empty($retval)) die ("ISPConfig requires which \n");
 

@@ -717,6 +717,18 @@ $form["tabs"]['mail'] = array(
 			'default' => 'n',
 			'value' => array(0 => 'n', 1 => 'y')
 		),
+		'rspamd_url' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'default' => '',
+			'filters'   => array(
+				0 => array( 'event' => 'SAVE', 'type' => 'IDNTOASCII'),
+				1 => array( 'event' => 'SHOW', 'type' => 'IDNTOUTF8')
+			),
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
 		//#################################
 		// END Datatable fields
 		//#################################

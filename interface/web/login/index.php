@@ -58,7 +58,7 @@ if($app->is_under_maintenance()) {
 if(count($_POST) > 0) {
 
 	//** Check variables
-	if(!preg_match("/^[\w\.\-\_\@]{1,128}$/", $_POST['username'])) $error = $app->lng('user_regex_error');
+	if(!preg_match("/^[\w\.\-\_\@]{1,128}$/", $app->functions->idn_encode($_POST['username']))) $error = $app->lng('user_regex_error');
 	if(!preg_match("/^.{1,256}$/i", $_POST['password'])) $error = $app->lng('pw_error_length');
 
 	//** importing variables
@@ -152,7 +152,7 @@ if(count($_POST) > 0) {
 				if(stristr($username, '@')) {
 					//* mailuser login
 					$sql = "SELECT * FROM mail_user WHERE login = ? or email = ?";
-					$mailuser = $app->db->queryOneRecord($sql, $username, $username);
+					$mailuser = $app->db->queryOneRecord($sql, $username, $app->functions->idn_encode($username));
 					$user = false;
 					if($mailuser) {
 						$saved_password = stripslashes($mailuser['password']);
