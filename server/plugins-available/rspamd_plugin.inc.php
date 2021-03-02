@@ -224,11 +224,10 @@ class rspamd_plugin {
 				unlink($settings_file);
 			}
 		} else {
-			$settings_priority = 20;
 			if(isset($data[$use_data]['priority'])) {
-				$settings_priority = intval($data[$use_data]['priority']);
-			} elseif($is_domain === true) {
-				$settings_priority = 18;
+				$settings_priority = ($is_domain ? 10 : 20) + intval($data[$use_data]['priority']);
+			} else {
+				$settings_priority = ($is_domain ? 10 : 20) + 5;
 			}
 
 			// get policy for entry
@@ -405,8 +404,8 @@ class rspamd_plugin {
 					$tpl->newTemplate('rspamd_wblist.inc.conf.master');
 					$tpl->setVar('list_scope', ($global_filter ? 'global' : 'spamfilter'));
 					$tpl->setVar('record_id', $record_id);
-					// we need to add 10 to priority to avoid mailbox/domain spamfilter settings overriding white/blacklists
-					$tpl->setVar('priority', intval($data['new']['priority']) + ($global_filter ? 10 : 20));
+					// add 30/40 to priority to avoid collisions and prefer white/blacklists above mailbox/domain spamfilter settings
+					$tpl->setVar('priority', intval($data['new']['priority']) + ($global_filter ? 30 : 40));
 					$tpl->setVar('from', $filter_from);
 					$tpl->setVar('recipient', $filter_rcpt);
 					$tpl->setVar('hostname', $filter['hostname']);
