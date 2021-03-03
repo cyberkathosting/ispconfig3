@@ -226,8 +226,10 @@ class page_action extends tform_actions {
 
 		$domain_name = rtrim($soa['origin'], '.');
 		// DMARC requieres at least one active dkim-record...
-		$sql = "SELECT * FROM dns_rr WHERE name LIKE ? AND type='TXT' AND data like 'v=DKIM1;%' AND active='Y'";
-		$temp = $app->db->queryAllRecords($sql, '%._domainkey.'.$domain_name.'.');
+		$sql = "SELECT * FROM dns_rr
+					LEFT JOIN dns_soa ON (dns_rr.zone=dns_soa.id)
+					WHERE dns_rr.name LIKE ? AND dns_soa.origin = ? AND type='TXT' AND data like 'v=DKIM1;%' AND dns_rr.active='Y'";
+		$temp = $app->db->queryAllRecords($sql, '%._domainkey', $soa['origin']);
 		if (empty($temp)) {
 			if (isset($app->tform->errorMessage )) $app->tform->errorMessage = '<br/>' . $app->tform->errorMessage;
 			$app->tform->errorMessage .= $app->tform->wordbook['dmarc_no_dkim_txt'].$email;
