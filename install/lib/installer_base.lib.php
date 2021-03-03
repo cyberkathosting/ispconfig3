@@ -1825,33 +1825,48 @@ class installer_base {
 		fclose($fps);
 		unset($dkim_domains);
 
-		# local.d templates with template tags
-		$tpl = new tpl();
-		$tpl->newTemplate('rspamd_dkim_signing.conf.master');
-		$tpl->setVar('dkim_path', $mail_config['dkim_path']);
-		wf('/etc/rspamd/local.d/dkim_signing.conf', $tpl->grab());
-
-		$tpl = new tpl();
-		$tpl->newTemplate('rspamd_options.inc.master');
-
+		# look up values for use in template tags
 		$local_addrs = array();
 		$ips = $this->db->queryAllRecords('SELECT `ip_address`, `ip_type` FROM ?? WHERE `server_id` = ?', $conf['mysql']['database'].'.server_ip', $conf['server_id']);
 		if(is_array($ips) && !empty($ips)){
 			foreach($ips as $ip){
-				$local_addrs[] = array('quoted_ip' => "\"".$ip['ip_address']."\",\n");
+				$local_addrs[] = array(
+					'ip' => $ip['ip_address'],
+					'quoted_ip' => "\"".$ip['ip_address']."\",\n"
+				);
 			}
 		}
-		$tpl->setLoop('local_addrs', $local_addrs);
-		wf('/etc/rspamd/local.d/options.inc', $tpl->grab());
+
+		# local.d templates with template tags
+		# note: ensure these template files are in server/conf/ and symlinked in install/tpl/
+		$local_d = array(
+			'dkim_signing.conf',
+			'options.inc',
+			'redis.conf',
+			'classifier-bayes.conf',
+		);
+		foreach ($local_d as $f) {
+			$tpl = new tpl();
+			$tpl->newTemplate("rspamd_${f}.master");
+
+			$tpl->setVar('dkim_path', $mail_config['dkim_path']);
+			$tpl->setVar('rspamd_redis_servers', $mail_config['rspamd_redis_servers']);
+			$tpl->setVar('rspamd_redis_password', $mail_config['rspamd_redis_password']);
+			$tpl->setVar('rspamd_redis_bayes_servers', $mail_config['rspamd_redis_bayes_servers']);
+			$tpl->setVar('rspamd_redis_bayes_password', $mail_config['rspamd_redis_bayes_password']);
+			if(count($local_addrs) > 0) {
+				$tpl->setLoop('local_addrs', $local_addrs);
+			}
+
+			wf("/etc/rspamd/local.d/${f}", $tpl->grab());
+		}
+
 
 		# local.d templates without template tags
 		$local_d = array(
 			'groups.conf',
 			'antivirus.conf',
-			'classifier-bayes.conf',
-			'greylist.conf',
 			'mx_check.conf',
-			'redis.conf',
 			'milter_headers.conf',
 			'neural.conf',
 			'neural_group.conf',
@@ -1892,6 +1907,11 @@ class installer_base {
 			} else {
 				exec("cp tpl/rspamd_${f}.master /etc/rspamd/local.d/maps.d/${f}");
 			}
+		}
+
+		# rename rspamd templates we no longer use
+		if(file_exists("/etc/rspamd/local.d/greylist.conf")) {
+			rename("/etc/rspamd/local.d/greylist.conf", "/etc/rspamd/local.d/greylist.old");
 		}
 
 

@@ -1,0 +1,4 @@
+servers = "<tmpl_var name='rspamd_redis_servers'>";
+<tmpl_if name="rspamd_redis_password">
+password = "<tmpl_var name='rspamd_redis_password'>";
+</tmpl_if>

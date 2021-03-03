@@ -120,10 +120,14 @@ class rspamd_plugin {
 		$app->plugins->registerEvent('mail_access_update', $this->plugin_name, 'spamfilter_wblist_update');
 		$app->plugins->registerEvent('mail_access_delete', $this->plugin_name, 'spamfilter_wblist_delete');
 
+		//* server
+		$app->plugins->registerEvent('server_insert', $this->plugin_name, 'server_update');
+		$app->plugins->registerEvent('server_update', $this->plugin_name, 'server_update');
+
 		//* server ip
-		$app->plugins->registerEvent('server_ip_insert', $this->plugin_name, 'server_ip');
-		$app->plugins->registerEvent('server_ip_update', $this->plugin_name, 'server_ip');
-		$app->plugins->registerEvent('server_ip_delete', $this->plugin_name, 'server_ip');
+		$app->plugins->registerEvent('server_ip_insert', $this->plugin_name, 'server_update');
+		$app->plugins->registerEvent('server_ip_update', $this->plugin_name, 'server_update');
+		$app->plugins->registerEvent('server_ip_delete', $this->plugin_name, 'server_update');
 
 		//* spamfilter_users
 		$app->plugins->registerEvent('spamfilter_users_insert', $this->plugin_name, 'user_settings_update');
@@ -483,28 +487,50 @@ class rspamd_plugin {
 		}
 	}
 
-	function server_ip($event_name, $data) {
+	function server_update($event_name, $data) {
 		global $app, $conf;
 
-		// get the config
-		$app->uses("getconf,system");
+		if(!is_dir('/etc/rspamd')) {
+			return;
+		}
+
 		$app->load('tpl');
 
 		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 
-		if(is_dir('/etc/rspamd')) {
-			$tpl = new tpl();
-			$tpl->newTemplate('rspamd_options.inc.master');
-
-			$local_addrs = array();
-			$ips = $app->db->queryAllRecords('SELECT `ip_address`, `ip_type` FROM ?? WHERE `server_id` = ?', $conf['mysql']['database'].'.server_ip', $conf['server_id']);
-			if(is_array($ips) && !empty($ips)){
-				foreach($ips as $ip){
-					$local_addrs[] = array('quoted_ip' => "\"".$ip['ip_address']."\",\n");
-				}
+		$local_addrs = array();
+		$ips = $app->db->queryAllRecords('SELECT `ip_address`, `ip_type` FROM ?? WHERE `server_id` = ?', $conf['mysql']['database'].'.server_ip', $conf['server_id']);
+		if(is_array($ips) && !empty($ips)){
+			foreach($ips as $ip){
+				$local_addrs[] = array(
+					'ip' => $ip['ip_address'],
+					'quoted_ip' => "\"".$ip['ip_address']."\",\n",
+				);
 			}
-			$tpl->setLoop('local_addrs', $local_addrs);
-			$app->system->file_put_contents('/etc/rspamd/local.d/options.inc', $tpl->grab());
+		}
+
+		# local.d templates with template tags
+		# note: ensure these template files are in server/conf/ and symlinked in install/tpl/
+		$local_d = array(
+			'dkim_signing.conf',
+			'options.inc',
+			'redis.conf',
+			'classifier-bayes.conf',
+		);
+		foreach ($local_d as $f) {
+			$tpl = new tpl();
+			$tpl->newTemplate("rspamd_${f}.master");
+
+			$tpl->setVar('dkim_path', $mail_config['dkim_path']);
+			$tpl->setVar('rspamd_redis_servers', $mail_config['rspamd_redis_servers']);
+			$tpl->setVar('rspamd_redis_password', $mail_config['rspamd_redis_password']);
+			$tpl->setVar('rspamd_redis_bayes_servers', $mail_config['rspamd_redis_bayes_servers']);
+			$tpl->setVar('rspamd_redis_bayes_password', $mail_config['rspamd_redis_bayes_password']);
+			if(count($local_addrs) > 0) {
+				$tpl->setLoop('local_addrs', $local_addrs);
+			}
+
+			$app->system->file_put_contents("/etc/rspamd/local.d/${f}", $tpl->grab());
 
 			if($mail_config['content_filter'] == 'rspamd'){
 				$app->services->restartServiceDelayed('rspamd', 'reload');
