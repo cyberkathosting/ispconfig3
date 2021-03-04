@@ -32,7 +32,7 @@ Closes #6049"
 # Some guidelines for web development with php.
 -----------------------------------------------------
 * Don't use features that are not supported in PHP 5.4, for compatibility with LTS OS releases, ISPConfig must support PHP 5.4+
-* Don't use shorttags. A Shorttag is <? and that is confusing with <?xml -> always use <?php
+* Don't use shorttags. A Shorttag is `<?` and that is confusing with `<?xml` -> always use `<?php`
 * Don't use namespaces
 * Column names in database tables and database table names are in lowercase
 * Classes for the interface are located in interface/lib/classes/ and loaded with $app->uses() or $app->load() functions.
@@ -40,7 +40,7 @@ Closes #6049"
 
 ### Indentations
 
-Indentations are always done with tabs. Do **not** use spaces.  
+Indentations are always done with tabs. Do **not** use spaces.
 It is recommended to set your IDE to display tabs with a width of 4 spaces.
 
 ### Variable and method / function names
@@ -73,7 +73,7 @@ class my_class {
 
 #### Curly braces
 
-Opening curly braces always have to be in the same line as the preceding condition. They are separated by a single space from the closing paranthesis.  
+Opening curly braces always have to be in the same line as the preceding condition. They are separated by a single space from the closing paranthesis.
 Closing curly braces are always on a separate line after the last statement in the block. The only exception is a do-while block where the logic is inverted.
 
 Curly braces are **always** to be used. Do not leave them out, even if there is only a single statement in the corresponding block.
@@ -206,7 +206,7 @@ $var2 = [
 ```
 
 **Wrong:**
-```php:
+```php
 $var = array();
 
 $var2 = array(
@@ -218,7 +218,7 @@ $var2 = array(
 
 #### Spaces and newlines
 
-When defining an empty array, both brackets shall be on the same line. When defining an array with values, the style depends on the values you are going to assign.  
+When defining an empty array, both brackets shall be on the same line. When defining an array with values, the style depends on the values you are going to assign.
 
 ##### List of values
 
