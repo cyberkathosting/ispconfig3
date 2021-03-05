@@ -536,6 +536,11 @@ class rspamd_plugin {
 				$app->services->restartServiceDelayed('rspamd', 'reload');
 			}
 		}
+
+		# protect passwords in these files
+		exec('chgrp _rspamd /etc/rspamd/local.d/redis.conf /etc/rspamd/local.d/classifier-bayes.conf /etc/rspamd/local.d/worker-controller.inc');
+		exec('chmod 640 /etc/rspamd/local.d/redis.conf /etc/rspamd/local.d/classifier-bayes.conf /etc/rspamd/local.d/worker-controller.inc');
+
 	}
 
 	private function _is_valid_ip_address($ip) {
