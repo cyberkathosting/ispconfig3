@@ -37,6 +37,7 @@ $wb['company_txt'] = 'Spoločnosť';
 $wb['title_txt'] = 'Názov';
 $wb['firstname_txt'] = 'Krstné meno';
 $wb['surname_txt'] = 'Priezvisko';
+$wb['limit_relayhost_txt'] = 'Show SMTP relay host options';
 $wb['limit_domain_txt'] = 'limit_domén';
 $wb['limit_subdomain_txt'] = 'limit_subdomén';
 $wb['limit_webquota_txt'] = 'limit_webkvóta';

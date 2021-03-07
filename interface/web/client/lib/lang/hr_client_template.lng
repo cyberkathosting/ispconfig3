@@ -15,6 +15,7 @@ $wb['limit_mailquota_txt'] = 'Veličina mailboxa';
 $wb['limit_spamfilter_wblist_txt'] = 'Maksimalan broj spamfilter white / blacklist filtera';
 $wb['limit_spamfilter_user_txt'] = 'Maksimalan broj spamfilter korisnika';
 $wb['limit_spamfilter_policy_txt'] = 'Maksimalan broj spamfilter pravila';
+$wb['limit_relayhost_txt'] = 'Show SMTP relay host options';
 $wb['limit_domain_txt'] = 'limit_domena';
 $wb['limit_subdomain_txt'] = 'limit_poddomena';
 $wb['limit_webquota_txt'] = 'limit_prostora';

@@ -38,6 +38,7 @@ $wb['company_txt'] = 'Perusahaan';
 $wb['title_txt'] = 'Judul';
 $wb['firstname_txt'] = 'Nama depan';
 $wb['surname_txt'] = 'Nama belakang';
+$wb['limit_relayhost_txt'] = 'Show SMTP relay host options';
 $wb['limit_domain_txt'] = 'batasan domain';
 $wb['limit_subdomain_txt'] = 'batasan subdomain';
 $wb['limit_webquota_txt'] = 'batasan kuota web';

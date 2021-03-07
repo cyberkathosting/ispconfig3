@@ -19,6 +19,7 @@ $wb['limit_mailquota_txt'] = 'Cota da conta de email';
 $wb['limit_spamfilter_wblist_txt'] = 'Limite de filtros anti-spam "lista de permissões/lista de bloqueio"';
 $wb['limit_spamfilter_user_txt'] = 'Limite de filtros anti-spam para conta de email';
 $wb['limit_spamfilter_policy_txt'] = 'Limite de políticas anti-spam';
+$wb['limit_relayhost_txt'] = 'Show SMTP relay host options';
 $wb['limit_domain_txt'] = 'Limite de domínios';
 $wb['limit_subdomain_txt'] = 'Limite de subdomínios';
 $wb['limit_webquota_txt'] = 'Limite da cota de site';

@@ -37,6 +37,7 @@ $wb['title_txt'] = 'Titulus';
 $wb['firstname_txt'] = 'Keresztnév';
 $wb['surname_txt'] = 'Vezetéknév';
 $wb['limit_client_txt'] = 'Max. number of Clients';
+$wb['limit_relayhost_txt'] = 'Show SMTP relay host options';
 $wb['limit_domain_txt'] = 'limit_domain';
 $wb['limit_subdomain_txt'] = 'limit_subdomain';
 $wb['limit_webquota_txt'] = 'limit_webquota';

@@ -40,6 +40,7 @@ $wb['company_txt'] = 'Company';
 $wb['title_txt'] = 'Title';
 $wb['firstname_txt'] = 'Firstname';
 $wb['surname_txt'] = 'Surname';
+$wb['limit_relayhost_txt'] = 'Show SMTP relay host options';
 $wb['limit_domain_txt'] = 'limit_domain';
 $wb['limit_subdomain_txt'] = 'limit_subdomain';
 $wb['limit_webquota_txt'] = 'limit_webquota';

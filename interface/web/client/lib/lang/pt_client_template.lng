@@ -14,6 +14,7 @@ $wb['limit_mailquota_txt'] = 'Espaço de Caixa de Correio';
 $wb['limit_spamfilter_wblist_txt'] = 'Número máximo de spamfilter permitidos /lista negra';
 $wb['limit_spamfilter_user_txt'] = 'Número máx de utilizadors spamfilter';
 $wb['limit_spamfilter_policy_txt'] = 'Número máx de políticas spamfilter';
+$wb['limit_relayhost_txt'] = 'Show SMTP relay host options';
 $wb['limit_domain_txt'] = 'limite_dominio';
 $wb['limit_subdomain_txt'] = 'limite_subdominio';
 $wb['limit_webquota_txt'] = 'limite_webquota';

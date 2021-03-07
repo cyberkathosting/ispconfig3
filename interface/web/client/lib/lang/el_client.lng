@@ -38,6 +38,7 @@ $wb['company_txt'] = 'Εταιρία';
 $wb['title_txt'] = 'Τίτλος';
 $wb['firstname_txt'] = 'Όνομα';
 $wb['surname_txt'] = 'Επίθετο';
+$wb['limit_relayhost_txt'] = 'Show SMTP relay host options';
 $wb['limit_domain_txt'] = 'Όριο domain';
 $wb['limit_subdomain_txt'] = 'Όριο subdomain';
 $wb['limit_webquota_txt'] = 'Όριο χώρου web';

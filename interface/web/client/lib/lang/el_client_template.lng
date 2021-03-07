@@ -15,6 +15,7 @@ $wb['limit_mailquota_txt'] = 'Όριο θυρίδας';
 $wb['limit_spamfilter_wblist_txt'] = 'Όριο spamfilter white / blacklist';
 $wb['limit_spamfilter_user_txt'] = 'Όριο χρηστών spamfilter';
 $wb['limit_spamfilter_policy_txt'] = 'Όριο πολιτικών spamfilter';
+$wb['limit_relayhost_txt'] = 'Show SMTP relay host options';
 $wb['limit_domain_txt'] = 'Όριο domain';
 $wb['limit_subdomain_txt'] = 'Όριο subdomain';
 $wb['limit_webquota_txt'] = 'Όριο χώρου web';

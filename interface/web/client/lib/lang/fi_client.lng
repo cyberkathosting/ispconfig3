@@ -37,6 +37,7 @@ $wb['title_txt'] = 'Otsikko';
 $wb['firstname_txt'] = 'Etunimi';
 $wb['surname_txt'] = 'Sukunimi';
 $wb['limit_client_txt'] = 'Asiakkaiden määrä';
+$wb['limit_relayhost_txt'] = 'Show SMTP relay host options';
 $wb['limit_domain_txt'] = 'Verkkotunnuksien määrä';
 $wb['limit_subdomain_txt'] = 'Aliverkkotunnuksien määrä';
 $wb['limit_webquota_txt'] = 'Kotisivutila';

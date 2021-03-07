@@ -36,6 +36,7 @@ $wb['company_txt'] = 'Entreprise';
 $wb['title_txt'] = 'Titre';
 $wb['firstname_txt'] = 'Prénom';
 $wb['surname_txt'] = 'Nom';
+$wb['limit_relayhost_txt'] = 'Show SMTP relay host options';
 $wb['limit_domain_txt'] = 'Nombre maximal de domaines';
 $wb['limit_subdomain_txt'] = 'Nombre maximal de sous-domaines';
 $wb['limit_webquota_txt'] = 'Limite du quota web';

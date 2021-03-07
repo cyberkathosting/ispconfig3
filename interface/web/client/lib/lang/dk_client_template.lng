@@ -18,6 +18,7 @@ $wb['limit_mailquota_txt'] = 'Postboks kvota';
 $wb['limit_spamfilter_wblist_txt'] = 'Max. antal af spamfilter white/blacklist filtere';
 $wb['limit_spamfilter_user_txt'] = 'Max. antal af spamfilter brugere';
 $wb['limit_spamfilter_policy_txt'] = 'Max. antal af spamfilter politikker';
+$wb['limit_relayhost_txt'] = 'Show SMTP relay host options';
 $wb['limit_domain_txt'] = 'limit_domain';
 $wb['limit_subdomain_txt'] = 'limit_subdomain';
 $wb['limit_webquota_txt'] = 'limit_webkvote';

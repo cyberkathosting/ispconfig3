@@ -15,6 +15,7 @@ $wb['limit_spamfilter_wblist_txt'] = 'Num. massimo filtri spam white / blacklist
 $wb['limit_spamfilter_user_txt'] = 'Num. massimo utenti spamfilter';
 $wb['limit_spamfilter_policy_txt'] = 'Num. massimo policys spamfilter';
 $wb['limit_client_txt'] = 'Num. massimo clienti';
+$wb['limit_relayhost_txt'] = 'Show SMTP relay host options';
 $wb['limit_domain_txt'] = 'limit_domain';
 $wb['limit_subdomain_txt'] = 'limit_subdomain';
 $wb['limit_webquota_txt'] = 'limit_webquota';
