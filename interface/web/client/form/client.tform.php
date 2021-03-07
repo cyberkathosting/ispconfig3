@@ -938,6 +938,13 @@ $form["tabs"]['limits'] = array (
 			'rows'  => '',
 			'cols'  => ''
 		),
+		'limit_relayhost' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'valuelimit' => 'client:limit_relayhost',
+			'value'  => array(0 => 'n', 1 => 'y')
+		),
         'default_xmppserver' => array (
             'datatype' => 'INTEGER',
             'formtype' => 'SELECT',
