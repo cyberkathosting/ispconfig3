@@ -16,6 +16,7 @@ webmail_url=/webmail
 dkim_path=/var/lib/amavis/dkim
 smtp_enabled=y
 smtp_host=localhost
+enable_welcome_mail=y
 
 [monitor]
 
