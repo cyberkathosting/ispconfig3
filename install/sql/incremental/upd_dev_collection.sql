@@ -19,3 +19,7 @@ DROP TABLE 'software_update_inst';
 
 -- Brexit
 UPDATE `country` SET `eu` = 'n' WHERE `iso` = 'GB';
+
+-- Add limit for per domain relaying
+ALTER TABLE `client` ADD `limit_relayhost` ENUM( 'n', 'y' ) NOT NULL DEFAULT 'n' AFTER `limit_spamfilter_policy`;
+ALTER TABLE `client_template` ADD `limit_relayhost` ENUM( 'n', 'y' ) NOT NULL DEFAULT 'n' AFTER `limit_spamfilter_policy`;
