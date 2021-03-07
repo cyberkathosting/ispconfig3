@@ -190,6 +190,14 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("domain_module", 0);
 		}
 
+		// Check wether per domain relaying is enabled or not
+		$global_config = $app->getconf->get_global_config('mail');
+		if($global_config['show_per_domain_relay_options'] == 'n' {
+			$app->tpl->setVar("show_per_domain_relay_options", 1);
+		} else {
+			$app->tpl->setVar("show_per_domain_relay_options", 0);
+		}
+
 
 		// Get the spamfilter policys for the user
 		$tmp_user = $app->db->queryOneRecord("SELECT policy_id FROM spamfilter_users WHERE email = ?", '@' . $this->dataRecord["domain"]);

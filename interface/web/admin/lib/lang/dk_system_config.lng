@@ -48,6 +48,7 @@ $wb['use_combobox_txt'] = 'Brug jQuery UI Combobox';
 $wb['use_loadindicator_txt'] = 'Brug Load Indicator';
 $wb['f5_to_reload_js_txt'] = 'Hvis du ændrer dette, kan du blive nødt til at trykke på F5 for at browseren genindlæser JavaScript-biblioteker eller tømme browserens cache.';
 $wb['client_username_web_check_disabled_txt'] = 'Deaktiver klient-brugernavns check for ordet \'web\'.';
+$wb['show_per_domain_relay_options_txt'] = 'Show per domain relay options';
 $wb['mailbox_show_autoresponder_tab_txt'] = 'Vis autoresponder tab i mail kontooplysninger';
 $wb['mailbox_show_mail_filter_tab_txt'] = 'Vis mail filter tab i mail kontooplysninger';
 $wb['mailbox_show_custom_rules_tab_txt'] = 'Vis custom mailfilter tab i mail kontooplysninger';

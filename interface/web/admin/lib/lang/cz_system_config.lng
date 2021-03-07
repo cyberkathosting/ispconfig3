@@ -48,6 +48,7 @@ $wb['use_combobox_txt'] = 'Použití jQuery UI Combobox';
 $wb['use_loadindicator_txt'] = 'Použití indikátoru zatížení';
 $wb['f5_to_reload_js_txt'] = 'Pokud vypnete tuto volbu, zřejmě budete muset používat klávesu F5, aby internetový prohlížeč znovu načetl JavaScript knihovny nebo budete muset ručně vyprázdňovat mezipaměť (cache) vašeho internetového prohlížeče.';
 $wb['client_username_web_check_disabled_txt'] = 'Disable client username check for the word \'web\'.';
+$wb['show_per_domain_relay_options_txt'] = 'Show per domain relay options';
 $wb['mailbox_show_autoresponder_tab_txt'] = 'Ukázat kartu automatická odpověď v podrobnostech u poštovní schránky';
 $wb['mailbox_show_mail_filter_tab_txt'] = 'Ukázat kartu poštovní filtry v podrobnostech u poštovní schránky';
 $wb['mailbox_show_custom_rules_tab_txt'] = 'Ukázat kartu vlastní pravidla v podrobnostech u poštovní schránky';
