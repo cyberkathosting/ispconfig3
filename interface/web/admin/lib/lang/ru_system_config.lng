@@ -23,6 +23,7 @@ $wb['webftp_url_txt'] = 'URL WebFTP';
 $wb['dashboard_atom_url_admin_txt'] = 'Dashboard atom feed URL (admin)';
 $wb['dashboard_atom_url_reseller_txt'] = 'Dashboard atom feed URL (reseller)';
 $wb['dashboard_atom_url_client_txt'] = 'Dashboard atom feed URL (client)';
+$wb['enable_welcome_mail_txt'] = 'Enable welcome email';
 $wb['enable_custom_login_txt'] = 'Разрешить пользовательское имя входа в систему';
 $wb['mailmailinglist_link_txt'] = 'Ссылка на почтовую рассылку в списке рассылок';
 $wb['mailmailinglist_url_txt'] = 'URL почтовой рассылки';

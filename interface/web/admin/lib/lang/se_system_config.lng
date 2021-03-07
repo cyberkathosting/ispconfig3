@@ -23,6 +23,7 @@ $wb['dashboard_atom_url_client_txt'] = 'Kontrolpanelens nyhetsflöde URL (kund)'
 $wb['webdavuser_prefix_txt'] = 'Prefix för WebDAV-användare';
 $wb['webdavuser_prefix_error_regex'] = 'Otillåtet tecken i prefix för WebDAV-användare';
 $wb['webftp_url_txt'] = 'WebbFTP URL';
+$wb['enable_welcome_mail_txt'] = 'Enable welcome email';
 $wb['enable_custom_login_txt'] = 'Tillåt valfritt inloggningsnamn';
 $wb['mailmailinglist_link_txt'] = 'Länka till epostlista i listan över epostlistor';
 $wb['mailmailinglist_url_txt'] = 'Adress till epostlista';

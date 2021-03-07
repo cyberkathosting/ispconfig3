@@ -22,6 +22,7 @@ $wb['dashboard_atom_url_client_txt'] = 'Dashboard atom feed URL (client)';
 $wb['webdavuser_prefix_txt'] = 'Prefiks użytkownika webdav';
 $wb['webdavuser_prefix_error_regex'] = 'Niedozwolony znak w prefiksie użytkownika webdav.';
 $wb['webftp_url_txt'] = 'Link do WebFTP';
+$wb['enable_welcome_mail_txt'] = 'Enable welcome email';
 $wb['enable_custom_login_txt'] = 'Zezwalaj na dowolną nazwę loginu';
 $wb['mailmailinglist_link_txt'] = 'Link do listy mailingowej na liście list mailingowych';
 $wb['mailmailinglist_url_txt'] = 'URL listy mailingowej';
