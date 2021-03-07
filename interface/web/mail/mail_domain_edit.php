@@ -192,12 +192,20 @@ class page_action extends tform_actions {
 
 		// Check wether per domain relaying is enabled or not
 		$global_config = $app->getconf->get_global_config('mail');
-		if($global_config['show_per_domain_relay_options'] == 'n') {
+		if($global_config['show_per_domain_relay_options'] == 'y') {
 			$app->tpl->setVar("show_per_domain_relay_options", 1);
 		} else {
 			$app->tpl->setVar("show_per_domain_relay_options", 0);
 		}
 
+		// Get the limits of the client
+    $client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
+    $client = $app->db->queryOneRecord("SELECT limit_relayhost FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
+		if ($client["limit_relayhost"] == 'y' || $_SESSION["s"]["user"]["typ"] == 'admin') {
+			$app->tpl->setVar("limit_relayhost", 1);
+		} else {
+			$app->tpl->setVar("limit_relayhost", 0);
+		}
 
 		// Get the spamfilter policys for the user
 		$tmp_user = $app->db->queryOneRecord("SELECT policy_id FROM spamfilter_users WHERE email = ?", '@' . $this->dataRecord["domain"]);
@@ -273,7 +281,7 @@ class page_action extends tform_actions {
 		if($_SESSION["s"]["user"]["typ"] != 'admin') {
 			// Get the limits of the client
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-			$client = $app->db->queryOneRecord("SELECT client.mail_servers, limit_maildomain, default_mailserver, limit_relayhost FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
+			$client = $app->db->queryOneRecord("SELECT client.mail_servers, limit_maildomain, default_mailserver FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 			// When the record is updated
 			if($this->id > 0) {
 				// restore the server ID if the user is not admin and record is edited
