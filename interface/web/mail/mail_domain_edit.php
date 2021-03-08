@@ -190,23 +190,6 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("domain_module", 0);
 		}
 
-		// Check wether per domain relaying is enabled or not
-		$global_config = $app->getconf->get_global_config('mail');
-		if($global_config['show_per_domain_relay_options'] == 'y') {
-			$app->tpl->setVar("show_per_domain_relay_options", 1);
-		} else {
-			$app->tpl->setVar("show_per_domain_relay_options", 0);
-		}
-
-		// Get the limits of the client
-    $client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
-    $client = $app->db->queryOneRecord("SELECT limit_relayhost FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
-		if ($client["limit_relayhost"] == 'y' || $_SESSION["s"]["user"]["typ"] == 'admin') {
-			$app->tpl->setVar("limit_relayhost", 1);
-		} else {
-			$app->tpl->setVar("limit_relayhost", 0);
-		}
-
 		// Get the spamfilter policys for the user
 		$tmp_user = $app->db->queryOneRecord("SELECT policy_id FROM spamfilter_users WHERE email = ?", '@' . $this->dataRecord["domain"]);
 		$sql = "SELECT id, policy_name FROM spamfilter_policy WHERE ".$app->tform->getAuthSQL('r')." ORDER BY policy_name";
@@ -229,6 +212,23 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("server_id_value", $this->dataRecord["server_id"], true);
 		} else {
 			$app->tpl->setVar("edit_disabled", 0);
+		}
+
+		// Check wether per domain relaying is enabled or not
+		$global_config = $app->getconf->get_global_config('mail');
+		if($global_config['show_per_domain_relay_options'] == 'y') {
+			$app->tpl->setVar("show_per_domain_relay_options", 1);
+		} else {
+			$app->tpl->setVar("show_per_domain_relay_options", 0);
+		}
+
+		// Get the limits of the client
+		$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
+		$client = $app->db->queryOneRecord("SELECT limit_relayhost FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
+		if ($client["limit_relayhost"] == 'y' || $_SESSION["s"]["user"]["typ"] == 'admin') {
+			$app->tpl->setVar("limit_relayhost", 1);
+		} else {
+			$app->tpl->setVar("limit_relayhost", 0);
 		}
 
 		// load relayhost-values
