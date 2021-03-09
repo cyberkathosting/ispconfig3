@@ -6,5 +6,6 @@ routines {
     "X-Spamd-Bar" = 0;
     "X-Spam-Level" = 0;
     "X-Spam-Status" = 0;
+    "X-Spam-Flag" = 0;
   }
 }

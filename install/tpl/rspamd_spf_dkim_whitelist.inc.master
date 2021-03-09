@@ -1,0 +1,9 @@
+# Domain whitelist via valid SPF policy AND valid DKIM policy
+# (Prefer to spf_whitelist or dkim_whitelist for domains that use both SPF and DKIM.)
+
+comodo.com
+geotrust.com
+geotrusteurope.com
+# letsencrypt is in rspamd's default spf_dkim_whitelist, only needed if strict:
+#letsencrypt.org both:1.0
+

@@ -1802,6 +1802,10 @@ class installer_base {
 			mkdir('/etc/rspamd/local.d/', 0755, true);
 		}
 
+		if(!is_dir('/etc/rspamd/local.d/maps.d/')){
+			mkdir('/etc/rspamd/local.d/maps.d/', 0755, true);
+		}
+
 		if(!is_dir('/etc/rspamd/override.d/')){
 			mkdir('/etc/rspamd/override.d/', 0755, true);
 		}
@@ -1810,6 +1814,7 @@ class installer_base {
 			$mail_config['dkim_path'] = substr($mail_config['dkim_path'], 0, strlen($mail_config['dkim_path'])-1);
 		}
 		$dkim_domains = $this->db->queryAllRecords('SELECT `dkim_selector`, `domain` FROM ?? WHERE `dkim` = ? ORDER BY `domain` ASC', $conf['mysql']['database'] . '.mail_domain', 'y');
+		# should move maps to local.d/maps.d/ ?
 		$fpp = fopen('/etc/rspamd/local.d/dkim_domains.map', 'w');
 		$fps = fopen('/etc/rspamd/local.d/dkim_selectors.map', 'w');
 		foreach($dkim_domains as $dkim_domain) {
@@ -1820,104 +1825,79 @@ class installer_base {
 		fclose($fps);
 		unset($dkim_domains);
 
-		$tpl = new tpl();
-		$tpl->newTemplate('rspamd_users.conf.master');
-
-		$whitelist_ips = array();
-		$ips = $this->db->queryAllRecords("SELECT * FROM server_ip WHERE server_id = ?", $conf['server_id']);
-		if(is_array($ips) && !empty($ips)){
-			foreach($ips as $ip){
-				$whitelist_ips[] = array('ip' => $ip['ip_address']);
-			}
-		}
-		$tpl->setLoop('whitelist_ips', $whitelist_ips);
-		wf('/etc/rspamd/local.d/users.conf', $tpl->grab());
-
-		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_groups.conf.master')) {
-			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_groups.conf.master /etc/rspamd/local.d/groups.conf');
-		} else {
-			exec('cp tpl/rspamd_groups.conf.master /etc/rspamd/local.d/groups.conf');
-		}
-
-		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_antivirus.conf.master')) {
-			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_antivirus.conf.master /etc/rspamd/local.d/antivirus.conf');
-		} else {
-			exec('cp tpl/rspamd_antivirus.conf.master /etc/rspamd/local.d/antivirus.conf');
-		}
-
-		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_classifier-bayes.conf.master')) {
-			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_classifier-bayes.conf.master /etc/rspamd/local.d/classifier-bayes.conf');
-		} else {
-			exec('cp tpl/rspamd_classifier-bayes.conf.master /etc/rspamd/local.d/classifier-bayes.conf');
-		}
-
-		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_greylist.conf.master')) {
-			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_greylist.conf.master /etc/rspamd/local.d/greylist.conf');
-		} else {
-			exec('cp tpl/rspamd_greylist.conf.master /etc/rspamd/local.d/greylist.conf');
-		}
-
-		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_symbols_antivirus.conf.master')) {
-			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_symbols_antivirus.conf.master /etc/rspamd/local.d/antivirus_group.conf');
-		} else {
-			exec('cp tpl/rspamd_symbols_antivirus.conf.master /etc/rspamd/local.d/antivirus_group.conf');
-		}
-
-		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_override_rbl.conf.master')) {
-			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_override_rbl.conf.master /etc/rspamd/override.d/rbl_group.conf');
-		} else {
-			exec('cp tpl/rspamd_override_rbl.conf.master /etc/rspamd/override.d/rbl_group.conf');
-		}
-
-		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_override_surbl.conf.master')) {
-			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_override_surbl.conf.master /etc/rspamd/override.d/surbl_group.conf');
-		} else {
-			exec('cp tpl/rspamd_override_surbl.conf.master /etc/rspamd/override.d/surbl_group.conf');
-		}
-
-		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_mx_check.conf.master')) {
-			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_mx_check.conf.master /etc/rspamd/local.d/mx_check.conf');
-		} else {
-			exec('cp tpl/rspamd_mx_check.conf.master /etc/rspamd/local.d/mx_check.conf');
-		}
-
-		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_redis.conf.master')) {
-			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_redis.conf.master /etc/rspamd/local.d/redis.conf');
-		} else {
-			exec('cp tpl/rspamd_redis.conf.master /etc/rspamd/local.d/redis.conf');
-		}
-
-		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_milter_headers.conf.master')) {
-			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_milter_headers.conf.master /etc/rspamd/local.d/milter_headers.conf');
-		} else {
-			exec('cp tpl/rspamd_milter_headers.conf.master /etc/rspamd/local.d/milter_headers.conf');
-		}
-
-		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_options.inc.master')) {
-			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_options.inc.master /etc/rspamd/local.d/options.inc');
-		} else {
-			exec('cp tpl/rspamd_options.inc.master /etc/rspamd/local.d/options.inc');
-		}
-
-		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_neural.conf.master')) {
-			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_neural.conf.master /etc/rspamd/local.d/neural.conf');
-		} else {
-			exec('cp tpl/rspamd_neural.conf.master /etc/rspamd/local.d/neural.conf');
-		}
-
-		if(file_exists($conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_neural_group.conf.master')) {
-			exec('cp '.$conf['ispconfig_install_dir'].'/server/conf-custom/install/rspamd_neural_group.conf.master /etc/rspamd/local.d/neural_group.conf');
-		} else {
-			exec('cp tpl/rspamd_neural_group.conf.master /etc/rspamd/local.d/neural_group.conf');
-		}
-
+		# local.d templates with template tags
 		$tpl = new tpl();
 		$tpl->newTemplate('rspamd_dkim_signing.conf.master');
 		$tpl->setVar('dkim_path', $mail_config['dkim_path']);
 		wf('/etc/rspamd/local.d/dkim_signing.conf', $tpl->grab());
 
-		exec('chmod a+r /etc/rspamd/local.d/* /etc/rspamd/override.d/*');
+		$tpl = new tpl();
+		$tpl->newTemplate('rspamd_options.inc.master');
 
+		$local_addrs = array();
+		$ips = $this->db->queryAllRecords('SELECT `ip_address`, `ip_type` FROM ?? WHERE `server_id` = ?', $conf['mysql']['database'].'.server_ip', $conf['server_id']);
+		if(is_array($ips) && !empty($ips)){
+			foreach($ips as $ip){
+				$local_addrs[] = array('quoted_ip' => "\"".$ip['ip_address']."\",\n");
+			}
+		}
+		$tpl->setLoop('local_addrs', $local_addrs);
+		wf('/etc/rspamd/local.d/options.inc', $tpl->grab());
+
+		# local.d templates without template tags
+		$local_d = array(
+			'groups.conf',
+			'antivirus.conf',
+			'classifier-bayes.conf',
+			'greylist.conf',
+			'mx_check.conf',
+			'redis.conf',
+			'milter_headers.conf',
+			'neural.conf',
+			'neural_group.conf',
+			'users.conf',
+			'groups.conf',
+		);
+		foreach ($local_d as $f) {
+			if(file_exists($conf['ispconfig_install_dir']."/server/conf-custom/install/rspamd_${f}.master")) {
+				exec('cp '.$conf['ispconfig_install_dir']."/server/conf-custom/install/rspamd_${f}.master /etc/rspamd/local.d/${f}");
+			} else {
+				exec("cp tpl/rspamd_${f}.master /etc/rspamd/local.d/${f}");
+			}
+		}
+
+		# override.d templates without template tags
+		$override_d = array(
+			'rbl_group.conf',
+			'surbl_group.conf',
+		);
+		foreach ($override_d as $f) {
+			if(file_exists($conf['ispconfig_install_dir']."/server/conf-custom/install/rspamd_${f}.master")) {
+				exec('cp '.$conf['ispconfig_install_dir']."/server/conf-custom/install/rspamd_${f}.master /etc/rspamd/override.d/${f}");
+			} else {
+				exec("cp tpl/rspamd_${f}.master /etc/rspamd/override.d/${f}");
+			}
+		}
+
+		# local.d/maps.d templates without template tags
+		$maps_d = array(
+			'dkim_whitelist.inc',
+			'dmarc_whitelist.inc',
+			'spf_dkim_whitelist.inc',
+			'spf_whitelist.inc',
+		);
+		foreach ($maps_d as $f) {
+			if(file_exists($conf['ispconfig_install_dir']."/server/conf-custom/install/rspamd_${f}.master")) {
+				exec('cp '.$conf['ispconfig_install_dir']."/server/conf-custom/install/rspamd_${f}.master /etc/rspamd/local.d/maps.d/${f}");
+			} else {
+				exec("cp tpl/rspamd_${f}.master /etc/rspamd/local.d/maps.d/${f}");
+			}
+		}
+
+
+		exec('chmod a+r /etc/rspamd/local.d/* /etc/rspamd/local.d/maps.d/* /etc/rspamd/override.d/*');
+
+		# unneccesary, since this was done above?
 		$command = 'usermod -a -G amavis _rspamd';
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 

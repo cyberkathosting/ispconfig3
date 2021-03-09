@@ -1,0 +1,5 @@
+# Domain whitelist via valid DKIM policy
+# (Prefer to spf_dkim_whitelist for domains that use both SPF and DKIM.)
+
+ispconfig.org
+
