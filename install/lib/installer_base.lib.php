@@ -1793,9 +1793,9 @@ class installer_base {
 		}
 
 		if(is_user('_rspamd') && is_group('amavis')) {
-			exec("usermod -G amavis _rspamd");
+			exec("usermod -a -G amavis _rspamd");
 		} elseif(is_user('rspamd') && is_group('amavis')) {
-			exec("usermod -G amavis rspamd");
+			exec("usermod -a -G amavis rspamd");
 		}
 
 		if(!is_dir('/etc/rspamd/local.d/')){
