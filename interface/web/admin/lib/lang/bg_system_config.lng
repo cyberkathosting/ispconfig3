@@ -22,6 +22,7 @@ $wb['webftp_url_txt'] = 'WebFTP URL';
 $wb['dashboard_atom_url_admin_txt'] = 'Dashboard atom feed URL (admin)';
 $wb['dashboard_atom_url_reseller_txt'] = 'Dashboard atom feed URL (reseller)';
 $wb['dashboard_atom_url_client_txt'] = 'Dashboard atom feed URL (client)';
+$wb['enable_welcome_mail_txt'] = 'Enable welcome email';
 $wb['enable_custom_login_txt'] = 'Разреши различни имена за вход';
 $wb['mailmailinglist_link_txt'] = 'Link to mailing list in Mailing list list';
 $wb['mailmailinglist_url_txt'] = 'Мейлинг лист адрес URL';

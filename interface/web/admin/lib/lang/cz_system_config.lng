@@ -25,6 +25,7 @@ $wb['new_domain_txt'] = 'HTML vytvořit novou doménu';
 $wb['webftp_url_txt'] = 'WebFTP URL';
 $wb['admin_mail_txt'] = 'E-mail Administrátora';
 $wb['admin_name_txt'] = 'Jméno Administrátora';
+$wb['enable_welcome_mail_txt'] = 'Enable welcome email';
 $wb['enable_custom_login_txt'] = 'Povolit vlastní přihlašovací jméno u e-mailové schránky';
 $wb['mailmailinglist_link_txt'] = 'Ikonový odkaz na aplikaci E-mailových konferencí seznamu e-mailových konferencí';
 $wb['mailmailinglist_url_txt'] = 'E-mailové konference URL';

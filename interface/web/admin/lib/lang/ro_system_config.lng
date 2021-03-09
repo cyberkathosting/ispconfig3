@@ -23,6 +23,7 @@ $wb['dashboard_atom_url_client_txt'] = 'Dashboard atom feed URL (client)';
 $wb['webdavuser_prefix_txt'] = 'Webdav user prefix';
 $wb['webdavuser_prefix_error_regex'] = 'Char not allowed in webdav user prefix.';
 $wb['webftp_url_txt'] = 'WebFTP URL';
+$wb['enable_welcome_mail_txt'] = 'Enable welcome email';
 $wb['enable_custom_login_txt'] = 'Allow custom login name';
 $wb['mailmailinglist_link_txt'] = 'Link to mailing list in Mailing list list';
 $wb['mailmailinglist_url_txt'] = 'Mailing list URL';
