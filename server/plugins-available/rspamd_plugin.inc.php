@@ -220,7 +220,17 @@ class rspamd_plugin {
 		$settings_file = $this->users_config_dir . str_replace('@', '_', $settings_name) . '.conf';
 		//$app->log('Settings file for rspamd is ' . $settings_file, LOGLEVEL_WARN);
 		if($mode === 'delete') {
-			if(is_file($settings_file)) {
+			$delete_file = true;
+			if($type === 'spamfilter_user') {
+				$search_for_policy[] = $email_address;
+				$search_for_policy[] = substr($email_address, strpos($email_address, '@'));
+
+				$policy = $app->db->queryOneRecord("SELECT p.* FROM spamfilter_users as u INNER JOIN spamfilter_policy as p ON (p.id = u.policy_id) WHERE u.server_id = ? AND u.email IN ? ORDER BY u.priority DESC", $conf['server_id'], $search_for_policy);
+				if($policy) {
+					$delete_file = false;
+				}
+			}
+			if($delete_file === true && is_file($settings_file)) {
 				unlink($settings_file);
 			}
 		} else {
