@@ -285,8 +285,14 @@ class page_action extends tform_actions {
 			// When the record is updated
 			if($this->id > 0) {
 				// restore the server ID if the user is not admin and record is edited
-				$tmp = $app->db->queryOneRecord("SELECT server_id FROM mail_domain WHERE domain_id = ?", $this->id);
+				$tmp = $app->db->queryOneRecord("SELECT server_id, relay_host, relay_user, relay_pass FROM mail_domain WHERE domain_id = ?", $this->id);
 				$this->dataRecord["server_id"] = $tmp["server_id"];
+
+				// set the settings to current if not provided (or cleared due to limits)
+				if($this->dataRecord['relay_host'] == '') $this->dataRecord['relay_host'] = $tmp['relay_host'];
+				if($this->dataRecord['relay_user'] == '') $this->dataRecord['relay_user'] = $tmp['relay_user'];
+				if($this->dataRecord['relay_pass'] == '') $this->dataRecord['relay_pass'] = $tmp['relay_pass'];
+
 				unset($tmp);
 				// When the record is inserted
 			} else {
