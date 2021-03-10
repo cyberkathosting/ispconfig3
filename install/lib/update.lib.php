@@ -473,12 +473,22 @@ function checkAndRenameCustomTemplates($default_prompt='no') {
 		'/usr/local/ispconfig/server/conf-custom/install',
 	);
 
+	$override_templates = array(
+		'postfix_custom.conf.master',
+		'dovecot_custom.conf.master',
+	);
+
 	$found_templates = array();
+	$found_override_templates = array();
 	foreach ($template_directories as $dir) {
 		if (!is_dir($dir)) { continue; }
 		foreach (glob("$dir/*.master") as $f) {
 			if (is_file($f)) {
-				$found_templates[] = $f;
+				if (in_array( basename($f), $override_templates )) {
+					$found_override_templates[] = $f;
+				} else {
+					$found_templates[] = $f;
+				}
 			}
 		}
 	}
@@ -499,6 +509,11 @@ function checkAndRenameCustomTemplates($default_prompt='no') {
 		} else {
 			$ret = null;
 		}
+	}
+
+	if (count($found_override_templates) > 0) {
+		echo "The following local config override templates were found, be sure to incorporate upstream changes if needed:\n\n";
+		echo implode("\n", $found_override_templates) . "\n\n";
 	}
 
 	return $ret;
