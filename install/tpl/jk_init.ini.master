@@ -185,7 +185,7 @@ paths = env
 [php]
 comment = default php version and libraries
 paths = /usr/bin/php
-includesections = php_common
+includesections = php_common, php7_3
 
 [php_common]
 comment = common php directories and libraries
