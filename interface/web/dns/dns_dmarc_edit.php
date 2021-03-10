@@ -226,16 +226,20 @@ class page_action extends tform_actions {
 
 		$domain_name = rtrim($soa['origin'], '.');
 		// DMARC requieres at least one active dkim-record...
-		$sql = "SELECT * FROM dns_rr WHERE name LIKE ? AND type='TXT' AND data like 'v=DKIM1;%' AND active='Y'";
-		$temp = $app->db->queryAllRecords($sql, '%._domainkey.'.$domain_name.'.');
+		$sql = "SELECT * FROM dns_rr
+					LEFT JOIN dns_soa ON (dns_rr.zone=dns_soa.id)
+					WHERE dns_soa.origin = ? AND dns_rr.name LIKE ? AND type='TXT' AND data like 'v=DKIM1;%' AND dns_rr.active='Y'";
+		$temp = $app->db->queryAllRecords($sql, $soa['origin'], '%._domainkey%');
 		if (empty($temp)) {
 			if (isset($app->tform->errorMessage )) $app->tform->errorMessage = '<br/>' . $app->tform->errorMessage;
 			$app->tform->errorMessage .= $app->tform->wordbook['dmarc_no_dkim_txt'].$email;
 		}
 
 		// ... and an active spf-record (this breaks the current draft but DMARC is useless if you use DKIM or SPF
-		$sql = "SELECT * FROM dns_rr WHERE name LIKE ? AND type='TXT' AND (data LIKE 'v=spf1%' AND active = 'y')";
-		$temp = $app->db->queryAllRecords($sql, $domain_name.'.');
+		$sql = "SELECT * FROM dns_rr
+					LEFT JOIN dns_soa ON (dns_rr.zone=dns_soa.id)
+					WHERE dns_soa.origin = ? AND (dns_rr.name LIKE ? OR dns_rr.name = '') AND type='TXT' AND data like 'v=spf1%' AND dns_rr.active='Y'";
+		$temp = $app->db->queryAllRecords($sql, $soa['origin'], $soa['origin']);
 		// abort if more than 1 active spf-records (backward-compatibility)
 		if (is_array($temp[1])) {
 			if (isset($app->tform->errorMessage )) $app->tform->errorMessage = '<br/>' . $app->tform->errorMessage;

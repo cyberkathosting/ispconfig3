@@ -23,6 +23,7 @@ $wb['webftp_url_txt'] = 'WebFTP URL';
 $wb['dashboard_atom_url_admin_txt'] = 'RSS URL za početnu stranicu (admin)';
 $wb['dashboard_atom_url_reseller_txt'] = 'RSS URL za početnu stranicu (reseller)';
 $wb['dashboard_atom_url_client_txt'] = 'RSS URL za početnu stranicu (client)';
+$wb['enable_welcome_mail_txt'] = 'Enable welcome email';
 $wb['enable_custom_login_txt'] = 'Dozvoli izbor korisničkog imena';
 $wb['mailmailinglist_link_txt'] = 'Link na mailing listu u Mailing listi';
 $wb['mailmailinglist_url_txt'] = 'URL mailing liste';

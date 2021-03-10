@@ -6,11 +6,11 @@
 
 [uidbasics]
 comment = common files for all jails that need user/group information
-paths = /lib/libnsl.so.1, /lib64/libnsl.so.1, /lib/libnss*.so.2, /lib64/libnss*.so.2, /lib/i386-linux-gnu/libnsl.so.1, /lib/i386-linux-gnu/libnss*.so.2, /lib/x86_64-linux-gnu/libnsl.so.1, /lib/x86_64-linux-gnu/libnss*.so.2, /lib/arm-linux-gnueabihf/libnss*.so.2, /lib/arm-linux-gnueabihf/libnsl*.so.1, /etc/nsswitch.conf, /etc/ld.so.conf
+paths = /lib/libnsl.so.1, /lib64/libnsl.so.1, /lib/libnss*.so.2, /lib64/libnss*.so.2, /lib/i386-linux-gnu/libnsl.so.1, /lib/i386-linux-gnu/libnss*.so.2, /lib/x86_64-linux-gnu/libnsl.so.1, /lib/x86_64-linux-gnu/libnss*.so.2, /lib/arm-linux-gnueabihf/libnsl*.so.1, /lib/arm-linux-gnueabihf/libnss*.so.2, /lib/aarch64-linux-gnu/libnsl.so.1, /lib/aarch64-linux-gnu/libnss*.so.2, /etc/nsswitch.conf, /etc/ld.so.conf
 
 [netbasics]
 comment = common files for all jails that need any internet connectivity
-paths = /lib/libnss_dns.so.2, /lib64/libnss_dns.so.2, /lib/libnss_mdns*.so.2, /lib/i386-linux-gnu/libnss_dns.so.2, /lib/x86_64-linux-gnu/libnss_dns.so.2, /etc/resolv.conf, /etc/host.conf, /etc/hosts, /etc/protocols, /etc/services, /etc/ssl/certs/, /usr/lib/ssl/certs
+paths = /lib/libnss_dns.so.2, /lib64/libnss_dns.so.2, /lib/libnss_mdns*.so.2, /lib/i386-linux-gnu/libnss_dns.so.2, /lib/x86_64-linux-gnu/libnss_dns.so.2, /lib/arm-linux-gnueabihf/libnss_dns.so.2, /lib/aarch64-linux-gnu/libnss_dns.so.2, /etc/resolv.conf, /etc/host.conf, /etc/hosts, /etc/protocols, /etc/services, /etc/ssl/certs/, /usr/lib/ssl/certs
 
 [logbasics]
 comment = timezone information and log sockets
@@ -163,7 +163,7 @@ includesections = php, mysql-client
 
 [mysql-client]
 comment = mysql client
-paths = mysql, mysqldump, mysqlshow, /usr/lib/libmysqlclient.so, /usr/lib/i386-linux-gnu/libmariadb.so.3, /usr/lib/i386-linux-gnu/mariadb19, /usr/lib/x86_64-linux-gnu/libmariadb.so.3, /usr/lib/x86_64-linux-gnu/mariadb19
+paths = mysql, mysqldump, mysqlshow, /usr/lib/libmysqlclient.so, /usr/lib/i386-linux-gnu/libmariadb.so.3, /usr/lib/i386-linux-gnu/mariadb19, /usr/lib/x86_64-linux-gnu/libmariadb.so.3, /usr/lib/x86_64-linux-gnu/mariadb19, /usr/lib/arm-linux-gnueabihf/libmariadb.so.3, /usr/lib/arm-linux-gnueabihf/mariadb19, /usr/lib/aarch64-linux-gnu/libmariadb.so.3, /usr/lib/aarch64-linux-gnu/mariadb19
 includesections = netbasics
 
 [composer]
@@ -194,7 +194,7 @@ comment = common php directories and libraries
 #  or the php config (which includes custom php snippets) from *all*
 #  sites which use fpm will be copied to *every* jailkit
 paths = /usr/bin/php, /usr/lib/php/, /usr/share/php/, /usr/share/zoneinfo/
-includesections = env
+includesections = env, logbasics, netbasics
 
 [php5_6]
 comment = php version 5.6
@@ -225,6 +225,10 @@ includesections = php_common
 comment = php version 7.4
 paths = /usr/bin/php7.4, /usr/lib/php/7.4/, /usr/lib/php/20190902/, /usr/share/php/7.4/, /etc/php/7.4/cli/, /etc/php/7.4/mods-available/
 includesections = php_common
+
+[imagemagick]
+comment = ImageMagick needed for php-imagemagick extension
+paths = /usr/share/ImageMagick-*, /etc/ImageMagick-*, /usr/lib/i386-linux-gnu/ImageMagick-*, /usr/lib/x86_64-linux-gnu/ImageMagick-*, /usr/lib/arm-linux-gnueabihf/ImageMagick-*, /usr/lib/aarch64-linux-gnu/ImageMagick-*
 
 [php8_0]
 comment = php version 8.0

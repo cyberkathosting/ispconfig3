@@ -254,6 +254,8 @@ prepareDBDump();
 
 //* initialize the database
 $inst->db = new db();
+$inst->db->setDBData($conf['mysql']["host"], $conf['mysql']["ispconfig_user"], $conf['mysql']["ispconfig_password"], $conf['mysql']["port"]);
+$inst->db->setDBName($conf['mysql']['database']);
 
 //* initialize the master DB, if we have a multiserver setup
 if($conf['mysql']['master_slave_setup'] == 'y') {

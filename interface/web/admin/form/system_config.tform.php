@@ -267,11 +267,16 @@ $form["tabs"]['mail'] = array (
 			'default' => 'n',
 			'value' => array(0 => 'n', 1 => 'y')
 		),
+		'enable_welcome_mail' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value' => array(0 => 'n', 1 => 'y')
+		),
 		'show_per_domain_relay_options' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
 			'default' => 'n',
-			'value' => array(0 => 'n', 1 => 'y')
 		),
 		'mailbox_show_autoresponder_tab' => array (
 			'datatype' => 'VARCHAR',
