@@ -46,4 +46,4 @@ $wb['database_user_missing_txt'] = 'Prosím vyberte uživatele databáze pro tut
 $wb['limit_database_quota_txt'] = 'Kvóta databáze';
 $wb['limit_database_quota_error_notint'] = 'Limit databázové kvóty musí být číslo.';
 $wb['limit_database_quota_free_txt'] = 'Max. dostupná DB kvóta je ';
-?>
+$wb['limit_database_quota_not_0_txt'] = 'Database quota can not be 0';

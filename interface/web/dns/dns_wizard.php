@@ -323,7 +323,9 @@ if($_POST['create'] == 1) {
 	if($_POST['ns1'] != '') $tpl_content = str_replace('{NS1}', $_POST['ns1'], $tpl_content);
 	if($_POST['ns2'] != '') $tpl_content = str_replace('{NS2}', $_POST['ns2'], $tpl_content);
 	if($_POST['email'] != '') $tpl_content = str_replace('{EMAIL}', $_POST['email'], $tpl_content);
-	$enable_dnssec = (($_POST['dnssec'] == 'Y') ? 'Y' : 'N');
+	// $enable_dnssec = (($_POST['dnssec'] == 'Y') ? 'Y' : 'N');
+	// if(isset($_POST['dnssec'])) $vars['dnssec_wanted'] = 'Y';
+	if(isset($_POST['dnssec'])) $tpl_content = str_replace('[ZONE]', '[ZONE]'."\n".'dnssec_wanted=Y', $tpl_content);
 	if(isset($_POST['dkim']) && preg_match('/^[\w\.\-\/]{2,255}\.[a-zA-Z0-9\-]{2,63}[\.]{0,1}$/', $_POST['domain'])) {
 		$sql = $app->db->queryOneRecord("SELECT dkim_public, dkim_selector FROM mail_domain WHERE domain = ? AND dkim = 'y' AND ".$app->tform->getAuthSQL('r'), $_POST['domain']);
 		$public_key = $sql['dkim_public'];
@@ -339,6 +341,7 @@ if($_POST['create'] == 1) {
 	$section = '';
 	$vars = array();
 	$vars['xfer']='';
+	$vars['dnssec_wanted']='N';
 	$vars['dnssec_algo']='ECDSAP256SHA256';
 	$dns_rr = array();
 	foreach($tpl_rows as $row) {
@@ -399,6 +402,7 @@ if($_POST['create'] == 1) {
 		$xfer = $vars['xfer'];
 		$also_notify = $vars['also_notify'];
 		$update_acl = $vars['update_acl'];
+		$dnssec_wanted = $vars['dnssec_wanted'];
 		$dnssec_algo = $vars['dnssec_algo'];
 		$serial = $app->validate_dns->increase_serial(0);
 
@@ -422,7 +426,7 @@ if($_POST['create'] == 1) {
 			"xfer" => $xfer,
 			"also_notify" => $also_notify,
 			"update_acl" => $update_acl,
-			"dnssec_wanted" => $enable_dnssec,
+			"dnssec_wanted" => $dnssec_wanted,
 			"dnssec_algo" => $dnssec_algo
 		);
 		$dns_soa_id = $app->db->datalogInsert('dns_soa', $insert_data, 'id');

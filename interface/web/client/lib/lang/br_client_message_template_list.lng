@@ -1,5 +1,4 @@
 <?php
-$wb['list_head_txt'] = 'Gabaritos de e-mail';
+$wb['list_head_txt'] = 'Gabaritos de email';
 $wb['template_type_txt'] = 'Mensagem de';
 $wb['template_name_txt'] = 'Nome do gabarito';
-?>

@@ -22,4 +22,3 @@ $wb['globalsearch_searchfield_watermark_txt'] = 'Hledat';
 $wb['globalsearch_suggestions_text_txt'] = 'Návrhy';
 $wb['limit_database_user_txt'] = 'Byl dosažen maximální počet uživatelů databáze.';
 $wb['database_password_error_empty'] = 'Databázové heslo je prázdné.';
-?>

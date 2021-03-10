@@ -4,4 +4,3 @@ $wb['description_txt'] = 'Popis';
 $wb['name_txt'] = 'Skupina';
 $wb['add_new_record_txt'] = 'Vytvořit skupinu';
 $wb['warning_txt'] = '<b>VAROVÁNÍ:</b> Zde neupravujte uživatelská nastavení. Použijte klientská a distributorská nastavení v klientském modulu. Úprava uživatelů nebo skupin zde může způsobit ztrátu dat!';
-?>

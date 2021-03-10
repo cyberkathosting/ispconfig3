@@ -280,8 +280,27 @@ body {
 .progress {
   display: inline-block;
   margin-bottom: 0;
-  width: 150px;
-  height: 10px; }
+  width: 100%;
+  height: 20px;
+  background-color: #ababab;
+  font-weight: bold;
+  position: relative;
+}
+
+.progress-bar-danger, .progress-bar-warning, .progress-bar-success {
+    text-align: center;
+    color: white;
+    height: 100%;
+}
+
+.progress span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 2;
+  color: white;
+}
 
 p.fieldset-legend {
   display: none; }
@@ -793,6 +812,14 @@ span.notification_text {
     font-family: inherit;
     color: white;
 }
+span.company_name {
+  font-weight: bold;
+}
+
+span.tmp_account_name {
+  font-size: 0.9em;
+}
+
 .finediff {
 	font-family: monospace;
 }

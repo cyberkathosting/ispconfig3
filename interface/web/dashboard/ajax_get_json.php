@@ -194,8 +194,14 @@ function _search($module, $section, $additional_sql = '', $params = ''){
 		if(is_array($results) && !empty($results)){
 			$lng_file = '../'.$module.'/lib/lang/'.$_SESSION['s']['language'].'_'.$section.'.lng';
 			if(is_file($lng_file)) include $lng_file;
+
+			// Get the real result count, without LIMIT.
+			$sql_real_rows = "SELECT COUNT(*) as `c` FROM ?? WHERE ".$where_clause.$authsql.$order_clause;
+
+			$result_count = $app->db->queryOneRecord($sql_real_rows, $db_table);
+
 			$result_array['cheader'] = array('title' => $category_title,
-				'total' => count($results),
+				'total' => $result_count['c'],
 				'limit' => count($results)
 			);
 			foreach($results as $result){

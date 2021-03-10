@@ -217,7 +217,7 @@ class mail_user_filter_plugin {
 			} elseif ($page_form->dataRecord["action"] == 'stop') {
 				$content .= "    stop;\n";
 			} elseif ($page_form->dataRecord["action"] == 'reject') {
-				$content .= '    reject "'.$page_form->dataRecord["target"].'";    stop;\n\n';
+				$content .= '    reject "'.$page_form->dataRecord["target"].'";' . "\n    stop;\n";
 			} else {
 				$content .= "    discard;\n    stop;\n";
 			}

@@ -8,5 +8,6 @@ $wb['domain_error_regex'] = 'Chybné doménové jméno nebo doména obsahuje chy
 $wb['limit_mailcatchall_txt'] = 'Byl dosažen maximální počet košů účtů pro Váš účet.';
 $wb['source_txt'] = 'Zdroj';
 $wb['destination_error_isemail'] = 'Cílová e-mailová adresa není platná.';
-$wb['greylisting_txt'] = 'Enable greylisting';
-?>
+$wb['greylisting_txt'] = 'Povolit greylisting';
+$wb['send_as_txt'] = 'Odeslat jako';
+$wb['send_as_exp'] = 'Allow destination to send from email addresses in this domain';

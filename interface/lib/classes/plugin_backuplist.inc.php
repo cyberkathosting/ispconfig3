@@ -56,10 +56,22 @@ class plugin_backuplist extends plugin_base {
 		$sql = "SELECT count(action_id) as number FROM sys_remoteaction WHERE action_state = 'pending' AND action_type = ? AND action_param = ?";
 		$tmp = $app->db->queryOneRecord($sql, $action_type, $domain_id);
 		if ($tmp['number'] == 0) {
-			$server_id = $this->form->dataRecord['server_id'];
+			if($action_type === 'backup_database') {
+				// get all server ids of databases for this domain
+				$sql = 'SELECT DISTINCT `server_id` FROM `web_database` WHERE `parent_domain_id` = ?';
+				$result = $app->db->query($sql, $domain_id);
+				while(($cur = $result->get())) {
+					$server_id = $cur['server_id'];
+					$sql = "INSERT INTO sys_remoteaction (server_id, tstamp, action_type, action_param, action_state, response) VALUES (?, UNIX_TIMESTAMP(), ?, ?, 'pending', '')";
+					$app->db->query($sql, $server_id, $action_type, $domain_id);
+				}
+				$result->free();
+			} else {
+				$server_id = $this->form->dataRecord['server_id'];
+				$sql = "INSERT INTO sys_remoteaction (server_id, tstamp, action_type, action_param, action_state, response) VALUES (?, UNIX_TIMESTAMP(), ?, ?, 'pending', '')";
+				$app->db->query($sql, $server_id, $action_type, $domain_id);
+			}
 			$message .= $wb['backup_info_txt'];
-			$sql = "INSERT INTO sys_remoteaction (server_id, tstamp, action_type, action_param, action_state, response) VALUES (?, UNIX_TIMESTAMP(), ?, ?, 'pending', '')";
-			$app->db->query($sql, $server_id, $action_type, $domain_id);
 		} else {
 			$error .= $wb['backup_pending_txt'];
 		}
@@ -193,10 +205,10 @@ class plugin_backuplist extends plugin_base {
 				$rec['backup_encrypted'] = empty($rec['backup_password']) ? $wb["no_txt"] : $wb["yes_txt"];
 				$backup_manual_prefix = 'manual-';
 				$rec['backup_job'] = (substr($rec['filename'], 0, strlen($backup_manual_prefix)) == $backup_manual_prefix) ? $wb["backup_job_manual_txt"] : $wb["backup_job_auto_txt"];
-				
+
 				$rec['download_available'] = true;
 				if($rec['server_id'] != $web['server_id']) $rec['download_available'] = false;
-				
+
 				if($rec['filesize'] > 0){
 					$rec['filesize'] = $app->functions->currency_format($rec['filesize']/(1024*1024), 'client').' MB';
 				}

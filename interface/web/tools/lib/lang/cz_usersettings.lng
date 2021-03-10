@@ -9,7 +9,9 @@ $wb['repeat_password_txt'] = 'Opakujte heslo';
 $wb['password_mismatch_txt'] = 'Hesla se neshodují.';
 $wb['password_match_txt'] = 'Hesla se shodují.';
 $wb['password_txt'] = 'Heslo';
-$wb['language_txt'] = 'Jazyk';
-$wb['startmodule_txt'] = 'Výchozí modul po přihlášení';
-$wb['app_theme_txt'] = 'Výchozí grafické téma';
-?>
+$wb['startmodule_txt'] = 'Úvodní modul';
+$wb['app_theme_txt'] = 'Design';
+$wb['startmodule_empty'] = 'Startmodule empty.';
+$wb['startmodule_regex'] = 'Invalid chars in Startmodule.';
+$wb['app_theme_empty'] = 'App theme empty.';
+$wb['app_theme_regex'] = 'Invalid chars in App theme.';

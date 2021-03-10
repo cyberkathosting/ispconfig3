@@ -4,9 +4,9 @@ $wb['active_txt'] = 'Ativo';
 $wb['server_id_txt'] = 'Servidor';
 $wb['origin_txt'] = 'Zona';
 $wb['ns_txt'] = 'NS';
-$wb['mbox_txt'] = 'e-Mail';
-$wb['add_new_record_wizard_txt'] = 'Adicionar zona dns através do assistente';
-$wb['add_new_record_txt'] = 'Adicionar zona dns manualmente';
+$wb['mbox_txt'] = 'eMail';
+$wb['add_new_record_wizard_txt'] = 'Adicionar zona DNS através do assistente';
+$wb['add_new_record_txt'] = 'Adicionar zona DNS manualmente';
 $wb['zone_file_import_txt'] = 'Importar arquivo de zona';
 $wb['sys_groupid_txt'] = 'Cliente';
-?>
+$wb['import_zone_file_txt'] = 'Importar arquivo de zona';

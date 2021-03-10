@@ -1,8 +1,0 @@
-<?php
-$wb['repo_name_txt'] = 'Repozitoriji';
-$wb['repo_url_txt'] = 'URL';
-$wb['repo_username_txt'] = 'Korisničko ime (opcionalno)';
-$wb['repo_password_txt'] = 'Šifra (opcionalno)';
-$wb['active_txt'] = 'Aktivno';
-$wb['Software Repository which may contain addons or updates'] = 'Software Repository which may contain addons or updates';
-?>

@@ -1,13 +1,12 @@
 <?php
-$wb['template_type_txt'] = 'Tipo de e-mail';
+$wb['template_type_txt'] = 'Tipo de email';
 $wb['template_name_txt'] = 'Nome do gabarito';
 $wb['subject_txt'] = 'Assunto';
 $wb['message_txt'] = 'Mensagem';
-$wb['Email template'] = 'Gabarito do e-mail';
+$wb['Email template'] = 'Gabarito do email';
 $wb['Settings'] = 'Configurações';
 $wb['variables_txt'] = 'Variáveis';
-$wb['variables_description_txt'] = '(Variáveis de usuário e senha só estão disponíveis em e-mail de boas-vindas.)';
-$wb['duplicate_welcome_error'] = 'Só pode existir apenas um gabarito de e-mail de boas-vindas. Edite o modelo existente ao invés de adicionar um novo.';
-$wb['subject_error_empty'] = 'Assunto está em branco.';
-$wb['message_error_empty'] = 'Mensagem está em branco.';
-?>
+$wb['variables_description_txt'] = '(Variáveis de usuário e senha só estão disponíveis em email de boas-vindas.)';
+$wb['duplicate_welcome_error'] = 'Só pode existir um gabarito de email de boas-vindas. Edite o modelo existente ao invés de adicionar um novo.';
+$wb['subject_error_empty'] = 'Assunto está vazio.';
+$wb['message_error_empty'] = 'Mensagem está vazia.';

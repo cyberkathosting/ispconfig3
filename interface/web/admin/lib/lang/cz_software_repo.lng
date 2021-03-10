@@ -1,8 +1,0 @@
-<?php
-$wb['repo_name_txt'] = 'Název zdroje';
-$wb['repo_url_txt'] = 'URL';
-$wb['repo_username_txt'] = 'Uživatel (volitelné)';
-$wb['repo_password_txt'] = 'Heslo (volitelné)';
-$wb['active_txt'] = 'Aktivní';
-$wb['Software Repository which may contain addons or updates'] = 'Softwarové zdroje, které mohou obsahovat addony nebo aktualizace';
-?>

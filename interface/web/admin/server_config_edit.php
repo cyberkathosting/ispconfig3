@@ -57,7 +57,7 @@ class page_action extends tform_actions {
 		
 		// get the config
 		$app->uses('getconf');
-		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
+		$web_config = $app->getconf->get_server_config($this->id, 'web');
 		
 		if($web_config['server_type'] == 'nginx'){
 			unset($app->tform->formDef["tabs"]["fastcgi"]);
@@ -90,8 +90,12 @@ class page_action extends tform_actions {
 			$this->dataRecord = $app->getconf->get_server_config($server_id, $section);
 
 			if($section == 'mail'){
-				$server_config = $app->getconf->get_server_config($server_id, 'server');
-				$rspamd_url = 'https://'.$server_config['hostname'].':8081/rspamd/';
+				if(trim($this->dataRecord['rspamd_url'] == '')) {
+					$server_config = $app->getconf->get_server_config($server_id, 'server');
+					$rspamd_url = 'https://'.$server_config['hostname'].':8081/rspamd/';
+				} else {
+					$rspamd_url = $this->dataRecord['rspamd_url'];
+				}
 			}
 		}
 

@@ -612,6 +612,9 @@ class ispcmail {
 			if (stream_socket_enable_crypto($this->_smtp_conn, true, $crypto_method) != true) {
 				return false;
 			}
+
+			fputs($this->_smtp_conn, 'HELO ' . $this->smtp_helo . $this->_crlf);
+			$response = fgets($this->_smtp_conn, 515);
 		}
 
 		//AUTH LOGIN
@@ -824,8 +827,7 @@ class ispcmail {
 				else $rec_string .= $recip;
 			}
 			$to = $this->_encodeHeader($rec_string, $this->mail_charset);
-			//$result = mail($to, $subject, $this->body, implode($this->_crlf, $headers));
-			$result = mail($to, $enc_subject, $this->body, implode($this->_crlf, $headers));
+			$result = mail($to, $enc_subject, $this->body, implode($this->_crlf, $headers), "-f $this->_mail_sender");
 		}
 
 		// Reset the subject in case mail is resent

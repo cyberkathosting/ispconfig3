@@ -1,1 +1,19 @@
-../../server/conf/rspamd_users.conf.master
+settings {
+	authenticated {
+		priority = 10;
+		authenticated = yes;
+		apply "default" {
+			symbols_disabled = [];
+			groups_disabled = ["rbl", "spf"];
+		}
+	}
+	whitelist {
+		priority = 5;
+		rcpt = "postmaster";
+		rcpt = "hostmaster";
+		rcpt = "abuse";
+		want_spam = yes;
+	}
+	.include(try=true; glob=true) "$LOCAL_CONFDIR/local.d/users/*.conf"
+	.include(try=true; priority=1,duplicate=merge) "$LOCAL_CONFDIR/local.d/users.local.conf"
+}

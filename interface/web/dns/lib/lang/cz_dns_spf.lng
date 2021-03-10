@@ -1,6 +1,6 @@
 <?php
 $wb['data_txt'] = 'SPF Záznam';
-$wb['name_txt'] = 'Hostname';
+$wb['name_txt'] = 'Název hostitele';
 $wb['spf_mechanism_txt'] = 'SPF Mechanismus';
 $wb['spf_mechanism_pass_txt'] = 'Přijmout - přijímat e-mail od ostatních odesílatelů';
 $wb['spf_mechanism_fail_txt'] = 'Odmítat - odmítnout e-mail od ostatních odesílatelů';
@@ -20,11 +20,10 @@ $wb['spf_invalid_domain_txt'] = 'Neplatné doménové jméno';
 $wb['ttl_txt'] = 'TTL';
 $wb['active_txt'] = 'Aktivní';
 $wb['record_exists_txt'] = 'DNS záznam již existuje';
-$wb['spf_record_exists_txt'] = 'SPF-Record already exists for hostname "{hostname}". Do you want to <a href="#" data-load-content="dns/dns_spf_edit.php?id={existing_record_id}">edit the existing record</a>?';
-$wb['spf_record_exists_multiple_txt'] = 'Multiple SPF-Records exist for hostname "{hostname}". This will cause recipients to reject your mail! Delete or merge duplicate existing records and try again.';
+$wb['spf_record_exists_txt'] = 'SPF-Record already exists for hostname \"{hostname}\". Do you want to <a href=\"#\" data-load-content=\"dns/dns_spf_edit.php?id={existing_record_id}\">edit the existing record</a>?';
+$wb['spf_record_exists_multiple_txt'] = 'Multiple SPF-Records exist for hostname \"{hostname}\". This will cause recipients to reject your mail! Delete or merge duplicate existing records and try again.';
 $wb['limit_dns_record_txt'] = 'Byl dosažen max. počet DNS záznamů pro váš účet.';
 $wb['no_zone_perm'] = 'Nemáte oprávnění přidat záznam do této zóny DNS.';
 $wb['ttl_range_error'] = 'Min. TTL doba je 60 sekund.';
-$wb['name_error_regex'] = 'The hostname has the wrong format.';
-$wb['btn_edit_as_txt_record_txt'] = 'Edit as TXT record';
-?>
+$wb['name_error_regex'] = 'Název hostitele má chybný formát.';
+$wb['btn_edit_as_txt_record_txt'] = 'Upravit jako TXT záznam';

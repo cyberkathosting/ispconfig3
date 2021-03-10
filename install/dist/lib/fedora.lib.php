@@ -57,58 +57,12 @@ class installer_dist extends installer_base {
 			$this->error("The postfix configuration directory '$config_dir' does not exist.");
 		}
 
-		//* mysql-virtual_domains.cf
-		$this->process_postfix_config('mysql-virtual_domains.cf');
+		//* Install virtual mappings
+		foreach (glob('tpl/mysql-virtual_*.master') as $filename) {
+			$this->process_postfix_config( basename($filename, '.master') );
+		}
 
-		//* mysql-virtual_forwardings.cf
-		$this->process_postfix_config('mysql-virtual_forwardings.cf');
-
-		//* mysql-virtual_alias_domains.cf
-		$this->process_postfix_config('mysql-virtual_alias_domains.cf');
-
-		//* mysql-virtual_alias_maps.cf
-		$this->process_postfix_config('mysql-virtual_alias_maps.cf');
-
-		//* mysql-virtual_mailboxes.cf
-		$this->process_postfix_config('mysql-virtual_mailboxes.cf');
-
-		//* mysql-virtual_email2email.cf
-		$this->process_postfix_config('mysql-virtual_email2email.cf');
-
-		//* mysql-virtual_transports.cf
-		$this->process_postfix_config('mysql-virtual_transports.cf');
-
-		//* mysql-virtual_recipient.cf
-		$this->process_postfix_config('mysql-virtual_recipient.cf');
-
-		//* mysql-virtual_sender.cf
-		$this->process_postfix_config('mysql-virtual_sender.cf');
-
-		//* mysql-virtual_sender_login_maps.cf
-		$this->process_postfix_config('mysql-virtual_sender_login_maps.cf');
-
-		//* mysql-virtual_client.cf
-		$this->process_postfix_config('mysql-virtual_client.cf');
-
-		//* mysql-virtual_relaydomains.cf
-		$this->process_postfix_config('mysql-virtual_relaydomains.cf');
-
-		//* mysql-virtual_relayrecipientmaps.cf
-		$this->process_postfix_config('mysql-virtual_relayrecipientmaps.cf');
-
-		//* mysql-virtual_outgoing_bcc.cf
-		$this->process_postfix_config('mysql-virtual_outgoing_bcc.cf');
-
-		//* mysql-virtual_policy_greylist.cf
-		$this->process_postfix_config('mysql-virtual_policy_greylist.cf');
-
-		//* mysql-virtual_gids.cf.master
-		$this->process_postfix_config('mysql-virtual_gids.cf');
-
-		//* mysql-virtual_uids.cf
-		$this->process_postfix_config('mysql-virtual_uids.cf');
-
-		//* mysql-virtual_alias_domains.cf
+		//* mysql-verify_recipients.cf
 		$this->process_postfix_config('mysql-verify_recipients.cf');
 
 		//* postfix-dkim
@@ -208,6 +162,7 @@ class installer_dist extends installer_base {
 		touch($config_dir.'/mime_header_checks');
 		touch($config_dir.'/nested_header_checks');
 		touch($config_dir.'/body_checks');
+		touch($config_dir.'/sasl_passwd');
 
 		//* Create the mailman files
 		if(!is_dir('/var/lib/mailman/data')) exec('mkdir -p /var/lib/mailman/data');
@@ -1227,8 +1182,8 @@ class installer_dist extends installer_base {
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 		if ($this->install_ispconfig_interface == true && isset($conf['interface_password']) && $conf['interface_password']!='admin') {
-			$sql = "UPDATE sys_user SET passwort = md5(?) WHERE username = 'admin';";
-			$this->db->query($sql, $conf['interface_password']);
+			$sql = "UPDATE sys_user SET passwort = ? WHERE username = 'admin';";
+			$this->db->query($sql, $this->crypt_password($conf['interface_password']));
 		}
 
 		if($conf['apache']['installed'] == true && $this->install_ispconfig_interface == true){
@@ -1372,6 +1327,7 @@ class installer_dist extends installer_base {
 		//* Create the ispconfig log directory
 		if(!is_dir($conf['ispconfig_log_dir'])) mkdir($conf['ispconfig_log_dir']);
 		if(!is_file($conf['ispconfig_log_dir'].'/ispconfig.log')) exec('touch '.$conf['ispconfig_log_dir'].'/ispconfig.log');
+		chmod($conf['ispconfig_log_dir'].'/ispconfig.log', 0600);
 
 		if(is_user('getmail')) {
 			exec('mv /usr/local/ispconfig/server/scripts/run-getmail.sh /usr/local/bin/run-getmail.sh');

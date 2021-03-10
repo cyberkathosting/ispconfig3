@@ -7,4 +7,3 @@ $wb['backup_count_txt'] = 'Contador de backups';
 $wb['backup_server_txt'] = 'Servidor';
 $wb['backup_interval_txt'] = 'Intervalo entre backups';
 $wb['backup_size_txt'] = 'Tamanho do backup';
-?>

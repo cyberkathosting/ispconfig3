@@ -124,17 +124,30 @@ class remoting {
 			$remote_functions = '';
 			$tstamp = time() + $this->session_timeout;
 			$sql = 'INSERT INTO remote_session (remote_session,remote_userid,remote_functions,client_login,tstamp'
-				.') VALUES (?, ?, ?, 1, $tstamp)';
+				.') VALUES (?, ?, ?, 1, ?)';
 			$app->db->query($sql, $remote_session,$remote_userid,$remote_functions,$tstamp);
 			return $remote_session;
 		} else {
-			$sql = "SELECT * FROM remote_user WHERE remote_username = ? and remote_password = md5(?)";
-			$remote_user = $app->db->queryOneRecord($sql, $username, $password);
-			if($remote_user['remote_userid'] > 0) {
+			$sql = "SELECT * FROM remote_user WHERE remote_username = ?";
+			$remote_user = $app->db->queryOneRecord($sql, $username);
+			if($remote_user) {
+				if(substr($remote_user['remote_password'], 0, 1) === '$') {
+					if(crypt(stripslashes($password), $remote_user['remote_password']) != $remote_user['remote_password']) {
+						$remote_user = null;
+					}
+				} elseif(md5($password) == $remote_user['remote_password']) {
+					// update hash algo
+					$sql = 'UPDATE `remote_user` SET `remote_password` = ? WHERE `remote_username` = ?';
+					$app->db->query($sql, $app->auth->crypt_password($password), $username);
+				} else {
+					$remote_user = null;
+				}
+			}
+			if($remote_user && $remote_user['remote_userid'] > 0) {
 				if (trim($remote_user['remote_ips']) != '') {
 					$allowed_ips = explode(',',$remote_user['remote_ips']);
-					foreach($allowed_ips as $i => $allowed) { 
-						if(!filter_var($allowed, FILTER_VALIDATE_IP)) { 
+					foreach($allowed_ips as $i => $allowed) {
+						if(!filter_var($allowed, FILTER_VALIDATE_IP)) {
 							// get the ip for a hostname
 							unset($allowed_ips[$i]);
 							$temp=dns_get_record($allowed, DNS_A+DNS_AAAA);
@@ -169,7 +182,7 @@ class remoting {
 				if(!$remote_allowed) {
 					throw new SoapFault('login_failed', 'The login is not allowed from '.$_SERVER['REMOTE_ADDR']);
 					return false;
-				}	
+				}
 				//* Create a remote user session
 				//srand ((double)microtime()*1000000);
 				$remote_session = md5(mt_rand().uniqid('ispco'));
@@ -368,22 +381,22 @@ class remoting {
 
 		//* Load the form definition
 		$app->remoting_lib->loadFormDef($formdef_file);
-		
+
 		//* get old record and merge with params, so only new values have to be set in $params
                $old_rec = $app->remoting_lib->getDataRecord($primary_id, $client_id);
-		
+
 		foreach ($app->remoting_lib->formDef['fields'] as $fieldName => $fieldConf)
         {
             if ($fieldConf['formtype'] === 'PASSWORD' && empty($params[$fieldName])) {
                 unset($old_rec[$fieldName]);
             }
         }
-		
+
 		$params = $app->functions->array_merge($old_rec,$params);
 
 		//* Get the SQL query
 		$sql = $app->remoting_lib->getSQL($params, 'UPDATE', $primary_id);
-		
+
 		// throw new SoapFault('debug', $sql);
 		if($app->remoting_lib->errorMessage != '') {
 			throw new SoapFault('data_processing_error', $app->remoting_lib->errorMessage);
@@ -546,7 +559,7 @@ class remoting {
 			return false;
 		}
 	}
-	
+
 	/**
 	    Gets a list of all servers
 	    @param int session_id

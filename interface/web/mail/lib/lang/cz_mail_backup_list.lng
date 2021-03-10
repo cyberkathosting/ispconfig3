@@ -13,4 +13,3 @@ $wb['delete_info_txt'] = 'Bylo zahájeno odstranění zálohy. Tato akce může 
 $wb['delete_confirm_txt'] = 'Opravdu chcete smazat tuto zálohu ?';
 $wb['delete_pending_txt'] = 'Již existuje čekající úloha pro odstranění zálohy.';
 $wb['filesize_txt'] = 'Velikost souboru';
-?>

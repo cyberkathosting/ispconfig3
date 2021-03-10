@@ -1031,6 +1031,61 @@ class system{
 		}
 	}
 
+	function remove_recursive_symlinks($path, $chroot_basedir='', $recursive=false) {
+		global $app;
+
+		if ($path != '/') {
+			$path = rtrim($path, '/');
+		}
+		if (strlen($chroot_basedir) > 0) {
+			if (!is_dir($chroot_basedir)) {
+				$app->log("remove_recursive_symlink: invalid chroot basedir: $chroot_basedir", LOGLEVEL_DEBUG);
+				return false;
+			}
+			if (!(substr($path, 0, strlen($chroot_basedir)) === $chroot_basedir)) {
+				$app->log("remove_recursive_symlink: path $path is not below chroot basedir $chroot_basedir", LOGLEVEL_DEBUG);
+				return false;
+			}
+			if ($chroot_basedir != '/') {
+				$chroot_basedir = rtrim($chroot_basedir, '/');
+			}
+		}
+		if (is_dir($path)) {
+			$objects = array_diff(scandir($path), array('.', '..'));
+			foreach ($objects as $object) {
+				if (is_dir("$path/$object") && $recursive) {
+					$this->remove_recursive_symlinks("$path/$object", $chroot_basedir, $recursive);
+				} elseif (is_link("$path/$object")) {
+					$realpath = realpath("$path/$object");
+					if (strlen($chroot_basedir) > 0 ) {
+						$root_path = substr("$path/$object", strlen($chroot_basedir));
+						if ($root_path && $realpath == $root_path) {
+							$app->log("removing recursive symlink $path/$object", LOGLEVEL_DEBUG);
+							unlink ("$path/$object");
+						}
+					}
+					if ($realpath = "" || $realpath == "$path/$object") {
+						$app->log("removing recursive symlink $path/$object", LOGLEVEL_DEBUG);
+						unlink ("$path/$object");
+					}
+				}
+			}
+		} elseif (is_link("$path")) {
+			$realpath = realpath($path);
+			if (strlen($chroot_basedir) > 0 ) {
+				$root_path = substr($path, strlen($chroot_basedir));
+				if ($root_path && $realpath == $root_path) {
+					$app->log("removing recursive symlink $path", LOGLEVEL_DEBUG);
+					unlink ($path);
+				}
+			}
+			if ($realpath = "" || $realpath == $path) {
+				$app->log("removing recursive symlink $path", LOGLEVEL_DEBUG);
+				unlink ($path);
+			}
+		}
+	}
+
 	function checkpath($path) {
 		$path = trim($path);
 		//* We allow only absolute paths
@@ -2087,6 +2142,52 @@ class system{
 		}
 	}
 
+        function getopensslversion($get_minor = false) {
+                global $app;
+                if($this->is_installed('openssl')) $cmd = 'openssl version';
+                else {
+			$app->log("Could not check OpenSSL version, openssl not found.", LOGLEVEL_DEBUG);
+                        return '1.0.1';
+                }
+
+		exec($cmd, $output, $return_var);
+                if($return_var != 0 || !$output[0]) {
+			$app->log("Could not check OpenSSL version, openssl did not return any data.", LOGLEVEL_WARN);
+                        return '1.0.1';
+                }
+                if(preg_match('/OpenSSL\s*(\d+)(\.(\d+)(\.(\d+))*)?(\D|$)/i', $output[0], $matches)) {
+			return $matches[1] . (isset($matches[3]) ? '.' . $matches[3] : '') . (isset($matches[5]) && $get_minor == true ? '.' . $matches[5] : '');
+                } else {
+			$app->log("Could not check OpenSSL version, did not find version string in openssl output.", LOGLEVEL_WARN);
+			return '1.0.1';
+                }
+
+	}
+
+	function getnginxversion($get_minor = false) {
+		global $app;
+
+		if($this->is_installed('nginx')) $cmd = 'nginx -v 2>&1';
+		else {
+                        $app->log("Could not check Nginx version, nginx not found.", LOGLEVEL_DEBUG);
+                        return false;
+                }
+
+		exec($cmd, $output, $return_var);
+
+		if($return_var != 0 || !$output[0]) {
+                        $app->log("Could not check Nginx version, nginx did not return any data.", LOGLEVEL_WARN);
+                        return false;
+		}
+
+		if(preg_match('/nginx version: nginx\/\s*(\d+)(\.(\d+)(\.(\d+))*)?(\D|$)/i', $output[0], $matches)) {
+			return $matches[1] . (isset($matches[3]) ? '.' . $matches[3] : '') . (isset($matches[5]) && $get_minor == true ? '.' . $matches[5] : '');
+                } else {
+                        $app->log("Could not check Nginx version, did not find version string in nginx output.", LOGLEVEL_WARN);
+                        return false;
+                }
+	}
+
 	function getapacheversion($get_minor = false) {
 		global $app;
 
@@ -2199,6 +2300,36 @@ class system{
 		return true;
 	}
 
+	public function is_allowed_path($path) {
+		global $app;
+
+		$path = $app->functions->normalize_path($path);
+		if(file_exists($path)) {
+			$path = realpath($path);
+		}
+
+		$blacklisted_paths_regex = array(
+			'@^/$@',
+			'@^/proc(/.*)?$@',
+			'@^/sys(/.*)?$@',
+			'@^/etc(/.*)?$@',
+			'@^/dev(/.*)?$@',
+			'@^/tmp(/.*)?$@',
+			'@^/run(/.*)?$@',
+			'@^/boot(/.*)?$@',
+			'@^/root(/.*)?$@',
+			'@^/var(/?|/backups?(/.*)?)?$@',
+		);
+
+		foreach($blacklisted_paths_regex as $regex) {
+			if(preg_match($regex, $path)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	public function last_exec_out() {
 		return $this->_last_exec_out;
 	}
@@ -2249,6 +2380,8 @@ class system{
 	}
 
 	public function create_jailkit_user($username, $home_dir, $user_home_dir, $shell = '/bin/bash', $p_user = null, $p_user_home_dir = null) {
+		global $app;
+
 		// Disallow operating on root directory
 		if(realpath($home_dir) == '/') {
 			$app->log("create_jailkit_user: invalid home_dir: $home_dir", LOGLEVEL_WARN);
@@ -2278,6 +2411,9 @@ class system{
 	}
 
 	public function create_jailkit_chroot($home_dir, $app_sections = array(), $options = array()) {
+		global $app;
+$app->log("create_jailkit_chroot: called for home_dir $home_dir with options: " . print_r($options, true), LOGLEVEL_DEBUG);
+
 		// Disallow operating on root directory
 		if(realpath($home_dir) == '/') {
 			$app->log("create_jailkit_chroot: invalid home_dir: $home_dir", LOGLEVEL_WARN);
@@ -2292,6 +2428,9 @@ class system{
 			return true;
 		} elseif(is_string($app_sections)) {
 			$app_sections = preg_split('/[\s,]+/', $app_sections);
+		}
+		if(! is_array($options)) {
+			$options = (is_string($options) ? preg_split('/[\s,]+/', $options) : array());
 		}
 
 		// Change ownership of the chroot directory to root
@@ -2314,6 +2453,9 @@ class system{
 		# /etc/jailkit/jk_init.ini is the default path, probably not needed?
 		$program_args .= ' -c /etc/jailkit/jk_init.ini -j ?';
 		foreach($app_sections as $app_section) {
+			if ($app_section == '') {
+				continue;
+			}
 			# should check that section exists with jk_init --list ?
 			$program_args .= ' ' . escapeshellarg($app_section);
 		}
@@ -2346,6 +2488,9 @@ class system{
 	}
 
 	public function create_jailkit_programs($home_dir, $programs = array(), $options = array()) {
+		global $app;
+$app->log("create_jailkit_programs: called for home_dir $home_dir with options: " . print_r($options, true), LOGLEVEL_DEBUG);
+
 		// Disallow operating on root directory
 		if(realpath($home_dir) == '/') {
 			$app->log("create_jailkit_programs: invalid home_dir: $home_dir", LOGLEVEL_WARN);
@@ -2360,6 +2505,9 @@ class system{
 			return true;
 		} elseif(is_string($programs)) {
 			$programs = preg_split('/[\s,]+/', $programs);
+		}
+		if(! is_array($options)) {
+			$options = (is_string($options) ? preg_split('/[\s,]+/', $options) : array());
 		}
 
 		# prohibit ill-advised copying paths known to be sensitive/problematic
@@ -2393,6 +2541,9 @@ class system{
 
 		$bad_paths = array();
 		foreach($programs as $prog) {
+			if ($prog == '') {
+				continue;
+			}
 			foreach ($blacklisted_paths_regex as $re) {
 				if (preg_match($re, $prog, $matches)) {
 					$bad_paths[] = $matches[0];
@@ -2430,29 +2581,6 @@ $app->log("update_jailkit_chroot called for $home_dir with options ".print_r($op
 			return false;
 		}
 
-		$opts = array();
-		$jk_update_args = '';
-		$jk_cp_args = '';
-		foreach ($options as $opt) {
-			switch ($opt) {
-			case '-k':
-			case 'hardlink':
-				$opts[] = 'hardlink';
-				$jk_update_args .= ' -k';
-				$jk_cp_args .= ' -k';
-				break;
-			case '-f':
-			case 'force':
-				$opts[] = 'force';
-				$jk_cp_args .= ' -f';
-				break;
-			}
-		}
-
-		// Change ownership of the chroot directory to root
-		$this->chown($home_dir, 'root');
-		$this->chgrp($home_dir, 'root');
-
 		$jailkit_directories = array(
 			'bin',
 			'dev',
@@ -2466,7 +2594,40 @@ $app->log("update_jailkit_chroot called for $home_dir with options ".print_r($op
 			'var',
 		);
 
+		$opts = array();
+		$jk_update_args = '';
+		$jk_cp_args = '';
 		$skips = '';
+		foreach ($options as $opt) {
+			switch ($opt) {
+			case '-k':
+			case 'hardlink':
+				$opts[] = 'hardlink';
+				$jk_update_args .= ' -k';
+				$jk_cp_args .= ' -k';
+				break;
+			case '-f':
+			case 'force':
+				$opts[] = 'force';
+				$jk_cp_args .= ' -f';
+				break;
+			default:
+				if (preg_match('@^skip[ =]/?(.+)$@', $opt, $matches) ) {
+					if (in_array($matches[1], $jailkit_directories)) {
+						$app->log("update_jailkit_chroot: skipping update of jailkit directory $home_dir/".$matches[1]
+							. "; if this is in use as a web folder, it is insecure and should be fixed.", LOGLEVEL_WARN);
+					}
+					$jailkit_directories = $app->functions->array_unset_by_value($jailkit_directories, $matches[1]);
+					$skips .= ' --skip=/'.escapeshellarg($matches[1]);
+				}
+				break;
+			}
+		}
+
+		// Change ownership of the chroot directory to root
+		$this->chown($home_dir, 'root');
+		$this->chgrp($home_dir, 'root');
+
 		$multiple_links = array();
 		foreach ($jailkit_directories as $dir) {
 			$root_dir = '/'.$dir;
@@ -2485,6 +2646,7 @@ $app->log("update_jailkit_chroot called for $home_dir with options ".print_r($op
 			}
 
 			$this->remove_broken_symlinks($jail_dir, true);
+			$this->remove_recursive_symlinks($jail_dir, $home_dir, true);
 
 			// save list of hardlinked files
 			if (!(in_array('hardlink', $opts) || in_array('allow_hardlink', $options))) {
@@ -2531,18 +2693,22 @@ $app->log('jk_update returned: '.print_r($this->_last_exec_out, true), LOGLEVEL_
 		foreach ($this->_last_exec_out as $line) {
 			# jk_update sample output:
 			# skip /var/www/clients/client1/web1/opt/
-			if (substr( $line, 0, 4 ) === "skip") {
+			# removing outdated file /var/www/clients/client15/web19/usr/bin/host
+			# removing deprecated directory /var/www/clients/client15/web19/usr/lib/x86_64-linux-gnu/libtasn1.so.6.5.3
+			# Creating symlink /var/www/clients/client15/web19/lib/x86_64-linux-gnu/libicudata.so.65 to libicudata.so.65.1
+			# Copying /usr/bin/mysql to /var/www/clients/client15/web19/usr/bin/mysql
+			if (preg_match('@^(skip|removing (outdated|deprecated)|Creating|Copying)@', $line)) {
 				continue;
 			}
 
 			# jk_update sample output:
 			# ERROR: failed to remove deprecated directory /var/www/clients/client1/web10/usr/lib/x86_64-linux-gnu/libGeoIP.so.1.6.9
-			if (preg_match('@^(?:[^ ]+){6}(?:.+)('.preg_quote($home_dir, '@').'.+)@', $line, $matches)) {
+			if (preg_match('@^(?:[^ ]+ ){6}(?:.+)('.preg_quote($home_dir, '@').'.+)@', $line, $matches)) {
 				# remove deprecated files that jk_update failed to remove
-				if (is_file($matches[1])) {
+				if (is_file($matches[1]) || is_link($matches[1])) {
 $app->log("update_jailkit_chroot: removing deprecated file which jk_update failed to remove:  ".$matches[1], LOGLEVEL_DEBUG);
 					unlink($matches[1]);
-				} elseif (is_dir($matches[1])) {
+				} elseif (is_dir($matches[1]) && !is_link($matches[1])) {
 $app->log("update_jailkit_chroot: removing deprecated directory which jk_update failed to remove:  ".$matches[1], LOGLEVEL_DEBUG);
 					$this->rmdir($matches[1], true);
 				} else {
@@ -2633,9 +2799,10 @@ $app->log("update_jailkit_chroot: removing deprecated directory which jk_update 
 		return true;
 	}
 
-	public function delete_jailkit_chroot($home_dir) {
+	public function delete_jailkit_chroot($home_dir, $options = array()) {
 		global $app;
 
+$app->log("delete_jailkit_chroot called for $home_dir with options ".print_r($options, true), LOGLEVEL_DEBUG);
 		$app->uses('ini_parser');
 
 		// Disallow operating on root directory
@@ -2662,6 +2829,21 @@ $app->log("update_jailkit_chroot: removing deprecated directory which jk_update 
 			'var',
 			'run',		# not used by jailkit, but added for cleanup
 		);
+
+		foreach ($options as $opt) {
+			switch ($opt) {
+			default:
+				if (preg_match('@^skip[ =]/?(.+)$@', $opt, $matches) ) {
+					$matches[1] = ltrim($matches[1], '/');
+					if (in_array($matches[1], $jailkit_directories)) {
+						$app->log("delete_jailkit_chroot: skipping removal of jailkit directory .$home_dir/".$matches[1]
+							. "; if this is in use as a web folder, it is insecure and should be fixed.", LOGLEVEL_WARN);
+					}
+					$jailkit_directories = $app->functions->array_unset_by_value($jailkit_directories, $matches[1]);
+				}
+				break;
+			}
+		}
 
 		$removed = '';
 		foreach ($jailkit_directories as $dir) {

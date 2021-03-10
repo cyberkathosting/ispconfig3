@@ -146,7 +146,6 @@ include_once 'dist/conf/'.$dist['confid'].'.conf.php';
 //** Installer Interface
 //****************************************************************************************************
 $inst = new installer();
-if (!$inst->get_php_version()) die('ISPConfig requires PHP '.$inst->min_php."\n");
 $retval=shell_exec("which which");
 if (empty($retval)) die ("ISPConfig requires which \n");
 
@@ -171,6 +170,11 @@ if(is_dir('/usr/local/ispconfig')) {
 
 //** Detect the installed applications
 $inst->find_installed_apps();
+
+//* crontab required by ISPConfig
+if(!$conf['cron']['installed']) {
+	die("crontab not found; please install a compatible cron daemon before ISPConfig\n\n");
+}
 
 //** Select the language and set default timezone
 $conf['language'] = $inst->simple_query('Select language', array('en', 'de'), 'en','language');
@@ -607,10 +611,7 @@ $inst->configure_dbserver();
 
 //* Configure ISPConfig
 swriteln('Installing ISPConfig crontab');
-if($conf['cron']['installed']) {
-	swriteln('Installing ISPConfig crontab');
-	$inst->install_crontab();
-} else swriteln('[ERROR] Cron not found');
+$inst->install_crontab();
 
 swriteln('Detect IP addresses');
 $inst->detect_ips();

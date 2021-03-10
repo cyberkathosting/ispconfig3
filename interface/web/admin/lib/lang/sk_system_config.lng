@@ -23,6 +23,7 @@ $wb['use_domain_module_txt'] = 'Use the domain-module to add new domains';
 $wb['use_domain_module_hint'] = 'If you use this module, your customers can only select one of the domains the admin creates for them. They cannot free edit the domain-field.You have to re-login after changing this value, to make the changes visible.';
 $wb['new_domain_txt'] = 'HTML to create a new domain';
 $wb['webftp_url_txt'] = 'WebFTP URL';
+$wb['enable_welcome_mail_txt'] = 'Enable welcome email';
 $wb['enable_custom_login_txt'] = 'Allow custom login name';
 $wb['mailmailinglist_link_txt'] = 'Link to mailing list in Mailing list list';
 $wb['mailmailinglist_url_txt'] = 'Mailing list URL';
@@ -99,4 +100,8 @@ $wb['btn_save_txt'] = 'Save';
 $wb['btn_cancel_txt'] = 'Cancel';
 $wb['web_php_options_txt'] = 'PHP Handler (Apache only)';
 $wb['client_protection_txt'] = 'Client protection';
+$wb['show_support_messages_txt'] = 'Show message function in help module';
+$wb['show_aps_menu_txt'] = 'Show APS menu';
+$wb['show_aps_menu_note_txt'] = 'APS will be removed from the panel in the near future.';
+$wb['show_aps_menu_note_url_txt'] = 'Click here for more information.';
 ?>

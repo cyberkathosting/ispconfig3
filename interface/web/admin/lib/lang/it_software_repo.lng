@@ -1,8 +1,0 @@
-<?php
-$wb['repo_name_txt'] = 'Repository';
-$wb['repo_url_txt'] = 'URL';
-$wb['repo_username_txt'] = 'Utente (facoltativo)';
-$wb['repo_password_txt'] = 'Password (facoltativa)';
-$wb['active_txt'] = 'Attivo';
-$wb['Software Repository which may contain addons or updates'] = 'Software Repository che può contenere aggiunte o aggiornamenti';
-?>

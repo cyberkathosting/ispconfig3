@@ -1,4 +1,4 @@
-From: ISPConfig <postmaster@localhost.localdomain>
+From: {admin_name} <{admin_mail}>
 Subject: Dobrodošli u vaš novi email račun.
 
 Dobrodošli u vaš novi email račun. Vaš webmajstor.

@@ -18,6 +18,10 @@ $wb['web_folder_error_regex'] = 'Yazdığınız klasör geçersiz. / karakterini
 $wb['type_txt'] = 'Tür';
 $wb['parent_domain_id_txt'] = 'Üst Web Sitesi';
 $wb['redirect_type_txt'] = 'Yönlendirme Türü';
+$wb['r_redirect_txt'] = 'R (Temporary redirect)';
+$wb['l_redirect_txt'] = 'L (Last redirect rule)';
+$wb['r_l_redirect_txt'] = 'R,L (Temporary redirect + last rule)';
+$wb['r_301_l_redirect_txt'] = 'R=301,L (Permanent redirect + last rule)';
 $wb['redirect_path_txt'] = 'Yönlendirme Yolu';
 $wb['active_txt'] = 'Etkin';
 $wb['document_root_txt'] = 'Kök Klasör';

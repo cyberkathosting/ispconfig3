@@ -290,6 +290,16 @@ class monitor_tools {
 			$distver = '11';
 			$distid = 'fedora9';
 			$distbaseid = 'fedora';
+		} elseif(stristr($content, 'Fedora release 32 (Thirty Two)')) {
+			$distname = 'Fedora';
+			$distver = '32';
+			$distid = 'fedora32';
+			$distbaseid = 'fedora';
+		} elseif(stristr($content, 'Fedora release 33 (Thirty Three)')) {
+			$distname = 'Fedora';
+			$distver = '33';
+			$distid = 'fedora33';
+			$distbaseid = 'fedora';
 		} elseif(stristr($content, 'CentOS release 5.2 (Final)')) {
 			$distname = 'CentOS';
 			$distver = '5.2';
@@ -460,7 +470,7 @@ class monitor_tools {
 		/* Monitor MySQL Server */
 		$data['mysqlserver'] = -1; // unknown - not needed
 		if ($services['db_server'] == 1) {
-			if ($this->_checkTcp('localhost', 3306)) {
+                       if ($this->_checkTcp($conf['db_host'], $conf['db_port'])) {
 				$data['mysqlserver'] = 1;
 			} else {
 				$data['mysqlserver'] = 0;
@@ -488,11 +498,12 @@ class monitor_tools {
 		return $res;
 	}
 
-	public function _getLogData($log) {
+	public function _getLogData($log, $max_lines = 100) {
 		global $conf;
 
 		$dist = '';
 		$logfile = '';
+		$journalmatch = '';
 
 		if (@is_file('/etc/debian_version')) {
 			$dist = 'debian';
@@ -542,7 +553,7 @@ class monitor_tools {
 			if ($dist == 'debian') {
 				$logfile = '/var/log/syslog';
 			} elseif ($dist == 'redhat') {
-				$logfile = '/var/log/messages';
+				$journalmatch = ' ';
 			} elseif ($dist == 'suse') {
 				$logfile = '/var/log/messages';
 			} elseif ($dist == 'gentoo') {
@@ -643,24 +654,37 @@ class monitor_tools {
 			if (stristr($logfile, ';') or substr($logfile, 0, 9) != '/var/log/' or stristr($logfile, '..')) {
 				$log = 'Logfile path error.';
 			} else {
-				$log = '';
 				if (is_readable($logfile)) {
-					$fd = popen('tail -n 100 ' . escapeshellarg($logfile), 'r');
-					if ($fd) {
-						while (!feof($fd)) {
-							$log .= fgets($fd, 4096);
-							$n++;
-							if ($n > 1000)
-								break;
-						}
-						fclose($fd);
-					}
+					$log = $this->_getOutputFromExecCommand('tail -n '.intval($max_lines).' ' . escapeshellarg($logfile));
 				} else {
 					$log = 'Unable to read ' . $logfile;
 				}
 			}
+		} else {
+			if($journalmatch != ''){
+				$log = $this->_getOutputFromExecCommand('journalctl -n '.intval($max_lines).' --no-pager ' . escapeshellcmd($journalmatch));
+			}else{
+				$log = 'Unable to read logfile';
+			}
+
 		}
 
+		return $log;
+	}
+
+	private function _getOutputFromExecCommand ($command) {
+		$log = '';
+		$fd = popen($command, 'r');
+		if ($fd) {
+			$n = 0;
+			while (!feof($fd)) {
+				$log .= fgets($fd, 4096);
+				$n++;
+				if ($n > 1000)
+					break;
+			}
+			fclose($fd);
+		}
 		return $log;
 	}
 
@@ -812,7 +836,7 @@ class monitor_tools {
 	}
 
 	public function send_notification_email($template, $placeholders, $recipients) {
-		global $conf;
+		global $app, $conf;
 
 		if(!is_array($recipients) || count($recipients) < 1) return false;
 		if(!is_array($placeholders)) $placeholders = array();
@@ -829,6 +853,7 @@ class monitor_tools {
 
 		//* get mail headers, subject and body
 		$mailHeaders = '';
+		$mailFrom = '';
 		$mailBody = '';
 		$mailSubject = '';
 		$inHeader = true;
@@ -844,6 +869,16 @@ class monitor_tools {
 					$mailSubject = trim($parts[1]);
 					continue;
 				}
+				if(strtolower($parts[0]) == 'from') {
+					$mailFrom = trim($parts[1]);
+					continue;
+				}
+				if(strtolower($parts[0]) == 'cc') {
+					if (! in_array(trim($parts[1]), $recipients)) {
+						$recipients[] = trim($parts[1]);
+					}
+					continue;
+				}
 				unset($parts);
 				$mailHeaders .= trim($lines[$l]) . "\n";
 			} else {
@@ -854,17 +889,13 @@ class monitor_tools {
 
 		//* Replace placeholders
 		$mailHeaders = strtr($mailHeaders, $placeholders);
+		$mailFrom = strtr($mailFrom, $placeholders);
 		$mailSubject = strtr($mailSubject, $placeholders);
 		$mailBody = strtr($mailBody, $placeholders);
 
 		for($r = 0; $r < count($recipients); $r++) {
-			$app->functions->mail($recipients[$r], $mailSubject, $mailBody, $mailHeaders);
+			$app->functions->mail($recipients[$r], $mailSubject, $mailBody, $mailFrom);
 		}
-
-		unset($mailSubject);
-		unset($mailHeaders);
-		unset($mailBody);
-		unset($lines);
 
 		return true;
 	}

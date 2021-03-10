@@ -244,18 +244,11 @@ $form["tabs"]['dns_soa'] = array (
 			'formtype' => 'TEXT',
 			'validators' => array (  0 => array ( 'type' => 'CUSTOM',
 					'class' => 'validate_dns',
-					'function' => 'validate_xfer',
+					'function' => 'validate_ip',
 					'allowempty' => 'y',
 					'separator' => ',',
 					'errmsg'=> 'xfer_error_regex'),
 			),
-			/*
-			'validators' => array (  0 => array ( 'type' => 'ISIP',
-					'allowempty' => 'y',
-					'separator' => ',',
-					'errmsg'=> 'xfer_error_regex'),
-			),
-			*/
 			'default' => '',
 			'value'  => '',
 			'width'  => '30',
@@ -264,7 +257,9 @@ $form["tabs"]['dns_soa'] = array (
 		'also_notify' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
-			'validators'    => array (  0 => array ( 'type' => 'ISIP',
+			'validators' => array (  0 => array ( 'type' => 'CUSTOM',
+					'class' => 'validate_dns',
+					'function' => 'validate_ip',
 					'allowempty' => 'y',
 					'separator' => ',',
 					'errmsg'=> 'also_notify_error_regex'

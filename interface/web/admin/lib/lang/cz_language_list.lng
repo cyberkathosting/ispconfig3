@@ -4,4 +4,3 @@ $wb['language_select_txt'] = 'Vybrat jazyk';
 $wb['module_txt'] = 'Modul';
 $wb['lang_file_txt'] = 'Jazykový soubor';
 $wb['lang_file_date_txt'] = 'Poslední úprava';
-?>

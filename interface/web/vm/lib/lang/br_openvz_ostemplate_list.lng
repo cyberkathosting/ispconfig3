@@ -5,4 +5,3 @@ $wb['template_name_txt'] = 'Nome do gabarito';
 $wb['server_id_txt'] = 'Virtualizador';
 $wb['allservers_txt'] = 'Disponível em todos os servidores';
 $wb['ostemplate_id_txt'] = 'ID';
-?>

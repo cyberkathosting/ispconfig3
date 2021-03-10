@@ -36,8 +36,11 @@
 							<td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="client"}</a></td>
 							<td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="used"}</a></td>
 							<td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="quota"}</a></td>
-							<td><a href="#" data-load-content="sites/database_edit.php?id={tmpl_var name='id'}">{tmpl_var name="percentage"}</a></td>
-							<td class="text-right"></td>
+							<td colspan="2">{tmpl_if name="progressbar" op="!=" value="-1"}<div class="progress">
+								<div class='progress-bar-striped progress-bar-{tmpl_if name="percentage" op="<" value="50"}success{tmpl_elseif name="percentage" op="<" value="75"}warning{tmpl_else}danger{/tmpl_if}' role="progressbar" style="width: {tmpl_var name="progressbar_value"}%;" aria-valuenow="{tmpl_var name="percentage"}" aria-valuemin="0" aria-valuemax="100"><span>{tmpl_var name="percentage"}%</span></div>
+						</div>{/tmpl_if}
+</td>
+
 						</tr>
 					</tmpl_loop>
 					<tmpl_unless name="records">

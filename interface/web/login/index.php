@@ -58,7 +58,7 @@ if($app->is_under_maintenance()) {
 if(count($_POST) > 0) {
 
 	//** Check variables
-	if(!preg_match("/^[\w\.\-\_\@]{1,128}$/", $_POST['username'])) $error = $app->lng('user_regex_error');
+	if(!preg_match("/^[\w\.\-\_\@]{1,128}$/", $app->functions->idn_encode($_POST['username']))) $error = $app->lng('user_regex_error');
 	if(!preg_match("/^.{1,256}$/i", $_POST['password'])) $error = $app->lng('pw_error_length');
 
 	//** importing variables
@@ -83,23 +83,23 @@ if(count($_POST) > 0) {
 				 * The actual user is NOT a admin or reseller, but maybe he
 				 * has logged in as "normal" user before...
 				 */
-				
+
 				if (isset($_SESSION['s_old'])&& ($_SESSION['s_old']['user']['typ'] == 'admin' || $app->auth->has_clients($_SESSION['s_old']['user']['userid']))){
 					/* The "old" user is admin or reseller, so everything is ok
 					 * if he is reseller, we need to check if he logs in to one of his clients
 					 */
 					if($_SESSION['s_old']['user']['typ'] != 'admin') {
-						
+
 						/* this is the one currently logged in (normal user) */
 						$old_client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 						$old_client = $app->db->queryOneRecord("SELECT client.client_id, client.parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $old_client_group_id);
-						
+
 						/* this is the reseller, that shall be re-logged in */
 						$sql = "SELECT * FROM sys_user WHERE USERNAME = ? and PASSWORT = ?";
 						$tmp = $app->db->queryOneRecord($sql, $username, $password);
 						$client_group_id = $app->functions->intval($tmp['default_group']);
 						$tmp_client = $app->db->queryOneRecord("SELECT client.client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
-						
+
 						if(!$tmp_client || $old_client["parent_client_id"] != $tmp_client["client_id"] || $tmp["default_group"] != $_SESSION["s_old"]["user"]["default_group"] ) {
 							die("You don't have the right to 'login as' this user!");
 						}
@@ -115,12 +115,12 @@ if(count($_POST) > 0) {
 				/* a reseller wants to 'login as', we need to check if he is allowed to */
 				$res_client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 				$res_client = $app->db->queryOneRecord("SELECT client.client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $res_client_group_id);
-				
+
 				/* this is the user the reseller wants to 'login as' */
 				$sql = "SELECT * FROM sys_user WHERE USERNAME = ? and PASSWORT = ?";
 				$tmp = $app->db->queryOneRecord($sql, $username, $password);
 				$tmp_client = $app->db->queryOneRecord("SELECT client.client_id, client.parent_client_id FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $tmp["default_group"]);
-				
+
 				if(!$tmp || $tmp_client["parent_client_id"] != $res_client["client_id"]) {
 					die("You don't have the right to login as this user!");
 				}
@@ -129,16 +129,16 @@ if(count($_POST) > 0) {
 				unset($tmp_client);
 			}
 			$loginAs = true;
-			
+
 		} else {
 			/* normal login */
 			$loginAs = false;
 		}
-		
+
 		//* Check if there are already wrong logins
 		$sql = "SELECT * FROM `attempts_login` WHERE `ip`= ? AND  `login_time` > (NOW() - INTERVAL 1 MINUTE) LIMIT 1";
 		$alreadyfailed = $app->db->queryOneRecord($sql, $ip);
-		
+
 		//* too many failedlogins
 		if($alreadyfailed['times'] > 5) {
 			$error = $app->lng('error_user_too_many_logins');
@@ -148,11 +148,11 @@ if(count($_POST) > 0) {
 				$sql = "SELECT * FROM sys_user WHERE USERNAME = ? and PASSWORT = ?";
 				$user = $app->db->queryOneRecord($sql, $username, $password);
 			} else {
-			
+
 				if(stristr($username, '@')) {
 					//* mailuser login
 					$sql = "SELECT * FROM mail_user WHERE login = ? or email = ?";
-					$mailuser = $app->db->queryOneRecord($sql, $username, $username);
+					$mailuser = $app->db->queryOneRecord($sql, $username, $app->functions->idn_encode($username));
 					$user = false;
 					if($mailuser) {
 						$saved_password = stripslashes($mailuser['password']);
@@ -160,7 +160,7 @@ if(count($_POST) > 0) {
 						if(crypt(stripslashes($password), $saved_password) == $saved_password) {
 							//* Get the sys_user language of the client of the mailuser
 							$sys_user_lang = $app->db->queryOneRecord("SELECT language FROM sys_user WHERE default_group = ?", $mailuser['sys_groupid'] );
-							
+
 							//* we build a fake user here which has access to the mailuser module only and userid 0
 							$user = array();
 							$user['userid'] = 0;
@@ -196,6 +196,10 @@ if(count($_POST) > 0) {
 							//* The password is md5 encrypted
 							if(md5($password) != $saved_password) {
 								$user = false;
+							} else {
+								// update password with secure algo
+								$sql = 'UPDATE `sys_user` SET `passwort` = ? WHERE `username` = ?';
+								$app->db->query($sql, $app->auth->crypt_password($password), $username);
 							}
 						}
 					} else {
@@ -203,19 +207,19 @@ if(count($_POST) > 0) {
 					}
 				}
 			}
-			
+
 			if($user) {
 				if($user['active'] == 1) {
 					// Maintenance mode - allow logins only when maintenance mode is off or if the user is admin
 					if(!$app->is_under_maintenance() || $user['typ'] == 'admin'){
-						
+
 						// User login right, so attempts can be deleted
 						$sql = "DELETE FROM `attempts_login` WHERE `ip`=?";
 						$app->db->query($sql, $ip);
 						$user = $app->db->toLower($user);
-						
+
 						if ($loginAs) $oldSession = $_SESSION['s'];
-						
+
 						// Session regenerate causes login problems on some systems, see Issue #3827
 						// Set session_regenerate_id to no in security settings, it you encounter
 						// this problem.
@@ -231,7 +235,7 @@ if(count($_POST) > 0) {
 						$_SESSION['s']['language'] = $app->functions->check_language($user['language']);
 						$_SESSION["s"]['theme'] = $_SESSION['s']['user']['theme'];
 						if ($loginAs) $_SESSION['s']['plugin_cache'] = $_SESSION['s_old']['plugin_cache'];
-						
+
 						if(is_file(ISPC_WEB_PATH . '/' . $_SESSION['s']['user']['startmodule'].'/lib/module.conf.php')) {
 							include_once $app->functions->check_include_path(ISPC_WEB_PATH . '/' . $_SESSION['s']['user']['startmodule'].'/lib/module.conf.php');
 							$menu_dir = ISPC_WEB_PATH.'/' . $_SESSION['s']['user']['startmodule'] . '/lib/menu.d';
@@ -257,20 +261,20 @@ if(count($_POST) > 0) {
 								$_SESSION['show_error_msg'] = $app->lng('theme_not_compatible');
 							}
 						}
-						
+
 						$app->plugin->raiseEvent('login', $username);
-						
+
 						//* Save successfull login message to var
-						$authlog = 'Successful login for user \''. $username .'\' from '. $_SERVER['REMOTE_ADDR'] .' at '. date('Y-m-d H:i:s') . ' with session ID ' .session_id();						
+						$authlog = 'Successful login for user \''. $username .'\' from '. $_SERVER['REMOTE_ADDR'] .' at '. date('Y-m-d H:i:s') . ' with session ID ' .session_id();
 						$authlog_handle = fopen($conf['ispconfig_log_dir'].'/auth.log', 'a');
 						fwrite($authlog_handle, $authlog ."\n");
 						fclose($authlog_handle);
-						
+
 						/*
 						* We need LOGIN_REDIRECT instead of HEADER_REDIRECT to load the
 						* new theme, if the logged-in user has another
 						*/
-						
+
 						if ($loginAs){
 							echo 'LOGIN_REDIRECT:'.$_SESSION['s']['module']['startpage'];
 							exit;
@@ -327,7 +331,7 @@ if($security_config['password_reset_allowed'] == 'yes') {
 } else {
 	$app->tpl->setVar('pw_lost_show', 0);
 }
-		
+
 $app->tpl->setVar('error', $error);
 $app->tpl->setVar('error_txt', $app->lng('error_txt'));
 $app->tpl->setVar('login_txt', $app->lng('login_txt'));

@@ -8,4 +8,3 @@ $wb['install_location_txt'] = 'Local da instalação';
 $wb['pkg_delete_confirmation'] = 'Deseja realmente remover esta instalação?';
 $wb['filter_txt'] = 'Pesquisar';
 $wb['delete_txt'] = 'Remover';
-?>

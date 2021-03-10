@@ -1,7 +1,7 @@
 <?php
 
 $form["title"]    = "IPTables";
-$form["description"]  = "IPTables based firewall";
+//$form["description"]  = "IPTables based firewall";
 $form["name"]    = "iptables";
 $form["action"]   = "iptables_edit.php";
 $form["db_table"]  = "iptables";

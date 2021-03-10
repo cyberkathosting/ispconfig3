@@ -16,4 +16,3 @@ $wb['ttl_range_error'] = 'Min. TTL doba je 60 sekund.';
 $wb['invalid_type_dkim'] = 'Přímá editace DKIM záznamu zde není povolena. Editujte záznam pomocí tlačítka DKIM.';
 $wb['invalid_type_dmarc'] = 'Přímá editace DMARC záznamu zde není povolena. Editujte záznam pomocí tlačítka DMARC.';
 $wb['invalid_type_spf'] = 'Přímá editace SPF záznamu zde není povolena. Editujte záznam pomocí tlačítka SPF.';
-?>

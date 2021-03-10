@@ -22,7 +22,7 @@
 
   <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/bootstrap.min.css' />
   <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/fonts.min.css' />
-  <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/ispconfig.css' />
+  <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/ispconfig.css?ver=3.2.2' />
   <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/pushy.min.css' />
   <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/bootstrap-datetimepicker.min.css' />
   <link rel='stylesheet' href='themes/<tmpl_var name='current_theme'>/assets/stylesheets/responsive.min.css' />
@@ -102,6 +102,7 @@
 		<div class='clear'>
           <!-- content -->
           <div id='content' class='right'>
+			<noscript>This page needs JavaScript to be enabled.</noscript>
 			<form method="post" action="" id="pageForm" name="pageForm" enctype="multipart/form-data" class='form-horizontal' role='form'>
 				<div id="pageContent" data-startpage="{tmpl_var name="startpage"}"><!-- AJAX CONTENT --></div>
 			</form>

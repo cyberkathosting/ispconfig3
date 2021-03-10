@@ -10,4 +10,5 @@ $wb['domain_txt'] = 'Domínio';
 $wb['source_txt'] = 'Origem';
 $wb['destination_error_isemail'] = 'Endereço de e-mail de destino é inválido.';
 $wb['greylisting_txt'] = 'Habilitar greylist';
-?>
+$wb['send_as_txt'] = 'Enviar como';
+$wb['send_as_exp'] = 'Allow destination to send from email addresses in this domain';

@@ -6,4 +6,7 @@ $wb['active_txt'] = 'Активен';
 $wb['source_error_notempty'] = 'Полето с адреса е празно.';
 $wb['type_txt'] = 'Тип';
 $wb['limit_mailfilter_txt'] = 'Максималният брой за емайл филтри в твоят профил е достигнат.';
-?>
+$wb['limit_mail_wblist_txt'] = 'The max. number of email white / blacklist for your account is reached.';
+$wb['mail_access_unique'] = 'Blacklist Address already in use.';
+$wb['client_txt'] = 'Client';
+$wb['sender_txt'] = 'Sender';

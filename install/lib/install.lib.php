@@ -308,6 +308,18 @@ function get_distname() {
 			$distid = 'fedora9';
 			$distbaseid = 'fedora';
 			swriteln("Operating System: Fedora 11 or compatible\n");
+		} elseif(stristr($content, 'Fedora release 32 (Thirty Two)')) {
+			$distname = 'Fedora';
+			$distver = '32';
+			$distid = 'fedora32';
+			$distbaseid = 'fedora';
+			swriteln("Operating System: Fedora 32 or compatible\n");
+		} elseif(stristr($content, 'Fedora release 33 (Thirty Three)')) {
+			$distname = 'Fedora';
+			$distver = '33';
+			$distid = 'fedora33';
+			$distbaseid = 'fedora';
+			swriteln("Operating System: Fedora 33 or compatible\n");
 		} elseif(stristr($content, 'CentOS release 5.2 (Final)')) {
 			$distname = 'CentOS';
 			$distver = '5.2';
@@ -870,9 +882,8 @@ function get_apps_vhost_port_number() {
 }
 
 /*
-* Get the port number of the ISPConfig controlpanel vhost
-*/
-
+ * Check if SSL is anabled in the ISPConfig controlpanel vhost.
+ */
 function is_ispconfig_ssl_enabled() {
 	global $conf;
 	$ispconfig_vhost_file = $conf['apache']['vhost_conf_dir'].'/ispconfig.vhost';

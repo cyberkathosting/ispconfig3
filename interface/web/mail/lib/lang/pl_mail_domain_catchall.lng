@@ -9,4 +9,5 @@ $wb['limit_mailcatchall_txt'] = 'Maksymalna ilość kont e-mail catchall dla Two
 $wb['source_txt'] = 'Źródło';
 $wb['destination_error_isemail'] = 'Cel nie jest poprawnym adresem email.';
 $wb['greylisting_txt'] = 'Enable greylisting';
-?>
+$wb['send_as_txt'] = 'Send as';
+$wb['send_as_exp'] = 'Allow destination to send from email addresses in this domain';

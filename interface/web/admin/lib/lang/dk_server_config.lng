@@ -180,6 +180,7 @@ $wb['enable_ip_wildcard_txt'] = 'Enable IP wildcard (*)';
 $wb['web_folder_protection_txt'] = 'Gør web mapper immume (udvidede attributter)';
 $wb['overtraffic_notify_admin_txt'] = 'Send over-trafik meddelelse til admin';
 $wb['overtraffic_notify_client_txt'] = 'Send over-trafik meddelelse til kunde';
+$wb['overtraffic_disable_web_txt'] = 'Disable websites that exceed traffic limit';
 $wb['rbl_error_regex'] = 'Angiv gyldige RBL værtsnavne.';
 $wb['overquota_notify_admin_txt'] = 'Send kvote advarsler til admin';
 $wb['overquota_notify_client_txt'] = 'Send kvote advarsler til kunde';

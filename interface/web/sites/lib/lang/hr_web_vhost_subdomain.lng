@@ -20,8 +20,13 @@ $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Domena';
 $wb['host_txt'] = 'Hostname';
 $wb['web_folder_error_regex'] = 'Neispravan direktorij. Nemojte koristiti slash.';
+$wb['web_folder_error_empty'] = 'Web folder cannot be empty.  Use /web/ to make the same as the Parent Website';
 $wb['type_txt'] = 'Vrsta';
 $wb['redirect_type_txt'] = 'Vrsta redirekcije';
+$wb['r_redirect_txt'] = 'R (Temporary redirect)';
+$wb['l_redirect_txt'] = 'L (Last redirect rule)';
+$wb['r_l_redirect_txt'] = 'R,L (Temporary redirect + last rule)';
+$wb['r_301_l_redirect_txt'] = 'R=301,L (Permanent redirect + last rule)';
 $wb['redirect_path_txt'] = 'Redirekcijska putanja';
 $wb['active_txt'] = 'Aktivno';
 $wb['document_root_txt'] = 'Početna putanja (documentroot)';
@@ -128,4 +133,3 @@ $wb['http_port_txt'] = 'HTTP Port';
 $wb['https_port_txt'] = 'HTTPS Port';
 $wb['http_port_error_regex'] = 'HTTP Port invalid.';
 $wb['https_port_error_regex'] = 'HTTPS Port invalid.';
-?>

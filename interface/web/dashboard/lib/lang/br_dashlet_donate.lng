@@ -4,4 +4,3 @@ $wb['donate2_txt'] = 'O valor da doação pode ser 5 EUR ou mais, o qual é esco
 $wb['hide_btn_txt'] = 'Ocultar';
 $wb['donate_btn_txt'] = 'Doar para ISPConfig e receber o manual';
 $wb['more_btn_txt'] = 'Mais';
-?>

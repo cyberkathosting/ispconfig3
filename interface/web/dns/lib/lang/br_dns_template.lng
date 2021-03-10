@@ -1,7 +1,8 @@
 <?php
 $wb['name_txt'] = 'Nome';
-$wb['fields_txt'] = 'O campos';
+$wb['fields_txt'] = 'Campos';
 $wb['template_txt'] = 'Gabarito';
 $wb['visible_txt'] = 'Visível';
 $wb['placeholder_txt'] = 'Área Reservada';
-?>
+$wb['DNS Wizard template'] = 'Gabarito do Assistente DNS';
+$wb['DNS Template'] = 'Gabarito DNS';

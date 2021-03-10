@@ -1,6 +1,6 @@
 <?php
-$wb['puser_txt'] = 'Usuário web';
-$wb['pgroup_txt'] = 'Grupo web';
+$wb['puser_txt'] = 'Usuário Web';
+$wb['pgroup_txt'] = 'Grupo Web';
 $wb['shell_txt'] = 'Shell';
 $wb['dir_txt'] = 'Diretório Base';
 $wb['server_id_txt'] = 'Servidor';
@@ -11,12 +11,12 @@ $wb['password_strength_txt'] = 'Dificuldade da senha';
 $wb['chroot_txt'] = 'Chroot Shell';
 $wb['quota_size_txt'] = 'Cota';
 $wb['active_txt'] = 'Ativo';
-$wb['username_error_empty'] = 'Nome do usuário está em branco.';
+$wb['username_error_empty'] = 'Nome do usuário está vazio.';
 $wb['username_error_unique'] = 'O nome do usuário deve ser exclusivo.';
 $wb['username_error_regex'] = 'O nome do usuário possui caracteres não permitidos.';
-$wb['quota_size_error_empty'] = 'Cota está em branco.';
-$wb['uid_error_empty'] = 'GID está em branco.';
-$wb['directory_error_empty'] = 'O diretório está em branco.';
+$wb['quota_size_error_empty'] = 'Cota está vazio.';
+$wb['uid_error_empty'] = 'GID está vazio.';
+$wb['directory_error_empty'] = 'O diretório está vazio.';
 $wb['limit_shell_user_txt'] = 'O limite de usuários foi alcançado.';
 $wb['parent_domain_id_error_empty'] = 'Nenhum site selecionado.';
 $wb['ssh_rsa_txt'] = 'Chave pública SSH-RSA (para acessos baseados em chave)';
@@ -32,5 +32,5 @@ $wb['invalid_system_user_or_group_txt'] = 'Usuário ou grupo inválido.';
 $wb['directory_error_regex'] = 'Diretório inválido.';
 $wb['shell_error_regex'] = 'Shell inválido.';
 $wb['invalid_username_txt'] = 'Usuário inválido.';
-$wb['directory_error_notinweb'] = 'O diretório deve estar dentro do diretório web.';
-?>
+$wb['directory_error_notinweb'] = 'O diretório deve estar dentro do diretório root web.';
+$wb['Shell User'] = 'Usuário Shell';

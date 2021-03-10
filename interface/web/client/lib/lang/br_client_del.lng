@@ -4,7 +4,6 @@ $wb['delete_explanation'] = 'Esta ação removerá os seguintes registros associ
 $wb['btn_save_txt'] = 'Remover o cliente';
 $wb['btn_cancel_txt'] = 'Cancelar sem remover o cliente';
 $wb['confirm_client_delete_txt'] = 'Você tem certeza que deseja remover este cliente?';
-$wb['list_head_txt'] = 'Delete Client';
-$wb['table_txt'] = 'Table';
-$wb['data_txt'] = 'Data';
-?>
+$wb['list_head_txt'] = 'Remover cliente';
+$wb['table_txt'] = 'Tabela';
+$wb['data_txt'] = 'Dados';

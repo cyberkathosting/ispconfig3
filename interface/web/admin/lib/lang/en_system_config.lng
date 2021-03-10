@@ -24,6 +24,7 @@ $wb['ftpuser_prefix_error_regex'] = 'Char not allowed in ftp user prefix.';
 $wb['shelluser_prefix_error_regex'] = 'Char not allowed in shell user prefix.';
 $wb['webdavuser_prefix_error_regex'] = 'Char not allowed in webdav user prefix.';
 $wb['dblist_phpmyadmin_link_txt'] = 'Link to phpmyadmin in DB list';
+$wb['enable_welcome_mail_txt'] = 'Enable welcome email';
 $wb['enable_custom_login_txt'] = 'Allow custom login name';
 $wb['mailboxlist_webmail_link_txt'] = 'Link to webmail in Mailbox list';
 $wb['mailbox_show_autoresponder_tab_txt'] = 'Show Autoresponder tab in Mailbox detail';
@@ -103,4 +104,8 @@ $wb['btn_save_txt'] = 'Save';
 $wb['btn_cancel_txt'] = 'Cancel';
 $wb['web_php_options_txt'] = 'PHP Handler (Apache only)';
 $wb['client_protection_txt'] = 'Client protection';
+$wb['show_support_messages_txt'] = 'Show message function in help module';
+$wb['show_aps_menu_txt'] = 'Show APS menu';
+$wb['show_aps_menu_note_txt'] = 'APS will be removed from the panel in the near future.';
+$wb['show_aps_menu_note_url_txt'] = 'Click here for more information.';
 ?>

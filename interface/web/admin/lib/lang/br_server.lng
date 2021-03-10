@@ -1,16 +1,15 @@
 <?php
 $wb['config_txt'] = 'Configuração';
 $wb['server_name_txt'] = 'Nome do servidor';
-$wb['mail_server_txt'] = 'Servidor de e-mails';
-$wb['web_server_txt'] = 'Servidor web';
-$wb['dns_server_txt'] = 'Servidor dns';
-$wb['file_server_txt'] = 'Servidor ftp';
-$wb['db_server_txt'] = 'Servidor de banco de dados';
-$wb['vserver_server_txt'] = 'Servidor de virtualização';
-$wb['proxy_server_txt'] = 'Servidor proxy';
-$wb['firewall_server_txt'] = 'Servidor firewall';
+$wb['mail_server_txt'] = 'Servidor de eMails';
+$wb['web_server_txt'] = 'Servidor Web';
+$wb['dns_server_txt'] = 'Servidor DNS';
+$wb['file_server_txt'] = 'Servidor FTP';
+$wb['db_server_txt'] = 'Servidor do Banco de Dados';
+$wb['vserver_server_txt'] = 'Servidor de Virtualização';
+$wb['proxy_server_txt'] = 'Servidor Proxy';
+$wb['firewall_server_txt'] = 'Servidor Firewall';
 $wb['active_txt'] = 'Ativo';
 $wb['mirror_server_id_txt'] = 'É um espelho de servidor';
 $wb['- None -'] = '-Nenhum-';
-$wb['xmpp_server_txt'] = 'Servidor xmpp';
-?>
+$wb['xmpp_server_txt'] = 'Servidor XMPP';

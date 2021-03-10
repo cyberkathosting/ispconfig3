@@ -6,4 +6,3 @@ $wb['next_payment_date_txt'] = 'Next Invoice';
 $wb['no_products_txt'] = 'Nebyly nalezeny žádné produkty.';
 $wb['edit_txt'] = 'Editovat';
 $wb['cancellation_date_txt'] = 'Cancelled by';
-?>

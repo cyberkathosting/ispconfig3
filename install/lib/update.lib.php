@@ -185,9 +185,9 @@ function updateDbAndIni() {
 			else $next_db_version = intval($current_db_version + 1);
 			$sql_patch_filename = realpath(dirname(__FILE__).'/../').'/sql/incremental/upd_'.str_pad($next_db_version, 4, '0', STR_PAD_LEFT).'.sql';
 			$php_patch_filename = realpath(dirname(__FILE__).'/../').'/patches/upd_'.str_pad($next_db_version, 4, '0', STR_PAD_LEFT).'.php';
-			
+
 			// comma separated list of version numbers were a update has to be done silently
-			$silent_update_versions = 'dev_collection,75';
+			$silent_update_versions = 'dev_collection,75,91';
 
 			if(is_file($sql_patch_filename)) {
 
@@ -214,14 +214,14 @@ function updateDbAndIni() {
 				} else {
 					$cmd = "mysql --default-character-set=".escapeshellarg($conf['mysql']['charset'])." --force -h ".escapeshellarg($conf['mysql']['host'])." -u ".escapeshellarg($conf['mysql']['admin_user'])." -P ".escapeshellarg($conf['mysql']['port'])." ".escapeshellarg($conf['mysql']['database'])." < ".$sql_patch_filename;
 				}
-				
+
 				if(in_array($next_db_version,explode(',',$silent_update_versions))) {
 					$cmd .= ' > /dev/null 2> /dev/null';
 				} else {
 					$cmd .= ' >> /var/log/ispconfig_install.log 2>> /var/log/ispconfig_install.log';
 				}
 				system($cmd);
-				
+
 				swriteln($inst->lng('Loading SQL patch file').': '.$sql_patch_filename);
 
 				//* Exec onAfterSQL function
@@ -231,7 +231,7 @@ function updateDbAndIni() {
 
 				if($dev_patch == false) $current_db_version = $next_db_version;
 				else $found = false;
-				
+
 				if(isset($php_patch)) unset($php_patch);
 			} elseif($dev_patch == false) {
 				$dev_patch = true;
@@ -416,7 +416,7 @@ function updateDbAndIni() {
 
 function setDefaultServers(){
 	global $inst, $conf;
-	
+
 	// clients
 	$clients = $inst->db->queryAllRecords("SELECT * FROM ".$conf["mysql"]["database"].".client");
 	if(is_array($clients) && !empty($clients)){
@@ -431,7 +431,7 @@ function setDefaultServers(){
 			if(trim($client['db_servers']) == '') $inst->db->query("UPDATE ?? SET db_servers = ? WHERE client_id = ?", $conf["mysql"]["database"].".client", trim($client['default_dbserver']), $client['client_id']);
 		}
 	}
-	
+
 }
 
 
@@ -442,13 +442,13 @@ function setDefaultServers(){
  */
 function check_service_config_state($servicename, $detected_value) {
 	global $current_svc_config, $inst, $conf;
-	
+
 	if ($current_svc_config[$servicename] == 1) $current_state = 1;
 	else $current_state = 0;
 
 	if ($detected_value) $detected_value = 1;
 	else $detected_value = 0;
-	
+
 	if ($detected_value != $current_state) {
 		$answer = $inst->simple_query('Service \''.$servicename.'\' '.($detected_value ? 'has been' : 'has not been').' detected ('.($current_state ? 'strongly recommended, currently enabled' : 'currently disabled').') do you want to '.($detected_value ? 'enable and configure' : 'disable').' it? ', array('yes', 'no'), ($current_state ? 'yes' : 'no'), 'svc_detect_change_'.$servicename);
 		if ($answer == 'yes') return $detected_value;
@@ -457,6 +457,66 @@ function check_service_config_state($servicename, $detected_value) {
 			return $current_state;
 		}
 	} else return $current_state;
+}
+
+/**
+ * Check for existing conf-custom templates and offer to rename them.
+ */
+function checkAndRenameCustomTemplates($default_prompt='no') {
+	global $inst;
+	$ret = true;
+
+	$default_prompt = ($default_prompt == 'yes') ? 'yes' : 'no';
+
+	$template_directories = array(
+		'/usr/local/ispconfig/server/conf-custom',
+		'/usr/local/ispconfig/server/conf-custom/install',
+	);
+
+	$override_templates = array(
+		'postfix_custom.conf.master',
+		'dovecot_custom.conf.master',
+	);
+
+	$found_templates = array();
+	$found_override_templates = array();
+	foreach ($template_directories as $dir) {
+		if (!is_dir($dir)) { continue; }
+		foreach (glob("$dir/*.master") as $f) {
+			if (is_file($f)) {
+				if (in_array( basename($f), $override_templates )) {
+					$found_override_templates[] = $f;
+				} else {
+					$found_templates[] = $f;
+				}
+			}
+		}
+	}
+
+	if (count($found_templates) > 0) {
+		echo "The following custom templates were found:\n\n";
+		echo implode("\n", $found_templates) . "\n\n";
+
+		$answer = $inst->simple_query('Do you want to rename these conf-custom templates now so the default templates are used?', array('yes', 'no'), $default_prompt, 'rename_custom_templates');
+		if (strtolower($answer) == 'yes') {
+			$date=date('-Y-m-d_H-i');
+			foreach ($found_templates as $f) {
+				if (!rename($f, $f.$date)) {
+					echo "Error renaming template $f\n";
+					$ret = false;
+				}
+			}
+		} else {
+			$ret = null;
+		}
+	}
+
+	if (count($found_override_templates) > 0) {
+		echo "The following local config override templates were found, be sure to incorporate upstream changes if needed:\n\n";
+		echo implode("\n", $found_override_templates) . "\n\n";
+	}
+
+	return $ret;
 }
 
 ?>

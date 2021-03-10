@@ -7,4 +7,3 @@ $wb['type_txt'] = 'Typ';
 $wb['recipient_txt'] = 'Příjemce (adresát)';
 $wb['add_new_record_txt'] = 'Přidat na černou listinu';
 $wb['access_txt'] = 'Přístup';
-?>

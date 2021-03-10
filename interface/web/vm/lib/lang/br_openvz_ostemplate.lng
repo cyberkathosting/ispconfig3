@@ -5,7 +5,6 @@ $wb['server_id_txt'] = 'Virtualizador';
 $wb['allservers_txt'] = 'Disponível em todos os servidores';
 $wb['active_txt'] = 'Ativo';
 $wb['description_txt'] = 'Descrição';
-$wb['template_name_error_empty'] = 'Nome do gabarito está em branco.';
-$wb['template_file_error_empty'] = 'Nome do arquivo está em branco.';
+$wb['template_name_error_empty'] = 'Nome do gabarito está vazio.';
+$wb['template_file_error_empty'] = 'Nome do arquivo está vazio.';
 $wb['Template'] = 'Gabarito';
-?>

@@ -3,7 +3,6 @@ $wb['server_id_txt'] = 'Servidor';
 $wb['source_txt'] = 'Destinatário de retransmissão';
 $wb['recipient_txt'] = 'Destinatário';
 $wb['active_txt'] = 'Ativo';
-$wb['source_error_notempty'] = 'Destinatário de retransmissão está em branco.';
+$wb['source_error_notempty'] = 'Destinatário de retransmissão está vazio.';
 $wb['type_txt'] = 'Tipo';
-$wb['limit_mailfilter_txt'] = 'O limite de filtros de e-mail para esta conta foi alcançado.';
-?>
+$wb['limit_mailfilter_txt'] = 'O limite de filtros de email para esta conta foi alcançado.';

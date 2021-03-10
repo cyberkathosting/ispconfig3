@@ -5,9 +5,10 @@ hosts = {mysql_server_ip}
 query = SELECT 'greylisting' FROM
   (
    SELECT `greylisting`, 1 as `prio` FROM `mail_user` WHERE `server_id` = {server_id} AND `email` = '%s'
+      AND EXISTS (SELECT domain_id FROM mail_domain WHERE domain = SUBSTRING_INDEX('%s', '@', -1) AND active = 'y' AND server_id = {server_id})
    UNION
-   SELECT `greylisting`, 2 as `prio` FROM `mail_forwarding` WHERE `server_id` = {server_id} AND `source` = '%s'
+   SELECT `greylisting`, 2 as `prio` FROM `mail_forwarding` WHERE `server_id` = {server_id} AND `source` = '%s' AND active = 'y'
    UNION
-   SELECT `greylisting`, 3 as `prio` FROM `mail_forwarding` WHERE `server_id` = {server_id} AND `source` = '@%d' ORDER BY `prio` ASC LIMIT 1
+   SELECT `greylisting`, 3 as `prio` FROM `mail_forwarding` WHERE `server_id` = {server_id} AND `source` = '@%d' AND active = 'y' ORDER BY `prio` ASC LIMIT 1
   ) AS rules
   WHERE rules.greylisting = 'y'

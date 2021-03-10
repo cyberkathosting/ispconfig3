@@ -58,22 +58,23 @@ class cronjob_jailkit_maintenance extends cronjob {
 		$jailkit_config = $app->getconf->get_server_config($conf['server_id'], 'jailkit');
 		if (isset($this->jailkit_config) && isset($this->jailkit_config['jailkit_hardlinks'])) {
 			if ($this->jailkit_config['jailkit_hardlinks'] == 'yes') {
-				$update_options = array('hardlink');
+				$options = array('hardlink');
 			} elseif ($this->jailkit_config['jailkit_hardlinks'] == 'no') {
-				$update_options = array();
+				$options = array();
 			}
 		} else {
-			$update_options = array('allow_hardlink');
+			$options = array('allow_hardlink');
 		}
 
 		// limit the number of jails we update at one time according to time of day
 		$num_jails_to_update = (date('H') < 6) ? 25 : 3;
 
-		$sql = "SELECT domain_id, domain, document_root, php_fpm_chroot, jailkit_chroot_app_sections, jailkit_chroot_app_programs, delete_unused_jailkit, last_jailkit_hash FROM web_domain WHERE type = 'vhost' AND (last_jailkit_update IS NULL OR last_jailkit_update < (NOW() - INTERVAL 24 HOUR)) AND server_id = ? ORDER by last_jailkit_update LIMIT ?";
+		$sql = "SELECT domain_id, domain, document_root, system_user, system_group, php_fpm_chroot, jailkit_chroot_app_sections, jailkit_chroot_app_programs, delete_unused_jailkit, last_jailkit_hash FROM web_domain WHERE type = 'vhost' AND (last_jailkit_update IS NULL OR last_jailkit_update < (NOW() - INTERVAL 24 HOUR)) AND server_id = ? ORDER by last_jailkit_update LIMIT ?";
 		$records = $app->db->queryAllRecords($sql, $conf['server_id'], $num_jails_to_update);
 
 		foreach($records as $rec) {
 			if (!is_dir($rec['document_root']) || !is_dir($rec['document_root'].'/etc/jailkit')) {
+				$app->db->query("UPDATE `web_domain` SET `last_jailkit_update` = NOW() WHERE `document_root` = ?", $rec['document_root']);
 				continue;
 			}
 
@@ -85,6 +86,14 @@ class cronjob_jailkit_maintenance extends cronjob {
 
 			// check for any cron job using this jail
 			$cron_inuse = $app->db->queryOneRecord('SELECT id FROM `cron` WHERE `parent_domain_id` = ? AND `type` = ? AND `server_id` = ?', $rec['domain_id'], 'chrooted', $conf['server_id']);
+
+			$records2 = $app->db->queryAllRecords('SELECT web_folder FROM `web_domain` WHERE `parent_domain_id` = ? AND `document_root` = ? AND web_folder != \'\' AND web_folder IS NOT NULL AND `server_id` = ?', $rec['domain_id'], $rec['document_root'], $conf['server_id']);
+			foreach ($records2 as $record2) {
+				if ($record2['web_folder'] == NULL || $record2['web_folder'] == '') {
+					continue;
+				}
+				$options[] = 'skip='.$record2['web_folder'];
+			}
 
 			if ($shell_user_inuse || $cron_inuse || $rec['php_fpm_chroot'] == 'y' || $rec['delete_unused_jailkit'] != 'y') {
 				$sections = $jailkit_config['jailkit_chroot_app_sections'];
@@ -102,9 +111,21 @@ class cronjob_jailkit_maintenance extends cronjob {
 				sort($last_updated, SORT_STRING);
 				$update_hash = hash('md5', implode(' ', $last_updated));
 
+				if (is_file( $rec['document_root']."/bin/bash" )) {
+					# test that /bin/bash functions in the jail
+print "chroot --userspec ".$rec['system_user'].":".$rec['system_group']." ".$rec['document_root']." /bin/bash -c true 2>/dev/null\n";
+					$app->system->exec_safe("chroot --userspec ?:? ? /bin/bash -c true 2>/dev/null", $rec['system_user'], $rec['system_group'], $rec['document_root']);
+					if ($app->system->last_exec_retcode()) {  # return 0 means success
+print "/bin/bash test failed, forcing update\n";
+						$options[] = 'force';
+						# bogus hash will not match, triggering an update
+						$update_hash = 'force_update'.time();
+					}
+				}
+
 				if ($update_hash != $rec['last_jailkit_hash']) {
 					$app->system->web_folder_protection($rec['document_root'], false);
-					$app->system->update_jailkit_chroot($rec['document_root'], $sections, $programs, $update_options);
+					$app->system->update_jailkit_chroot($rec['document_root'], $sections, $programs, $options);
 					$app->system->web_folder_protection($rec['document_root'], true);
 					$app->db->query("UPDATE `web_domain` SET `last_jailkit_update` = NOW(), `last_jailkit_hash` = ? WHERE `document_root` = ?", $update_hash, $rec['document_root']);
 				} else {
@@ -114,7 +135,7 @@ class cronjob_jailkit_maintenance extends cronjob {
 				//$app->log('Removing unused jail: '.$rec['document_root'], LOGLEVEL_DEBUG);
 				print 'Removing unused jail: '.$rec['document_root']."\n";
 				$app->system->web_folder_protection($rec['document_root'], false);
-				$app->system->delete_jailkit_chroot($rec['document_root']);
+				$app->system->delete_jailkit_chroot($rec['document_root'], $options);
 				$app->system->web_folder_protection($rec['document_root'], true);
 
 				$app->db->query("UPDATE `web_domain` SET `last_jailkit_update` = NOW(), `last_jailkit_hash` = NULL WHERE `document_root` = ?", $rec['document_root']);

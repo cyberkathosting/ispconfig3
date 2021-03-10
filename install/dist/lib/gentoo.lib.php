@@ -63,6 +63,9 @@ class installer extends installer_base
 			$this->process_postfix_config( basename($filename, '.master') );
 		}
 
+		//* mysql-verify_recipients.cf
+		$this->process_postfix_config('mysql-verify_recipients.cf');
+
 		//* Changing mode and group of the new created config files.
 		caselog('chmod o= '.$config_dir.'/mysql-virtual_*.cf* &> /dev/null',
 			__FILE__, __LINE__, 'chmod on mysql-virtual_*.cf*', 'chmod on mysql-virtual_*.cf* failed');
@@ -157,6 +160,7 @@ class installer extends installer_base
 		touch($config_dir.'/mime_header_checks');
 		touch($config_dir.'/nested_header_checks');
 		touch($config_dir.'/body_checks');
+		touch($config_dir.'/sasl_passwd');
 
 		//* Create auxillary postfix conf files
 		$configfile = 'helo_access';
@@ -1115,8 +1119,8 @@ class installer extends installer_base
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 		if ($this->install_ispconfig_interface == true && isset($conf['interface_password']) && $conf['interface_password']!='admin') {
-			$sql = "UPDATE sys_user SET passwort = md5(?) WHERE username = 'admin';";
-			$this->db->query($sql, $conf['interface_password']);
+			$sql = "UPDATE sys_user SET passwort = ? WHERE username = 'admin';";
+			$this->db->query($sql, $this->crypt_password($conf['interface_password']));
 		}
 
 		if($conf['apache']['installed'] == true && $this->install_ispconfig_interface == true){
@@ -1252,6 +1256,7 @@ class installer extends installer_base
 		if (!is_file($conf['ispconfig_log_dir'].'/ispconfig.log')) {
 			touch($conf['ispconfig_log_dir'].'/ispconfig.log');
 		}
+		chmod($conf['ispconfig_log_dir'].'/ispconfig.log', 0600);
 
 		//* Create the ispconfig auth log file and set uid/gid
 		if(!is_file($conf['ispconfig_log_dir'].'/auth.log')) {

@@ -1,10 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Filtros de e-mail - lista branca';
+$wb['list_head_txt'] = 'Filtros de email - lista de permissões';
 $wb['active_txt'] = 'Ativo';
 $wb['server_id_txt'] = 'Servidor';
-$wb['source_txt'] = 'Endereços de e-mail - lista branca';
+$wb['source_txt'] = 'Endereços de email - lista de permissões';
 $wb['type_txt'] = 'Tipo';
 $wb['recipient_txt'] = 'Destinatário';
 $wb['add_new_record_txt'] = 'Adicionar novo registro';
 $wb['access_txt'] = 'acesso';
-?>

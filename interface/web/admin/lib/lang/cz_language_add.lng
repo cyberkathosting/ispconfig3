@@ -2,7 +2,6 @@
 $wb['list_head_txt'] = 'Vytvořit nový jazyk';
 $wb['language_select_txt'] = 'Vybrat jazykový základ';
 $wb['language_new_txt'] = 'Název nového jazyka';
-$wb['language_new_hint_txt'] = '2 znakové ISO 639-1 jazykové kódy (Viz: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)';
+$wb['language_new_hint_txt'] = '2 znakové ISO 639-1 jazykové kódy (Viz: http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)';
 $wb['btn_save_txt'] = 'Vytvořit novou jazykovou sadu souborů';
 $wb['btn_cancel_txt'] = 'Zrušit';
-?>

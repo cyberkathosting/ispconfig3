@@ -46,4 +46,5 @@ $wb['select_dbuser_txt'] = 'Seleccionar usuario de base de datos';
 $wb['select_site_txt'] = '- Seleccionar sitio -';
 $wb['server_id_txt'] = 'Servidor';
 $wb['type_txt'] = 'Tipo';
+$wb['limit_database_quota_not_0_txt']= 'Database quota can not be 0';
 ?>

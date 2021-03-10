@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Software update';
-$wb['server_select_txt'] = 'Selectie server';
-$wb['installed_txt'] = 'Actiune';
-$wb['update_title_txt'] = 'Update';
-$wb['version_txt'] = 'Versiune';
-$wb['action_txt'] = 'Actiune';
-$wb['no_updates_txt'] = 'No updates available';
-?>

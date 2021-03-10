@@ -89,6 +89,15 @@ class shelluser_jailkit_plugin {
 			return false;
 		}
 
+		if(is_file($data['new']['dir']) || is_link($data['new']['dir'])) {
+			$app->log('Shell user dir must not be existing file or symlink.', LOGLEVEL_WARN);
+			return false;
+		} elseif(!$app->system->is_allowed_path($data['new']['dir'])) {
+			$app->log('Shell user dir is not an allowed path: ' . $data['new']['dir'], LOGLEVEL_WARN);
+			return false;
+		}
+
+
 		if($app->system->is_user($data['new']['puser'])) {
 			// Get the UID of the parent user
 			$uid = intval($app->system->getuid($data['new']['puser']));
@@ -170,6 +179,14 @@ class shelluser_jailkit_plugin {
 			return false;
 		}
 
+		if(is_file($data['new']['dir']) || is_link($data['new']['dir'])) {
+			$app->log('Shell user dir must not be existing file or symlink.', LOGLEVEL_WARN);
+			return false;
+		} elseif(!$app->system->is_allowed_path($data['new']['dir'])) {
+			$app->log('Shell user dir is not an allowed path: ' . $data['new']['dir'], LOGLEVEL_WARN);
+			return false;
+		}
+
 		if($app->system->is_user($data['new']['puser'])) {
 			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $data['new']['parent_domain_id']);
 
@@ -241,6 +258,14 @@ class shelluser_jailkit_plugin {
 			return false;
 		}
 
+		if(is_file($data['old']['dir']) || is_link($data['old']['dir'])) {
+			$app->log('Shell user dir must not be existing file or symlink.', LOGLEVEL_WARN);
+			return false;
+		} elseif(!$app->system->is_allowed_path($data['old']['dir'])) {
+			$app->log('Shell user dir is not an allowed path: ' . $data['old']['dir'], LOGLEVEL_WARN);
+			return false;
+		}
+
 		if ($data['old']['chroot'] == "jailkit")
 		{
 			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $data['old']['parent_domain_id']);
@@ -286,7 +311,7 @@ class shelluser_jailkit_plugin {
 
 	function _setup_jailkit_chroot()
 	{
-		global $app;
+		global $app, $conf;
 
 		if (isset($this->jailkit_config) && isset($this->jailkit_config['jailkit_hardlinks'])) {
 			if ($this->jailkit_config['jailkit_hardlinks'] == 'yes') {
@@ -354,6 +379,11 @@ class shelluser_jailkit_plugin {
 
 			if ($update_hash == $web['last_jailkit_hash']) {
 				return;
+			}
+
+			$records = $app->db->queryAllRecords('SELECT web_folder FROM `web_domain` WHERE `parent_domain_id` = ? AND `document_root` = ? AND web_folder != \'\' AND web_folder IS NOT NULL AND `server_id` = ?', $this->data['new']['parent_domain_id'], $this->data['new']['dir'], $conf['server_id']);
+			foreach ($records as $record) {
+				$options[] = 'skip='.$record['web_folder'];
 			}
 
 			$app->system->update_jailkit_chroot($this->data['new']['dir'], $sections, $programs, $options);
@@ -513,6 +543,9 @@ class shelluser_jailkit_plugin {
 		}
 		//* Get the keys
 		$existing_keys = file($sshkeys, FILE_IGNORE_NEW_LINES);
+		if(!$existing_keys) {
+			$existing_keys = array();
+		}
 		$new_keys = explode("\n", $sshrsa);
 		$old_keys = explode("\n", $this->data['old']['ssh_rsa']);
 
@@ -621,7 +654,13 @@ class shelluser_jailkit_plugin {
 			return;
 		}
 
-		$app->system->delete_jailkit_chroot($parent_domain['document_root']);
+		$options = array();
+		$records = $app->db->queryAllRecords('SELECT web_folder FROM `web_domain` WHERE `parent_domain_id` = ? AND `document_root` = ? AND web_folder != \'\' AND web_folder IS NOT NULL AND `server_id` = ?', $parent_domain_id, $parent_domain['document_root'], $conf['server_id']);
+		foreach ($records as $record) {
+			$options[] = 'skip='.$record['web_folder'];
+		}
+
+		$app->system->delete_jailkit_chroot($parent_domain['document_root'], $options);
 
 		// this gets last_jailkit_update out of sync with master db, but that is ok,
 		// as it is only used as a timestamp to moderate the frequency of updating on the slaves

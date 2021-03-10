@@ -20,8 +20,13 @@ $wb['server_id_txt'] = 'Server';
 $wb['domain_txt'] = 'Domæne';
 $wb['host_txt'] = 'Værtsnavn';
 $wb['web_folder_error_regex'] = 'Ugyldigt folder entered. Please do not enter a slash.';
+$wb['web_folder_error_empty'] = 'Web folder cannot be empty.  Use /web/ to make the same as the Parent Website';
 $wb['type_txt'] = 'Type';
 $wb['redirect_type_txt'] = 'Omdiriger Type';
+$wb['r_redirect_txt'] = 'R (Temporary redirect)';
+$wb['l_redirect_txt'] = 'L (Last redirect rule)';
+$wb['r_l_redirect_txt'] = 'R,L (Temporary redirect + last rule)';
+$wb['r_301_l_redirect_txt'] = 'R=301,L (Permanent redirect + last rule)';
 $wb['redirect_path_txt'] = 'Omdiriger Path';
 $wb['active_txt'] = 'Aktiv';
 $wb['document_root_txt'] = 'Documentroot';
@@ -128,4 +133,3 @@ $wb['http_port_txt'] = 'HTTP Port';
 $wb['https_port_txt'] = 'HTTPS Port';
 $wb['http_port_error_regex'] = 'HTTP Port invalid.';
 $wb['https_port_error_regex'] = 'HTTPS Port invalid.';
-?>

@@ -1,5 +1,5 @@
 <?php
-$wb['error_1001'] = 'Usuário ou senha está em branco.';
+$wb['error_1001'] = 'Usuário ou senha está vazio.';
 $wb['error_1002'] = 'Usuário ou senha é inválido.';
 $wb['Groups'] = 'Grupos';
 $wb['groups_description'] = 'Editar grupos e usuários do sistema.';
@@ -20,7 +20,7 @@ $wb['Server Services'] = 'Serviços do servidor';
 $wb['Services'] = 'Serviços';
 $wb['Server Config'] = 'Configuração do servidor';
 $wb['Server'] = 'Servidor';
-$wb['Mail'] = 'e-Mail';
+$wb['Mail'] = 'eMail';
 $wb['Getmail'] = 'Getmail';
 $wb['Web'] = 'Web';
 $wb['FastCGI'] = 'FastCGI';
@@ -28,7 +28,7 @@ $wb['Jailkit'] = 'Jailkit';
 $wb['Rescue'] = 'Manutenção';
 $wb['Server IP addresses'] = 'Endereços IP do servidor';
 $wb['Server IPv4 mapping'] = 'Mapeamento IPv4 do servidor';
-$wb['Additional PHP Versions'] = 'Versões adicionais do php';
+$wb['Additional PHP Versions'] = 'Versões adicionais PHP';
 $wb['Directive Snippets'] = 'Diretiva de trechos de código';
 $wb['Firewall'] = 'Firewall';
 $wb['Interface'] = 'Interface';
@@ -50,4 +50,3 @@ $wb['Import'] = 'Importar';
 $wb['Remote Actions'] = 'Ações remotas';
 $wb['Do OS-Update'] = 'Atualizar sistema operacional';
 $wb['Do ISPConfig-Update'] = 'Atualizar o ISPConfig';
-?>

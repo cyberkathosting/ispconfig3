@@ -1,15 +1,14 @@
 <?php
-$wb['list_head_txt'] = 'Contas de usuários xmpp';
+$wb['list_head_txt'] = 'Contas de usuários XMPP';
 $wb['jid_txt'] = 'ID do Jabber';
 $wb['active_txt'] = 'Ativo';
 $wb['cryptpwd_txt'] = 'Senha';
 $wb['password_strength_txt'] = 'Dificuldade da senha';
-$wb['error_no_pwd'] = 'Senha está em branco.';
+$wb['error_no_pwd'] = 'Senha está vazia.';
 $wb['password_txt'] = 'Senha';
 $wb['generate_password_txt'] = 'Gerar Senha';
 $wb['repeat_password_txt'] = 'Repetir Senha';
 $wb['password_mismatch_txt'] = 'As senhas não coincidem.';
 $wb['password_match_txt'] = 'As senhas coincidem.';
 $wb['no_domain_perm'] = 'Você não tem permissão para este domínio.';
-$wb['limit_xmpp_user_txt'] = 'O limite de usuários xmpp para esta conta foi alcançado.';
-?>
+$wb['limit_xmpp_user_txt'] = 'O limite de usuários XMPP para esta conta foi alcançado.';

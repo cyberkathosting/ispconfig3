@@ -4,7 +4,9 @@ dbname = {mysql_server_database}
 hosts = {mysql_server_ip}
 query = SELECT sender_cc FROM (
             SELECT SUBSTRING_INDEX(sender_cc, ',', 1) AS sender_cc
-              FROM mail_user WHERE email = '%s' AND disablesmtp = 'n' AND sender_cc != '' AND server_id = {server_id}
+              FROM mail_user
+             WHERE email = '%s' AND disablesmtp = 'n' AND sender_cc != '' AND server_id = {server_id}
+               AND EXISTS (SELECT domain_id FROM mail_domain WHERE domain = SUBSTRING_INDEX('%s', '@', -1) AND active = 'y' AND server_id = {server_id})
             UNION
             SELECT SUBSTRING_INDEX(u.sender_cc, ',', 1) AS sender_cc
               FROM mail_user u, mail_forwarding f
@@ -13,4 +15,5 @@ query = SELECT sender_cc FROM (
                                                 '[[:blank:]]*(,[[:blank:]]*[[:alnum:]]|,?[[:blank:]]*(\\r?\\n|$))' )
                AND u.disablesmtp = 'n' AND u.sender_cc != '' AND u.server_id = {server_id}
                AND f.source = '%s' AND f.allow_send_as = 'y' AND f.active = 'y' AND f.server_id = {server_id}
+               AND EXISTS (SELECT domain_id FROM mail_domain WHERE domain = SUBSTRING_INDEX('%s', '@', -1) AND active = 'y' AND server_id = {server_id})
         ) table1 WHERE sender_cc != '' LIMIT 1

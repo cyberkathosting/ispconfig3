@@ -6,4 +6,3 @@ $wb['next_payment_date_txt'] = 'Próxima fatura';
 $wb['no_products_txt'] = 'Nenhum produto encontrado.';
 $wb['edit_txt'] = 'Editar';
 $wb['cancellation_date_txt'] = 'Cancelado por';
-?>

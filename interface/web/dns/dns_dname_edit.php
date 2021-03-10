@@ -52,6 +52,17 @@ class page_action extends dns_page_action {
 		if($tmp['number'] > 0) return true;
 		return false;
 	}
+
+	function onSubmit() {
+		global $app, $conf;
+		// Get the parent soa record of the domain
+		$soa = $app->db->queryOneRecord("SELECT * FROM dns_soa WHERE id = ? AND " . $app->tform->getAuthSQL('r'), $_POST["zone"]);
+		// Replace @ to example.com. in data field
+		if($this->dataRecord["data"] === '@') {
+			$this->dataRecord["data"] = $soa['origin'];
+		}
+		parent::onSubmit();
+	}
 }
 
 $page = new page_action;

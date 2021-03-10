@@ -4,7 +4,6 @@ $wb['server_id_txt'] = 'Servidor';
 $wb['client_id_txt'] = 'Cliente';
 $wb['ip_address_txt'] = 'Endereço IP';
 $wb['add_new_record_txt'] = 'Adicionar novo endereço IP';
-$wb['virtualhost_txt'] = 'Virtual host http';
-$wb['virtualhost_port_txt'] = 'Portas http';
+$wb['virtualhost_txt'] = 'Virtual host HTTP';
+$wb['virtualhost_port_txt'] = 'Portas HTTP';
 $wb['ip_type_txt'] = 'Tipo';
-?>

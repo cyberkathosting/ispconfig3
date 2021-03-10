@@ -1,14 +1,13 @@
 <?php
 $wb['list_head_txt'] = 'Servidor';
 $wb['server_name_txt'] = 'Nome';
-$wb['mail_server_txt'] = 'E-MAIL';
+$wb['mail_server_txt'] = 'EMAIL';
 $wb['web_server_txt'] = 'SITES';
 $wb['dns_server_txt'] = 'DNS';
 $wb['file_server_txt'] = 'FTP';
 $wb['db_server_txt'] = 'BD';
 $wb['vserver_server_txt'] = 'VPS';
-$wb['proxy_server_txt'] = 'Proxy';
+$wb['proxy_server_txt'] = 'PROXY';
 $wb['firewall_server_txt'] = 'Firewall';
 $wb['add_new_record_txt'] = 'Adicionar novo servidor';
 $wb['xmpp_server_txt'] = 'XMPP';
-?>

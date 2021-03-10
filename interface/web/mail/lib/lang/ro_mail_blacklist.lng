@@ -6,4 +6,7 @@ $wb['active_txt'] = 'Active';
 $wb['source_error_notempty'] = 'Address este goala';
 $wb['type_txt'] = 'Tip';
 $wb['limit_mailfilter_txt'] = 'Numarul maxim de filtre pentru contul dumneavoastra';
-?>
+$wb['limit_mail_wblist_txt'] = 'The max. number of email white / blacklist for your account is reached.';
+$wb['mail_access_unique'] = 'Blacklist Address already in use.';
+$wb['client_txt'] = 'Client';
+$wb['sender_txt'] = 'Sender';

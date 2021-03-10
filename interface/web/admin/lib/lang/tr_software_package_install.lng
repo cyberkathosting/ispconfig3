@@ -1,6 +1,0 @@
-<?php
-$wb['head_txt'] = 'Yazılım Paketi Yükleme';
-$wb['install_key_txt'] = 'Yükleme anahtarını yazın';
-$wb['btn_save_txt'] = 'Yüklemeyi Başlat';
-$wb['btn_cancel_txt'] = 'Geri';
-?>

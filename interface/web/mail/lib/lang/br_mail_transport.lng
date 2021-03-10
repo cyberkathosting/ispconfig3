@@ -6,6 +6,5 @@ $wb['type_txt'] = 'Tipo';
 $wb['mx_txt'] = 'Sem pesquisa MX';
 $wb['sort_order_txt'] = 'Ordenar por';
 $wb['active_txt'] = 'Ativo';
-$wb['limit_mailrouting_txt'] = 'O limite de rotas de e-mail para esta conta foi alcançado.';
+$wb['limit_mailrouting_txt'] = 'O limite de rotas de email para esta conta foi alcançado.';
 $wb['transport_txt'] = 'Transporte';
-?>

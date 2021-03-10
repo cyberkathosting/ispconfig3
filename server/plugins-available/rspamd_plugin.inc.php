@@ -224,11 +224,10 @@ class rspamd_plugin {
 				unlink($settings_file);
 			}
 		} else {
-			$settings_priority = 20;
 			if(isset($data[$use_data]['priority'])) {
-				$settings_priority = intval($data[$use_data]['priority']);
-			} elseif($is_domain === true) {
-				$settings_priority = 18;
+				$settings_priority = ($is_domain ? 10 : 20) + intval($data[$use_data]['priority']);
+			} else {
+				$settings_priority = ($is_domain ? 10 : 20) + 5;
 			}
 
 			// get policy for entry
@@ -405,8 +404,8 @@ class rspamd_plugin {
 					$tpl->newTemplate('rspamd_wblist.inc.conf.master');
 					$tpl->setVar('list_scope', ($global_filter ? 'global' : 'spamfilter'));
 					$tpl->setVar('record_id', $record_id);
-					// we need to add 10 to priority to avoid mailbox/domain spamfilter settings overriding white/blacklists
-					$tpl->setVar('priority', intval($data['new']['priority']) + ($global_filter ? 10 : 20));
+					// add 30/40 to priority to avoid collisions and prefer white/blacklists above mailbox/domain spamfilter settings
+					$tpl->setVar('priority', intval($data['new']['priority']) + ($global_filter ? 30 : 40));
 					$tpl->setVar('from', $filter_from);
 					$tpl->setVar('recipient', $filter_rcpt);
 					$tpl->setVar('hostname', $filter['hostname']);
@@ -459,17 +458,17 @@ class rspamd_plugin {
 
 		if(is_dir('/etc/rspamd')) {
 			$tpl = new tpl();
-			$tpl->newTemplate('rspamd_users.conf.master');
+			$tpl->newTemplate('rspamd_options.inc.master');
 
-			$whitelist_ips = array();
-			$ips = $app->db->queryAllRecords("SELECT * FROM server_ip WHERE server_id = ?", $conf['server_id']);
+			$local_addrs = array();
+			$ips = $app->db->queryAllRecords('SELECT `ip_address`, `ip_type` FROM ?? WHERE `server_id` = ?', $conf['mysql']['database'].'.server_ip', $conf['server_id']);
 			if(is_array($ips) && !empty($ips)){
 				foreach($ips as $ip){
-					$whitelist_ips[] = array('ip' => $ip['ip_address']);
+					$local_addrs[] = array('quoted_ip' => "\"".$ip['ip_address']."\",\n");
 				}
 			}
-			$tpl->setLoop('whitelist_ips', $whitelist_ips);
-			$app->system->file_put_contents('/etc/rspamd/local.d/users.conf', $tpl->grab());
+			$tpl->setLoop('local_addrs', $local_addrs);
+			$app->system->file_put_contents('/etc/rspamd/local.d/options.inc', $tpl->grab());
 
 			if($mail_config['content_filter'] == 'rspamd'){
 				$app->services->restartServiceDelayed('rspamd', 'reload');

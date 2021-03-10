@@ -1,9 +1,8 @@
 <?php
-$wb['list_head_txt'] = 'Versões adicionais do php';
+$wb['list_head_txt'] = 'Versões adicionais PHP';
 $wb['server_id_txt'] = 'Servidor';
-$wb['add_new_record_txt'] = 'Adicionar nova versão do php';
+$wb['add_new_record_txt'] = 'Adicionar nova versão PHP';
 $wb['client_id_txt'] = 'Cliente';
 $wb['name_txt'] = 'Nome da versão';
 $wb['active_txt'] = 'Ativo';
-$wb['usage_txt'] = 'Usage count';
-?>
+$wb['usage_txt'] = 'Contador de utilização';
