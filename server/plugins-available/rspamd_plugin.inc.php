@@ -139,7 +139,7 @@ class rspamd_plugin {
 		$app->plugins->registerEvent('mail_forwarding_delete', $this->plugin_name, 'user_settings_update');
 	}
 
-	function user_settings_update($event_name, $data) {
+	function user_settings_update($event_name, $data, $internal = false) {
 		global $app, $conf;
 
 		if(!is_dir('/etc/rspamd')) {
@@ -204,6 +204,23 @@ class rspamd_plugin {
 			// missing settings file name
 			$app->log('Empty rspamd identifier in rspamd_plugin from identifier: ' . $use_data . '/' . $identifier, LOGLEVEL_WARN);
 			return;
+		}
+
+		$entries_to_update = [
+			'mail_user' => [],
+			'mail_forwarding' => []
+		];
+		if($is_domain === true) {
+			// get all child records to update / delete
+			$mailusers = $app->db->queryAllRecords("SELECT mu.* FROM mail_user as mu LEFT JOIN spamfilter_users as su ON (su.email = mu.email) WHERE mu.email LIKE ? AND su.id IS NULL", '%' . $email_address);
+			if(is_array($mailusers) && !empty($mailusers)) {
+				$entries_to_update['mail_user'] = $mailusers;
+			}
+
+			$forwardings = $app->db->queryAllRecords("SELECT mf.* FROM mail_forwarding as mf LEFT JOIN spamfilter_users as su ON (su.email = mf.source) WHERE mf.source LIKE ? AND su.id IS NULL", '%' . $email_address);
+			if(is_array($forwardings) && !empty($forwardings)) {
+				$entries_to_update['mail_forwarding'] = $forwardings;
+			}
 		}
 
 		$old_settings_name = $settings_name;
@@ -328,7 +345,14 @@ class rspamd_plugin {
 			}
 		}
 
-		if($mail_config['content_filter'] == 'rspamd'){
+		foreach($entries_to_update['mail_user'] as $entry) {
+			$this->user_settings_update('mail_user_' . $mode, $entry, true);
+		}
+		foreach($entries_to_update['mail_forwarding'] as $entry) {
+			$this->user_settings_update('mail_forwarding_' . $mode, $entry, true);
+		}
+
+		if($internal !== true && $mail_config['content_filter'] == 'rspamd'){
 			$app->services->restartServiceDelayed('rspamd', 'reload');
 		}
 	}
