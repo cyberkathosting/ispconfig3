@@ -612,6 +612,9 @@ class ispcmail {
 			if (stream_socket_enable_crypto($this->_smtp_conn, true, $crypto_method) != true) {
 				return false;
 			}
+
+			fputs($this->_smtp_conn, 'HELO ' . $this->smtp_helo . $this->_crlf);
+			$response = fgets($this->_smtp_conn, 515);
 		}
 
 		//AUTH LOGIN
