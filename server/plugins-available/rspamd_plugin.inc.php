@@ -345,11 +345,13 @@ class rspamd_plugin {
 			}
 		}
 
-		foreach($entries_to_update['mail_user'] as $entry) {
-			$this->user_settings_update('mail_user_' . $mode, $entry, true);
-		}
-		foreach($entries_to_update['mail_forwarding'] as $entry) {
-			$this->user_settings_update('mail_forwarding_' . $mode, $entry, true);
+		if($is_domain === true) {
+			foreach($entries_to_update['mail_user'] as $entry) {
+				$this->user_settings_update('mail_user_' . $mode, $entry, true);
+			}
+			foreach($entries_to_update['mail_forwarding'] as $entry) {
+				$this->user_settings_update('mail_forwarding_' . $mode, $entry, true);
+			}
 		}
 
 		if($internal !== true && $mail_config['content_filter'] == 'rspamd'){
