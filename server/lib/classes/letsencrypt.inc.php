@@ -167,7 +167,7 @@ class letsencrypt {
 			$cert_selection_command = "--expand";
 		}
 
-		$cmd = $letsencrypt . " certonly -n --text --agree-tos $cert_selection_command --authenticator webroot --server $acme_version --rsa-key-size 4096 --email postmaster@$primary_domain $webroot_args";
+		$cmd = $letsencrypt . " certonly -n --text --agree-tos $cert_selection_command --authenticator webroot --server $acme_version --rsa-key-size 4096 --email webmaster@$primary_domain $webroot_args";
 
 		return $cmd;
 	}
