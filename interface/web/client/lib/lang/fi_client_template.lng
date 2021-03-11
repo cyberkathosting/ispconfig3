@@ -15,6 +15,7 @@ $wb['limit_spamfilter_wblist_txt'] = 'Roskapostisuodattimen estolistojen määr�
 $wb['limit_spamfilter_user_txt'] = 'Roskapostisuodattimen käyttäjien määrä';
 $wb['limit_spamfilter_policy_txt'] = 'Roskapostisuodattimen kohtelutapojen määrä';
 $wb['limit_client_txt'] = 'Asiakkaiden määrä';
+$wb['limit_relayhost_txt'] = 'Show SMTP relay host options';
 $wb['limit_domain_txt'] = 'Verkkotunnuksien raja';
 $wb['limit_subdomain_txt'] = 'Aliverkkotunnuksien raja';
 $wb['limit_webquota_txt'] = 'Kotisivutilan raja';

@@ -35,6 +35,7 @@ $wb['f5_to_reload_js_txt'] = 'Si modifica esto, deberá pulsar F5 para que el ex
 $wb['ftpuser_prefix_error_regex'] = 'Carácter no permitido en el prefijo de usuario de FTP.';
 $wb['ftpuser_prefix_txt'] = 'Prefijo del usuario de FTP';
 $wb['login_link_error_regex'] = 'Enlace incorrecto para el inicio de sesión personalizado';
+$wb['show_per_domain_relay_options_txt'] = 'Show per domain relay options';
 $wb['mailbox_show_autoresponder_tab_txt'] = 'Mostrar la pestaña del auto-respondedor en los detalles de la cuenta de correo';
 $wb['mailbox_show_custom_rules_tab_txt'] = 'Mostrar la pestaña filtro de correo personalizado en los detalles de la cuenta de correo';
 $wb['mailbox_show_mail_filter_tab_txt'] = 'Mostrar la pestaña filtro de correo en los detalles de la cuenta de correo';

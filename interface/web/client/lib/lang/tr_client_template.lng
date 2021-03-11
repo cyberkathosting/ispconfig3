@@ -19,6 +19,7 @@ $wb['limit_mailquota_txt'] = 'E-posta Kutusu Kotası';
 $wb['limit_spamfilter_wblist_txt'] = 'En Fazla Önemsiz İleti Beyaz/Kara Liste Süzgeci Sayısı';
 $wb['limit_spamfilter_user_txt'] = 'En Fazla Önemsiz İleti Süzgeci Kullanıcı Sayısı';
 $wb['limit_spamfilter_policy_txt'] = 'En Fazla Önemsiz İleti Süzgeci Kuralı Sayısı';
+$wb['limit_relayhost_txt'] = 'Show SMTP relay host options';
 $wb['limit_domain_txt'] = 'limit_domain';
 $wb['limit_subdomain_txt'] = 'limit_subdomain';
 $wb['limit_webquota_txt'] = 'limit_webquota';

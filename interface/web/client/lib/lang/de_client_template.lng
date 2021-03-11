@@ -15,6 +15,7 @@ $wb['limit_spamfilter_wblist_txt'] = 'Max. Anzahl an Spamfilter (White-/Blacklis
 $wb['limit_spamfilter_user_txt'] = 'Max. Anzahl Spamfilter Benutzer';
 $wb['limit_spamfilter_policy_txt'] = 'Max. Anzahl an Spamfilter Richtlinien';
 $wb['limit_client_txt'] = 'Max. Anzahl an Kunden';
+$wb['limit_relayhost_txt'] = 'Show SMTP relay host options';
 $wb['limit_domain_txt'] = 'Max. Anzahl an Domains';
 $wb['limit_subdomain_txt'] = 'Max. Anzahl an Subdomains';
 $wb['limit_webquota_txt'] = 'Max. Speicherplatzbeschränkung';

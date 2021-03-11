@@ -14,6 +14,7 @@ $wb['limit_mailquota_txt'] = 'Pojemność skrzynki';
 $wb['limit_spamfilter_wblist_txt'] = 'Maksymalna ilość filtrów spamu białej / czarnej listy';
 $wb['limit_spamfilter_user_txt'] = 'Maksymalna ilość filtrów spamu użytkowników';
 $wb['limit_spamfilter_policy_txt'] = 'Maksymalna ilość polityk filtrów spamu';
+$wb['limit_relayhost_txt'] = 'Show SMTP relay host options';
 $wb['limit_domain_txt'] = 'limit_domen';
 $wb['limit_subdomain_txt'] = 'limit_subdomen';
 $wb['limit_webquota_txt'] = 'limit_pojemnosci_www';

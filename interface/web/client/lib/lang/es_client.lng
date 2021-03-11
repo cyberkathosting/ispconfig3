@@ -79,6 +79,7 @@ $wb['limit_dns_slave_zone_error_notint'] = 'El límite de zonas esclavas de dns 
 $wb['limit_dns_slave_zone_txt'] = 'Cantidad máxima de zonas secundarias de DNS';
 $wb['limit_dns_zone_error_notint'] = 'El límite de zonas DNS debe ser un número.';
 $wb['limit_dns_zone_txt'] = 'Cantidad máxima de zonas DNS';
+$wb['limit_relayhost_txt'] = 'Show SMTP relay host options';
 $wb['limit_domain_txt'] = 'limit_domain';
 $wb['limit_fetchmail_txt'] = 'Cantidad máx. de recogedores de correo';
 $wb['limit_ftp_user_error_notint'] = 'El límite de usuarios de FTP debe ser un número.';

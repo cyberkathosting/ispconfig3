@@ -27,6 +27,7 @@ $wb['dblist_phpmyadmin_link_txt'] = 'Link to phpmyadmin in DB list';
 $wb['enable_welcome_mail_txt'] = 'Enable welcome email';
 $wb['enable_custom_login_txt'] = 'Allow custom login name';
 $wb['mailboxlist_webmail_link_txt'] = 'Link to webmail in Mailbox list';
+$wb['show_per_domain_relay_options_txt'] = 'Show per domain relay options';
 $wb['mailbox_show_autoresponder_tab_txt'] = 'Show autoresponder tab in mail account details';
 $wb['mailbox_show_mail_filter_tab_txt'] = 'Show mail filter tab in mail account details';
 $wb['mailbox_show_custom_rules_tab_txt'] = 'Show custom mailfilter tab in mail account details';

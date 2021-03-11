@@ -27,6 +27,7 @@ $wb['dblist_phpmyadmin_link_txt'] = 'Link para o PHPMyAdmin';
 $wb['enable_welcome_mail_txt'] = 'Enable welcome email';
 $wb['enable_custom_login_txt'] = 'Permitir nome de usuário personalizado';
 $wb['mailboxlist_webmail_link_txt'] = 'Link para o Webmail';
+$wb['show_per_domain_relay_options_txt'] = 'Show per domain relay options';
 $wb['mailbox_show_autoresponder_tab_txt'] = 'Exibir aba de auto-resposta nos detalhes da conta de email';
 $wb['mailbox_show_mail_filter_tab_txt'] = 'Exibir aba de filtro de emails nos detalhes da conta de email';
 $wb['mailbox_show_custom_rules_tab_txt'] = 'Exibir aba de filtros personalizados de email nos detalhes da conta de email';

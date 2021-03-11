@@ -14,6 +14,7 @@ $wb['limit_mailquota_txt'] = 'メールボックスの容量';
 $wb['limit_spamfilter_wblist_txt'] = '迷惑メールのホワイトリスト、ブラックリストフィルターの最大数';
 $wb['limit_spamfilter_user_txt'] = 'スパムフィルターユーザーの最大数';
 $wb['limit_spamfilter_policy_txt'] = '迷惑メールフィルタのポリシーの最大数';
+$wb['limit_relayhost_txt'] = 'Show SMTP relay host options';
 $wb['limit_domain_txt'] = 'limit_domain';
 $wb['limit_subdomain_txt'] = 'limit_subdomain';
 $wb['limit_webquota_txt'] = 'limit_webquota';

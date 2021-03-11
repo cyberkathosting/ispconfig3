@@ -38,6 +38,7 @@ $wb['company_txt'] = 'Poduzeće';
 $wb['title_txt'] = 'Naziv';
 $wb['firstname_txt'] = 'Ime';
 $wb['surname_txt'] = 'Prezime';
+$wb['limit_relayhost_txt'] = 'Show SMTP relay host options';
 $wb['limit_domain_txt'] = 'limit_domena';
 $wb['limit_subdomain_txt'] = 'limit_poddomena';
 $wb['limit_webquota_txt'] = 'limit_prostora';

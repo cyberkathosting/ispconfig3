@@ -15,6 +15,7 @@ $wb['limit_mailquota_txt'] = 'Kvóta e-mailové schránky';
 $wb['limit_spamfilter_wblist_txt'] = 'Max. počet spamfiltrových bílých / černých listinových filtrů';
 $wb['limit_spamfilter_user_txt'] = 'Max. počet spamflitrových uživatelů';
 $wb['limit_spamfilter_policy_txt'] = 'Max. počet spamfiltrových politik';
+$wb['limit_relayhost_txt'] = 'Show SMTP relay host options';
 $wb['limit_domain_txt'] = 'limit_domain';
 $wb['limit_subdomain_txt'] = 'limit_subdomain';
 $wb['limit_webquota_txt'] = 'limit_webquota';

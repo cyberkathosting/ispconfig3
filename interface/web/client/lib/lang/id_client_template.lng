@@ -15,6 +15,7 @@ $wb['limit_mailquota_txt'] = 'Kuota Mailbox';
 $wb['limit_spamfilter_wblist_txt'] = 'Jumlah maks filter white/blacklist spamfilter';
 $wb['limit_spamfilter_user_txt'] = 'Jumlah maks pengguna spamfilter';
 $wb['limit_spamfilter_policy_txt'] = 'Jumlah maks kebijakan spamfilter';
+$wb['limit_relayhost_txt'] = 'Show SMTP relay host options';
 $wb['limit_domain_txt'] = 'batasan domain';
 $wb['limit_subdomain_txt'] = 'batasan subdomain';
 $wb['limit_webquota_txt'] = 'batasan kuota web';

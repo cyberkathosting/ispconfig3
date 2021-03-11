@@ -38,6 +38,7 @@ $wb['title_txt'] = 'Titel';
 $wb['firstname_txt'] = 'Förnamn';
 $wb['surname_txt'] = 'Efternamn';
 $wb['limit_client_txt'] = 'Max antal kunder';
+$wb['limit_relayhost_txt'] = 'Show SMTP relay host options';
 $wb['limit_domain_txt'] = 'domängräns';
 $wb['limit_subdomain_txt'] = 'underdomängräns';
 $wb['limit_webquota_txt'] = 'webbsideskvot';

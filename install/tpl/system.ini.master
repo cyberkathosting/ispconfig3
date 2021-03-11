@@ -8,6 +8,7 @@
 
 [mail]
 enable_custom_login=n
+show_per_domain_relay_options=n
 mailbox_show_autoresponder_tab=y
 mailbox_show_mail_filter_tab=y
 mailbox_show_custom_rules_tab=y

@@ -37,6 +37,7 @@ $wb['company_txt'] = 'Yritys';
 $wb['title_txt'] = 'Titteli';
 $wb['firstname_txt'] = 'Etunimi';
 $wb['surname_txt'] = 'Sukunimi';
+$wb['limit_relayhost_txt'] = 'Show SMTP relay host options';
 $wb['limit_domain_txt'] = 'Verkkotunnusraja';
 $wb['limit_subdomain_txt'] = 'Aliverkkotunnusraja';
 $wb['limit_webquota_txt'] = 'WWW-levytila';
