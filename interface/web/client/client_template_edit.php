@@ -51,19 +51,31 @@ $app->load('tform_actions');
 
 class page_action extends tform_actions {
 
-	
+
 	function onSubmit() {
 		global $app;
-		
+
 		//* Resellers shall not be able to create another reseller or set reseller specific settings
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
 			$this->dataRecord['limit_client'] = 0;
 			$this->dataRecord['limit_domainmodule'] = 0;
 		}
-		
+
 		parent::onSubmit();
 	}
-	
+
+	function onShowEnd() {
+		global $app;
+		// Check wether per domain relaying is enabled or not
+		$global_config = $app->getconf->get_global_config('mail');
+		if($global_config['show_per_domain_relay_options'] == 'y') {
+			$app->tpl->setVar("show_per_domain_relay_options", 1);
+		} else {
+			$app->tpl->setVar("show_per_domain_relay_options", 0);
+		}
+		parent::onShowEnd();
+	}
+
 	function onBeforeUpdate() {
 		global $app;
 

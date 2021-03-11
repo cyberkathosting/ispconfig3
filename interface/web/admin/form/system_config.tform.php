@@ -277,6 +277,7 @@ $form["tabs"]['mail'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',
 			'default' => 'n',
+			'value'    => array(0 => 'n', 1 => 'y')
 		),
 		'mailbox_show_autoresponder_tab' => array (
 			'datatype' => 'VARCHAR',
