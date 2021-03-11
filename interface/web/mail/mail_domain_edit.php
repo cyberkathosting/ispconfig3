@@ -446,7 +446,7 @@ class page_action extends tform_actions {
 			//* Update the mailboxes
 			$mailusers = $app->db->queryAllRecords("SELECT * FROM mail_user WHERE email like ?", '%@' . $this->oldDataRecord['domain']);
 			$sys_groupid = $app->functions->intval((isset($this->dataRecord['client_group_id']))?$this->dataRecord['client_group_id']:$this->oldDataRecord['sys_groupid']);
-			$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = ?", $client_group_id);
+			$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = ?", $sys_groupid);
 			$client_user_id = $app->functions->intval(($tmp['userid'] > 0)?$tmp['userid']:1);
 			if(is_array($mailusers)) {
 				foreach($mailusers as $rec) {
