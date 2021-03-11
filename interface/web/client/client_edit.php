@@ -92,7 +92,7 @@ class page_action extends tform_actions {
 				}
 			}
 		}
-		
+
 		//* Resellers shall not be able to create another reseller
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
 			$this->dataRecord['limit_client'] = 0;
@@ -181,18 +181,26 @@ class page_action extends tform_actions {
 
 		$app->tpl->setVar('template_additional_list', $text);
 		$app->tpl->setVar('app_module', 'client');
-		
+
+		// Check wether per domain relaying is enabled or not
+		$global_config = $app->getconf->get_global_config('mail');
+		if($global_config['show_per_domain_relay_options'] == 'y') {
+			$app->tpl->setVar("show_per_domain_relay_options", 1);
+		} else {
+			$app->tpl->setVar("show_per_domain_relay_options", 0);
+		}
+
 
 		//* Set the 'customer no' default value
 		if($this->id == 0) {
-			
+
 			if($app->auth->is_admin()) {
 				//* Logged in User is admin
 				//* get the system config
 				$app->uses('getconf');
 				$system_config = $app->getconf->get_global_config();
 				if($system_config['misc']['customer_no_template'] != '') {
-				
+
 					//* Set customer no default
 					$customer_no = $app->functions->intval($system_config['misc']['customer_no_start']+$system_config['misc']['customer_no_counter']);
 					$customer_no_string = str_replace('[CUSTOMER_NO]',$customer_no,$system_config['misc']['customer_no_template']);
@@ -203,7 +211,7 @@ class page_action extends tform_actions {
 				//* get the record of the reseller
 				$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 				$reseller = $app->db->queryOneRecord("SELECT client.client_id, client.customer_no_template, client.customer_no_counter, client.customer_no_start FROM sys_group,client WHERE client.client_id = sys_group.client_id and sys_group.groupid = ?", $client_group_id);
-				
+
 				if($reseller['customer_no_template'] != '') {
 					if(isset($this->dataRecord['customer_no'])&& $this->dataRecord['customer_no']!='') $customer_no_string = $this->dataRecord['customer_no'];
 					else {
@@ -215,7 +223,7 @@ class page_action extends tform_actions {
 				}
 			}
 		}
-		
+
 		if($app->auth->is_admin()) {
 			// Fill the client select field
 			$sql = "SELECT client.client_id, sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 AND client.limit_client != 0 ORDER BY client.company_name, client.contact_name, sys_group.name";
@@ -234,7 +242,7 @@ class page_action extends tform_actions {
 			}
 			$app->tpl->setVar("parent_client_id", $client_select);
 		}
-		
+
 		parent::onShowEnd();
 
 	}
@@ -317,7 +325,7 @@ class page_action extends tform_actions {
 			$app->uses('client_templates');
 			$app->client_templates->update_client_templates($this->id, $this->_template_additional);
 		}
-		
+
 		if($this->dataRecord['customer_no'] == $this->dataRecord['customer_no_org']) {
 			if($app->auth->is_admin()) {
 				//* Logged in User is admin
@@ -325,7 +333,7 @@ class page_action extends tform_actions {
 				$app->uses('getconf');
 				$system_config = $app->getconf->get_global_config();
 				if($system_config['misc']['customer_no_template'] != '') {
-				
+
 					//* save new counter value
 					$system_config['misc']['customer_no_counter']++;
 					$system_config_str = $app->ini_parser->get_ini_string($system_config);
@@ -336,7 +344,7 @@ class page_action extends tform_actions {
 				//* get the record of the reseller
 				$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 				$reseller = $app->db->queryOneRecord("SELECT client.client_id, client.customer_no_template, client.customer_no_counter, client.customer_no_start FROM sys_group,client WHERE client.client_id = sys_group.client_id and sys_group.groupid = ?", $client_group_id);
-				
+
 				if($reseller['customer_no_template'] != '') {
 					//* save new counter value
 					$customer_no_counter = $app->functions->intval($reseller['customer_no_counter']+1);
@@ -344,7 +352,7 @@ class page_action extends tform_actions {
 				}
 			}
 		}
-		
+
 		//* Send welcome email
 		$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 		$sql = "SELECT * FROM client_message_template WHERE template_type = 'welcome' AND sys_groupid = ?";
@@ -369,7 +377,7 @@ class page_action extends tform_actions {
 					$subject = str_replace('{'.$key.'}', $val, $subject);
 				}
 			}
-			
+
 			//* Get sender address
 			if($app->auth->is_admin()) {
 				$app->uses('getconf');
@@ -384,7 +392,7 @@ class page_action extends tform_actions {
 			//* Send the email
 			$app->functions->mail($client['email'], $subject, $message, $from);
 		}
-		
+
 
 		parent::onAfterInsert();
 	}
@@ -466,7 +474,7 @@ class page_action extends tform_actions {
 						$active_col = 'disablesmtp';
 						$reverse = true;
 					}
-					
+
 					if(!isset($prev_active[$current])) $prev_active[$current] = array();
 					if(!isset($prev_sysuser[$current])) $prev_sysuser[$current] = array();
 
@@ -498,7 +506,7 @@ class page_action extends tform_actions {
 						$active_col = 'disablesmtp';
 						$reverse = true;
 					}
-					
+
 					$entries = $app->db->queryAllRecords('SELECT ?? as `id` FROM ?? WHERE `sys_groupid` = ?', $keycolumn, $current, $sys_groupid);
 					foreach($entries as $item) {
 						$set_active = ($reverse == true ? 'n' : 'y');
@@ -551,14 +559,14 @@ class page_action extends tform_actions {
 			$sql = "UPDATE sys_user SET modules = ? WHERE client_id = ?";
 			$app->db->query($sql, $modules, $client_id);
 		}
-		
+
 		//* Client has been moved to another reseller
 		if($_SESSION['s']['user']['typ'] == 'admin' && isset($this->dataRecord['parent_client_id']) && $this->dataRecord['parent_client_id'] != $this->oldDataRecord['parent_client_id']) {
 			//* Get groupid of the client
 			$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ?", $this->id);
 			$groupid = $tmp['groupid'];
 			unset($tmp);
-			
+
 			//* Remove sys_user of old reseller from client group
 			if($this->oldDataRecord['parent_client_id'] > 0) {
 				//* get userid of the old reseller remove it from the group of the client
@@ -566,7 +574,7 @@ class page_action extends tform_actions {
 				$app->auth->remove_group_from_user($tmp['userid'], $groupid);
 				unset($tmp);
 			}
-			
+
 			//* Add sys_user of new reseller to client group
 			if($this->dataRecord['parent_client_id'] > 0) {
 				//* get userid of the reseller and add it to the group of the client
