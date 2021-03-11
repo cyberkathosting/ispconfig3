@@ -347,10 +347,10 @@ class rspamd_plugin {
 
 		if($is_domain === true) {
 			foreach($entries_to_update['mail_user'] as $entry) {
-				$this->user_settings_update('mail_user_' . $mode, $entry, true);
+				$this->user_settings_update('mail_user_' . $mode, ['old' => $entry, 'new' => $entry], true);
 			}
 			foreach($entries_to_update['mail_forwarding'] as $entry) {
-				$this->user_settings_update('mail_forwarding_' . $mode, $entry, true);
+				$this->user_settings_update('mail_forwarding_' . $mode, ['old' => $entry, 'new' => $entry], true);
 			}
 		}
 
