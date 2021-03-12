@@ -1,3 +1,6 @@
+# Important: A copy of this file exists in server/conf/ folder.
+# Edit both files when applying changes.
+
 ################################################
 # ISPConfig General Apache Options
 ################################################
