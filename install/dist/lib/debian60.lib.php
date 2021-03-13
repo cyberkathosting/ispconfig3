@@ -110,6 +110,9 @@ class installer extends installer_base {
 			}
 			// Copy custom config file
 			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/dovecot_custom.conf.master')) {
+				if(!@is_dir($config_dir . '/conf.d')) {
+					mkdir($config_dir . '/conf.d');
+				}
 				copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/dovecot_custom.conf.master', $config_dir.'/conf.d/99-ispconfig-custom-config.conf');
 			}
 			replaceLine($config_dir.'/'.$configfile, 'postmaster_address = postmaster@example.com', 'postmaster_address = postmaster@'.$conf['hostname'], 1, 0);
