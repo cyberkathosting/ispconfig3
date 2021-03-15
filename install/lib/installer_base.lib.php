@@ -2036,8 +2036,8 @@ class installer_base {
 		}
 
 		//* Create the ISPConfig database user in the local database
-		$query = "GRANT ALL ON ?? TO ?@'localhost'";
-		if(!$this->db->query($query, $conf['powerdns']['database'] . '.*', $conf['mysql']['ispconfig_user'])) {
+		$query = "GRANT ALL ON ??.* TO ?@?";
+		if(!$this->db->query($query, $conf['powerdns']['database'], $conf['mysql']['ispconfig_user'], 'localhost')) {
 			$this->error('Unable to create user for powerdns database Error: '.$this->db->errorMessage);
 		}
 
