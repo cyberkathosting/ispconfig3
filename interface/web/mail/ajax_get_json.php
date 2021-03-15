@@ -113,7 +113,7 @@ header('Content-type: application/json');
 echo $json;
 
 function validate_domain($domain) {
-	$regex = '/^[\w\.\-]{2,255}\.[a-zA-Z0-9\-]{2,63}$/';
+	$regex = '/^[\w\.\-]{1,255}\.[a-zA-Z0-9\-]{2,63}$/';
 	if ( preg_match($regex, $domain) === 1 ) return true; else return false;
 }
 

@@ -276,18 +276,20 @@ if($_POST['create'] == 1) {
 	}
 
 
+	# fixme: this regex is pretty poor for domain validation
 	if(isset($_POST['domain']) && $_POST['domain'] == '') $error .= $app->lng('error_domain_empty').'<br />';
-	elseif(isset($_POST['domain']) && !preg_match('/^[\w\.\-]{2,64}\.[a-zA-Z0-9\-]{2,63}$/', $_POST['domain'])) $error .= $app->lng('error_domain_regex').'<br />';
+	elseif(isset($_POST['domain']) && !preg_match('/^[\w\.\-]{1,64}\.[a-zA-Z0-9\-]{2,63}$/', $_POST['domain'])) $error .= $app->lng('error_domain_regex').'<br />';
 
 	if(isset($_POST['ip']) && $_POST['ip'] == '') $error .= $app->lng('error_ip_empty').'<br />';
 
 	if(isset($_POST['ipv6']) && $_POST['ipv6'] == '') $error .= $app->lng('error_ipv6_empty').'<br />';
 
+	# fixme: this regex is pretty poor for hostname validation
 	if(isset($_POST['ns1']) && $_POST['ns1'] == '') $error .= $app->lng('error_ns1_empty').'<br />';
-	elseif(isset($_POST['ns1']) && !preg_match('/^[\w\.\-]{2,64}\.[a-zA-Z0-9]{2,63}$/', $_POST['ns1'])) $error .= $app->lng('error_ns1_regex').'<br />';
+	elseif(isset($_POST['ns1']) && !preg_match('/^[\w\.\-]{1,64}\.[a-zA-Z0-9]{2,63}$/', $_POST['ns1'])) $error .= $app->lng('error_ns1_regex').'<br />';
 
 	if(isset($_POST['ns2']) && $_POST['ns2'] == '') $error .= $app->lng('error_ns2_empty').'<br />';
-	elseif(isset($_POST['ns2']) && !preg_match('/^[\w\.\-]{2,64}\.[a-zA-Z0-9]{2,63}$/', $_POST['ns2'])) $error .= $app->lng('error_ns2_regex').'<br />';
+	elseif(isset($_POST['ns2']) && !preg_match('/^[\w\.\-]{1,64}\.[a-zA-Z0-9]{2,63}$/', $_POST['ns2'])) $error .= $app->lng('error_ns2_regex').'<br />';
 
 	if(isset($_POST['email']) && $_POST['email'] == '') $error .= $app->lng('error_email_empty').'<br />';
 	elseif(isset($_POST['email']) && filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) === false) $error .= $app->lng('error_email_regex').'<br />';
@@ -326,7 +328,7 @@ if($_POST['create'] == 1) {
 	// $enable_dnssec = (($_POST['dnssec'] == 'Y') ? 'Y' : 'N');
 	// if(isset($_POST['dnssec'])) $vars['dnssec_wanted'] = 'Y';
 	if(isset($_POST['dnssec'])) $tpl_content = str_replace('[ZONE]', '[ZONE]'."\n".'dnssec_wanted=Y', $tpl_content);
-	if(isset($_POST['dkim']) && preg_match('/^[\w\.\-\/]{2,255}\.[a-zA-Z0-9\-]{2,63}[\.]{0,1}$/', $_POST['domain'])) {
+	if(isset($_POST['dkim']) && preg_match('/^[\w\.\-\/]{1,255}\.[a-zA-Z0-9\-]{2,63}[\.]{0,1}$/', $_POST['domain'])) {
 		$sql = $app->db->queryOneRecord("SELECT dkim_public, dkim_selector FROM mail_domain WHERE domain = ? AND dkim = 'y' AND ".$app->tform->getAuthSQL('r'), $_POST['domain']);
 		$public_key = $sql['dkim_public'];
 		if ($public_key!='') {
