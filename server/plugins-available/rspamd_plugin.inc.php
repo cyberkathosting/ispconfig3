@@ -200,6 +200,8 @@ class rspamd_plugin {
 			$is_domain = true;
 		}
 
+		$app->log("rspamd: user_settings_update() for $type $email_address", LOGLEVEL_DEBUG);
+
 		if($settings_name == '') {
 			// missing settings file name
 			$app->log('Empty rspamd identifier in rspamd_plugin from identifier: ' . $use_data . '/' . $identifier, LOGLEVEL_WARN);
@@ -217,7 +219,7 @@ class rspamd_plugin {
 				$entries_to_update['mail_user'] = $mailusers;
 			}
 
-			$forwardings = $app->db->queryAllRecords("SELECT mf.* FROM mail_forwarding as mf LEFT JOIN spamfilter_users as su ON (su.email = mf.source) WHERE mf.source LIKE ? AND su.id IS NULL", '%' . $email_address);
+			$forwardings = $app->db->queryAllRecords("SELECT mf.* FROM mail_forwarding as mf LEFT JOIN spamfilter_users as su ON (su.email = mf.source) WHERE mf.source LIKE ? AND su.id IS NULL", '%_' . $email_address);
 			if(is_array($forwardings) && !empty($forwardings)) {
 				$entries_to_update['mail_forwarding'] = $forwardings;
 			}
