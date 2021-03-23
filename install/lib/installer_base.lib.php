@@ -1800,14 +1800,17 @@ class installer_base {
 
 		if(!is_dir('/etc/rspamd/local.d/')){
 			mkdir('/etc/rspamd/local.d/', 0755, true);
+			chmod('/etc/rspamd/local.d/', 0755);
 		}
 
 		if(!is_dir('/etc/rspamd/local.d/maps.d/')){
 			mkdir('/etc/rspamd/local.d/maps.d/', 0755, true);
+			chmod('/etc/rspamd/local.d/maps.d/', 0755);
 		}
 
 		if(!is_dir('/etc/rspamd/override.d/')){
 			mkdir('/etc/rspamd/override.d/', 0755, true);
+			chmod('/etc/rspamd/override.d/', 0755);
 		}
 
 		if ( substr($mail_config['dkim_path'], strlen($mail_config['dkim_path'])-1) == '/' ) {
