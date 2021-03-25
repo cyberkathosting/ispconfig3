@@ -802,6 +802,12 @@ input[type="password"].form-control[readonly] {
 .systemmonitor-state.state-info .statusMsg {
     display: none;
 }
+.systemmonitor-state .online {
+	color: green;
+}
+.systemmonitor-state .offline {
+	color: red;
+}
 
 span.notification_text {
     display: block;
