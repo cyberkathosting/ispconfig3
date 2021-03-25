@@ -339,9 +339,10 @@ class cron_jailkit_plugin {
 
 		if(!is_dir($this->parent_domain['document_root'].$jailkit_chroot_userhome)) {
 			$app->system->mkdir($this->parent_domain['document_root'].$jailkit_chroot_userhome, 0750, true);
-			$app->system->chown($this->parent_domain['document_root'].$jailkit_chroot_userhome, $this->parent_domain['system_user']);
-			$app->system->chgrp($this->parent_domain['document_root'].$jailkit_chroot_userhome, $this->parent_domain['system_group']);
 		}
+
+		$app->system->chown($this->parent_domain['document_root'].$jailkit_chroot_userhome, $this->parent_domain['system_user']);
+		$app->system->chgrp($this->parent_domain['document_root'].$jailkit_chroot_userhome, $this->parent_domain['system_group']);
 
 	}
 
