@@ -40,10 +40,12 @@ cd /tmp
 if [ -n "${_UPD}" ]
 then
     {
+        save_umask=`umask`
         umask 0077 \
         && tmpdir=`mktemp -dt "$(basename $0).XXXXXXXXXX"` \
         && test -d "${tmpdir}" \
         && cd "${tmpdir}"
+        umask $save_umask
     } || {
         echo 'mktemp failed'
         exit 1
