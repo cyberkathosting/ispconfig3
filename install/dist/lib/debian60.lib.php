@@ -33,7 +33,7 @@ class installer extends installer_base {
 	public function configure_dovecot()
 	{
 		global $conf;
-	
+
 		$virtual_transport = 'dovecot';
 
 		$configure_lmtp = false;
@@ -48,7 +48,7 @@ class installer extends installer_base {
 			$tmp = $this->db->queryOneRecord("SELECT * FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . ".server", $conf['server_id']);
 			$ini_array = ini_to_array(stripslashes($tmp['config']));
 			// ini_array needs not to be checked, because already done in update.php -> updateDbAndIni()
-			
+
 			if(isset($ini_array['mail']['mailbox_virtual_uidgid_maps']) && $ini_array['mail']['mailbox_virtual_uidgid_maps'] == 'y') {
 				$virtual_transport = 'lmtp:unix:private/dovecot-lmtp';
 				$configure_lmtp = true;
@@ -108,6 +108,13 @@ class installer extends installer_base {
 			} else {
 				copy('tpl/debian6_dovecot2.conf.master', $config_dir.'/'.$configfile);
 			}
+			// Copy custom config file
+			if(is_file($conf['ispconfig_install_dir'].'/server/conf-custom/install/dovecot_custom.conf.master')) {
+				if(!@is_dir($config_dir . '/conf.d')) {
+					mkdir($config_dir . '/conf.d');
+				}
+				copy($conf['ispconfig_install_dir'].'/server/conf-custom/install/dovecot_custom.conf.master', $config_dir.'/conf.d/99-ispconfig-custom-config.conf');
+			}
 			replaceLine($config_dir.'/'.$configfile, 'postmaster_address = postmaster@example.com', 'postmaster_address = postmaster@'.$conf['hostname'], 1, 0);
 			replaceLine($config_dir.'/'.$configfile, 'postmaster_address = webmaster@localhost', 'postmaster_address = postmaster@'.$conf['hostname'], 1, 0);
 			if(version_compare($dovecot_version,2.1) < 0) {
@@ -123,7 +130,7 @@ class installer extends installer_base {
 			if(version_compare($dovecot_version,2.3) >= 0) {
 				// Remove deprecated setting(s)
 				removeLine($config_dir.'/'.$configfile, 'ssl_protocols =');
-				
+
 				// Check if we have a dhparams file and if not, create it
 				if(!file_exists('/etc/dovecot/dh.pem')) {
 					swriteln('Creating new DHParams file, this takes several minutes. Do not interrupt the script.');
@@ -146,7 +153,7 @@ class installer extends installer_base {
 				$content = str_replace('#2.3+ ','',$content);
 				file_put_contents($config_dir.'/'.$configfile,$content);
 				unset($content);
-				
+
 			} else {
 				// remove settings which are not supported in Dovecot < 2.3
 				removeLine($config_dir.'/'.$configfile, 'ssl_min_protocol =');
@@ -159,7 +166,7 @@ class installer extends installer_base {
 				copy('tpl/debian6_dovecot.conf.master', $config_dir.'/'.$configfile);
 			}
 		}
-		
+
 		$dovecot_protocols = 'imap pop3';
 
 		//* dovecot-lmtpd
@@ -196,7 +203,7 @@ class installer extends installer_base {
 		chmod($config_dir.'/'.$configfile, 0600);
 		chown($config_dir.'/'.$configfile, 'root');
 		chgrp($config_dir.'/'.$configfile, 'root');
-		
+
 		// Dovecot shall ignore mounts in website directory
 		if(is_installed('doveadm')) exec("doveadm mount add '/var/www/*' ignore > /dev/null 2> /dev/null");
 
