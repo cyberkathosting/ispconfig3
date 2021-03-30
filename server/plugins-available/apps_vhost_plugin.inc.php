@@ -209,7 +209,7 @@ class apps_vhost_plugin {
             /* Check if SSL should be enabled: */
             if(is_file('/usr/local/ispconfig/interface/ssl/ispserver.crt') && is_file('/usr/local/ispconfig/interface/ssl/ispserver.key')) {
 				$content = str_replace('{ssl_comment}', '', $content);
-				$content = str_replace('{ssl_on}', 'ssl', $content);
+				$content = str_replace('{ssl_on}', 'ssl http2', $content);
             } else {
 				$content = str_replace('{ssl_comment}', '#', $content);
 				$content = preg_replace('/(\s)\{ssl_on\}/', '', $content);
