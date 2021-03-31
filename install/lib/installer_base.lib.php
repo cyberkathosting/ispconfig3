@@ -56,7 +56,7 @@ class installer_base {
 		$acme = reset($acme);
 		$val = 0;
 
-		if($acme) {
+		if($acme && is_executable($acme)) {
 			$cmd = $acme . ' --upgrade --auto-upgrade ; ' . $acme . ' --set-default-ca --server letsencrypt';
 			$ret = null;
 			$val = 0;
@@ -2932,15 +2932,13 @@ class installer_base {
 					$acme = reset($acme);
 					if($acme && is_executable($acme)) {
 						swriteln('Installed acme.sh and using it for certificate creation during install.');
+
+						// we do this even on install to enable automatic updates
+						$this->update_acme();
 					} else {
 						swriteln('Failed installing acme.sh. Will not be able to issue certificate during install.');
 					}
 				}
-			}
-
-			if($acme && is_executable($acme)) {
-				// we do this even on install to enable automatic updates
-				$this->update_acme();
 			}
 
 			$restore_conf_symlink = false;
