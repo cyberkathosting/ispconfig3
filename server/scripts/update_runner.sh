@@ -51,10 +51,12 @@ then
         exit 1
     }
 
-    wget -O ISPConfig-3.tar.gz "${URL}"
+    echo "Downloading ISPConfig update."
+    wget -q -O ISPConfig-3.tar.gz "${URL}"
     if [ -f ISPConfig-3.tar.gz ]
     then
-        tar xvzf ISPConfig-3.tar.gz --strip-components=1
+        echo "Unpacking ISPConfig update."
+        tar xzf ISPConfig-3.tar.gz --strip-components=1
         cd install/
         php -q \
             -d disable_classes= \
