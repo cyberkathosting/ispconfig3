@@ -1,1 +1,1 @@
-servers = "127.0.0.1";
+../../server/conf/rspamd_redis.conf.master
