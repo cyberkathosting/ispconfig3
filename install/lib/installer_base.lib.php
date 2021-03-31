@@ -51,7 +51,7 @@ class installer_base {
 		return ($val == 0 ? true : false);
 	}
 
-	private function update_acme() {
+	public function update_acme() {
 		$acme = explode("\n", shell_exec('which /usr/local/ispconfig/server/scripts/acme.sh /root/.acme.sh/acme.sh'));
 		$acme = reset($acme);
 		$val = 0;
