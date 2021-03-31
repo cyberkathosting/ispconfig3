@@ -51,7 +51,7 @@ then
         exit 1
     }
 
-    wget -O -Q ISPConfig-3.tar.gz "${URL}"
+    wget -q -O ISPConfig-3.tar.gz "${URL}"
     if [ -f ISPConfig-3.tar.gz ]
     then
         tar xzf ISPConfig-3.tar.gz --strip-components=1
