@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `domainmetadata` (
 SET @dbname = DATABASE();
 
 SELECT count(*) INTO @exist FROM `information_schema`.`columns` WHERE `table_schema` = @dbname AND `column_name` = 'auth' AND `table_name` = 'records' LIMIT 1;
-SET @query = IF(@exist <= 0, 'ALTER TABLE `records` ADD COLUMN `auth` tinyint(1) default 0 AFTER `change_date`', 'SELECT \'Column Exists\' STATUS');
+SET @query = IF(@exist <= 0, 'ALTER TABLE `records` ADD COLUMN `auth` tinyint(1) default 1 AFTER `change_date`', 'SELECT \'Column Exists\' STATUS');
 PREPARE stmt FROM @query;
 EXECUTE stmt;
 
