@@ -51,9 +51,11 @@ then
         exit 1
     }
 
+    echo "Downloading ISPConfig update."
     wget -q -O ISPConfig-3.tar.gz "${URL}"
     if [ -f ISPConfig-3.tar.gz ]
     then
+        echo "Unpacking ISPConfig update."
         tar xzf ISPConfig-3.tar.gz --strip-components=1
         cd install/
         php -q \
