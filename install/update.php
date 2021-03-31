@@ -566,6 +566,9 @@ if(!$issue_asked) {
     }
 }
 
+// update acme.sh if installed
+$inst->update_acme();
+
 $inst->install_ispconfig();
 
 // Cleanup

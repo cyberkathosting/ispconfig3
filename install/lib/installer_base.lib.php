@@ -51,6 +51,21 @@ class installer_base {
 		return ($val == 0 ? true : false);
 	}
 
+	public function update_acme() {
+		$acme = explode("\n", shell_exec('which /usr/local/ispconfig/server/scripts/acme.sh /root/.acme.sh/acme.sh'));
+		$acme = reset($acme);
+		$val = 0;
+
+		if($acme && is_executable($acme)) {
+			$cmd = $acme . ' --upgrade --auto-upgrade ; ' . $acme . ' --set-default-ca --server letsencrypt';
+			$ret = null;
+			$val = 0;
+			exec($cmd. ' 2>&1', $ret, $val);
+		}
+
+		return ($val == 0 ? true : false);
+	}
+
 	//: TODO  Implement the translation function and language files for the installer.
 	public function lng($text) {
 		return $text;
@@ -2939,6 +2954,9 @@ class installer_base {
 					$acme = reset($acme);
 					if($acme && is_executable($acme)) {
 						swriteln('Installed acme.sh and using it for certificate creation during install.');
+
+						// we do this even on install to enable automatic updates
+						$this->update_acme();
 					} else {
 						swriteln('Failed installing acme.sh. Will not be able to issue certificate during install.');
 					}

@@ -597,6 +597,9 @@ if(!$issue_asked) {
     }
 }
 
+// update acme.sh if installed
+$inst->update_acme();
+
 if($conf['services']['web'] == true) {
 	//** Configure apps vhost
 	swriteln('Configuring Apps vhost');
