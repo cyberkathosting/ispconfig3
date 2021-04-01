@@ -13,7 +13,6 @@ ssl_min_protocol = TLSv1.2
 ssl_cipher_list = ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384
 ssl_prefer_server_ciphers = no
 mail_plugins = quota
-!include_try conf.d/99-ispconfig-custom-config.conf
 passdb {
   args = /etc/dovecot-sql.conf
   driver = sql
@@ -129,3 +128,5 @@ namespace inbox {
     special_use = \Trash
   }
 }
+
+!include_try conf.d/99-ispconfig-custom-config.conf
