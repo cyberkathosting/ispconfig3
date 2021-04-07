@@ -1499,7 +1499,7 @@ class nginx_plugin {
 						}
 					} else {
 						// external URL
-						$rewrite_exclude = '(?!\.well-known/acme-challenge)/';
+						$rewrite_exclude = '(?!/(\.well-known/acme-challenge))/';
 						if($data['new']['redirect_type'] == 'proxy'){
 							$vhost_data['use_proxy'] = 'y';
 							$rewrite_subdir = $tmp_redirect_path_parts['path'];
@@ -1551,7 +1551,7 @@ class nginx_plugin {
 						}
 					} else {
 						// external URL
-						$rewrite_exclude = '(?!\.well-known/acme-challenge)/';
+						$rewrite_exclude = '(?!/(\.well-known/acme-challenge))/';
 						if($data['new']['redirect_type'] == 'proxy'){
 							$vhost_data['use_proxy'] = 'y';
 							$rewrite_subdir = $tmp_redirect_path_parts['path'];
@@ -1601,7 +1601,7 @@ class nginx_plugin {
 						}
 					} else {
 						// external URL
-						$rewrite_exclude = '(?!\.well-known/acme-challenge)/';
+						$rewrite_exclude = '(?!/(\.well-known/acme-challenge))/';
 						if($data['new']['redirect_type'] == 'proxy'){
 							$vhost_data['use_proxy'] = 'y';
 							$rewrite_subdir = $tmp_redirect_path_parts['path'];
