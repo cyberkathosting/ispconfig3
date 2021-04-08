@@ -1,3 +1,14 @@
+ISPC_WHITELIST_IP {
+  description = "Whitelisted ip address";
+  group = "ISPConfig";
+  type = "ip";
+  map = [ "$LOCAL_CONFDIR/local.d/maps.d/ip_whitelist.inc.ispc", "$LOCAL_CONFDIR/local.d/maps.d/ip_whitelist.inc.local" ];
+  prefilter = "true";
+  action = "accept";
+}
+
+# ISPC_BLACKLIST_IP:  Postfix blocks blacklisted IP's, no need to configure those here.
+
 # from https://rspamd.com/doc/configuration/selectors.html
 INVALUEMENT_SENDGRID_ID {
   type = "selector";

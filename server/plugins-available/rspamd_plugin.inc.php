@@ -119,6 +119,9 @@ class rspamd_plugin {
 		$app->plugins->registerEvent('mail_access_insert', $this->plugin_name, 'spamfilter_wblist_insert');
 		$app->plugins->registerEvent('mail_access_update', $this->plugin_name, 'spamfilter_wblist_update');
 		$app->plugins->registerEvent('mail_access_delete', $this->plugin_name, 'spamfilter_wblist_delete');
+		$app->plugins->registerEvent('mail_access_insert', $this->plugin_name, 'mail_access_update');
+		$app->plugins->registerEvent('mail_access_update', $this->plugin_name, 'mail_access_update');
+		$app->plugins->registerEvent('mail_access_delete', $this->plugin_name, 'mail_access_update');
 
 		//* server
 		$app->plugins->registerEvent('server_insert', $this->plugin_name, 'server_update');
@@ -494,6 +497,32 @@ class rspamd_plugin {
 
 			if($mail_config['content_filter'] == 'rspamd'){
 				$app->services->restartServiceDelayed('rspamd', 'reload');
+			}
+		}
+	}
+
+	function mail_access_update($event_name, $data) {
+		global $app, $conf;
+
+		if(!is_dir('/etc/rspamd')) {
+			return;
+		}
+
+		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
+
+		# generated local.d/maps.d files
+		$filename = '/etc/rspamd/local.d/maps.d/ip_whitelist.inc.ispc';
+		@unlink($filename);
+		$records = $app->db->queryAllRecords("SELECT `source` FROM ?? WHERE `type` = 'client' AND `access` = 'OK' AND `active` = 'y' AND `server_id` = ? ORDER BY `source` ASC", $conf['mysql']['database'] . '.mail_access', $conf['server_id']);
+		if (count($records) > 0) {
+			if ($fp = fopen($filename, 'w')) {
+				fwrite($fp, "# ISPConfig whitelisted ip addresses\n\n");
+				foreach($records as $record) {
+					fwrite($fp, $record['source'] . "\n");
+				}
+				fclose($fp);
+			} else {
+				$app->log("Error: cannot open $filename for writing", LOGLEVEL_WARN);
 			}
 		}
 	}

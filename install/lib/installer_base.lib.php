@@ -1935,6 +1935,23 @@ class installer_base {
 			}
 		}
 
+		# generated local.d/maps.d files
+		$filename = '/etc/rspamd/local.d/maps.d/ip_whitelist.inc.ispc';
+		@unlink($filename);
+		$records = $this->db->queryAllRecords("SELECT `source` FROM ?? WHERE `type` = 'client' AND `access` = 'OK' AND `active` = 'y' AND `server_id` = ? ORDER BY `source` ASC", $conf['mysql']['database'] . '.mail_access', $conf['server_id']);
+		if (count($records) > 0) {
+			if ($fp = fopen($filename, 'w')) {
+				fwrite($fp, "# ISPConfig whitelisted ip addresses\n\n");
+				foreach($records as $record) {
+					fwrite($fp, $record['source'] . "\n");
+				}
+				fclose($fp);
+			} else {
+				$this->error("Error: cannot open $filename for writing");
+			}
+		}
+
+
 		# rename rspamd templates we no longer use
 		if(file_exists("/etc/rspamd/local.d/greylist.conf")) {
 			rename("/etc/rspamd/local.d/greylist.conf", "/etc/rspamd/local.d/greylist.old");
