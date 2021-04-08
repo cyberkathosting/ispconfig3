@@ -1897,6 +1897,7 @@ class installer_base {
 			'neural_group.conf',
 			'users.conf',
 			'groups.conf',
+			'multimap.conf',
 		);
 		foreach ($local_d as $f) {
 			if(file_exists($conf['ispconfig_install_dir']."/server/conf-custom/install/rspamd_${f}.master")) {

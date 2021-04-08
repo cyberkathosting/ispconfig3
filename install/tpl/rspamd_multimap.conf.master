@@ -1,0 +1,15 @@
+# from https://rspamd.com/doc/configuration/selectors.html
+INVALUEMENT_SENDGRID_ID {
+  type = "selector";
+  selector = 'header("X-SG-EID").id;from("smtp","orig").regexp("/^<?bounces\+(\d+)\-[^@]+@/i").last';
+  map = "https://www.invaluement.com/spdata/sendgrid-id-dnsbl.txt";
+  score = 6.0;
+}
+
+INVALUEMENT_SENDGRID_DOMAIN {
+  type = "selector";
+  selector = 'header("X-SG-EID").id;from("smtp","orig"):domain.get_tld';
+  map = "https://www.invaluement.com/spdata/sendgrid-envelopefromdomain-dnsbl.txt";
+  score = 6.0;
+}
+
