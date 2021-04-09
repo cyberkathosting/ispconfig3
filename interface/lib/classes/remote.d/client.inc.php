@@ -245,12 +245,12 @@ class remoting_client extends remoting {
 		$app->remoting_lib->ispconfig_sysuser_update($params, $client_id);
 		
 		// if canceled
-                if ($params['canceled']) {
-                        $result = functions::func_client_cancel($client_id, $params['canceled']);
-                }
-                // if locked
-                if ($params['locked']) {
-                        $result = functions::func_client_lock($client_id, $params['locked']);
+        if ($params['canceled']) {
+            $result = $app->functions->func_client_cancel($client_id, $params['canceled']);
+        }
+        // if locked
+        if ($params['locked']) {
+            $result = $app->functions->func_client_lock($client_id, $params['locked']);
 		}
 
 		return $affected_rows;
