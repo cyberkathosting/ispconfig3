@@ -638,7 +638,7 @@ class functions {
                         $sql = "UPDATE sys_user SET active = '1' WHERE client_id = ?";
                         $result = $app->db->query($sql, $client_id);
                 } else {
-                        $result = FALSE;
+                        $result = false;
                 }
                 return $result;
         }	
