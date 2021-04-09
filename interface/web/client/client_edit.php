@@ -429,13 +429,13 @@ class page_action extends tform_actions {
         if(!isset($this->dataRecord['locked'])) $this->dataRecord['locked'] = 'n';
         if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && $this->dataRecord["locked"] != $this->oldDataRecord['locked']) 
 		{
-        	$lock = $app->functions->func_client_lock($this->id,$this->dataRecord["locked"]);
+			$lock = $app->functions->func_client_lock($this->id,$this->dataRecord["locked"]);
         }
 
-        if(!isset($this->dataRecord['canceled'])) $this->dataRecord['canceled'] = 'n';
-        if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && $this->dataRecord["canceled"] != $this->oldDataRecord['canceled']) {
-                $cancel = $app->functions->func_client_cancel($this->id,$this->dataRecord["canceled"]);
-        }
+		if(!isset($this->dataRecord['canceled'])) $this->dataRecord['canceled'] = 'n';
+		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && $this->dataRecord["canceled"] != $this->oldDataRecord['canceled']) {
+			$cancel = $app->functions->func_client_cancel($this->id,$this->dataRecord["canceled"]);
+		}
 
 		// language changed
 		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord['language']) && $this->dataRecord['language'] != '' && $this->oldDataRecord['language'] != $this->dataRecord['language']) {

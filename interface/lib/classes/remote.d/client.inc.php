@@ -246,11 +246,11 @@ class remoting_client extends remoting {
 		
 		// if canceled
         if ($params['canceled']) {
-            $result = $app->functions->func_client_cancel($client_id, $params['canceled']);
+        	$result = $app->functions->func_client_cancel($client_id, $params['canceled']);
         }
         // if locked
         if ($params['locked']) {
-            $result = $app->functions->func_client_lock($client_id, $params['locked']);
+        	$result = $app->functions->func_client_lock($client_id, $params['locked']);
 		}
 
 		return $affected_rows;
