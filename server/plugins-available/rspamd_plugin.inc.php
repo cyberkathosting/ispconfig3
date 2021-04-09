@@ -460,7 +460,7 @@ class rspamd_plugin {
 				unlink($wblist_file);
 			}
 
-			if($mail_config['content_filter'] == 'rspamd' && is_file('/etc/init.d/rspamd')) {
+			if($mail_config['content_filter'] == 'rspamd') {
 				$app->services->restartServiceDelayed('rspamd', 'reload');
 			}
 		}
@@ -484,7 +484,7 @@ class rspamd_plugin {
 			}
 
 			if($mail_config['content_filter'] == 'rspamd'){
-				if(is_file('/etc/init.d/rspamd')) $app->services->restartServiceDelayed('rspamd', 'reload');
+				$app->services->restartServiceDelayed('rspamd', 'reload');
 			}
 		}
 	}
