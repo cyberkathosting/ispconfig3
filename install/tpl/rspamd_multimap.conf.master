@@ -1,6 +1,6 @@
 ISPC_WHITELIST_IP {
-  description = "Whitelisted ip address";
   group = "ISPConfig";
+  description = "Whitelisted ip address.";
   type = "ip";
   map = [ "$LOCAL_CONFDIR/local.d/maps.d/ip_whitelist.inc.ispc", "$LOCAL_CONFDIR/local.d/maps.d/ip_whitelist.inc.local" ];
   prefilter = "true";
@@ -10,63 +10,110 @@ ISPC_WHITELIST_IP {
 # ISPC_BLACKLIST_IP:  Postfix blocks blacklisted IP's, no need to configure those here.
 
 ISPC_WHITELIST_ENVFROM {
-  type = "from";
-  filter = "email";
+  group = "ISPConfig";
+  description = "Whitelisted sender address.";
+  type = "selector";
+  filter = "from('smtp')";
   map = [ "$LOCAL_CONFDIR/local.d/maps.d/sender_whitelist.inc.ispc", "$LOCAL_CONFDIR/local.d/maps.d/sender_whitelist.inc.local" ];
   score = -7.0;
-  description = "Whitelisted sender address";
-  group = "ispconfig";
 }
 
 # ISPC_BLACKLIST_ENVFROM:  Postfix blocks blacklisted senders, no need to configure those here.
 
 ISPC_WHITELIST_ENVFROM_DOMAIN {
-  type = "from";
-  filter = "email:domain";
+  group = "ISPConfig";
+  description = "Whitelisted sender domain.";
+  type = "selector";
+  filter = "from('smtp'):domain";
   map = [ "$LOCAL_CONFDIR/local.d/maps.d/sender_domain_whitelist.inc.ispc", "$LOCAL_CONFDIR/local.d/maps.d/sender_domain_whitelist.inc.local" ];
   score = -7.0;
-  description = "Whitelisted sender domain";
-  group = "ispconfig";
 }
 
 # ISPC_BLACKLIST_ENVFROM_DOMAIN:  Postfix blocks blacklisted sender domains, no need to configure those here.
 
 ISPC_WHITELIST_FROM {
+  group = "ISPConfig";
+  description = "From: header address in sender whitelist.";
   type = "selector";
   selector = "from('mime')";
   map = [ "$LOCAL_CONFDIR/local.d/maps.d/sender_whitelist.inc.ispc", "$LOCAL_CONFDIR/local.d/maps.d/sender_whitelist.inc.local" ];
   # trivial to spoof so primarily used via composite expression in force_actions.conf
   score = -1.0;
-  description = "From: header address in sender whitelist.";
-  group = "ispconfig";
 }
 
 ISPC_BLACKLIST_FROM {
+  group = "ISPConfig";
+  description = "From: header address in sender blacklist.";
   type = "selector";
   selector = "from('mime')";
   map = [ "$LOCAL_CONFDIR/local.d/maps.d/sender_blacklist.inc.ispc", "$LOCAL_CONFDIR/local.d/maps.d/sender_blacklist.inc.local" ];
   score = 12.0;
-  description = "From: header address in sender blacklist.";
-  group = "ispconfig";
 }
 
 ISPC_WHITELIST_FROM_DOMAIN {
+  group = "ISPConfig";
+  description = "From: header domain in sender whitelist.";
   type = "selector";
   selector = "from('mime'):domain";
   map = [ "$LOCAL_CONFDIR/local.d/maps.d/sender_domain_whitelist.inc.ispc", "$LOCAL_CONFDIR/local.d/maps.d/sender_domain_whitelist.inc.local" ];
   # trivial to spoof so primarily used via composite expression in force_actions.conf
   score = -1.0;
-  description = "From: header domain in sender whitelist.";
-  group = "ispconfig";
 }
 
 ISPC_BLACKLIST_FROM_DOMAIN {
+  group = "ISPConfig";
+  description = "From: header domain in sender blacklist.";
   type = "selector";
   selector = "from('mime'):domain";
   map = [ "$LOCAL_CONFDIR/local.d/maps.d/sender_domain_blacklist.inc.ispc", "$LOCAL_CONFDIR/local.d/maps.d/sender_domain_blacklist.inc.local" ];
   score = 12.0;
-  description = "From: header domain in sender blacklist.";
-  group = "ispconfig";
+}
+
+# Reminder: test if whitelisted sender bypasses dkim signing for sender
+# Reminder: test if whitelisted recipient address bypasses dkim signing for sender
+
+ISPC_WHITELIST_ENVRCPT {
+  group = "ISPConfig";
+  description = "Whitelisted recipient address.";
+  type = "selector";
+  filter = "rcpts('smtp')";
+  map = [ "$LOCAL_CONFDIR/local.d/maps.d/recipient_whitelist.inc.ispc", "$LOCAL_CONFDIR/local.d/maps.d/recipient_whitelist.inc.local" ];
+  score = -7.0;
+}
+
+# ISPC_BLACKLIST_ENVRCPT:  Postfix blocks blacklisted recipients, no need to configure those here.
+
+ISPC_WHITELIST_ENVRCPT_DOMAIN {
+  group = "ISPConfig";
+  description = "Whitelisted recipient domain.";
+  type = "selector";
+  filter = "rcpts('smtp'):domain";
+  map = [ "$LOCAL_CONFDIR/local.d/maps.d/recipient_domain_whitelist.inc.ispc", "$LOCAL_CONFDIR/local.d/maps.d/recipient_domain_whitelist.inc.local" ];
+  score = -7.0;
+}
+
+# ISPC_BLACKLIST_ENVRCPT_DOMAIN:  Postfix blocks blacklisted recipient domains, no need to configure those here.
+
+# ISPC_WHITELIST_TO: headers are trivial to forge, no whitelisting based on them
+
+ISPC_BLACKLIST_TO {
+  group = "ISPConfig";
+  description = "To:/Cc: header address in recipient blacklist.";
+  type = "selector";
+  selector = "rcpts('mime')";
+  map = [ "$LOCAL_CONFDIR/local.d/maps.d/recipient_blacklist.inc.ispc", "$LOCAL_CONFDIR/local.d/maps.d/recipient_blacklist.inc.local" ];
+  score = 12.0;
+}
+
+# ISPC_WHITELIST_TO_DOMAIN: headers are trivial to forge, no whitelisting based on them
+
+ISPC_BLACKLIST_TO_DOMAIN {
+  group = "ISPConfig";
+  description = "To:/Cc: header domain in recipient blacklist.";
+  type = "selector";
+  selector = "rcpts('mime'):domain";
+  map = [ "$LOCAL_CONFDIR/local.d/maps.d/recipient_domain_blacklist.inc.ispc", "$LOCAL_CONFDIR/local.d/maps.d/recipient_domain_blacklist.inc.local" ];
+  score = 12.0;
 }
 
 

@@ -1939,7 +1939,7 @@ class installer_base {
 		# generated local.d/maps.d files
 		$filename = '/etc/rspamd/local.d/maps.d/ip_whitelist.inc.ispc';
 		@unlink($filename);
-		$records = $this->db->queryAllRecords("SELECT `source` FROM ?? WHERE `type` = 'client' AND `access` = 'OK' AND `active` = 'y' AND `server_id` = ? ORDER BY `source` ASC", $conf['mysql']['database'] . '.mail_access', $conf['server_id']);
+		$records = $this->db->queryAllRecords("SELECT `source` FROM ?? WHERE `type` = 'client' AND `access` = 'OK' AND `active` = 'y' AND `sys_userid` IN (SELECT `userid` FROM `sys_user` WHERE `sys_groupid` = 0) AND `server_id` = ? ORDER BY `source` ASC", $conf['mysql']['database'] . '.mail_access', $conf['server_id']);
 		if (count($records) > 0) {
 			if ($fp = fopen($filename, 'w')) {
 				fwrite($fp, "# ISPConfig whitelisted ip addresses\n\n");
@@ -1954,7 +1954,7 @@ class installer_base {
 
 		$filename = '/etc/rspamd/local.d/maps.d/sender_whitelist.inc.ispc';
 		@unlink($filename);
-		$records = $this->db->queryAllRecords("SELECT `source` FROM ?? WHERE `type` = 'sender' AND `source` LIKE '%@%' AND `access` = 'OK' AND `active` = 'y' AND `server_id` = ? ORDER BY `source` ASC", $conf['mysql']['database'] . '.mail_access', $conf['server_id']);
+		$records = $this->db->queryAllRecords("SELECT `source` FROM ?? WHERE `type` = 'sender' AND `source` LIKE '%@%' AND `access` = 'OK' AND `active` = 'y' AND `sys_userid` IN (SELECT `userid` FROM `sys_user` WHERE `sys_groupid` = 0) AND `server_id` = ? ORDER BY `source` ASC", $conf['mysql']['database'] . '.mail_access', $conf['server_id']);
 		if (count($records) > 0) {
 			if ($fp = fopen($filename, 'w')) {
 				fwrite($fp, "# ISPConfig whitelisted sender addresses\n\n");
@@ -1969,7 +1969,7 @@ class installer_base {
 
 		$filename = '/etc/rspamd/local.d/maps.d/sender_blacklist.inc.ispc';
 		@unlink($filename);
-		$records = $this->db->queryAllRecords("SELECT `source` FROM ?? WHERE `type` = 'sender' AND `source` LIKE '%@%' AND `access` LIKE 'REJECT%' AND `active` = 'y' AND `server_id` = ? ORDER BY `source` ASC", $conf['mysql']['database'] . '.mail_access', $conf['server_id']);
+		$records = $this->db->queryAllRecords("SELECT `source` FROM ?? WHERE `type` = 'sender' AND `source` LIKE '%@%' AND `access` LIKE 'REJECT%' AND `active` = 'y' AND `sys_userid` IN (SELECT `userid` FROM `sys_user` WHERE `sys_groupid` = 0) AND `server_id` = ? ORDER BY `source` ASC", $conf['mysql']['database'] . '.mail_access', $conf['server_id']);
 		if (count($records) > 0) {
 			if ($fp = fopen($filename, 'w')) {
 				fwrite($fp, "# ISPConfig blacklisted sender addresses\n\n");
@@ -1984,7 +1984,7 @@ class installer_base {
 
 		$filename = '/etc/rspamd/local.d/maps.d/sender_domain_whitelist.inc.ispc';
 		@unlink($filename);
-		$records = $this->db->queryAllRecords("SELECT `source` FROM ?? WHERE `type` = 'sender' AND `source` NOT LIKE '%@%' AND `access` = 'OK' AND `active` = 'y' AND `server_id` = ? ORDER BY `source` ASC", $conf['mysql']['database'] . '.mail_access', $conf['server_id']);
+		$records = $this->db->queryAllRecords("SELECT `source` FROM ?? WHERE `type` = 'sender' AND `source` NOT LIKE '%@%' AND `access` = 'OK' AND `active` = 'y' AND `sys_userid` IN (SELECT `userid` FROM `sys_user` WHERE `sys_groupid` = 0) AND `server_id` = ? ORDER BY `source` ASC", $conf['mysql']['database'] . '.mail_access', $conf['server_id']);
 		if (count($records) > 0) {
 			if ($fp = fopen($filename, 'w')) {
 				fwrite($fp, "# ISPConfig whitelisted sender domains\n\n");
@@ -1999,10 +1999,70 @@ class installer_base {
 
 		$filename = '/etc/rspamd/local.d/maps.d/sender_domain_blacklist.inc.ispc';
 		@unlink($filename);
-		$records = $this->db->queryAllRecords("SELECT `source` FROM ?? WHERE `type` = 'sender' AND `source` NOT LIKE '%@%' AND `access` LIKE 'REJECT%' AND `active` = 'y' AND `server_id` = ? ORDER BY `source` ASC", $conf['mysql']['database'] . '.mail_access', $conf['server_id']);
+		$records = $this->db->queryAllRecords("SELECT `source` FROM ?? WHERE `type` = 'sender' AND `source` NOT LIKE '%@%' AND `access` LIKE 'REJECT%' AND `active` = 'y' AND `sys_userid` IN (SELECT `userid` FROM `sys_user` WHERE `sys_groupid` = 0) AND `server_id` = ? ORDER BY `source` ASC", $conf['mysql']['database'] . '.mail_access', $conf['server_id']);
 		if (count($records) > 0) {
 			if ($fp = fopen($filename, 'w')) {
 				fwrite($fp, "# ISPConfig blacklisted sender domains\n\n");
+				foreach($records as $record) {
+					fwrite($fp, ltrim($record['source'], '.') . "\n");
+				}
+				fclose($fp);
+			} else {
+				$this->error("Error: cannot open $filename for writing");
+			}
+		}
+
+		$filename = '/etc/rspamd/local.d/maps.d/recipient_whitelist.inc.ispc';
+		@unlink($filename);
+		$records = $this->db->queryAllRecords("SELECT `source` FROM ?? WHERE `type` = 'recipient' AND `source` LIKE '%@%' AND `access` = 'OK' AND `active` = 'y' AND `sys_userid` IN (SELECT `userid` FROM `sys_user` WHERE `sys_groupid` = 0) AND `server_id` = ? ORDER BY `source` ASC", $conf['mysql']['database'] . '.mail_access', $conf['server_id']);
+		if (count($records) > 0) {
+			if ($fp = fopen($filename, 'w')) {
+				fwrite($fp, "# ISPConfig whitelisted recipient addresses\n\n");
+				foreach($records as $record) {
+					fwrite($fp, $record['source'] . "\n");
+				}
+				fclose($fp);
+			} else {
+				$this->error("Error: cannot open $filename for writing");
+			}
+		}
+
+		$filename = '/etc/rspamd/local.d/maps.d/recipient_blacklist.inc.ispc';
+		@unlink($filename);
+		$records = $this->db->queryAllRecords("SELECT `source` FROM ?? WHERE `type` = 'recipient' AND `source` LIKE '%@%' AND `access` LIKE 'REJECT%' AND `active` = 'y' AND `sys_userid` IN (SELECT `userid` FROM `sys_user` WHERE `sys_groupid` = 0) AND `server_id` = ? ORDER BY `source` ASC", $conf['mysql']['database'] . '.mail_access', $conf['server_id']);
+		if (count($records) > 0) {
+			if ($fp = fopen($filename, 'w')) {
+				fwrite($fp, "# ISPConfig blacklisted recipient addresses\n\n");
+				foreach($records as $record) {
+					fwrite($fp, $record['source'] . "\n");
+				}
+				fclose($fp);
+			} else {
+				$this->error("Error: cannot open $filename for writing");
+			}
+		}
+
+		$filename = '/etc/rspamd/local.d/maps.d/recipient_domain_whitelist.inc.ispc';
+		@unlink($filename);
+		$records = $this->db->queryAllRecords("SELECT `source` FROM ?? WHERE `type` = 'recipient' AND `source` NOT LIKE '%@%' AND `access` = 'OK' AND `active` = 'y' AND `sys_userid` IN (SELECT `userid` FROM `sys_user` WHERE `sys_groupid` = 0) AND `server_id` = ? ORDER BY `source` ASC", $conf['mysql']['database'] . '.mail_access', $conf['server_id']);
+		if (count($records) > 0) {
+			if ($fp = fopen($filename, 'w')) {
+				fwrite($fp, "# ISPConfig whitelisted recipient domains\n\n");
+				foreach($records as $record) {
+					fwrite($fp, ltrim($record['source'], '.') . "\n");
+				}
+				fclose($fp);
+			} else {
+				$this->error("Error: cannot open $filename for writing");
+			}
+		}
+
+		$filename = '/etc/rspamd/local.d/maps.d/recipient_domain_blacklist.inc.ispc';
+		@unlink($filename);
+		$records = $this->db->queryAllRecords("SELECT `source` FROM ?? WHERE `type` = 'recipient' AND `source` NOT LIKE '%@%' AND `access` LIKE 'REJECT%' AND `active` = 'y' AND `sys_userid` IN (SELECT `userid` FROM `sys_user` WHERE `sys_groupid` = 0) AND `server_id` = ? ORDER BY `source` ASC", $conf['mysql']['database'] . '.mail_access', $conf['server_id']);
+		if (count($records) > 0) {
+			if ($fp = fopen($filename, 'w')) {
+				fwrite($fp, "# ISPConfig blacklisted recipient domains\n\n");
 				foreach($records as $record) {
 					fwrite($fp, ltrim($record['source'], '.') . "\n");
 				}
