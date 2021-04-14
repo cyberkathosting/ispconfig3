@@ -9,6 +9,68 @@ ISPC_WHITELIST_IP {
 
 # ISPC_BLACKLIST_IP:  Postfix blocks blacklisted IP's, no need to configure those here.
 
+ISPC_WHITELIST_ENVFROM {
+  type = "from";
+  filter = "email";
+  map = [ "$LOCAL_CONFDIR/local.d/maps.d/sender_whitelist.inc.ispc", "$LOCAL_CONFDIR/local.d/maps.d/sender_whitelist.inc.local" ];
+  score = -7.0;
+  description = "Whitelisted sender address";
+  group = "ispconfig";
+}
+
+# ISPC_BLACKLIST_ENVFROM:  Postfix blocks blacklisted senders, no need to configure those here.
+
+ISPC_WHITELIST_ENVFROM_DOMAIN {
+  type = "from";
+  filter = "email:domain";
+  map = [ "$LOCAL_CONFDIR/local.d/maps.d/sender_domain_whitelist.inc.ispc", "$LOCAL_CONFDIR/local.d/maps.d/sender_domain_whitelist.inc.local" ];
+  score = -7.0;
+  description = "Whitelisted sender domain";
+  group = "ispconfig";
+}
+
+# ISPC_BLACKLIST_ENVFROM_DOMAIN:  Postfix blocks blacklisted sender domains, no need to configure those here.
+
+ISPC_WHITELIST_FROM {
+  type = "selector";
+  selector = "from('mime')";
+  map = [ "$LOCAL_CONFDIR/local.d/maps.d/sender_whitelist.inc.ispc", "$LOCAL_CONFDIR/local.d/maps.d/sender_whitelist.inc.local" ];
+  # trivial to spoof so primarily used via composite expression in force_actions.conf
+  score = -1.0;
+  description = "From: header address in sender whitelist.";
+  group = "ispconfig";
+}
+
+ISPC_BLACKLIST_FROM {
+  type = "selector";
+  selector = "from('mime')";
+  map = [ "$LOCAL_CONFDIR/local.d/maps.d/sender_blacklist.inc.ispc", "$LOCAL_CONFDIR/local.d/maps.d/sender_blacklist.inc.local" ];
+  score = 12.0;
+  description = "From: header address in sender blacklist.";
+  group = "ispconfig";
+}
+
+ISPC_WHITELIST_FROM_DOMAIN {
+  type = "selector";
+  selector = "from('mime'):domain";
+  map = [ "$LOCAL_CONFDIR/local.d/maps.d/sender_domain_whitelist.inc.ispc", "$LOCAL_CONFDIR/local.d/maps.d/sender_domain_whitelist.inc.local" ];
+  # trivial to spoof so primarily used via composite expression in force_actions.conf
+  score = -1.0;
+  description = "From: header domain in sender whitelist.";
+  group = "ispconfig";
+}
+
+ISPC_BLACKLIST_FROM_DOMAIN {
+  type = "selector";
+  selector = "from('mime'):domain";
+  map = [ "$LOCAL_CONFDIR/local.d/maps.d/sender_domain_blacklist.inc.ispc", "$LOCAL_CONFDIR/local.d/maps.d/sender_domain_blacklist.inc.local" ];
+  score = 12.0;
+  description = "From: header domain in sender blacklist.";
+  group = "ispconfig";
+}
+
+
+# Invaluement.com Service Provider DNSBLs
 # from https://rspamd.com/doc/configuration/selectors.html
 INVALUEMENT_SENDGRID_ID {
   type = "selector";

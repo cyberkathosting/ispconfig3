@@ -2,7 +2,9 @@ rules {
   "ISPC_WHITELIST_SPF" = {
     valid_spf = true;
     domains = [
-      "$LOCAL_CONFDIR/local.d/maps.d/spf_whitelist.inc.ispc"
+      "$LOCAL_CONFDIR/local.d/maps.d/spf_whitelist.inc.ispc",
+      "$LOCAL_CONFDIR/local.d/maps.d/sender_domain_whitelist.inc.ispc",
+      "$LOCAL_CONFDIR/local.d/maps.d/sender_domain_whitelist.inc.local"
     ];
     score = -2.0
     inverse_symbol = "ISPC_BLACKLIST_SPF";
@@ -11,7 +13,9 @@ rules {
   "ISPC_WHITELIST_DKIM" = {
     valid_dkim = true;
     domains = [
-      "$LOCAL_CONFDIR/local.d/maps.d/dkim_whitelist.inc.ispc"
+      "$LOCAL_CONFDIR/local.d/maps.d/dkim_whitelist.inc.ispc",
+      "$LOCAL_CONFDIR/local.d/maps.d/sender_domain_whitelist.inc.ispc",
+      "$LOCAL_CONFDIR/local.d/maps.d/sender_domain_whitelist.inc.local"
     ];
     score = -2.0;
     inverse_symbol = "ISPC_BLACKLIST_DKIM";
