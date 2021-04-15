@@ -69,6 +69,26 @@ ISPC_BLACKLIST_FROM_DOMAIN {
   score = 12.0;
 }
 
+ISPC_BLACKLIST_REPLYTO {
+  group = "ISPConfig";
+  description = "Reply-To: header address in sender blacklist.";
+  type = "header";
+  header = "Reply-To";
+  filter = "email";
+  map = [ "$LOCAL_CONFDIR/local.d/maps.d/sender_blacklist.inc.ispc", "$LOCAL_CONFDIR/local.d/maps.d/sender_blacklist.inc.local" ];
+  score = 12.0;
+}
+
+ISPC_BLACKLIST_REPLYTO_DOMAIN {
+  group = "ISPConfig";
+  description = "Reply-To: header domain in sender blacklist.";
+  type = "header";
+  header = "Reply-To";
+  filter = "email:domain";
+  map = [ "$LOCAL_CONFDIR/local.d/maps.d/sender_domain_blacklist.inc.ispc", "$LOCAL_CONFDIR/local.d/maps.d/sender_domain_blacklist.inc.local" ];
+  score = 12.0;
+}
+
 # Reminder: test if whitelisted sender bypasses dkim signing for sender
 # Reminder: test if whitelisted recipient address bypasses dkim signing for sender
 

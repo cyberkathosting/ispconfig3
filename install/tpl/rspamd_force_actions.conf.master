@@ -1,12 +1,15 @@
 rules {
 
+  # ISPConfig whitelist/blacklist passthrough actions
+  # (always combine authentication tests (dkim/spf) with sender whitelisting).
+
   ISPC_WHITELIST_SENDER {
     expression = "(ISPC_WHITELIST_ENVFROM and (R_DKIM_ALLOW or R_SPF_ALLOW)) or (ISPC_WHITELIST_FROM and R_DKIM_ALLOW) and !CLAM_VIRUS and !JUST_EICAR";
     action = "no action";
   }
 
   ISPC_BLACKLIST_SENDER {
-    expression = "(ISPC_BLACKLIST_FROM or ISPC_BLACKLIST_FROM_DOMAIN) and R_DKIM_ALLOW and !ISPC_WHITELIST_SENDER and !ISPC_WHITELIST_SENDER_DOMAIN and !ISPC_WHITELIST_RECIPIENT";
+    expression = "(ISPC_BLACKLIST_FROM or ISPC_BLACKLIST_FROM_DOMAIN or ISPC_BLACKLIST_REPLYTO or ISPC_BLACKLIST_REPLYTO_DOMAIN) and !ISPC_WHITELIST_SENDER and !ISPC_WHITELIST_SENDER_DOMAIN and !ISPC_WHITELIST_RECIPIENT";
     action = "reject";
   }
 
@@ -15,6 +18,8 @@ rules {
     action = "no action";
   }
 
+  # test multiple recipients, does forced action only apply to the whitelisted recipient or all?
+  # if all, combine this with RCPT_COUNT_ONE
   ISPC_WHITELIST_RECIPIENT {
     expression = "ISPC_WHITELIST_ENVRCPT and !CLAM_VIRUS and !JUST_EICAR";
     action = "no action";
