@@ -6,33 +6,47 @@ rules {
   ISPC_WHITELIST_SENDER {
     expression = "(ISPC_WHITELIST_ENVFROM and (R_DKIM_ALLOW or R_SPF_ALLOW)) or (ISPC_WHITELIST_FROM and R_DKIM_ALLOW) and !CLAM_VIRUS and !JUST_EICAR";
     action = "no action";
+    message = "Whitelisted sender";
   }
 
   ISPC_BLACKLIST_SENDER {
-    expression = "(ISPC_BLACKLIST_FROM or ISPC_BLACKLIST_FROM_DOMAIN or ISPC_BLACKLIST_REPLYTO or ISPC_BLACKLIST_REPLYTO_DOMAIN) and !ISPC_WHITELIST_SENDER and !ISPC_WHITELIST_SENDER_DOMAIN and !ISPC_WHITELIST_RECIPIENT";
+    expression = "(ISPC_BLACKLIST_FROM or ISPC_BLACKLIST_FROM_DOMAIN or ISPC_BLACKLIST_REPLYTO or ISPC_BLACKLIST_REPLYTO_DOMAIN) and !FORCE_ACTION_ISPC_WHITELIST_SENDER and !FORCE_ACTION_ISPC_WHITELIST_SENDER_DOMAIN and !FORCE_ACTION_ISPC_WHITELIST_RECIPIENT and !FORCE_ACTION_WHITELIST_RECIPIENT_DOMAIN";
     action = "reject";
+    message = "Blacklisted sender";
   }
 
   ISPC_WHITELIST_SENDER_DOMAIN {
     expression = "(ISPC_WHITELIST_ENVFROM_DOMAIN and (ISPC_WHITELIST_DKIM or ISPC_WHITELIST_SPF)) or (ISPC_WHITELIST_FROM_DOMAIN and ISPC_WHITELIST_DKIM) and !CLAM_VIRUS and !JUST_EICAR";
     action = "no action";
+    message = "Whitelisted sender domain";
   }
 
-  # test multiple recipients, does forced action only apply to the whitelisted recipient or all?
-  # if all, combine this with RCPT_COUNT_ONE
+# test multiple recipients, does forced action only apply to the whitelisted recipient or all?
+# if all, combine this with RCPT_COUNT_ONE
+# do all recipients have to be matched in whitelist for symbol to be added, or any ?
   ISPC_WHITELIST_RECIPIENT {
     expression = "ISPC_WHITELIST_ENVRCPT and !CLAM_VIRUS and !JUST_EICAR";
     action = "no action";
+    message = "Whitelisted recipient";
   }
 
+#  ISPC_TEST {
+#    #expression = "ISPC_BLACKLIST_TO";
+#    expression = "ISPC_WHITELIST_ENVRCPT";
+#    action = "no action";
+#    message = "TEST RULE";
+#  }
+
   ISPC_BLACKLIST_RECIPIENT {
-    expression = "(ISPC_BLACKLIST_TO or ISPC_BLACKLIST_TO_DOMAIN) and !ISPC_WHITELIST_SENDER and !ISPC_WHITELIST_SENDER_DOMAIN and !ISPC_WHITELIST_RECIPIENT";
+    expression = "(ISPC_BLACKLIST_TO or ISPC_BLACKLIST_TO_DOMAIN) and !FORCE_ACTION_ISPC_WHITELIST_SENDER and !FORCE_ACTION_ISPC_WHITELIST_SENDER_DOMAIN and !FORCE_ACTION_ISPC_WHITELIST_RECIPIENT and !FORCE_ACTION_WHITELIST_RECIPIENT_DOMAIN";
     action = "reject";
+    message = "Blacklisted recipient";
   }
 
   ISPC_WHITELIST_RECIPIENT_DOMAIN {
     expression = "ISPC_WHITELIST_ENVRCPT_DOMAIN and !CLAM_VIRUS and !JUST_EICAR";
     action = "no action";
+    message = "Whitelisted recipient domain";
   }
 
 }
