@@ -13,7 +13,7 @@ ISPC_WHITELIST_ENVFROM {
   group = "ISPConfig";
   description = "Whitelisted sender address.";
   type = "selector";
-  filter = "from('smtp')";
+  selector = "from('smtp')";
   map = [ "$LOCAL_CONFDIR/local.d/maps.d/sender_whitelist.inc.ispc", "$LOCAL_CONFDIR/local.d/maps.d/sender_whitelist.inc.local" ];
   score = -7.0;
 }
@@ -24,7 +24,7 @@ ISPC_WHITELIST_ENVFROM_DOMAIN {
   group = "ISPConfig";
   description = "Whitelisted sender domain.";
   type = "selector";
-  filter = "from('smtp'):domain";
+  selector = "from('smtp'):domain";
   map = [ "$LOCAL_CONFDIR/local.d/maps.d/sender_domain_whitelist.inc.ispc", "$LOCAL_CONFDIR/local.d/maps.d/sender_domain_whitelist.inc.local" ];
   score = -7.0;
 }
@@ -96,7 +96,7 @@ ISPC_WHITELIST_ENVRCPT {
   group = "ISPConfig";
   description = "Whitelisted recipient address.";
   type = "selector";
-  filter = "rcpts('smtp')";
+  selector = "rcpts('smtp')";
   map = [ "$LOCAL_CONFDIR/local.d/maps.d/recipient_whitelist.inc.ispc", "$LOCAL_CONFDIR/local.d/maps.d/recipient_whitelist.inc.local" ];
   score = -7.0;
 }
@@ -107,7 +107,7 @@ ISPC_WHITELIST_ENVRCPT_DOMAIN {
   group = "ISPConfig";
   description = "Whitelisted recipient domain.";
   type = "selector";
-  filter = "rcpts('smtp'):domain";
+  selector = "rcpts('smtp'):domain";
   map = [ "$LOCAL_CONFDIR/local.d/maps.d/recipient_domain_whitelist.inc.ispc", "$LOCAL_CONFDIR/local.d/maps.d/recipient_domain_whitelist.inc.local" ];
   score = -7.0;
 }
