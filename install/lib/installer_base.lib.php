@@ -1868,7 +1868,11 @@ class installer_base {
 		);
 		foreach ($local_d as $f) {
 			$tpl = new tpl();
-			$tpl->newTemplate("rspamd_${f}.master");
+			if (file_exists($conf['ispconfig_install_dir']."/server/conf-custom/install/rspamd_${f}.master")) {
+				$tpl->newTemplate($conf['ispconfig_install_dir']."/server/conf-custom/install/rspamd_${f}.master");
+			} else {
+				$tpl->newTemplate("rspamd_${f}.master");
+			}
 
 			$tpl->setVar('dkim_path', $mail_config['dkim_path']);
 			$tpl->setVar('rspamd_redis_servers', $mail_config['rspamd_redis_servers']);
@@ -1964,7 +1968,11 @@ class installer_base {
 		unset($server_ini_string);
 
 		$tpl = new tpl();
-		$tpl->newTemplate('rspamd_worker-controller.inc.master');
+		if (file_exists($conf['ispconfig_install_dir']."/server/conf-custom/install/rspamd_worker-controller.inc.master")) {
+			$tpl->newTemplate($conf['ispconfig_install_dir']."/server/conf-custom/install/rspamd_worker-controller.inc.master");
+		} else {
+			$tpl->newTemplate("rspamd_worker-controller.inc.master");
+		}
 		$rspamd_password = $mail_config['rspamd_password'];
 		$crypted_password = trim(exec('rspamadm pw -p ' . escapeshellarg($rspamd_password)));
 		if($crypted_password) {

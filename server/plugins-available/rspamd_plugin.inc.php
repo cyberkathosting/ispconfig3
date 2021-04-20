@@ -295,7 +295,11 @@ class rspamd_plugin {
 				$app->load('tpl');
 
 				$tpl = new tpl();
-				$tpl->newTemplate('rspamd_users.inc.conf.master');
+				if (file_exists($conf['rootpath']."/conf-custom/install/rspamd_users.inc.conf.master")) {
+					$tpl->newTemplate($conf['rootpath']."/conf-custom/install/rspamd_users.inc.conf.master");
+				} else {
+					$tpl->newTemplate("rspamd_users.inc.conf.master");
+				}
 
 				$tpl->setVar('record_identifier', 'ispc_' . $type . '_' . $entry_id);
 				$tpl->setVar('priority', $settings_priority);
@@ -443,7 +447,12 @@ class rspamd_plugin {
 					}
 				} else {
 					$tpl = new tpl();
-					$tpl->newTemplate('rspamd_wblist.inc.conf.master');
+					if (file_exists($conf['rootpath']."/conf-custom/install/rspamd_wblist.inc.conf.master")) {
+			                        $tpl->newTemplate($conf['rootpath']."/conf-custom/install/rspamd_wblist.inc.conf.master");
+					} else {
+						$tpl->newTemplate("rspamd_wblist.inc.conf.master");
+					}
+
 					$tpl->setVar('list_scope', ($global_filter ? 'global' : 'spamfilter'));
 					$tpl->setVar('record_id', $record_id);
 					// add 30/40 to priority to avoid collisions and prefer white/blacklists above mailbox/domain spamfilter settings
@@ -521,7 +530,11 @@ class rspamd_plugin {
 		);
 		foreach ($local_d as $f) {
 			$tpl = new tpl();
-			$tpl->newTemplate("rspamd_${f}.master");
+			if (file_exists($conf['rootpath']."/conf-custom/install/rspamd_${f}.master")) {
+				$tpl->newTemplate($conf['rootpath']."/conf-custom/install/rspamd_${f}.master");
+			} else {
+				$tpl->newTemplate("rspamd_${f}.master");
+			}
 
 			$tpl->setVar('dkim_path', $mail_config['dkim_path']);
 			$tpl->setVar('rspamd_redis_servers', $mail_config['rspamd_redis_servers']);
