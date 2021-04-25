@@ -18,10 +18,10 @@ Development branch: [![pipeline status](https://git.ispconfig.org/ispconfig/ispc
 - Let's Encrypt: Acme.sh and certbot
 - SMTP: Postfix
 - POP3/IMAP: Dovecot
-- Spamfilter: Rspamd and Amavis[^1]
+- Spamfilter: Rspamd and Amavis
 - FTP: PureFTPD
 - DNS: BIND9 and PowerDNS[^1]
-- Database: MariaDB and MySQL[^1]
+- Database: MariaDB and MySQL
 
 [^1]: not actively tested
 
