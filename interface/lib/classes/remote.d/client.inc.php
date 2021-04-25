@@ -243,6 +243,15 @@ class remoting_client extends remoting {
 		$affected_rows = $this->updateQuery('../client/form/' . (isset($params['limit_client']) && $params['limit_client'] != 0 ? 'reseller' : 'client') . '.tform.php', $reseller_id, $client_id, $params, 'client:' . ($reseller_id ? 'reseller' : 'client') . ':on_after_update');
 
 		$app->remoting_lib->ispconfig_sysuser_update($params, $client_id);
+		
+		// if canceled
+        if ($params['canceled']) {
+        	$result = $app->functions->func_client_cancel($client_id, $params['canceled']);
+        }
+        // if locked
+        if ($params['locked']) {
+        	$result = $app->functions->func_client_lock($client_id, $params['locked']);
+		}
 
 		return $affected_rows;
 	}
