@@ -2,7 +2,7 @@
 $wb['select_server_txt'] = 'Избери сървър';
 $wb['btn_do_txt'] = 'Изпълни действие';
 $wb['do_osupdate_caption'] = 'Направете OS - Актуализация на отдалечен сървър';
-$wb['do_osupdate_desc'] = 'Това действие прави за aptitude-y  ъпгрейд на избрания от Вас сървър.<br><br><strong>ИЗПОЛЗВАШ ТОВА НА ТВОЙ РИСК!</strong>';
+$wb['do_osupdate_desc'] = 'Това действие прави за apt-y  ъпгрейд на избрания от Вас сървър.<br><br><strong>ИЗПОЛЗВАШ ТОВА НА ТВОЙ РИСК!</strong>';
 $wb['do_ispcupdate_caption'] = 'Do ISPConfig 3 - Update at remote server';
 $wb['do_ispcupdate_desc'] = 'Това действие прави ISPConfig 3 обновяване на избрания от Вас сървър.<br><br><strong>ИЗПОЛЗВАШ ТОВА НА ТВОЙ РИСК!</strong>';
 $wb['action_scheduled'] = 'Това действие е насрочено за изпълнение';

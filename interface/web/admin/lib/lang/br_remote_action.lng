@@ -2,7 +2,7 @@
 $wb['select_server_txt'] = 'Selecionar servidor';
 $wb['btn_do_txt'] = 'Executar ação';
 $wb['do_osupdate_caption'] = 'Atualizar sistema operacional no servidor remoto';
-$wb['do_osupdate_desc'] = 'Esta ação fará o comando \'aptitude -y upgrade\' no servidor selecionado.<br><br><strong>UTILIZE POR SUA CONTA E RISCO!</strong>';
+$wb['do_osupdate_desc'] = 'Esta ação fará o comando \'apt -y upgrade\' no servidor selecionado.<br><br><strong>UTILIZE POR SUA CONTA E RISCO!</strong>';
 $wb['do_ispcupdate_caption'] = 'Atualizar ISPConfig 3 - Atualizar o servidor remoto';
 $wb['do_ispcupdate_desc'] = 'Esta ação atualizará o ISPConfig3 no servidor selecionado.<br><br><strong>UTILIZE POR SUA CONTA E RISCO!</strong>';
 $wb['action_scheduled'] = 'A ação foi agendada.';
