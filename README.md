@@ -10,7 +10,7 @@ Development branch: [![pipeline status](https://git.ispconfig.org/ispconfig/ispc
 - DNS server management
 - Virtualization (OpenVZ)
 - Administrator, reseller, client and mailuser login
-- Open Source software (BSD license)
+- Open Source software ([BSD license](LICENSE))
 
 ## Supported daemons
 - HTTP: Apache2 and NGINX
