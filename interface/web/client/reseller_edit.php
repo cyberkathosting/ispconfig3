@@ -184,6 +184,14 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("show_per_domain_relay_options", 0);
 		}
 
+		// APS is enabled or not
+		$global_config = $app->getconf->get_global_config('sites');
+		if($global_config['show_aps_menu'] == 'y') {
+			$app->tpl->setVar("show_aps_menu", 1);
+		} else {
+			$app->tpl->setVar("show_aps_menu", 0);
+		}
+
 		//* Set the 'customer no' default value
 		if($this->id == 0) {
 			//* get the system config
