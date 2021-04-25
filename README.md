@@ -13,7 +13,7 @@ Development branch: [![pipeline status](https://git.ispconfig.org/ispconfig/ispc
 - Open Source software (BSD license)
 
 ## Supported daemons
-- HTTP: Apache2 and nginx
+- HTTP: Apache2 and NGINX
 - HTTP stats: Webalizer, GoAccess and AWStats
 - Let's Encrypt: Acme.sh and certbot
 - SMTP: Postfix
