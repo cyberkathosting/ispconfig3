@@ -9,6 +9,7 @@ This document is under development and will be continuously improved.
 * If you want to report several bugs or request several features, open a separate issue for each one of them.
 
 # Branches
+* If you are a new user, please send an email to: dev [at] ispconfig [dot] org to receive rights to fork the project.
 * Please create an issue for each contribution you want to make.
 * Do not put multiple contributions into a single branch and merge request. Each contribution should have it's own branch.
 * Do not use the develop branch in your forked project for your contribution. Create a separate branch for each issue.
