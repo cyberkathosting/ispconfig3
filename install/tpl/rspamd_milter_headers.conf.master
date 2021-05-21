@@ -1,11 +1,13 @@
-use = ["x-spamd-bar", "x-spam-level", "x-spam-status", "authentication-results"];
+use = ["x-spamd-bar", "x-spam-level", "x-spam-status", "authentication-results", "remove-headers"];
 authenticated_headers = ["authentication-results"];
 routines {
   remove-headers {
-    "X-Spam" = 0;
-    "X-Spamd-Bar" = 0;
-    "X-Spam-Level" = 0;
-    "X-Spam-Status" = 0;
-    "X-Spam-Flag" = 0;
+    headers {
+      "X-Spam" = 0;
+      "X-Spamd-Bar" = 0;
+      "X-Spam-Level" = 0;
+      "X-Spam-Status" = 0;
+      "X-Spam-Flag" = 0;
+    }
   }
 }
