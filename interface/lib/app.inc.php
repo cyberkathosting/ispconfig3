@@ -86,8 +86,6 @@ class app {
 	}
 
 	public function initialize_session() {
-		global $conf;
-
 		//* Start the session
 		if($this->_conf['start_session'] == true) {
 			session_name('ISPCSESS');
