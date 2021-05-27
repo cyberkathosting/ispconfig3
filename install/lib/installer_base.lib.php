@@ -1899,6 +1899,7 @@ class installer_base {
 			'groups.conf',
 			'multimap.conf',
 			'force_actions.conf',
+			'whitelist.conf',
 		);
 		foreach ($local_d as $f) {
 			if(file_exists($conf['ispconfig_install_dir']."/server/conf-custom/install/rspamd_${f}.master")) {
