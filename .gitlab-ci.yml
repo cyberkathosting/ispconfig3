@@ -3,6 +3,7 @@ stages:
   - syntax
   - syntax_diff
   - test
+  - build
 
 #
 ### Stage syntax
@@ -63,3 +64,21 @@ test:install:
     - apt-get --yes install curl
     - curl --insecure https://127.0.0.1:8080/login/
     - ps xaf
+
+
+build:package:
+    stage: build
+    image: edbizarro/gitlab-ci-pipeline-php:7.2
+    only:
+        refs:
+            - /^\d+\.\d+\.\d+$/
+    except:
+        - branches
+        - merge_requests
+        - schedules
+        - pushes
+    script:
+        - echo "Building release."
+        
+    when: manual
+    allow_failure: false
