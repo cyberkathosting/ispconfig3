@@ -2946,7 +2946,7 @@ class installer_base {
 			}
 
 			// Get the default LE client name and version
-			$le_client = explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt /opt/eff.org/certbot/venv/bin/certbot'));
+			$le_client = explode("\n", shell_exec('which certbot /root/.local/share/letsencrypt/bin/letsencrypt /opt/eff.org/certbot/venv/bin/certbot letsencrypt'));
 			$le_client = reset($le_client);
 
 			// Check for Neilpang acme.sh as well
