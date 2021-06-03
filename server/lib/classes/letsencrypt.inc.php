@@ -80,7 +80,7 @@ class letsencrypt {
 	}
 
 	public function get_certbot_script() {
-		$letsencrypt = explode("\n", shell_exec('which letsencrypt certbot /root/.local/share/letsencrypt/bin/letsencrypt /opt/eff.org/certbot/venv/bin/certbot'));
+		$letsencrypt = explode("\n", shell_exec('which certbot /root/.local/share/letsencrypt/bin/letsencrypt /opt/eff.org/certbot/venv/bin/certbot letsencrypt'));
 		$letsencrypt = reset($letsencrypt);
 		if(is_executable($letsencrypt)) {
 			return $letsencrypt;
