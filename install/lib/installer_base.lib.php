@@ -3147,17 +3147,11 @@ class installer_base {
 			}
 
 			// We can still use the old self-signed method
-			$ssl_pw = substr(md5(mt_rand()), 0, 6);
-			exec("openssl genrsa -des3 -passout pass:$ssl_pw -out $ssl_key_file 4096");
+			$openssl_cmd = 'openssl req -nodes -newkey rsa:4096 -x509 -days 3650 -keyout ' . escapeshellarg($ssl_key_file) . ' -out ' . escapeshellarg($ssl_crt_file);
 			if(AUTOINSTALL){
-				exec("openssl req -new -passin pass:$ssl_pw -passout pass:$ssl_pw -subj '/C=".escapeshellcmd($autoinstall['ssl_cert_country'])."/ST=".escapeshellcmd($autoinstall['ssl_cert_state'])."/L=".escapeshellcmd($autoinstall['ssl_cert_locality'])."/O=".escapeshellcmd($autoinstall['ssl_cert_organisation'])."/OU=".escapeshellcmd($autoinstall['ssl_cert_organisation_unit'])."/CN=".escapeshellcmd($autoinstall['ssl_cert_common_name'])."' -key $ssl_key_file -out $ssl_csr_file");
-			} else {
-				exec("openssl req -new -passin pass:$ssl_pw -passout pass:$ssl_pw -key $ssl_key_file -out $ssl_csr_file");
+				$openssl_cmd .= ' -subj ' . escapeshellarg('/C=' . $autoinstall['ssl_cert_country'] . '/ST=' . $autoinstall['ssl_cert_state'] . '/L=' . $autoinstall['ssl_cert_locality'] . '/O=' . $autoinstall['ssl_cert_organisation'] . '/OU=' . $autoinstall['ssl_cert_organisation_unit'] . '/CN=' . $autoinstall['ssl_cert_common_name']);
 			}
-			exec("openssl req -x509 -passin pass:$ssl_pw -passout pass:$ssl_pw -key $ssl_key_file -in $ssl_csr_file -out $ssl_crt_file -days 3650");
-			exec("openssl rsa -passin pass:$ssl_pw -in $ssl_key_file -out $ssl_key_file.insecure");
-			rename($ssl_key_file, $ssl_key_file.'.secure');
-			rename($ssl_key_file.'.insecure', $ssl_key_file);
+			exec($openssl_cmd);
 		}
 
 		// Build ispserver.pem file and chmod it
