@@ -26,7 +26,7 @@ if [[ "$SOURCE" == "stable" ]] ; then
 elif [[ "$SOURCE" == "nightly" ]] ; then
 	URL="https://www.ispconfig.org/downloads/ISPConfig-3-nightly.tar.gz"
 elif [[ "$SOURCE" == "git-develop" ]] ; then
-	URL="https://git.ispconfig.org/ispconfig/ispconfig3/repository/archive.tar.gz?ref=develop"
+	URL="https://git.ispconfig.org/ispconfig/ispconfig3/-/archive/develop/ispconfig3-develop.tar.gz"
 else 
 	echo "Please choose an installation source (stable, nightly, git-develop)"
 	exit 1
