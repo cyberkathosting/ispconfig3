@@ -126,6 +126,9 @@ class app {
 				array($this->session, 'destroy'),
 				array($this->session, 'gc'));
 
+			ini_set('session.cookie_httponly', true);
+			@ini_set('session.cookie_samesite', 'Lax');
+
 			session_start();
 
 			//* Initialize session variables
