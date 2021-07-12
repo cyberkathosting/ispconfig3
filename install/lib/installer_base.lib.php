@@ -3002,13 +3002,13 @@ class installer_base {
 
 			// Backup existing ispserver ssl files
 			if(file_exists($ssl_crt_file) || is_link($ssl_crt_file)) {
-				rename($ssl_crt_file, $ssl_crt_file . '-temporary.bak');
+				copy($ssl_crt_file, $ssl_crt_file . '-temporary.bak');
 			}
 			if(file_exists($ssl_key_file) || is_link($ssl_key_file)) {
-				rename($ssl_key_file, $ssl_key_file . '-temporary.bak');
+				copy($ssl_key_file, $ssl_key_file . '-temporary.bak');
 			}
 			if(file_exists($ssl_pem_file) || is_link($ssl_pem_file)) {
-				rename($ssl_pem_file, $ssl_pem_file . '-temporary.bak');
+				copy($ssl_pem_file, $ssl_pem_file . '-temporary.bak');
 			}
 
 			// Attempt to use Neilpang acme.sh first, as it is now the preferred LE client
