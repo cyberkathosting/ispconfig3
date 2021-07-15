@@ -1592,44 +1592,6 @@ class system{
 
 
 	/**
-	 * Scan the trash for virusses infection
-	 *
-	 */
-	function make_trashscan(){
-		global $app;
-		//trashscan erstellen
-		// Template Öffnen
-		$app->tpl->clear_all();
-		$app->tpl->define( array(table    => 'trashscan.master'));
-
-		if(!isset($this->server_conf['virusadmin']) || trim($this->server_conf['virusadmin']) == '') $this->server_conf['virusadmin'] = 'admispconfig@localhost';
-		if(substr($this->server_conf['virusadmin'], 0, 1) == '#'){
-			$notify = 'no';
-		} else {
-			$notify = 'yes';
-		}
-
-		// Variablen zuweisen
-		$app->tpl->assign( array(VIRUSADMIN => $this->server_conf['virusadmin'],
-				NOTIFICATION => $notify));
-
-		$app->tpl->parse(TABLE, table);
-
-		$trashscan_text = $app->tpl->fetch();
-
-		$datei = '/home/admispconfig/ispconfig/tools/clamav/bin/trashscan';
-		$app->file->wf($datei, $trashscan_text);
-
-		chmod($datei, 0755);
-		chown($datei, 'admispconfig');
-		chgrp($datei, 'admispconfig');
-	}
-
-
-
-
-
-	/**
 	 * Get the current time
 	 *
 	 */
