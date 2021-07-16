@@ -405,14 +405,48 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		$domain = $app->functions->idn_encode($this->dataRecord["domain"]);
+		$old_domain = $app->functions->idn_encode($this->oldDataRecord["domain"]);
 
 		// Spamfilter policy
 		$policy_id = $app->functions->intval($this->dataRecord["policy"]);
+
+		// If domain changes, update spamfilter_users
+		// and fire spamfilter_wblist_update events so rspamd files are rewritten
+		$skip_spamfilter_users_update = false;
+		if(isset($old_domain != $domain) {
+			$tmp_old = $app->db->queryOneRecord("SELECT id,fullname FROM spamfilter_users WHERE email = ?", '@' . $old_domain);
+			if($tmp_old['id'] > 0) {
+				$tmp_new = $app->db->queryOneRecord("SELECT id,fullname FROM spamfilter_users WHERE email = ?", '@' . $domain);
+				if($tmp_new['id'] > 0) {
+					// There is a spamfilter_users for both old and new domain, we'll update old wblist entries
+					$tmp_wblist = $app->db->queryAllRecords("SELECT wblist_id FROM spamfilter_users WHERE rid = ?", $tmp_old['id']);
+					foreach ($tmp_wblist as $tmp) {
+						$app->db->datalogUpdate('spamfilter_wblist', array('rid' => $tmp_new['id']), 'wblist_id', $tmp['wblist_id']);
+					}
+
+					// now delete old spamfilter_users entry
+					$app->db->datalogDelete('spamfilter_users', 'id', $tmp_old['id']);
+				} else {
+					$update_data = array(
+						'email' => '@' . $domain,
+						'policy_id' => $policy_id,
+					);
+					if($tmp_old['fullname'] == '@' . $old_domain) {
+						$update_data['fullname'] = '@' . $domain;
+					}
+					$app->db->datalogUpdate('spamfilter_users', $update_data, 'id', $tmp_old['id']);
+					$skip_spamfilter_users_update = true;
+				}
+			}
+		}
+
 		$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = ?", '@' . $domain);
 		if($policy_id > 0) {
 			if($tmp_user["id"] > 0) {
 				// There is already a record that we will update
-				$app->db->datalogUpdate('spamfilter_users', array("policy_id" => $policy_id), 'id', $tmp_user["id"]);
+				if(!$skip_spamfilter_users_update) {
+					$app->db->datalogUpdate('spamfilter_users', array("policy_id" => $policy_id), 'id', $tmp_user["id"]);
+				}
 			} else {
 				$tmp_domain = $app->db->queryOneRecord("SELECT sys_groupid FROM mail_domain WHERE domain_id = ?", $this->id);
 				// We create a new record
@@ -435,20 +469,23 @@ class page_action extends tform_actions {
 		} else {
 			if($tmp_user["id"] > 0) {
 				// There is already a record but the user shall have no policy, so we delete it
+// fixme: this abandons any spamfilter_wblist entries tied to this spamfilter_users id
+// https://git.ispconfig.org/ispconfig/ispconfig3/-/issues/6201
 				$app->db->datalogDelete('spamfilter_users', 'id', $tmp_user["id"]);
 			}
 		} // endif spamfilter policy
 		//** If the domain name or owner has been changed, change the domain and owner in all mailbox records
-		if($this->oldDataRecord['domain'] != $domain || (isset($this->dataRecord['client_group_id']) && $this->oldDataRecord['sys_groupid'] != $this->dataRecord['client_group_id'])) {
+		if($old_domain != $domain || (isset($this->dataRecord['client_group_id']) && $this->oldDataRecord['sys_groupid'] != $this->dataRecord['client_group_id'])) {
 			$app->uses('getconf');
 			$mail_config = $app->getconf->get_server_config($this->dataRecord["server_id"], 'mail');
 
 			//* Update the mailboxes
-			$mailusers = $app->db->queryAllRecords("SELECT * FROM mail_user WHERE email like ?", '%@' . $this->oldDataRecord['domain']);
+			$mailusers = $app->db->queryAllRecords("SELECT * FROM mail_user WHERE email like ?", '%@' . $old_domain;
 			$sys_groupid = $app->functions->intval((isset($this->dataRecord['client_group_id']))?$this->dataRecord['client_group_id']:$this->oldDataRecord['sys_groupid']);
 			$tmp = $app->db->queryOneRecord("SELECT userid FROM sys_user WHERE default_group = ?", $sys_groupid);
 			$client_user_id = $app->functions->intval(($tmp['userid'] > 0)?$tmp['userid']:1);
 			if(is_array($mailusers)) {
+// fixme: change spamfilter_users and fire wblist events
 				foreach($mailusers as $rec) {
 					// setting Maildir, Homedir, UID and GID
 					$mail_parts = explode("@", $rec['email']);
@@ -460,32 +497,38 @@ class page_action extends tform_actions {
 			}
 
 			//* Update the aliases
-			$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE source like ? OR destination like ?", '%@' . $this->oldDataRecord['domain'], '%@' . $this->oldDataRecord['domain']);
+			$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE source like ? OR destination like ?", '%@' . $old_domain, '%@' . $old_domain);
 			if(is_array($forwardings)) {
+// fixme: change spamfilter_users and fire wblist events  for aliases/forwards
 				foreach($forwardings as $rec) {
-					$destination = str_replace($this->oldDataRecord['domain'], $domain, $rec['destination']);
-					$source = str_replace($this->oldDataRecord['domain'], $domain, $rec['source']);
+					$destination = str_replace($old_domain, $domain, $rec['destination']);
+					$source = str_replace($old_domain, $domain, $rec['source']);
 					$app->db->datalogUpdate('mail_forwarding', array("source" => $source, "destination" => $destination, "sys_userid" => $client_user_id, "sys_groupid" => $sys_groupid), 'forwarding_id', $rec['forwarding_id']);
 				}
 			}
 
 			//* Update the mailinglist
-			$app->db->query("UPDATE mail_mailinglist SET sys_userid = ?, sys_groupid = ? WHERE domain = ?", $client_user_id, $sys_groupid, $this->oldDataRecord['domain']);
-
-			//* Update fetchmail accounts
-			$fetchmail = $app->db->queryAllRecords("SELECT * FROM mail_get WHERE destination like ?", '%@' . $this->oldDataRecord['domain']);
-			if(is_array($fetchmail)) {
-				foreach($fetchmail as $rec) {
-					$destination = str_replace($this->oldDataRecord['domain'], $domain, $rec['destination']);
-					$app->db->datalogUpdate('mail_get', array("destination" => $destination, "sys_userid" => $client_user_id, "sys_groupid" => $sys_groupid), 'mailget_id', $rec['mailget_id']);
+			$mailinglists = $app->db->queryAllRecords("SELECT * FROM mail_mailinglist WHERE domain = ?", $old_domain);
+			if(is_array($mailinglists)) {
+				foreach($mailinglists as $rec) {
+					$update_data = array(
+						'sys_userid' => $client_user_id,
+						'sys_groupid' => $sys_groupid,
+						'domain' => $domain,
+						'email' => str_replace($old_domain, $domain, $rec['email']),
+					);
+					$app->db->datalogUpdate('mail_mailinglist', $update_data, 'mailinglist_id', $rec['mailinglist_id']);
 				}
 			}
 
-			//* Delete the old spamfilter record
-			$tmp = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = ?", '@' . $this->oldDataRecord["domain"]);
-			$app->db->datalogDelete('spamfilter_users', 'id', $tmp["id"]);
-			unset($tmp);
-
+			//* Update fetchmail accounts
+			$fetchmail = $app->db->queryAllRecords("SELECT * FROM mail_get WHERE destination like ?", '%@' . $old_domain);
+			if(is_array($fetchmail)) {
+				foreach($fetchmail as $rec) {
+					$destination = str_replace($old_domain, $domain, $rec['destination']);
+					$app->db->datalogUpdate('mail_get', array("destination" => $destination, "sys_userid" => $client_user_id, "sys_groupid" => $sys_groupid), 'mailget_id', $rec['mailget_id']);
+				}
+			}
 		} // end if domain name changed
 
 		//* update dns-record when the dkim record was changed
@@ -559,4 +602,3 @@ class page_action extends tform_actions {
 $page = new page_action;
 $page->onLoad();
 
-?>

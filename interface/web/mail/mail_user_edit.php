@@ -329,11 +329,42 @@ class page_action extends tform_actions {
 
 			// Spamfilter policy
 			$policy_id = $app->functions->intval($this->dataRecord["policy"]);
+			// Handle email change
+			$skip_spamfilter_users_update = false;
+			if(isset($this->dataRecord['email']) && $this->oldDataRecord['email'] != $this->dataRecord['email']) {
+				$tmp_olduser = $app->db->queryOneRecord("SELECT id,fullname FROM spamfilter_users WHERE email = ?", $this->oldDataRecord['email']);
+				if($tmp_olduser["id"] > 0) {
+					$tmp_newuser = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = ?", $this->dataRecord['email']);
+					if($tmp_newuser['id'] > 0) {
+						// There is a spamfilter_users for both old and new email, we'll update old wblist entries
+						$tmp_wblist = $app->db->queryAllRecords("SELECT wblist_id FROM spamfilter_users WHERE rid = ?", $tmp_olduser['id']);
+						foreach ($tmp_wblist as $tmp) {
+							$app->db->datalogUpdate('spamfilter_wblist', array('rid' => $tmp_newuser['id']), 'wblist_id', $tmp['wblist_id']);
+						}
+
+						// now delete old spamfilter_users entry
+						$app->db->datalogDelete('spamfilter_users', 'id', $tmp_olduser['id']);
+					} else {
+						$update_data = array(
+							'email' => $this->dataRecord['email'],
+							'policy_id' => $policy_id,
+						);
+						if($tmp_olduser['fullname'] == $app->functions->idn_decode($this->oldDataRecord["email"])) {
+							$update_data['fullname'] = $app->functions->idn_decode($this->dataRecord["email"]);
+						}
+						$app->db->datalogUpdate('spamfilter_users', $update_data, 'id', $tmp_olduser['id']);
+						$skip_spamfilter_users_update = true;
+					}
+				}
+			}
+
 			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = ?", $this->dataRecord["email"]);
 			if($policy_id > 0) {
 				if($tmp_user["id"] > 0) {
 					// There is already a record that we will update
-					$app->db->datalogUpdate('spamfilter_users', array("policy_id" => $policy_id), 'id', $tmp_user["id"]);
+					if(!$skip_spamfilter_users_update) {
+						$app->db->datalogUpdate('spamfilter_users', array("policy_id" => $policy_id), 'id', $tmp_user["id"]);
+					}
 				} else {
 					// We create a new record
 					$insert_data = array(
@@ -351,9 +382,11 @@ class page_action extends tform_actions {
 					);
 					$app->db->datalogInsert('spamfilter_users', $insert_data, 'id');
 				}
-			}else {
+			} else {
 				if($tmp_user["id"] > 0) {
 					// There is already a record but the user shall have no policy, so we delete it
+// fixme: don't delete or we abandon users' wblist entries
+// https://git.ispconfig.org/ispconfig/ispconfig3/-/issues/6201
 					$app->db->datalogDelete('spamfilter_users', 'id', $tmp_user["id"]);
 				}
 			} // endif spamfilter policy
@@ -372,8 +405,6 @@ class page_action extends tform_actions {
 
 		//** If the email address has been changed, change it in all aliases too
 		if(isset($this->dataRecord['email']) && $this->oldDataRecord['email'] != $this->dataRecord['email']) {
-			//if($this->oldDataRecord['email'] != $this->dataRecord['email']) {
-
 			//* Update the aliases
 			$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE destination = ?", $this->oldDataRecord['email']);
 			if(is_array($forwardings)) {
@@ -401,4 +432,3 @@ class page_action extends tform_actions {
 $app->tform_actions = new page_action;
 $app->tform_actions->onLoad();
 
-?>
