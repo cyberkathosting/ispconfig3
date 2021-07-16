@@ -90,7 +90,7 @@ class page_action extends tform_actions {
 			$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 			$client = $app->db->queryOneRecord("SELECT limit_spamfilter_user FROM sys_group, client WHERE sys_group.client_id = client.client_id and sys_group.groupid = ?", $client_group_id);
 
-			// Check if the user may add another mailbox.
+			// Check if the user may add another spamfilter user.
 			if($this->id == 0 && $client["limit_spamfilter_user"] >= 0) {
 				$tmp = $app->db->queryOneRecord("SELECT count(id) as number FROM spamfilter_users WHERE sys_groupid = ?", $client_group_id);
 				if($tmp["number"] >= $client["limit_spamfilter_user"]) {
@@ -103,10 +103,21 @@ class page_action extends tform_actions {
 		parent::onSubmit();
 	}
 
+
+	function onAfterUpdate() {
+		global $app, $conf;
+
+		// If email changes fire spamfilter_wblist_update events so rspamd files are rewritten
+		if(isset($this->dataRecord['email']) && $this->oldDataRecord['email'] != $this->dataRecord['email']) {
+			$tmp_wblist = $app->db->queryAllRecords("SELECT wblist_id FROM spamfilter_users WHERE rid = ?", $this->dataRecord['id']);
+			foreach ($tmp_wblist as $tmp) {
+				$app->db->datalogUpdate('spamfilter_wblist', array('rid' => $this->dataRecord['id']), 'wblist_id', $tmp['wblist_id']);
+			}
+		}
+	}
+
 }
 
 $app->tform_actions = new page_action;
 $app->tform_actions->onLoad();
 
-
-?>
