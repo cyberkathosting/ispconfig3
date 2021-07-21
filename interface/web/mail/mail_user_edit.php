@@ -327,43 +327,70 @@ class page_action extends tform_actions {
 			$domain = $app->db->queryOneRecord("SELECT sys_groupid, server_id FROM mail_domain WHERE domain = ? AND ".$app->tform->getAuthSQL('r'), $app->functions->idn_encode($_POST["email_domain"]));
 			$app->db->query("UPDATE mail_user SET sys_groupid = ? WHERE mailuser_id = ?", $domain["sys_groupid"], $this->id);
 
+		}
+
+		// Set the fields for dovecot
+		if(isset($this->dataRecord["email"])) {
+			$disableimap = (isset($this->dataRecord["disableimap"]) && $this->dataRecord["disableimap"])?'y':'n';
+			$disablepop3 = (isset($this->dataRecord["disablepop3"]) && $this->dataRecord["disablepop3"])?'y':'n';
+			$disablesmtp = (isset($this->dataRecord["disablesmtp"]) && $this->dataRecord["disablesmtp"])?'y':'n';
+			$disabledeliver = (isset($this->dataRecord["disabledeliver"]) && $this->dataRecord["disabledeliver"])?'y':'n';
+
+			$sql = "UPDATE mail_user SET disableimap = ?, disablesieve = ?, `disablesieve-filter` = ?, disablepop3 = ?, disablesmtp = ?, disabledeliver = ?, disablelda = ?, disablelmtp = ? WHERE mailuser_id = ?";
+			$app->db->query($sql, $disableimap, $disableimap, $disableimap, $disablepop3, $disablesmtp, $disabledeliver, $disabledeliver, $disabledeliver, $this->id);
+		}
+
+		//** Handle email address change
+		if(isset($this->dataRecord['email']) && $this->oldDataRecord['email'] != $this->dataRecord['email']) {
 			// Spamfilter policy
 			$policy_id = $app->functions->intval($this->dataRecord["policy"]);
-			// Handle email change
-			$skip_spamfilter_users_update = false;
-			if(isset($this->dataRecord['email']) && $this->oldDataRecord['email'] != $this->dataRecord['email']) {
-				$tmp_olduser = $app->db->queryOneRecord("SELECT id,fullname FROM spamfilter_users WHERE email = ?", $this->oldDataRecord['email']);
-				if($tmp_olduser["id"] > 0) {
-					$tmp_newuser = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = ?", $this->dataRecord['email']);
-					if($tmp_newuser['id'] > 0) {
-						// There is a spamfilter_users for both old and new email, we'll update old wblist entries
-						$tmp_wblist = $app->db->queryAllRecords("SELECT wblist_id FROM spamfilter_users WHERE rid = ?", $tmp_olduser['id']);
-						foreach ($tmp_wblist as $tmp) {
-							$app->db->datalogUpdate('spamfilter_wblist', array('rid' => $tmp_newuser['id']), 'wblist_id', $tmp['wblist_id']);
-						}
 
-						// now delete old spamfilter_users entry
-						$app->db->datalogDelete('spamfilter_users', 'id', $tmp_olduser['id']);
-					} else {
-						$update_data = array(
-							'email' => $this->dataRecord['email'],
-							'policy_id' => $policy_id,
-						);
-						if($tmp_olduser['fullname'] == $app->functions->idn_decode($this->oldDataRecord["email"])) {
-							$update_data['fullname'] = $app->functions->idn_decode($this->dataRecord["email"]);
-						}
-						$app->db->datalogUpdate('spamfilter_users', $update_data, 'id', $tmp_olduser['id']);
-						$skip_spamfilter_users_update = true;
+			//** Update spamfilter_users and spamfilter_wblist
+			$skip_spamfilter_users_update = false;
+			$tmp_olduser = $app->db->queryOneRecord("SELECT id,fullname FROM spamfilter_users WHERE email = ?", $this->oldDataRecord['email']);
+			if($tmp_olduser["id"] > 0) {
+				$tmp_newuser = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = ?", $this->dataRecord['email']);
+				if($tmp_newuser['id'] > 0) {
+					// There is a spamfilter_users for both old and new email, we'll update old wblist entries
+					$update_date = array('rid' => $tmp_newuser['id']);
+					if (isset($domain['sys_groupid'])) {
+						$update_data['sys_groupid'] = $domain['sys_groupid'];
 					}
+					$tmp_wblist = $app->db->queryAllRecords("SELECT wblist_id FROM spamfilter_users WHERE rid = ?", $tmp_olduser['id']);
+					foreach ($tmp_wblist as $tmp) {
+						$app->db->datalogUpdate('spamfilter_wblist', $update_data, 'wblist_id', $tmp['wblist_id']);
+					}
+
+					// now delete old spamfilter_users entry
+					$app->db->datalogDelete('spamfilter_users', 'id', $tmp_olduser['id']);
+				} else {
+					$update_data = array(
+						'email' => $this->dataRecord['email'],
+						'policy_id' => $policy_id,
+					);
+					if (isset($domain['sys_groupid'])) {
+						$update_data['sys_groupid'] = $domain['sys_groupid'];
+					}
+					if($tmp_olduser['fullname'] == $app->functions->idn_decode($this->oldDataRecord['email'])) {
+						$update_data['fullname'] = $app->functions->idn_decode($this->dataRecord['email']);
+					}
+					$app->db->datalogUpdate('spamfilter_users', $update_data, 'id', $tmp_olduser['id']);
+					$skip_spamfilter_users_update = true;
 				}
 			}
 
-			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = ?", $this->dataRecord["email"]);
+			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = ?", $this->dataRecord['email']);
 			if($policy_id > 0) {
 				if($tmp_user["id"] > 0) {
 					// There is already a record that we will update
 					if(!$skip_spamfilter_users_update) {
-						$app->db->datalogUpdate('spamfilter_users', array("policy_id" => $policy_id), 'id', $tmp_user["id"]);
+						$update_data = array(
+							'policy_id' => $policy_id,
+						);
+						if (isset($domain['sys_groupid'])) {
+							$update_data['sys_groupid'] = $domain['sys_groupid'];
+						}
+						$app->db->datalogUpdate('spamfilter_users', $update_data, 'id', $tmp_user['id']);
 					}
 				} else {
 					// We create a new record
@@ -390,27 +417,19 @@ class page_action extends tform_actions {
 					$app->db->datalogDelete('spamfilter_users', 'id', $tmp_user["id"]);
 				}
 			} // endif spamfilter policy
-		}
 
-		// Set the fields for dovecot
-		if(isset($this->dataRecord["email"])) {
-			$disableimap = (isset($this->dataRecord["disableimap"]) && $this->dataRecord["disableimap"])?'y':'n';
-			$disablepop3 = (isset($this->dataRecord["disablepop3"]) && $this->dataRecord["disablepop3"])?'y':'n';
-			$disablesmtp = (isset($this->dataRecord["disablesmtp"]) && $this->dataRecord["disablesmtp"])?'y':'n';
-			$disabledeliver = (isset($this->dataRecord["disabledeliver"]) && $this->dataRecord["disabledeliver"])?'y':'n';
-
-			$sql = "UPDATE mail_user SET disableimap = ?, disablesieve = ?, `disablesieve-filter` = ?, disablepop3 = ?, disablesmtp = ?, disabledeliver = ?, disablelda = ?, disablelmtp = ? WHERE mailuser_id = ?";
-			$app->db->query($sql, $disableimap, $disableimap, $disableimap, $disablepop3, $disablesmtp, $disabledeliver, $disabledeliver, $disabledeliver, $this->id);
-		}
-
-		//** If the email address has been changed, change it in all aliases too
-		if(isset($this->dataRecord['email']) && $this->oldDataRecord['email'] != $this->dataRecord['email']) {
 			//* Update the aliases
 			$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE destination = ?", $this->oldDataRecord['email']);
 			if(is_array($forwardings)) {
 				foreach($forwardings as $rec) {
 					$destination = $this->dataRecord['email'];
-					$app->db->datalogUpdate('mail_forwarding', array("destination" => $destination), 'forwarding_id', $rec['forwarding_id']);
+					$update_data = array(
+						'destination' => $destination,
+					);
+					if (isset($domain['sys_groupid'])) {
+						$update_data['sys_groupid'] = $domain['sys_groupid'];
+					}
+					$app->db->datalogUpdate('mail_forwarding', $update_data, 'forwarding_id', $rec['forwarding_id']);
 				}
 			}
 
