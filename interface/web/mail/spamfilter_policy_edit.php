@@ -113,16 +113,9 @@ class page_action extends tform_actions {
 					// check if this is an email domain
 					if(substr($spamfilter_user['email'],0,1) == '@') {
 						$domain = substr($spamfilter_user['email'],1);
-						$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE source LIKE ? OR destination LIKE ?", "%@" . $domain, "%@" . $domain);
 
-						// Force-update aliases and forwards
-						if(is_array($forwardings)) {
-							foreach($forwardings as $rec) {
-								$app->db->datalogUpdate('mail_forwarding', array("source" => $rec['source']), 'forwarding_id', $rec['forwarding_id'],true);
-							}
-						}
+						// Nothing special to do for a domain
 					}
-
 				}
 			}
 		}

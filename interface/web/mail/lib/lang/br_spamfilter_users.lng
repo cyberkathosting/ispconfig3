@@ -10,3 +10,4 @@ $wb['fullname_error_notempty'] = 'Nome está vazio.';
 $wb['10 - highest'] = '10 - alta';
 $wb['5 - medium'] = '5 - média';
 $wb['1 - lowest'] = '1 - baixa';
+$wb['inherit_policy'] = '- Herdar configuração de domínio -';

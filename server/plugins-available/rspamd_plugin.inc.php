@@ -243,17 +243,7 @@ class rspamd_plugin {
 		$settings_file = $this->users_config_dir . str_replace('@', '_', $settings_name) . '.conf';
 		//$app->log('Settings file for rspamd is ' . $settings_file, LOGLEVEL_WARN);
 		if($mode === 'delete') {
-			$delete_file = true;
-			if($type === 'spamfilter_user') {
-				$search_for_policy[] = $email_address;
-				$search_for_policy[] = substr($email_address, strpos($email_address, '@'));
-
-				$policy = $app->db->queryOneRecord("SELECT p.* FROM spamfilter_users as u INNER JOIN spamfilter_policy as p ON (p.id = u.policy_id) WHERE u.server_id = ? AND u.email IN ? ORDER BY u.priority DESC", $conf['server_id'], $search_for_policy);
-				if($policy) {
-					$delete_file = false;
-				}
-			}
-			if($delete_file === true && is_file($settings_file)) {
+			if(is_file($settings_file)) {
 				unlink($settings_file);
 			}
 		} else {
@@ -265,7 +255,12 @@ class rspamd_plugin {
 
 			// get policy for entry
 			if($type === 'spamfilter_user') {
-				$policy = $app->db->queryOneRecord("SELECT * FROM spamfilter_policy WHERE id = ?", intval($data['new']['policy_id']));
+				if (intval($data['new']['policy_id']) > 0) {
+					$policy = $app->db->queryOneRecord("SELECT * FROM spamfilter_policy WHERE id = ?", intval($data['new']['policy_id']));
+				} else {
+					$domain = substr($data['new']['email'], strpos($data['new']['email'], '@'));
+					$policy = $app->db->queryOneRecord("SELECT p.* FROM spamfilter_users as u INNER JOIN spamfilter_policy as p ON (p.id = u.policy_id) WHERE u.server_id = ? AND u.email = ?", $conf['server_id'], $domain);
+				}
 
 				$check = $app->db->queryOneRecord('SELECT `greylisting` FROM `mail_user` WHERE `server_id` = ? AND `email` = ? UNION SELECT `greylisting` FROM `mail_forwarding` WHERE `server_id` = ? AND `source` = ? ORDER BY (`greylisting` = ?) DESC', $conf['server_id'], $email_address, $conf['server_id'], $email_address, 'y');
 				if($check) {
@@ -286,7 +281,7 @@ class rspamd_plugin {
 				$app->system->mkdirpath($this->users_config_dir);
 			}
 
-			if(!$this->isValidEmail($app->functions->idn_encode($email_address))) {
+			if((!$this->isValidEmail($app->functions->idn_encode($email_address))) || intval($data['new']['policy_id']) == 0) {
 				if(is_file($settings_file)) {
 					unlink($settings_file);
 				}
@@ -310,11 +305,13 @@ class rspamd_plugin {
 					} else {
 						$tpl->setVar('from_email', $app->functions->idn_encode($email_address));
 					}
+					// unneded? $spamfilter appears unused
 					$spamfilter = $data[$use_data];
 				} else {
 					$tpl->setVar('to_email', $app->functions->idn_encode($email_address));
 
 					// need to get matching spamfilter user if any
+					// unneded? $spamfilter appears unused
 					$spamfilter = $app->db->queryOneRecord('SELECT * FROM spamfilter_users WHERE `email` = ?', $email_address);
 				}
 
@@ -399,6 +396,7 @@ class rspamd_plugin {
 			} else {
 				$record_id = intval($data['new']['wblist_id']);
 				$wblist_file = $this->users_config_dir.'spamfilter_wblist_'.$record_id.'.conf';
+
 				$tmp = $app->db->queryOneRecord("SELECT email FROM spamfilter_users WHERE id = ?", intval($data['new']['rid']));
 				if($tmp && !empty($tmp)) {
 					$filter = array(

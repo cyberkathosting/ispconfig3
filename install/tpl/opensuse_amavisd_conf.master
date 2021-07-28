@@ -746,7 +746,8 @@ $banned_filename_re = new_RE(
 $sql_select_policy =
    'SELECT *,spamfilter_users.id'.
    ' FROM spamfilter_users LEFT JOIN spamfilter_policy ON spamfilter_users.policy_id=spamfilter_policy.id'.
-   ' WHERE spamfilter_users.email IN (%k) ORDER BY spamfilter_users.priority DESC';
+   ' WHERE spamfilter_users.email IN (%k) AND spamfilter_users.policy_id != 0'.
+   ' ORDER BY spamfilter_users.priority DESC';
 
 
 $sql_select_white_black_list = 'SELECT wb FROM spamfilter_wblist'.

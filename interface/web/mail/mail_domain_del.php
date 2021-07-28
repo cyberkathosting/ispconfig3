@@ -80,6 +80,10 @@ class page_action extends tform_actions {
 		// Delete all spamfilters that belong to this domain
 		$records = $app->db->queryAllRecords("SELECT id FROM spamfilter_users WHERE email like ?", '%@' . $domain);
 		foreach($records as $rec) {
+			$wblists = $app->db->queryAllRecords("SELECT wblist_id FROM spamfilter_wblist WHERE rid = ?", $rec['id']);
+			foreach($wblists as $wblist) {
+				$app->db->datalogDelete('spamfilter_wblist', 'wblist_id', $wblist['wblist_id']);
+			}
 			$app->db->datalogDelete('spamfilter_users', 'id', $rec['id']);
 		}
 

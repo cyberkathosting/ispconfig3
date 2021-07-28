@@ -663,7 +663,7 @@ class remoting_mail extends remoting {
 		return $app->remoting_lib->getDataRecord($primary_id);
 	}
 
-	//* biała lista e-mail
+	//* add spamfilter whitelist entry
 	public function mail_spamfilter_whitelist_add($session_id, $client_id, $params)
 	{
 		if (!$this->checkPerm($session_id, 'mail_spamfilter_whitelist_add'))
@@ -763,7 +763,7 @@ class remoting_mail extends remoting {
 		return $app->remoting_lib->getDataRecord($primary_id);
 	}
 
-	//* filtr spamu użytkowników e-mail
+	//* Add new spamfilter_users
 	public function mail_spamfilter_user_add($session_id, $client_id, $params)
 	{
 		if (!$this->checkPerm($session_id, 'mail_spamfilter_user_add'))

@@ -364,7 +364,7 @@ class mail_plugin {
 				$app->log('Moved invalid maildir to corrupted Maildirs folder: '.$data['new']['maildir'], LOGLEVEL_WARN);
 			}
 
-			//* Create the maildir, if it doesn not exist, set permissions, set quota.
+			//* Create the maildir, if it does not exist, set permissions, set quota.
 			if(!empty($maildomain_path) && !is_dir($maildomain_path.'/new')) {
 				$app->system->maildirmake($maildomain_path, $user, '', $group);
 
