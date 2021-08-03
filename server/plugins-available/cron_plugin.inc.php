@@ -184,12 +184,14 @@ class cron_plugin {
 
 		if(!$parent_domain) {
 			$tmp = $app->db->queryOneRecord('SELECT * FROM sys_datalog WHERE dbtable = ? AND dbidx = ? AND `action` = ? ORDER BY `datalog_id` DESC', 'web_domain', 'domain_id:' . $data['old']['parent_domain_id'], 'd');
-			$tmp = unserialize($tmp);
-			if($tmp && isset($tmp['old'])) {
-				$this->parent_domain = $tmp['old'];
-			} else {
-				$app->log("Parent domain not found", LOGLEVEL_WARN);
-				return 0;
+			if(is_array($tmp) && isset($tmp['data']) && strlen($tmp['data']) > 0) {
+				$tmp = unserialize($tmp['data']);
+				if($tmp && isset($tmp['old'])) {
+					$this->parent_domain = $tmp['old'];
+				} else {
+					$app->log("Parent domain not found", LOGLEVEL_WARN);
+					return 0;
+				}
 			}
 		} else {
 			$this->parent_domain = $parent_domain;
