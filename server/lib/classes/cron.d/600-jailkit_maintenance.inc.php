@@ -34,22 +34,6 @@ class cronjob_jailkit_maintenance extends cronjob {
 	protected $_schedule = '*/5 * * * *';
 	protected $_run_at_new = true;
 
-	//private $_tools = null;
-
-	/* this function is optional if it contains no custom code */
-	public function onPrepare() {
-		global $app;
-
-		parent::onPrepare();
-	}
-
-	/* this function is optional if it contains no custom code */
-	public function onBeforeRun() {
-		global $app;
-
-		return parent::onBeforeRun();
-	}
-
 	public function onRunJob() {
 		global $app, $conf;
 
@@ -64,6 +48,18 @@ class cronjob_jailkit_maintenance extends cronjob {
 			}
 		} else {
 			$options = array('allow_hardlink');
+		}
+
+		// force all jails to update every 2 weeks
+		if (! is_file('/usr/local/ispconfig/server/temp/jailkit_force_update.ts')) {
+			if(!@is_dir('/usr/local/ispconfig/server/temp')) {
+				$app->system->mkdirpath('/usr/local/ispconfig/server/temp');
+			}
+			$app->system->touch('/usr/local/ispconfig/server/temp/jailkit_force_update.ts');
+		} elseif ( time() - filemtime('/usr/local/ispconfig/server/temp/jailkit_force_update.ts') > 60 * 60 * 24 * 14 ) {
+			$update_hash = 'force_update'.time();
+			$app->db->query("UPDATE web_domain SET last_jailkit_hash = ? WHERE type = 'vhost' AND server_id = ?", $update_hash, $conf['server_id']);
+			$app->system->touch('/usr/local/ispconfig/server/temp/jailkit_force_update.ts');
 		}
 
 		// limit the number of jails we update at one time according to time of day
@@ -111,12 +107,12 @@ class cronjob_jailkit_maintenance extends cronjob {
 				sort($last_updated, SORT_STRING);
 				$update_hash = hash('md5', implode(' ', $last_updated));
 
-				if (is_file( $rec['document_root']."/bin/bash" )) {
+				if (substr($rec['last_jailkit_hash'], 0, strlen('force_update')) === 'force_update') {
+					$options[] = 'force';
+				} elseif (is_file( $rec['document_root']."/bin/bash" )) {
 					# test that /bin/bash functions in the jail
-print "chroot --userspec ".$rec['system_user'].":".$rec['system_group']." ".$rec['document_root']." /bin/bash -c true 2>/dev/null\n";
 					$app->system->exec_safe("chroot --userspec ?:? ? /bin/bash -c true 2>/dev/null", $rec['system_user'], $rec['system_group'], $rec['document_root']);
 					if ($app->system->last_exec_retcode()) {  # return 0 means success
-print "/bin/bash test failed, forcing update\n";
 						$options[] = 'force';
 						# bogus hash will not match, triggering an update
 						$update_hash = 'force_update'.time();
@@ -145,11 +141,6 @@ print "/bin/bash test failed, forcing update\n";
 		}
 
 		parent::onRunJob();
-	}
-
-	/* this function is optional if it contains no custom code */
-	public function onAfterRun() {
-		parent::onAfterRun();
 	}
 
 }
