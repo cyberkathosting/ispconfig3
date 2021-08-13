@@ -126,7 +126,7 @@ class cronjob_backup_mail extends cronjob {
 						if ($rec['maildir_format'] == 'mdbox') {
 							if (empty($this->tmp_backup_dir)) $this->tmp_backup_dir = $rec['maildir'];
 							// Create temporary backup-mailbox
-							$app->system->exec_safe("su -c ?", 'dsync backup -u "'.$rec["email"].'" mdbox:' . $this->tmp_backup_dir . '/backup');
+							$app->system->exec_safe("su -c ?", 'dsync backup -o plugin/acl= -o plugin/quota= -u "'.$rec["email"].'" mdbox:' . $this->tmp_backup_dir . '/backup');
 		
 							if($backup_mode == 'userzip') {
 								$mail_backup_file.='.zip';
