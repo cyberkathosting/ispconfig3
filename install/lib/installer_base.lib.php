@@ -1861,7 +1861,7 @@ class installer_base {
 		# local.d templates with template tags
 		# note: ensure these template files are in server/conf/ and symlinked in install/tpl/
 		$local_d = array(
-			'dkim_signing.conf',
+			'dkim_signing.conf',	# dkim_signing.conf no longer uses template tags, could move below
 			'options.inc',
 			'redis.conf',
 			'classifier-bayes.conf',
@@ -1897,6 +1897,7 @@ class installer_base {
 			'neural_group.conf',
 			'users.conf',
 			'groups.conf',
+			'arc.conf',
 		);
 		foreach ($local_d as $f) {
 			if(file_exists($conf['ispconfig_install_dir']."/server/conf-custom/install/rspamd_${f}.master")) {
