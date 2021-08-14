@@ -131,7 +131,7 @@ $form["tabs"]['server'] = array(
 			'validators' => array(	0 => array('type' => 'NOTEMPTY',
 												'errmsg' => 'hostname_error_empty'),
 									1 => array ('type' => 'REGEX',
-												'regex' => '/^[\w\.\-]{2,255}\.[a-zA-Z0-9\-]{2,63}$/',
+												'regex' => '/^[\w\.\-]{1,255}\.[a-zA-Z0-9\-]{2,63}$/',
 												'errmsg'=> 'hostname_error_regex'),
 			),
 			'value' => '',

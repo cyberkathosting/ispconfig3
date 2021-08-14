@@ -87,7 +87,7 @@ $form["tabs"]['mailinglist'] = array (
 			'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
 					'errmsg'=> 'domain_error_empty'),
 				1 => array ( 'type' => 'REGEX',
-					'regex' => '/^[\w\.\-]{2,255}\.[a-zA-Z\-]{2,10}$/',
+					'regex' => '/^[\w\.\-]{1,255}\.[a-zA-Z\-]{2,10}$/',
 					'errmsg'=> 'domain_error_regex'),
 			),
 			'default' => '',
