@@ -296,7 +296,7 @@ class page_action extends tform_actions {
 				"sys_perm_group" => 'riud',
 				"sys_perm_other" => '',
 				"server_id" => $domain["server_id"],
-				"priority" => 5,
+				"priority" => 7,
 				"policy_id" => $policy_id,
 				"email" => $this->dataRecord["email"],
 				"fullname" => $app->functions->idn_decode($this->dataRecord["email"]),

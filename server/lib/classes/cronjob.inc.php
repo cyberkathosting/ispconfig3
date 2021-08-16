@@ -198,19 +198,26 @@ class cronjob {
 	}
 
 	// child classes may NOT override this!
-	protected function restartService($service, $mode='restart') {
+	protected function restartService($service, $action='restart') {
 		global $app;
 
-		$mode = ($mode == 'reload' ? 'reload' : 'restart');
-		$app->system->exec_safe('service ? ?', $service, $mode);
+		$app->uses('system');
+
+		$retval = array('output' => '', 'retval' => 0);
+		if($action == 'reload') {
+			exec($app->system->getinitcommand($service, 'reload').' 2>&1', $retval['output'], $retval['retval']);
+		} else {
+			exec($app->system->getinitcommand($service, 'restart').' 2>&1', $retval['output'], $retval['retval']);
+		}
+		return $retval;
 	}
 
 	// child classes may NOT override this!
-	protected function restartServiceDelayed($service, $mode='restart') {
-		$mode = ($mode == 'reload' ? 'reload' : 'restart');
+	protected function restartServiceDelayed($service, $action='restart') {
+		$action = ($action == 'reload' ? 'reload' : 'restart');
 
 		if (is_array($this->_delayed_restart_services)) {
-			$this->_delayed_restart_services[$service] = $mode;
+			$this->_delayed_restart_services[$service] = $action;
 		}
 	}
 
