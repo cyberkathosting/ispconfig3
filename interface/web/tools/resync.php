@@ -93,34 +93,34 @@ class page_action extends tform_actions {
 
 		if($type == 'mail') {
 			$server_data = array (
-    			'mail_domain' => array (
-        			'index_field' => 'domain_id',
-        			'server_type' => 'mail',
+				'mail_domain' => array (
+					'index_field' => 'domain_id',
+					'server_type' => 'mail',
 					'server_id' => $server_id,
-    			),
+				),
 				'mail_get' => array (
 					'index_field' =>  'mailget_id',
 					'server_type' => 'mail',
 					'server_id' => $server_id,
 				),
-    			'mail_mailinglist' => array (
-        			'index_field' =>  'mailinglist_id',
-        			'server_type' => 'mail',
-					'server_id' => $server_id,
-    			),
-    			'mail_user' => array (
-        			'index_field' =>  'mailuser_id',
-        			'server_type' => 'mail',
+				'mail_mailinglist' => array (
+					'index_field' =>  'mailinglist_id',
+					'server_type' => 'mail',
 					'server_id' => $server_id,
 				),
-    			'mail_transport' => array (
-        			'index_field' =>  'transport_id',
-        			'server_type' => 'mail',
+				'mail_user' => array (
+					'index_field' =>  'mailuser_id',
+					'server_type' => 'mail',
 					'server_id' => $server_id,
 				),
-    			'mail_relay' => array (
-        			'index_field' =>  'relay_recipient_id',
-        			'server_type' => 'mail',
+				'mail_transport' => array (
+					'index_field' =>  'transport_id',
+					'server_type' => 'mail',
+					'server_id' => $server_id,
+				),
+				'mail_relay' => array (
+					'index_field' =>  'relay_recipient_id',
+					'server_type' => 'mail',
 					'server_id' => $server_id,
 				),
 			);
@@ -129,17 +129,17 @@ class page_action extends tform_actions {
 			$server_data = array (
 				'mail_access' => array (
 					'index_field' => 'access_id',
-        			'server_type' => 'mail',
+					'server_type' => 'mail',
 					'server_id' => $server_id,
-    			),
+				),
 				'mail_content_filter' => array (
 					'index_field' => 'content_filter_id',
-        			'server_type' => 'mail',
-    			),
+					'server_type' => 'mail',
+				),
 				'mail_user_filter' => array (
 					'index_field' => 'filter_id',
-        			'server_type' => 'mail',
-    			),
+					'server_type' => 'mail',
+				),
 				'spamfilter_policy' => array (
 					'index_field' => 'id',
 					'server_type' => 'mail',
@@ -158,26 +158,26 @@ class page_action extends tform_actions {
 		}
 		if($type == 'web'  ) {
 			$server_data = array (
-    			'web_domain' => array (
-        			'index_field' => 'domain_id',
-        			'server_type' => 'web',
+				'web_domain' => array (
+					'index_field' => 'domain_id',
+					'server_type' => 'web',
 					'server_id' => $server_id,
-    			),
-    			'shell_user' => array (
-        			'index_field' => 'shell_user_id',
-        			'server_type' => 'web',
+				),
+				'shell_user' => array (
+					'index_field' => 'shell_user_id',
+					'server_type' => 'web',
 					'server_id' => $server_id,
-    			),
-    			'cron' => array (
-        			'index_field' => 'id',
-        			'server_type' => 'cron',
+				),
+				'cron' => array (
+					'index_field' => 'id',
+					'server_type' => 'cron',
 					'server_id' => $server_id,
-    			),
-    			'ftp_user' => array (
-        			'index_field' => 'ftp_user_id',
-        			'server_type' => 'web',
+				),
+				'ftp_user' => array (
+					'index_field' => 'ftp_user_id',
+					'server_type' => 'web',
 					'server_id' => $server_id,
-    			),
+				),
 			);
 		}
 		if($type == 'dns' ) {
@@ -191,11 +191,11 @@ class page_action extends tform_actions {
 		}
 		if($type == 'file' ) {
 			$server_data = array (
-    			'webdav_user' => array (
-        			'index_field' => 'webdav_user_id',
-        			'server_type' => 'file',
+				'webdav_user' => array (
+					'index_field' => 'webdav_user_id',
+					'server_type' => 'file',
 					'server_id' => $server_id,
-    			),
+				),
 			);
 		}
 		if($type == 'db' ) {

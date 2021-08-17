@@ -69,7 +69,8 @@ class page_action extends tform_actions {
 		'mail_user' => 'email', 
 		'mail_user_filter' => '', 
 		'shell_user' => 'username', 
-		'spamfilter_users' => '', 'spamfilter_wblist' => '',
+		'spamfilter_users' => '',
+		'spamfilter_wblist' => '',
 		'support_message' => '',
 		'web_domain' => 'domain', 
 		'web_folder' => 'path', 
@@ -208,6 +209,5 @@ class page_action extends tform_actions {
 }
 
 $page = new page_action;
-$page->onDelete()
+$page->onDelete();
 
-?>

@@ -10,4 +10,4 @@ $wb['fullname_error_notempty'] = 'Имя не может быть пустым.'
 $wb['10 - highest'] = '10 - сильный';
 $wb['5 - medium'] = '5 - средний';
 $wb['1 - lowest'] = '1 - слабый';
-?>
+$wb['inherit_policy'] = '- Inherit domain setting -';

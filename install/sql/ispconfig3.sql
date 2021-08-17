@@ -1545,7 +1545,7 @@ CREATE TABLE `spamfilter_users` (
   `sys_perm_other` varchar(5) NOT NULL DEFAULT '',
   `server_id` int(11) unsigned NOT NULL DEFAULT '0',
   `priority` tinyint(3) unsigned NOT NULL default '7',
-  `policy_id` int(11) unsigned NOT NULL default '1',
+  `policy_id` int(11) unsigned NOT NULL default '0',
   `email` varchar(255) NOT NULL DEFAULT '',
   `fullname` varchar(64) default NULL,
   `local` varchar(1) default NULL,

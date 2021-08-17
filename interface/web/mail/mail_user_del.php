@@ -65,6 +65,8 @@ class page_action extends tform_actions {
 		}
 		$app->db->datalogDelete('spamfilter_users', 'id', $tmp_user["id"]);
 
+		// delete mail_forwardings with destination == email ?
+
 		$tmp_filters = $app->db->queryAllRecords("SELECT filter_id FROM mail_user_filter WHERE mailuser_id = ?", $this->id);
 		if(is_array($tmp_filters)) {
 			foreach($tmp_filters as $tmp) {

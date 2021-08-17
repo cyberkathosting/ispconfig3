@@ -10,4 +10,4 @@ $wb['fullname_error_notempty'] = 'Navn må ikke være tomt.';
 $wb['10 - highest'] = '10 - højeste';
 $wb['5 - medium'] = '5 - medium';
 $wb['1 - lowest'] = '1 - laveste';
-?>
+$wb['inherit_policy'] = '- Inherit domain setting -';
