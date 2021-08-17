@@ -17,6 +17,7 @@ syntax:lint:
     - schedules
     - web
     - merge_requests
+    - /^\d+\.\d+\.\d+$/
 
   script:
     - echo "Syntax checking PHP files"
@@ -31,6 +32,12 @@ syntax_diff:lint:
     - web
     - pushes
     - branches
+
+  except:
+    - schedules
+    - web
+    - merge_requests
+    - /^\d+\.\d+\.\d+$/
 
   script:
     - echo "Syntax checking PHP files"
@@ -52,19 +59,22 @@ syntax_diff:lint:
 #    - vendor/bin/phplint
 
 
-test:install:
-  stage: test
-  image: jerob/docker-ispconfig
-  only:
-    - schedules
-    - web
-  script:
-    - $CI_PROJECT_DIR/helper_scripts/test_install_docker.sh
-    - apt-get update
-    - apt-get --yes install curl
-    - curl --insecure https://127.0.0.1:8080/login/
-    - ps xaf
-
+#test:install:
+#  stage: test
+#  image: jerob/docker-ispconfig
+#  only:
+#    - schedules
+#    - web
+#    - /^\d+\.\d+\.\d+$/
+#  
+#  script:
+#    - $CI_PROJECT_DIR/helper_scripts/test_install_docker.sh
+#    - apt-get update
+#    - apt-get --yes install curl
+#    - curl --insecure https://127.0.0.1:8080/login/
+#    - ps xaf
+#    
+#  needs: ["syntax:lint"]
 
 build:package:
     stage: build
@@ -72,13 +82,23 @@ build:package:
     only:
         refs:
             - /^\d+\.\d+\.\d+$/
-    except:
-        - branches
-        - merge_requests
-        - schedules
-        - pushes
+            - web
+
     script:
         - echo "Building release."
+        - if [[ "$VER" == "" ]] ; then VER="$CI_COMMIT_TAG" ; fi
+        - if [[ "$VER" == "" ]] ; then VER="3.2dev"$(date +%s) ; fi
+        - if [[ "$VER" != "" ]] ; then echo "Replacing 3.2dev by $VER" ; sed -i -r 's/3\.2dev/'${VER}'/g' install/tpl/config.inc.php.master install/sql/ispconfig3.sql ; fi
+        - RET=0
+        - tar -cpzf ISPConfig-${VER}.tar.gz --exclude "ISPConfig-${VER}.tar.gz" --exclude ".git*" --exclude ".phplint.yml" --transform 's,^\./,ispconfig3_install/,' . || RET=$?
+        - if [[ $RET > 1 ]] ; then exit $RET ; fi
+        - echo "Listing tar contents for verification"
+        - tar -tvf ISPConfig-${VER}.tar.gz
+        - echo "Uploading file to download server"
+        - curl -u "${DEPLOY_FTP_USER}:${DEPLOY_FTP_PASSWORD}" -T ISPConfig-${VER}.tar.gz ftp://${DEPLOY_FTP_SERVER}/web/
+        - if [[ "$VER" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] ; then echo "Stable release ${VER}" ; curl -u "${DEPLOY_FTP_USER}:${DEPLOY_FTP_PASSWORD}" -T ISPConfig-${VER}.tar.gz ftp://${DEPLOY_FTP_SERVER}/web/ISPConfig-3-stable.tar.gz ; echo -n "${VER}" > ispconfig3_version.txt ; curl -u "${DEPLOY_FTP_USER}:${DEPLOY_FTP_PASSWORD}" -T ispconfig3_version.txt ftp://${DEPLOY_FTP_SERVER}/web/ ; else echo "Dev release ${VER}" ; fi
+        - rm ISPConfig-${VER}.tar.gz
+        - echo "Download url is https://download.ispconfig.org/ISPConfig-${VER}.tar.gz"
         
-    when: manual
+    needs: ["syntax:lint"]
     allow_failure: false
