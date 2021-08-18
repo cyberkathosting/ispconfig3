@@ -54,7 +54,11 @@ class webserver_plugin {
 		global $app;
 
 		$app->plugins->registerAction('server_plugins_loaded', $this->plugin_name, 'check_phpini_changes');
+
 		$app->plugins->registerEvent('server_update', $this->plugin_name, 'server_update');
+
+		$app->plugins->registerEvent('server_php_insert', $this->plugin_name, 'server_php_update');
+		$app->plugins->registerEvent('server_php_update', $this->plugin_name, 'server_php_update');
 	}
 
 	/**
@@ -185,6 +189,36 @@ class webserver_plugin {
 	}
 
 	/**
+	 * The method runs each php.ini file through verify_php_ini()
+	 */
+	function server_php_update($event_name, $data) {
+		global $app, $conf;
+
+		if(isset($data['new']['php_fastcgi_ini_dir'])) {
+			$php_ini = $data['new']['php_fastcgi_ini_dir'] . '/php.ini';
+			if(file_exists($php_ini)) {
+				$this->verify_php_ini(array('file' => $php_ini,
+					'mode' => 'fast-cgi',
+					'php_version' => $data['new']['server_php_id'])
+				);
+			} else {
+				$app->log("Cannot verify php.ini, file not found: $php_ini", LOGLEVEL_WARN);
+			}
+		}
+		if(isset($data['new']['php_fpm_ini_dir'])) {
+			$php_ini = $data['new']['php_fpm_ini_dir'] . '/php.ini';
+			if(file_exists($php_ini)) {
+				$this->verify_php_ini(array('file' => $php_ini,
+					'mode' => 'php-fpm',
+					'php_version' => $data['new']['server_php_id'])
+				);
+			} else {
+				$app->log("Cannot verify php.ini, file not found: $php_ini", LOGLEVEL_WARN);
+			}
+		}
+	}
+
+	/**
 	 * The method checks/sets needed php.ini settings
 	 */
 	public function verify_php_ini($file) {
@@ -281,7 +315,32 @@ class webserver_plugin {
 				}
 			}
 		}
+
+		$check_files = array();
+		if ($old['php_ini_path_apache'] != $new['php_ini_path_apache']) {
+			$check_files[] = array('file' => $new['php_ini_path_apache'],
+				'mode' => 'mod',
+				'php_version' => 0);
+		}
+
+		if ($old['fastcgi_phpini_path'] != $new['fastcgi_phpini_path']) {
+			$check_files[] = array('file' => $new['fastcgi_phpini_path'],
+				'mode' => 'fast-cgi',
+				'php_version' => 0);
+		}
+		if ($old['php_ini_path_cgi'] != $new['php_ini_path_cgi']) {
+			$check_files[] = array('file' => $new['php_ini_path_cgi'],
+				'mode' => 'fast-cgi',
+				'php_version' => 0);
+		}
+		if ($old['php_fpm_ini_path'] != $new['php_fpm_ini_path']) {
+			$check_files[] = array('file' => $web_config['php_fpm_ini_path'],
+				'mode' => 'php-fpm',
+				'php_version' => 0);
+		}
+		foreach ($check_files as $file) {
+			$this->verify_php_ini($file);
+		}
 	}
 }
 
-?>
