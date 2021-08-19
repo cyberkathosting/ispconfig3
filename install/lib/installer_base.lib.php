@@ -2792,7 +2792,6 @@ class installer_base {
 			$server_name = exec('hostname -f');
 		}
 
-		$reload_web_server = false;
 		$use_template = 'apache_acme.conf.master';
 		$use_symlink = '999-acme.conf';
 		$use_name = 'acme.conf';
@@ -2824,18 +2823,10 @@ class installer_base {
 
 		if(@is_link($vhost_conf_enabled_dir.'/' . $use_symlink)) {
 			unlink($vhost_conf_enabled_dir.'/' . $use_symlink);
-			$reload_web_server = true;
 		}
 		if(!@is_link($vhost_conf_enabled_dir.'/' . $use_symlink)) {
 			symlink($vhost_conf_dir.'/' . $use_name, $vhost_conf_enabled_dir.'/' . $use_symlink);
 		}
-
-		if($reload_web_server == true) {
-			if($conf['apache']['installed'] == true && $conf['apache']['init_script'] != '') system($this->getinitcommand($conf['apache']['init_script'], 'reload'));
-//* Reload is enough for nginx
-			if($conf['nginx']['installed'] == true && $conf['nginx']['php_fpm_init_script'] != '') system($this->getinitcommand($conf['nginx']['php_fpm_init_script'], 'reload'));
-		}
-
 	}
 
 	public function make_ispconfig_ssl_cert() {
@@ -3034,6 +3025,9 @@ class installer_base {
 
 				# acme.sh does not set umask, resulting in incorrect permissions (ispconfig issue #6015)
 				$old_umask = umask(0022);
+
+				// Switch from zerossl to letsencrypt CA
+				exec("$acme --set-default-ca  --server  letsencrypt");
 
 				$out = null;
 				$ret = null;
