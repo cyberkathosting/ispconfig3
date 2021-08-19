@@ -9,7 +9,7 @@ $wb['source_txt'] = 'Quell E-Mail Adresse';
 $wb['destination_error_empty'] = 'Das Weiterleitungsziel darf nicht leer sein.';
 $wb['destination_error_isemail'] = 'Das Weiterleitungsziel enthält mindestens eine ungültige E-Mail-Adresse.';
 $wb['email_error_isemail'] = 'Bitte geben Sie eine gültige E-Mail Adresse an.';
+$wb['email_error_unique'] = 'Doppelte E-Mail Adresse.';
 $wb['send_as_txt'] = 'Senden als';
 $wb['send_as_exp'] = 'Ziel erlauben, die Adresse als Absender zu nutzen (Nur, falls das Ziel intern ist)';
 $wb['greylisting_txt'] = 'Aktiviere greylisting';
-?>

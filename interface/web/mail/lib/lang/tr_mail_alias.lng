@@ -14,4 +14,3 @@ $wb['source_txt'] = 'Takma Ad';
 $wb['send_as_txt'] = 'Gönderen';
 $wb['send_as_exp'] = 'Hedef bu adresi kaynak olarak göstererek e-posta gönderebilsin';
 $wb['greylisting_txt'] = 'Gri Liste Kullanılsın';
-?>

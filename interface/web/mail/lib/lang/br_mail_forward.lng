@@ -9,6 +9,7 @@ $wb['source_txt'] = 'Endereço de email de origem';
 $wb['destination_error_empty'] = 'O endereço de email de destino não pode ficar vazio.';
 $wb['destination_error_isemail'] = 'O endereço de email de destino é inválido.';
 $wb['email_error_isemail'] = 'Por favor informe um endereço de email válido.';
+$wb['email_error_unique'] = 'Endereço de email duplicado.';
 $wb['send_as_txt'] = 'Enviar como';
 $wb['send_as_exp'] = 'Permitir o destino enviar emails usando este endereço como origem (se o destino for interno)';
 $wb['greylisting_txt'] = 'Habilitar greylist';

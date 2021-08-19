@@ -6,10 +6,10 @@ $wb['duplicate_mailbox_txt'] = 'Ya existe un buzón con esta cuenta de correo.';
 $wb['destination_error_empty'] = 'The destination must not be empty.';
 $wb['destination_error_isemail'] = 'The destination contains at least one invalid email address.';
 $wb['email_error_isemail'] = 'Por favor, introduzca una dirección de correo válida.';
+$wb['email_error_unique'] = 'Dirección de correo duplicada.';
 $wb['email_txt'] = 'Correo';
 $wb['greylisting_txt'] = 'Habilitar Lista Gris';
 $wb['limit_mailforward_txt'] = 'Ha alcanzado el número máx. de reenvíos de correos permitidos para su cuenta.';
 $wb['send_as_exp'] = 'Permitir al destino enviar correo usando esta dirección como origen (si el destino es interno)';
 $wb['send_as_txt'] = 'Enviar como';
 $wb['source_txt'] = 'Origen del correo';
-?>
