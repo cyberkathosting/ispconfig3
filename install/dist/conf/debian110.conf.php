@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2016, Till Brehm, ISPConfig UG
+Copyright (c) 2021, Till Brehm, ISPConfig UG
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -28,7 +28,7 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-//***  Debian Testing default settings
+//***  Debian 11 default settings
 
 //* Main
 $conf['language'] = 'en';
