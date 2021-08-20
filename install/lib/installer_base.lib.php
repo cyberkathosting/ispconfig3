@@ -2923,16 +2923,25 @@ class installer_base {
 			// This script is needed earlier to check and open http port 80 or standalone might fail
 			// Make executable and temporary symlink latest letsencrypt pre, post and renew hook script before install
 			if(file_exists(ISPC_INSTALL_ROOT . '/server/scripts/letsencrypt_pre_hook.sh') && !file_exists('/usr/local/bin/letsencrypt_pre_hook.sh')) {
+				if(is_link('/usr/local/bin/letsencrypt_pre_hook.sh')) {
+					unlink('/usr/local/bin/letsencrypt_pre_hook.sh');
+				}
 				symlink(ISPC_INSTALL_ROOT . '/server/scripts/letsencrypt_pre_hook.sh', '/usr/local/bin/letsencrypt_pre_hook.sh');
 				chown('/usr/local/bin/letsencrypt_pre_hook.sh', 'root');
 				chmod('/usr/local/bin/letsencrypt_pre_hook.sh', 0700);
 			}
 			if(file_exists(ISPC_INSTALL_ROOT . '/server/scripts/letsencrypt_post_hook.sh') && !file_exists('/usr/local/bin/letsencrypt_post_hook.sh')) {
+				if(is_link('/usr/local/bin/letsencrypt_post_hook.sh')) {
+					unlink('/usr/local/bin/letsencrypt_post_hook.sh');
+				}
 				symlink(ISPC_INSTALL_ROOT . '/server/scripts/letsencrypt_post_hook.sh', '/usr/local/bin/letsencrypt_post_hook.sh');
 				chown('/usr/local/bin/letsencrypt_post_hook.sh', 'root');
 				chmod('/usr/local/bin/letsencrypt_post_hook.sh', 0700);
 			}
 			if(file_exists(ISPC_INSTALL_ROOT . '/server/scripts/letsencrypt_renew_hook.sh') && !file_exists('/usr/local/bin/letsencrypt_renew_hook.sh')) {
+				if(is_link('/usr/local/bin/letsencrypt_renew_hook.sh')) {
+					unlink('/usr/local/bin/letsencrypt_renew_hook.sh');
+				}
 				symlink(ISPC_INSTALL_ROOT . '/server/scripts/letsencrypt_renew_hook.sh', '/usr/local/bin/letsencrypt_renew_hook.sh');
 				chown('/usr/local/bin/letsencrypt_renew_hook.sh', 'root');
 				chmod('/usr/local/bin/letsencrypt_renew_hook.sh', 0700);
