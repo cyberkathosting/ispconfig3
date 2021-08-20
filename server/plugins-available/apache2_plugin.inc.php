@@ -353,10 +353,10 @@ class apache2_plugin {
 			if(is_file($ssl_cnf_file) && !is_link($ssl_cnf_file)) {
 				$openssl_cmd = 'openssl req -nodes -newkey rsa:4096 -x509 -days ? -keyout ? -out ? -config ?';
 				$app->system->exec_safe($openssl_cmd, $ssl_days, $openssl_cmd_key_file, $openssl_cmd_crt_file, $config_file);
+				$app->system->exec_safe("openssl req -new -sha256 -key ? -out ? -days ? -config ?", $openssl_cmd_key_file, $openssl_cmd_csr_file, $ssl_days, $config_file);
 
 				if(file_exists($web_config['CA_path'].'/openssl.cnf'))
 				{
-					$app->system->exec_safe("openssl req -new -sha256 -key ? -out ? -days ? -config ?", $openssl_cmd_key_file, $openssl_cmd_csr_file, $ssl_days, $config_file);
 					$app->system->exec_safe("openssl ca -batch -out ? -config ? -passin pass:? -in ? -extfile ?", $openssl_cmd_crt_file, $web_config['CA_path']."/openssl.cnf", $web_config['CA_pass'], $openssl_cmd_csr_file, $ssl_ext_file);
 					$app->log("Creating CA-signed SSL Cert for: $domain", LOGLEVEL_DEBUG);
 					if(filesize($crt_file) == 0 || !file_exists($crt_file)) {
