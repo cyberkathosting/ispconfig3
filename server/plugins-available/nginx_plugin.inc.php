@@ -112,7 +112,6 @@ class nginx_plugin {
 		$ssl_dir = $data['new']['document_root'].'/ssl';
 		$domain = ($data['new']['ssl_domain'] != '') ? $data['new']['ssl_domain'] : $data['new']['domain'];
 		$key_file = $ssl_dir.'/'.$domain.'.key';
-		$key_file2 = $ssl_dir.'/'.$domain.'.key.org';
 		$csr_file = $ssl_dir.'/'.$domain.'.csr';
 		$crt_file = $ssl_dir.'/'.$domain.'.crt';
 
@@ -125,10 +124,6 @@ class nginx_plugin {
 			if(file_exists($key_file)){
 				$app->system->rename($key_file, $key_file.'.bak');
 				$app->system->chmod($key_file.'.bak', 0400);
-			}
-			if(file_exists($key_file2)){
-				$app->system->rename($key_file2, $key_file2.'.bak');
-				$app->system->chmod($key_file2.'.bak', 0400);
 			}
 			if(file_exists($csr_file)) $app->system->rename($csr_file, $csr_file.'.bak');
 			if(file_exists($crt_file)) $app->system->rename($crt_file, $crt_file.'.bak');
@@ -179,42 +174,35 @@ class nginx_plugin {
 			$ssl_ext_file = $ssl_dir.'/v3.ext';
 			$app->system->file_put_contents($ssl_ext_file, $ext_cnf);
 
-			$rand_file = $rand_file;
-			$key_file2 = $key_file2;
-			$openssl_cmd_key_file2 = $key_file2;
-			if(substr($domain, 0, 2) == '*.' && strpos($key_file2, '/ssl/\*.') !== false) $key_file2 = str_replace('/ssl/\*.', '/ssl/*.', $key_file2); // wildcard certificate
-			$key_file = $key_file;
 			$openssl_cmd_key_file = $key_file;
 			if(substr($domain, 0, 2) == '*.' && strpos($key_file, '/ssl/\*.') !== false) $key_file = str_replace('/ssl/\*.', '/ssl/*.', $key_file); // wildcard certificate
 			$ssl_days = 3650;
-			$csr_file = $csr_file;
 			$openssl_cmd_csr_file = $csr_file;
 			if(substr($domain, 0, 2) == '*.' && strpos($csr_file, '/ssl/\*.') !== false) $csr_file = str_replace('/ssl/\*.', '/ssl/*.', $csr_file); // wildcard certificate
 			$config_file = $ssl_cnf_file;
-			$crt_file = $crt_file;
 			$openssl_cmd_crt_file = $crt_file;
 			if(substr($domain, 0, 2) == '*.' && strpos($crt_file, '/ssl/\*.') !== false) $crt_file = str_replace('/ssl/\*.', '/ssl/*.', $crt_file); // wildcard certificate
 
 			if(is_file($ssl_cnf_file) && !is_link($ssl_cnf_file)) {
-
-				$app->system->exec_safe("openssl genrsa -des3 -rand ? -passout pass:? -out ? 2048", $rand_file, $ssl_password, $openssl_cmd_key_file2);
-				$app->system->exec_safe("openssl req -new -sha256 -passin pass:? -passout pass:? -key ? -out ? -days ? -config ?", $ssl_password, $ssl_password, $openssl_cmd_key_file2, $openssl_cmd_csr_file, $ssl_days, $config_file);
-				$app->system->exec_safe("openssl rsa -passin pass:? -in ? -out ?", $ssl_password, $openssl_cmd_key_file2, $openssl_cmd_key_file);
+				$openssl_cmd = 'openssl req -nodes -newkey rsa:4096 -x509 -days ? -keyout ? -out ? -config ?';
+				$app->system->exec_safe($openssl_cmd, $ssl_days, $openssl_cmd_key_file, $openssl_cmd_crt_file, $config_file);
+				$app->system->exec_safe("openssl req -new -sha256 -key ? -out ? -days ? -config ?", $openssl_cmd_key_file, $openssl_cmd_csr_file, $ssl_days, $config_file);
 
 				if(file_exists($web_config['CA_path'].'/openssl.cnf'))
 				{
 					$app->system->exec_safe("openssl ca -batch -out ? -config ? -passin pass:? -in ? -extfile ?", $openssl_cmd_crt_file, $web_config['CA_path']."/openssl.cnf", $web_config['CA_pass'], $openssl_cmd_csr_file, $ssl_ext_file);
 					$app->log("Creating CA-signed SSL Cert for: $domain", LOGLEVEL_DEBUG);
-					if (filesize($crt_file)==0 || !file_exists($crt_file)) $app->log("CA-Certificate signing failed.  openssl ca -out $openssl_cmd_crt_file -config ".$web_config['CA_path']."/openssl.cnf -passin pass:".$web_config['CA_pass']." -in $openssl_cmd_csr_file -extfile $ssl_ext_file", LOGLEVEL_ERROR);
-				};
+					if(filesize($crt_file) == 0 || !file_exists($crt_file)) {
+						$app->log("CA-Certificate signing failed.  openssl ca -out $openssl_cmd_crt_file -config " . $web_config['CA_path'] . "/openssl.cnf -passin pass:" . $web_config['CA_pass'] . " -in $openssl_cmd_csr_file -extfile $ssl_ext_file", LOGLEVEL_ERROR);
+					}
+				}
 				if (@filesize($crt_file)==0 || !file_exists($crt_file)){
-					$app->system->exec_safe("openssl req -x509 -passin pass:? -passout pass:? -key ? -in ? -out ? -days ? -config ?", $ssl_password, $ssl_password, $openssl_cmd_key_file2, $openssl_cmd_csr_file, $openssl_cmd_crt_file, $ssl_days, $config_file);
+					$app->system->exec_safe($openssl_cmd, $ssl_days, $openssl_cmd_key_file, $openssl_cmd_crt_file, $config_file);
 					$app->log("Creating self-signed SSL Cert for: $domain", LOGLEVEL_DEBUG);
-				};
+				}
 
 			}
 
-			$app->system->chmod($key_file2, 0400);
 			$app->system->chmod($key_file, 0400);
 			@$app->system->unlink($config_file);
 			@$app->system->unlink($rand_file);
@@ -276,10 +264,7 @@ class nginx_plugin {
 				$app->system->copy($key_file, $key_file.'~');
 				$app->system->chmod($key_file.'~', 0400);
 			}
-			if(file_exists($key_file2)){
-				$app->system->copy($key_file2, $key_file2.'~');
-				$app->system->chmod($key_file2.'~', 0400);
-			}
+
 			if(file_exists($csr_file)) $app->system->copy($csr_file, $csr_file.'~');
 			if(file_exists($crt_file)) $app->system->copy($crt_file, $crt_file.'~');
 
@@ -1377,7 +1362,6 @@ class nginx_plugin {
 		$tmp = $app->letsencrypt->get_website_certificate_paths($data);
 		$domain = $tmp['domain'];
 		$key_file = $tmp['key'];
-		$key_file2 = $tmp['key2'];
 		$csr_file = $tmp['csr'];
 		$crt_file = $tmp['crt'];
 		$bundle_file = $tmp['bundle'];
@@ -2080,8 +2064,7 @@ class nginx_plugin {
 
 					$ssl_dir = $data['new']['document_root'].'/ssl';
 					$domain = $data['new']['ssl_domain'];
-					$key_file = $ssl_dir.'/'.$domain.'.key.org';
-					$key_file2 = $ssl_dir.'/'.$domain.'.key';
+					$key_file = $ssl_dir.'/'.$domain.'.key';
 					$csr_file = $ssl_dir.'/'.$domain.'.csr';
 					$crt_file = $ssl_dir.'/'.$domain.'.crt';
 					//$bundle_file = $ssl_dir.'/'.$domain.'.bundle';
@@ -2091,17 +2074,12 @@ class nginx_plugin {
 						$app->system->copy($key_file, $key_file.'.err');
 						$app->system->chmod($key_file.'.err', 0400);
 					}
-					if(is_file($key_file2)){
-						$app->system->copy($key_file2, $key_file2.'.err');
-						$app->system->chmod($key_file2.'.err', 0400);
-					}
 					if(is_file($csr_file)) $app->system->copy($csr_file, $csr_file.'.err');
 					if(is_file($crt_file)) $app->system->copy($crt_file, $crt_file.'.err');
 					//if(is_file($bundle_file)) $app->system->copy($bundle_file,$bundle_file.'.err');
 
 					//* Restore the ~ backup files
 					if(is_file($key_file.'~')) $app->system->copy($key_file.'~', $key_file);
-					if(is_file($key_file2.'~')) $app->system->copy($key_file2.'~', $key_file2);
 					if(is_file($crt_file.'~')) $app->system->copy($crt_file.'~', $crt_file);
 					if(is_file($csr_file.'~')) $app->system->copy($csr_file.'~', $csr_file);
 					//if(is_file($bundle_file.'~')) $app->system->copy($bundle_file.'~',$bundle_file);
@@ -2121,7 +2099,6 @@ class nginx_plugin {
 		$this->ssl_certificate_changed = false;
 
 		if(@is_file($key_file.'~')) $app->system->unlink($key_file.'~');
-		if(@is_file($key_file2.'~')) $app->system->unlink($key_file2.'~');
 		if(@is_file($crt_file.'~')) $app->system->unlink($crt_file.'~');
 		if(@is_file($csr_file.'~')) $app->system->unlink($csr_file.'~');
 		//if(@is_file($bundle_file.'~')) $app->system->unlink($bundle_file.'~');
