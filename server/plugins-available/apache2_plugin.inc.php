@@ -533,7 +533,7 @@ class apache2_plugin {
 		$app->uses('getconf');
 		$web_config = $app->getconf->get_server_config($conf['server_id'], 'web');
 
-		//* Check if this is a chrooted setup
+		//* Check if apache is using a chrooted setup
 		if($web_config['website_basedir'] != '' && @is_file($web_config['website_basedir'].'/etc/passwd')) {
 			$apache_chrooted = true;
 			$app->log('Info: Apache is chrooted.', LOGLEVEL_DEBUG);
@@ -547,7 +547,7 @@ class apache2_plugin {
 		}
 		if($app->system->is_allowed_user($data['new']['system_user'], $app->system->is_user($data['new']['system_user']), true) == false
 			|| $app->system->is_allowed_group($data['new']['system_group'], $app->system->is_group($data['new']['system_group']), true) == false) {
-			$app->log('Websites cannot be owned by the root user or group. User: '.$data['new']['system_user'].' Group: '.$data['new']['system_group'], LOGLEVEL_WARN);
+			$app->log('Problem with website user or group.  Websites cannot be owned by root or an existing user/group. User: '.$data['new']['system_user'].' Group: '.$data['new']['system_group'], LOGLEVEL_WARN);
 			return 0;
 		}
 		if(trim($data['new']['domain']) == '') {
@@ -641,7 +641,7 @@ class apache2_plugin {
 					$tmp_symlink = str_replace('[website_domain]', $data['old']['domain'], $tmp_symlink);
 					// Remove trailing slash
 					if(substr($tmp_symlink, -1, 1) == '/') $tmp_symlink = substr($tmp_symlink, 0, -1);
-					// create the symlinks, if not exist
+					// remove the old symlinks if they exist
 					if(is_link($tmp_symlink)) {
 						$app->system->exec_safe('rm -f ?', $tmp_symlink);
 						$app->log('Removed symlink: rm -f '.$tmp_symlink, LOGLEVEL_DEBUG);
@@ -674,9 +674,7 @@ class apache2_plugin {
 
 				//* Create new base directory, if it does not exist yet
 				if(!is_dir($new_dir)) $app->system->mkdirpath($new_dir);
-				$app->system->web_folder_protection($data['old']['document_root'], false);
 				$app->system->exec_safe('mv ? ?', $data['old']['document_root'], $new_dir);
-				//$app->system->rename($data['old']['document_root'],$new_dir);
 				$app->log('Moving site to new document root: mv '.$data['old']['document_root'].' '.$new_dir, LOGLEVEL_DEBUG);
 
 				// Handle the change in php_open_basedir
@@ -696,15 +694,6 @@ class apache2_plugin {
 			if($apache_chrooted) $app->system->exec_safe('chroot ? ?', $web_config['website_basedir'], $command);
 
 			//* Change the log mount
-			/*
-			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$old_log_folder.'    none    bind';
-			$app->system->removeLine('/etc/fstab', $fstab_line);
-			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$old_log_folder.'    none    bind,nobootwait';
-			$app->system->removeLine('/etc/fstab', $fstab_line);
-			$fstab_line = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$old_log_folder.'    none    bind,nobootwait';
-			$app->system->removeLine('/etc/fstab', $fstab_line);
-			*/
-
 			$fstab_line_old = '/var/log/ispconfig/httpd/'.$data['old']['domain'].' '.$data['old']['document_root'].'/'.$old_log_folder.'    none    bind';
 
 			if($web_config['network_filesystem'] == 'y') {
@@ -718,8 +707,6 @@ class apache2_plugin {
 			$app->system->exec_safe('mount --bind ? ?', '/var/log/ispconfig/httpd/'.$data['new']['domain'], $data['new']['document_root'].'/'.$log_folder);
 
 		}
-
-		//print_r($data);
 
 		// Check if the directories are there and create them if necessary.
 		$app->system->web_folder_protection($data['new']['document_root'], false);
@@ -772,8 +759,12 @@ class apache2_plugin {
 		$update_hash = hash('md5', implode(' ', $last_updated));
 		$check_for_jailkit_updates=false;
 
-		// Create jailkit chroot when enabling php_fpm_chroot
-		if($data['new']['php_fpm_chroot'] == 'y' && $data['old']['php_fpm_chroot'] != 'y' && $data['new']['php'] != 'no') {
+		$create_jail_conditions= ($data['old']['php_fpm_chroot'] != 'y' ||
+			! is_dir($data['new']['document_root'].'/etc/jailkit') ||
+			($data['old']['php'] != $data['new']['php'] && $data['new']['php'] != 'no'));
+
+		// Create jailkit chroot if needed and when enabling php_fpm_chroot
+		if($data['new']['php_fpm_chroot'] == 'y' && $create_jail_conditions && $data['new']['php'] != 'no') {
 			$website = $app->db->queryOneRecord('SELECT * FROM web_domain WHERE domain_id = ?', $data['new']['domain_id']);
 			$this->website = array_merge($website, $data['new'], array('new_jailkit_hash' => $update_hash));
 			$this->jailkit_config = $jailkit_config;
@@ -875,7 +866,7 @@ class apache2_plugin {
 					$tmp_symlink = str_replace('[website_domain]', $data['old']['domain'], $tmp_symlink);
 					// Remove trailing slash
 					if(substr($tmp_symlink, -1, 1) == '/') $tmp_symlink = substr($tmp_symlink, 0, -1);
-					// remove the symlinks, if not exist
+					// remove the old symlinks if they exist
 					if(is_link($tmp_symlink)) {
 						$app->system->exec_safe('rm -f ?', $tmp_symlink);
 						$app->log('Removed symlink: rm -f '.$tmp_symlink, LOGLEVEL_DEBUG);
