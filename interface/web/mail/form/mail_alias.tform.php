@@ -83,6 +83,8 @@ $form["tabs"]['alias'] = array (
 			),
 			'validators' => array (  0 => array ( 'type' => 'ISEMAIL',
 					'errmsg'=> 'email_error_isemail'),
+				1 => array ( 'type' => 'UNIQUE',
+					'errmsg'=> 'email_error_unique'),
 			),
 			'default' => '',
 			'value'  => '',

@@ -916,7 +916,7 @@ CREATE TABLE `mail_forwarding` (
   `allow_send_as` ENUM('n','y') NOT NULL DEFAULT 'n',
   `greylisting` enum('n','y' ) NOT NULL DEFAULT 'n',
   PRIMARY KEY  (`forwarding_id`),
-  KEY `server_id` (`server_id`,`source`),
+  UNIQUE KEY `server_id` (`server_id`, `source`),
   KEY `type` (`type`)
 ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 

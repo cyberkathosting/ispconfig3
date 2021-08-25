@@ -9,7 +9,7 @@ $wb['source_txt'] = 'Kaynak E-posta';
 $wb['destination_error_empty'] = 'The destination must not be empty.';
 $wb['destination_error_isemail'] = 'The destination contains at least one invalid email address.';
 $wb['email_error_isemail'] = 'Lütfen geçerli bir e-posta adresi yazın.';
+$wb['email_error_unique'] = 'Bu e-posta adresi zaten var';
 $wb['send_as_txt'] = 'Gönderen';
 $wb['send_as_exp'] = 'Hedef bu adresi kaynak olarak göstererek e-posta gönderebilsin (hedef iç kullanıcı ise)';
 $wb['greylisting_txt'] = 'Gri Liste Kullanılsın';
-?>
