@@ -1,0 +1,6 @@
+<?php
+$wb['mail_relay_domain_title'] = 'Email relay domain';
+$wb['tab_relay_domain_title'] = 'Relay domain';
+$wb['server_id_txt'] = 'Servidor';
+$wb['active_txt'] = 'Habilitado';
+$wb['domain_txt'] = 'Dominio';

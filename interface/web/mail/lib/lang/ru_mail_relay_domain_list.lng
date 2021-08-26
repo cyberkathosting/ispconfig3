@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Relay domains';
+$wb['active_txt'] = 'Активно';
+$wb['server_id_txt'] = 'Сервер';
+$wb['domain_txt'] = 'Домен';
+$wb['add_new_record_txt'] = 'Add new relay domain';
+$wb['access_txt'] = 'доступ';

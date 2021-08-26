@@ -172,3 +172,4 @@ $wb['select_master_directive_snippet_txt'] = 'Diretiva mestre de trechos de cód
 $wb['unlimited_txt'] = 'Ilimitado';
 $wb['server_id_0_error_txt'] = 'Por favor, selecione um servidor válido. O ID do servidor deve ser > 0.';
 $wb['datalog_changes_close_txt'] = 'Fechar';
+$wb['non_admin_error'] = 'Requires administrator level permissions';

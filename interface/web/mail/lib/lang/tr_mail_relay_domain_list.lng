@@ -1,0 +1,7 @@
+<?php
+$wb['list_head_txt'] = 'Relay domains';
+$wb['active_txt'] = 'Etkin';
+$wb['server_id_txt'] = 'Sunucu';
+$wb['domain_txt'] = 'Etki Alanı';
+$wb['add_new_record_txt'] = 'Add new relay domain';
+$wb['access_txt'] = 'Erişim';

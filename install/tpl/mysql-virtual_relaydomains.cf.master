@@ -2,4 +2,4 @@ user = {mysql_server_ispconfig_user}
 password = {mysql_server_ispconfig_password}
 dbname = {mysql_server_database}
 hosts = {mysql_server_ip}
-query = select domain from mail_transport where domain = '%s' and active = 'y' and server_id = {server_id}
+query = select domain from mail_relay_domain where domain = '%s' and active = 'y' and server_id = {server_id}
