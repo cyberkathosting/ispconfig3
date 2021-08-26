@@ -6,7 +6,7 @@
 
 [uidbasics]
 comment = common files for all jails that need user/group information
-paths = /lib*/libnsl.so.*, /lib*/libnss*.so.*, /lib/*/libnsl.so.*, /lib/*/libnss.so.*, /etc/nsswitch.conf, /etc/ld.so.conf
+paths = /lib*/libnsl.so.*, /lib*/libnss*.so.*, /lib/*/libnsl.so.*, /lib/*/libnss*.so.*, /etc/nsswitch.conf, /etc/ld.so.conf
 
 [netbasics]
 comment = common files for all jails that need any internet connectivity
