@@ -8,4 +8,4 @@ $wb['sort_order_txt'] = 'Sıralama';
 $wb['active_txt'] = 'Etkin';
 $wb['limit_mailrouting_txt'] = 'Hesabınıza ekleyebileceğiniz en fazla yöneltme sayısına ulaştınız.';
 $wb['transport_txt'] = 'Aktarım';
-?>
+$wb['domain_error_unique'] = 'A mail transport for this Domain already exists on this server.';

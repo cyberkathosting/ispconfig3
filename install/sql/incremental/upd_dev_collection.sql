@@ -14,3 +14,7 @@ DROP TABLE IF EXISTS `software_package`;
 DROP TABLE IF EXISTS `software_repo`;
 DROP TABLE IF EXISTS `software_update`;
 DROP TABLE IF EXISTS `software_update_inst`;
+
+-- mail_transport.domain must be unique
+ALTER TABLE `mail_transport` DROP KEY `server_id_2`;
+ALTER TABLE `mail_transport` ADD UNIQUE KEY `server_id_2` (`server_id`, `domain`);

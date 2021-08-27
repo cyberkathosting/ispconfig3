@@ -88,6 +88,14 @@ $form["tabs"]['transport'] = array (
 				4 => array( 'event' => 'SAVE',
 					'type' => 'STRIPNL')
 			),
+			'validators' => array(
+				0 => array(
+					'type' => 'CUSTOM',
+					'class' => 'validate_mail_transport',
+					'function' => 'validate_domain',
+					'errmsg'=> 'domain_error_unique',
+				)
+			),
 			'default' => '',
 			'value'  => '',
 			'width'  => '30',

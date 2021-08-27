@@ -8,4 +8,4 @@ $wb['server_id_txt'] = 'Servidor';
 $wb['sort_order_txt'] = 'Ordenar por';
 $wb['transport_txt'] = 'Transporte';
 $wb['type_txt'] = 'Tipo';
-?>
+$wb['domain_error_unique'] = 'A mail transport for this Domain already exists on this server.';

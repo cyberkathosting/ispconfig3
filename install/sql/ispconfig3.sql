@@ -1023,7 +1023,7 @@ CREATE TABLE `mail_transport` (
   `active` enum('n','y') NOT NULL DEFAULT 'n',
   PRIMARY KEY  (`transport_id`),
   KEY `server_id` (`server_id`,`transport`),
-  KEY `server_id_2` (`server_id`,`domain`)
+  UNIQUE KEY `server_id_2` (`server_id`, `domain`)
 ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------

@@ -8,4 +8,4 @@ $wb['sort_order_txt'] = 'Сортировать по';
 $wb['active_txt'] = 'Активно';
 $wb['limit_mailrouting_txt'] = 'Достигнуто макс. количество маршрутов для вашей учетной записи.';
 $wb['transport_txt'] = 'Транспорт';
-?>
+$wb['domain_error_unique'] = 'A mail transport for this Domain already exists on this server.';

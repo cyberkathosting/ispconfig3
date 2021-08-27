@@ -8,3 +8,4 @@ $wb['sort_order_txt'] = 'Ordenar por';
 $wb['active_txt'] = 'Ativo';
 $wb['limit_mailrouting_txt'] = 'O limite de rotas de email para esta conta foi alcançado.';
 $wb['transport_txt'] = 'Transporte';
+$wb['domain_error_unique'] = 'A mail transport for this Domain already exists on this server.';

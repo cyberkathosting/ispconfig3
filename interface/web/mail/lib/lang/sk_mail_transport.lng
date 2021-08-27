@@ -8,4 +8,4 @@ $wb['sort_order_txt'] = 'Triediť podľa';
 $wb['active_txt'] = 'Aktívny';
 $wb['limit_mailrouting_txt'] = 'Max. počet trás pre váš účet je dosiahnutý.';
 $wb['transport_txt'] = 'Transport';
-?>
+$wb['domain_error_unique'] = 'A mail transport for this Domain already exists on this server.';

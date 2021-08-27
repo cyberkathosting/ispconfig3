@@ -8,4 +8,4 @@ $wb['sort_order_txt'] = 'Sortera på';
 $wb['active_txt'] = 'Aktiv';
 $wb['limit_mailrouting_txt'] = 'Det maximala antalet epostrutter för ditt konto är uppnått.';
 $wb['transport_txt'] = 'Transport';
-?>
+$wb['domain_error_unique'] = 'A mail transport for this Domain already exists on this server.';

@@ -8,4 +8,4 @@ $wb['sort_order_txt'] = 'Sortiraj';
 $wb['active_txt'] = 'Aktivno';
 $wb['limit_mailrouting_txt'] = 'Iskorišten je maksimalan broj ruta.';
 $wb['transport_txt'] = 'Transport';
-?>
+$wb['domain_error_unique'] = 'A mail transport for this Domain already exists on this server.';

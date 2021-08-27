@@ -8,4 +8,4 @@ $wb['sort_order_txt'] = 'Rendezés';
 $wb['active_txt'] = 'Aktív';
 $wb['limit_mailrouting_txt'] = 'Nincs több Email irányítás lehetőség.';
 $wb['transport_txt'] = 'Transport';
-?>
+$wb['domain_error_unique'] = 'A mail transport for this Domain already exists on this server.';
