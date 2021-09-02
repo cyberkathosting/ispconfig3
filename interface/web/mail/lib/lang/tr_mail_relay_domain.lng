@@ -4,3 +4,6 @@ $wb['tab_relay_domain_title'] = 'Relay domain';
 $wb['server_id_txt'] = 'Sunucu';
 $wb['active_txt'] = 'Etkin';
 $wb['domain_txt'] = 'Etki Alanı';
+$wb['domain_error_regex'] = 'Etki alanı geçersiz.';
+$wb['domain_error_empty'] = 'Etki alanı boş olamaz.';
+$wb['domain_error_unique'] = 'This Domain already exists as a mail relay domain on this server.';

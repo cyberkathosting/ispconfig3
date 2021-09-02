@@ -4,3 +4,6 @@ $wb['tab_relay_domain_title'] = 'Relay domain';
 $wb['server_id_txt'] = 'Сървър';
 $wb['active_txt'] = 'Активен';
 $wb['domain_txt'] = 'Домейн';
+$wb['domain_error_regex'] = 'Invalid domain name.';
+$wb['domain_error_empty'] = 'Полето с домейн е празно.';
+$wb['domain_error_unique'] = 'This Domain already exists as a mail relay domain on this server.';

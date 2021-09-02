@@ -4,3 +4,6 @@ $wb['tab_relay_domain_title'] = 'Relay domain';
 $wb['server_id_txt'] = 'Server';
 $wb['active_txt'] = 'Ενεργό';
 $wb['domain_txt'] = 'Domain';
+$wb['domain_error_regex'] = 'Το όνομα domain δεν είναι έγκυρο/';
+$wb['domain_error_empty'] = 'Το Domain είναι άδειο.';
+$wb['domain_error_unique'] = 'This Domain already exists as a mail relay domain on this server.';
