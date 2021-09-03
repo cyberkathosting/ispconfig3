@@ -12,10 +12,10 @@ ALTER TABLE mail_domain ADD COLUMN `relay_host` varchar(255) NOT NULL default ''
   ADD COLUMN `relay_user` varchar(255) NOT NULL default '' AFTER `relay_host`,
   ADD COLUMN `relay_pass` varchar(255) NOT NULL default '' AFTER `relay_user`;
 -- Purge apps & addons installer (#5795)
-DROP TABLE 'software_package';
-DROP TABLE 'software_repo';
-DROP TABLE 'software_update';
-DROP TABLE 'software_update_inst';
+DROP TABLE `software_package`;
+DROP TABLE `software_repo`;
+DROP TABLE `software_update`;
+DROP TABLE `software_update_inst`;
 
 -- Brexit
 UPDATE `country` SET `eu` = 'n' WHERE `iso` = 'GB';
