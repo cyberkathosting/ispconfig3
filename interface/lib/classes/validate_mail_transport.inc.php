@@ -45,8 +45,6 @@ class validate_mail_transport {
 	function validate_domain($field_name, $field_value, $validator) {
 		global $app, $conf;
 
-		if(empty($field_value) || $field_name != 'domain') return;
-
 		if(isset($app->remoting_lib->primary_id)) {
 			$id = $app->remoting_lib->primary_id;
 		} else {
@@ -55,7 +53,7 @@ class validate_mail_transport {
 
 		// mail_transport.domain (could also be an email address) must be unique per server
 		$sql = "SELECT transport_id, domain FROM mail_transport WHERE domain = ? AND server_id = ? AND transport_id != ?";
-		$domain_check = $app->db->queryOneRecord($sql, $field_value, $conf['server_id'], $id);
+		$domain_check = $app->db->queryOneRecord($sql, $field_value, $app->tform_actions->dataRecord['server_id'], $id);
 
 		if($domain_check) return $this->get_error('domain_error_unique');
 	}
