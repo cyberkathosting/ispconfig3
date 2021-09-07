@@ -14,4 +14,6 @@
         -o receive_override_options=no_unknown_recipient_checks,no_header_body_checks
         -o smtp_send_xforward_command=yes
         -o disable_dns_lookups=yes
+        -o address_verify_virtual_transport=$virtual_transport
+        -o address_verify_transport_maps=$transport_maps
 

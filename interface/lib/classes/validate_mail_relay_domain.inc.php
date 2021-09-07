@@ -45,9 +45,6 @@ class validate_mail_relay_domain {
 	function validate_domain($field_name, $field_value, $validator) {
 		global $app, $conf;
 
-		if(empty($field_value) || $field_name != 'domain') return;
-
-
 		if(isset($app->remoting_lib->primary_id)) {
 			$id = $app->remoting_lib->primary_id;
 		} else {
@@ -56,7 +53,7 @@ class validate_mail_relay_domain {
 
 		// mail_relay_domain.domain must be unique per server
 		$sql = "SELECT relay_domain_id, domain FROM mail_relay_domain WHERE domain = ? AND server_id = ? AND relay_domain_id != ?";
-		$domain_check = $app->db->queryOneRecord($sql, $field_value, $conf['server_id'], $id);
+		$domain_check = $app->db->queryOneRecord($sql, $field_value, $app->tform_actions->dataRecord['server_id'], $id);
 
 		if($domain_check) return $this->get_error('domain_error_unique');
 	}

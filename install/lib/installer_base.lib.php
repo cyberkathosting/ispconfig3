@@ -1107,7 +1107,7 @@ class installer_base {
 		$server_ini_array = ini_to_array(stripslashes($server_ini_rec['config']));
 		unset($server_ini_rec);
 
-		//* If there are RBL's defined, format the list and add them to smtp_recipient_restrictions to prevent removeal after an update
+		//* If there are RBL's defined, format the list and add them to smtp_recipient_restrictions to prevent removal after an update
 		$rbl_list = '';
 		if (@isset($server_ini_array['mail']['realtime_blackhole_list']) && $server_ini_array['mail']['realtime_blackhole_list'] != '') {
 			$rbl_hosts = explode(",", str_replace(" ", "", $server_ini_array['mail']['realtime_blackhole_list']));
@@ -1647,6 +1647,12 @@ class installer_base {
 	public function configure_amavis() {
 		global $conf;
 
+		//* These postconf commands will be executed on installation and update
+		$server_ini_rec = $this->db->queryOneRecord("SELECT mail_server, config FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . '.server', $conf['server_id']);
+		$server_ini_array = ini_to_array(stripslashes($server_ini_rec['config']));
+		$mail_server = ($server_ini_rec['mail_server']) ? true : false;
+		unset($server_ini_rec);
+
 		// amavisd user config file
 		$configfile = 'amavisd_user_config';
 		if(is_file($conf['amavis']['config_dir'].'/conf.d/50-user')) copy($conf['amavis']['config_dir'].'/conf.d/50-user', $conf['amavis']['config_dir'].'/50-user~');
@@ -1660,63 +1666,85 @@ class installer_base {
 		wf($conf['amavis']['config_dir'].'/conf.d/50-user', $content);
 		chmod($conf['amavis']['config_dir'].'/conf.d/50-user', 0640);
 
-		// TODO: chmod and chown on the config file
+		$mail_config = $server_ini_array['mail'];
+		//* only change postfix config if amavisd is active filter
+		if($mail_server && $mail_config['content_filter'] === 'amavisd') {
+			// test if lmtp if available
+			$configure_lmtp = $this->get_postfix_service('lmtp','unix');
 
-		// test if lmtp if available
-		$configure_lmtp = $this->get_postfix_service('lmtp','unix');
+			// Adding the amavisd commands to the postfix configuration
+			$postconf_commands = array ();
 
-		// Adding the amavisd commands to the postfix configuration
-		// Add array for no error in foreach and maybe future options
-		$postconf_commands = array ();
-
-		// Check for amavisd -> pure webserver with postfix for mailing without antispam
-		if ($conf['amavis']['installed']) {
-			$content_filter_service = ($configure_lmtp) ? 'lmtp' : 'amavis';
-			$postconf_commands[] = "content_filter = ${content_filter_service}:[127.0.0.1]:10024";
-			$postconf_commands[] = 'receive_override_options = no_address_mappings';
-		}
-
-		// Make a backup copy of the main.cf file
-		copy($conf['postfix']['config_dir'].'/main.cf', $conf['postfix']['config_dir'].'/main.cf~2');
-
-		// Executing the postconf commands
-		foreach($postconf_commands as $cmd) {
-			$command = "postconf -e '$cmd'";
-			caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-		}
-
-		$config_dir = $conf['postfix']['config_dir'];
-
-		// Adding amavis-services to the master.cf file if the service does not already exists
-//		$add_amavis = !$this->get_postfix_service('amavis','unix');
-//		$add_amavis_10025 = !$this->get_postfix_service('127.0.0.1:10025','inet');
-//		$add_amavis_10027 = !$this->get_postfix_service('127.0.0.1:10027','inet');
-		//*TODO: check templates against existing postfix-services to make sure we use the template
-
-		// Or just remove the old service definitions and add them again?
-		$add_amavis = $this->remove_postfix_service('amavis','unix');
-		$add_amavis_10025 = $this->remove_postfix_service('127.0.0.1:10025','inet');
-		$add_amavis_10027 = $this->remove_postfix_service('127.0.0.1:10027','inet');
-
-		if ($add_amavis || $add_amavis_10025 || $add_amavis_10027) {
-			//* backup master.cf
-			if(is_file($config_dir.'/master.cf')) copy($config_dir.'/master.cf', $config_dir.'/master.cf~');
-			// adjust amavis-config
-			if($add_amavis) {
-				$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis.master', 'tpl/master_cf_amavis.master');
-				af($config_dir.'/master.cf', $content);
-				unset($content);
+			// Check for amavisd -> pure webserver with postfix for mailing without antispam
+			if ($conf['amavis']['installed']) {
+				$content_filter_service = ($configure_lmtp) ? 'lmtp' : 'amavis';
+				$postconf_commands[] = "content_filter = ${content_filter_service}:[127.0.0.1]:10024";
+				$postconf_commands[] = 'receive_override_options = no_address_mappings';
+				$postconf_commands[] = 'address_verify_virtual_transport = smtp:[127.0.0.1]:10025';
+				$postconf_commands[] = 'address_verify_transport_maps = static:smtp:[127.0.0.1]:10025';
 			}
-			if ($add_amavis_10025) {
-				$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis10025.master', 'tpl/master_cf_amavis10025.master');
-				af($config_dir.'/master.cf', $content);
-				unset($content);
+
+			$options = preg_split("/,\s*/", exec("postconf -h smtpd_recipient_restrictions"));
+			$new_options = array();
+			foreach ($options as $value) {
+				$value = trim($value);
+				if ($value == '') continue;
+				if (preg_match("|check_recipient_access\s+proxy:mysql:${quoted_config_dir}/mysql-verify_recipients.cf|", $value)) {
+					continue;
+				}
+				$new_options[] = $value;
 			}
-			if ($add_amavis_10027) {
-				$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis10027.master', 'tpl/master_cf_amavis10027.master');
-				af($config_dir.'/master.cf', $content);
-				unset($content);
-    		}
+			if ($configure_lmtp) {
+				for ($i = 0; isset($new_options[$i]); $i++) {
+					if ($new_options[$i] == 'reject_unlisted_recipient') {
+						array_splice($new_options, $i+1, 0, array("check_recipient_access proxy:mysql:${config_dir}/mysql-verify_recipients.cf"));
+						break;
+					}
+				}
+				# postfix < 3.3 needs this when using reject_unverified_recipient:
+				if(version_compare($postfix_version, 3.3, '<')) {
+					$postconf_commands[] = "enable_original_recipient = yes";
+				}
+			}
+			$postconf_commands[] = "smtpd_recipient_restrictions = ".implode(", ", $new_options);
+
+			// Make a backup copy of the main.cf file
+			copy($conf['postfix']['config_dir'].'/main.cf', $conf['postfix']['config_dir'].'/main.cf~2');
+
+			// Executing the postconf commands
+			foreach($postconf_commands as $cmd) {
+				$command = "postconf -e '$cmd'";
+				caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
+			}
+
+			$config_dir = $conf['postfix']['config_dir'];
+
+			// Adding amavis-services to the master.cf file if the service does not already exists
+			// (just remove the old service definitions and add them again)
+			$add_amavis = $this->remove_postfix_service('amavis','unix');
+			$add_amavis_10025 = $this->remove_postfix_service('127.0.0.1:10025','inet');
+			$add_amavis_10027 = $this->remove_postfix_service('127.0.0.1:10027','inet');
+
+			if ($add_amavis || $add_amavis_10025 || $add_amavis_10027) {
+				//* backup master.cf
+				if(is_file($config_dir.'/master.cf')) copy($config_dir.'/master.cf', $config_dir.'/master.cf~');
+				// adjust amavis-config
+				if($add_amavis) {
+					$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis.master', 'tpl/master_cf_amavis.master');
+					af($config_dir.'/master.cf', $content);
+					unset($content);
+				}
+				if ($add_amavis_10025) {
+					$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis10025.master', 'tpl/master_cf_amavis10025.master');
+					af($config_dir.'/master.cf', $content);
+					unset($content);
+				}
+				if ($add_amavis_10027) {
+					$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/master_cf_amavis10027.master', 'tpl/master_cf_amavis10027.master');
+					af($config_dir.'/master.cf', $content);
+					unset($content);
+				}
+			}
 		}
 
 		// Add the clamav user to the amavis group
@@ -1746,14 +1774,18 @@ class installer_base {
 		global $conf;
 
 		//* These postconf commands will be executed on installation and update
-		$server_ini_rec = $this->db->queryOneRecord("SELECT config FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . '.server', $conf['server_id']);
+		$server_ini_rec = $this->db->queryOneRecord("SELECT mail_server, config FROM ?? WHERE server_id = ?", $conf["mysql"]["database"] . '.server', $conf['server_id']);
 		$server_ini_array = ini_to_array(stripslashes($server_ini_rec['config']));
+		$mail_server = ($server_ini_rec['mail_server']) ? true : false;
 		unset($server_ini_rec);
 
 		$mail_config = $server_ini_array['mail'];
-		if($mail_config['content_filter'] === 'rspamd') {
-			exec("postconf -X 'receive_override_options'");
-			exec("postconf -X 'content_filter'");
+		//* only change postfix config if rspamd is active filter
+		if($mail_server && $mail_config['content_filter'] === 'rspamd') {
+			exec("postconf -X receive_override_options");
+			exec("postconf -X content_filter");
+			exec("postconf -X address_verify_virtual_transport");
+			exec("postconf -X address_verify_transport_maps");
 
 			exec("postconf -e 'smtpd_milters = inet:localhost:11332'");
 			exec("postconf -e 'non_smtpd_milters = inet:localhost:11332'");
@@ -1802,6 +1834,9 @@ class installer_base {
 				$value = trim($value);
 				if ($value == '') continue;
 				if (preg_match('/check_policy_service\s+inet:127.0.0.1:10023/', $value)) {
+					continue;
+				}
+				if (preg_match("|check_recipient_access\s+proxy:mysql:${quoted_config_dir}/mysql-verify_recipients.cf|", $value)) {
 					continue;
 				}
 				$new_options[] = $value;

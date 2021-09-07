@@ -72,6 +72,12 @@ class postfix_server_plugin {
 		global $app, $conf;
 		$postfix_restart = false;
 
+		// Plugin should only run on mail servers
+		if(! $data['new']['mail_server']) {
+			$app->log("postfix_server_plugin: plugin is enabled but this server is not configured as a mail server.", LOGLEVEL_WARN);
+			return false;
+		}
+
 		// get the config
 		$app->uses("getconf,system");
 		$old_ini_data = $app->ini_parser->parse_ini_string($data['old']['config']);
@@ -341,6 +347,10 @@ class postfix_server_plugin {
 			for ($i = 0; isset($new_options[$i]); $i++) {
 				if ($new_options[$i] == 'reject_unlisted_recipient') {
 					array_splice($new_options, $i+1, 0, array("check_recipient_access proxy:mysql:${quoted_postfix_config_dir}/mysql-verify_recipients.cf"));
+
+					$app->system->exec_safe("postconf -e ?", 'address_verify_virtual_transport = smtp:[127.0.0.1]:10025');
+					$app->system->exec_safe("postconf -e ?", 'address_verify_transport_maps = static:smtp:[127.0.0.1]:10025');
+
 					break;
 				}
 			}
@@ -351,62 +361,64 @@ class postfix_server_plugin {
 		}
 		exec("postconf -e 'smtpd_recipient_restrictions = ".implode(", ", $new_options)."'");
 
-		if($mail_config['content_filter'] != $old_ini_data['mail']['content_filter']) {
-			$rslm = ($mail_config['reject_sender_login_mismatch'] == 'y') ? "reject_sender_login_mismatch," : "";
-			$raslm = ($mail_config['reject_sender_login_mismatch'] == 'y') ? "reject_authenticated_sender_login_mismatch," : "";
+		$rslm = ($mail_config['reject_sender_login_mismatch'] == 'y') ? "reject_sender_login_mismatch," : "";
+		$raslm = ($mail_config['reject_sender_login_mismatch'] == 'y') ? "reject_authenticated_sender_login_mismatch," : "";
 
-			if($mail_config['content_filter'] == 'rspamd'){
-				exec("postconf -X 'receive_override_options'");
-				exec("postconf -X 'content_filter'");
+		if($mail_config['content_filter'] == 'rspamd'){
+			exec("postconf -X 'receive_override_options'");
+			exec("postconf -X 'content_filter'");
+			exec("postconf -X address_verify_virtual_transport");
+			exec("postconf -X address_verify_transport_maps");
 
-				exec("postconf -e 'smtpd_milters = inet:localhost:11332'");
-				exec("postconf -e 'non_smtpd_milters = inet:localhost:11332'");
-				exec("postconf -e 'milter_protocol = 6'");
-				exec("postconf -e 'milter_mail_macros = i {mail_addr} {client_addr} {client_name} {auth_authen}'");
-				exec("postconf -e 'milter_default_action = accept'");
+			exec("postconf -e 'smtpd_milters = inet:localhost:11332'");
+			exec("postconf -e 'non_smtpd_milters = inet:localhost:11332'");
+			exec("postconf -e 'milter_protocol = 6'");
+			exec("postconf -e 'milter_mail_macros = i {mail_addr} {client_addr} {client_name} {auth_authen}'");
+			exec("postconf -e 'milter_default_action = accept'");
 
-				exec("postconf -e 'smtpd_sender_restrictions = ${raslm} permit_mynetworks, check_sender_access proxy:mysql:/etc/postfix/mysql-virtual_sender.cf, ${rslm} permit_sasl_authenticated, reject_non_fqdn_sender, reject_unlisted_sender'");
+			exec("postconf -e 'smtpd_sender_restrictions = ${raslm} permit_mynetworks, check_sender_access proxy:mysql:/etc/postfix/mysql-virtual_sender.cf, ${rslm} permit_sasl_authenticated, reject_non_fqdn_sender, reject_unlisted_sender'");
 
-
-				$new_options = array();
-				$options = preg_split("/,\s*/", exec("postconf -h smtpd_recipient_restrictions"));
-				foreach ($options as $key => $value) {
-					$value = trim($value);
-					if ($value == '') continue;
-					if (preg_match('/check_policy_service\s+inet:127.0.0.1:10023/', $value)) {
-						continue;
-					}
-					$new_options[] = $value;
+			$new_options = array();
+			$options = preg_split("/,\s*/", exec("postconf -h smtpd_recipient_restrictions"));
+			foreach ($options as $key => $value) {
+				$value = trim($value);
+				if ($value == '') continue;
+				if (preg_match('/check_policy_service\s+inet:127.0.0.1:10023/', $value)) {
+					continue;
 				}
-				exec("postconf -e 'smtpd_recipient_restrictions = ".implode(", ", $new_options)."'");
-
-				// get all domains that have dkim enabled
-				if ( substr($mail_config['dkim_path'], strlen($mail_config['dkim_path'])-1) == '/' ) {
-					$mail_config['dkim_path'] = substr($mail_config['dkim_path'], 0, strlen($mail_config['dkim_path'])-1);
+				if (preg_match("|check_recipient_access\s+proxy:mysql:${quoted_postfix_config_dir}/mysql-verify_recipients.cf|", $value)) {
+					continue;
 				}
-				$dkim_domains = $app->db->queryAllRecords('SELECT `dkim_selector`, `domain` FROM `mail_domain` WHERE `dkim` = ? ORDER BY `domain` ASC', 'y');
-				$fpp = fopen('/etc/rspamd/local.d/dkim_domains.map', 'w');
-				$fps = fopen('/etc/rspamd/local.d/dkim_selectors.map', 'w');
-				foreach($dkim_domains as $dkim_domain) {
-					fwrite($fpp, $dkim_domain['domain'] . ' ' . $mail_config['dkim_path'] . '/' . $dkim_domain['domain'] . '.private' . "\n");
-					fwrite($fps, $dkim_domain['domain'] . ' ' . $dkim_domain['dkim_selector'] . "\n");
-				}
-				fclose($fpp);
-				fclose($fps);
-				unset($dkim_domains);
-			} else {
-				exec("postconf -X 'smtpd_milters'");
-				exec("postconf -X 'non_smtpd_milters'");
-				exec("postconf -X 'milter_protocol'");
-				exec("postconf -X 'milter_mail_macros'");
-				exec("postconf -X 'milter_default_action'");
-
-				exec("postconf -e 'receive_override_options = no_address_mappings'");
-				exec("postconf -e 'content_filter = " . ($configure_lmtp ? "lmtp" : "amavis" ) . ":[127.0.0.1]:10024'");
-
-				// fixme: should read this from conf templates
-				exec("postconf -e 'smtpd_sender_restrictions = ${raslm} check_sender_access regexp:/etc/postfix/tag_as_originating.re, permit_mynetworks, check_sender_access proxy:mysql:/etc/postfix/mysql-virtual_sender.cf, ${rslm} permit_sasl_authenticated, reject_non_fqdn_sender, reject_unlisted_sender, check_sender_access regexp:/etc/postfix/tag_as_foreign.re'");
+				$new_options[] = $value;
 			}
+			exec("postconf -e 'smtpd_recipient_restrictions = ".implode(", ", $new_options)."'");
+
+			// get all domains that have dkim enabled
+			if ( substr($mail_config['dkim_path'], strlen($mail_config['dkim_path'])-1) == '/' ) {
+				$mail_config['dkim_path'] = substr($mail_config['dkim_path'], 0, strlen($mail_config['dkim_path'])-1);
+			}
+			$dkim_domains = $app->db->queryAllRecords('SELECT `dkim_selector`, `domain` FROM `mail_domain` WHERE `dkim` = ? ORDER BY `domain` ASC', 'y');
+			$fpp = fopen('/etc/rspamd/local.d/dkim_domains.map', 'w');
+			$fps = fopen('/etc/rspamd/local.d/dkim_selectors.map', 'w');
+			foreach($dkim_domains as $dkim_domain) {
+				fwrite($fpp, $dkim_domain['domain'] . ' ' . $mail_config['dkim_path'] . '/' . $dkim_domain['domain'] . '.private' . "\n");
+				fwrite($fps, $dkim_domain['domain'] . ' ' . $dkim_domain['dkim_selector'] . "\n");
+			}
+			fclose($fpp);
+			fclose($fps);
+			unset($dkim_domains);
+		} else {
+			exec("postconf -X 'smtpd_milters'");
+			exec("postconf -X 'non_smtpd_milters'");
+			exec("postconf -X 'milter_protocol'");
+			exec("postconf -X 'milter_mail_macros'");
+			exec("postconf -X 'milter_default_action'");
+
+			exec("postconf -e 'receive_override_options = no_address_mappings'");
+			exec("postconf -e 'content_filter = " . ($configure_lmtp ? "lmtp" : "amavis" ) . ":[127.0.0.1]:10024'");
+
+			// fixme: should read this from conf templates
+			exec("postconf -e 'smtpd_sender_restrictions = ${raslm} check_sender_access regexp:/etc/postfix/tag_as_originating.re, permit_mynetworks, check_sender_access proxy:mysql:/etc/postfix/mysql-virtual_sender.cf, ${rslm} permit_sasl_authenticated, reject_non_fqdn_sender, reject_unlisted_sender, check_sender_access regexp:/etc/postfix/tag_as_foreign.re'");
 		}
 
 		if($mail_config['content_filter'] == 'rspamd' && ($mail_config['rspamd_password'] != $old_ini_data['mail']['rspamd_password'] || $mail_config['content_filter'] != $old_ini_data['mail']['content_filter'])) {

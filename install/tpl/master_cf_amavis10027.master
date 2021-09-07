@@ -13,7 +13,9 @@
         -o strict_rfc821_envelopes=yes
         -o receive_override_options=no_unknown_recipient_checks,no_header_body_checks
         -o smtp_send_xforward_command=yes
-	    -o milter_default_action=accept
-    	-o milter_macro_daemon_name=ORIGINATING
         -o disable_dns_lookups=yes
+        -o address_verify_virtual_transport=$virtual_transport
+        -o address_verify_transport_maps=$transport_maps
+        -o milter_default_action=accept
+        -o milter_macro_daemon_name=ORIGINATING
 
