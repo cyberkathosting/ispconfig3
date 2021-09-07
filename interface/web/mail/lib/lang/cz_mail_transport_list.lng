@@ -6,4 +6,3 @@ $wb['domain_txt'] = 'Doména';
 $wb['transport_txt'] = 'E-mailové směrování';
 $wb['sort_order_txt'] = 'Třídit podle';
 $wb['add_new_record_txt'] = 'Vytvořit e-mailové směrování';
-?>

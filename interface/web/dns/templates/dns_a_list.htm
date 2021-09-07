@@ -1,3 +1,14 @@
+<tmpl_if name="config_error_msg">
+  <div class="alert alert-danger">
+    <p>
+      <tmpl_var name="configuration_error_txt">
+        <div>
+          <div style="float:left;width:150px;">{tmpl_var name='config_error_tstamp'} :&nbsp;</div>
+          <div style="padding-left:150px;">{tmpl_var name='config_error_msg'}</div>
+        </div>
+    </p>
+  </div>
+</tmpl_if>
 <div class="pnl_toolsarea">
         <tmpl_if name='datalog_changes_count' op='>' value='0'>
             <div class="systemmonitor-state state-info">
@@ -62,7 +73,7 @@
                     <td><input class="form-control" type="text" name="search_aux" value="{tmpl_var name='search_aux'}" /></td>
                     <td><input class="form-control" type="text" name="search_ttl" value="{tmpl_var name='search_ttl'}" /></td>
                     <td class="text-right">
-                        <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="return ISPConfig.changeTab('dns_records','dns/dns_soa_edit.php');"><span class="icon icon-filter"></span></button>
+                        <button type="button" class="btn btn-default formbutton-default formbutton-narrow" name="Filter" id="Filter" value="{tmpl_var name="filter_txt"}" onclick="return ISPConfig.changeTab('dns_records','dns/dns_soa_edit.php');" data-form-action="dns/dns_a_list.php"><span class="icon icon-filter"></span></button>
                     </td>
                 </tr>
             </thead>

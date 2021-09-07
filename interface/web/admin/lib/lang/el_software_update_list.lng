@@ -1,9 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Αναβαθμίσεις Λογισμικού';
-$wb['server_select_txt'] = 'Επιλογή server';
-$wb['installed_txt'] = 'Ενέργεια';
-$wb['update_title_txt'] = 'Ενημέρωση';
-$wb['version_txt'] = 'Έκδοση';
-$wb['action_txt'] = 'Ενέργεια';
-$wb['no_updates_txt'] = 'No updates available';
-?>

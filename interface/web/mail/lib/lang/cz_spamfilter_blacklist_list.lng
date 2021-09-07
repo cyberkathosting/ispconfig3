@@ -6,4 +6,3 @@ $wb['priority_txt'] = 'Priorita';
 $wb['rid_txt'] = 'Uživatel';
 $wb['email_txt'] = 'E-maily na černé listině';
 $wb['add_new_record_txt'] = 'Přidat na černou listinu';
-?>

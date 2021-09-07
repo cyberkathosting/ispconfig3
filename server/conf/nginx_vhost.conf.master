@@ -15,10 +15,15 @@ server {
         listen <tmpl_var name='ip_address'>:<tmpl_var name='https_port'> ssl http2;
 <tmpl_if name='use_proxy_protocol' op='==' value='y'>
 <tmpl_if name='proxy_protocol_https' op='>' value='0'>
-        listen <tmpl_var name='ip_address'>:<tmpl_var name='proxy_protocol_https'> ssl proxy_protocol;
+        listen <tmpl_var name='ip_address'>:<tmpl_var name='proxy_protocol_https'> ssl http2 proxy_protocol;
 </tmpl_if>
 </tmpl_if>
-		ssl_protocols TLSv1.2;
+
+<tmpl_if name='tls13_supported' op='==' value='y'>
+	ssl_protocols TLSv1.3 TLSv1.2;
+<tmpl_else>
+	ssl_protocols TLSv1.2;
+</tmpl_if>
 		# ssl_ciphers 'ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES256-SHA:ECDHE-ECDSA-DES-CBC3-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA:!DSS';
 		# ssl_prefer_server_ciphers on;
 <tmpl_if name='ipv6_enabled'>
@@ -39,18 +44,18 @@ server {
 <tmpl_if name='ssl_enabled'>
 <tmpl_if name='rewrite_to_https' op='==' value='y'>
         if ($scheme != "https") {
-            rewrite ^ https://$http_host$request_uri? permanent;
+            rewrite ^(?!/\.well-known/acme-challenge)/ https://$http_host$request_uri? permanent;
         }
 </tmpl_if>
 </tmpl_if>
 <tmpl_if name='seo_redirect_enabled'>
         if ($http_host <tmpl_var name='seo_redirect_operator'> "<tmpl_var name='seo_redirect_origin_domain'>") {
-            rewrite ^ $scheme://<tmpl_var name='seo_redirect_target_domain'>$request_uri? permanent;
+            rewrite ^(?!/\.well-known/acme-challenge)/ $scheme://<tmpl_var name='seo_redirect_target_domain'>$request_uri? permanent;
         }
 </tmpl_if>
 <tmpl_loop name="alias_seo_redirects">
         if ($http_host <tmpl_var name='alias_seo_redirect_operator'> "<tmpl_var name='alias_seo_redirect_origin_domain'>") {
-            rewrite ^ $scheme://<tmpl_var name='alias_seo_redirect_target_domain'>$request_uri? permanent;
+            rewrite ^(?!/\.well-known/acme-challenge)/ $scheme://<tmpl_var name='alias_seo_redirect_target_domain'>$request_uri? permanent;
         }
 </tmpl_loop>
 <tmpl_loop name="local_redirects">
@@ -74,7 +79,7 @@ server {
 </tmpl_if>
 </tmpl_loop>
 <tmpl_if name='use_proxy' op='!=' value='y'>
-        index index.html index.htm index.php index.cgi index.pl index.xhtml;
+        index index.html index.htm index.php index.cgi index.pl index.xhtml standard_index.html;
 
 <tmpl_if name='ssi' op='==' value='y'>
         location ~ \.shtml$ {
@@ -95,34 +100,42 @@ server {
         location = /error/400.html {
             <tmpl_var name='web_document_root_www_proxy'>
             internal;
+            auth_basic off;
         }
         location = /error/401.html {
             <tmpl_var name='web_document_root_www_proxy'>
             internal;
+            auth_basic off;
         }
         location = /error/403.html {
             <tmpl_var name='web_document_root_www_proxy'>
             internal;
+            auth_basic off;
         }
         location = /error/404.html {
             <tmpl_var name='web_document_root_www_proxy'>
             internal;
+            auth_basic off;
         }
         location = /error/405.html {
             <tmpl_var name='web_document_root_www_proxy'>
             internal;
+            auth_basic off;
         }
         location = /error/500.html {
             <tmpl_var name='web_document_root_www_proxy'>
             internal;
+            auth_basic off;
         }
         location = /error/502.html {
             <tmpl_var name='web_document_root_www_proxy'>
             internal;
+            auth_basic off;
         }
         location = /error/503.html {
             <tmpl_var name='web_document_root_www_proxy'>
             internal;
+            auth_basic off;
         }
 </tmpl_if>
 
@@ -169,7 +182,7 @@ server {
             index index.html index.php;
             auth_basic "Members Only";
             auth_basic_user_file <tmpl_var name='stats_auth_passwd_file'>;
-            add_header Content-Security-Policy "default-src * 'self' 'unsafe-inline';";
+            add_header Content-Security-Policy "default-src * 'self' 'unsafe-inline' 'unsafe-eval' data:;";
         }
 
         location ^~ /awstats-icon {
@@ -342,11 +355,18 @@ server {
 <tmpl_if name='ipv6_enabled'>
         listen [<tmpl_var name='ipv6_address'>]:<tmpl_var name='http_port'>;
 </tmpl_if>
+<tmpl_if name='ipv6_wildcard'>
+        listen [::]:<tmpl_var name='http_port'>;
+</tmpl_if>
+
 
 <tmpl_if name='ssl_enabled'>
-        listen <tmpl_var name='ip_address'>:<tmpl_var name='https_port'> ssl;
+        listen <tmpl_var name='ip_address'>:<tmpl_var name='https_port'> ssl http2;
 <tmpl_if name='ipv6_enabled'>
-        listen [<tmpl_var name='ipv6_address'>]:<tmpl_var name='https_port'> ssl;
+        listen [<tmpl_var name='ipv6_address'>]:<tmpl_var name='https_port'> ssl http2;
+</tmpl_if>
+<tmpl_if name='ipv6_wildcard'>
+        listen [::]:<tmpl_var name='https_port'> ssl http2;
 </tmpl_if>
         ssl_certificate <tmpl_var name='ssl_crt_file'>;
         ssl_certificate_key <tmpl_var name='ssl_key_file'>;
@@ -357,7 +377,7 @@ server {
 <tmpl_if name='alias_seo_redirects2'>
 <tmpl_loop name="alias_seo_redirects2">
         if ($http_host <tmpl_var name='alias_seo_redirect_operator'> "<tmpl_var name='alias_seo_redirect_origin_domain'>") {
-            rewrite ^ $scheme://<tmpl_var name='alias_seo_redirect_target_domain'>$request_uri? permanent;
+            rewrite ^(?!/\.well-known/acme-challenge)/ $scheme://<tmpl_var name='alias_seo_redirect_target_domain'>$request_uri? permanent;
         }
 </tmpl_loop>
 </tmpl_if>

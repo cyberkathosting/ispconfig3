@@ -20,4 +20,4 @@ $wb['import_alias_txt'] = 'Importovat e-mailový alias';
 $wb['import_forward_txt'] = 'Import forward';
 $wb['import_user_filter_txt'] = 'Importovat uživatelský filter';
 $wb['import_spamfilter_txt'] = 'Importovat spamový filter';
-?>
+$wb['local_server_txt'] = 'Local Mail Server';

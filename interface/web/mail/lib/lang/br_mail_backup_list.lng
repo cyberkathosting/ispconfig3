@@ -5,7 +5,7 @@ $wb['backup_type_txt'] = 'Tipo';
 $wb['filename_txt'] = 'Arquivo de backup';
 $wb['restore_backup_txt'] = 'Restaurar';
 $wb['restore_info_txt'] = 'A restauração do backup está em andamento. Esta ação demora vários minutos para concluir.';
-$wb['restore_confirm_txt'] = 'A restauração do backup pode sobrescrever arquivos das contas de e-mail. Você tem certeza que deseja restaurar este backup?';
+$wb['restore_confirm_txt'] = 'A restauração do backup pode sobrescrever arquivos das contas de email. Você tem certeza que deseja restaurar este backup?';
 $wb['download_pending_txt'] = 'Já existe um download de backup em andamento.';
 $wb['restore_pending_txt'] = 'Já existe uma restauração de backup em andamento.';
 $wb['delete_backup_txt'] = 'Remover Backup';
@@ -13,4 +13,3 @@ $wb['delete_info_txt'] = 'A remoção do backup está em andamento. Esta ação 
 $wb['delete_confirm_txt'] = 'Deseja remover este backup?';
 $wb['delete_pending_txt'] = 'Já existe uma remoção de backup em andamento.';
 $wb['filesize_txt'] = 'Tamanho do arquivo';
-?>

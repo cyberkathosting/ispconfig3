@@ -3,9 +3,9 @@ password = {mysql_server_ispconfig_password}
 dbname = {mysql_server_database}
 hosts = {mysql_server_ip}
 query = SELECT s.destination AS target FROM mail_forwarding AS s
-            WHERE s.source = '%s' AND s.type IN ('alias', 'forward') AND s.active = 'y' AND s.server_id = {server_id}
+            WHERE (s.source = '%s' OR s.source = {address_without_extension}) AND s.type IN ('alias', 'forward') AND s.active = 'y' AND s.server_id = {server_id}
         UNION
         SELECT s.destination AS target FROM mail_forwarding AS s
             WHERE s.source = '@%d' AND s.type = 'catchall' AND s.active = 'y' AND s.server_id = {server_id}
-            AND NOT EXISTS (SELECT email FROM mail_user WHERE email = '%s' AND server_id = {server_id})
-            AND NOT EXISTS (SELECT source FROM mail_forwarding WHERE source = '%s' AND active = 'y' AND server_id = {server_id})
+            AND NOT EXISTS (SELECT email FROM mail_user WHERE (email = '%s' OR email = {address_without_extension}) AND EXISTS (SELECT domain_id FROM mail_domain WHERE domain = SUBSTRING_INDEX('%s', '@', -1) AND active = 'y' AND server_id = {server_id}) AND server_id = {server_id})
+            AND NOT EXISTS (SELECT source FROM mail_forwarding WHERE (source = '%s' OR source = {address_without_extension}) AND active = 'y' AND server_id = {server_id})

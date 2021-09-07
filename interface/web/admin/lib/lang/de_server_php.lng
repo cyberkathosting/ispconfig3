@@ -13,6 +13,7 @@ $wb['php_fastcgi_ini_dir_txt'] = 'Pfad zum php.ini Verzeichnis';
 $wb['php_fpm_init_script_txt'] = 'Pfad zum PHP-FPM Init Script';
 $wb['php_fpm_ini_dir_txt'] = 'Pfad zum php.ini Verzeichnis';
 $wb['php_fpm_pool_dir_txt'] = 'Pfad zum PHP-FPM Pool Verzeichnis';
+$wb['php_fpm_socket_dir_txt'] = 'PHP-FPM socket directory';
 $wb['active_txt'] = 'Aktiv';
 $wb['php_in_use_error'] = 'Diese PHP-Version wird noch benutzt.';
 $wb['php_name_in_use_error'] = 'Der Name kann nicht geändert werden.';

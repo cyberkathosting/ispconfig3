@@ -15,6 +15,5 @@ $wb['mailuser_group_txt'] = 'Grupo do mailuser';
 $wb['relayhost_txt'] = 'Host de retransmissão';
 $wb['relayhost_user_txt'] = 'Usuário de retransmissão';
 $wb['relayhost_password_txt'] = 'Senha do host de retransmissão';
-$wb['mailbox_size_limit_txt'] = 'Limite da conta de e-mail';
+$wb['mailbox_size_limit_txt'] = 'Limite da conta de email';
 $wb['message_size_limit_txt'] = 'Limite do tamanho da mensagem';
-?>

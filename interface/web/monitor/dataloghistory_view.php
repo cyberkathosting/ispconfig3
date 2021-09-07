@@ -52,6 +52,10 @@ $record = $app->db->queryOneRecord('SELECT * FROM sys_datalog WHERE datalog_id =
 $out['id'] = $id;
 $out['username'] = $record['user'];
 
+if(!$data = unserialize(stripslashes($record['data']))) {
+	$data = unserialize($record['data']);
+}
+
 $out['timestamp'] = date($app->lng('conf_format_datetime'), $record['tstamp']);
 $out['table'] = $record['dbtable'];
 list($key, $value) = explode(':', $record['dbidx']);
@@ -62,7 +66,20 @@ if (!empty($value)) {
 	} else {
 		switch ($out['table']) {
 			case 'mail_forwarding':
-				$file = 'mail/mail_forward_edit.php';
+				switch ($data['new']['type']) {
+					case 'alias':
+						$file = 'mail/mail_alias_edit.php';
+						break;
+					case 'aliasdomain':
+						$file = 'mail/mail_aliasdomain_edit.php';
+						break;
+					case 'forward':
+						$file = 'mail/mail_forward_edit.php';
+						break;
+					case 'catchall':
+						$file = 'mail/mail_domain_catchall_edit.php';
+						break;
+				}
 			break;
 			case 'mail_user':
 				$file = 'mail/mail_user_edit.php';
@@ -79,6 +96,15 @@ if (!empty($value)) {
 			case 'web_database_user':
 				$file = 'sites/database_user_edit.php';
 			break;
+                       case 'ftp_user':
+                               $file = 'sites/ftp_user_edit.php';
+                       break;
+                       case 'shell_user':
+                               $file = 'sites/shell_user_edit.php';
+                       break;
+                       case 'dns_soa':
+                               $file = 'dns/dns_soa_edit.php';
+                       break;
 
 			// TODO Add a link per content type
 			default:
@@ -97,10 +123,6 @@ $out['action_char'] = $record['action'];
 $out['action_name'] = $app->lng($record['action']);
 
 $out['session_id'] = $record['session_id'];
-
-if(!$data = unserialize(stripslashes($record['data']))) {
-	$data = unserialize($record['data']);
-}
 
 switch ($record['action']) {
 	case 'i':

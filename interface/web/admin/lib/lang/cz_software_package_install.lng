@@ -1,6 +1,0 @@
-<?php
-$wb['head_txt'] = 'Instalace software';
-$wb['install_key_txt'] = 'Enter install key';
-$wb['btn_save_txt'] = 'Spustit instalaci';
-$wb['btn_cancel_txt'] = 'Zrušit';
-?>

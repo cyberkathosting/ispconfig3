@@ -97,7 +97,7 @@ class page_action extends tform_actions {
 			$app->tpl->setVar("edit_disabled", 0);
 		}
 
-		$app->tpl->setVar('ssh_authentication', $system_config['misc']['ssh_authentication']);
+		$app->tpl->setVar('ssh_authentication', $system_config['sites']['ssh_authentication']);
 
 		parent::onShowEnd();
 	}
@@ -151,7 +151,7 @@ class page_action extends tform_actions {
 			}
 		}
 		unset($blacklist);
-		
+
 		if($app->functions->is_allowed_user(trim(strtolower($this->dataRecord['username']))) == false) $app->tform->errorMessage .= $app->tform->lng('username_not_allowed_txt');
 
 		/*
@@ -181,7 +181,7 @@ class page_action extends tform_actions {
 		$dir = $web["document_root"];
 		$uid = $web["system_user"];
 		$gid = $web["system_group"];
-		
+
 		// Check system user and group
 		if($app->functions->is_allowed_user($uid) == false || $app->functions->is_allowed_group($gid) == false) {
 			$app->error($app->tform->lng('invalid_system_user_or_group_txt'));

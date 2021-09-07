@@ -1,14 +1,13 @@
 <?php
 $wb['login_1_txt'] = 'Gostaria de acessar como cliente?';
-$wb['login_2_txt'] = 'Se confirmar, poderá "voltar" clicando em sair.';
+$wb['login_2_txt'] = 'Se confirmar, poderá "voltar" selecionando "Sair".';
 $wb['btn_yes_txt'] = 'Sim, acessar como cliente';
 $wb['btn_back_txt'] = 'Não, voltar para a lista';
 $wb['udp_port_help_txt'] = 'Separado por vírgula';
 $wb['active_txt'] = 'Ativo';
-$wb['firewall_error_unique'] = 'Já existe uma regra de firewall idêntica para este servidor.';
+$wb['firewall_error_unique'] = 'Já existe uma regra de Firewall idêntica para este servidor.';
 $wb['tcp_ports_error_regex'] = 'Caractere não permitido para porta tcp. Caracteres permitidos são números, ":" e ",".';
 $wb['udp_ports_error_regex'] = 'Caractere não permitido para porta udp. Caracteres permitidos são números, ":" e ",".';
 $wb['login_as_or_logout_txt'] = 'Gostaria de realizar acesso novamente como {UTYPE} ou sair?';
-$wb['btn_reloginas_txt'] = 'Yes, re-login as %s';
-$wb['btn_nologout_txt'] = 'No, logout';
-?>
+$wb['btn_reloginas_txt'] = 'Sim, acessar novamente como %s';
+$wb['btn_nologout_txt'] = 'Não, sair';

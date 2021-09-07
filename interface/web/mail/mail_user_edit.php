@@ -94,20 +94,20 @@ class page_action extends tform_actions {
 		unset($domains);
 		unset($domain_select);
 
-		// Get the spamfilter policys for the user
+		// Get the spamfilter policies for the user
 		$tmp_user = $app->db->queryOneRecord("SELECT policy_id FROM spamfilter_users WHERE email = ?", $this->dataRecord["email"]);
 		if (isset($_POST['policy'])) $tmp_user['policy_id'] = intval($_POST['policy']);
 		$sql = "SELECT id, policy_name FROM spamfilter_policy WHERE ".$app->tform->getAuthSQL('r') . " ORDER BY policy_name";
-		$policys = $app->db->queryAllRecords($sql);
-		$policy_select = "<option value='0'>".$app->tform->lng("inherit_policy")."</option>";
-		if(is_array($policys)) {
-			foreach( $policys as $p) {
+		$policies = $app->db->queryAllRecords($sql);
+		$policy_select = "<option value='0'".(($tmp_user['policy_id'] == 0) ? " SELECTED>":">").$app->tform->lng("inherit_policy")."</option>";
+		if(is_array($policies)) {
+			foreach( $policies as $p) {
 				$selected = ($p["id"] == $tmp_user["policy_id"])?'SELECTED':'';
 				$policy_select .= "<option value='$p[id]' $selected>" . $app->functions->htmlentities($p['policy_name']) . "</option>\r\n";
 			}
 		}
 		$app->tpl->setVar("policy", $policy_select);
-		unset($policys);
+		unset($policies);
 		unset($policy_select);
 		unset($tmp_user);
 
@@ -281,42 +281,40 @@ class page_action extends tform_actions {
 
 		// Spamfilter policy
 		$policy_id = $app->functions->intval($this->dataRecord["policy"]);
-		if($policy_id > 0) {
-			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = ?", $this->dataRecord["email"]);
-			if($tmp_user["id"] > 0) {
-				// There is already a record that we will update
+		$tmp_user = $app->db->queryOneRecord("SELECT id, policy_id FROM spamfilter_users WHERE email = ?", $this->dataRecord["email"]);
+		if($tmp_user["id"] > 0) {
+			// There is already a record that we will update
+			if($policy_id != $tmp_user['policy_id']) {
 				$app->db->datalogUpdate('spamfilter_users', array("policy_id" => $policy_id), 'id', $tmp_user["id"]);
-			} else {
-				// We create a new record
-				$insert_data = array(
-					"sys_userid" => $_SESSION["s"]["user"]["userid"],
-					"sys_groupid" => $domain["sys_groupid"],
-					"sys_perm_user" => 'riud',
-					"sys_perm_group" => 'riud',
-					"sys_perm_other" => '',
-					"server_id" => $domain["server_id"],
-					"priority" => 10,
-					"policy_id" => $policy_id,
-					"email" => $this->dataRecord["email"],
-					"fullname" => $app->functions->idn_decode($this->dataRecord["email"]),
-					"local" => 'Y'
-				);
-				$app->db->datalogInsert('spamfilter_users', $insert_data, 'id');
 			}
-		}  // endif spamfilter policy
+		} else {
+			// We create a new record
+			$insert_data = array(
+				"sys_userid" => $_SESSION["s"]["user"]["userid"],
+				"sys_groupid" => $domain["sys_groupid"],
+				"sys_perm_user" => 'riud',
+				"sys_perm_group" => 'riud',
+				"sys_perm_other" => '',
+				"server_id" => $domain["server_id"],
+				"priority" => 7,
+				"policy_id" => $policy_id,
+				"email" => $this->dataRecord["email"],
+				"fullname" => $app->functions->idn_decode($this->dataRecord["email"]),
+				"local" => 'Y'
+			);
+			$app->db->datalogInsert('spamfilter_users', $insert_data, 'id');
+		}
 
 
 		// Set the fields for dovecot
-		if(isset($this->dataRecord["email"])) {
-			$disableimap = ($this->dataRecord["disableimap"])?'y':'n';
-			$disablepop3 = ($this->dataRecord["disablepop3"])?'y':'n';
-			$disablesmtp = ($this->dataRecord["disablesmtp"])?'y':'n';
-			$disabledeliver = ($this->dataRecord["disabledeliver"])?'y':'n';
+		$disableimap = ($this->dataRecord["disableimap"])?'y':'n';
+		$disablepop3 = ($this->dataRecord["disablepop3"])?'y':'n';
+		$disablesmtp = ($this->dataRecord["disablesmtp"])?'y':'n';
+		$disabledeliver = ($this->dataRecord["disabledeliver"])?'y':'n';
 
-			$app->db->query($sql, $disableimap, $disableimap, $disablepop3, $disablesmtp, $disabledeliver, $disabledeliver, $this->id);
-			$sql = "UPDATE mail_user SET disableimap = ?, disablesieve = ?, disablepop3 = ?, disablesmtp = ?, disabledeliver = ?, disablelda = ?, disablelmtp = ? WHERE mailuser_id = ?";
-			$app->db->query($sql, $disableimap, $disableimap, $disablepop3, $disablesmtp, $disabledeliver, $disabledeliver, $disabledeliver, $this->id);
-		}
+		$app->db->query($sql, $disableimap, $disableimap, $disablepop3, $disablesmtp, $disabledeliver, $disabledeliver, $this->id);
+		$sql = "UPDATE mail_user SET disableimap = ?, disablesieve = ?, disablepop3 = ?, disablesmtp = ?, disabledeliver = ?, disablelda = ?, disablelmtp = ? WHERE mailuser_id = ?";
+		$app->db->query($sql, $disableimap, $disableimap, $disablepop3, $disablesmtp, $disabledeliver, $disabledeliver, $disabledeliver, $this->id);
 	}
 
 	function onAfterUpdate() {
@@ -326,64 +324,103 @@ class page_action extends tform_actions {
 		if(isset($_POST["email_domain"])) {
 			$domain = $app->db->queryOneRecord("SELECT sys_groupid, server_id FROM mail_domain WHERE domain = ? AND ".$app->tform->getAuthSQL('r'), $app->functions->idn_encode($_POST["email_domain"]));
 			$app->db->query("UPDATE mail_user SET sys_groupid = ? WHERE mailuser_id = ?", $domain["sys_groupid"], $this->id);
-
-			// Spamfilter policy
-			$policy_id = $app->functions->intval($this->dataRecord["policy"]);
-			$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = ?", $this->dataRecord["email"]);
-			if($policy_id > 0) {
-				if($tmp_user["id"] > 0) {
-					// There is already a record that we will update
-					$app->db->datalogUpdate('spamfilter_users', array("policy_id" => $policy_id), 'id', $tmp_user["id"]);
-				} else {
-					// We create a new record
-					$insert_data = array(
-						"sys_userid" => $_SESSION["s"]["user"]["userid"],
-						"sys_groupid" => $domain["sys_groupid"],
-						"sys_perm_user" => 'riud',
-						"sys_perm_group" => 'riud',
-						"sys_perm_other" => '',
-						"server_id" => $domain["server_id"],
-						"priority" => 10,
-						"policy_id" => $policy_id,
-						"email" => $this->dataRecord["email"],
-						"fullname" => $app->functions->idn_decode($this->dataRecord["email"]),
-						"local" => 'Y'
-					);
-					$app->db->datalogInsert('spamfilter_users', $insert_data, 'id');
-				}
-			}else {
-				if($tmp_user["id"] > 0) {
-					// There is already a record but the user shall have no policy, so we delete it
-					$app->db->datalogDelete('spamfilter_users', 'id', $tmp_user["id"]);
-				}
-			} // endif spamfilter policy
 		}
 
 		// Set the fields for dovecot
-		if(isset($this->dataRecord["email"])) {
-			$disableimap = (isset($this->dataRecord["disableimap"]) && $this->dataRecord["disableimap"])?'y':'n';
-			$disablepop3 = (isset($this->dataRecord["disablepop3"]) && $this->dataRecord["disablepop3"])?'y':'n';
-			$disablesmtp = (isset($this->dataRecord["disablesmtp"]) && $this->dataRecord["disablesmtp"])?'y':'n';
-			$disabledeliver = (isset($this->dataRecord["disabledeliver"]) && $this->dataRecord["disabledeliver"])?'y':'n';
+		$disableimap = (isset($this->dataRecord["disableimap"]) && $this->dataRecord["disableimap"])?'y':'n';
+		$disablepop3 = (isset($this->dataRecord["disablepop3"]) && $this->dataRecord["disablepop3"])?'y':'n';
+		$disablesmtp = (isset($this->dataRecord["disablesmtp"]) && $this->dataRecord["disablesmtp"])?'y':'n';
+		$disabledeliver = (isset($this->dataRecord["disabledeliver"]) && $this->dataRecord["disabledeliver"])?'y':'n';
 
-			$sql = "UPDATE mail_user SET disableimap = ?, disablesieve = ?, `disablesieve-filter` = ?, disablepop3 = ?, disablesmtp = ?, disabledeliver = ?, disablelda = ?, disablelmtp = ? WHERE mailuser_id = ?";
-			$app->db->query($sql, $disableimap, $disableimap, $disableimap, $disablepop3, $disablesmtp, $disabledeliver, $disabledeliver, $disabledeliver, $this->id);
-		}
+		$sql = "UPDATE mail_user SET disableimap = ?, disablesieve = ?, `disablesieve-filter` = ?, disablepop3 = ?, disablesmtp = ?, disabledeliver = ?, disablelda = ?, disablelmtp = ? WHERE mailuser_id = ?";
+		$app->db->query($sql, $disableimap, $disableimap, $disableimap, $disablepop3, $disablesmtp, $disabledeliver, $disabledeliver, $disabledeliver, $this->id);
 
-		//** If the email address has been changed, change it in all aliases too
+		// Spamfilter policy
+		$policy_id = $app->functions->intval($this->dataRecord["policy"]);
+		$skip_spamfilter_users_update = false;
+
+		//** Handle email address change
 		if(isset($this->dataRecord['email']) && $this->oldDataRecord['email'] != $this->dataRecord['email']) {
-			//if($this->oldDataRecord['email'] != $this->dataRecord['email']) {
+			//** Update spamfilter_users and spamfilter_wblist
+			$tmp_olduser = $app->db->queryOneRecord("SELECT id,fullname FROM spamfilter_users WHERE email = ?", $this->oldDataRecord['email']);
+			if($tmp_olduser["id"] > 0) {
+				$tmp_newuser = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = ?", $this->dataRecord['email']);
+				if($tmp_newuser['id'] > 0) {
+					// There is a spamfilter_users for both old and new email, we'll update old wblist entries
+					$update_data = array(
+						'rid' => $tmp_newuser['id'],
+					);
+					if (isset($domain['sys_groupid'])) {
+						$update_data['sys_groupid'] = $domain['sys_groupid'];
+					}
+					$tmp_wblist = $app->db->queryAllRecords("SELECT wblist_id FROM spamfilter_wblist WHERE rid = ?", $tmp_olduser['id']);
+					foreach ($tmp_wblist as $tmp) {
+						$app->db->datalogUpdate('spamfilter_wblist', $update_data, 'wblist_id', $tmp['wblist_id']);
+					}
+
+					// now delete old spamfilter_users entry
+					$app->db->datalogDelete('spamfilter_users', 'id', $tmp_olduser['id']);
+
+					// we update spamfilter_users for new id below
+				} else {
+					$update_data = array(
+						'email' => $this->dataRecord['email'],
+						'policy_id' => $policy_id,
+					);
+					if (isset($domain['sys_groupid'])) {
+						$update_data['sys_groupid'] = $domain['sys_groupid'];
+					}
+					if($tmp_olduser['fullname'] == $app->functions->idn_decode($this->oldDataRecord['email'])) {
+						$update_data['fullname'] = $app->functions->idn_decode($this->dataRecord['email']);
+					}
+					$app->db->datalogUpdate('spamfilter_users', $update_data, 'id', $tmp_olduser['id']);
+					$skip_spamfilter_users_update = true;
+				}
+			}
 
 			//* Update the aliases
 			$forwardings = $app->db->queryAllRecords("SELECT * FROM mail_forwarding WHERE destination = ?", $this->oldDataRecord['email']);
 			if(is_array($forwardings)) {
 				foreach($forwardings as $rec) {
 					$destination = $this->dataRecord['email'];
-					$app->db->datalogUpdate('mail_forwarding', array("destination" => $destination), 'forwarding_id', $rec['forwarding_id']);
+					$update_data = array(
+						'destination' => $destination,
+					);
+					$app->db->datalogUpdate('mail_forwarding', $update_data, 'forwarding_id', $rec['forwarding_id']);
 				}
 			}
 
 		} // end if email addess changed
+
+		$tmp_user = $app->db->queryOneRecord("SELECT id FROM spamfilter_users WHERE email = ?", $this->dataRecord['email']);
+		if($tmp_user["id"] > 0) {
+			// There is already a record that we will update
+			if(!$skip_spamfilter_users_update) {
+				$update_data = array(
+					'policy_id' => $policy_id,
+				);
+				if (isset($domain['sys_groupid'])) {
+					$update_data['sys_groupid'] = $domain['sys_groupid'];
+				}
+				$app->db->datalogUpdate('spamfilter_users', $update_data, 'id', $tmp_user['id']);
+			}
+		} else {
+			// We create a new record
+			$insert_data = array(
+				"sys_userid" => $_SESSION["s"]["user"]["userid"],
+				"sys_groupid" => $domain["sys_groupid"],
+				"sys_perm_user" => 'riud',
+				"sys_perm_group" => 'riud',
+				"sys_perm_other" => '',
+				"server_id" => $domain["server_id"],
+				"priority" => 7,
+				"policy_id" => $policy_id,
+				"email" => $this->dataRecord["email"],
+				"fullname" => $app->functions->idn_decode($this->dataRecord["email"]),
+				"local" => 'Y'
+			);
+			$app->db->datalogInsert('spamfilter_users', $insert_data, 'id');
+		}
 
 		//* Change backup options when user mail backup options have been changed
 		if(isset($this->dataRecord['backup_interval']) && ($this->dataRecord['backup_interval'] != $this->oldDataRecord['backup_interval'] || $this->dataRecord['backup_copies'] != $this->oldDataRecord['backup_copies'])) {
@@ -401,4 +438,3 @@ class page_action extends tform_actions {
 $app->tform_actions = new page_action;
 $app->tform_actions->onLoad();
 
-?>

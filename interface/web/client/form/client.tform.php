@@ -840,6 +840,20 @@ $form["tabs"]['limits'] = array (
 			'rows'  => '',
 			'cols'  => ''
 		),
+		'limit_mail_wblist' => array (
+			'datatype' => 'INTEGER',
+			'formtype' => 'TEXT',
+			'validators' => array (  0 => array ( 'type' => 'ISINT',
+					'errmsg'=> 'limit_mail_wblist_error_notint'),
+			),
+			'default' => '-1',
+			'value'  => '',
+			'separator' => '',
+			'width'  => '10',
+			'maxlength' => '10',
+			'rows'  => '',
+			'cols'  => ''
+		),
 		'limit_mailfilter' => array (
 			'datatype' => 'INTEGER',
 			'formtype' => 'TEXT',
@@ -929,6 +943,11 @@ $form["tabs"]['limits'] = array (
 			'formtype' => 'CHECKBOX',
 			'default' => 'y',
 			'valuelimit' => 'client:limit_mail_backup',
+		'limit_relayhost' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'valuelimit' => 'client:limit_relayhost',
 			'value'  => array(0 => 'n', 1 => 'y')
 		),
         'default_xmppserver' => array (

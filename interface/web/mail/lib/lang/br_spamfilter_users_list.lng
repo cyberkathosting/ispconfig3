@@ -1,10 +1,9 @@
 <?php
-$wb['list_head_txt'] = 'Filtros anti-spam para contas de e-mail';
+$wb['list_head_txt'] = 'Filtros anti-spam para contas de email';
 $wb['local_txt'] = 'Local';
 $wb['server_id_txt'] = 'Servidor';
 $wb['priority_txt'] = 'Prioridade';
 $wb['policy_id_txt'] = 'Política';
 $wb['fullname_txt'] = 'Nome';
-$wb['email_txt'] = 'e-Mail';
+$wb['email_txt'] = 'eMail';
 $wb['add_new_record_txt'] = 'Adicionar novo filtro';
-?>

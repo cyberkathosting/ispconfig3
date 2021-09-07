@@ -2,6 +2,5 @@
 $wb['mailbox_spamfilter_txt'] = 'Spamový filtr';
 $wb['spamfilter_txt'] = 'Spamový filtr';
 $wb['email_txt'] = 'E-mail';
-$wb['inherit_policy'] = '- Inherit domain setting -';
+$wb['inherit_policy'] = '- Zdědit nastavení od domény -';
 $wb['policy_txt'] = 'Politika';
-?>

@@ -1,6 +1,6 @@
 <?php
 $wb['list_head_txt'] = 'Firewall';
-$wb['add_new_rule_txt'] = 'Adicionar regra de firewall';
+$wb['add_new_rule_txt'] = 'Adicionar regra de Firewall';
 $wb['server_id_txt'] = 'Servidor';
 $wb['multiport_txt'] = 'Multi portas';
 $wb['singleport_txt'] = 'Porta simples';
@@ -12,4 +12,3 @@ $wb['destination_ip_txt'] = 'Endereço de destino';
 $wb['source_ip_txt'] = 'Endereço de origem';
 $wb['active_txt'] = 'Ativo';
 $wb['iptables_error_unique'] = 'Já existe uma regra idêntica para este servidor.';
-?>

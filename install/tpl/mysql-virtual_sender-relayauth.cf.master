@@ -1,0 +1,10 @@
+user = {mysql_server_ispconfig_user}
+password = {mysql_server_ispconfig_password}
+dbname = {mysql_server_database}
+hosts = {mysql_server_ip}
+query = SELECT CONCAT(relay_user,':',relay_pass) as credential
+  FROM mail_domain
+  WHERE domain = '%d'
+  AND active = 'y'
+  AND concat(relay_host,relay_user,relay_pass) != ''
+  AND server_id = {server_id}

@@ -49,11 +49,37 @@
             </div>
 			<div class="form-group rspamd">
                 <label for="rspamd_url" class="col-sm-3 control-label col-text">{tmpl_var name='rspamd_url_txt'}</label>
-                <div class="col-sm-6"><a href="{tmpl_var name='rspamd_url'}" target="_blank">{tmpl_var name='rspamd_url'}</a><a href="{tmpl_var name='rspamd_url'}" target="_blank" class="btn btn-default formbutton-default formbutton-narrow" style="margin-left:20px"><span class="icon icon-link"></span></a></div>
+				<div class="col-sm-8"><div class="input-group">
+					<input type="text" name="rspamd_url" id="rspamd_url" value="{tmpl_var name='rspamd_url'}" class="form-control" />
+					<span class="input-group-btn">
+						<a href="{tmpl_var name='rspamd_url'}" target="_blank" class="btn btn-default formbutton-default formbutton-narrow" style="margin-left:20px"><span class="icon icon-link"></span></a>
+					</span>
+				</div></div>
+			</div>
             </div>
 			<div class="form-group rspamd">
                 <label for="rspamd_password" class="col-sm-3 control-label">{tmpl_var name='rspamd_password_txt'}</label>
                 <div class="col-sm-9"><input type="text" name="rspamd_password" id="rspamd_password" value="{tmpl_var name='rspamd_password'}" class="form-control" /></div>
+			</div>
+			<div class="form-group rspamd">
+                <label for="rspamd_redis_servers" class="col-sm-3 control-label">{tmpl_var name='rspamd_redis_servers_txt'}</label>
+                <div class="col-sm-9" data-toggle="tooltip" title="{tmpl_var name='tooltip_rspamd_redis_servers_txt'}">
+			<input type="text" name="rspamd_redis_servers" id="rspamd_redis_servers" value="{tmpl_var name='rspamd_redis_servers'}" class="form-control" /></div>
+			</div>
+			<div class="form-group rspamd">
+                <label for="rspamd_redis_password" class="col-sm-3 control-label">{tmpl_var name='rspamd_redis_password_txt'}</label>
+                <div class="col-sm-9" data-toggle="tooltip" title="{tmpl_var name='tooltip_rspamd_redis_password_txt'}">
+			<input type="text" name="rspamd_redis_password" id="rspamd_redis_password" value="{tmpl_var name='rspamd_redis_password'}" class="form-control" /></div>
+			</div>
+			<div class="form-group rspamd">
+                <label for="rspamd_redis_bayes_servers" class="col-sm-3 control-label">{tmpl_var name='rspamd_redis_bayes_servers_txt'}</label>
+                <div class="col-sm-9" data-toggle="tooltip" title="{tmpl_var name='tooltip_rspamd_redis_bayes_servers_txt'}">
+			<input type="text" name="rspamd_redis_bayes_servers" id="rspamd_redis_bayes_servers" value="{tmpl_var name='rspamd_redis_bayes_servers'}" class="form-control" /></div>
+			</div>
+			<div class="form-group rspamd">
+                <label for="rspamd_redis_bayes_password" class="col-sm-3 control-label">{tmpl_var name='rspamd_redis_bayes_password_txt'}</label>
+                <div class="col-sm-9" data-toggle="tooltip" title="{tmpl_var name='tooltip_rspamd_redis_bayes_password_txt'}">
+			<input type="text" name="rspamd_redis_bayes_password" id="rspamd_redis_bayes_password" value="{tmpl_var name='rspamd_redis_bayes_password'}" class="form-control" /></div>
 			</div>
             <div class="form-group">
                 <label for="mailuser_uid" class="col-sm-3 control-label">{tmpl_var name='mailuser_uid_txt'}</label>

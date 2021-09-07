@@ -1,5 +1,4 @@
 enabled = true;
-servers = "localhost";
 key_prefix = "rmx";
 symbol_bad_mx = "MX_INVALID";
 symbol_no_mx = "MX_MISSING";

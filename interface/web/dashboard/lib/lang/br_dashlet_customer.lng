@@ -1,4 +1,3 @@
 <?php
 $wb['customerdata_txt'] = 'Meus dados';
 $wb['edit_txt'] = 'Editar';
-?>

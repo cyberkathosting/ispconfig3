@@ -6,8 +6,7 @@ $wb['autoresponder_txt'] = 'Aktivní';
 $wb['autoresponder_start_date_txt'] = 'Začít od';
 $wb['autoresponder_start_date_isfuture'] = 'Datum zahájení nesmí být v minulosti.';
 $wb['autoresponder_end_date_txt'] = 'Skončit';
-$wb['autoresponder_end_date_isgreater'] = 'End date must be later than start date.';
+$wb['autoresponder_end_date_isgreater'] = 'Datum ukončení musí být nastaven a musí být pozdější než datum zahájení.';
 $wb['autoresponder_active'] = 'Povolit automatický odpovídač';
 $wb['now_txt'] = 'Nyní';
 $wb['autoresponder_subject_txt'] = 'Předmět e-mailu';
-?>

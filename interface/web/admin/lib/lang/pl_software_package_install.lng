@@ -1,6 +1,0 @@
-<?php
-$wb['head_txt'] = 'Instalacja pakietu oprogramowania';
-$wb['install_key_txt'] = 'Podaj klucz instalacyjny';
-$wb['btn_save_txt'] = 'Start instalacji';
-$wb['btn_cancel_txt'] = 'Przerwij';
-?>

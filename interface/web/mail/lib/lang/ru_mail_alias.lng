@@ -14,4 +14,3 @@ $wb['source_txt'] = 'Алиас';
 $wb['greylisting_txt'] = 'Включить серый список (Greylisting)';
 $wb['send_as_txt'] = 'Отправить как';
 $wb['send_as_exp'] = 'Allow target to send mail using this alias as origin';
-?>

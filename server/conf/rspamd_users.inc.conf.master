@@ -38,9 +38,11 @@
 		actions {
 		<tmpl_if name='rspamd_spam_tag_method' op='==' value='rewrite_subject'>
 			"rewrite subject" =  <tmpl_var name='rspamd_spam_tag_level'>;
+			"add header" = null;
 		</tmpl_if>
 		<tmpl_if name='rspamd_spam_tag_method' op='==' value='add_header'>
 			"add header" =  <tmpl_var name='rspamd_spam_tag_level'>;
+			"rewrite subject" = null;
 		</tmpl_if>
 			reject = <tmpl_var name='rspamd_spam_kill_level'>;
 	<tmpl_if name='greylisting'>

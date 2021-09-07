@@ -1,0 +1,6 @@
+# Domain whitelist via valid SPF policy
+# (Prefer to spf_dkim_whitelist for domains that use both SPF and DKIM.)
+
+howtoforge.com
+ispconfig.org
+

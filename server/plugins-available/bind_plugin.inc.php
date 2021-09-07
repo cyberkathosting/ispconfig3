@@ -208,7 +208,7 @@ class bind_plugin {
 
 		//* Check for available entropy
 		if (file_get_contents('/proc/sys/kernel/random/entropy_avail') < 200) {
-			$app->log('DNSSEC ERROR: We are low on entropy. This could cause server script to fail. Please consider installing package haveged.', LOGLEVEL_ERR);
+			$app->log('DNSSEC ERROR: We are low on entropy. This could cause server script to fail. Please consider installing package haveged.', LOGLEVEL_ERROR);
 			echo "DNSSEC ERROR: We are low on entropy. This could cause server script to fail. Please consider installing package haveged.\n";
 			return false;
 		}
@@ -219,7 +219,7 @@ class bind_plugin {
 		$app->system->exec_safe('cd ?; named-checkzone ? ? | egrep -ho \'[0-9]{10}\'', $dns_config['bind_zonefiles_dir'], $domain, $dns_config['bind_zonefiles_dir'].'/'.$filespre.$domain);
 		$retState = $app->system->last_exec_retcode();
 		if ($retState != 0) {
-			$app->log('DNSSEC Error: Error in Zonefile for '.$domain, LOGLEVEL_ERR);
+			$app->log('DNSSEC Error: Error in Zonefile for '.$domain, LOGLEVEL_ERROR);
 			return false;
 		}
 
@@ -286,6 +286,7 @@ class bind_plugin {
 
 			$records = $app->db->queryAllRecords("SELECT * FROM dns_rr WHERE zone = ? AND active = 'Y'", $zone['id']);
 			if(is_array($records) && !empty($records)){
+				$caa_add_rec = -1;
 				for($i=0;$i<sizeof($records);$i++){
 					if($records[$i]['ttl'] == 0) $records[$i]['ttl'] = '';
 					if($records[$i]['name'] == '') $records[$i]['name'] = '@';
@@ -301,7 +302,21 @@ class bind_plugin {
 						$records[$i]['data'] = implode(' ', $temp);
 						$data_new = str_replace(array('"', ' '), '', $records[$i]['data']);
 						$hex = unpack('H*', $data_new);
-						$hex[1] = '0005'.strtoupper($hex[1]);
+						if ($temp[1] == 'issuewild') {
+							$hex[1] = '0009'.strtoupper($hex[1]);
+							if ($caa_add_rec == -1) {
+								// add issue ";" if only issuewild recordsa
+								$caa_add_rec = array_push($records, $records[$i]);
+								$records[$caa_add_rec-1]['data'] = "\# 8 000569737375653B";
+							}
+						} else {
+							$hex[1] = '0005'.strtoupper($hex[1]);
+							if ($caa_add_rec > 0) {
+								// remove previously added issue ";" 
+								array_pop($records);
+							}
+							$caa_add_rec = -2;
+						}
 						$length = strlen($hex[1])/2;
 						$data_new = "\# $length $hex[1]";
 						$records[$i]['data'] = $data_new;
@@ -325,7 +340,7 @@ class bind_plugin {
 			if($return_status === 0) {
 				$app->log("Writing BIND domain file: ".$filename, LOGLEVEL_DEBUG);
 			} else {
-				$loglevel = @($dns_config['disable_bind_log'] === 'y')?'LOGLEVEL_DEBUG':'LOGLEVEL_WARN';
+				$loglevel = @($dns_config['disable_bind_log'] === 'y') ? LOGLEVEL_DEBUG : LOGLEVEL_WARN;
 				$app->log("Writing BIND domain file failed: ".$filename." ".implode(' ', $out), $loglevel);
 				if(is_array($out) && !empty($out)){
 					$app->log('Reason for Bind restart failure: '.implode("\n", $out), $loglevel);
@@ -402,12 +417,6 @@ class bind_plugin {
 		if(is_file($zone_file_name.'.err')) unlink($zone_file_name.'.err');
 		$app->log("Deleting BIND domain file: ".$zone_file_name, LOGLEVEL_DEBUG);
 
- 		//* DNSSEC-Implementation
- 		if($data['old']['dnssec_initialized'] == 'Y' && file_exists('/usr/local/ispconfig/server/scripts/dnssec-delete.sh')) {
-			//delete keys
-			$app->system->exec_safe('/usr/local/ispconfig/server/scripts/dnssec-delete.sh ?', $data['old']['origin']);
-		}
-
 		//* Reload bind nameserver
 		$app->services->restartServiceDelayed('bind', 'reload');
 
@@ -443,7 +452,7 @@ class bind_plugin {
 
 		//* Ensure that the named slave directory is writable by the named user
 		$slave_record_dir = $dns_config['bind_zonefiles_dir'].'/'.$this->slave_zone_file_prefix();
-		if(!@is_dir($slave_record_dir)) mkdir($slave_record_dir, 0770);
+		if(!@is_dir($slave_record_dir)) mkdir($slave_record_dir, 0770, true);
 		chown($slave_record_dir, $dns_config['bind_user']);
 		chgrp($slave_record_dir, $dns_config['bind_group']);
 

@@ -212,6 +212,11 @@ class page_action extends tform_actions {
 					unset($dbname_prefix);
 				}
 
+				//* ensure that quota value is not 0 when quota is set for client
+				if($client['limit_database_quota'] > 0 && isset($_POST["database_quota"]) && $_POST["database_quota"] == 0) {
+					$app->tform->errorMessage .= $app->tform->lng("limit_database_quota_not_0_txt")."<br>";
+				}
+
 				if($client['parent_client_id'] > 0) {
 					// Get the limits of the reseller
 					$reseller = $app->db->queryOneRecord("SELECT limit_database, limit_database_quota FROM client WHERE client_id = ?", $client['parent_client_id']);
@@ -357,9 +362,13 @@ class page_action extends tform_actions {
 		if($tmp['server_id'] && $tmp['server_id'] != $this->dataRecord['server_id']) {
 			// we need remote access rights for this server, so get it's ip address
 			$server_config = $app->getconf->get_server_config($tmp['server_id'], 'server');
-			
+
 			// Add default remote_ips from Main Configuration.
-			$remote_ips = explode(",", $global_config['default_remote_dbserver']);
+			if(empty($global_config['default_remote_dbserver'])) {
+				$remote_ips = array();
+			} else {
+				$remote_ips = explode(",", $global_config['default_remote_dbserver']);
+			}
 			if (!in_array($server_config['ip_address'], $default_remote_db)) { $remote_ips[] = $server_config['ip_address']; }
 
 			if($server_config['ip_address']!='') {
@@ -380,7 +389,7 @@ class page_action extends tform_actions {
 				}
 			}
 		}
-		
+
 		if ($app->tform->errorMessage == '') {
 			// force update of the used database user
 			if($this->dataRecord['database_user_id']) {
@@ -442,9 +451,14 @@ class page_action extends tform_actions {
 		if($tmp['server_id'] && $tmp['server_id'] != $this->dataRecord['server_id']) {
 			// we need remote access rights for this server, so get it's ip address
 			$server_config = $app->getconf->get_server_config($tmp['server_id'], 'server');
-			
+
 			// Add default remote_ips from Main Configuration.
-			$remote_ips = explode(",", $global_config['default_remote_dbserver']);
+			if(empty($global_config['default_remote_dbserver'])) {
+				$remote_ips = array();
+			} else {
+				$remote_ips = explode(",", $global_config['default_remote_dbserver']);
+			}
+			
 			if (!in_array($server_config['ip_address'], $default_remote_db)) { $remote_ips[] = $server_config['ip_address']; }
 
 			if($server_config['ip_address']!='') {

@@ -13,4 +13,3 @@ $wb['restart_exec_txt'] = 'O comando "Reiniciar" foi enviando para o virtualizad
 $wb['ostemplate_name_error'] = 'O gabarito de sistema operacional contém caracteres não permitidos.';
 $wb['ostemplate_name_unique_error'] = 'Já existe um gabarito de sistema operacional com o mesmo nome.';
 $wb['ostemplate_exec_txt'] = 'O comando "Adicionar gabarito de SO" foi enviado para o virtualizador. Aguarde alguns instantes para o gabarito ser adicionado.';
-?>

@@ -73,7 +73,7 @@ class backup_plugin {
 			$app->uses('ini_parser,file,getconf,system');
 			$app->load("backup");
 
-			$web = $app->db->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $backup['parent_domain_id']);
+			$web = $app->dbmaster->queryOneRecord("SELECT * FROM web_domain WHERE domain_id = ?", $backup['parent_domain_id']);
 			$server_config = $app->getconf->get_server_config($conf['server_id'], 'server');
 			$backup_dir = trim($server_config['backup_dir']);
 			if($backup_dir == '') return;

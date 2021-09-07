@@ -6,4 +6,3 @@ $wb['source_txt'] = 'Endereço do destinatário';
 $wb['recipient_txt'] = 'Destinatário';
 $wb['add_new_record_txt'] = 'Adicionar novo destinatário de retransmissão';
 $wb['access_txt'] = 'acesso';
-?>

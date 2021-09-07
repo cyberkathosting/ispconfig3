@@ -3,5 +3,4 @@ $wb['list_head_txt'] = 'Klientské šablony';
 $wb['template_type_txt'] = 'Typ';
 $wb['template_name_txt'] = 'Název šablony';
 $wb['template_id_txt'] = 'ID šablony';
-$wb['sys_groupid_txt'] = 'Reseller';
-?>
+$wb['sys_groupid_txt'] = 'Prodejce';

@@ -4,4 +4,3 @@ $wb['language_select_txt'] = 'Selecionar idioma';
 $wb['module_txt'] = 'Módulo';
 $wb['lang_file_txt'] = 'Arquivo de idioma';
 $wb['lang_file_date_txt'] = 'Última modificação';
-?>

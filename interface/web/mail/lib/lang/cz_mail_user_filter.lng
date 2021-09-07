@@ -16,7 +16,7 @@ $wb['contains_txt'] = 'Obsahuje';
 $wb['is_txt'] = 'Je';
 $wb['begins_with_txt'] = 'Začíná na';
 $wb['ends_with_txt'] = 'Končí na';
-$wb['regex_txt'] = 'Matches Regex';
+$wb['regex_txt'] = 'Shoduje se s regulárním výrazem';
 $wb['delete_txt'] = 'Smazat';
 $wb['move_stop_txt'] = 'Přesunout';
 $wb['header_txt'] = 'Hlavička';
@@ -25,7 +25,6 @@ $wb['size_under_txt'] = 'Velikost e-mailu menší jak (KB)';
 $wb['localpart_txt'] = 'Localpart';
 $wb['domain_txt'] = 'Doména';
 $wb['keep_txt'] = 'Keep';
-$wb['reject_txt'] = 'Reject';
+$wb['reject_txt'] = 'Odmítnout';
 $wb['stop_txt'] = 'Stop';
 $wb['move_to_txt'] = 'Přesunout';
-?>

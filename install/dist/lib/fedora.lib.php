@@ -47,268 +47,6 @@ class installer_dist extends installer_base {
 		}
 	}
 
-	function configure_postfix($options = '')
-	{
-		global $conf,$autoinstall;
-		$cf = $conf['postfix'];
-		$config_dir = $cf['config_dir'];
-
-		if(!is_dir($config_dir)){
-			$this->error("The postfix configuration directory '$config_dir' does not exist.");
-		}
-
-		//* mysql-virtual_domains.cf
-		$this->process_postfix_config('mysql-virtual_domains.cf');
-
-		//* mysql-virtual_forwardings.cf
-		$this->process_postfix_config('mysql-virtual_forwardings.cf');
-
-		//* mysql-virtual_alias_domains.cf
-		$this->process_postfix_config('mysql-virtual_alias_domains.cf');
-
-		//* mysql-virtual_alias_maps.cf
-		$this->process_postfix_config('mysql-virtual_alias_maps.cf');
-
-		//* mysql-virtual_mailboxes.cf
-		$this->process_postfix_config('mysql-virtual_mailboxes.cf');
-
-		//* mysql-virtual_email2email.cf
-		$this->process_postfix_config('mysql-virtual_email2email.cf');
-
-		//* mysql-virtual_transports.cf
-		$this->process_postfix_config('mysql-virtual_transports.cf');
-
-		//* mysql-virtual_recipient.cf
-		$this->process_postfix_config('mysql-virtual_recipient.cf');
-
-		//* mysql-virtual_sender.cf
-		$this->process_postfix_config('mysql-virtual_sender.cf');
-
-		//* mysql-virtual_sender_login_maps.cf
-		$this->process_postfix_config('mysql-virtual_sender_login_maps.cf');
-
-		//* mysql-virtual_client.cf
-		$this->process_postfix_config('mysql-virtual_client.cf');
-
-		//* mysql-virtual_relaydomains.cf
-		$this->process_postfix_config('mysql-virtual_relaydomains.cf');
-
-		//* mysql-virtual_relayrecipientmaps.cf
-		$this->process_postfix_config('mysql-virtual_relayrecipientmaps.cf');
-
-		//* mysql-virtual_outgoing_bcc.cf
-		$this->process_postfix_config('mysql-virtual_outgoing_bcc.cf');
-
-		//* mysql-virtual_policy_greylist.cf
-		$this->process_postfix_config('mysql-virtual_policy_greylist.cf');
-
-		//* mysql-virtual_gids.cf.master
-		$this->process_postfix_config('mysql-virtual_gids.cf');
-
-		//* mysql-virtual_uids.cf
-		$this->process_postfix_config('mysql-virtual_uids.cf');
-
-		//* mysql-virtual_alias_domains.cf
-		$this->process_postfix_config('mysql-verify_recipients.cf');
-
-		//* postfix-dkim
-		$filename='tag_as_originating.re';
-		$full_file_name=$config_dir.'/'.$filename;
-		if(is_file($full_file_name)) copy($full_file_name, $full_file_name.'~');
-		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/postfix-'.$filename.'.master', 'tpl/postfix-'.$filename.'.master');
-		wf($full_file_name, $content);
-
-		$filename='tag_as_foreign.re';
-		$full_file_name=$config_dir.'/'.$filename;
-		if(is_file($full_file_name)) copy($full_file_name, $full_file_name.'~');
-		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/postfix-'.$filename.'.master', 'tpl/postfix-'.$filename.'.master');
-		wf($full_file_name, $content);
-
-		//* Creating virtual mail user and group
-		$command = 'groupadd -g '.$cf['vmail_groupid'].' '.$cf['vmail_groupname'];
-		if(!is_group($cf['vmail_groupname'])) caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-
-		$command = 'useradd -g '.$cf['vmail_groupname'].' -u '.$cf['vmail_userid'].' '.$cf['vmail_username'].' -d '.$cf['vmail_mailbox_base'].' -m';
-		if(!is_user($cf['vmail_username'])) caselog("$command &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-
-		//* These postconf commands will be executed on installation and update
-		$server_ini_rec = $this->db->queryOneRecord("SELECT config FROM server WHERE server_id = ?", $conf['server_id']);
-		$server_ini_array = ini_to_array(stripslashes($server_ini_rec['config']));
-		unset($server_ini_rec);
-
-		//* If there are RBL's defined, format the list and add them to smtp_recipient_restrictions to prevent removeal after an update
-		$rbl_list = '';
-		if (@isset($server_ini_array['mail']['realtime_blackhole_list']) && $server_ini_array['mail']['realtime_blackhole_list'] != '') {
-			$rbl_hosts = explode(",", str_replace(" ", "", $server_ini_array['mail']['realtime_blackhole_list']));
-			foreach ($rbl_hosts as $key => $value) {
-				$rbl_list .= ", reject_rbl_client ". $value;
-			}
-		}
-		unset($rbl_hosts);
-
-		//* If Postgrey is installed, configure it
-		$greylisting = '';
-		if($conf['postgrey']['installed'] == true) {
-			$greylisting = ', check_recipient_access mysql:/etc/postfix/mysql-virtual_policy_greylist.cf';
-		}
-
-		$reject_sender_login_mismatch = '';
-		$reject_authenticated_sender_login_mismatch = '';
-		if(isset($server_ini_array['mail']['reject_sender_login_mismatch']) && ($server_ini_array['mail']['reject_sender_login_mismatch'] == 'y')) {
-			$reject_sender_login_mismatch = ', reject_sender_login_mismatch';
-			$reject_authenticated_sender_login_mismatch = 'reject_authenticated_sender_login_mismatch, ';
-		}
-
-		# placeholder includes comment char
-		$stress_adaptive_placeholder = '#{stress_adaptive} ';
-		$stress_adaptive = (isset($server_ini_array['mail']['stress_adaptive']) && ($server_ini_array['mail']['stress_adaptive'] == 'y')) ? '' : $stress_adaptive_placeholder;
-
-		unset($server_ini_array);
-
-		$postconf_placeholders = array('{config_dir}' => $config_dir,
-			'{vmail_mailbox_base}' => $cf['vmail_mailbox_base'],
-			'{vmail_userid}' => $cf['vmail_userid'],
-			'{vmail_groupid}' => $cf['vmail_groupid'],
-			'{rbl_list}' => $rbl_list,
-			'{greylisting}' => $greylisting,
-			'{reject_slm}' => $reject_sender_login_mismatch,
-			'{reject_aslm}' => $reject_authenticated_sender_login_mismatch,
-			$stress_adaptive_placeholder => $stress_adaptive,
-		);
-
-		$postconf_tpl = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/fedora_postfix.conf.master', 'tpl/fedora_postfix.conf.master');
-		$postconf_tpl = strtr($postconf_tpl, $postconf_placeholders);
-		$postconf_commands = array_filter(explode("\n", $postconf_tpl)); // read and remove empty lines
-
-		//* These postconf commands will be executed on installation only
-		if($this->is_update == false) {
-			$postconf_commands = array_merge($postconf_commands, array(
-					'myhostname = '.$conf['hostname'],
-					'mydestination = '.$conf['hostname'].', localhost, localhost.localdomain',
-					'mynetworks = 127.0.0.0/8 [::1]/128'
-				));
-		}
-
-		//* Create the header and body check files
-		touch($config_dir.'/header_checks');
-		touch($config_dir.'/mime_header_checks');
-		touch($config_dir.'/nested_header_checks');
-		touch($config_dir.'/body_checks');
-
-		//* Create the mailman files
-		if(!is_dir('/var/lib/mailman/data')) exec('mkdir -p /var/lib/mailman/data');
-		//if(!is_file('/var/lib/mailman/data/aliases')) touch('/var/lib/mailman/data/aliases');
-		if(is_file('/var/lib/mailman/data/aliases')) unlink('/var/lib/mailman/data/aliases');
-		if(!is_link('/var/lib/mailman/data/aliases')) symlink('/etc/mailman/aliases', '/var/lib/mailman/data/aliases');
-		if(!is_dir('/etc/mailman')) mkdir('/etc/mailman');
-		if(!is_file('/etc/mailman/aliases')) touch('/etc/mailman/aliases');
-		exec('postalias /var/lib/mailman/data/aliases');
-		if(!is_file('/etc/mailman/virtual-mailman')) touch('/etc/mailman/virtual-mailman');
-		exec('postmap /etc/mailman/virtual-mailman');
-		if(!is_file('/var/lib/mailman/data/transport-mailman')) touch('/var/lib/mailman/data/transport-mailman');
-		exec('/usr/sbin/postmap /var/lib/mailman/data/transport-mailman');
-
-		//* Create auxillary postfix conf files
-		$configfile = 'helo_access';
-		if(is_file($config_dir.'/'.$configfile)) {
-			copy($config_dir.'/'.$configfile, $config_dir.'/'.$configfile.'~');
-			chmod($config_dir.'/'.$configfile.'~', 0400);
-		}
-		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', 'tpl/'.$configfile.'.master');
-		$content = strtr($content, $postconf_placeholders);
-		# todo: look up this server's ip addrs and loop through each
-		# todo: look up domains hosted on this server and loop through each
-		wf($config_dir.'/'.$configfile, $content);
-
-		$configfile = 'blacklist_helo';
-		if(is_file($config_dir.'/'.$configfile)) {
-			copy($config_dir.'/'.$configfile, $config_dir.'/'.$configfile.'~');
-			chmod($config_dir.'/'.$configfile.'~', 0400);
-		}
-		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', 'tpl/'.$configfile.'.master');
-		$content = strtr($content, $postconf_placeholders);
-		wf($config_dir.'/'.$configfile, $content);
-
-		//* Make a backup copy of the main.cf file
-		copy($config_dir.'/main.cf', $config_dir.'/main.cf~');
-
-		//* Executing the postconf commands
-		foreach($postconf_commands as $cmd) {
-			$command = "postconf -e '$cmd'";
-			caselog($command." &> /dev/null", __FILE__, __LINE__, 'EXECUTED: '.$command, 'Failed to execute the command '.$command);
-		}
-
-		if(!stristr($options, 'dont-create-certs')) {
-			//* Create the SSL certificate
-			if(AUTOINSTALL){
-				$command = 'cd '.$config_dir.'; '
-					."openssl req -new -subj '/C=".escapeshellcmd($autoinstall['ssl_cert_country'])."/ST=".escapeshellcmd($autoinstall['ssl_cert_state'])."/L=".escapeshellcmd($autoinstall['ssl_cert_locality'])."/O=".escapeshellcmd($autoinstall['ssl_cert_organisation'])."/OU=".escapeshellcmd($autoinstall['ssl_cert_organisation_unit'])."/CN=".escapeshellcmd($autoinstall['ssl_cert_common_name'])."' -outform PEM -out smtpd.cert -newkey rsa:4096 -nodes -keyout smtpd.key -keyform PEM -days 3650 -x509";
-			} else {
-				$command = 'cd '.$config_dir.'; '
-					.'openssl req -new -outform PEM -out smtpd.cert -newkey rsa:4096 -nodes -keyout smtpd.key -keyform PEM -days 3650 -x509';
-			}
-			exec($command);
-
-			$command = 'chmod o= '.$config_dir.'/smtpd.key';
-			caselog($command.' &> /dev/null', __FILE__, __LINE__, 'EXECUTED: '.$command, 'Failed to execute the command '.$command);
-		}
-
-		//** We have to change the permissions of the courier authdaemon directory to make it accessible for maildrop.
-		$command = 'chmod 755 /var/spool/authdaemon';
-		caselog($command.' &> /dev/null', __FILE__, __LINE__, 'EXECUTED: '.$command, 'Failed to execute the command '.$command);
-
-		//* Changing maildrop lines in posfix master.cf
-		if(is_file($config_dir.'/master.cf')){
-			copy($config_dir.'/master.cf', $config_dir.'/master.cf~');
-		}
-		if(is_file($config_dir.'/master.cf~')){
-			exec('chmod 400 '.$config_dir.'/master.cf~');
-		}
-		$configfile = $config_dir.'/master.cf';
-		$content = rf($configfile);
-		// if postfix package is from fedora or centios main repo
-		$content = str_replace('#  flags=DRhu user=vmail argv=/usr/local/bin/maildrop -d ${recipient}',
-			'  flags=DRhu user='.$cf['vmail_username'].' argv=/usr/bin/maildrop -d ${recipient} ${extension} ${recipient} ${user} ${nexthop} ${sender}',
-			$content);
-
-		// If postfix package is from centos plus repo
-		$content = str_replace('#  flags=DRhu user=vmail argv=/usr/bin/maildrop -d ${recipient}',
-			'  flags=DRhu user='.$cf['vmail_username'].' argv=/usr/bin/maildrop -d ${recipient} ${extension} ${recipient} ${user} ${nexthop} ${sender}',
-			$content);
-
-		$content = str_replace('  flags=DRhu user=vmail argv=/usr/local/bin/maildrop -d ${recipient}',
-			'  flags=DRhu user='.$cf['vmail_username'].' argv=/usr/bin/maildrop -d ${recipient} ${extension} ${recipient} ${user} ${nexthop} ${sender}',
-			$content);
-
-
-		$content = str_replace('#maildrop  unix  -       n       n       -       -       pipe',
-			'maildrop  unix  -       n       n       -       -       pipe',
-			$content);
-
-		wf($configfile, $content);
-
-		//* Writing the Maildrop mailfilter file
-		$configfile = 'mailfilter';
-		if(is_file($cf['vmail_mailbox_base'].'/.'.$configfile)){
-			copy($cf['vmail_mailbox_base'].'/.'.$configfile, $cf['vmail_mailbox_base'].'/.'.$configfile.'~');
-		}
-		$content = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/'.$configfile.'.master', "tpl/$configfile.master");
-		$content = str_replace('{dist_postfix_vmail_mailbox_base}', $cf['vmail_mailbox_base'], $content);
-		wf($cf['vmail_mailbox_base'].'/.'.$configfile, $content);
-
-		//* Create the directory for the custom mailfilters
-		$command = 'mkdir '.$cf['vmail_mailbox_base'].'/mailfilters';
-		caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-
-		//* Chmod and chown the .mailfilter file
-		$command = 'chown -R '.$cf['vmail_username'].':'.$cf['vmail_groupname'].' '.$cf['vmail_mailbox_base'].'/.mailfilter';
-		caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-
-		$command = 'chmod -R 600 '.$cf['vmail_mailbox_base'].'/.mailfilter';
-		caselog($command." &> /dev/null", __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
-
-	}
-
 	public function configure_saslauthd() {
 		global $conf;
 
@@ -380,6 +118,11 @@ class installer_dist extends installer_base {
 		$virtual_transport = 'dovecot';
 
 		$configure_lmtp = false;
+
+		// use lmtp if installed
+		if($configure_lmtp = (is_file('/usr/lib/dovecot/lmtp') || is_file('/usr/libexec/dovecot/lmtp'))) {
+			$virtual_transport = 'lmtp:unix:private/dovecot-lmtp';
+		}
 
 		// check if virtual_transport must be changed
 		if ($this->is_update) {
@@ -1208,8 +951,8 @@ class installer_dist extends installer_base {
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 		if ($this->install_ispconfig_interface == true && isset($conf['interface_password']) && $conf['interface_password']!='admin') {
-			$sql = "UPDATE sys_user SET passwort = md5(?) WHERE username = 'admin';";
-			$this->db->query($sql, $conf['interface_password']);
+			$sql = "UPDATE sys_user SET passwort = ? WHERE username = 'admin';";
+			$this->db->query($sql, $this->crypt_password($conf['interface_password']));
 		}
 
 		if($conf['apache']['installed'] == true && $this->install_ispconfig_interface == true){
@@ -1353,6 +1096,7 @@ class installer_dist extends installer_base {
 		//* Create the ispconfig log directory
 		if(!is_dir($conf['ispconfig_log_dir'])) mkdir($conf['ispconfig_log_dir']);
 		if(!is_file($conf['ispconfig_log_dir'].'/ispconfig.log')) exec('touch '.$conf['ispconfig_log_dir'].'/ispconfig.log');
+		chmod($conf['ispconfig_log_dir'].'/ispconfig.log', 0600);
 
 		if(is_user('getmail')) {
 			exec('mv /usr/local/ispconfig/server/scripts/run-getmail.sh /usr/local/bin/run-getmail.sh');

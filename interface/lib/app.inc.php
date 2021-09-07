@@ -126,12 +126,15 @@ class app {
 				array($this->session, 'destroy'),
 				array($this->session, 'gc'));
 
+			ini_set('session.cookie_httponly', true);
+			@ini_set('session.cookie_samesite', 'Lax');
+
 			session_start();
 
 			//* Initialize session variables
 			if(!isset($_SESSION['s']['id']) ) $_SESSION['s']['id'] = session_id();
-			if(empty($_SESSION['s']['theme'])) $_SESSION['s']['theme'] = $conf['theme'];
-			if(empty($_SESSION['s']['language'])) $_SESSION['s']['language'] = $conf['language'];
+			if(empty($_SESSION['s']['theme'])) $_SESSION['s']['theme'] = $this->_conf['theme'];
+			if(empty($_SESSION['s']['language'])) $_SESSION['s']['language'] = $this->_conf['language'];
 		}
 
 	}

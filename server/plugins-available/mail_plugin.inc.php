@@ -82,6 +82,7 @@ class mail_plugin {
 		//* get the config
 		$app->uses('getconf,system');
 		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
+		$global_mail_config = $app->getconf->get_global_config('mail');
 
 		// convert to lower case - it could cause problems if some directory above has upper case name
 		//  $data['new']['maildir'] = strtolower($data['new']['maildir']);
@@ -195,63 +196,78 @@ class mail_plugin {
 			}
 		}
 
-		$global_config = $app->getconf->get_global_config('mail');
-		if($global_config['enable_welcome_mail'] == 'y') {
-			//* Send the welcome email message
-			$tmp = explode('@', $data["new"]["email"]);
-			$domain = $tmp[1];
-			unset($tmp);
-			$html = false;
-			if(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.html')) {
-				$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.html');
-				$html = true;
-			} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.html')) {
-				$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.html');
-				$html = true;
-			} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.txt')) {
-				$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.txt');
-			} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.txt')) {
-				$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.txt');
-			} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_en.txt')) {
-				$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_en.txt');
-			} elseif(file_exists($conf['rootpath'].'/conf/mail/welcome_email_'.$conf['language'].'.txt')) {
-				$lines = file($conf['rootpath'].'/conf/mail/welcome_email_'.$conf['language'].'.txt');
-			} else {
-				$lines = file($conf['rootpath'].'/conf/mail/welcome_email_en.txt');
-			}
-
-			//* Get from address
-			$parts = explode(':', trim($lines[0]));
-			unset($parts[0]);
-			$welcome_mail_from  = implode(':', $parts);
-			unset($lines[0]);
-
-			//* Get subject
-			$parts = explode(':', trim($lines[1]));
-			unset($parts[0]);
-			$welcome_mail_subject  = implode(':', $parts);
-			unset($lines[1]);
-
-			//* Get message
-			$welcome_mail_message = trim(implode($lines));
-			unset($tmp);
-
-			$mailHeaders      = "MIME-Version: 1.0" . "\n";
-			if($html) {
-				$mailHeaders     .= "Content-Type: text/html; charset=utf-8" . "\n";
-				$mailHeaders     .= "Content-Transfer-Encoding: quoted-printable" . "\n";
-			} else {
-				$mailHeaders     .= "Content-Type: text/plain; charset=utf-8" . "\n";
-				$mailHeaders     .= "Content-Transfer-Encoding: 8bit" . "\n";
-			}
-			$mailHeaders     .= "From: $welcome_mail_from" . "\n";
-			$mailHeaders     .= "Reply-To: $welcome_mail_from" . "\n";
-			$mailTarget       = $data["new"]["email"];
-			$mailSubject      = "=?utf-8?B?".base64_encode($welcome_mail_subject)."?=";
-
-			//* Send the welcome email only on the "master" mail server to avoid duplicate emails
-			if($conf['mirror_server_id'] == 0) mail($mailTarget, $mailSubject, $welcome_mail_message, $mailHeaders);
+		//* Send the welcome email message
+		$tmp = explode('@', $data["new"]["email"]);
+		$domain = $tmp[1];
+		unset($tmp);
+		$html = false;
+		if(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.html')) {
+			$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.html');
+			$html = true;
+		} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.html')) {
+			$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.html');
+			$html = true;
+		} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.txt')) {
+			$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$domain.'.txt');
+		} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.txt')) {
+			$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_'.$conf['language'].'.txt');
+		} elseif(file_exists($conf['rootpath'].'/conf-custom/mail/welcome_email_en.txt')) {
+			$lines = file($conf['rootpath'].'/conf-custom/mail/welcome_email_en.txt');
+		} elseif(file_exists($conf['rootpath'].'/conf/mail/welcome_email_'.$conf['language'].'.txt')) {
+			$lines = file($conf['rootpath'].'/conf/mail/welcome_email_'.$conf['language'].'.txt');
+		} else {
+			$lines = file($conf['rootpath'].'/conf/mail/welcome_email_en.txt');
 		}
+
+		$placeholders = array(
+			'{domain}' => "$domain",
+			'{email}' => $data["new"]["email"],
+			'{admin_mail}' => ($global_mail_config['admin_mail'] != '' ? $global_mail_config['admin_mail'] : 'root'),
+			'{admin_name}' => ($global_mail_config['admin_name'] != '' ? $global_mail_config['admin_name'] : ''),
+		);
+
+		//* Get from address
+		$parts = explode(':', trim($lines[0]));
+		unset($parts[0]);
+		$welcome_mail_from  = implode(':', $parts);
+		unset($lines[0]);
+		$welcome_mail_from = strtr($welcome_mail_from, $placeholders);
+
+		//* Get subject
+		$parts = explode(':', trim($lines[1]));
+		unset($parts[0]);
+		$welcome_mail_subject  = implode(':', $parts);
+		unset($lines[1]);
+		$welcome_mail_subject = strtr($welcome_mail_subject, $placeholders);
+
+		//* Get message
+		$welcome_mail_message = trim(implode($lines));
+		$welcome_mail_message = strtr($welcome_mail_message, $placeholders);
+		unset($tmp);
+
+		$mailHeaders      = "MIME-Version: 1.0" . "\n";
+		if($html) {
+			$mailHeaders     .= "Content-Type: text/html; charset=utf-8" . "\n";
+			$mailHeaders     .= "Content-Transfer-Encoding: quoted-printable" . "\n";
+		} else {
+			$mailHeaders     .= "Content-Type: text/plain; charset=utf-8" . "\n";
+			$mailHeaders     .= "Content-Transfer-Encoding: 8bit" . "\n";
+		}
+		$mailHeaders     .= "From: $welcome_mail_from" . "\n";
+		$mailHeaders     .= "Reply-To: $welcome_mail_from" . "\n";
+		$mailTarget       = $data["new"]["email"];
+		$mailSubject      = "=?utf-8?B?".base64_encode($welcome_mail_subject)."?=";
+
+		$additionalParameters = '';
+		if (preg_match('/\b([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63})\b/i', $welcome_mail_from, $matches)) {
+			$additionalParameters = '-f '.$matches[1];
+		}
+
+		// Send the welcome email only on a "master" mail server to avoid duplicate emails, and only send them when welcome emails are enabled.
+		// (bypass the normal ispcmail class when creating mail accounts)
+		$global_config = $app->getconf->get_global_config('mail');
+		if($conf['mirror_server_id'] == 0 && $global_config['enable_welcome_mail'] == 'y') mail($mailTarget, $mailSubject, $welcome_mail_message, $mailHeaders, $additionalParameters);
+
 	}
 
 	function user_update($event_name, $data) {
@@ -348,7 +364,7 @@ class mail_plugin {
 				$app->log('Moved invalid maildir to corrupted Maildirs folder: '.$data['new']['maildir'], LOGLEVEL_WARN);
 			}
 
-			//* Create the maildir, if it doesn not exist, set permissions, set quota.
+			//* Create the maildir, if it does not exist, set permissions, set quota.
 			if(!empty($maildomain_path) && !is_dir($maildomain_path.'/new')) {
 				$app->system->maildirmake($maildomain_path, $user, '', $group);
 

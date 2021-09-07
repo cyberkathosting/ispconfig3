@@ -74,8 +74,9 @@ class list_action extends listform_actions {
 			if($rec['quota'] <= 0){
 				$rec['quota'] = $app->lng('unlimited_txt');
 				$rec['percentage'] = '';
+				$rec['progressbar'] = -1;
 			} else {
-				if ($rec['used'] > 0 ) $rec['percentage'] = round(100 * intval($rec['used']) / ( intval($rec['quota'])*1024*1024) ).'%';
+				if ($rec['used'] > 0 ) $rec['percentage'] = round(100 * intval($rec['used']) / ( intval($rec['quota'])*1024*1024) );
 				$rec['quota'] .= ' MB';
 			}
 
@@ -93,7 +94,7 @@ class list_action extends listform_actions {
 			$rec['quota'] = $rec['database_quota'];
 		}
 		$rec['id'] = $rec[$this->idx_key];
-
+		$rec['progressbar_value'] = $rec['percentage'] >= 100 ? 100 : $rec['percentage'];
 		return $rec;
 	}
 

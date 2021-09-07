@@ -1,12 +1,11 @@
 <?php
 $wb['server_id_txt'] = 'Servidor';
-$wb['wb_txt'] = 'Lista branca/negra';
+$wb['wb_txt'] = 'Lista de permissões/bloqueio';
 $wb['rid_txt'] = 'Usuário';
-$wb['email_txt'] = 'e-Mail';
+$wb['email_txt'] = 'eMail';
 $wb['priority_txt'] = 'Prioridade';
 $wb['active_txt'] = 'Ativo';
-$wb['limit_spamfilter_wblist_txt'] = 'O limite de filtros anti-spam "lista branca ou negra" para esta conta foi alcançado.';
+$wb['limit_spamfilter_wblist_txt'] = 'O limite de filtros anti-spam "lista de permissões/bloqueio" para esta conta foi alcançado.';
 $wb['10 - highest'] = '10 - alta';
 $wb['5 - medium'] = '5 - média';
 $wb['1 - lowest'] = '1 - baixa';
-?>

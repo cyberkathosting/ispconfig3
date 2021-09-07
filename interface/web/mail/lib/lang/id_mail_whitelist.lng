@@ -6,4 +6,7 @@ $wb['active_txt'] = 'Aktif';
 $wb['source_error_notempty'] = 'Alamat kosong.';
 $wb['type_txt'] = 'Tipe';
 $wb['limit_mailfilter_txt'] = 'Jumlah maks filter email untuk akun Anda telah tercapai.';
-?>
+$wb['limit_mail_wblist_txt'] = 'The max. number of email white / blacklist for your account is reached.';
+$wb['mail_access_unique'] = 'Whitelist Address already in use.';
+$wb['client_txt'] = 'Client';
+$wb['sender_txt'] = 'Sender';

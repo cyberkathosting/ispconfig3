@@ -8,4 +8,3 @@ $wb['source_destination_identical_txt'] = 'Zdrojová a cílová doména jsou ste
 $wb['source_error_empty'] = 'Zdrojová doména je prázdná.';
 $wb['source_error_unique'] = 'Duplikování zdrojové domény.';
 $wb['source_error_regex'] = 'Chybná zdrojová doména.';
-?>

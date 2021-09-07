@@ -2,7 +2,7 @@
 $wb['Email Alias'] = 'E-mailové přezdívky';
 $wb['Email Blacklist'] = 'E-mailová černá listina';
 $wb['Blacklist'] = 'Černá listina';
-$wb['Mail Content Filter'] = 'Obsahový filtr';
+$wb['Mail Content Filter'] = 'Filtr obsahu';
 $wb['Filter'] = 'Filtr';
 $wb['Mail Domain'] = 'Doména e-mailů';
 $wb['Domain'] = 'E-mailové domény';
@@ -39,12 +39,11 @@ $wb['Fetchmail'] = 'Externí získávání e-mailů';
 $wb['Mailbox traffic'] = 'Přenesená data';
 $wb['Postfix Whitelist'] = 'Postfix bílá listina';
 $wb['Postfix Blacklist'] = 'Postfix černá listina';
-$wb['Content Filter'] = 'Obsahový filtr';
+$wb['Content Filter'] = 'Filtr obsahu';
 $wb['Global Filters'] = 'Globální filtry';
 $wb['Domain Alias'] = 'Přezdívky e-mailových domén';
 $wb['Relay Recipients'] = 'Relay adresáti';
 $wb['Statistics'] = 'Statistiky';
 $wb['Mailbox quota'] = 'Kvóty pro e-mailové schránky';
-$wb['add_header_txt'] = 'Header (adds \"X-Spam: Yes\")';
-$wb['rewrite_subject_txt'] = 'Subject (adds \"***SPAM***\" at the beginning)';
-?>
+$wb['add_header_txt'] = 'Do záhlaví (přidat \"X-Spam: Yes\")';
+$wb['rewrite_subject_txt'] = 'Do předmětu (přidat \"***SPAM***\" na začátek)';

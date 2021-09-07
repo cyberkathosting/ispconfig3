@@ -4,4 +4,3 @@ $wb['used_txt'] = 'Využité místo';
 $wb['quota_txt'] = 'Kvóta';
 $wb['no_database_accounts_txt'] = 'Nebyla nalezena žádná databáze.';
 $wb['databasequota_txt'] = 'Kvóty databází';
-?>

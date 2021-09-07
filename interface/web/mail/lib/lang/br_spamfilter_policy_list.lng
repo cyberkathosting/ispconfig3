@@ -6,4 +6,3 @@ $wb['spam_lover_txt'] = 'Receber spam';
 $wb['banned_files_lover_txt'] = 'Receber arquivos banidos';
 $wb['bad_header_lover_txt'] = 'Receber cabeçalho inválido';
 $wb['add_new_record_txt'] = 'Adicionar registro';
-?>

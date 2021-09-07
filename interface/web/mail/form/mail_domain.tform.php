@@ -136,6 +136,30 @@ $form["tabs"]['domain'] = array (
 					'errmsg'=> 'dkim_selector_error'),
 			),
 		),
+		'relay_host' => array(
+				'datatype' => 'VARCHAR',
+				'formtype' => 'TEXT',
+				'default' => '',
+				'value' => '',
+				'width' => '40',
+				'maxlength' => '255'
+		),
+		'relay_user' => array(
+				'datatype' => 'VARCHAR',
+				'formtype' => 'TEXT',
+				'default' => '',
+				'value' => '',
+				'width' => '40',
+				'maxlength' => '255'
+		),
+		'relay_pass' => array(
+				'datatype' => 'VARCHAR',
+				'formtype' => 'TEXT',
+				'default' => '',
+				'value' => '',
+				'width' => '40',
+				'maxlength' => '255'
+		),
 		'active' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',

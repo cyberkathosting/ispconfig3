@@ -96,7 +96,11 @@ require_once 'lib/classes/tpl.inc.php';
 
 //** Check for ISPConfig 2.x versions
 if(is_dir('/root/ispconfig') || is_dir('/home/admispconfig')) {
-	die('This software cannot be installed on a server wich runs ISPConfig 2.x.');
+	if(is_dir('/home/admispconfig')) {
+		die('This software cannot be installed on a server which runs ISPConfig 2.x.');
+	} else {
+		die('This software cannot be installed on a server which runs ISPConfig 2.x; the presence of the /root/ispconfig/ directory may indicate an ISPConfig 2.x installation, otherwise you can remove or rename it to continue.');
+	}
 }
 
 // Patch is required to reapir latest amavis versions
@@ -185,7 +189,6 @@ $conf['server_id'] = intval($conf_old["server_id"]);
 $conf['ispconfig_log_priority'] = $conf_old["log_priority"];
 
 $inst = new installer();
-if (!$inst->get_php_version()) die('ISPConfig requieres PHP '.$inst->min_php."\n");
 $inst->is_update = true;
 
 $inst->check_prerequisites();
@@ -255,6 +258,8 @@ prepareDBDump();
 
 //* initialize the database
 $inst->db = new db();
+$inst->db->setDBData($conf['mysql']["host"], $conf['mysql']["ispconfig_user"], $conf['mysql']["ispconfig_password"], $conf['mysql']["port"]);
+$inst->db->setDBName($conf['mysql']['database']);
 
 //* initialize the master DB, if we have a multiserver setup
 if($conf['mysql']['master_slave_setup'] == 'y') {
@@ -361,14 +366,20 @@ if($conf['mysql']['master_slave_setup'] == 'y') {
 if($conf['apache']['installed'] == true){
 	if(!is_file($conf['apache']['vhost_conf_dir'].'/ispconfig.vhost')) $inst->install_ispconfig_interface = false;
 }
-if($conf['nginx']['installed'] == true){
+elseif($conf['nginx']['installed'] == true){
 	if(!is_file($conf['nginx']['vhost_conf_dir'].'/ispconfig.vhost')) $inst->install_ispconfig_interface = false;
+}
+else {
+	// If neither webserver is installed then this can't be the server that hosts the ispconfig interface.
+	$inst->install_ispconfig_interface = false;
 }
 
 //** Shall the services be reconfigured during update
 $reconfigure_services_answer = $inst->simple_query('Reconfigure Services?', array('yes', 'no', 'selected'), 'yes','reconfigure_services');
 
 if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'selected') {
+
+	checkAndRenameCustomTemplates();
 
 	if($conf['services']['mail']) {
 
@@ -483,10 +494,10 @@ if($reconfigure_services_answer == 'yes' || $reconfigure_services_answer == 'sel
 
 	}
 
-    if($conf['services']['xmpp'] && $inst->reconfigure_app('XMPP', $reconfigure_services_answer)) {
-        //** Configure Metronome XMPP
-        $inst->configure_xmpp('dont-create-certs');
-    }
+	if($conf['services']['xmpp'] && $inst->reconfigure_app('XMPP', $reconfigure_services_answer)) {
+		//** Configure Metronome XMPP
+	$inst->configure_xmpp('dont-create-certs');
+	}
 
 	if($conf['services']['firewall'] && $inst->reconfigure_app('Firewall', $reconfigure_services_answer)) {
 		if($conf['ufw']['installed'] == true) {
@@ -558,6 +569,9 @@ if(!$issue_asked) {
         swriteln('Certificate exists. Not creating a new one.');
     }
 }
+
+// update acme.sh if installed
+$inst->update_acme();
 
 $inst->install_ispconfig();
 

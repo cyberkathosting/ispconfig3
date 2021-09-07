@@ -1,5 +1,4 @@
 <?php
-$wb['list_head_txt'] = 'Usuário do banco de dados';
-$wb['database_user_txt'] = 'Usuário do banco de dados';
+$wb['list_head_txt'] = 'Usuário do Banco de Dados';
+$wb['database_user_txt'] = 'Usuário do Banco de Dados';
 $wb['add_new_record_txt'] = 'Adicionar novo usuário';
-?>

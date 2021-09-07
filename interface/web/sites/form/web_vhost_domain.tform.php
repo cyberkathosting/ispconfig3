@@ -367,12 +367,14 @@ if($vhostdomain_type == 'domain') {
 	);
 	$form['tabs']['domain']['fields']['web_folder'] = array (
 		'datatype' => 'VARCHAR',
-		'validators' => array (  0 => array ( 'type' => 'REGEX',
-				'regex' => '@^((?!(.*\.\.)|(.*\./)|(.*//))[^/][\w/_\.\-]{1,100})?$@',
-				'errmsg'=> 'web_folder_error_regex'),
+		'validators' => array (  0 => array ( 'type' => 'NOTEMPTY',
+						'errmsg'=> 'web_folder_error_empty'),
+					1 => array ( 'type' => 'REGEX',
+						'regex' => '@^((?!(.*\.\.)|(.*\./)|(.*//))[^/][\w/_\.\-]{1,100})?$@',
+						'errmsg'=> 'web_folder_error_regex'),
 		),
-		'filters'   => array( 0 => array( 	'event' => 'SAVE',
-											'type' => 'TRIM'),
+		'filters'   => array( 0 => array( 'event' => 'SAVE',
+						'type' => 'TRIM'),
 		),
 		'formtype' => 'TEXT',
 		'default' => '',
@@ -397,7 +399,7 @@ $form["tabs"]['redirect'] = array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'SELECT',
 			'default' => '',
-			'value'  => array('' => 'no_redirect_txt', 'no' => 'no_flag_txt', 'R' => 'R', 'L' => 'L', 'R,L' => 'R,L', 'R=301,L' => 'R=301,L', 'last' => 'last', 'break' => 'break', 'redirect' => 'redirect', 'permanent' => 'permanent', 'proxy' => 'proxy')
+			'value'  => array('' => 'no_redirect_txt', 'no' => 'no_flag_txt', 'R' => 'r_redirect_txt', 'L' => 'l_redirect_txt', 'R,L' => 'r_l_redirect_txt', 'R=301,L' => 'r_301_l_redirect_txt', 'last' => 'last', 'break' => 'break', 'redirect' => 'redirect', 'permanent' => 'permanent', 'proxy' => 'proxy')
 		),
 		'redirect_path' => array (
 			'datatype' => 'VARCHAR',
@@ -640,24 +642,51 @@ $form["tabs"]['stats'] = array (
 
 //* Backup
 if ($backup_available) {
+
+	$domain_server_id = null;
+	if(isset($_REQUEST["id"])) {
+		$domain_id = $app->functions->intval($_REQUEST["id"]);
+		if($domain_id) {
+			$domain_data = $app->db->queryOneRecord('SELECT `server_id` FROM `web_domain` WHERE `domain_id` = ?', $domain_id);
+			if($domain_data) {
+				$domain_server_id = $domain_data['server_id'];
+			}
+		}
+	}
+	if(!$domain_server_id) {
+		$domain_server_id = $conf['server_id'];
+	}
+
 	$missing_utils = array();
-	$compressors_list = array(
-		'gzip',
-		'gunzip',
-		'zip',
-		'unzip',
-		'pigz',
-		'tar',
-		'bzip2',
-		'bunzip2',
-		'xz',
-		'unxz',
-		'7z',
-		'rar',
-	);
-	foreach ($compressors_list as $compressor) {
-		if (!$app->system->is_installed($compressor)) {
-			array_push($missing_utils, $compressor);
+	if($domain_server_id != $conf['server_id']) {
+		$mon = $app->db->queryOneRecord('SELECT `data` FROM `monitor_data` WHERE `server_id` = ? AND `type` = ? ORDER BY `created` DESC', $domain_server_id, 'backup_utils');
+		if($mon) {
+			$missing_utils = unserialize($mon['data']);
+			if(!$missing_utils) {
+				$missing_utils = array();
+			} else {
+				$missing_utils = $missing_utils['missing_utils'];
+			}
+		}
+	} else {
+		$compressors_list = array(
+			'gzip',
+			'gunzip',
+			'zip',
+			'unzip',
+			'pigz',
+			'tar',
+			'bzip2',
+			'bunzip2',
+			'xz',
+			'unxz',
+			'7z',
+			'rar',
+		);
+		foreach ($compressors_list as $compressor) {
+			if (!$app->system->is_installed($compressor)) {
+				array_push($missing_utils, $compressor);
+			}
 		}
 	}
 	$app->tpl->setVar("missing_utils", implode(", ",$missing_utils), true);

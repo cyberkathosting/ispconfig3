@@ -4,4 +4,3 @@ $wb['template_type_txt'] = 'Tipo';
 $wb['template_name_txt'] = 'Nome do gabarito';
 $wb['template_id_txt'] = 'ID do gabarito';
 $wb['sys_groupid_txt'] = 'Revenda';
-?>

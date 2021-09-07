@@ -92,7 +92,7 @@ class page_action extends tform_actions {
 				}
 			}
 		}
-		
+
 		//* Resellers shall not be able to create another reseller
 		if($_SESSION["s"]["user"]["typ"] == 'user') {
 			$this->dataRecord['limit_client'] = 0;
@@ -181,18 +181,35 @@ class page_action extends tform_actions {
 
 		$app->tpl->setVar('template_additional_list', $text);
 		$app->tpl->setVar('app_module', 'client');
-		
+
+		// Check wether per domain relaying is enabled or not
+		$global_config = $app->getconf->get_global_config('mail');
+		if($global_config['show_per_domain_relay_options'] == 'y') {
+			$app->tpl->setVar("show_per_domain_relay_options", 1);
+		} else {
+			$app->tpl->setVar("show_per_domain_relay_options", 0);
+		}
+
+		// APS is enabled or not
+		$global_config = $app->getconf->get_global_config('sites');
+		if($global_config['show_aps_menu'] == 'y') {
+			$app->tpl->setVar("show_aps_menu", 1);
+		} else {
+			$app->tpl->setVar("show_aps_menu", 0);
+		}
+
+
 
 		//* Set the 'customer no' default value
 		if($this->id == 0) {
-			
+
 			if($app->auth->is_admin()) {
 				//* Logged in User is admin
 				//* get the system config
 				$app->uses('getconf');
 				$system_config = $app->getconf->get_global_config();
 				if($system_config['misc']['customer_no_template'] != '') {
-				
+
 					//* Set customer no default
 					$customer_no = $app->functions->intval($system_config['misc']['customer_no_start']+$system_config['misc']['customer_no_counter']);
 					$customer_no_string = str_replace('[CUSTOMER_NO]',$customer_no,$system_config['misc']['customer_no_template']);
@@ -203,7 +220,7 @@ class page_action extends tform_actions {
 				//* get the record of the reseller
 				$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 				$reseller = $app->db->queryOneRecord("SELECT client.client_id, client.customer_no_template, client.customer_no_counter, client.customer_no_start FROM sys_group,client WHERE client.client_id = sys_group.client_id and sys_group.groupid = ?", $client_group_id);
-				
+
 				if($reseller['customer_no_template'] != '') {
 					if(isset($this->dataRecord['customer_no'])&& $this->dataRecord['customer_no']!='') $customer_no_string = $this->dataRecord['customer_no'];
 					else {
@@ -215,7 +232,7 @@ class page_action extends tform_actions {
 				}
 			}
 		}
-		
+
 		if($app->auth->is_admin()) {
 			// Fill the client select field
 			$sql = "SELECT client.client_id, sys_group.groupid, sys_group.name, CONCAT(IF(client.company_name != '', CONCAT(client.company_name, ' :: '), ''), client.contact_name, ' (', client.username, IF(client.customer_no != '', CONCAT(', ', client.customer_no), ''), ')') as contactname FROM sys_group, client WHERE sys_group.client_id = client.client_id AND sys_group.client_id > 0 AND client.limit_client != 0 ORDER BY client.company_name, client.contact_name, sys_group.name";
@@ -234,7 +251,7 @@ class page_action extends tform_actions {
 			}
 			$app->tpl->setVar("parent_client_id", $client_select);
 		}
-		
+
 		parent::onShowEnd();
 
 	}
@@ -317,7 +334,7 @@ class page_action extends tform_actions {
 			$app->uses('client_templates');
 			$app->client_templates->update_client_templates($this->id, $this->_template_additional);
 		}
-		
+
 		if($this->dataRecord['customer_no'] == $this->dataRecord['customer_no_org']) {
 			if($app->auth->is_admin()) {
 				//* Logged in User is admin
@@ -325,7 +342,7 @@ class page_action extends tform_actions {
 				$app->uses('getconf');
 				$system_config = $app->getconf->get_global_config();
 				if($system_config['misc']['customer_no_template'] != '') {
-				
+
 					//* save new counter value
 					$system_config['misc']['customer_no_counter']++;
 					$system_config_str = $app->ini_parser->get_ini_string($system_config);
@@ -336,7 +353,7 @@ class page_action extends tform_actions {
 				//* get the record of the reseller
 				$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 				$reseller = $app->db->queryOneRecord("SELECT client.client_id, client.customer_no_template, client.customer_no_counter, client.customer_no_start FROM sys_group,client WHERE client.client_id = sys_group.client_id and sys_group.groupid = ?", $client_group_id);
-				
+
 				if($reseller['customer_no_template'] != '') {
 					//* save new counter value
 					$customer_no_counter = $app->functions->intval($reseller['customer_no_counter']+1);
@@ -344,7 +361,7 @@ class page_action extends tform_actions {
 				}
 			}
 		}
-		
+
 		//* Send welcome email
 		$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 		$sql = "SELECT * FROM client_message_template WHERE template_type = 'welcome' AND sys_groupid = ?";
@@ -369,7 +386,7 @@ class page_action extends tform_actions {
 					$subject = str_replace('{'.$key.'}', $val, $subject);
 				}
 			}
-			
+
 			//* Get sender address
 			if($app->auth->is_admin()) {
 				$app->uses('getconf');
@@ -384,7 +401,7 @@ class page_action extends tform_actions {
 			//* Send the email
 			$app->functions->mail($client['email'], $subject, $message, $from);
 		}
-		
+
 
 		parent::onAfterInsert();
 	}
@@ -417,122 +434,16 @@ class page_action extends tform_actions {
 			$app->db->query($sql, $password, $client_id);
 		}
 
-		if(!isset($this->dataRecord['locked'])) $this->dataRecord['locked'] = 'n';
-		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && $this->dataRecord["locked"] != $this->oldDataRecord['locked']) {
-			/** lock all the things like web, mail etc. - easy to extend */
-
-
-			// get tmp_data of client
-			$client_data = $app->db->queryOneRecord('SELECT `tmp_data` FROM `client` WHERE `client_id` = ?', $this->id);
-
-			if($client_data['tmp_data'] == '') $tmp_data = array();
-			else $tmp_data = unserialize($client_data['tmp_data']);
-
-			if(!is_array($tmp_data)) $tmp_data = array();
-
-			// database tables with their primary key columns
-			$to_disable = array('cron' => 'id',
-				'ftp_user' => 'ftp_user_id',
-				'mail_domain' => 'domain_id',
-				'mail_user' => 'mailuser_id',
-				'mail_user_smtp' => 'mailuser_id',
-				'mail_forwarding' => 'forwarding_id',
-				'mail_get' => 'mailget_id',
-				'openvz_vm' => 'vm_id',
-				'shell_user' => 'shell_user_id',
-				'webdav_user' => 'webdav_user_id',
-				'web_database' => 'database_id',
-				'web_domain' => 'domain_id',
-				'web_folder' => 'web_folder_id',
-				'web_folder_user' => 'web_folder_user_id'
-			);
-
-			$udata = $app->db->queryOneRecord('SELECT `userid` FROM `sys_user` WHERE `client_id` = ?', $this->id);
-			$gdata = $app->db->queryOneRecord('SELECT `groupid` FROM `sys_group` WHERE `client_id` = ?', $this->id);
-			$sys_groupid = $gdata['groupid'];
-			$sys_userid = $udata['userid'];
-
-			$entries = array();
-			if($this->dataRecord['locked'] == 'y') {
-				$prev_active = array();
-				$prev_sysuser = array();
-				foreach($to_disable as $current => $keycolumn) {
-					$active_col = 'active';
-					$reverse = false;
-					if($current == 'mail_user') {
-						$active_col = 'postfix';
-					} elseif($current == 'mail_user_smtp') {
-						$current = 'mail_user';
-						$active_col = 'disablesmtp';
-						$reverse = true;
-					}
-					
-					if(!isset($prev_active[$current])) $prev_active[$current] = array();
-					if(!isset($prev_sysuser[$current])) $prev_sysuser[$current] = array();
-
-					$entries = $app->db->queryAllRecords('SELECT ?? as `id`, `sys_userid`, ?? FROM ?? WHERE `sys_groupid` = ?', $keycolumn, $active_col, $current, $sys_groupid);
-					foreach($entries as $item) {
-
-						if($item[$active_col] != 'y' && $reverse == false) $prev_active[$current][$item['id']][$active_col] = 'n';
-						elseif($item[$active_col] == 'y' && $reverse == true) $prev_active[$current][$item['id']][$active_col] = 'y';
-						if($item['sys_userid'] != $sys_userid) $prev_sysuser[$current][$item['id']] = $item['sys_userid'];
-						// we don't have to store these if y, as everything without previous state gets enabled later
-
-						$app->db->datalogUpdate($current, array($active_col => ($reverse == true ? 'y' : 'n'), 'sys_userid' => $_SESSION["s"]["user"]["userid"]), $keycolumn, $item['id']);
-					}
-				}
-
-				$tmp_data['prev_active'] = $prev_active;
-				$tmp_data['prev_sys_userid'] = $prev_sysuser;
-				$app->db->query("UPDATE `client` SET `tmp_data` = ? WHERE `client_id` = ?", serialize($tmp_data), $this->id);
-				unset($prev_active);
-				unset($prev_sysuser);
-			} elseif($this->dataRecord['locked'] == 'n') {
-				foreach($to_disable as $current => $keycolumn) {
-					$active_col = 'active';
-					$reverse = false;
-					if($current == 'mail_user') {
-						$active_col = 'postfix';
-					} elseif($current == 'mail_user_smtp') {
-						$current = 'mail_user';
-						$active_col = 'disablesmtp';
-						$reverse = true;
-					}
-					
-					$entries = $app->db->queryAllRecords('SELECT ?? as `id` FROM ?? WHERE `sys_groupid` = ?', $keycolumn, $current, $sys_groupid);
-					foreach($entries as $item) {
-						$set_active = ($reverse == true ? 'n' : 'y');
-						$set_inactive = ($reverse == true ? 'y' : 'n');
-						$set_sysuser = $sys_userid;
-						if(array_key_exists('prev_active', $tmp_data) == true
-							&& array_key_exists($current, $tmp_data['prev_active']) == true
-							&& array_key_exists($item['id'], $tmp_data['prev_active'][$current]) == true
-							&& $tmp_data['prev_active'][$current][$item['id']][$active_col] == $set_inactive) $set_active = $set_inactive;
-						if(array_key_exists('prev_sysuser', $tmp_data) == true
-							&& array_key_exists($current, $tmp_data['prev_sysuser']) == true
-							&& array_key_exists($item['id'], $tmp_data['prev_sysuser'][$current]) == true
-							&& $tmp_data['prev_sysuser'][$current][$item['id']] != $sys_userid) $set_sysuser = $tmp_data['prev_sysuser'][$current][$item['id']];
-
-						$app->db->datalogUpdate($current, array($active_col => $set_active, 'sys_userid' => $set_sysuser), $keycolumn, $item['id']);
-					}
-				}
-				if(array_key_exists('prev_active', $tmp_data)) unset($tmp_data['prev_active']);
-				$app->db->query("UPDATE `client` SET `tmp_data` = ? WHERE `client_id` = ?", serialize($tmp_data), $this->id);
-			}
-			unset($tmp_data);
-			unset($entries);
-			unset($to_disable);
-		}
+		// lock and cancel
+        if(!isset($this->dataRecord['locked'])) $this->dataRecord['locked'] = 'n';
+        if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && $this->dataRecord["locked"] != $this->oldDataRecord['locked']) 
+		{
+			$lock = $app->functions->func_client_lock($this->id,$this->dataRecord["locked"]);
+        }
 
 		if(!isset($this->dataRecord['canceled'])) $this->dataRecord['canceled'] = 'n';
 		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && $this->dataRecord["canceled"] != $this->oldDataRecord['canceled']) {
-			if($this->dataRecord['canceled'] == 'y') {
-				$sql = "UPDATE sys_user SET active = '0' WHERE client_id = ?";
-				$app->db->query($sql, $this->id);
-			} elseif($this->dataRecord['canceled'] == 'n') {
-				$sql = "UPDATE sys_user SET active = '1' WHERE client_id = ?";
-				$app->db->query($sql, $this->id);
-			}
+			$cancel = $app->functions->func_client_cancel($this->id,$this->dataRecord["canceled"]);
 		}
 
 		// language changed
@@ -551,14 +462,14 @@ class page_action extends tform_actions {
 			$sql = "UPDATE sys_user SET modules = ? WHERE client_id = ?";
 			$app->db->query($sql, $modules, $client_id);
 		}
-		
+
 		//* Client has been moved to another reseller
 		if($_SESSION['s']['user']['typ'] == 'admin' && isset($this->dataRecord['parent_client_id']) && $this->dataRecord['parent_client_id'] != $this->oldDataRecord['parent_client_id']) {
 			//* Get groupid of the client
 			$tmp = $app->db->queryOneRecord("SELECT groupid FROM sys_group WHERE client_id = ?", $this->id);
 			$groupid = $tmp['groupid'];
 			unset($tmp);
-			
+
 			//* Remove sys_user of old reseller from client group
 			if($this->oldDataRecord['parent_client_id'] > 0) {
 				//* get userid of the old reseller remove it from the group of the client
@@ -566,7 +477,7 @@ class page_action extends tform_actions {
 				$app->auth->remove_group_from_user($tmp['userid'], $groupid);
 				unset($tmp);
 			}
-			
+
 			//* Add sys_user of new reseller to client group
 			if($this->dataRecord['parent_client_id'] > 0) {
 				//* get userid of the reseller and add it to the group of the client

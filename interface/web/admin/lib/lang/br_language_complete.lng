@@ -4,4 +4,3 @@ $wb['list_desc_txt'] = 'Mesclar o arquivo de idioma selecionado com o arquivo de
 $wb['language_select_txt'] = 'Selecionar idioma';
 $wb['btn_save_txt'] = 'Mesclar arquivos agora';
 $wb['btn_cancel_txt'] = 'Voltar';
-?>

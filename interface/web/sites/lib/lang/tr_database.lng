@@ -46,4 +46,5 @@ $wb['globalsearch_suggestions_text_txt'] = 'Öneriler';
 $wb['limit_database_quota_txt'] = 'Veritabanı Kotası';
 $wb['limit_database_quota_error_notint'] = 'Veritabanı kotası bir sayı olmalıdır';
 $wb['limit_database_quota_free_txt'] = 'Kullanılabilecek en fazla veritabanı kotası';
+$wb['limit_database_quota_not_0_txt']= 'Database quota can not be 0';
 ?>

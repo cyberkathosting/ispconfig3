@@ -10,4 +10,4 @@ $wb['fullname_error_notempty'] = 'Fältet för namn kan inte vara tomt.';
 $wb['10 - highest'] = '10 - högsta';
 $wb['5 - medium'] = '5 - medium';
 $wb['1 - lowest'] = '1 - lägsta';
-?>
+$wb['inherit_policy'] = '- Inherit domain setting -';

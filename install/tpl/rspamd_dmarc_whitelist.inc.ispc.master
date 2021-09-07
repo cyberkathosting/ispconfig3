@@ -1,0 +1,8 @@
+# Domain whitelist via valid DMARC policy (aligned SPF and/or aligned DKIM)
+
+comodo.com
+geotrust.com
+geotrusteurope.com
+howtoforge.com
+ispconfig.org
+

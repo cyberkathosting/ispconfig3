@@ -1,0 +1,8 @@
+sign_authenticated = false;
+sign_inbound = true;
+sign_local = false;
+use_domain = "recipient";
+try_fallback = false;
+use_esld = false;
+path_map = "/etc/rspamd/local.d/dkim_domains.map";
+selector_map = "/etc/rspamd/local.d/dkim_selectors.map";

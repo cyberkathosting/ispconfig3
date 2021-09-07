@@ -147,6 +147,11 @@ $conf['amavis']['installed'] = false; // will be detected automatically during i
 $conf['amavis']['config_dir'] = '/etc/amavis';
 $conf['amavis']['init_script'] = 'amavis';
 
+//* Rspamd
+$conf['rspamd']['installed'] = false; // will be detected automatically during installation
+$conf['rspamd']['config_dir'] = '/etc/rspamd';
+$conf['rspamd']['init_script'] = 'rspamd';
+
 //* ClamAV
 $conf['clamav']['installed'] = false; // will be detected automatically during installation
 $conf['clamav']['init_script'] = 'clamd';

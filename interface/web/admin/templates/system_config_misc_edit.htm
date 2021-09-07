@@ -85,6 +85,12 @@
   </div>
 </div>
 <div class="form-group">
+  <label class="col-sm-3 control-label">{tmpl_var name='show_support_messages_txt'}</label>
+  <div class="col-sm-9">
+    {tmpl_var name='show_support_messages'}
+  </div>
+</div>
+<div class="form-group">
   <label for="customer_no_template" class="col-sm-3 control-label">{tmpl_var name='customer_no_template_txt'}</label>
   <div class="col-sm-9"><input type="text" name="customer_no_template" id="customer_no_template" value="{tmpl_var name='customer_no_template'}" class="form-control" /></div>
 </div>
@@ -114,13 +120,6 @@
   <label for="min_password_strength" class="col-sm-3 control-label">{tmpl_var name='min_password_strength_txt'}</label>
   <div class="col-sm-9"><select name="min_password_strength" id="min_password_strength" class="form-control">
     {tmpl_var name='min_password_strength'}
-    </select>
-  </div>
-</div>
-<div class="form-group">
-  <label for="ssh_authentication" class="col-sm-3 control-label">{tmpl_var name='ssh_authentication_txt'}</label>
-  <div class="col-sm-9"><select name="ssh_authentication" id="ssh_authentication" class="form-control">
-    {tmpl_var name='ssh_authentication'}
     </select>
   </div>
 </div>

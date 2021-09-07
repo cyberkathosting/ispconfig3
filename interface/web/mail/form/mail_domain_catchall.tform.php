@@ -86,7 +86,7 @@ $form["tabs"]['catchall'] = array (
 				1 => array ( 'type' => 'UNIQUE',
 					'errmsg'=> 'domain_error_unique'),
 				2 => array ( 'type' => 'REGEX',
-					'regex' => '/^\@[\w\.\-]{2,255}\.[a-zA-Z\-]{2,63}$/',
+					'regex' => '/^\@[\w\.\-]{1,255}\.[a-zA-Z\-]{2,63}$/',
 					'errmsg'=> 'domain_error_regex'),
 			),
 			'default' => '',
@@ -124,6 +124,12 @@ $form["tabs"]['catchall'] = array (
 			'formtype' => 'SELECT',
 			'default' => '',
 			'value'  => array('alias' => 'Alias', 'forward'=>'Forward', 'catchall'=>'Catchall')
+		),
+		'allow_send_as' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'n',
+			'value'  => array(1 => 'y', 0 => 'n')
 		),
 		'active' => array (
 			'datatype' => 'VARCHAR',

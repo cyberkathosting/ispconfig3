@@ -10,4 +10,4 @@ $wb['local_txt'] = 'Local';
 $wb['policy_id_txt'] = 'Directiva';
 $wb['priority_txt'] = 'Prioridad';
 $wb['server_id_txt'] = 'Servidor';
-?>
+$wb['inherit_policy'] = '- Inherit domain setting -';

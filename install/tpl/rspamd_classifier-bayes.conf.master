@@ -1,3 +1,1 @@
-autolearn = [-0.01, 5.00];
-per_user = true;
-per_language = true;
+../../server/conf/rspamd_classifier-bayes.conf.master

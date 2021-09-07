@@ -1,8 +1,12 @@
+# Important: A copy of this file exists in server/conf/ folder.
+# Edit both files when applying changes.
+
 ################################################
 # ISPConfig General Apache Options
 ################################################
 ServerTokens ProductOnly
 ServerSignature Off
+DirectoryIndex index.html index.cgi index.pl index.php index.xhtml index.htm standard_index.html
 
 ################################################
 # ISPConfig Logfile configuration for vlogger

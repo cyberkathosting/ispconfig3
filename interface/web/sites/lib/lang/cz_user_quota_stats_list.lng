@@ -6,4 +6,3 @@ $wb['used_txt'] = 'Využité místo';
 $wb['hard_txt'] = 'Kvóta max. obsazení';
 $wb['soft_txt'] = 'Kvóta pro upozornění';
 $wb['files_txt'] = 'Jednotlivé soubory';
-?>

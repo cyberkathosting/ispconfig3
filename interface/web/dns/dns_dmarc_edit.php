@@ -88,13 +88,13 @@ class page_action extends tform_actions {
 		$dmarc_sp = 'same';
 
 		//* check for an existing dmarc-record
-		$sql = "SELECT data, active FROM dns_rr WHERE data LIKE 'v=DMARC1%' AND zone = ? AND name = ? AND " . $app->tform->getAuthSQL('r');
-		$rec = $app->db->queryOneRecord($sql, $zone, '_dmarc.'.$domain_name.'.');
-		if ( isset($rec) && !empty($rec) ) {
+		$sql = "SELECT data, active FROM dns_rr WHERE data LIKE 'v=DMARC1%' AND zone = ? AND name LIKE ? AND " . $app->tform->getAuthSQL('r') . " ORDER BY (name = ?) DESC";
+		$rec = $app->db->queryOneRecord($sql, $zone, '_dmarc%', '_dmarc.'.$domain_name.'.');
+		if (isset($rec) && !empty($rec) ) {
 			$this->id = 1;
 			$old_data = strtolower($rec['data']);
 			$app->tpl->setVar("data", $old_data, true);
-            if ($rec['active'] == 'Y') $app->tpl->setVar("active", "CHECKED"); else $app->tpl->setVar("active", "UNCHECKED");
+      //if ($rec['active'] == 'Y') $app->tpl->setVar("active", "CHECKED"); else $app->tpl->setVar("active", "UNCHECKED");
 			$dmarc_rua = '';
 			$dmarc_ruf = '';
 			$dmac_rf = '';
@@ -120,13 +120,13 @@ class page_action extends tform_actions {
 				if (preg_match("/^pct=/", $part)) $dmarc_pct = str_replace('pct=', '', $part);
 				if (preg_match("/^ri=/", $part)) $dmarc_ri = str_replace('ri=', '', $part);
 			}
-		} 
+		}
 
 		//set html-values
 		$app->tpl->setVar('domain', $domain_name, true);
 
 		//create dmarc-policy-list
-		$dmarc_policy_value = array( 
+		$dmarc_policy_value = array(
 			'none' => 'dmarc_policy_none_txt',
 			'quarantine' => 'dmarc_policy_quarantine_txt',
 			'reject' => 'dmarc_policy_reject_txt',
@@ -152,7 +152,7 @@ class page_action extends tform_actions {
 		unset($temp);
 
 		//create dmarc-adkim-list
-		$dmarc_adkim_value = array( 
+		$dmarc_adkim_value = array(
 			'r' => 'dmarc_adkim_r_txt',
 			's' => 'dmarc_adkim_s_txt',
 		);
@@ -164,7 +164,7 @@ class page_action extends tform_actions {
 		$app->tpl->setVar('dmarc_adkim', $dmarc_adkim_list);
 
 		//create dmarc-aspf-list
-		$dmarc_aspf_value = array( 
+		$dmarc_aspf_value = array(
 			'r' => 'dmarc_aspf_r_txt',
 			's' => 'dmarc_aspf_s_txt',
 		);
@@ -183,7 +183,7 @@ class page_action extends tform_actions {
 		$app->tpl->setVar("dmarc_ri", $dmarc_ri, true);
 
 		//create dmarc-sp-list
-		$dmarc_sp_value = array( 
+		$dmarc_sp_value = array(
 			'same' => 'dmarc_sp_same_txt',
 			'none' => 'dmarc_sp_none_txt',
 			'quarantine' => 'dmarc_sp_quarantine_txt',
@@ -226,16 +226,20 @@ class page_action extends tform_actions {
 
 		$domain_name = rtrim($soa['origin'], '.');
 		// DMARC requieres at least one active dkim-record...
-		$sql = "SELECT * FROM dns_rr WHERE name LIKE ? AND type='TXT' AND data like 'v=DKIM1;%' AND active='Y'";
-		$temp = $app->db->queryAllRecords($sql, '%._domainkey.'.$domain_name.'.');
+		$sql = "SELECT * FROM dns_rr
+					LEFT JOIN dns_soa ON (dns_rr.zone=dns_soa.id)
+					WHERE dns_soa.origin = ? AND dns_rr.name LIKE ? AND type='TXT' AND data like 'v=DKIM1;%' AND dns_rr.active='Y'";
+		$temp = $app->db->queryAllRecords($sql, $soa['origin'], '%._domainkey%');
 		if (empty($temp)) {
 			if (isset($app->tform->errorMessage )) $app->tform->errorMessage = '<br/>' . $app->tform->errorMessage;
 			$app->tform->errorMessage .= $app->tform->wordbook['dmarc_no_dkim_txt'].$email;
 		}
 
 		// ... and an active spf-record (this breaks the current draft but DMARC is useless if you use DKIM or SPF
-		$sql = "SELECT * FROM dns_rr WHERE name LIKE ? AND type='TXT' AND (data LIKE 'v=spf1%' AND active = 'y')";
-		$temp = $app->db->queryAllRecords($sql, $domain_name.'.');
+		$sql = "SELECT * FROM dns_rr
+					LEFT JOIN dns_soa ON (dns_rr.zone=dns_soa.id)
+					WHERE dns_soa.origin = ? AND (dns_rr.name LIKE ? OR dns_rr.name = '') AND type='TXT' AND data like 'v=spf1%' AND dns_rr.active='Y'";
+		$temp = $app->db->queryAllRecords($sql, $soa['origin'], $soa['origin']);
 		// abort if more than 1 active spf-records (backward-compatibility)
 		if (is_array($temp[1])) {
 			if (isset($app->tform->errorMessage )) $app->tform->errorMessage = '<br/>' . $app->tform->errorMessage;
@@ -251,7 +255,7 @@ class page_action extends tform_actions {
 		$this->dataRecord['dmarc_pct'] = $app->functions->intval($this->dataRecord['dmarc_pct']);
 		if ($this->dataRecord['dmarc_pct'] < 0) $this->dataRecord['dmarc_pct'] = 0;
 		if ($this->dataRecord['dmarc_pct'] > 100) $this->dataRecord['dmarc_pct'] = 100;
-		
+
 		//create dmarc-record
 		$dmarc_record[] = 'p='.$this->dataRecord['dmarc_policy'];
 
@@ -270,7 +274,7 @@ class page_action extends tform_actions {
 			unset ($dmarc_rua);
 			unset($temp);
 		}
-		
+
 		if (!empty($this->dataRecord['dmarc_ruf'])) {
 			$dmarc_ruf = explode(' ', $this->dataRecord['dmarc_ruf']);
 			$dmarc_ruf = array_filter($dmarc_ruf);
@@ -286,7 +290,7 @@ class page_action extends tform_actions {
 			unset ($dmarc_ruf);
 			unset($temp);
 		}
-		
+
 		$fo_rec = array();
 		if (isset($this->dataRecord['dmarc_fo0'])) $fo_rec[] = '0';
 		if (isset($this->dataRecord['dmarc_fo1'])) $fo_rec[] = '1';
@@ -328,7 +332,7 @@ class page_action extends tform_actions {
 
 		$this->dataRecord['name'] = '_dmarc.' . $soa['origin'];
 		if (isset($this->dataRecord['active'])) $this->dataRecord['active'] = 'Y';
-		
+
 		// Set the server ID of the rr record to the same server ID as the parent record.
 		$this->dataRecord["server_id"] = $soa["server_id"];
 

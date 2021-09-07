@@ -1,5 +1,4 @@
 <?php
-$wb['list_head_txt'] = 'Lista de e-mails';
+$wb['list_head_txt'] = 'Lista de emails';
 $wb['domain_txt'] = 'Domínio';
 $wb['listname_txt'] = 'Nome da lista';
-?>

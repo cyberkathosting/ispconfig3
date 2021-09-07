@@ -94,7 +94,7 @@ class page_action extends tform_actions {
 				}
 			}
 		}
-		
+
 		if($this->id != 0) {
 			$this->oldTemplatesAssigned = $app->db->queryAllRecords('SELECT * FROM `client_template_assigned` WHERE `client_id` = ?', $this->id);
 			if(!is_array($this->oldTemplatesAssigned) || count($this->oldTemplatesAssigned) < 1) {
@@ -175,21 +175,37 @@ class page_action extends tform_actions {
 
 		$app->tpl->setVar('template_additional_list', $text);
 		$app->tpl->setVar('app_module', 'client');
-		
+
+		// Check wether per domain relaying is enabled or not
+		$global_config = $app->getconf->get_global_config('mail');
+		if($global_config['show_per_domain_relay_options'] == 'y') {
+			$app->tpl->setVar("show_per_domain_relay_options", 1);
+		} else {
+			$app->tpl->setVar("show_per_domain_relay_options", 0);
+		}
+
+		// APS is enabled or not
+		$global_config = $app->getconf->get_global_config('sites');
+		if($global_config['show_aps_menu'] == 'y') {
+			$app->tpl->setVar("show_aps_menu", 1);
+		} else {
+			$app->tpl->setVar("show_aps_menu", 0);
+		}
+
 		//* Set the 'customer no' default value
 		if($this->id == 0) {
 			//* get the system config
 			$app->uses('getconf');
 			$system_config = $app->getconf->get_global_config();
 			if($system_config['misc']['customer_no_template'] != '') {
-				
+
 				//* Set customer no default
 				$customer_no = $app->functions->intval($system_config['misc']['customer_no_start']+$system_config['misc']['customer_no_counter']);
 				$customer_no_string = str_replace('[CUSTOMER_NO]',$customer_no,$system_config['misc']['customer_no_template']);
 				$app->tpl->setVar('customer_no',$customer_no_string);
 			}
 		}
-		
+
 		parent::onShowEnd();
 
 	}
@@ -200,9 +216,9 @@ class page_action extends tform_actions {
 	*/
 	function onAfterInsert() {
 		global $app, $conf;
-		
+
 		$app->uses('auth');
-		
+
 		// Create the group for the reseller
 		$groupid = $app->db->datalogInsert('sys_group', array("name" => $this->dataRecord["username"], "description" => '', "client_id" => $this->id), 'groupid');
 		$groups = $groupid;
@@ -217,7 +233,7 @@ class page_action extends tform_actions {
 		$language = $this->dataRecord["language"];
 
 		$password = $app->auth->crypt_password(stripslashes($password));
-		
+
 		// Create the controlpaneluser for the reseller
 		$sql = "INSERT INTO sys_user (`username`,`passwort`,`modules`,`startmodule`,`app_theme`,`typ`, `active`,`language`,`groups`,`default_group`,`client_id`)
 		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -238,26 +254,26 @@ class page_action extends tform_actions {
 
 		$sql = "UPDATE client SET default_mailserver = ?, default_webserver = ?, default_dnsserver = ?, default_slave_dnsserver = ?, default_dbserver = ? WHERE client_id = ?";
 		$app->db->query($sql, $default_mailserver, $default_webserver, $default_dnsserver, $default_dnsserver, $default_dbserver, $this->id);
-		
+
 		if(isset($this->dataRecord['template_master'])) {
 			$app->uses('client_templates');
 			$app->client_templates->update_client_templates($this->id, $this->_template_additional);
 		}
-		
+
 		if($this->dataRecord['customer_no'] == $this->dataRecord['customer_no_org']) {
 			//* get the system config
 			$app->uses('getconf');
 			$system_config = $app->getconf->get_global_config();
 			if($system_config['misc']['customer_no_template'] != '') {
-				
+
 				//* save new counter value
 				$system_config['misc']['customer_no_counter']++;
 				$system_config_str = $app->ini_parser->get_ini_string($system_config);
 				$app->db->datalogUpdate('sys_ini', array("config" => $system_config_str), 'sysini_id', 1);
-				
+
 			}
 		}
-		
+
 		//* Send welcome email
 		$client_group_id = $app->functions->intval($_SESSION["s"]["user"]["default_group"]);
 		$sql = "SELECT * FROM client_message_template WHERE template_type = 'welcome' AND sys_groupid = ?";
@@ -283,7 +299,7 @@ class page_action extends tform_actions {
 					$subject = str_replace('{'.$key.'}', $val, $subject);
 				}
 			}
-			
+
 			//* Get sender address
 			if($app->auth->is_admin()) {
 				$app->uses('getconf');
@@ -311,7 +327,7 @@ class page_action extends tform_actions {
 		global $app, $conf;
 
 		$app->uses('auth');
-		
+
 		// username changed
 		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord['username']) && $this->dataRecord['username'] != '' && $this->oldDataRecord['username'] != $this->dataRecord['username']) {
 			$username = $this->dataRecord["username"];
@@ -328,7 +344,7 @@ class page_action extends tform_actions {
 		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && isset($this->dataRecord["password"]) && $this->dataRecord["password"] != '') {
 			$password = $this->dataRecord["password"];
 			$client_id = $this->id;
-			
+
 			$password = $app->auth->crypt_password(stripslashes($password));
 			$sql = "UPDATE sys_user SET passwort = ? WHERE client_id = ?";
 			$app->db->query($sql, $password, $client_id);
@@ -357,12 +373,12 @@ class page_action extends tform_actions {
 			$sql = "UPDATE sys_user SET modules = ? WHERE client_id = ?";
 			$app->db->query($sql, $modules, $client_id);
 		}
-		
+
 		if(isset($this->dataRecord['template_master'])) {
 			$app->uses('client_templates');
 			$app->client_templates->update_client_templates($this->id, $this->_template_additional);
 		}
-		
+
 		if(!isset($this->dataRecord['locked'])) $this->dataRecord['locked'] = 'n';
 		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && $this->dataRecord["locked"] != $this->oldDataRecord['locked']) {
 			/** lock all the things like web, mail etc. - easy to extend */
@@ -412,7 +428,7 @@ class page_action extends tform_actions {
 						$active_col = 'disablesmtp';
 						$reverse = true;
 					}
-					
+
 					if(!isset($prev_active[$current])) $prev_active[$current] = array();
 					if(!isset($prev_sysuser[$current])) $prev_sysuser[$current] = array();
 
@@ -444,7 +460,7 @@ class page_action extends tform_actions {
 						$active_col = 'disablesmtp';
 						$reverse = true;
 					}
-					
+
 					$entries = $app->db->queryAllRecords('SELECT ?? as `id` FROM ?? WHERE `sys_groupid` = ?', $keycolumn, $current, $sys_groupid);
 					foreach($entries as $item) {
 						$set_active = ($reverse == true ? 'n' : 'y');
@@ -469,7 +485,7 @@ class page_action extends tform_actions {
 			unset($entries);
 			unset($to_disable);
 		}
-		
+
 		if(!isset($this->dataRecord['canceled'])) $this->dataRecord['canceled'] = 'n';
 		if(isset($conf['demo_mode']) && $conf['demo_mode'] != true && $this->dataRecord["canceled"] != $this->oldDataRecord['canceled']) {
 			if($this->dataRecord['canceled'] == 'y') {

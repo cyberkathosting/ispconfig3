@@ -7,4 +7,3 @@ $wb['add_new_record_txt'] = 'Adicionar novo círculo';
 $wb['filter_txt'] = 'Filtro';
 $wb['delete_txt'] = 'Remover';
 $wb['active_txt'] = 'Ativo';
-?>

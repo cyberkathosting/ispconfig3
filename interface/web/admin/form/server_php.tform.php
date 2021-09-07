@@ -60,7 +60,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 $form["title"]    = "Additional PHP Versions";
-$form["description"]  = "Form to edit additional PHP versions";
+//$form["description"]  = "Form to edit additional PHP versions";
 $form["name"]    = "server_php";
 $form["action"]   = "server_php_edit.php";
 $form["db_table"]  = "server_php";
@@ -216,6 +216,20 @@ $form["tabs"]['php_fpm'] = array(
 			'maxlength' => '255'
 		),
 		'php_fpm_pool_dir' => array(
+			'datatype' => 'VARCHAR',
+			'formtype' => 'TEXT',
+			'filters'   => array(
+					0 => array( 'event' => 'SAVE',
+					'type' => 'STRIPTAGS'),
+					1 => array( 'event' => 'SAVE',
+					'type' => 'STRIPNL')
+			),
+			'default' => '',
+			'value' => '',
+			'width' => '40',
+			'maxlength' => '255'
+		),
+		'php_fpm_socket_dir' => array(
 			'datatype' => 'VARCHAR',
 			'formtype' => 'TEXT',
 			'filters'   => array(

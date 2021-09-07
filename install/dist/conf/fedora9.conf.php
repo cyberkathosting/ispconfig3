@@ -154,7 +154,7 @@ $conf['rspamd']['init_script'] = 'rspamd';
 
 //* ClamAV
 $conf['clamav']['installed'] = false; // will be detected automatically during installation
-$conf['clamav']['init_script'] = 'clamd.amavisd';
+$conf['clamav']['init_script'] = 'clamd@amavisd';
 
 //* Pureftpd
 $conf['pureftpd']['installed'] = false; // will be detected automatically during installation

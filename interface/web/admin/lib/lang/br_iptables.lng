@@ -1,6 +1,6 @@
 <?php
 $wb['server_id_txt'] = 'Servidor';
-$wb['multiport_txt'] = 'Multi-portas';
+$wb['multiport_txt'] = 'Multi portas';
 $wb['singleport_txt'] = 'Portas simples';
 $wb['protocol_txt'] = 'Protocolo';
 $wb['table_txt'] = 'Tabela';
@@ -9,5 +9,4 @@ $wb['state_txt'] = 'Estado';
 $wb['destination_ip_txt'] = 'Endereço de destino';
 $wb['source_ip_txt'] = 'Endereço de origem';
 $wb['active_txt'] = 'Ativo';
-$wb['iptables_error_unique'] = 'Já existe uma regra de firewall idêntica para este servidor.';
-?>
+$wb['iptables_error_unique'] = 'Já existe uma regra de Firewall idêntica para este servidor.';

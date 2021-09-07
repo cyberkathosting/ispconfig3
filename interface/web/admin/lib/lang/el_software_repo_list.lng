@@ -1,6 +1,0 @@
-<?php
-$wb['list_head_txt'] = 'Αποθετήριο';
-$wb['active_txt'] = 'Ενεργό';
-$wb['repo_name_txt'] = 'Αποθετήριο';
-$wb['repo_url_txt'] = 'URL';
-?>

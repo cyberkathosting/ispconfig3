@@ -2,7 +2,7 @@
 $wb['select_server_txt'] = 'Vælg Server(e)';
 $wb['btn_do_txt'] = 'Udfør handling';
 $wb['do_osupdate_caption'] = 'Udfør OS-Opdatering på fjern server';
-$wb['do_osupdate_desc'] = 'Denne Handling udfør en \'aptitude -y upgrade\' på den valgte server.<br><br><strong>BRUG DETTE PÅ EGEN RISIKO!</strong>';
+$wb['do_osupdate_desc'] = 'Denne Handling udfør en \'apt -y upgrade\' på den valgte server.<br><br><strong>BRUG DETTE PÅ EGEN RISIKO!</strong>';
 $wb['do_ispcupdate_caption'] = 'Udfør ISPConfig 3 - Opdatering på fjern-server';
 $wb['do_ispcupdate_desc'] = 'Denne Handling udfør en ISPConfig 3 opdatering på den valgte server.<br><br><strong>BRUG DETTE PÅ EGEN RISIKO!</strong>';
 $wb['action_scheduled'] = 'Handlingen er planlagt til udførelse';

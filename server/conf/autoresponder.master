@@ -4,7 +4,7 @@ if ($RETURNCODE==1)
        {
        if (!/^List-Unsubscribe:.*/:h )
        {
-               if (!/^(X-Spam-Flag: YES|X-Spam: Yes|Subject: \*\*\*\s*SPAM\s*\*\*\*.*)/:h )
+               if (!/^(X-Spam-Flag: YES|X-Spam: Yes|X-Spam-Status: Yes)/:h )
                {
                   NOW=time
                   if ({start_date} lt $NOW && {end_date} gt $NOW)

@@ -63,6 +63,9 @@ class installer extends installer_base
 			$this->process_postfix_config( basename($filename, '.master') );
 		}
 
+		//* mysql-verify_recipients.cf
+		$this->process_postfix_config('mysql-verify_recipients.cf');
+
 		//* Changing mode and group of the new created config files.
 		caselog('chmod o= '.$config_dir.'/mysql-virtual_*.cf* &> /dev/null',
 			__FILE__, __LINE__, 'chmod on mysql-virtual_*.cf*', 'chmod on mysql-virtual_*.cf* failed');
@@ -112,7 +115,18 @@ class installer extends installer_base
 		$stress_adaptive_placeholder = '#{stress_adaptive} ';
 		$stress_adaptive = (isset($server_ini_array['mail']['stress_adaptive']) && ($server_ini_array['mail']['stress_adaptive'] == 'y')) ? '' : $stress_adaptive_placeholder;
 
+		$reject_unknown_client_hostname='';
+		if (isset($server_ini_array['mail']['reject_unknown']) && ($server_ini_array['mail']['reject_unknown'] == 'client' || $server_ini_array['mail']['reject_unknown'] == 'client_helo')) {
+			$reject_unknown_client_hostname=',reject_unknown_client_hostname';
+		}
+		$reject_unknown_helo_hostname='';
+		if ((!isset($server_ini_array['mail']['reject_unknown'])) || $server_ini_array['mail']['reject_unknown'] == 'helo' || $server_ini_array['mail']['reject_unknown'] == 'client_helo') {
+			$reject_unknown_helo_hostname=',reject_unknown_helo_hostname';
+		}
+
 		unset($server_ini_array);
+
+		$myhostname = str_replace('.','\.',$conf['hostname']);
 
 		$postconf_placeholders = array('{config_dir}' => $config_dir,
 			'{vmail_mailbox_base}' => $cf['vmail_mailbox_base'],
@@ -122,7 +136,10 @@ class installer extends installer_base
 			'{greylisting}' => $greylisting,
 			'{reject_slm}' => $reject_sender_login_mismatch,
 			'{reject_aslm}' => $reject_authenticated_sender_login_mismatch,
+			'{myhostname}' => $myhostname,
 			$stress_adaptive_placeholder => $stress_adaptive,
+			'{reject_unknown_client_hostname}' => $reject_unknown_client_hostname,
+			'{reject_unknown_helo_hostname}' => $reject_unknown_helo_hostname,
 		);
 
 		$postconf_tpl = rfsel($conf['ispconfig_install_dir'].'/server/conf-custom/install/gentoo_postfix.conf.master', 'tpl/gentoo_postfix.conf.master');
@@ -143,6 +160,7 @@ class installer extends installer_base
 		touch($config_dir.'/mime_header_checks');
 		touch($config_dir.'/nested_header_checks');
 		touch($config_dir.'/body_checks');
+		touch($config_dir.'/sasl_passwd');
 
 		//* Create auxillary postfix conf files
 		$configfile = 'helo_access';
@@ -513,10 +531,10 @@ class installer extends installer_base
 
 		//* load the powerdns databse dump
 		if($conf['mysql']['admin_password'] == '') {
-			caselog("mysql --default-character-set=".$conf['mysql']['charset']." -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' '".$conf['powerdns']['database']."' < '".ISPC_INSTALL_ROOT."/install/sql/powerdns.sql' &> /dev/null",
+			caselog("mysql --default-character-set=".$conf['mysql']['charset']." -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' --force '".$conf['powerdns']['database']."' < '".ISPC_INSTALL_ROOT."/install/sql/powerdns.sql' &> /dev/null",
 				__FILE__, __LINE__, 'read in ispconfig3.sql', 'could not read in powerdns.sql');
 		} else {
-			caselog("mysql --default-character-set=".$conf['mysql']['charset']." -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' '".$conf['powerdns']['database']."' < '".ISPC_INSTALL_ROOT."/install/sql/powerdns.sql' &> /dev/null",
+			caselog("mysql --default-character-set=".$conf['mysql']['charset']." -h '".$conf['mysql']['host']."' -u '".$conf['mysql']['admin_user']."' -p'".$conf['mysql']['admin_password']."' --force '".$conf['powerdns']['database']."' < '".ISPC_INSTALL_ROOT."/install/sql/powerdns.sql' &> /dev/null",
 				__FILE__, __LINE__, 'read in ispconfig3.sql', 'could not read in powerdns.sql');
 		}
 
@@ -1101,8 +1119,8 @@ class installer extends installer_base
 		caselog($command.' &> /dev/null', __FILE__, __LINE__, "EXECUTED: $command", "Failed to execute the command $command");
 
 		if ($this->install_ispconfig_interface == true && isset($conf['interface_password']) && $conf['interface_password']!='admin') {
-			$sql = "UPDATE sys_user SET passwort = md5(?) WHERE username = 'admin';";
-			$this->db->query($sql, $conf['interface_password']);
+			$sql = "UPDATE sys_user SET passwort = ? WHERE username = 'admin';";
+			$this->db->query($sql, $this->crypt_password($conf['interface_password']));
 		}
 
 		if($conf['apache']['installed'] == true && $this->install_ispconfig_interface == true){
@@ -1238,6 +1256,7 @@ class installer extends installer_base
 		if (!is_file($conf['ispconfig_log_dir'].'/ispconfig.log')) {
 			touch($conf['ispconfig_log_dir'].'/ispconfig.log');
 		}
+		chmod($conf['ispconfig_log_dir'].'/ispconfig.log', 0600);
 
 		//* Create the ispconfig auth log file and set uid/gid
 		if(!is_file($conf['ispconfig_log_dir'].'/auth.log')) {

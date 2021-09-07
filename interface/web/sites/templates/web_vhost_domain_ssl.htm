@@ -10,6 +10,11 @@
   </div>
 </tmpl_if>
 
+<tmpl_if name="is_le_enabled" op="==" value="y">
+  <div class="alert alert-info" style="text-align:center">
+    {tmpl_var name='ssl_options_not_for_le_txt'}
+  </div>
+</tmpl_if>
 
 			<tmpl_if name='show_helper_links'>
 				<div id="show_helper_links" style="display:none;">

@@ -1,8 +1,11 @@
 clamav {
     # If set force this action if any virus is found (default unset: no action is forced)
     #action = "reject";
-    # if `true` only messages with non-image attachments will be checked (default true)
+    # Scan mime_parts separately - otherwise the complete mail will be transferred to AV Scanner 
     scan_mime_parts = true;
+    # Scanning Text is suitable for some av scanner databases (e.g. Sanesecurity)
+    scan_text_mime = true;
+    scan_image_mime = true;
     # If `max_size` is set, messages > n bytes in size are not scanned
     #max_size = 20000000;
     # symbol to add (add it to metric if you want non-zero weight)
@@ -24,6 +27,10 @@ clamav {
     patterns {
       # symbol_name = "pattern";
       JUST_EICAR = "^Eicar-Test-Signature$";
+    }
+    patterns_fail {
+      # symbol_name = "pattern";
+      CLAM_PROTOCOL_ERROR = '^unhandled response';
     }
     # `whitelist` points to a map of IP addresses. Mail from these addresses is not scanned.
     whitelist = "/etc/rspamd/antivirus.wl";

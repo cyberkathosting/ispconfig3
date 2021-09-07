@@ -1,4 +1,1 @@
-try_fallback = false;
-use_esld = false;
-path_map = "/etc/rspamd/local.d/dkim_domains.map";
-selector_map = "/etc/rspamd/local.d/dkim_selectors.map";
+../../server/conf/rspamd_dkim_signing.conf.master

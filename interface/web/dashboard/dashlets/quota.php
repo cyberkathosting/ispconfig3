@@ -12,7 +12,7 @@ class dashlet_quota {
 		}
 
 		$modules = explode(',', $_SESSION['s']['user']['modules']);
-		if (!in_array($modules, 'sites')) {
+		if(!in_array('sites', $modules)) {
 			return '';
 		}
 
@@ -31,6 +31,7 @@ class dashlet_quota {
 		if(is_array($sites) && !empty($sites)){
 			foreach($sites as &$site) {
 				$site['domain'] = $app->functions->idn_decode($site['domain']);
+				$site['progressbar'] = $site['hd_quota'];
 			}
 			unset($site);
 

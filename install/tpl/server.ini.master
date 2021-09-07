@@ -37,9 +37,13 @@ maildir_path=/var/vmail/[domain]/[localpart]
 homedir_path=/var/vmail
 maildir_format=maildir
 dkim_path=/var/lib/amavis/dkim
-dkim_strength=1024
+dkim_strength=2048
 content_filter=amavis
 rspamd_password=
+rspamd_redis_servers=127.0.0.1
+rspamd_redis_passwd=
+rspamd_redis_bayes_servers=127.0.0.1
+rspamd_redis_bayes_passwd=
 pop3_imap_daemon=courier
 mail_filter_syntax=maildrop
 mailuser_uid=5000
@@ -59,6 +63,7 @@ overquota_notify_client=y
 overquota_notify_freq=7
 overquota_notify_onok=n
 sendmail_path=/usr/sbin/sendmail
+rspamd_url=
 
 [getmail]
 getmail_config_dir=/etc/getmail
@@ -112,6 +117,7 @@ connect_userid_to_webid=n
 connect_userid_to_webid_start=10000
 web_folder_protection=y
 php_ini_check_minutes=1
+overtraffic_disable_web=y
 overquota_notify_admin=y
 overquota_notify_client=y
 overquota_notify_freq=7
@@ -142,9 +148,9 @@ fastcgi_config_syntax=2
 
 [jailkit]
 jailkit_chroot_home=/home/[username]
-jailkit_chroot_app_sections=basicshell editors extendedshell netutils ssh sftp scp groups jk_lsh
-jailkit_chroot_app_programs=/usr/bin/groups /usr/bin/id /usr/bin/dircolors /usr/bin/lesspipe /usr/bin/basename /usr/bin/dirname /usr/bin/nano /usr/bin/pico /usr/bin/mysql /usr/bin/mysqldump /usr/bin/git /usr/bin/git-receive-pack /usr/bin/git-upload-pack /usr/bin/unzip /usr/bin/zip /bin/tar /bin/rm /usr/bin/patch /usr/bin/which /usr/lib/x86_64-linux-gnu/libmemcached.so.11 /usr/lib/x86_64-linux-gnu/libmemcachedutil.so.2 /usr/lib/x86_64-linux-gnu/libMagickWand-6.Q16.so.2 /opt/php-5.6.8/bin/php /opt/php-5.6.8/include /opt/php-5.6.8/lib
-jailkit_chroot_cron_programs=/usr/bin/php /usr/bin/perl /usr/share/perl /usr/share/php
+jailkit_chroot_app_sections=coreutils basicshell editors extendedshell netutils ssh sftp scp jk_lsh mysql-client git
+jailkit_chroot_app_programs=lesspipe pico unzip zip patch which
+jailkit_chroot_cron_programs=/usr/bin/php /usr/lib/php/ /usr/share/php/ /usr/share/zoneinfo/ /usr/bin/perl /usr/share/perl/
 jailkit_chroot_authorized_keys_template=/root/.ssh/authorized_keys
 jailkit_hardlinks=allow
 

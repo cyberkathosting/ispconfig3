@@ -14,4 +14,3 @@ $wb['no_domain_perm'] = 'No tiene permisos para usar este dominio.';
 $wb['send_as_exp'] = 'Permite al destinatario enviar correos usando este alias como origen';
 $wb['send_as_txt'] = 'Enviar como';
 $wb['source_txt'] = 'Alias';
-?>

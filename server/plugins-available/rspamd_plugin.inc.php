@@ -120,10 +120,14 @@ class rspamd_plugin {
 		$app->plugins->registerEvent('mail_access_update', $this->plugin_name, 'spamfilter_wblist_update');
 		$app->plugins->registerEvent('mail_access_delete', $this->plugin_name, 'spamfilter_wblist_delete');
 
+		//* server
+		$app->plugins->registerEvent('server_insert', $this->plugin_name, 'server_update');
+		$app->plugins->registerEvent('server_update', $this->plugin_name, 'server_update');
+
 		//* server ip
-		$app->plugins->registerEvent('server_ip_insert', $this->plugin_name, 'server_ip');
-		$app->plugins->registerEvent('server_ip_update', $this->plugin_name, 'server_ip');
-		$app->plugins->registerEvent('server_ip_delete', $this->plugin_name, 'server_ip');
+		$app->plugins->registerEvent('server_ip_insert', $this->plugin_name, 'server_update');
+		$app->plugins->registerEvent('server_ip_update', $this->plugin_name, 'server_update');
+		$app->plugins->registerEvent('server_ip_delete', $this->plugin_name, 'server_update');
 
 		//* spamfilter_users
 		$app->plugins->registerEvent('spamfilter_users_insert', $this->plugin_name, 'user_settings_update');
@@ -139,7 +143,7 @@ class rspamd_plugin {
 		$app->plugins->registerEvent('mail_forwarding_delete', $this->plugin_name, 'user_settings_update');
 	}
 
-	function user_settings_update($event_name, $data) {
+	function user_settings_update($event_name, $data, $internal = false) {
 		global $app, $conf;
 
 		if(!is_dir('/etc/rspamd')) {
@@ -200,10 +204,29 @@ class rspamd_plugin {
 			$is_domain = true;
 		}
 
+		$app->log("rspamd: user_settings_update() for $type $email_address", LOGLEVEL_DEBUG);
+
 		if($settings_name == '') {
 			// missing settings file name
 			$app->log('Empty rspamd identifier in rspamd_plugin from identifier: ' . $use_data . '/' . $identifier, LOGLEVEL_WARN);
 			return;
+		}
+
+		$entries_to_update = [
+			'mail_user' => [],
+			'mail_forwarding' => []
+		];
+		if($is_domain === true) {
+			// get all child records to update / delete
+			$mailusers = $app->db->queryAllRecords("SELECT mu.* FROM mail_user as mu LEFT JOIN spamfilter_users as su ON (su.email = mu.email) WHERE mu.email LIKE ? AND su.id IS NULL", '%' . $email_address);
+			if(is_array($mailusers) && !empty($mailusers)) {
+				$entries_to_update['mail_user'] = $mailusers;
+			}
+
+			$forwardings = $app->db->queryAllRecords("SELECT mf.* FROM mail_forwarding as mf LEFT JOIN spamfilter_users as su ON (su.email = mf.source) WHERE mf.source LIKE ? AND su.id IS NULL", '%_' . $email_address);
+			if(is_array($forwardings) && !empty($forwardings)) {
+				$entries_to_update['mail_forwarding'] = $forwardings;
+			}
 		}
 
 		$old_settings_name = $settings_name;
@@ -224,16 +247,20 @@ class rspamd_plugin {
 				unlink($settings_file);
 			}
 		} else {
-			$settings_priority = 20;
 			if(isset($data[$use_data]['priority'])) {
-				$settings_priority = intval($data[$use_data]['priority']);
-			} elseif($is_domain === true) {
-				$settings_priority = 18;
+				$settings_priority = ($is_domain ? 10 : 20) + intval($data[$use_data]['priority']);
+			} else {
+				$settings_priority = ($is_domain ? 10 : 20) + 5;
 			}
 
 			// get policy for entry
 			if($type === 'spamfilter_user') {
-				$policy = $app->db->queryOneRecord("SELECT * FROM spamfilter_policy WHERE id = ?", intval($data['new']['policy_id']));
+				if (intval($data['new']['policy_id']) > 0) {
+					$policy = $app->db->queryOneRecord("SELECT * FROM spamfilter_policy WHERE id = ?", intval($data['new']['policy_id']));
+				} else {
+					$domain = substr($data['new']['email'], strpos($data['new']['email'], '@'));
+					$policy = $app->db->queryOneRecord("SELECT p.* FROM spamfilter_users as u INNER JOIN spamfilter_policy as p ON (p.id = u.policy_id) WHERE u.server_id = ? AND u.email = ?", $conf['server_id'], $domain);
+				}
 
 				$check = $app->db->queryOneRecord('SELECT `greylisting` FROM `mail_user` WHERE `server_id` = ? AND `email` = ? UNION SELECT `greylisting` FROM `mail_forwarding` WHERE `server_id` = ? AND `source` = ? ORDER BY (`greylisting` = ?) DESC', $conf['server_id'], $email_address, $conf['server_id'], $email_address, 'y');
 				if($check) {
@@ -254,7 +281,7 @@ class rspamd_plugin {
 				$app->system->mkdirpath($this->users_config_dir);
 			}
 
-			if(!$this->isValidEmail($app->functions->idn_encode($email_address))) {
+			if((!$this->isValidEmail($app->functions->idn_encode($email_address))) || intval($data['new']['policy_id']) == 0) {
 				if(is_file($settings_file)) {
 					unlink($settings_file);
 				}
@@ -263,7 +290,11 @@ class rspamd_plugin {
 				$app->load('tpl');
 
 				$tpl = new tpl();
-				$tpl->newTemplate('rspamd_users.inc.conf.master');
+				if (file_exists($conf['rootpath']."/conf-custom/install/rspamd_users.inc.conf.master")) {
+					$tpl->newTemplate($conf['rootpath']."/conf-custom/install/rspamd_users.inc.conf.master");
+				} else {
+					$tpl->newTemplate("rspamd_users.inc.conf.master");
+				}
 
 				$tpl->setVar('record_identifier', 'ispc_' . $type . '_' . $entry_id);
 				$tpl->setVar('priority', $settings_priority);
@@ -274,11 +305,13 @@ class rspamd_plugin {
 					} else {
 						$tpl->setVar('from_email', $app->functions->idn_encode($email_address));
 					}
+					// unneded? $spamfilter appears unused
 					$spamfilter = $data[$use_data];
 				} else {
 					$tpl->setVar('to_email', $app->functions->idn_encode($email_address));
 
 					// need to get matching spamfilter user if any
+					// unneded? $spamfilter appears unused
 					$spamfilter = $app->db->queryOneRecord('SELECT * FROM spamfilter_users WHERE `email` = ?', $email_address);
 				}
 
@@ -319,7 +352,16 @@ class rspamd_plugin {
 			}
 		}
 
-		if($mail_config['content_filter'] == 'rspamd'){
+		if($is_domain === true) {
+			foreach($entries_to_update['mail_user'] as $entry) {
+				$this->user_settings_update('mail_user_' . $mode, ['old' => $entry, 'new' => $entry], true);
+			}
+			foreach($entries_to_update['mail_forwarding'] as $entry) {
+				$this->user_settings_update('mail_forwarding_' . $mode, ['old' => $entry, 'new' => $entry], true);
+			}
+		}
+
+		if($internal !== true && $mail_config['content_filter'] == 'rspamd'){
 			$app->services->restartServiceDelayed('rspamd', 'reload');
 		}
 	}
@@ -354,6 +396,7 @@ class rspamd_plugin {
 			} else {
 				$record_id = intval($data['new']['wblist_id']);
 				$wblist_file = $this->users_config_dir.'spamfilter_wblist_'.$record_id.'.conf';
+
 				$tmp = $app->db->queryOneRecord("SELECT email FROM spamfilter_users WHERE id = ?", intval($data['new']['rid']));
 				if($tmp && !empty($tmp)) {
 					$filter = array(
@@ -402,11 +445,16 @@ class rspamd_plugin {
 					}
 				} else {
 					$tpl = new tpl();
-					$tpl->newTemplate('rspamd_wblist.inc.conf.master');
+					if (file_exists($conf['rootpath']."/conf-custom/install/rspamd_wblist.inc.conf.master")) {
+			                        $tpl->newTemplate($conf['rootpath']."/conf-custom/install/rspamd_wblist.inc.conf.master");
+					} else {
+						$tpl->newTemplate("rspamd_wblist.inc.conf.master");
+					}
+
 					$tpl->setVar('list_scope', ($global_filter ? 'global' : 'spamfilter'));
 					$tpl->setVar('record_id', $record_id);
-					// we need to add 10 to priority to avoid mailbox/domain spamfilter settings overriding white/blacklists
-					$tpl->setVar('priority', intval($data['new']['priority']) + ($global_filter ? 10 : 20));
+					// add 30/40 to priority to avoid collisions and prefer white/blacklists above mailbox/domain spamfilter settings
+					$tpl->setVar('priority', intval($data['new']['priority']) + ($global_filter ? 30 : 40));
 					$tpl->setVar('from', $filter_from);
 					$tpl->setVar('recipient', $filter_rcpt);
 					$tpl->setVar('hostname', $filter['hostname']);
@@ -419,7 +467,7 @@ class rspamd_plugin {
 				unlink($wblist_file);
 			}
 
-			if($mail_config['content_filter'] == 'rspamd' && is_file('/etc/init.d/rspamd')) {
+			if($mail_config['content_filter'] == 'rspamd') {
 				$app->services->restartServiceDelayed('rspamd', 'reload');
 			}
 		}
@@ -443,38 +491,69 @@ class rspamd_plugin {
 			}
 
 			if($mail_config['content_filter'] == 'rspamd'){
-				if(is_file('/etc/init.d/rspamd')) $app->services->restartServiceDelayed('rspamd', 'reload');
+				$app->services->restartServiceDelayed('rspamd', 'reload');
 			}
 		}
 	}
 
-	function server_ip($event_name, $data) {
+	function server_update($event_name, $data) {
 		global $app, $conf;
 
-		// get the config
-		$app->uses("getconf,system");
+		if(!is_dir('/etc/rspamd')) {
+			return;
+		}
+
 		$app->load('tpl');
 
 		$mail_config = $app->getconf->get_server_config($conf['server_id'], 'mail');
 
-		if(is_dir('/etc/rspamd')) {
-			$tpl = new tpl();
-			$tpl->newTemplate('rspamd_users.conf.master');
-
-			$whitelist_ips = array();
-			$ips = $app->db->queryAllRecords("SELECT * FROM server_ip WHERE server_id = ?", $conf['server_id']);
-			if(is_array($ips) && !empty($ips)){
-				foreach($ips as $ip){
-					$whitelist_ips[] = array('ip' => $ip['ip_address']);
-				}
+		$local_addrs = array();
+		$ips = $app->db->queryAllRecords('SELECT `ip_address`, `ip_type` FROM ?? WHERE `server_id` = ?', $conf['mysql']['database'].'.server_ip', $conf['server_id']);
+		if(is_array($ips) && !empty($ips)){
+			foreach($ips as $ip){
+				$local_addrs[] = array(
+					'ip' => $ip['ip_address'],
+					'quoted_ip' => "\"".$ip['ip_address']."\",\n",
+				);
 			}
-			$tpl->setLoop('whitelist_ips', $whitelist_ips);
-			$app->system->file_put_contents('/etc/rspamd/local.d/users.conf', $tpl->grab());
+		}
+
+		# local.d templates with template tags
+		# note: ensure these template files are in server/conf/ and symlinked in install/tpl/
+		$local_d = array(
+			'dkim_signing.conf',
+			'options.inc',
+			'redis.conf',
+			'classifier-bayes.conf',
+		);
+		foreach ($local_d as $f) {
+			$tpl = new tpl();
+			if (file_exists($conf['rootpath']."/conf-custom/install/rspamd_${f}.master")) {
+				$tpl->newTemplate($conf['rootpath']."/conf-custom/install/rspamd_${f}.master");
+			} else {
+				$tpl->newTemplate("rspamd_${f}.master");
+			}
+
+			$tpl->setVar('dkim_path', $mail_config['dkim_path']);
+			$tpl->setVar('rspamd_redis_servers', $mail_config['rspamd_redis_servers']);
+			$tpl->setVar('rspamd_redis_password', $mail_config['rspamd_redis_password']);
+			$tpl->setVar('rspamd_redis_bayes_servers', $mail_config['rspamd_redis_bayes_servers']);
+			$tpl->setVar('rspamd_redis_bayes_password', $mail_config['rspamd_redis_bayes_password']);
+			if(count($local_addrs) > 0) {
+				$tpl->setLoop('local_addrs', $local_addrs);
+			}
+
+			$app->system->file_put_contents("/etc/rspamd/local.d/${f}", $tpl->grab());
 
 			if($mail_config['content_filter'] == 'rspamd'){
 				$app->services->restartServiceDelayed('rspamd', 'reload');
 			}
 		}
+
+		# protect passwords in these files
+		exec('chgrp _rspamd /etc/rspamd/local.d/redis.conf /etc/rspamd/local.d/classifier-bayes.conf /etc/rspamd/local.d/worker-controller.inc');
+		exec('chmod 640 /etc/rspamd/local.d/redis.conf /etc/rspamd/local.d/classifier-bayes.conf /etc/rspamd/local.d/worker-controller.inc');
+
 	}
 
 	private function _is_valid_ip_address($ip) {

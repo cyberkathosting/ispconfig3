@@ -1,11 +1,10 @@
 <?php
-$wb['mailbox_cc_txt'] = 'Enviar cópia para endereço de e-mail';
+$wb['mailbox_cc_txt'] = 'Enviar cópia para endereço de email';
 $wb['cc_txt'] = 'Enviar cópia para';
-$wb['email_txt'] = 'e-Mail';
-$wb['cc_error_isemail'] = 'Endereço de e-mail inválido no campo "Enviar cópia para".';
-$wb['email_is_cc_error'] = 'Endereço de e-mail e "Enviar cópia para" não podem ser os mesmos.';
+$wb['email_txt'] = 'eMail';
+$wb['cc_error_isemail'] = 'Endereço de email inválido no campo "Enviar cópia para".';
+$wb['email_is_cc_error'] = 'Endereço de email e "Enviar cópia para" não podem ser os mesmos.';
 $wb['name_optional_txt'] = '(Opcional)';
-$wb['cc_note_txt'] = '(separar múltiplos endereços de e-mail com vírgulas)';
-$wb['forward_in_lda_txt'] = 'Copy during delivery';
-$wb['tooltip_forward_in_lda_txt'] = 'Controls if mail copy is forwarded before or during delivery to mailbox.';
-?>
+$wb['cc_note_txt'] = '(separar múltiplos endereços de email com vírgulas)';
+$wb['forward_in_lda_txt'] = 'Copiar durante a entrega';
+$wb['tooltip_forward_in_lda_txt'] = 'Controlar se a cópia será encaminhada antes ou durante a entrega para a conta de email.';

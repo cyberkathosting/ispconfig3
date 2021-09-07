@@ -20,4 +20,6 @@ $wb['dkim_settings_txt'] = 'DomainKeys Identified Mail (DKIM)';
 $wb['dkim_selector_txt'] = 'DKIM-селектор';
 $wb['dkim_selector_error'] = 'Некорректный DKIM-селектор. Используйте только строчные буквенно-цифровые символы (a-z или 0-9) до 63 символов';
 $wb['error_not_allowed_server_id'] = 'Выбранный сервер не доступен для этой учетной записи.';
-?>
+$wb['relayhost_txt'] = 'Relayhost';
+$wb['relayhost_user_txt'] = 'Relayhost User';
+$wb['relayhost_password_txt'] = 'Relayhost Password';

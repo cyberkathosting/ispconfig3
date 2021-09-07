@@ -5,4 +5,3 @@ $wb['module_txt'] = 'Módulo';
 $wb['lang_file_txt'] = 'Arquivo de idioma';
 $wb['btn_save_txt'] = 'Salvar';
 $wb['btn_cancel_txt'] = 'Voltar';
-?>
