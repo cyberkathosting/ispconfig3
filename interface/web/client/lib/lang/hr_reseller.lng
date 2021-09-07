@@ -13,6 +13,7 @@ $wb['limit_mailquota_txt'] = 'Veličina mailboxa';
 $wb['limit_spamfilter_wblist_txt'] = 'Maksimalan broj spamfilter white / blacklist filtera';
 $wb['limit_spamfilter_user_txt'] = 'Maksimalan broj spamfilter korisnika';
 $wb['limit_spamfilter_policy_txt'] = 'Maksimalan broj spamfilter pravila';
+$wb['limit_mail_backup_txt'] = 'E-mail backup function available';
 $wb['default_mailserver_txt'] = 'Izaberi email server';
 $wb['company_name_txt'] = 'Poduzeće';
 $wb['contact_firstname_txt'] = 'Contact firstname';

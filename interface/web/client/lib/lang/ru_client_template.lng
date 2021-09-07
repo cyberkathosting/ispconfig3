@@ -94,6 +94,7 @@ $wb['limit_aps_txt'] = 'Макс. количество экземпляров AP
 $wb['limit_aps_error_notint'] = 'Лимит экземпляров APS должен быть числом.';
 $wb['limit_domainmodule_txt'] = 'Лимит модулей домена';
 $wb['client_limits_txt'] = 'Лимиты Клиента';
+$wb['limit_mail_backup_txt'] = 'E-mail backup function available';
 $wb['default_mailserver_txt'] = 'Почтовый сервер по умолчанию';
 $wb['default_webserver_txt'] = 'Web-сервер по умолчанию';
 $wb['default_dnsserver_txt'] = 'DNS-сервер по умолчанию';

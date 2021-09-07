@@ -1,3 +1,7 @@
+-- Add column for email backup limit (#5732)
+ALTER TABLE `client_template` ADD `limit_mail_backup` ENUM( 'n', 'y' ) NOT NULL DEFAULT 'y' AFTER `limit_spamfilter_policy`;
+ALTER TABLE `client` ADD `limit_mail_backup` ENUM( 'n', 'y' ) NOT NULL DEFAULT 'y' AFTER `limit_spamfilter_policy`;
+
 -- default spamfilter_users.policy_id to 0
 ALTER TABLE `spamfilter_users` ALTER `policy_id` SET DEFAULT 0;
 

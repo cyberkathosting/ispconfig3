@@ -14,6 +14,7 @@ $wb['limit_mailquota_txt'] = 'E-posta Kutusu Kotası';
 $wb['limit_spamfilter_wblist_txt'] = 'En Fazla Önemsiz İleti Beyaz/Kara Liste Süzgeci Sayısı';
 $wb['limit_spamfilter_user_txt'] = 'En Fazla Önemsiz İleti Süzgeci Kullanıcısı Sayısı';
 $wb['limit_spamfilter_policy_txt'] = 'En Fazla Önemsiz İleti Süzgeci Kuralı Sayısı';
+$wb['limit_mail_backup_txt'] = 'E-mail backup function available';
 $wb['default_mailserver_txt'] = 'Varsayılan E-posta Sunucusu';
 $wb['company_name_txt'] = 'Kuruluş Adı';
 $wb['contact_firstname_txt'] = 'İlgili Adı';

@@ -13,6 +13,7 @@ $wb['limit_mailquota_txt'] = 'Kuota Mailbox';
 $wb['limit_spamfilter_wblist_txt'] = 'Jumlah maks penyaringan whitelist/blacklist spamfilter';
 $wb['limit_spamfilter_user_txt'] = 'Jumlah maks pengguna spamfilter';
 $wb['limit_spamfilter_policy_txt'] = 'Jumlah maks kebijakan spamfilter';
+$wb['limit_mail_backup_txt'] = 'E-mail backup function available';
 $wb['default_mailserver_txt'] = 'Server Mail Default';
 $wb['company_name_txt'] = 'Nama Perusahaan';
 $wb['contact_firstname_txt'] = 'Contact firstname';

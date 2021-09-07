@@ -936,6 +936,12 @@ $form["tabs"]['limits'] = array (
 			'rows'  => '',
 			'cols'  => ''
 		),
+		'limit_mail_backup' => array (
+			'datatype' => 'VARCHAR',
+			'formtype' => 'CHECKBOX',
+			'default' => 'y',
+			'value'  => array(0 => 'n', 1 => 'y')
+		),
 		'limit_relayhost' => array (
 			'datatype' => 'VARCHAR',
 			'formtype' => 'CHECKBOX',

@@ -93,6 +93,7 @@ $wb['limit_aps_txt'] = 'Max. antal af APS instances';
 $wb['limit_aps_error_notint'] = 'APS forekomst grænse skal være et tal.';
 $wb['limit_domainmodule_txt'] = 'Domænemodul Begrænsning';
 $wb['client_limits_txt'] = 'Kunde Begrænsninger';
+$wb['limit_mail_backup_txt'] = 'E-mail backup function available';
 $wb['default_mailserver_txt'] = 'Default Mailserver';
 $wb['default_webserver_txt'] = 'Default Webserver';
 $wb['default_dnsserver_txt'] = 'Default DNS Server';

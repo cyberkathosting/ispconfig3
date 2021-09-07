@@ -12,6 +12,7 @@ $wb['limit_mailquota_txt'] = 'Kvóta schránky';
 $wb['limit_spamfilter_wblist_txt'] = 'Max. počet Spamfilter biele / čierne filtre';
 $wb['limit_spamfilter_user_txt'] = 'Max. počet poUžívateľov Spamfiltrov';
 $wb['limit_spamfilter_policy_txt'] = 'Max. počet Spamfilter politík';
+$wb['limit_mail_backup_txt'] = 'E-mail backup function available';
 $wb['default_mailserver_txt'] = 'Predvolený Mailserver';
 $wb['company_name_txt'] = 'Názov firmy';
 $wb['contact_firstname_txt'] = 'Contact firstname';

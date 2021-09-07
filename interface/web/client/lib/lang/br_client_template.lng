@@ -3,6 +3,7 @@ $wb['ssh_chroot_notempty'] = 'Nenhuma opção chroot SSH selecionada. Selecione 
 $wb['template_type_txt'] = 'Tipo de gabarito';
 $wb['template_name_txt'] = 'Nome do gabarito';
 $wb['limit_client_error_notint'] = 'Limite de cliente não é um número.';
+$wb['limit_mail_backup_txt'] = 'E-mail backup function available';
 $wb['default_mailserver_txt'] = 'Servidor de email padrão';
 $wb['limit_maildomain_txt'] = 'Limite de domínios de email';
 $wb['limit_mailbox_txt'] = 'Limite de contas de email';

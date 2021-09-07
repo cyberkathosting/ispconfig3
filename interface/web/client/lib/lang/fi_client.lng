@@ -12,6 +12,7 @@ $wb['limit_mailquota_txt'] = 'Postilaatikon enimmäiskoko';
 $wb['limit_spamfilter_wblist_txt'] = 'Roskapostisuodattimien määrä';
 $wb['limit_spamfilter_user_txt'] = 'Roskapostisuodattimen käyttäjien määrä';
 $wb['limit_spamfilter_policy_txt'] = 'Roskapostisuodattimen kohtelutapojen määrä';
+$wb['limit_mail_backup_txt'] = 'E-mail backup function available';
 $wb['default_mailserver_txt'] = 'Oletuspostipalvelin';
 $wb['company_name_txt'] = 'Yrityksen nimi';
 $wb['contact_firstname_txt'] = 'Contact firstname';

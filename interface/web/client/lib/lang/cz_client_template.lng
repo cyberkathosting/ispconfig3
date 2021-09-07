@@ -93,6 +93,7 @@ $wb['limit_aps_txt'] = 'Max. počet APS instalací';
 $wb['limit_aps_error_notint'] = 'Limit pro APS instalace musí být číslo.';
 $wb['limit_domainmodule_txt'] = 'Domainmodule Limit';
 $wb['client_limits_txt'] = 'Klientské limity';
+$wb['limit_mail_backup_txt'] = 'E-mail backup function available';
 $wb['default_mailserver_txt'] = 'Výchozí E-mailový server';
 $wb['default_webserver_txt'] = 'Výchozí webový server';
 $wb['default_dnsserver_txt'] = 'Výchozí DNS server';

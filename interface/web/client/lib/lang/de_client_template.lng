@@ -95,6 +95,7 @@ $wb['limit_aps_txt'] = 'Max. Anzahl an APS-Instanzen';
 $wb['limit_aps_error_notint'] = 'Das APS Instanzen Limit muss eine Zahl sein.';
 $wb['limit_domainmodule_txt'] = 'Domainmodule Limit';
 $wb['client_limits_txt'] = 'Client Limits';
+$wb['limit_mail_backup_txt'] = 'E-mail backup function available';
 $wb['default_mailserver_txt'] = 'Default Mailserver';
 $wb['default_webserver_txt'] = 'Default Webserver';
 $wb['default_dnsserver_txt'] = 'Default DNS Server';
