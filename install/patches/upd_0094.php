@@ -2,7 +2,7 @@
 
 if(!defined('INSTALLER_RUN')) die('Patch update file access violation.');
 
-class upd_0094 extends installer_patch_update {
+/*class upd_0094 extends installer_patch_update {
 
 	public function onBeforeSQL() {
 		global $inst;
@@ -12,3 +12,4 @@ class upd_0094 extends installer_patch_update {
 	}
 
 }
+*/
