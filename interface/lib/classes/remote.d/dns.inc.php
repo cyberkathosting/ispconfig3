@@ -513,6 +513,29 @@ class remoting_dns extends remoting {
 		return $this->dns_rr_delete($session_id, $primary_id, $update_serial, 'HINFO');
 	}
 
+
+	// ----------------------------------------------------------------------------------------------------------------
+
+	//* Get record details
+	public function dns_loc_get($session_id, $primary_id) {
+		return $this->dns_rr_get($session_id, $primary_id, 'LOC');
+	}
+
+	//* Add a record
+	public function dns_loc_add($session_id, $client_id, $params, $update_serial=false) {
+		return $this->dns_rr_add($session_id, $client_id, $params, $update_serial, 'LOC');
+	}
+
+	//* Update a record
+	public function dns_loc_update($session_id, $client_id, $primary_id, $params, $update_serial=false) {
+		return $this->dns_rr_update($session_id, $client_id, $primary_id, $params, $update_serial, 'LOC');
+	}
+
+	//* Delete a record
+	public function dns_loc_delete($session_id, $primary_id, $update_serial=false) {
+		return $this->dns_rr_delete($session_id, $primary_id, $update_serial, 'LOC');
+	}
+
 	// ----------------------------------------------------------------------------------------------------------------
 
 	//* Get record details
