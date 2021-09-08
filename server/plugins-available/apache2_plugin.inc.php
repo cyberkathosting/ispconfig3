@@ -1372,12 +1372,14 @@ class apache2_plugin {
 				$rewrite_rules[] = array('rewrite_domain'  => '^'.$this->_rewrite_quote($data['new']['domain']),
 					'rewrite_type'   => ($data['new']['redirect_type'] == 'no')?'':'['.$data['new']['redirect_type'].']',
 					'rewrite_target'  => $rewrite_target,
+					'rewrite_target_is_ssl' => ('https://' === substr($rewrite_target, 0, 8) ? 'y' : 'n'),
 					'rewrite_target_ssl' => $rewrite_target_ssl,
 					'rewrite_is_url'    => ($this->_is_url($rewrite_target) ? 'y' : 'n'),
 					'rewrite_add_path' => (substr($rewrite_target, -1) == '/' ? 'y' : 'n'));
 				$rewrite_rules[] = array('rewrite_domain'  => '^' . $this->_rewrite_quote('www.'.$data['new']['domain']),
 					'rewrite_type'   => ($data['new']['redirect_type'] == 'no')?'':'['.$data['new']['redirect_type'].']',
 					'rewrite_target'  => $rewrite_target,
+					'rewrite_target_is_ssl' => ('https://' === substr($rewrite_target, 0, 8) ? 'y' : 'n'),
 					'rewrite_target_ssl' => $rewrite_target_ssl,
 					'rewrite_is_url'    => ($this->_is_url($rewrite_target) ? 'y' : 'n'),
 					'rewrite_add_path' => (substr($rewrite_target, -1) == '/' ? 'y' : 'n'));
@@ -1386,6 +1388,7 @@ class apache2_plugin {
 				$rewrite_wildcard_rules[] = array( 'rewrite_domain'  => '(^|\.)'.$this->_rewrite_quote($data['new']['domain']),
 					'rewrite_type'   => ($data['new']['redirect_type'] == 'no')?'':'['.$data['new']['redirect_type'].']',
 					'rewrite_target'  => $rewrite_target,
+					'rewrite_target_is_ssl' => ('https://' === substr($rewrite_target, 0, 8) ? 'y' : 'n'),
 					'rewrite_target_ssl' => $rewrite_target_ssl,
 					'rewrite_is_url'    => ($this->_is_url($rewrite_target) ? 'y' : 'n'),
 					'rewrite_add_path' => (substr($rewrite_target, -1) == '/' ? 'y' : 'n'));
@@ -1394,6 +1397,7 @@ class apache2_plugin {
 				$rewrite_rules[] = array( 'rewrite_domain'  => '^'.$this->_rewrite_quote($data['new']['domain']),
 					'rewrite_type'   => ($data['new']['redirect_type'] == 'no')?'':'['.$data['new']['redirect_type'].']',
 					'rewrite_target'  => $rewrite_target,
+					'rewrite_target_is_ssl' => ('https://' === substr($rewrite_target, 0, 8) ? 'y' : 'n'),
 					'rewrite_target_ssl' => $rewrite_target_ssl,
 					'rewrite_is_url'    => ($this->_is_url($rewrite_target) ? 'y' : 'n'),
 					'rewrite_add_path' => (substr($rewrite_target, -1) == '/' ? 'y' : 'n'));

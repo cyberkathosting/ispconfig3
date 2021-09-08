@@ -517,6 +517,9 @@
 		RewriteCond %{REQUEST_URI} !^/php-fcgi/
 		RewriteCond %{REQUEST_URI} !^<tmpl_var name='rewrite_target'>
 </tmpl_if>
+<tmpl_if name="rewrite_target_is_ssl" op="==" value="y">
+		SSLProxyEngine On
+</tmpl_if>
 
 		RewriteRule   ^/(.*)$ <tmpl_var name='rewrite_target'><tmpl_if name="rewrite_add_path" op="==" value="y">$1</tmpl_if>  <tmpl_var name='rewrite_type'>
 
